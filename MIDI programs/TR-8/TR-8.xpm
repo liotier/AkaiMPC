@@ -4,7 +4,7 @@
   <Version>
     <File_Version>2.1</File_Version>
     <Application>MPC-V</Application>
-    <Application_Version>2.14.0.20</Application_Version>
+    <Application_Version>2.15.0.18</Application_Version>
     <Platform>Linux</Platform>
   </Version>
   <Program type="MIDI">
@@ -543,7 +543,7 @@
     <ProgramEditConfig>
       <Parameter Position="0 0 0">
         <Index>22</Index>
-        <Value>0.000000</Value>
+        <Value>0.251969</Value>
       </Parameter>
       <Parameter Position="0 0 1">
         <Index>18</Index>
@@ -551,15 +551,15 @@
       </Parameter>
       <Parameter Position="0 0 2">
         <Index>27</Index>
-        <Value>0.250000</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="0 0 3">
         <Index>90</Index>
-        <Value>0.158095</Value>
+        <Value>0.590551</Value>
       </Parameter>
       <Parameter Position="0 0 4">
         <Index>23</Index>
-        <Value>0.190551</Value>
+        <Value>0.377953</Value>
       </Parameter>
       <Parameter Position="0 0 5">
         <Index>19</Index>
@@ -567,51 +567,51 @@
       </Parameter>
       <Parameter Position="0 0 6">
         <Index>28</Index>
-        <Value>0.250787</Value>
+        <Value>0.377953</Value>
       </Parameter>
       <Parameter Position="0 0 7">
         <Index>89</Index>
-        <Value>0.156250</Value>
+        <Value>0.905512</Value>
       </Parameter>
       <Parameter Position="0 0 8">
         <Index>21</Index>
-        <Value>0.251968</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="0 0 9">
         <Index>16</Index>
-        <Value>0.250000</Value>
+        <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="0 0 10">
         <Index>26</Index>
-        <Value>0.632812</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="0 0 11">
         <Index>91</Index>
-        <Value>0.039062</Value>
+        <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="0 0 12">
         <Index>20</Index>
-        <Value>0.453125</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="0 0 13">
         <Index>24</Index>
-        <Value>0.905451</Value>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="0 0 14">
         <Index>25</Index>
-        <Value>0.454786</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="0 0 15">
         <Index>29</Index>
         <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="1 0 0">
-        <Index>71</Index>
-        <Value>1.000000</Value>
+        <Index>2147483647</Index>
+        <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="1 0 1">
-        <Index>9</Index>
-        <Value>1.000000</Value>
+        <Index>2147483647</Index>
+        <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="1 0 2">
         <Index>2147483647</Index>
@@ -622,52 +622,52 @@
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="1 0 4">
-        <Index>59</Index>
-        <Value>0.507812</Value>
+        <Index>84</Index>
+        <Value>0.251969</Value>
       </Parameter>
       <Parameter Position="1 0 5">
         <Index>81</Index>
-        <Value>0.062500</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="1 0 6">
-        <Index>61</Index>
-        <Value>0.503630</Value>
+        <Index>63</Index>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="1 0 7">
         <Index>87</Index>
-        <Value>0.283650</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="1 0 8">
-        <Index>60</Index>
-        <Value>0.456693</Value>
+        <Index>83</Index>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="1 0 9">
         <Index>80</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="1 0 10">
-        <Index>60</Index>
-        <Value>0.456693</Value>
+        <Index>61</Index>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="1 0 11">
         <Index>86</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="1 0 12">
-        <Index>62</Index>
-        <Value>0.000000</Value>
+        <Index>85</Index>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="1 0 13">
         <Index>82</Index>
-        <Value>0.000000</Value>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="1 0 14">
         <Index>62</Index>
-        <Value>0.000000</Value>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="1 0 15">
         <Index>88</Index>
-        <Value>0.000000</Value>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="2 0 0">
         <Index>2147483647</Index>
@@ -687,47 +687,47 @@
       </Parameter>
       <Parameter Position="2 0 4">
         <Index>56</Index>
-        <Value>0.757812</Value>
+        <Value>0.755906</Value>
       </Parameter>
       <Parameter Position="2 0 5">
         <Index>47</Index>
-        <Value>0.757812</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="2 0 6">
         <Index>50</Index>
-        <Value>0.757812</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="2 0 7">
         <Index>53</Index>
-        <Value>0.500000</Value>
+        <Value>0.511811</Value>
       </Parameter>
       <Parameter Position="2 0 8">
         <Index>55</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="2 0 9">
         <Index>46</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="2 0 10">
         <Index>49</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="2 0 11">
         <Index>52</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="2 0 12">
         <Index>57</Index>
-        <Value>0.000000</Value>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="2 0 13">
         <Index>48</Index>
-        <Value>0.000000</Value>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="2 0 14">
         <Index>51</Index>
-        <Value>0.000000</Value>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="2 0 15">
         <Index>54</Index>
@@ -750,12 +750,12 @@
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="3 0 4">
-        <Index>84</Index>
-        <Value>0.000000</Value>
+        <Index>59</Index>
+        <Value>0.377953</Value>
       </Parameter>
       <Parameter Position="3 0 5">
         <Index>68</Index>
-        <Value>0.734375</Value>
+        <Value>0.299213</Value>
       </Parameter>
       <Parameter Position="3 0 6">
         <Index>2147483647</Index>
@@ -766,15 +766,15 @@
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="3 0 8">
-        <Index>86</Index>
-        <Value>0.456693</Value>
+        <Index>58</Index>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="3 0 9">
         <Index>69</Index>
-        <Value>0.195312</Value>
+        <Value>0.078740</Value>
       </Parameter>
       <Parameter Position="3 0 10">
-        <Index>2147483647</Index>
+        <Index>71</Index>
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="3 0 11">
@@ -782,16 +782,16 @@
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="3 0 12">
-        <Index>85</Index>
-        <Value>0.000000</Value>
+        <Index>60</Index>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="3 0 13">
         <Index>70</Index>
-        <Value>0.421875</Value>
+        <Value>0.125984</Value>
       </Parameter>
       <Parameter Position="3 0 14">
-        <Index>2147483647</Index>
-        <Value>0.000000</Value>
+        <Index>9</Index>
+        <Value>0.393701</Value>
       </Parameter>
       <Parameter Position="3 0 15">
         <Index>12</Index>
@@ -991,11 +991,11 @@
       </Parameter>
       <Parameter Position="7 0 0">
         <Index>60</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="7 0 1">
         <Index>55</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="7 0 2">
         <Index>115</Index>
@@ -1007,15 +1007,15 @@
       </Parameter>
       <Parameter Position="7 0 4">
         <Index>80</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="7 0 5">
         <Index>58</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="7 0 6">
         <Index>52</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="7 0 7">
         <Index>120</Index>
@@ -1023,15 +1023,15 @@
       </Parameter>
       <Parameter Position="7 0 8">
         <Index>25</Index>
-        <Value>0.454786</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="7 0 9">
         <Index>60</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="7 0 10">
         <Index>49</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="7 0 11">
         <Index>124</Index>
@@ -1039,15 +1039,15 @@
       </Parameter>
       <Parameter Position="7 0 12">
         <Index>20</Index>
-        <Value>0.453125</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="7 0 13">
         <Index>80</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <Parameter Position="7 0 14">
         <Index>46</Index>
-        <Value>0.456693</Value>
+        <Value>0.472441</Value>
       </Parameter>
       <ParameterNames>
         <Parameter Index="1" Name=". (Modulation)"/>
@@ -1109,10 +1109,10 @@
         <Parameter Index="57" Name="RS level (CC 57)"/>
         <Parameter Index="58" Name="HC tune (CC 58)"/>
         <Parameter Index="59" Name="HC decay (CC 59)"/>
-        <Parameter Index="60" Name="CH tune (CC 60)"/>
-        <Parameter Index="61" Name="CH decay (CC 61)"/>
+        <Parameter Index="60" Name="HC level (CC 60)"/>
+        <Parameter Index="61" Name="CH tune (CC 61)"/>
         <Parameter Index="62" Name="CH level (CC 62)"/>
-        <Parameter Index="63" Name=". (CC 63)"/>
+        <Parameter Index="63" Name="CH decay (CC 63)"/>
         <Parameter Index="64" Name=". (Sustain On/Off)"/>
         <Parameter Index="65" Name=". (Pmento On/Off)"/>
         <Parameter Index="66" Name=". (Sost On/Off)"/>
