@@ -4,7 +4,7 @@
   <Version>
     <File_Version>2.1</File_Version>
     <Application>MPC-V</Application>
-    <Application_Version>2.14.0.20</Application_Version>
+    <Application_Version>2.15.0.18</Application_Version>
     <Platform>Linux</Platform>
   </Version>
   <Program type="MIDI">
@@ -542,40 +542,40 @@
     <QLinkAssignments/>
     <ProgramEditConfig>
       <Parameter Position="0 0 0">
-        <Index>81</Index>
-        <Value>0.000000</Value>
-      </Parameter>
-      <Parameter Position="0 0 1">
-        <Index>82</Index>
-        <Value>0.000000</Value>
-      </Parameter>
-      <Parameter Position="0 0 2">
-        <Index>83</Index>
-        <Value>0.000000</Value>
-      </Parameter>
-      <Parameter Position="0 0 3">
-        <Index>84</Index>
-        <Value>0.000000</Value>
-      </Parameter>
-      <Parameter Position="0 0 4">
         <Index>57</Index>
         <Value>0.000000</Value>
       </Parameter>
-      <Parameter Position="0 0 5">
+      <Parameter Position="0 0 1">
         <Index>58</Index>
         <Value>0.362205</Value>
       </Parameter>
-      <Parameter Position="0 0 6">
+      <Parameter Position="0 0 2">
         <Index>59</Index>
         <Value>0.000000</Value>
       </Parameter>
-      <Parameter Position="0 0 7">
+      <Parameter Position="0 0 3">
         <Index>60</Index>
         <Value>0.000000</Value>
       </Parameter>
+      <Parameter Position="0 0 4">
+        <Index>81</Index>
+        <Value>0.000000</Value>
+      </Parameter>
+      <Parameter Position="0 0 5">
+        <Index>82</Index>
+        <Value>1.000000</Value>
+      </Parameter>
+      <Parameter Position="0 0 6">
+        <Index>83</Index>
+        <Value>0.000000</Value>
+      </Parameter>
+      <Parameter Position="0 0 7">
+        <Index>84</Index>
+        <Value>1.000000</Value>
+      </Parameter>
       <Parameter Position="0 0 8">
         <Index>23</Index>
-        <Value>0.351562</Value>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="0 0 9">
         <Index>24</Index>
@@ -583,11 +583,11 @@
       </Parameter>
       <Parameter Position="0 0 10">
         <Index>25</Index>
-        <Value>0.173228</Value>
+        <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="0 0 11">
         <Index>26</Index>
-        <Value>0.393701</Value>
+        <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="0 0 12">
         <Index>3</Index>
@@ -599,55 +599,55 @@
       </Parameter>
       <Parameter Position="0 0 14">
         <Index>14</Index>
-        <Value>0.000000</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="0 0 15">
         <Index>15</Index>
-        <Value>0.000000</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="1 0 0">
-        <Index>85</Index>
-        <Value>0.000000</Value>
+        <Index>61</Index>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="1 0 1">
-        <Index>86</Index>
-        <Value>0.273438</Value>
-      </Parameter>
-      <Parameter Position="1 0 2">
-        <Index>87</Index>
-        <Value>0.000000</Value>
-      </Parameter>
-      <Parameter Position="1 0 3">
-        <Index>89</Index>
-        <Value>0.000000</Value>
-      </Parameter>
-      <Parameter Position="1 0 4">
-        <Index>61</Index>
-        <Value>0.000000</Value>
-      </Parameter>
-      <Parameter Position="1 0 5">
         <Index>62</Index>
         <Value>0.000000</Value>
       </Parameter>
-      <Parameter Position="1 0 6">
+      <Parameter Position="1 0 2">
         <Index>63</Index>
         <Value>0.000000</Value>
       </Parameter>
-      <Parameter Position="1 0 7">
+      <Parameter Position="1 0 3">
         <Index>68</Index>
+        <Value>0.000000</Value>
+      </Parameter>
+      <Parameter Position="1 0 4">
+        <Index>85</Index>
+        <Value>1.000000</Value>
+      </Parameter>
+      <Parameter Position="1 0 5">
+        <Index>86</Index>
+        <Value>0.000000</Value>
+      </Parameter>
+      <Parameter Position="1 0 6">
+        <Index>87</Index>
+        <Value>0.000000</Value>
+      </Parameter>
+      <Parameter Position="1 0 7">
+        <Index>89</Index>
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="1 0 8">
         <Index>27</Index>
-        <Value>0.425197</Value>
+        <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="1 0 9">
         <Index>28</Index>
-        <Value>1.000000</Value>
+        <Value>0.787402</Value>
       </Parameter>
       <Parameter Position="1 0 10">
         <Index>29</Index>
-        <Value>0.000000</Value>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="1 0 11">
         <Index>30</Index>
@@ -655,30 +655,30 @@
       </Parameter>
       <Parameter Position="1 0 12">
         <Index>16</Index>
-        <Value>0.000000</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="1 0 13">
         <Index>17</Index>
-        <Value>0.000000</Value>
+        <Value>0.511811</Value>
       </Parameter>
       <Parameter Position="1 0 14">
         <Index>18</Index>
-        <Value>0.000000</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="1 0 15">
         <Index>19</Index>
-        <Value>0.000000</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="2 0 0">
-        <Index>90</Index>
+        <Index>70</Index>
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="2 0 1">
-        <Index>96</Index>
+        <Index>79</Index>
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="2 0 2">
-        <Index>97</Index>
+        <Index>80</Index>
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="2 0 3">
@@ -686,15 +686,15 @@
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="2 0 4">
-        <Index>70</Index>
+        <Index>90</Index>
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="2 0 5">
-        <Index>79</Index>
+        <Index>96</Index>
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="2 0 6">
-        <Index>80</Index>
+        <Index>97</Index>
         <Value>0.000000</Value>
       </Parameter>
       <Parameter Position="2 0 7">
@@ -703,7 +703,7 @@
       </Parameter>
       <Parameter Position="2 0 8">
         <Index>31</Index>
-        <Value>0.000000</Value>
+        <Value>1.000000</Value>
       </Parameter>
       <Parameter Position="2 0 9">
         <Index>35</Index>
@@ -719,15 +719,15 @@
       </Parameter>
       <Parameter Position="2 0 12">
         <Index>20</Index>
-        <Value>0.000000</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="2 0 13">
         <Index>21</Index>
-        <Value>0.196850</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="2 0 14">
         <Index>22</Index>
-        <Value>0.000000</Value>
+        <Value>0.503937</Value>
       </Parameter>
       <Parameter Position="2 0 15">
         <Index>2147483647</Index>
@@ -1106,20 +1106,20 @@
         <Parameter Index="54" Name=". (CC 54)"/>
         <Parameter Index="55" Name=". (CC 55)"/>
         <Parameter Index="56" Name=". (CC 56)"/>
-        <Parameter Index="57" Name="BFX 1 (CC 57)"/>
-        <Parameter Index="58" Name="BFX 2 (CC 58)"/>
-        <Parameter Index="59" Name="BFX 3 (CC 59)"/>
-        <Parameter Index="60" Name="BFX 4 (CC 60)"/>
-        <Parameter Index="61" Name="BFX 5-6 (CC 61)"/>
-        <Parameter Index="62" Name="BFX Digital (CC 62)"/>
-        <Parameter Index="63" Name="BFX USB1 (CC 63)"/>
+        <Parameter Index="57" Name="MFX 1 (CC 57)"/>
+        <Parameter Index="58" Name="MFX 2 (CC 58)"/>
+        <Parameter Index="59" Name="MFX 3 (CC 59)"/>
+        <Parameter Index="60" Name="MFX 4 (CC 60)"/>
+        <Parameter Index="61" Name="MFX 5-6 (CC 61)"/>
+        <Parameter Index="62" Name="MFX Digital (CC 62)"/>
+        <Parameter Index="63" Name="MFX USB1 (CC 63)"/>
         <Parameter Index="64" Name=". (Sustain On/Off)"/>
         <Parameter Index="65" Name=". (Pmento On/Off)"/>
         <Parameter Index="66" Name=". (Sost On/Off)"/>
         <Parameter Index="67" Name=". (Soft Ped On/Off)"/>
-        <Parameter Index="68" Name="BFX USB2 (Legato Switch)"/>
+        <Parameter Index="68" Name="MFX USB2 (Legato Switch)"/>
         <Parameter Index="69" Name=". (Hold 2)"/>
-        <Parameter Index="70" Name="BFX USB3 (Snd Control 1)"/>
+        <Parameter Index="70" Name="MFX USB3 (Snd Control 1)"/>
         <Parameter Index="71" Name=". (Snd Control 2)"/>
         <Parameter Index="72" Name=". (Snd Control 3)"/>
         <Parameter Index="73" Name=". (Snd Control 4)"/>
@@ -1128,25 +1128,25 @@
         <Parameter Index="76" Name=". (Snd Control 7)"/>
         <Parameter Index="77" Name=". (Snd Control 8)"/>
         <Parameter Index="78" Name=". (Snd Control 9)"/>
-        <Parameter Index="79" Name="BFX USB4 (Snd Control 10)"/>
-        <Parameter Index="80" Name="BFX PC (Gen Purpose 5)"/>
-        <Parameter Index="81" Name="MFX 1 (Gen Purpose 6)"/>
-        <Parameter Index="82" Name="MFX 2 (Gen Purpose 7)"/>
-        <Parameter Index="83" Name="MFX 3 (Gen Purpose 8)"/>
-        <Parameter Index="84" Name="MFX 4 (Pmento Control)"/>
-        <Parameter Index="85" Name="MFX 5-6 (CC 85)"/>
-        <Parameter Index="86" Name="MFX Digital (CC 86)"/>
-        <Parameter Index="87" Name="MFX USB1 (CC 87)"/>
+        <Parameter Index="79" Name="MFX USB4 (Snd Control 10)"/>
+        <Parameter Index="80" Name="MFX PC (Gen Purpose 5)"/>
+        <Parameter Index="81" Name="BFX 1 (Gen Purpose 6)"/>
+        <Parameter Index="82" Name="BFX 2 (Gen Purpose 7)"/>
+        <Parameter Index="83" Name="BFX 3 (Gen Purpose 8)"/>
+        <Parameter Index="84" Name="BFX 4 (Pmento Control)"/>
+        <Parameter Index="85" Name="BFX 5-6 (CC 85)"/>
+        <Parameter Index="86" Name="BFX Digital (CC 86)"/>
+        <Parameter Index="87" Name="BFX USB1 (CC 87)"/>
         <Parameter Index="88" Name=". (Hi Res Velocity)"/>
-        <Parameter Index="89" Name="MFX USB2 (CC 89)"/>
-        <Parameter Index="90" Name="MFX USB3 (CC 90)"/>
+        <Parameter Index="89" Name="BFX USB2 (CC 89)"/>
+        <Parameter Index="90" Name="BFX USB3 (CC 90)"/>
         <Parameter Index="91" Name=". (Send 1)"/>
         <Parameter Index="92" Name=". (Send 2)"/>
         <Parameter Index="93" Name=". (Send 3)"/>
         <Parameter Index="94" Name=". (Send 4)"/>
         <Parameter Index="95" Name=". (Send 5)"/>
-        <Parameter Index="96" Name="MFX USB4 (Data Increment)"/>
-        <Parameter Index="97" Name="MFX PC (Data Decrement)"/>
+        <Parameter Index="96" Name="BFX USB4 (Data Increment)"/>
+        <Parameter Index="97" Name="BFX PC (Data Decrement)"/>
         <Parameter Index="98" Name=". (NRPN LSB)"/>
         <Parameter Index="99" Name=". (NRPN MSB)"/>
         <Parameter Index="100" Name=". (RPN LSB)"/>
