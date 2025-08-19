@@ -14,6 +14,11 @@
     .chord-tag{background:#0066cc;color:white;padding:4px 8px;border-radius:4px;font-size:12px;display:inline-flex;align-items:center;gap:4px}
     .chord-tag button{background:none;border:none;color:white;cursor:pointer;font-size:14px;padding:0;margin-left:4px}
     .chord-tag button:hover{background:rgba(255,255,255,0.2);border-radius:2px}
+    .group-header{background:#f0f0f0;border:1px solid var(--line);border-radius:8px;padding:12px;margin:12px 0 6px 0;cursor:pointer;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+    .group-header:hover{background:#e8e8e8}
+    .group-header .toggle{font-size:16px;color:var(--muted)}
+    .group-content{margin-left:12px}
+    .group-content.collapsed{display:none}
     select,input[type=button]{padding:8px;border:1px solid var(--line);border-radius:8px;background:#fff}
     .help{background:#fafafa;border:1px solid var(--line);padding:10px;border-radius:8px;font-size:13px;margin-bottom:12px}
     .drop{padding:14px;border:2px dashed #cfcfcf;border-radius:10px;text-align:center;cursor:pointer;margin-bottom:12px}
@@ -113,6 +118,10 @@
 
     <div class="actions">
       <input type="button" id="clearBtn" value="Clear filters">
+      <label style="margin-left:16px;font-size:13px;">
+        <input type="checkbox" id="groupResults" style="margin-right:4px;">
+        Group by Root/Scale
+      </label>
     </div>
   </div>
 
@@ -130,13 +139,28 @@
 const PCS = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 const NATURALS = ["C","D","E","F","G","A","B"];
 const ACCIDENTALS = ["C#","D#","F#","G#","A#"];
-const FLAT2SHARP = { 'DB':'C#','EB':'D#','GB':'F#','AB':'G#','BB':'A#' };
+const FLAT2SHARP = { 
+  'DB':'C#','EB':'D#','GB':'F#','AB':'G#','BB':'A#',
+  'C♭':'B','D♭':'C#','E♭':'D#','F♭':'E','G♭':'F#','A♭':'G#','B♭':'A#',
+  'CB':'B','DF':'C#','EF':'D#','FB':'E','GF':'F#','AF':'G#','BF':'A#'
+};
 
 function normalizePC(s){ 
   if(!s) return ''; 
-  let x=String(s).trim().toUpperCase(); 
-  x=x.replace(/[0-9]+$/,''); 
-  if(x.length===2 && x.endsWith('B')) return FLAT2SHARP[x]||x; 
+  let x = String(s).trim().toUpperCase();
+  
+  // Handle Unicode musical symbols
+  x = x.replace(/♯/g, '#').replace(/♭/g, 'B');
+  
+  // Remove octave numbers
+  x = x.replace(/[0-9]+$/,''); 
+  
+  // Handle flats -> sharps conversion
+  if(x.length >= 2 && (x.endsWith('B') || x.includes('♭'))) {
+    const flatNote = x.replace(/♭/g, 'B');
+    return FLAT2SHARP[flatNote] || x;
+  }
+  
   return x; 
 }
 
@@ -383,6 +407,7 @@ const chordQuality = document.getElementById('chordQuality');
 const addChordBtn = document.getElementById('addChordBtn');
 const activeChords = document.getElementById('activeChords');
 const clearBtn = document.getElementById('clearBtn');
+const groupResults = document.getElementById('groupResults');
 const dropZone = document.getElementById('dropZone');
 const picker = document.getElementById('fileInput');
 const progWrap = document.getElementById('progressions');
@@ -555,6 +580,7 @@ function rebuildLists(){
 // Add event listeners for immediate filtering on Root/Scale changes
 rootSelect.addEventListener('change', render);
 scaleSelect.addEventListener('change', render);
+groupResults.addEventListener('change', render);
 
 /* ---------- Progression-level matching ---------- */
 function progressionMatches(prog){
@@ -589,73 +615,21 @@ function progressionMatches(prog){
 function render(){
   progWrap.innerHTML = '';
   let matchingCount = 0;
+  const matchingProgressions = [];
   
+  // Collect matching progressions
   ALL.forEach(p=>{
-    if(!progressionMatches(p)) return;
-    matchingCount++;
-    
-    const card = document.createElement('div'); card.className='progression';
-    const hdr = document.createElement('div'); hdr.className='hdr';
-    const t = document.createElement('div'); t.className='title'; t.textContent = p.name||'Unnamed Progression';
-    const m = document.createElement('div'); m.className='meta'; m.textContent = `Detected: Root ${p.detectedRoot||'?'}, Scale ${p.detectedScale||'?'}`;
-    hdr.appendChild(t); hdr.appendChild(m); card.appendChild(hdr);
-    const grid = document.createElement('div'); grid.className='grid';
-    
-    (p.chords||[]).forEach((ch,i)=>{
-      const pad = document.createElement('div'); pad.className='pad'; pad.title='Click to play';
-      const num = document.createElement('b'); num.textContent = `Pad ${i+1}`; pad.appendChild(num);
-      
-      // Parse chord for enhanced display
-      const chordInfo = parseChordName(ch.name);
-      
-      const nm = document.createElement('div'); nm.className='name'; 
-      nm.textContent = chordInfo.display || ch.name || 'Unknown';
-      pad.appendChild(nm);
-      
-      // Show chord analysis
-      if (chordInfo.root) {
-        const info = document.createElement('div'); info.className='chord-info';
-        let infoText = '';
-        
-        if (chordInfo.quality && chordInfo.quality !== 'Major') {
-          infoText += `<span class="chord-type">${chordInfo.quality}</span>`;
-        }
-        
-        if (chordInfo.extensions.length > 0) {
-          if (infoText) infoText += ' ';
-          infoText += `<span class="chord-type">${chordInfo.extensions.join(', ')}</span>`;
-        }
-        
-        if (chordInfo.bass && chordInfo.bass !== chordInfo.root) {
-          if (infoText) infoText += '<br>';
-          infoText += `<span class="chord-bass">Bass: ${chordInfo.bass}</span>`;
-        }
-        
-        if (infoText) {
-          info.innerHTML = infoText;
-          pad.appendChild(info);
-        }
-      }
-      
-      // Roman numeral analysis
-      const chordRoot = chordInfo.root;
-      if(chordRoot && p.detectedRoot){
-        const semi = (pcIndex(chordRoot) - pcIndex(normalizePC(p.detectedRoot)) + 12) % 12;
-        const rn = romanForSemi(semi, p.detectedScale);
-        if(rn){ 
-          const lab = document.createElement('div'); lab.className='labels'; 
-          lab.textContent = `${rn} / ${ (semi!==null? (semi+1) : '') }`; 
-          pad.appendChild(lab); 
-        }
-      }
-      
-      const notes = document.createElement('div'); notes.className='notes'; notes.textContent = (ch.notes||[]).map(midiToAkai).join(' ');
-      pad.appendChild(notes);
-      pad.addEventListener('click', ()=>playChord(ch.notes||[]));
-      grid.appendChild(pad);
-    });
-    card.appendChild(grid); progWrap.appendChild(card);
+    if(progressionMatches(p)) {
+      matchingCount++;
+      matchingProgressions.push(p);
+    }
   });
+  
+  if (groupResults.checked) {
+    renderGrouped(matchingProgressions);
+  } else {
+    renderFlat(matchingProgressions);
+  }
   
   // Update counter
   const totalCount = ALL.length;
@@ -664,6 +638,155 @@ function render(){
   } else {
     progCounter.textContent = `${matchingCount}/${totalCount} progressions selected`;
   }
+}
+
+function renderFlat(progressions) {
+  progressions.forEach(p => {
+    progWrap.appendChild(createProgressionCard(p));
+  });
+}
+
+function renderGrouped(progressions) {
+  // Group by root+scale combination
+  const groups = {};
+  progressions.forEach(p => {
+    const key = `${p.detectedRoot || '?'} ${p.detectedScale || '?'}`;
+    if (!groups[key]) {
+      groups[key] = {
+        root: p.detectedRoot || '?',
+        scale: p.detectedScale || '?',
+        progressions: []
+      };
+    }
+    groups[key].progressions.push(p);
+  });
+  
+  // Sort groups by root (chromatic order) then scale
+  const sortedGroups = Object.entries(groups).sort(([keyA, groupA], [keyB, groupB]) => {
+    const rootA = groupA.root;
+    const rootB = groupB.root;
+    
+    if (rootA === '?' && rootB !== '?') return 1;
+    if (rootA !== '?' && rootB === '?') return -1;
+    if (rootA === '?' && rootB === '?') return groupA.scale.localeCompare(groupB.scale);
+    
+    const indexA = PCS.indexOf(rootA);
+    const indexB = PCS.indexOf(rootB);
+    if (indexA !== indexB) return indexA - indexB;
+    
+    return groupA.scale.localeCompare(groupB.scale);
+  });
+  
+  sortedGroups.forEach(([key, group]) => {
+    const groupHeader = document.createElement('div');
+    groupHeader.className = 'group-header';
+    groupHeader.innerHTML = `
+      <span>${group.root} ${group.scale} (${group.progressions.length})</span>
+      <span class="toggle">▼</span>
+    `;
+    
+    const groupContent = document.createElement('div');
+    groupContent.className = 'group-content';
+    
+    group.progressions.forEach(p => {
+      groupContent.appendChild(createProgressionCard(p));
+    });
+    
+    // Toggle functionality
+    let collapsed = false;
+    groupHeader.addEventListener('click', () => {
+      collapsed = !collapsed;
+      groupContent.classList.toggle('collapsed', collapsed);
+      groupHeader.querySelector('.toggle').textContent = collapsed ? '▶' : '▼';
+    });
+    
+    progWrap.appendChild(groupHeader);
+    progWrap.appendChild(groupContent);
+  });
+}
+
+function createProgressionCard(p) {
+  const card = document.createElement('div'); 
+  card.className='progression';
+  const hdr = document.createElement('div'); 
+  hdr.className='hdr';
+  const t = document.createElement('div'); 
+  t.className='title'; 
+  t.textContent = p.name||'Unnamed Progression';
+  const m = document.createElement('div'); 
+  m.className='meta'; 
+  m.textContent = `Detected: Root ${p.detectedRoot||'?'}, Scale ${p.detectedScale||'?'}`;
+  hdr.appendChild(t); 
+  hdr.appendChild(m); 
+  card.appendChild(hdr);
+  const grid = document.createElement('div'); 
+  grid.className='grid';
+  
+  (p.chords||[]).forEach((ch,i)=>{
+    const pad = document.createElement('div'); 
+    pad.className='pad'; 
+    pad.title='Click to play';
+    const num = document.createElement('b'); 
+    num.textContent = `Pad ${i+1}`; 
+    pad.appendChild(num);
+    
+    // Parse chord for enhanced display
+    const chordInfo = parseChordName(ch.name);
+    
+    const nm = document.createElement('div'); 
+    nm.className='name'; 
+    nm.textContent = chordInfo.display || ch.name || 'Unknown';
+    pad.appendChild(nm);
+    
+    // Show chord analysis
+    if (chordInfo.root) {
+      const info = document.createElement('div'); 
+      info.className='chord-info';
+      let infoText = '';
+      
+      if (chordInfo.quality && chordInfo.quality !== 'Major') {
+        infoText += `<span class="chord-type">${chordInfo.quality}</span>`;
+      }
+      
+      if (chordInfo.extensions.length > 0) {
+        if (infoText) infoText += ' ';
+        infoText += `<span class="chord-type">${chordInfo.extensions.join(', ')}</span>`;
+      }
+      
+      if (chordInfo.bass && chordInfo.bass !== chordInfo.root) {
+        if (infoText) infoText += '<br>';
+        infoText += `<span class="chord-bass">Bass: ${chordInfo.bass}</span>`;
+      }
+      
+      if (infoText) {
+        info.innerHTML = infoText;
+        pad.appendChild(info);
+      }
+    }
+    
+    // Roman numeral analysis
+    const chordRoot = chordInfo.root;
+    if(chordRoot && p.detectedRoot && p.detectedRoot !== '?'){
+      const semi = (pcIndex(chordRoot) - pcIndex(normalizePC(p.detectedRoot)) + 12) % 12;
+      const rn = romanForSemi(semi, p.detectedScale);
+      if(rn){ 
+        const lab = document.createElement('div'); 
+        lab.className='labels'; 
+        lab.textContent = `${rn} / ${ (semi!==null? (semi+1) : '') }`; 
+        pad.appendChild(lab); 
+      }
+    }
+    
+    const notes = document.createElement('div'); 
+    notes.className='notes'; 
+    notes.textContent = (ch.notes||[]).map(midiToAkai).join(' ');
+    pad.appendChild(notes);
+    pad.addEventListener('click', ()=>playChord(ch.notes||[]));
+    grid.appendChild(pad);
+  });
+  
+  card.appendChild(grid); 
+  return card;
 }
 
 /* ---------- File handling ---------- */
