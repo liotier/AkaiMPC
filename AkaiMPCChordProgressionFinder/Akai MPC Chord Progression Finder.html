@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Enhanced MPC Progression Viewer — Better Chord Parsing</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{--bg:#fff;--fg:#111;--muted:#666;--line:#e6e6e6;--pad:#f5f7f8;--padHover:#eef1f3}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:18px;background:var(--bg);color:var(--fg)}
+    h1{margin:0 0 6px;font-size:20px}
+    .desc{color:var(--muted);font-size:13px;margin-bottom:12px}
+    .controls{display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+    .chord-builder{background:#f8f9fa;border:1px solid var(--line);border-radius:8px;padding:10px}
+    .chord-tag{background:#0066cc;color:white;padding:4px 8px;border-radius:4px;font-size:12px;display:inline-flex;align-items:center;gap:4px}
+    .chord-tag button{background:none;border:none;color:white;cursor:pointer;font-size:14px;padding:0;margin-left:4px}
+    .chord-tag button:hover{background:rgba(255,255,255,0.2);border-radius:2px}
+    select,input[type=button]{padding:8px;border:1px solid var(--line);border-radius:8px;background:#fff}
+    .help{background:#fafafa;border:1px solid var(--line);padding:10px;border-radius:8px;font-size:13px;margin-bottom:12px}
+    .drop{padding:14px;border:2px dashed #cfcfcf;border-radius:10px;text-align:center;cursor:pointer;margin-bottom:12px}
+    .drop.drag{background:#fbfbfe;border-color:#7aa2ff}
+    .progression{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:14px;background:#fff}
+    .hdr{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .title{font-weight:700}
+    .meta{color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:repeat(4,110px);gap:10px;margin-top:12px}
+    .pad{background:var(--pad);border-radius:10px;padding:10px;text-align:center;cursor:pointer;border:1px solid var(--line);box-shadow:0 2px 6px rgba(0,0,0,0.04)}
+    .pad:hover{background:var(--padHover)}
+    .pad b{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+    .pad .name{font-weight:600;line-height:1.2}
+    .pad .chord-info{font-size:11px;color:#666;margin-top:4px;line-height:1.2}
+    .pad .labels{font-size:12px;color:#222;margin-top:6px}
+    .pad .notes{font-size:11px;color:#444;margin-top:6px}
+    .chord-type{color:#0066cc;font-weight:500}
+    .chord-bass{color:#cc6600;font-style:italic}
+    .actions{display:flex;gap:8px;align-items:center}
+    @media (max-width:720px){ .grid{grid-template-columns:repeat(2,1fr)} }
+  </style>
+</head>
+<body>
+  <h1>Enhanced MPC Progression Viewer</h1>
+  <div class="desc">Improved chord parsing and display. Build chord filters to find progressions containing specific chords. Filter by detected root/scale.</div>
+
+  <div class="help">
+    <strong>Filtering System</strong>
+    <ul>
+      <li><strong>Chord Builder</strong>: Build specific chords to filter by - progressions must contain ALL specified chords</li>
+      <li><strong>Root/Scale Filter</strong>: Filter by the detected key and scale of progressions</li>
+      <li><strong>Enhanced Chord Parsing</strong>: Recognizes complex chords (sus, add, dim, aug, slash chords, etc.)</li>
+      <li><strong>Smart Matching</strong>: Chord filtering uses intelligent matching (enharmonic equivalents, etc.)</li>
+    </ul>
+  </div>
+
+  <div class="controls">
+    <div style="flex-grow:1; min-width: 300px">
+      <label><strong>Chord Filters</strong></label>
+      <div id="chordFilters" style="margin-top:8px;">
+        <div class="chord-builder">
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+            <select id="chordRoot">
+              <option value="">Root</option>
+              <option value="C">C</option>
+              <option value="C#">C#</option>
+              <option value="D">D</option>
+              <option value="D#">D#</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="F#">F#</option>
+              <option value="G">G</option>
+              <option value="G#">G#</option>
+              <option value="A">A</option>
+              <option value="A#">A#</option>
+              <option value="B">B</option>
+            </select>
+            <select id="chordQuality">
+              <option value="">Quality</option>
+              <option value="maj">Major</option>
+              <option value="min">Minor</option>
+              <option value="7">Dominant 7</option>
+              <option value="maj7">Major 7</option>
+              <option value="min7">Minor 7</option>
+              <option value="dim">Diminished</option>
+              <option value="aug">Augmented</option>
+              <option value="sus2">Sus2</option>
+              <option value="sus4">Sus4</option>
+              <option value="6">6th</option>
+              <option value="add9">Add9</option>
+            </select>
+            <input type="button" id="addChordBtn" value="Add Chord" style="padding:6px 12px;">
+          </div>
+          <div id="activeChords" style="display:flex;gap:6px;flex-wrap:wrap;min-height:24px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="min-width:160px">
+      <label><strong>Root</strong></label><br>
+      <select id="rootSelect"><option value="">(any)</option></select>
+    </div>
+
+    <div style="min-width:200px">
+      <label><strong>Scale</strong></label><br>
+      <select id="scaleSelect"><option value="">(any)</option></select>
+    </div>
+
+    <div class="actions">
+      <input type="button" id="clearBtn" value="Clear filters">
+      <input type="button" id="rebuildBtn" value="Rebuild lists">
+    </div>
+  </div>
+
+  <div class="drop" id="dropZone">
+    Drop <code>.progression</code> files here or click to select
+    <input id="fileInput" type="file" accept=".progression,application/json" multiple style="display:none">
+  </div>
+
+  <div id="progressionCounter" style="color:var(--muted);font-size:14px;margin-bottom:12px;font-weight:500;"></div>
+
+  <div id="progressions"></div>
+
+<script>
+/* ---------- Helpers ---------- */
+const PCS = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+const NATURALS = ["C","D","E","F","G","A","B"];
+const ACCIDENTALS = ["C#","D#","F#","G#","A#"];
+const FLAT2SHARP = { 'DB':'C#','EB':'D#','GB':'F#','AB':'G#','BB':'A#' };
+
+function normalizePC(s){ 
+  if(!s) return ''; 
+  let x=String(s).trim().toUpperCase(); 
+  x=x.replace(/[0-9]+$/,''); 
+  if(x.length===2 && x.endsWith('B')) return FLAT2SHARP[x]||x; 
+  return x; 
+}
+
+function midiToPC(m){ return PCS[m%12]; }
+function midiToAkai(m){ return midiToPC(m) + (Math.floor(m/12)-2); }
+
+/* ---------- Enhanced Chord Parsing ---------- */
+function parseChordName(name) {
+  if (!name) return { root: null, quality: null, extensions: [], bass: null, display: 'Unknown' };
+  
+  const original = name.trim();
+  let remaining = original;
+  
+  // Extract root note (handle both sharp and flat)
+  const rootMatch = /^([A-Ga-g])([#♯b♭]?)/.exec(remaining);
+  if (!rootMatch) return { root: null, quality: null, extensions: [], bass: null, display: original };
+  
+  const root = normalizePC(rootMatch[1] + (rootMatch[2] || ''));
+  remaining = remaining.substring(rootMatch[0].length);
+  
+  // Check for slash chord (bass note)
+  let bass = null;
+  const slashMatch = /\/([A-Ga-g])([#♯b♭]?)(?:\s|$)/.exec(remaining);
+  if (slashMatch) {
+    bass = normalizePC(slashMatch[1] + (slashMatch[2] || ''));
+    remaining = remaining.replace(slashMatch[0], '');
+  }
+  
+  // Parse quality and extensions
+  remaining = remaining.trim();
+  
+  const quality = parseChordQuality(remaining);
+  const extensions = parseChordExtensions(remaining);
+  
+  return {
+    root,
+    quality: quality.type,
+    extensions,
+    bass,
+    display: formatChordDisplay(root, quality, extensions, bass)
+  };
+}
+
+function parseChordQuality(str) {
+  const s = str.toLowerCase();
+  
+  // Major variants
+  if (/^(maj|major|m(?!i))/.test(s)) return { type: 'Major', category: 'None' };
+  if (/^$/.test(s)) return { type: 'Major', category: 'None' }; // Just root = major
+  
+  // Minor variants
+  if (/^(min|minor|m(?=i|$|\d))/.test(s)) return { type: 'Minor', category: 'None' };
+  if (/^-/.test(s)) return { type: 'Minor', category: 'None' };
+  
+  // Diminished
+  if (/^(dim|°|o)/.test(s)) return { type: 'Diminished', category: 'Dim' };
+  
+  // Augmented
+  if (/^(aug|\+)/.test(s)) return { type: 'Augmented', category: 'Aug' };
+  
+  // Suspended
+  if (/^(sus|suspended)/.test(s)) {
+    if (/sus2|suspended2/.test(s)) return { type: 'Sus2', category: 'Sus' };
+    return { type: 'Sus4', category: 'Sus' };
+  }
+  
+  // Dominant 7th
+  if (/^7(?!maj|major)/.test(s)) return { type: 'Dominant7', category: 'None' };
+  
+  // Major 7th
+  if (/^(maj7|major7|7maj|7major|\^7|M7)/.test(s)) return { type: 'Major7', category: 'None' };
+  
+  // Minor 7th
+  if (/^(min7|minor7|m7|-7)/.test(s)) return { type: 'Minor7', category: 'None' };
+  
+  // Half-diminished 7th
+  if (/^(m7b5|min7b5|ø|halfdiminished)/.test(s)) return { type: 'HalfDiminished7', category: 'Dim' };
+  
+  // Default to major if we can't parse
+  return { type: 'Major', category: 'None' };
+}
+
+function parseChordExtensions(str) {
+  const extensions = [];
+  const s = str.toLowerCase();
+  
+  // Add extensions
+  if (/add/.test(s)) {
+    if (/add2/.test(s)) extensions.push('add2');
+    if (/add4/.test(s)) extensions.push('add4');
+    if (/add6/.test(s)) extensions.push('add6');
+    if (/add9/.test(s)) extensions.push('add9');
+    if (/add11/.test(s)) extensions.push('add11');
+    if (/add13/.test(s)) extensions.push('add13');
+  }
+  
+  // Extended chords
+  if (/9(?!add)/.test(s)) extensions.push('9th');
+  if (/11(?!add)/.test(s)) extensions.push('11th');
+  if (/13(?!add)/.test(s)) extensions.push('13th');
+  if (/6(?!add)/.test(s) && !/maj6|major6/.test(s)) extensions.push('6th');
+  
+  // Altered extensions
+  if (/b5|♭5/.test(s)) extensions.push('♭5');
+  if (/#5|♯5|\+5/.test(s)) extensions.push('♯5');
+  if (/b9|♭9/.test(s)) extensions.push('♭9');
+  if (/#9|♯9/.test(s)) extensions.push('♯9');
+  if (/#11|♯11/.test(s)) extensions.push('♯11');
+  if (/b13|♭13/.test(s)) extensions.push('♭13');
+  
+  return extensions;
+}
+
+function formatChordDisplay(root, quality, extensions, bass) {
+  let display = root || '?';
+  
+  if (quality && quality.type !== 'Major') {
+    switch(quality.type) {
+      case 'Minor': display += 'm'; break;
+      case 'Diminished': display += '°'; break;
+      case 'Augmented': display += '+'; break;
+      case 'Sus2': display += 'sus2'; break;
+      case 'Sus4': display += 'sus4'; break;
+      case 'Dominant7': display += '7'; break;
+      case 'Major7': display += 'maj7'; break;
+      case 'Minor7': display += 'm7'; break;
+      case 'HalfDiminished7': display += 'ø7'; break;
+      default: break;
+    }
+  }
+  
+  if (extensions.length > 0) {
+    display += '(' + extensions.join(',') + ')';
+  }
+  
+  if (bass && bass !== root) {
+    display += '/' + bass;
+  }
+  
+  return display;
+}
+
+/* ---------- Audio ---------- */
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+const audio = new AudioCtx();
+function playChord(mids){
+  const now = audio.currentTime;
+  (mids||[]).forEach(m=>{
+    const o = audio.createOscillator();
+    const g = audio.createGain();
+    o.type = 'sine';
+    o.frequency.value = 440 * Math.pow(2,(m-69)/12);
+    g.gain.setValueAtTime(0.22, now);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+    o.connect(g).connect(audio.destination);
+    o.start(now);
+    o.stop(now + 1.25);
+  });
+}
+
+/* ---------- Scale detection (modes) ---------- */
+const MODES = [
+  {name:'Major', ints:[0,2,4,5,7,9,11]},
+  {name:'Natural Minor', ints:[0,2,3,5,7,8,10]},
+  {name:'Harmonic Minor', ints:[0,2,3,5,7,8,11]},
+  {name:'Dorian', ints:[0,2,3,5,7,9,10]},
+  {name:'Mixolydian', ints:[0,2,4,5,7,9,10]},
+  {name:'Lydian', ints:[0,2,4,6,7,9,11]},
+  {name:'Phrygian', ints:[0,1,3,5,7,8,10]}
+];
+
+function transposeSet(ints,rootIdx){ return new Set(ints.map(n=>PCS[(n+rootIdx)%12])); }
+
+function extractChordRootFromName(name){ 
+  const parsed = parseChordName(name);
+  return parsed.root;
+}
+
+function detectKeyAndScale(prog){
+  const pcsUsed=new Set(); 
+  const chordRoots=[];
+  
+  (prog.chords||[]).forEach(ch=>{
+    (ch.notes||[]).forEach(n=>pcsUsed.add(midiToPC(n))); 
+    const r=extractChordRootFromName(ch.name); 
+    if(r) chordRoots.push(r); 
+  });
+  
+  const pcsArr=Array.from(pcsUsed);
+  if(pcsArr.length===0) return {root:'C',scale:'Chromatic'};
+  
+  let best=null;
+  for(let rootIdx=0;rootIdx<12;rootIdx++){ 
+    const rootPC=PCS[rootIdx];
+    for(const mode of MODES){
+      const set=transposeSet(mode.ints,rootIdx);
+      const misses = pcsArr.filter(pc=>!set.has(pc)).length;
+      const rootHits = chordRoots.filter(pc=>set.has(pc)).length;
+      const firstMatches = (chordRoots[0] && set.has(chordRoots[0]))?1:0;
+      const cand={root:rootPC,scale:mode.name,misses,rootHits,firstMatches};
+      if(!best) best=cand; else {
+        if(cand.misses < best.misses) best=cand;
+        else if(cand.misses === best.misses){
+          if(cand.rootHits > best.rootHits) best=cand;
+          else if(cand.rootHits === best.rootHits){
+            if(cand.firstMatches > best.firstMatches) best=cand;
+          }
+        }
+      }
+    }
+  }
+  if(!best) return {root:'C',scale:'Chromatic'};
+  if(best.misses >= 5) return {root: chordRoots[0] || 'C', scale: 'Chromatic'};
+  return {root: best.root, scale: best.scale};
+}
+
+/* ---------- Roman / Nashville (best-effort) ---------- */
+function pcIndex(pc){ return PCS.indexOf(pc); }
+function romanForSemi(semi, scaleName){ 
+  const mode = MODES.find(m=>m.name.toLowerCase()===String(scaleName).toLowerCase()); 
+  if(!mode) return null; 
+  const idx=mode.ints.indexOf(semi); 
+  if(idx===-1) return null; 
+  return ['I','II','III','IV','V','VI','VII'][idx]; 
+}
+
+/* ---------- App state & UI refs ---------- */
+let ALL = [];
+let CHORD_FILTERS = []; // Array of chord objects to filter by
+
+const rootSelect = document.getElementById('rootSelect');
+const scaleSelect = document.getElementById('scaleSelect');
+const chordRoot = document.getElementById('chordRoot');
+const chordQuality = document.getElementById('chordQuality');
+const addChordBtn = document.getElementById('addChordBtn');
+const activeChords = document.getElementById('activeChords');
+const clearBtn = document.getElementById('clearBtn');
+const rebuildBtn = document.getElementById('rebuildBtn');
+const dropZone = document.getElementById('dropZone');
+const picker = document.getElementById('fileInput');
+const progWrap = document.getElementById('progressions');
+const progCounter = document.getElementById('progressionCounter');
+
+/* ---------- Chord Filter System ---------- */
+function buildChordName(root, quality) {
+  if (!root) return '';
+  if (!quality || quality === 'maj') return root;
+  
+  const qualityMap = {
+    'min': 'm',
+    '7': '7',
+    'maj7': 'maj7',
+    'min7': 'm7',
+    'dim': 'dim',
+    'aug': '+',
+    'sus2': 'sus2',
+    'sus4': 'sus4',
+    '6': '6',
+    'add9': 'add9'
+  };
+  
+  return root + (qualityMap[quality] || quality);
+}
+
+function addChordFilter() {
+  const root = chordRoot.value;
+  const quality = chordQuality.value;
+  
+  if (!root) return;
+  
+  const chordName = buildChordName(root, quality);
+  const filterObj = { root, quality, name: chordName };
+  
+  // Avoid duplicates
+  if (CHORD_FILTERS.some(f => f.name === chordName)) return;
+  
+  CHORD_FILTERS.push(filterObj);
+  updateChordFilterDisplay();
+  render();
+}
+
+function removeChordFilter(index) {
+  CHORD_FILTERS.splice(index, 1);
+  updateChordFilterDisplay();
+  render();
+}
+
+function updateChordFilterDisplay() {
+  activeChords.innerHTML = '';
+  CHORD_FILTERS.forEach((filter, index) => {
+    const tag = document.createElement('div');
+    tag.className = 'chord-tag';
+    tag.innerHTML = `${filter.name} <button onclick="removeChordFilter(${index})">&times;</button>`;
+    activeChords.appendChild(tag);
+  });
+}
+
+function chordsMatch(chordName1, chordName2) {
+  if (!chordName1 || !chordName2) return false;
+  
+  const parsed1 = parseChordName(chordName1);
+  const parsed2 = parseChordName(chordName2);
+  
+  // Match root (handle enharmonic equivalents)
+  if (normalizePC(parsed1.root) !== normalizePC(parsed2.root)) return false;
+  
+  // For basic matching, if filter has no quality specified, match any quality
+  const filter = CHORD_FILTERS.find(f => f.name === chordName2);
+  if (filter && (!filter.quality || filter.quality === 'maj')) {
+    // If filter is just root or major, match any chord with that root
+    return true;
+  }
+  
+  // Otherwise match quality more precisely
+  if (!parsed1.quality || !parsed2.quality) return false;
+  
+  // Normalize quality names for comparison
+  const normalizeQuality = (q) => {
+    if (!q) return 'Major';
+    return q.replace(/Major7|Maj7/i, 'Major7')
+            .replace(/Minor7|Min7/i, 'Minor7')
+            .replace(/Dominant7|Dom7/i, 'Dominant7')
+            .replace(/Minor|Min/i, 'Minor');
+  };
+  
+  return normalizeQuality(parsed1.quality) === normalizeQuality(parsed2.quality);
+}
+
+addChordBtn.addEventListener('click', addChordFilter);
+
+// Make removeChordFilter globally accessible
+window.removeChordFilter = removeChordFilter;
+
+/* ---------- Helpers ---------- */
+function clearFilters(){ 
+  CHORD_FILTERS = [];
+  updateChordFilterDisplay();
+  rootSelect.value=''; 
+  scaleSelect.value=''; 
+  render(); 
+}
+clearBtn.addEventListener('click', clearFilters);
+
+/* ---------- Rebuild Root/Scale/Quality lists ---------- */
+function rebuildLists(){
+  const roots=new Set(), scales=new Set(), qualities=new Set();
+  ALL.forEach(p=>{
+    if(p.detectedRoot) roots.add(p.detectedRoot);
+    if(p.detectedScale) scales.add(p.detectedScale);
+    // Collect chord qualities from actual progression chords
+    (p.chords||[]).forEach(ch => {
+      const parsed = parseChordName(ch.name);
+      if(parsed.quality && parsed.quality !== 'Major') {
+        // Map internal quality names to dropdown values
+        const qualityMap = {
+          'Minor': 'min',
+          'Dominant7': '7',
+          'Major7': 'maj7',
+          'Minor7': 'min7',
+          'Diminished': 'dim',
+          'Augmented': 'aug',
+          'Sus2': 'sus2',
+          'Sus4': 'sus4'
+        };
+        const mappedQuality = qualityMap[parsed.quality] || parsed.quality.toLowerCase();
+        qualities.add(mappedQuality);
+      } else if(parsed.root) {
+        // If we have a root but no special quality, it's major
+        qualities.add('maj');
+      }
+    });
+  });
+  
+  // Rebuild root dropdown
+  rootSelect.innerHTML = '<option value="">(any)</option>';
+  Array.from(roots).sort((a,b)=>PCS.indexOf(a)-PCS.indexOf(b)).forEach(r=>{
+    const o=document.createElement('option'); o.value=r; o.textContent=r; rootSelect.appendChild(o);
+  });
+  
+  // Rebuild scale dropdown
+  scaleSelect.innerHTML = '<option value="">(any)</option>';
+  Array.from(scales).sort().forEach(s=>{
+    const o=document.createElement('option'); o.value=s; o.textContent=s; scaleSelect.appendChild(o);
+  });
+  
+  // Rebuild chord quality dropdown with only detected qualities
+  const currentQuality = chordQuality.value;
+  chordQuality.innerHTML = '<option value="">Quality</option>';
+  const qualityOrder = ['maj', 'min', '7', 'maj7', 'min7', 'dim', 'aug', 'sus2', 'sus4', '6', 'add9'];
+  const qualityNames = {
+    'maj': 'Major',
+    'min': 'Minor',
+    '7': 'Dominant 7',
+    'maj7': 'Major 7',
+    'min7': 'Minor 7',
+    'dim': 'Diminished',
+    'aug': 'Augmented',
+    'sus2': 'Sus2',
+    'sus4': 'Sus4',
+    '6': '6th',
+    'add9': 'Add9'
+  };
+  
+  qualityOrder.forEach(q => {
+    if(qualities.has(q)) {
+      const o = document.createElement('option');
+      o.value = q;
+      o.textContent = qualityNames[q] || q;
+      chordQuality.appendChild(o);
+    }
+  });
+  
+  // Restore previous selection if still available
+  if(currentQuality && qualities.has(currentQuality)) {
+    chordQuality.value = currentQuality;
+  }
+}
+rebuildBtn.addEventListener('click', ()=>{ rebuildLists(); render(); });
+
+// Add event listeners for immediate filtering on Root/Scale changes
+rootSelect.addEventListener('change', render);
+scaleSelect.addEventListener('change', render);
+
+/* ---------- Progression-level matching ---------- */
+function progressionMatches(prog){
+  // Fix root filtering bug - normalize both values for comparison
+  const selRoot = rootSelect.value ? normalizePC(rootSelect.value) : null;
+  if(selRoot && normalizePC(prog.detectedRoot) !== selRoot) return false;
+  
+  const selScale = scaleSelect.value ? String(scaleSelect.value).toLowerCase() : null;
+  if(selScale && String(prog.detectedScale||'').toLowerCase() !== selScale) return false;
+  
+  // Chord filtering - progression must contain ALL specified chords
+  if(CHORD_FILTERS.length > 0) {
+    const progressionChords = (prog.chords||[]).map(ch => ch.name || '');
+    
+    const allChordsMatch = CHORD_FILTERS.every(filter => {
+      return progressionChords.some(progChord => {
+        // Try exact match first
+        if (progChord === filter.name) return true;
+        
+        // Try smart matching
+        return chordsMatch(progChord, filter.name);
+      });
+    });
+    
+    if(!allChordsMatch) return false;
+  }
+  
+  return true;
+}
+
+/* ---------- Render ---------- */
+function render(){
+  progWrap.innerHTML = '';
+  let matchingCount = 0;
+  
+  ALL.forEach(p=>{
+    if(!progressionMatches(p)) return;
+    matchingCount++;
+    
+    const card = document.createElement('div'); card.className='progression';
+    const hdr = document.createElement('div'); hdr.className='hdr';
+    const t = document.createElement('div'); t.className='title'; t.textContent = p.name||'Unnamed Progression';
+    const m = document.createElement('div'); m.className='meta'; m.textContent = `Detected: Root ${p.detectedRoot||'?'}, Scale ${p.detectedScale||'?'}`;
+    hdr.appendChild(t); hdr.appendChild(m); card.appendChild(hdr);
+    const grid = document.createElement('div'); grid.className='grid';
+    
+    (p.chords||[]).forEach((ch,i)=>{
+      const pad = document.createElement('div'); pad.className='pad'; pad.title='Click to play';
+      const num = document.createElement('b'); num.textContent = `Pad ${i+1}`; pad.appendChild(num);
+      
+      // Parse chord for enhanced display
+      const chordInfo = parseChordName(ch.name);
+      
+      const nm = document.createElement('div'); nm.className='name'; 
+      nm.textContent = chordInfo.display || ch.name || 'Unknown';
+      pad.appendChild(nm);
+      
+      // Show chord analysis
+      if (chordInfo.root) {
+        const info = document.createElement('div'); info.className='chord-info';
+        let infoText = '';
+        
+        if (chordInfo.quality && chordInfo.quality !== 'Major') {
+          infoText += `<span class="chord-type">${chordInfo.quality}</span>`;
+        }
+        
+        if (chordInfo.extensions.length > 0) {
+          if (infoText) infoText += ' ';
+          infoText += `<span class="chord-type">${chordInfo.extensions.join(', ')}</span>`;
+        }
+        
+        if (chordInfo.bass && chordInfo.bass !== chordInfo.root) {
+          if (infoText) infoText += '<br>';
+          infoText += `<span class="chord-bass">Bass: ${chordInfo.bass}</span>`;
+        }
+        
+        if (infoText) {
+          info.innerHTML = infoText;
+          pad.appendChild(info);
+        }
+      }
+      
+      // Roman numeral analysis
+      const chordRoot = chordInfo.root;
+      if(chordRoot && p.detectedRoot){
+        const semi = (pcIndex(chordRoot) - pcIndex(normalizePC(p.detectedRoot)) + 12) % 12;
+        const rn = romanForSemi(semi, p.detectedScale);
+        if(rn){ 
+          const lab = document.createElement('div'); lab.className='labels'; 
+          lab.textContent = `${rn} / ${ (semi!==null? (semi+1) : '') }`; 
+          pad.appendChild(lab); 
+        }
+      }
+      
+      const notes = document.createElement('div'); notes.className='notes'; notes.textContent = (ch.notes||[]).map(midiToAkai).join(' ');
+      pad.appendChild(notes);
+      pad.addEventListener('click', ()=>playChord(ch.notes||[]));
+      grid.appendChild(pad);
+    });
+    card.appendChild(grid); progWrap.appendChild(card);
+  });
+  
+  // Update counter
+  const totalCount = ALL.length;
+  if (totalCount === 0) {
+    progCounter.textContent = 'No progressions loaded';
+  } else {
+    progCounter.textContent = `${matchingCount}/${totalCount} progressions selected`;
+  }
+}
+
+/* ---------- File handling ---------- */
+function parseAndAdd(obj){
+  if(!obj || !obj.progression) return;
+  const p = obj.progression;
+  const parsed = { name: p.name || 'Unnamed Progression', chords: Array.isArray(p.chords)?p.chords:[] };
+  const det = detectKeyAndScale(parsed);
+  parsed.detectedRoot = det.root; parsed.detectedScale = det.scale;
+  ALL.push(parsed);
+}
+
+function handleFiles(files){
+  const list = Array.from(files||[]);
+  if(!list.length) return;
+  let pending = list.length;
+  list.forEach(f=>{
+    const r = new FileReader();
+    r.onload = e=>{
+      try{ const obj = JSON.parse(e.target.result); parseAndAdd(obj); }
+      catch(err){ console.warn('Skipping invalid file', f.name, err); }
+      if(--pending === 0){ rebuildLists(); render(); }
+    };
+    r.readAsText(f);
+  });
+}
+
+picker.addEventListener('change', e=>handleFiles(e.target.files));
+dropZone.addEventListener('click', ()=>picker.click());
+dropZone.addEventListener('dragover', e=>{ e.preventDefault(); dropZone.classList.add('drag'); });
+dropZone.addEventListener('dragleave', e=>{ dropZone.classList.remove('drag'); });
+dropZone.addEventListener('drop', e=>{ e.preventDefault(); dropZone.classList.remove('drag'); handleFiles(e.dataTransfer.files); });
+
+/* initial render */
+render();
+</script>
+</body>
+</html>
