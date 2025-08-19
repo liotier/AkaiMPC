@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Enhanced MPC Progression Viewer — Better Chord Parsing</title>
+  <title>Akai MPC Chord Progression Finder</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     :root{--bg:#fff;--fg:#111;--muted:#666;--line:#e6e6e6;--pad:#f5f7f8;--padHover:#eef1f3}
@@ -37,13 +37,13 @@
   </style>
 </head>
 <body>
-  <h1>Enhanced MPC Progression Viewer</h1>
+  <h1>Akai MPC Chord Progression Finder</h1>
   <div class="desc">Improved chord parsing and display. Build chord filters to find progressions containing specific chords. Filter by detected root/scale.</div>
 
   <div class="help">
     <strong>Filtering System</strong>
     <ul>
-      <li><strong>Chord Builder</strong>: Build specific chords to filter by - progressions must contain ALL specified chords</li>
+      <li><strong>Chord Builder</strong>: Build specific chords to filter by - progressions must contain <strong>ALL</strong> specified chords</li>
       <li><strong>Root/Scale Filter</strong>: Filter by the detected key and scale of progressions</li>
       <li><strong>Enhanced Chord Parsing</strong>: Recognizes complex chords (sus, add, dim, aug, slash chords, etc.)</li>
       <li><strong>Smart Matching</strong>: Chord filtering uses intelligent matching (enharmonic equivalents, etc.)</li>
@@ -79,11 +79,20 @@
               <option value="maj7">Major 7</option>
               <option value="min7">Minor 7</option>
               <option value="dim">Diminished</option>
+              <option value="dim7">Diminished 7</option>
+              <option value="m7b5">Half Diminished 7</option>
               <option value="aug">Augmented</option>
               <option value="sus2">Sus2</option>
               <option value="sus4">Sus4</option>
               <option value="6">6th</option>
+              <option value="maj6">Major 6</option>
+              <option value="min6">Minor 6</option>
               <option value="add9">Add9</option>
+              <option value="9">9th</option>
+              <option value="maj9">Major 9</option>
+              <option value="min9">Minor 9</option>
+              <option value="11">11th</option>
+              <option value="13">13th</option>
             </select>
             <input type="button" id="addChordBtn" value="Add Chord" style="padding:6px 12px;">
           </div>
@@ -104,7 +113,6 @@
 
     <div class="actions">
       <input type="button" id="clearBtn" value="Clear filters">
-      <input type="button" id="rebuildBtn" value="Rebuild lists">
     </div>
   </div>
 
@@ -289,15 +297,20 @@ function playChord(mids){
   });
 }
 
-/* ---------- Scale detection (modes) ---------- */
+/* ---------- Scale detection (expanded modes) ---------- */
 const MODES = [
   {name:'Major', ints:[0,2,4,5,7,9,11]},
   {name:'Natural Minor', ints:[0,2,3,5,7,8,10]},
   {name:'Harmonic Minor', ints:[0,2,3,5,7,8,11]},
+  {name:'Melodic Minor', ints:[0,2,3,5,7,9,11]},
+  {name:'Pentatonic Major', ints:[0,2,4,7,9]},
+  {name:'Pentatonic Minor', ints:[0,3,5,7,10]},
+  {name:'Blues', ints:[0,3,5,6,7,10]},
   {name:'Dorian', ints:[0,2,3,5,7,9,10]},
-  {name:'Mixolydian', ints:[0,2,4,5,7,9,10]},
+  {name:'Phrygian', ints:[0,1,3,5,7,8,10]},
   {name:'Lydian', ints:[0,2,4,6,7,9,11]},
-  {name:'Phrygian', ints:[0,1,3,5,7,8,10]}
+  {name:'Mixolydian', ints:[0,2,4,5,7,9,10]},
+  {name:'Locrian', ints:[0,1,3,5,6,8,10]}
 ];
 
 function transposeSet(ints,rootIdx){ return new Set(ints.map(n=>PCS[(n+rootIdx)%12])); }
@@ -318,7 +331,7 @@ function detectKeyAndScale(prog){
   });
   
   const pcsArr=Array.from(pcsUsed);
-  if(pcsArr.length===0) return {root:'C',scale:'Chromatic'};
+  if(pcsArr.length===0) return {root:'?',scale:'?'};
   
   let best=null;
   for(let rootIdx=0;rootIdx<12;rootIdx++){ 
@@ -340,8 +353,12 @@ function detectKeyAndScale(prog){
       }
     }
   }
-  if(!best) return {root:'C',scale:'Chromatic'};
-  if(best.misses >= 5) return {root: chordRoots[0] || 'C', scale: 'Chromatic'};
+  
+  // If no good match found (too many misses), return unknown instead of guessing
+  if(!best || best.misses >= Math.max(3, pcsArr.length * 0.4)) {
+    return {root: '?', scale: '?'};
+  }
+  
   return {root: best.root, scale: best.scale};
 }
 
@@ -366,7 +383,6 @@ const chordQuality = document.getElementById('chordQuality');
 const addChordBtn = document.getElementById('addChordBtn');
 const activeChords = document.getElementById('activeChords');
 const clearBtn = document.getElementById('clearBtn');
-const rebuildBtn = document.getElementById('rebuildBtn');
 const dropZone = document.getElementById('dropZone');
 const picker = document.getElementById('fileInput');
 const progWrap = document.getElementById('progressions');
@@ -383,11 +399,20 @@ function buildChordName(root, quality) {
     'maj7': 'maj7',
     'min7': 'm7',
     'dim': 'dim',
+    'dim7': 'dim7',
+    'm7b5': 'ø7',
     'aug': '+',
     'sus2': 'sus2',
     'sus4': 'sus4',
     '6': '6',
-    'add9': 'add9'
+    'maj6': 'maj6',
+    'min6': 'm6',
+    'add9': 'add9',
+    '9': '9',
+    'maj9': 'maj9',
+    'min9': 'm9',
+    '11': '11',
+    '13': '13'
   };
   
   return root + (qualityMap[quality] || quality);
@@ -407,6 +432,12 @@ function addChordFilter() {
   
   CHORD_FILTERS.push(filterObj);
   updateChordFilterDisplay();
+  
+  // Reset the dropdowns for next chord
+  chordRoot.value = '';
+  chordQuality.value = '';
+  
+  // Trigger immediate filtering
   render();
 }
 
@@ -476,8 +507,8 @@ clearBtn.addEventListener('click', clearFilters);
 function rebuildLists(){
   const roots=new Set(), scales=new Set(), qualities=new Set();
   ALL.forEach(p=>{
-    if(p.detectedRoot) roots.add(p.detectedRoot);
-    if(p.detectedScale) scales.add(p.detectedScale);
+    if(p.detectedRoot && p.detectedRoot !== '?') roots.add(p.detectedRoot);
+    if(p.detectedScale && p.detectedScale !== '?') scales.add(p.detectedScale);
     // Collect chord qualities from actual progression chords
     (p.chords||[]).forEach(ch => {
       const parsed = parseChordName(ch.name);
@@ -489,6 +520,8 @@ function rebuildLists(){
           'Major7': 'maj7',
           'Minor7': 'min7',
           'Diminished': 'dim',
+          'Diminished7': 'dim7',
+          'HalfDiminished7': 'm7b5',
           'Augmented': 'aug',
           'Sus2': 'sus2',
           'Sus4': 'sus4'
@@ -514,39 +547,10 @@ function rebuildLists(){
     const o=document.createElement('option'); o.value=s; o.textContent=s; scaleSelect.appendChild(o);
   });
   
-  // Rebuild chord quality dropdown with only detected qualities
+  // Keep all chord qualities available (don't limit to detected ones for better UX)
   const currentQuality = chordQuality.value;
-  chordQuality.innerHTML = '<option value="">Quality</option>';
-  const qualityOrder = ['maj', 'min', '7', 'maj7', 'min7', 'dim', 'aug', 'sus2', 'sus4', '6', 'add9'];
-  const qualityNames = {
-    'maj': 'Major',
-    'min': 'Minor',
-    '7': 'Dominant 7',
-    'maj7': 'Major 7',
-    'min7': 'Minor 7',
-    'dim': 'Diminished',
-    'aug': 'Augmented',
-    'sus2': 'Sus2',
-    'sus4': 'Sus4',
-    '6': '6th',
-    'add9': 'Add9'
-  };
-  
-  qualityOrder.forEach(q => {
-    if(qualities.has(q)) {
-      const o = document.createElement('option');
-      o.value = q;
-      o.textContent = qualityNames[q] || q;
-      chordQuality.appendChild(o);
-    }
-  });
-  
-  // Restore previous selection if still available
-  if(currentQuality && qualities.has(currentQuality)) {
-    chordQuality.value = currentQuality;
-  }
+  // Chord quality dropdown is now static in HTML with full options
 }
-rebuildBtn.addEventListener('click', ()=>{ rebuildLists(); render(); });
 
 // Add event listeners for immediate filtering on Root/Scale changes
 rootSelect.addEventListener('change', render);
