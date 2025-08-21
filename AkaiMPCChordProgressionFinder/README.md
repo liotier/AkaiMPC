@@ -124,10 +124,11 @@ This project is open source and available under the Unlicense.
 ## 🙏 Acknowledgments
 
 - Built for the Akai MPC community
-- Shout out to the amazing folks at [MPC Forums](https://www.mpc-forums.com/) - where the real MPC magic happens!
-- Inspired by the [J-6 Chord Finder](https://j6chordfinder.github.io/) and the need for better chord progression tools in hardware-based music production
+- Shout out to the amazing folks at [MPC Forums](https://www.mpc-forums.com/) - where the real MPC magic happens !
+- Inspired by the [J-6 Chord Finder](https://j6chordfinder.github.io/)
 
 ## 📞 Contact
 
 - GitHub: [liotier/AkaiMPC](https://github.com/liotier/AkaiMPC)
 - Issues: [GitHub Issues](https://github.com/liotier/AkaiMPC/issues)
+
