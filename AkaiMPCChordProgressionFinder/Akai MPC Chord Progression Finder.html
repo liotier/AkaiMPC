@@ -305,11 +305,13 @@
       font-weight: 500;
     }
     
-    /* Chord Grid */
+    /* Chord Grid - Fixed 4x4 layout like MPC hardware */
     .chord-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, 1fr);
       gap: 12px;
+      max-width: 600px;
     }
     
     .chord-pad {
@@ -321,9 +323,18 @@
       transition: all 0.2s ease;
       position: relative;
       overflow: hidden;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
     
-    .chord-pad:hover {
+    .chord-pad.empty {
+      opacity: 0.3;
+      cursor: default;
+    }
+    
+    .chord-pad:not(.empty):hover {
       background: var(--pad-hover);
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -451,7 +462,14 @@
       }
       
       .chord-grid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 100%;
+      }
+      
+      .chord-pad {
+        min-height: 80px;
+        padding: 8px;
+        font-size: 12px;
       }
       
       .progression-header {
@@ -1383,44 +1401,62 @@ function createProgressionCard(progression) {
   
   const showIntervals = document.getElementById('showIntervals').checked;
   
-  progression.chords.forEach((chord, i) => {
+  // MPC pads are laid out in a 4x4 grid, reading left-to-right, bottom-to-top
+  // This matches the standard MPC pad layout:
+  // 13 14 15 16
+  //  9 10 11 12
+  //  5  6  7  8
+  //  1  2  3  4
+  
+  // However, most MPC software displays them in reading order (1-16)
+  // So we'll create a standard 4x4 grid, filling slots 1-16
+  for (let padIndex = 0; padIndex < 16; padIndex++) {
+    const chord = progression.chords[padIndex];
     const pad = document.createElement('div');
-    pad.className = 'chord-pad';
-    pad.onclick = () => {
-      if (chord.notes && chord.notes.length > 0) {
-        playChord(chord.notes);
-        pad.classList.add('playing');
-        setTimeout(() => pad.classList.remove('playing'), 300);
-      }
-    };
     
-    let padHTML = `<div class="pad-number">PAD ${i + 1}</div>`;
-    
-    if (chord.analysis) {
-      padHTML += `<div class="chord-name">${chord.analysis.name}</div>`;
-      padHTML += `<div class="chord-quality">${chord.analysis.quality}</div>`;
+    if (chord) {
+      pad.className = 'chord-pad';
+      pad.onclick = () => {
+        if (chord.notes && chord.notes.length > 0) {
+          playChord(chord.notes);
+          pad.classList.add('playing');
+          setTimeout(() => pad.classList.remove('playing'), 300);
+        }
+      };
       
-      if (showIntervals && chord.analysis.intervals.length > 0) {
-        const intervalNames = chord.analysis.intervals.map(i => INTERVAL_NAMES[i]).join('-');
-        padHTML += `<div class="chord-intervals">[${intervalNames}]</div>`;
-      }
+      let padHTML = `<div class="pad-number">PAD ${padIndex + 1}</div>`;
       
-      if (progression.romanNumerals && progression.romanNumerals[i]) {
-        const roman = progression.romanNumerals[i];
-        if (roman && roman !== '?') {
-          padHTML += `<div class="chord-roman">${roman}</div>`;
+      if (chord.analysis) {
+        padHTML += `<div class="chord-name">${chord.analysis.name}</div>`;
+        padHTML += `<div class="chord-quality">${chord.analysis.quality}</div>`;
+        
+        if (showIntervals && chord.analysis.intervals.length > 0) {
+          const intervalNames = chord.analysis.intervals.map(i => INTERVAL_NAMES[i]).join('-');
+          padHTML += `<div class="chord-intervals">[${intervalNames}]</div>`;
+        }
+        
+        if (progression.romanNumerals && progression.romanNumerals[padIndex]) {
+          const roman = progression.romanNumerals[padIndex];
+          if (roman && roman !== '?') {
+            padHTML += `<div class="chord-roman">${roman}</div>`;
+          }
         }
       }
+      
+      if (chord.notes && chord.notes.length > 0) {
+        const noteNames = chord.notes.map(midiToNoteName).join(' ');
+        padHTML += `<div class="chord-notes">${noteNames}</div>`;
+      }
+      
+      pad.innerHTML = padHTML;
+    } else {
+      // Empty pad slot
+      pad.className = 'chord-pad empty';
+      pad.innerHTML = `<div class="pad-number">PAD ${padIndex + 1}</div>`;
     }
     
-    if (chord.notes && chord.notes.length > 0) {
-      const noteNames = chord.notes.map(midiToNoteName).join(' ');
-      padHTML += `<div class="chord-notes">${noteNames}</div>`;
-    }
-    
-    pad.innerHTML = padHTML;
     grid.appendChild(pad);
-  });
+  }
   
   card.appendChild(grid);
   return card;
