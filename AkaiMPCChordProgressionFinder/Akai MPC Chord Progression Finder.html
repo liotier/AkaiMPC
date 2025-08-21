@@ -174,6 +174,11 @@
       color: var(--fg);
     }
     
+    select.active-filter, input.active-filter {
+      border-color: var(--warning);
+      box-shadow: 0 0 0 1px var(--warning);
+    }
+    
     select:focus, input:focus {
       outline: none;
       border-color: var(--accent);
@@ -524,6 +529,13 @@
       <span class="stat-label">Unique Chords</span>
       <span class="stat-value" id="statChords">0</span>
     </div>
+    <div style="margin-left: auto; display: flex; align-items: center; gap: 12px;">
+      <button id="clearAllFiltersTop" style="display: none;">Clear All Filters</button>
+      <div class="stat" id="activeFiltersIndicator" style="display: none;">
+        <span class="stat-label">Active Filters</span>
+        <span class="stat-value" id="statActiveFilters" style="color: var(--warning);">0</span>
+      </div>
+    </div>
   </div>
   
   <div class="filters hidden" id="filters">
@@ -563,7 +575,6 @@
           <option value="">Select quality...</option>
         </select>
         <button class="primary" id="addChordFilter">Add Chord</button>
-        <button id="clearAllFilters">Clear All</button>
       </div>
       <div class="chord-tags" id="chordTags"></div>
     </div>
@@ -575,13 +586,17 @@
           <input type="checkbox" id="groupByKey"> Group by key
         </label>
         <label style="display: flex; align-items: center; gap: 4px; font-size: 14px;">
-          <input type="checkbox" id="showIntervals" checked> Show intervals
+          <input type="checkbox" id="showIntervals"> Show intervals
         </label>
       </div>
     </div>
   </div>
   
   <div class="progressions" id="progressions"></div>
+  
+  <button id="toggleAllGroups" class="primary" style="position: fixed; bottom: 20px; right: 20px; display: none; z-index: 100;">
+    Expand All
+  </button>
 
 <script>
 // Constants
@@ -1293,6 +1308,91 @@ function getFilteredProgressions() {
   return filtered;
 }
 
+// Update active filters count and visual indicators
+function updateActiveFiltersCount() {
+  let count = 0;
+  
+  // Reset all filter highlights
+  document.querySelectorAll('.active-filter').forEach(el => {
+    el.classList.remove('active-filter');
+  });
+  
+  // Check and highlight each filter
+  const rootFilter = document.getElementById('filterRoot');
+  if (rootFilter.value) {
+    count++;
+    rootFilter.classList.add('active-filter');
+  }
+  
+  const scaleFilter = document.getElementById('filterScale');
+  if (scaleFilter.value) {
+    count++;
+    scaleFilter.classList.add('active-filter');
+  }
+  
+  const canPlayFilter = document.getElementById('filterCanPlay');
+  if (canPlayFilter.value) {
+    count++;
+    canPlayFilter.classList.add('active-filter');
+  }
+  
+  const nameFilter = document.getElementById('filterName');
+  if (nameFilter.value.trim()) {
+    count++;
+    nameFilter.classList.add('active-filter');
+  }
+  
+  // Highlight chord builder if chord filters active
+  if (chordFilters.length > 0) {
+    count += chordFilters.length;
+    document.querySelector('.chord-builder').style.borderColor = 'var(--warning)';
+  } else {
+    document.querySelector('.chord-builder').style.borderColor = '';
+  }
+  
+  // Update display
+  const indicator = document.getElementById('activeFiltersIndicator');
+  const clearButton = document.getElementById('clearAllFiltersTop');
+  const value = document.getElementById('statActiveFilters');
+  
+  if (count > 0) {
+    indicator.style.display = 'flex';
+    clearButton.style.display = 'block';
+    value.textContent = count;
+  } else {
+    indicator.style.display = 'none';
+    clearButton.style.display = 'none';
+  }
+  
+  return count;
+}
+
+// Toggle all groups expanded/collapsed
+function toggleAllGroups() {
+  const headers = document.querySelectorAll('.group-header');
+  const contents = document.querySelectorAll('.group-content');
+  const button = document.getElementById('toggleAllGroups');
+  
+  if (!headers.length) return;
+  
+  // Check if any are collapsed
+  const anyCollapsed = Array.from(contents).some(content => 
+    content.classList.contains('collapsed')
+  );
+  
+  if (anyCollapsed) {
+    // Expand all
+    headers.forEach(header => header.classList.remove('collapsed'));
+    contents.forEach(content => content.classList.remove('collapsed'));
+    button.textContent = 'Collapse All';
+  } else {
+    // Collapse all
+    headers.forEach(header => header.classList.add('collapsed'));
+    contents.forEach(content => content.classList.add('collapsed'));
+    button.textContent = 'Expand All';
+  }
+}
+
 // Rendering
 function render() {
   const container = document.getElementById('progressions');
@@ -1301,6 +1401,14 @@ function render() {
   const filtered = getFilteredProgressions();
   const groupByKey = document.getElementById('groupByKey').checked;
   
+  // Show/hide toggle all button
+  const toggleButton = document.getElementById('toggleAllGroups');
+  if (groupByKey && filtered.length > 0) {
+    toggleButton.style.display = 'block';
+  } else {
+    toggleButton.style.display = 'none';
+  }
+  
   if (groupByKey) {
     renderGrouped(filtered, container);
   } else {
@@ -1308,6 +1416,7 @@ function render() {
   }
   
   updateStats();
+  updateActiveFiltersCount();
 }
 
 function renderFlat(progs, container) {
@@ -1474,6 +1583,7 @@ function addChordFilter() {
   
   updateChordTags();
   render();
+  updateActiveFiltersCount();
   
   document.getElementById('chordFilterNote').value = '';
   document.getElementById('chordFilterQuality').value = '';
@@ -1483,6 +1593,7 @@ function removeChordFilter(index) {
   chordFilters.splice(index, 1);
   updateChordTags();
   render();
+  updateActiveFiltersCount();
 }
 
 function updateChordTags() {
@@ -1511,6 +1622,7 @@ function clearAllFilters() {
   document.getElementById('chordFilterQuality').value = '';
   updateChordTags();
   render();
+  updateActiveFiltersCount();
 }
 
 // Event listeners
@@ -1531,15 +1643,30 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
   // Filter listeners
-  document.getElementById('filterRoot').addEventListener('change', render);
-  document.getElementById('filterScale').addEventListener('change', render);
-  document.getElementById('filterCanPlay').addEventListener('change', render);
-  document.getElementById('filterName').addEventListener('input', render);
+  document.getElementById('filterRoot').addEventListener('change', () => {
+    render();
+    updateActiveFiltersCount();
+  });
+  document.getElementById('filterScale').addEventListener('change', () => {
+    render();
+    updateActiveFiltersCount();
+  });
+  document.getElementById('filterCanPlay').addEventListener('change', () => {
+    render();
+    updateActiveFiltersCount();
+  });
+  document.getElementById('filterName').addEventListener('input', () => {
+    render();
+    updateActiveFiltersCount();
+  });
   document.getElementById('groupByKey').addEventListener('change', render);
   document.getElementById('showIntervals').addEventListener('change', render);
   
   document.getElementById('addChordFilter').addEventListener('click', addChordFilter);
-  document.getElementById('clearAllFilters').addEventListener('click', clearAllFilters);
+  document.getElementById('clearAllFiltersTop').addEventListener('click', clearAllFilters);
+  
+  // Toggle all groups button
+  document.getElementById('toggleAllGroups').addEventListener('click', toggleAllGroups);
   
   // Keyboard shortcuts
   document.addEventListener('keydown', (e) => {
