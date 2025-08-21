@@ -323,7 +323,7 @@
       background: var(--pad-bg);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 12px;
+      padding: 8px;
       cursor: pointer;
       transition: all 0.2s ease;
       position: relative;
@@ -358,46 +358,58 @@
     }
     
     .pad-number {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--muted);
       font-weight: 600;
       text-transform: uppercase;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     
     .chord-name {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
       color: var(--fg);
     }
     
     .chord-quality {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--accent);
       font-weight: 500;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     
     .chord-intervals {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--muted);
       font-family: var(--font-mono);
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     
     .chord-roman {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--warning);
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     
     .chord-notes {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--muted);
       font-family: var(--font-mono);
       word-break: break-all;
+    }
+    
+    .chord-keyboard {
+      margin-top: 4px;
+      margin-bottom: 4px;
+      width: 100%;
+      height: 60px;
+    }
+    
+    .chord-keyboard svg {
+      width: 100%;
+      height: 100%;
     }
     
     /* Play Controls */
@@ -1461,6 +1473,75 @@ function renderGrouped(progs, container) {
   });
 }
 
+// Generate SVG keyboard diagram for a chord
+function generateKeyboardSVG(midiNotes) {
+  if (!midiNotes || midiNotes.length === 0) return '';
+  
+  // Find the range of notes to display (1 or 2 octaves centered on the chord)
+  const minNote = Math.min(...midiNotes);
+  const maxNote = Math.max(...midiNotes);
+  
+  // Determine octave range - show at least one full octave
+  const minOctave = Math.floor(minNote / 12) - 2; // Convert from MIDI octave
+  const maxOctave = Math.max(minOctave + 1, Math.floor(maxNote / 12) - 2);
+  const octaveCount = Math.min(2, maxOctave - minOctave + 1); // Show max 2 octaves
+  
+  const startNote = (minOctave + 2) * 12; // Convert back to MIDI
+  const endNote = startNote + (octaveCount * 12);
+  
+  // Create set of active notes for quick lookup
+  const activeNotes = new Set(midiNotes);
+  
+  // Piano key dimensions
+  const whiteKeyWidth = 14;
+  const blackKeyWidth = 10;
+  const whiteKeyHeight = 60;  // Doubled from 30
+  const blackKeyHeight = 36;  // Doubled from 18
+  
+  // Pattern of black keys in an octave (true = black key exists)
+  const blackKeyPattern = [false, true, true, false, true, true, true];
+  const whiteKeyIndices = [0, 2, 4, 5, 7, 9, 11]; // C, D, E, F, G, A, B
+  
+  let svg = `<svg viewBox="0 0 ${whiteKeyWidth * 7 * octaveCount} ${whiteKeyHeight}" xmlns="http://www.w3.org/2000/svg">`;
+  
+  // Draw white keys first
+  for (let octave = 0; octave < octaveCount; octave++) {
+    for (let i = 0; i < 7; i++) {
+      const x = (octave * 7 + i) * whiteKeyWidth;
+      const midiNote = startNote + octave * 12 + whiteKeyIndices[i];
+      const isActive = activeNotes.has(midiNote);
+      
+      svg += `<rect x="${x}" y="0" width="${whiteKeyWidth - 1}" height="${whiteKeyHeight}" 
+              fill="${isActive ? '#f59e0b' : 'white'}" 
+              stroke="#333" stroke-width="1"/>`;
+    }
+  }
+  
+  // Draw black keys on top
+  for (let octave = 0; octave < octaveCount; octave++) {
+    let blackKeyPosition = 0;
+    for (let i = 0; i < 7; i++) {
+      if (blackKeyPattern[i]) {
+        const whiteKeyX = (octave * 7 + i) * whiteKeyWidth;
+        const x = whiteKeyX - blackKeyWidth / 2;
+        const blackKeyNote = [1, 3, 6, 8, 10][blackKeyPosition]; // C#, D#, F#, G#, A#
+        const midiNote = startNote + octave * 12 + blackKeyNote;
+        const isActive = activeNotes.has(midiNote);
+        
+        svg += `<rect x="${x}" y="0" width="${blackKeyWidth}" height="${blackKeyHeight}" 
+                fill="${isActive ? '#dc2626' : '#333'}" 
+                stroke="#000" stroke-width="1"/>`;
+        
+        blackKeyPosition++;
+      }
+    }
+  }
+  
+  svg += '</svg>';
+  
+  return `<div class="chord-keyboard">${svg}</div>`;
+}
+
 function createProgressionCard(progression) {
   const card = document.createElement('div');
   card.className = 'progression-card';
@@ -1510,15 +1591,7 @@ function createProgressionCard(progression) {
   
   const showIntervals = document.getElementById('showIntervals').checked;
   
-  // MPC pads are laid out in a 4x4 grid, reading left-to-right, bottom-to-top
-  // This matches the standard MPC pad layout:
-  // 13 14 15 16
-  //  9 10 11 12
-  //  5  6  7  8
-  //  1  2  3  4
-  
-  // However, most MPC software displays them in reading order (1-16)
-  // So we'll create a standard 4x4 grid, filling slots 1-16
+  // MPC pads layout - 4x4 grid
   for (let padIndex = 0; padIndex < 16; padIndex++) {
     const chord = progression.chords[padIndex];
     const pad = document.createElement('div');
@@ -1552,7 +1625,9 @@ function createProgressionCard(progression) {
         }
       }
       
+      // Add keyboard diagram
       if (chord.notes && chord.notes.length > 0) {
+        padHTML += generateKeyboardSVG(chord.notes);
         const noteNames = chord.notes.map(midiToNoteName).join(' ');
         padHTML += `<div class="chord-notes">${noteNames}</div>`;
       }
