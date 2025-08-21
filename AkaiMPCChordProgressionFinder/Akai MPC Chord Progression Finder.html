@@ -151,13 +151,27 @@
       letter-spacing: 0.05em;
     }
     
-    select, input, button {
+    .filter-group input[type="radio"] {
+      margin-right: 4px;
+    }
+    
+    select, input[type="text"], input[type="number"], button {
       padding: 8px 12px;
       border: 1px solid var(--border);
       border-radius: var(--radius);
       font-size: 14px;
       background: white;
       transition: all 0.2s ease;
+    }
+    
+    select optgroup {
+      font-weight: 600;
+      color: var(--muted);
+    }
+    
+    select option {
+      font-weight: normal;
+      color: var(--fg);
     }
     
     select:focus, input:focus {
@@ -448,8 +462,16 @@
   </style>
 </head>
 <body>
-  <h1>MPC Chord Progression Analyzer</h1>
-  <p class="subtitle">Pure interval-based chord analysis from MIDI notes • No name assumptions</p>
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+    <div>
+      <h1>MPC Chord Progression Analyzer</h1>
+      <p class="subtitle">Find the perfect chord set for any song • Jazz, Pop, Blues, or Classical<br>
+      Drop your .progression files to see which famous progressions you can play</p>
+    </div>
+    <img src="https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/20250821%20MPC%20One%20on%20chair%20-%20web%20sized.jpg" 
+         alt="MPC One" 
+         style="height: 80px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  </div>
   
   <div class="loading" id="loading">
     <div class="spinner"></div>
@@ -502,8 +524,10 @@
     </div>
     
     <div class="filter-group">
-      <label>Pattern Search</label>
-      <input type="text" id="filterPattern" placeholder="e.g., I-V-vi-IV">
+      <label>Can Play Progression</label>
+      <select id="filterCanPlay">
+        <option value="">Any chord set</option>
+      </select>
     </div>
     
     <div class="filter-group">
@@ -566,6 +590,33 @@ const INTERVAL_NAMES = [
   'R', 'm2', 'M2', 'm3', 'M3', 'P4', 'TT', 'P5', 'm6', 'M6', 'm7', 'M7'
 ];
 
+// Well-known progressions that musicians might want to play
+const STANDARD_PROGRESSIONS = {
+  'Jazz Standards': [
+    { pattern: ['ii', 'V', 'I'], name: 'ii-V-I (Jazz Cadence)' },
+    { pattern: ['I', 'vi', 'ii', 'V'], name: 'I-vi-ii-V (Rhythm Changes A)' },
+    { pattern: ['I', 'VI', 'II', 'V'], name: 'I-VI-II-V (Ragtime)' },
+    { pattern: ['iii', 'vi', 'ii', 'V'], name: 'iii-vi-ii-V (Jazz Turnaround)' }
+  ],
+  'Pop/Rock': [
+    { pattern: ['I', 'V', 'vi', 'IV'], name: 'I-V-vi-IV (Pop Progression)' },
+    { pattern: ['I', 'vi', 'IV', 'V'], name: 'I-vi-IV-V (50s Progression)' },
+    { pattern: ['vi', 'IV', 'I', 'V'], name: 'vi-IV-I-V (Deceptive Pop)' },
+    { pattern: ['I', 'IV', 'V'], name: 'I-IV-V (Blues/Rock)' },
+    { pattern: ['I', 'bVII', 'IV', 'I'], name: 'I-bVII-IV-I (Rock Cadence)' }
+  ],
+  'Blues': [
+    { pattern: ['I', 'I', 'I', 'I', 'IV', 'IV', 'I', 'I', 'V', 'IV', 'I', 'V'], name: '12-Bar Blues' },
+    { pattern: ['I', 'IV', 'I', 'V'], name: 'Simple Blues' },
+    { pattern: ['i', 'iv', 'V'], name: 'Minor Blues Core' }
+  ],
+  'Classical/Folk': [
+    { pattern: ['I', 'V', 'V', 'I'], name: 'Authentic Cadence' },
+    { pattern: ['I', 'IV', 'I'], name: 'Plagal Cadence' },
+    { pattern: ['I', 'ii', 'V', 'I'], name: 'Classical Cadence' }
+  ]
+};
+
 // Global state
 let progressions = [];
 let chordFilters = [];
@@ -577,18 +628,11 @@ let playbackTimeout = null;
 function normalizeNote(note) {
   if (!note) return null;
   let normalized = note.trim().toUpperCase();
-  
-  // Handle flats
   normalized = normalized.replace(/♭/g, 'b').replace(/♯/g, '#');
-  
-  // Remove octave numbers
   normalized = normalized.replace(/[0-9]/g, '');
-  
-  // Convert flats to sharps for consistency
   if (normalized.includes('b') && ENHARMONICS[normalized]) {
     normalized = ENHARMONICS[normalized];
   }
-  
   return NOTES.includes(normalized) ? normalized : null;
 }
 
@@ -619,12 +663,10 @@ function analyzeChord(midiNotes) {
     return { root, quality: 'Single Note', intervals: [0], name: root };
   }
   
-  // Sort notes and find the lowest as potential root
   const sorted = [...midiNotes].sort((a, b) => a - b);
   const bassNote = sorted[0];
   const bassPC = bassNote % 12;
   
-  // Calculate intervals from bass note
   const intervals = [];
   const uniquePCs = new Set();
   
@@ -639,14 +681,11 @@ function analyzeChord(midiNotes) {
   
   intervals.sort((a, b) => a - b);
   
-  // Analyze chord quality based on intervals
   const { quality, root } = identifyChordQuality(intervals, bassPC);
   
-  // Build chord name
   const rootNote = NOTES[root];
   let chordName = rootNote;
   
-  // Add quality suffix
   if (quality !== 'Major') {
     const qualitySuffixes = {
       'Minor': 'm',
@@ -670,7 +709,6 @@ function analyzeChord(midiNotes) {
     chordName += qualitySuffixes[quality] || '';
   }
   
-  // Add slash if bass note differs from root
   if (bassPC !== root) {
     chordName += '/' + NOTES[bassPC];
   }
@@ -686,45 +724,32 @@ function analyzeChord(midiNotes) {
 
 function identifyChordQuality(intervals, bassPC) {
   const hasInterval = (i) => intervals.includes(i);
-  
-  // Convert intervals to string for pattern matching
   const pattern = intervals.join(',');
   
-  // Extended chord patterns with root position
   const patterns = {
-    // Triads
     '0,4,7': { quality: 'Major', root: 0 },
     '0,3,7': { quality: 'Minor', root: 0 },
     '0,3,6': { quality: 'Diminished', root: 0 },
     '0,4,8': { quality: 'Augmented', root: 0 },
     '0,2,7': { quality: 'Sus2', root: 0 },
     '0,5,7': { quality: 'Sus4', root: 0 },
-    
-    // 7th chords
     '0,4,7,10': { quality: 'Dominant 7', root: 0 },
     '0,4,7,11': { quality: 'Major 7', root: 0 },
     '0,3,7,10': { quality: 'Minor 7', root: 0 },
     '0,3,6,10': { quality: 'Half-Diminished 7', root: 0 },
     '0,3,6,9': { quality: 'Diminished 7', root: 0 },
-    
-    // 6th chords
     '0,4,7,9': { quality: 'Major 6', root: 0 },
     '0,3,7,9': { quality: 'Minor 6', root: 0 },
-    
-    // Extended chords
     '0,4,7,10,14': { quality: '9th', root: 0 },
     '0,4,7,11,14': { quality: 'Major 9', root: 0 },
     '0,3,7,10,14': { quality: 'Minor 9', root: 0 },
     '0,4,7,14': { quality: 'Add9', root: 0 },
-    
-    // Inversions (common ones)
-    '0,3,8': { quality: 'Major', root: 8 },  // 1st inversion major
-    '0,4,9': { quality: 'Minor', root: 9 },  // 1st inversion minor
-    '0,5,9': { quality: 'Major', root: 5 },  // 2nd inversion major
-    '0,5,8': { quality: 'Minor', root: 5 },  // 2nd inversion minor
+    '0,3,8': { quality: 'Major', root: 8 },
+    '0,4,9': { quality: 'Minor', root: 9 },
+    '0,5,9': { quality: 'Major', root: 5 },
+    '0,5,8': { quality: 'Minor', root: 5 },
   };
   
-  // Check for exact pattern match
   if (patterns[pattern]) {
     const result = patterns[pattern];
     return {
@@ -733,7 +758,6 @@ function identifyChordQuality(intervals, bassPC) {
     };
   }
   
-  // Fallback analysis
   const third = hasInterval(3) || hasInterval(4);
   const fifth = hasInterval(7) || hasInterval(6) || hasInterval(8);
   const seventh = hasInterval(10) || hasInterval(11);
@@ -764,6 +788,99 @@ function identifyChordQuality(intervals, bassPC) {
   return { quality, root };
 }
 
+// Roman numeral generation - using alternative notation (simpler)
+function generateRomanNumerals(progression) {
+  if (!progression.key || progression.key.root === '?') return [];
+  
+  const rootIndex = NOTES.indexOf(progression.key.root);
+  const scale = SCALES[progression.key.scale];
+  if (!scale) return [];
+  
+  const romans = [];
+  const romanBase = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+  
+  progression.chords.forEach(chord => {
+    if (!chord.analysis || !chord.analysis.root) {
+      romans.push('?');
+      return;
+    }
+    
+    const chordRootIndex = NOTES.indexOf(chord.analysis.root);
+    const interval = (chordRootIndex - rootIndex + 12) % 12;
+    
+    const degree = scale.indexOf(interval);
+    if (degree === -1) {
+      let closestDegree = 0;
+      let closestDistance = 12;
+      
+      scale.forEach((scaleInterval, idx) => {
+        const distance = Math.abs(interval - scaleInterval);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestDegree = idx;
+        }
+      });
+      
+      const scaleInterval = scale[closestDegree];
+      const diff = interval - scaleInterval;
+      let roman = romanBase[closestDegree];
+      
+      if (diff === 1 || diff === -11) {
+        roman = '#' + roman;
+      } else if (diff === -1 || diff === 11) {
+        roman = 'b' + roman;
+      }
+      
+      romans.push(roman);
+      return;
+    }
+    
+    let roman = romanBase[degree];
+    
+    const isMinorChord = chord.analysis.quality.includes('Minor') || 
+                         chord.analysis.quality.includes('Diminished') ||
+                         chord.analysis.quality === 'Half-Diminished 7';
+    
+    if (isMinorChord) {
+      roman = roman.toLowerCase();
+    }
+    
+    if (chord.analysis.quality.includes('Diminished')) {
+      roman += '°';
+    }
+    
+    romans.push(roman);
+  });
+  
+  return romans;
+}
+
+// Check if a chord set contains all required chords for a progression
+function canPlayProgression(chordSet, progressionPattern) {
+  const setRomans = new Set(chordSet);
+  return progressionPattern.every(chord => setRomans.has(chord));
+}
+
+// Get all playable progressions for a chord set
+function getPlayableProgressions(chordSet) {
+  const playable = [];
+  
+  for (const [category, progressions] of Object.entries(STANDARD_PROGRESSIONS)) {
+    progressions.forEach(prog => {
+      const uniqueChords = [...new Set(prog.pattern)];
+      if (canPlayProgression(chordSet, uniqueChords)) {
+        playable.push({
+          category,
+          name: prog.name,
+          pattern: prog.pattern
+        });
+      }
+    });
+  }
+  
+  return playable;
+}
+
 // Scale detection
 function detectKeyAndScale(progression) {
   const notesUsed = new Set();
@@ -792,12 +909,10 @@ function detectKeyAndScale(progression) {
   let bestFit = null;
   let bestScore = -1;
   
-  // Test each possible root and scale
   for (let rootIdx = 0; rootIdx < 12; rootIdx++) {
     for (const [scaleName, intervals] of Object.entries(SCALES)) {
       const scaleNotes = new Set(intervals.map(i => (rootIdx + i) % 12));
       
-      // Calculate fit score
       let matches = 0;
       let total = 0;
       
@@ -806,13 +921,11 @@ function detectKeyAndScale(progression) {
         if (scaleNotes.has(note)) matches++;
       });
       
-      // Bonus for matching chord roots
       let rootMatches = 0;
       chordRoots.forEach(chordRoot => {
         if (scaleNotes.has(chordRoot)) rootMatches++;
       });
       
-      // Special bonus for tonic as first chord
       let tonicBonus = 0;
       if (chordRoots.length > 0 && chordRoots[0] === rootIdx) {
         tonicBonus = 0.2;
@@ -827,63 +940,11 @@ function detectKeyAndScale(progression) {
     }
   }
   
-  // Require a minimum score for confidence
   if (bestScore < 0.7) {
     return { root: '?', scale: '?' };
   }
   
   return bestFit;
-}
-
-// Roman numeral generation
-function generateRomanNumerals(progression) {
-  if (!progression.key || progression.key.root === '?') return '';
-  
-  const rootIndex = NOTES.indexOf(progression.key.root);
-  const scale = SCALES[progression.key.scale];
-  if (!scale) return '';
-  
-  const romans = [];
-  const romanBase = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-  
-  progression.chords.forEach(chord => {
-    if (!chord.analysis || !chord.analysis.root) {
-      romans.push('?');
-      return;
-    }
-    
-    const chordRootIndex = NOTES.indexOf(chord.analysis.root);
-    const interval = (chordRootIndex - rootIndex + 12) % 12;
-    
-    // Find scale degree
-    const degree = scale.indexOf(interval);
-    if (degree === -1) {
-      // Chromatic chord
-      romans.push('♭' + romanBase[Math.floor(interval / 2)] || '?');
-      return;
-    }
-    
-    let roman = romanBase[degree];
-    
-    // Make minor chords lowercase
-    if (chord.analysis.quality.includes('Minor') || 
-        chord.analysis.quality.includes('Diminished')) {
-      roman = roman.toLowerCase();
-    }
-    
-    // Add quality modifiers
-    if (chord.analysis.quality.includes('Diminished')) {
-      roman += '°';
-    } else if (chord.analysis.quality.includes('Augmented')) {
-      roman += '+';
-    } else if (chord.analysis.quality.includes('7')) {
-      roman += '7';
-    }
-    
-    romans.push(roman);
-  });
-  
-  return romans.join('-');
 }
 
 // Audio playback
@@ -902,7 +963,7 @@ function playChord(midiNotes, duration = 1000) {
   if (!ctx) return;
   
   const now = ctx.currentTime;
-  const noteGain = 0.15 / Math.sqrt(midiNotes.length); // Normalize volume
+  const noteGain = 0.15 / Math.sqrt(midiNotes.length);
   
   midiNotes.forEach((midi, i) => {
     const osc = ctx.createOscillator();
@@ -911,16 +972,13 @@ function playChord(midiNotes, duration = 1000) {
     
     osc.frequency.value = freq;
     osc.type = 'sine';
-    
-    // Slight detune for richness
     osc.detune.value = (i - midiNotes.length / 2) * 2;
     
-    // ADSR envelope
     gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(noteGain, now + 0.02); // Attack
-    gain.gain.exponentialRampToValueAtTime(noteGain * 0.7, now + 0.1); // Decay
-    gain.gain.setValueAtTime(noteGain * 0.7, now + duration / 1000 - 0.05); // Sustain
-    gain.gain.exponentialRampToValueAtTime(0.001, now + duration / 1000); // Release
+    gain.gain.linearRampToValueAtTime(noteGain, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(noteGain * 0.7, now + 0.1);
+    gain.gain.setValueAtTime(noteGain * 0.7, now + duration / 1000 - 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + duration / 1000);
     
     osc.connect(gain).connect(ctx.destination);
     osc.start(now);
@@ -935,7 +993,7 @@ function playProgression(chords, tempo = 120) {
   }
   
   isPlaying = true;
-  const beatDuration = 60000 / tempo; // ms per beat
+  const beatDuration = 60000 / tempo;
   let currentChord = 0;
   
   function playNext() {
@@ -948,7 +1006,6 @@ function playProgression(chords, tempo = 120) {
     if (chord.notes && chord.notes.length > 0) {
       playChord(chord.notes, beatDuration * 0.9);
       
-      // Visual feedback
       const pads = document.querySelectorAll('.chord-pad');
       pads.forEach(pad => pad.classList.remove('playing'));
       if (pads[currentChord]) {
@@ -1053,7 +1110,6 @@ function processProgression(data) {
     chords: []
   };
   
-  // Process each chord
   data.chords.forEach((chord, index) => {
     const chordData = {
       name: chord.name || `Chord ${index + 1}`,
@@ -1061,7 +1117,6 @@ function processProgression(data) {
       analysis: null
     };
     
-    // Analyze chord from MIDI notes only
     if (chordData.notes.length > 0) {
       chordData.analysis = analyzeChord(chordData.notes);
     }
@@ -1069,11 +1124,9 @@ function processProgression(data) {
     progression.chords.push(chordData);
   });
   
-  // Detect key and scale
   progression.key = detectKeyAndScale(progression);
-  
-  // Generate Roman numerals
   progression.romanNumerals = generateRomanNumerals(progression);
+  progression.playableProgressions = getPlayableProgressions(progression.romanNumerals);
   
   return progression;
 }
@@ -1109,21 +1162,35 @@ function updateFilters() {
     });
   });
   
-  // Update root filter
   const rootSelect = document.getElementById('filterRoot');
   rootSelect.innerHTML = '<option value="">All roots</option>';
   Array.from(roots).sort().forEach(root => {
     rootSelect.innerHTML += `<option value="${root}">${root}</option>`;
   });
   
-  // Update scale filter
   const scaleSelect = document.getElementById('filterScale');
   scaleSelect.innerHTML = '<option value="">All scales</option>';
   Array.from(scales).sort().forEach(scale => {
     scaleSelect.innerHTML += `<option value="${scale}">${scale}</option>`;
   });
   
-  // Update chord filter options
+  const canPlaySelect = document.getElementById('filterCanPlay');
+  canPlaySelect.innerHTML = '<option value="">Any chord set</option>';
+  
+  for (const [category, progressions] of Object.entries(STANDARD_PROGRESSIONS)) {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = category;
+    
+    progressions.forEach(prog => {
+      const option = document.createElement('option');
+      option.value = prog.pattern.join('-');
+      option.textContent = prog.name;
+      optgroup.appendChild(option);
+    });
+    
+    canPlaySelect.appendChild(optgroup);
+  }
+  
   const chordNoteSelect = document.getElementById('chordFilterNote');
   chordNoteSelect.innerHTML = '<option value="">Select note...</option>';
   NOTES.forEach(note => {
@@ -1166,27 +1233,25 @@ function updateStats() {
 function getFilteredProgressions() {
   let filtered = [...progressions];
   
-  // Root filter
   const rootFilter = document.getElementById('filterRoot').value;
   if (rootFilter) {
     filtered = filtered.filter(p => p.key.root === rootFilter);
   }
   
-  // Scale filter
   const scaleFilter = document.getElementById('filterScale').value;
   if (scaleFilter) {
     filtered = filtered.filter(p => p.key.scale === scaleFilter);
   }
   
-  // Pattern filter
-  const patternFilter = document.getElementById('filterPattern').value.trim();
-  if (patternFilter) {
+  const canPlayFilter = document.getElementById('filterCanPlay').value;
+  if (canPlayFilter) {
+    const requiredChords = canPlayFilter.split('-');
     filtered = filtered.filter(p => {
-      return p.romanNumerals && p.romanNumerals.includes(patternFilter);
+      if (!p.romanNumerals || p.romanNumerals.length === 0) return false;
+      return canPlayProgression(p.romanNumerals, requiredChords);
     });
   }
   
-  // Name filter
   const nameFilter = document.getElementById('filterName').value.toLowerCase().trim();
   if (nameFilter) {
     filtered = filtered.filter(p => {
@@ -1194,7 +1259,6 @@ function getFilteredProgressions() {
     });
   }
   
-  // Chord filters
   if (chordFilters.length > 0) {
     filtered = filtered.filter(prog => {
       return chordFilters.every(filter => {
@@ -1278,12 +1342,28 @@ function createProgressionCard(progression) {
   header.className = 'progression-header';
   
   const titleSection = document.createElement('div');
+  
+  let playableText = '';
+  if (progression.playableProgressions && progression.playableProgressions.length > 0) {
+    const byCategory = {};
+    progression.playableProgressions.forEach(p => {
+      if (!byCategory[p.category]) byCategory[p.category] = [];
+      byCategory[p.category].push(p.name);
+    });
+    
+    const categoryNames = Object.keys(byCategory).map(cat => 
+      `${cat} (${byCategory[cat].length})`
+    ).join(', ');
+    
+    playableText = `<div style="font-size: 12px; color: var(--success); margin-top: 4px;">Can play: ${categoryNames}</div>`;
+  }
+  
   titleSection.innerHTML = `
     <div class="progression-title">${progression.name}</div>
     <div class="progression-meta">
       <span class="key">${progression.key.root} ${progression.key.scale}</span>
-      ${progression.romanNumerals ? `<span class="pattern">${progression.romanNumerals}</span>` : ''}
     </div>
+    ${playableText}
   `;
   
   const controls = document.createElement('div');
@@ -1325,11 +1405,10 @@ function createProgressionCard(progression) {
         padHTML += `<div class="chord-intervals">[${intervalNames}]</div>`;
       }
       
-      // Add Roman numeral if available
-      if (progression.romanNumerals) {
-        const romans = progression.romanNumerals.split('-');
-        if (romans[i] && romans[i] !== '?') {
-          padHTML += `<div class="chord-roman">${romans[i]}</div>`;
+      if (progression.romanNumerals && progression.romanNumerals[i]) {
+        const roman = progression.romanNumerals[i];
+        if (roman && roman !== '?') {
+          padHTML += `<div class="chord-roman">${roman}</div>`;
         }
       }
     }
@@ -1360,7 +1439,6 @@ function addChordFilter() {
   updateChordTags();
   render();
   
-  // Reset selects
   document.getElementById('chordFilterNote').value = '';
   document.getElementById('chordFilterQuality').value = '';
 }
@@ -1391,7 +1469,7 @@ function clearAllFilters() {
   chordFilters = [];
   document.getElementById('filterRoot').value = '';
   document.getElementById('filterScale').value = '';
-  document.getElementById('filterPattern').value = '';
+  document.getElementById('filterCanPlay').value = '';
   document.getElementById('filterName').value = '';
   document.getElementById('chordFilterNote').value = '';
   document.getElementById('chordFilterQuality').value = '';
@@ -1419,7 +1497,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Filter listeners
   document.getElementById('filterRoot').addEventListener('change', render);
   document.getElementById('filterScale').addEventListener('change', render);
-  document.getElementById('filterPattern').addEventListener('input', render);
+  document.getElementById('filterCanPlay').addEventListener('change', render);
   document.getElementById('filterName').addEventListener('input', render);
   document.getElementById('groupByKey').addEventListener('change', render);
   document.getElementById('showIntervals').addEventListener('change', render);
