@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>MPC Chord Progression Analyzer</title>
+  <title>MPC Chord Progression Finder</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -522,9 +522,9 @@
 <body>
   <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
     <div>
-      <h1>MPC Chord Progression Analyzer</h1>
-      <p class="subtitle">Find the perfect chord set for any song • Jazz, Pop, Blues, or Classical<br>
-      Drop your .progression files to see which famous progressions you can play</p>
+      <h1>MPC Chord Progression Finder</h1>
+      <p class="subtitle">A web-based tool for analyzing and exploring chord progressions from Akai MPC .progression files.<br>
+      Find the perfect chord set for any song style, discover which famous progressions you can play, and visualize your chords in the familiar MPC 4x4 pad layout.</p>
     </div>
     <img src="https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/20250821%20MPC%20One%20on%20chair%20-%20web%20sized.jpg" 
          alt="MPC One" 
@@ -565,6 +565,7 @@
       <span class="stat-value" id="statChords">0</span>
     </div>
     <div style="margin-left: auto; display: flex; align-items: center; gap: 12px;">
+      <button id="exportProgressions" style="display: none;">Export Progressions</button>
       <button id="clearAllFiltersTop" style="display: none;">Clear All Filters</button>
       <div class="stat" id="activeFiltersIndicator" style="display: none;">
         <span class="stat-label">Active Filters</span>
@@ -627,11 +628,21 @@
     </div>
   </div>
   
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  
   <div class="progressions" id="progressions"></div>
   
   <button id="toggleAllGroups" class="primary" style="position: fixed; bottom: 20px; right: 20px; display: none; z-index: 100;">
     Expand All
   </button>
+  
+  <footer style="margin-top: 40px; padding: 20px 0; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 14px;">
+    <a href="https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionFinder" 
+       target="_blank" 
+       style="color: var(--accent); text-decoration: none; font-weight: 500;">
+      View on GitHub
+    </a>
+  </footer>
 
 <script>
 // Constants
@@ -1170,12 +1181,15 @@ function processFiles(files) {
   });
 }
 
+// Process and store progression data
 function processProgression(data) {
   if (!data.chords || !Array.isArray(data.chords)) return null;
   
   const progression = {
     name: data.name || 'Untitled',
-    chords: []
+    chords: [],
+    // Store the original data for export
+    originalData: { progression: data }
   };
   
   data.chords.forEach((chord, index) => {
@@ -1273,6 +1287,111 @@ function updateFilters() {
   });
 }
 
+// Export filtered progressions as ZIP
+async function exportProgressions() {
+  const filtered = getFilteredProgressions();
+  
+  if (filtered.length === 0) {
+    alert('No progressions to export');
+    return;
+  }
+  
+  // Check if JSZip is loaded
+  if (typeof JSZip === 'undefined') {
+    alert('Export functionality is loading, please try again in a moment.');
+    return;
+  }
+  
+  try {
+    const zip = new JSZip();
+    
+    // Build filename based on active filters
+    let zipFilename = 'progressions';
+    const filterParts = [];
+    
+    const rootFilter = document.getElementById('filterRoot').value;
+    if (rootFilter) filterParts.push(`root-${rootFilter}`);
+    
+    const scaleFilter = document.getElementById('filterScale').value;
+    if (scaleFilter) filterParts.push(`scale-${scaleFilter.replace(/\s+/g, '_')}`);
+    
+    const canPlayFilter = document.getElementById('filterCanPlay').value;
+    if (canPlayFilter) {
+      // Extract just the progression type name
+      const match = canPlayFilter.match(/([IVvi\-]+)/);
+      if (match) filterParts.push(`pattern-${match[1]}`);
+    }
+    
+    const nameFilter = document.getElementById('filterName').value.trim();
+    if (nameFilter) filterParts.push(`search-${nameFilter.replace(/\s+/g, '_')}`);
+    
+    if (chordFilters.length > 0) {
+      const chordNames = chordFilters.map(f => f.root + (f.quality || '')).join('_');
+      filterParts.push(`chords-${chordNames}`);
+    }
+    
+    if (filterParts.length > 0) {
+      zipFilename += '_' + filterParts.join('_');
+    } else {
+      zipFilename += '_all';
+    }
+    
+    // Add timestamp
+    const timestamp = new Date().toISOString().split('T')[0];
+    zipFilename += '_' + timestamp + '.zip';
+    
+    // Add each progression to the ZIP
+    filtered.forEach((prog, index) => {
+      // Try to use original filename or create one from progression name
+      let filename = prog.name.replace(/[^a-z0-9_\-\s]/gi, '').replace(/\s+/g, '_');
+      if (!filename) filename = `progression_${index + 1}`;
+      
+      // Ensure unique filenames
+      let finalFilename = filename + '.progression';
+      let counter = 1;
+      while (zip.file(finalFilename)) {
+        finalFilename = `${filename}_${counter}.progression`;
+        counter++;
+      }
+      
+      // Add the original JSON data to the ZIP
+      const jsonContent = JSON.stringify(prog.originalData, null, 2);
+      zip.file(finalFilename, jsonContent);
+    });
+    
+    // Generate and download the ZIP
+    const blob = await zip.generateAsync({ type: 'blob' });
+    
+    // Create download link
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = zipFilename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    // Show success message
+    const exportButton = document.getElementById('exportProgressions');
+    const originalText = exportButton.textContent;
+    exportButton.textContent = `✓ Exported ${filtered.length} progressions`;
+    exportButton.style.background = 'var(--success)';
+    exportButton.style.color = 'white';
+    
+    setTimeout(() => {
+      exportButton.textContent = originalText;
+      exportButton.style.background = '';
+      exportButton.style.color = '';
+    }, 2000);
+    
+  } catch (error) {
+    console.error('Export failed:', error);
+    alert('Failed to export progressions. Please try again.');
+  }
+}
+
+// Update stats and export button visibility
 function updateStats() {
   const total = progressions.length;
   const shown = getFilteredProgressions().length;
@@ -1295,6 +1414,15 @@ function updateStats() {
   document.getElementById('statShown').textContent = shown;
   document.getElementById('statKeys').textContent = keys.size;
   document.getElementById('statChords').textContent = chords.size;
+  
+  // Show/hide export button based on filtered results
+  const exportButton = document.getElementById('exportProgressions');
+  if (shown > 0) {
+    exportButton.style.display = 'block';
+    exportButton.textContent = `Export ${shown} Progression${shown !== 1 ? 's' : ''}`;
+  } else {
+    exportButton.style.display = 'none';
+  }
 }
 
 // Filtering
@@ -1781,6 +1909,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   document.getElementById('addChordFilter').addEventListener('click', addChordFilter);
   document.getElementById('clearAllFiltersTop').addEventListener('click', clearAllFilters);
+  document.getElementById('exportProgressions').addEventListener('click', exportProgressions);
   
   // Toggle all groups button
   document.getElementById('toggleAllGroups').addEventListener('click', toggleAllGroups);
