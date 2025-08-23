@@ -11,324 +11,302 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --bg: #ffffff;
-            --fg: #1a1a1a;
-            --muted: #6b7280;
-            --border: #e5e7eb;
-            --pad-bg: #f9fafb;
-            --pad-hover: #f3f4f6;
-            --accent: #3b82f6;
-            --accent-dark: #2563eb;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-            --radius: 8px;
-            --font-mono: 'Fira Code', 'Monaco', monospace;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--fg);
-            line-height: 1.6;
-            padding: 20px;
+        #artifacts-component-root-html {
             max-width: 1400px;
             margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
         h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
 
         .subtitle {
-            color: var(--muted);
-            margin-bottom: 24px;
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
         }
 
-        /* Controls Section */
         .controls {
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            background: var(--pad-bg);
-            margin-bottom: 24px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
         }
 
         .control-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: flex-end;
         }
 
         .control-item {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            flex: 1;
+            min-width: 150px;
         }
 
-        .control-item label {
-            font-size: 12px;
+        label {
             font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 0.9em;
             text-transform: uppercase;
-            color: var(--muted);
-            letter-spacing: 0.05em;
+            letter-spacing: 0.5px;
         }
 
-        select, input[type="number"], button {
-            padding: 8px 12px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 14px;
+        select, input {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
             background: white;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+        }
+
+        select:hover, input:hover {
+            border-color: #667eea;
         }
 
         select:focus, input:focus {
             outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: 500;
-        }
-
-        button:hover {
-            background: var(--pad-hover);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         button.primary {
-            background: var(--accent);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-color: var(--accent);
         }
 
         button.primary:hover {
-            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
         }
 
-        /* Progression Cards */
+        button:not(.primary) {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        button:not(.primary):hover {
+            background: #667eea;
+            color: white;
+        }
+
         .progressions {
             display: grid;
-            gap: 20px;
+            gap: 30px;
         }
 
         .progression-card {
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 14px;
             background: white;
-            transition: all 0.2s ease;
-            overflow-x: auto;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
         }
 
         .progression-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transform: translateY(-2px);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
         .progression-header {
             display: flex;
             justify-content: space-between;
-            align-items: start;
-            margin-bottom: 16px;
-            min-width: 600px; /* Match the chord-grid max-width */
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
         }
 
         .progression-title {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
         }
 
         .progression-meta {
             display: flex;
-            gap: 16px;
-            margin-top: 4px;
-            font-size: 14px;
-            color: var(--muted);
+            gap: 15px;
+            margin-top: 5px;
         }
 
-        .progression-meta .key {
-            color: var(--success);
-            font-weight: 500;
+        .key {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
         }
 
-        /* Chord Grid - Fixed 4x4 layout like MPC hardware */
+        .play-controls {
+            text-align: right;
+        }
+
+        .playable-info {
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+        }
+
         .chord-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: 8px;
-            max-width: 600px;
+            gap: 15px;
         }
 
         .chord-pad {
-            background: var(--pad-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 5px;
+            background: linear-gradient(145deg, #f0f0f0, #ffffff);
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
             cursor: pointer;
-            transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
-            min-height: 110px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
+        }
+
+        .chord-pad:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .chord-pad:active {
+            transform: scale(0.98);
+            background: linear-gradient(145deg, #667eea, #764ba2);
+        }
+
+        .chord-pad:active .chord-name,
+        .chord-pad:active .pad-number,
+        .chord-pad:active .chord-quality,
+        .chord-pad:active .chord-roman {
+            color: white;
         }
 
         .chord-pad-content {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            width: 100%;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         .chord-info {
-            flex: 1;
-        }
-
-        .pad-number {
-            font-size: 9px;
-            color: var(--muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            opacity: 0.7;
-            white-space: nowrap;
-            margin-left: 4px;
-        }
-
-        .chord-pad:hover {
-            background: var(--pad-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .chord-pad.playing {
-            animation: pulse 0.3s ease;
-            background: #dbeafe;
-            border-color: var(--accent);
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            text-align: left;
         }
 
         .chord-name {
-            font-size: 17px;
+            font-size: 1.4em;
             font-weight: 700;
-            margin-bottom: 1px;
-            color: var(--fg);
+            color: #333;
+            margin-bottom: 5px;
         }
 
-        .chord-quality {
-            font-size: 12px;
-            color: var(--accent);
-            font-weight: 500;
-            margin-bottom: 2px;
-        }
-
-        .chord-roman {
-            font-size: 13px;
+        .pad-number {
+            font-size: 0.75em;
+            color: #999;
             font-weight: 600;
-            color: var(--warning);
-            margin-bottom: 1px;
-        }
-
-        .chord-notes {
-            font-size: 10px;
-            color: var(--muted);
-            font-family: var(--font-mono);
-            word-break: break-all;
-        }
-
-        .chord-keyboard {
-            margin-top: 1px;
-            margin-bottom: 1px;
-            width: 100%;
-            height: 55px;
-        }
-
-        .chord-keyboard svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Play Controls */
-        .play-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 4px;
-        }
-
-        .playable-info {
-            font-size: 11px;
-            color: var(--muted);
             text-align: right;
         }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--muted);
+        .chord-quality {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
         }
 
-        .empty-state svg {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 16px;
-            opacity: 0.3;
+        .chord-roman {
+            font-size: 1em;
+            font-weight: 600;
+            color: #667eea;
+            margin-top: 5px;
         }
 
-        .empty-state h3 {
-            font-size: 18px;
-            margin-bottom: 8px;
-            color: var(--fg);
+        .chord-keyboard {
+            margin: 10px 0;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .empty-state p {
-            font-size: 14px;
-            color: #6a737d;
+        .chord-keyboard svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .chord-notes {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 5px;
+            font-family: 'Courier New', monospace;
         }
 
         @media (max-width: 768px) {
             .chord-grid {
-                grid-template-columns: repeat(4, 1fr);
-                max-width: 100%;
-            }
-
-            .chord-pad {
-                min-height: 80px;
-                padding: 8px;
-                font-size: 12px;
-            }
-
-            .progression-header {
-                flex-direction: row;
-                gap: 12px;
-                min-width: 0; /* Reset min-width on mobile */
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .play-controls {
-                margin-left: auto;
-            }
-
             .control-group {
-                grid-template-columns: 1fr;
+                flex-direction: column;
             }
+            
+            .control-item {
+                width: 100%;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+            }
+        }
+
+        .generating {
+            animation: pulse 2s infinite;
         }
     </style>
 </head>
-<body>
+<body id="artifacts-component-root-html">
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
         <div>
             <h1>MPC Chord Progression Generator</h1>
@@ -400,17 +378,7 @@
         </div>
     </div>
 
-    <div class="progressions" id="progressions">
-        <div class="empty-state">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="10" width="20" height="12" rx="2"/>
-                <path d="M2 10L12 3L22 10"/>
-                <circle cx="12" cy="16" r="2"/>
-            </svg>
-            <h3>Ready to Create</h3>
-            <p>Click "Generate Progressions" to create unique chord progressions</p>
-        </div>
-    </div>
+    <div class="progressions" id="progressions"></div>
 
     <script>
         // Music theory data
@@ -581,7 +549,7 @@
             
             svg += `</svg>`;
             
-            return `<div class="chord-keyboard">${svg}</div>`;
+            return svg;
         }
 
         function playProgression(chords) {
@@ -688,7 +656,7 @@
                         </div>
                         <div class="chord-quality">${chordQuality}</div>
                         <div class="chord-roman">${roman}</div>
-                        ${generateKeyboardSVG(chordNotes)}
+                        <div class="chord-keyboard">${generateKeyboardSVG(chordNotes)}</div>
                         <div class="chord-notes">${chordNotes.map(midiToNoteName).join(' ')}</div>
                     `;
                     
@@ -704,6 +672,78 @@
             document.getElementById('downloadAllContainer').style.display = 'block';
         }
 
+        // Download individual progression as .progression JSON file
+        window.downloadProgression = function(progressionIndex) {
+            const progression = document.querySelectorAll('.progression-card')[progressionIndex];
+            if (!progression) {
+                console.error('Progression not found at index:', progressionIndex);
+                return;
+            }
+            
+            const title = progression.querySelector('.progression-title').textContent;
+            const keyInfo = progression.querySelector('.key').textContent.split(' ');
+            const rootNote = keyInfo[0];
+            const scale = keyInfo[1];
+            
+            // Build JSON structure matching the .progression format
+            const progressionData = {
+                progression: {
+                    name: title,
+                    rootNote: rootNote,
+                    scale: scale,
+                    recordingOctave: 3,
+                    chords: []
+                }
+            };
+            
+            // Extract chord data from the progression
+            progression.querySelectorAll('.chord-pad').forEach((pad, index) => {
+                const chordName = pad.querySelector('.chord-name').textContent;
+                const chordNotesText = pad.querySelector('.chord-notes').textContent;
+                
+                // Convert note names to MIDI numbers
+                const notes = chordNotesText.split(' ').map(note => {
+                    const noteName = note.slice(0, -1);
+                    const octave = parseInt(note.slice(-1));
+                    return noteToMidi(noteName.replace('°', ''), octave);
+                }).filter(n => n !== null);
+                
+                progressionData.progression.chords.push({
+                    name: chordName,
+                    role: index === 0 ? "Root" : "Normal",
+                    notes: notes
+                });
+            });
+            
+            // Download as .progression JSON file
+            const jsonContent = JSON.stringify(progressionData, null, 4);
+            const blob = new Blob([jsonContent], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title}.progression`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        };
+        
+        // Download all progressions as individual .progression files
+        window.downloadAllProgressions = function() {
+            const progressions = document.querySelectorAll('.progression-card');
+            if (progressions.length === 0) {
+                alert('No progressions to download. Please generate progressions first.');
+                return;
+            }
+            
+            // Download each progression individually
+            progressions.forEach((progression, index) => {
+                setTimeout(() => {
+                    window.downloadProgression(index);
+                }, index * 100); // Stagger downloads by 100ms to avoid browser blocking
+            });
+        };
+
         // Add keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -711,5 +751,6 @@
             }
         });
     </script>
+
 </body>
 </html>
