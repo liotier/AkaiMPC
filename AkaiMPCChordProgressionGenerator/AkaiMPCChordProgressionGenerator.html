@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPC Progression Generator</title>
+    <title>MPC Chord Progression Generator</title>
     <style>
         * {
             margin: 0;
@@ -11,1090 +11,686 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            line-height: 1.6;
+        :root {
+            --bg: #ffffff;
+            --fg: #1a1a1a;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --pad-bg: #f9fafb;
+            --pad-hover: #f3f4f6;
+            --accent: #3b82f6;
+            --accent-dark: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --radius: 8px;
+            --font-mono: 'Fira Code', 'Monaco', monospace;
         }
 
-        .container {
-            max-width: 1200px;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #333;
-            font-weight: 600;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
 
         .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
+            color: var(--muted);
+            margin-bottom: 24px;
         }
 
+        /* Controls Section */
         .controls {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border: 1px solid #dee2e6;
-        }
-
-        .control-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            background: var(--pad-bg);
+            margin-bottom: 24px;
         }
 
         .control-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .control-item {
             display: flex;
             flex-direction: column;
+            gap: 8px;
         }
 
-        label {
-            font-size: 0.9rem;
-            color: #495057;
-            margin-bottom: 5px;
-            font-weight: 500;
+        .control-item label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--muted);
+            letter-spacing: 0.05em;
         }
 
-        select, input {
+        select, input[type="number"], button {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 14px;
             background: white;
-            border: 1px solid #ced4da;
-            color: #495057;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
         }
 
         select:focus, input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
         }
 
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background: var(--pad-hover);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        button.primary {
+            background: var(--accent);
             color: white;
+            border-color: var(--accent);
         }
 
-        .btn-random {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
+        button.primary:hover {
+            background: var(--accent-dark);
         }
 
-        .variants-container {
+        /* Progression Cards */
+        .progressions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
-            margin-top: 30px;
         }
 
-        .variant-card {
+        .progression-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px;
             background: white;
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid #dee2e6;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
+            transition: all 0.2s ease;
+            overflow-x: auto;
         }
 
-        .variant-card:hover {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        .progression-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             transform: translateY(-2px);
         }
 
-        .variant-header {
+        .progression-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
+            align-items: start;
+            margin-bottom: 16px;
+            min-width: 600px; /* Match the chord-grid max-width */
         }
 
-        .variant-title {
-            font-size: 1.1rem;
+        .progression-title {
+            font-size: 18px;
             font-weight: 600;
-            color: #333;
         }
 
-        .variant-type {
-            font-size: 0.85rem;
-            padding: 4px 10px;
-            background: #e9ecef;
-            border-radius: 20px;
-            color: #6c757d;
+        .progression-meta {
+            display: flex;
+            gap: 16px;
+            margin-top: 4px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .progression-meta .key {
+            color: var(--success);
             font-weight: 500;
         }
 
-        /* MPC Pad Grid Styling - Matching Finder exactly */
-        .pad-grid {
+        /* Chord Grid - Fixed 4x4 layout like MPC hardware */
+        .chord-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-            padding: 15px;
-            background: #2a2a2a;
-            border-radius: 10px;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 8px;
+            max-width: 600px;
         }
 
-        .pad {
-            aspect-ratio: 1;
-            background: linear-gradient(145deg, #e6e6e6, #ffffff);
-            border: 2px solid #ccc;
-            border-radius: 8px;
+        .chord-pad {
+            background: var(--pad-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 110px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.15s;
-            position: relative;
-            padding: 8px;
-            min-height: 80px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            justify-content: flex-start;
         }
 
-        .pad:hover {
-            background: linear-gradient(145deg, #ffd700, #ffed4e);
-            border-color: #ffd700;
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 6px 12px rgba(255, 215, 0, 0.4);
+        .chord-pad-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
         }
 
-        .pad:active {
-            transform: scale(0.98);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        .chord-info {
+            flex: 1;
         }
 
-        .pad.playing {
-            background: linear-gradient(145deg, #ff6b6b, #ff8787);
-            border-color: #ff6b6b;
+        .pad-number {
+            font-size: 9px;
+            color: var(--muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            opacity: 0.7;
+            white-space: nowrap;
+            margin-left: 4px;
+        }
+
+        .chord-pad:hover {
+            background: var(--pad-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .chord-pad.playing {
             animation: pulse 0.3s ease;
-        }
-
-        .pad.playing .chord-name,
-        .pad.playing .scale-degree,
-        .pad.playing .pad-number {
-            color: white;
+            background: #dbeafe;
+            border-color: var(--accent);
         }
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
 
-        /* Pad content styling - matching Finder */
-        .pad-number {
-            position: absolute;
-            top: 4px;
-            left: 6px;
-            font-size: 0.65rem;
-            color: #999;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 1px 4px;
-            border-radius: 3px;
+        .chord-name {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 1px;
+            color: var(--fg);
         }
 
-        .chord-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #2a2a2a;
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        .chord-quality {
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 500;
             margin-bottom: 2px;
         }
 
-        .scale-degree {
-            font-size: 0.8rem;
-            color: #555;
-            font-weight: 500;
-        }
-
-        /* Piano key visualization */
-        .piano-keys {
-            display: flex;
-            justify-content: center;
-            margin-top: 4px;
-            height: 15px;
-            gap: 1px;
-        }
-
-        .piano-key {
-            width: 8px;
-            height: 12px;
-            background: white;
-            border: 1px solid #999;
-            border-radius: 0 0 2px 2px;
-        }
-
-        .piano-key.black {
-            background: #2a2a2a;
-            height: 8px;
-            width: 6px;
-            margin: 0 -3px;
-            z-index: 1;
-            border-radius: 0 0 1px 1px;
-        }
-
-        .piano-key.active {
-            background: #ff6b6b;
-        }
-
-        .piano-key.black.active {
-            background: #ff4444;
-        }
-
-        /* Row labels */
-        .pad-row-label {
-            position: absolute;
-            left: -30px;
-            font-size: 0.7rem;
-            color: #999;
+        .chord-roman {
+            font-size: 13px;
             font-weight: 600;
-            text-transform: uppercase;
+            color: var(--warning);
+            margin-bottom: 1px;
         }
 
-        /* Bank indicators */
-        .bank-indicator {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.75rem;
-            color: #666;
-            font-weight: 500;
-            background: white;
-            padding: 2px 8px;
-            border-radius: 10px;
+        .chord-notes {
+            font-size: 10px;
+            color: var(--muted);
+            font-family: var(--font-mono);
+            word-break: break-all;
         }
 
-        .warning {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            color: #856404;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 0.9rem;
+        .chord-keyboard {
+            margin-top: 1px;
+            margin-bottom: 1px;
+            width: 100%;
+            height: 55px;
+        }
+
+        .chord-keyboard svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Play Controls */
+        .play-controls {
             display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .warning::before {
-            content: "⚠️";
-            font-size: 1.2rem;
-        }
-
-        .export-section {
-            margin-top: 30px;
-            text-align: center;
-            padding: 30px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            border: 1px solid #dee2e6;
-        }
-
-        .export-button {
-            padding: 14px 32px;
-            font-size: 1.1rem;
-            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            box-shadow: 0 4px 8px rgba(86, 171, 47, 0.3);
-        }
-
-        .export-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(86, 171, 47, 0.4);
-        }
-
-        .export-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Footer styles */
-        .footer {
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 2px solid #dee2e6;
-            text-align: center;
-            color: #6c757d;
-            font-size: 0.95rem;
-        }
-
-        .footer a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .footer a:hover {
-            color: #764ba2;
-            text-decoration: underline;
-        }
-
-        .footer-links {
-            margin-top: 10px;
-        }
-
-        .footer-links span {
-            color: #adb5bd;
-            margin: 0 5px;
-        }
-
-        /* Grid wrapper for proper layout */
-        .grid-wrapper {
-            position: relative;
-            margin-top: 10px;
-        }
-
-        /* Performance meter style indicator */
-        .performance-indicator {
-            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
             gap: 4px;
-            position: absolute;
-            top: -20px;
-            right: 10px;
         }
 
-        .perf-led {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #333;
-            border: 1px solid #555;
+        .playable-info {
+            font-size: 11px;
+            color: var(--muted);
+            text-align: right;
         }
 
-        .perf-led.active {
-            background: #00ff00;
-            box-shadow: 0 0 4px #00ff00;
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
         }
 
-        /* Responsive design */
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--fg);
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            color: #6a737d;
+        }
+
         @media (max-width: 768px) {
-            .container {
-                padding: 20px;
+            .chord-grid {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 100%;
             }
 
-            h1 {
-                font-size: 2rem;
+            .chord-pad {
+                min-height: 80px;
+                padding: 8px;
+                font-size: 12px;
             }
 
-            .control-row {
-                grid-template-columns: 1fr;
+            .progression-header {
+                flex-direction: row;
+                gap: 12px;
+                min-width: 0; /* Reset min-width on mobile */
+            }
+            
+            .play-controls {
+                margin-left: auto;
             }
 
-            .variants-container {
+            .control-group {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎹 MPC Progression Generator</h1>
-        <p class="subtitle">Generate custom .progression files for Akai MPC with intelligent chord placements</p>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+        <div>
+            <h1>MPC Chord Progression Generator</h1>
+            <p class="subtitle">Generate unique chord progressions in any key and style. Perfect for Akai MPC workflow!</p>
+        </div>
+    </div>
 
-        <div class="controls">
-            <div class="control-row">
-                <div class="control-group">
-                    <label for="key">Key (Root)</label>
-                    <select id="key">
-                        <option value="C">C</option>
-                        <option value="C#">C♯/D♭</option>
-                        <option value="D">D</option>
-                        <option value="D#">D♯/E♭</option>
-                        <option value="E">E</option>
-                        <option value="F">F</option>
-                        <option value="F#">F♯/G♭</option>
-                        <option value="G">G</option>
-                        <option value="G#">G♯/A♭</option>
-                        <option value="A">A</option>
-                        <option value="A#">A♯/B♭</option>
-                        <option value="B">B</option>
-                    </select>
-                </div>
-
-                <div class="control-group">
-                    <label for="scale">Mode / Scale</label>
-                    <select id="scale">
-                        <optgroup label="Common Western Tonal">
-                            <option value="major">Major (Ionian)</option>
-                            <option value="minor">Natural Minor (Aeolian)</option>
-                            <option value="dorian">Dorian</option>
-                            <option value="phrygian">Phrygian</option>
-                            <option value="lydian">Lydian</option>
-                            <option value="mixolydian">Mixolydian</option>
-                            <option value="locrian">Locrian</option>
-                            <option value="harmonic-minor">Harmonic Minor</option>
-                            <option value="melodic-minor">Melodic (Jazz) Minor</option>
-                        </optgroup>
-                        <optgroup label="Compact / Popular">
-                            <option value="pentatonic-major">Pentatonic Major</option>
-                            <option value="pentatonic-minor">Pentatonic Minor</option>
-                            <option value="blues">Blues</option>
-                        </optgroup>
-                        <optgroup label="Exotic (non-microtonal)">
-                            <option value="double-harmonic">Double Harmonic</option>
-                            <option value="hungarian-minor">Hungarian Minor</option>
-                            <option value="neapolitan-major">Neapolitan Major</option>
-                            <option value="neapolitan-minor">Neapolitan Minor</option>
-                            <option value="enigmatic">Enigmatic</option>
-                            <option value="phrygian-dominant">Phrygian Dominant</option>
-                            <option value="persian">Persian</option>
-                            <option value="hirajoshi">Hirajoshi</option>
-                            <option value="insen">Insen</option>
-                            <option value="kumoi">Kumoi</option>
-                            <option value="egyptian">Egyptian Pentatonic</option>
-                        </optgroup>
-                    </select>
-                </div>
-
-                <div class="control-group">
-                    <label for="progression">Progression Template</label>
-                    <select id="progression">
-                        <optgroup label="Pop/Rock">
-                            <option value="I-IV-V-I">I–IV–V–I</option>
-                            <option value="I-V-vi-IV" selected>I–V–vi–IV</option>
-                            <option value="vi-IV-I-V">vi–IV–I–V</option>
-                            <option value="I-vi-IV-V">I–vi–IV–V</option>
-                            <option value="I-V-vi-iii-IV">I–V–vi–iii–IV</option>
-                            <option value="12-bar-blues">12-bar blues</option>
-                            <option value="i-bVII-bVI-V">Andalusian (i–♭VII–♭VI–V)</option>
-                        </optgroup>
-                        <optgroup label="Jazz/Functional">
-                            <option value="ii-V-I">ii–V–I</option>
-                            <option value="ii-V-I-vi">ii–V–I–vi</option>
-                            <option value="I-vi-ii-V">I–vi–ii–V</option>
-                            <option value="rhythm-changes">Rhythm Changes</option>
-                            <option value="coltrane-changes">Coltrane Changes</option>
-                            <option value="iv-bVII-I">Backdoor (iv–♭VII–I)</option>
-                        </optgroup>
-                        <optgroup label="Classical/Modal">
-                            <option value="circle-of-fifths">Circle of Fifths</option>
-                            <option value="pachelbel">Pachelbel Canon</option>
-                            <option value="descending-tetrachord">Descending Tetrachord</option>
-                            <option value="passamezzo-antico">Passamezzo Antico</option>
-                        </optgroup>
-                    </select>
-                </div>
-
-                <div class="control-group">
-                    <label for="progression-name">Progression Name</label>
-                    <input type="text" id="progression-name" maxlength="64" placeholder="Auto-generated">
-                </div>
+    <div class="controls">
+        <div class="control-group">
+            <div class="control-item">
+                <label for="key">Root Key</label>
+                <select id="key">
+                    <option value="C">C</option>
+                    <option value="C#">C# / Db</option>
+                    <option value="D">D</option>
+                    <option value="D#">D# / Eb</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="F#">F# / Gb</option>
+                    <option value="G">G</option>
+                    <option value="G#">G# / Ab</option>
+                    <option value="A">A</option>
+                    <option value="A#">A# / Bb</option>
+                    <option value="B">B</option>
+                </select>
             </div>
 
-            <div class="button-group">
-                <button class="btn-primary" onclick="generateProgressions()">🎵 Generate Progressions</button>
-                <button class="btn-random" onclick="feelingClueless()">🎲 I'm Feeling Clueless but Reasonable</button>
-                <button class="btn-random" onclick="feelingLucky()">🎰 I'm Feeling Lucky</button>
+            <div class="control-item">
+                <label for="scale">Scale Mode</label>
+                <select id="scale">
+                    <option value="Major">Major</option>
+                    <option value="Minor">Minor</option>
+                    <option value="Dorian">Dorian</option>
+                    <option value="Phrygian">Phrygian</option>
+                    <option value="Lydian">Lydian</option>
+                    <option value="Mixolydian">Mixolydian</option>
+                    <option value="Locrian">Locrian</option>
+                </select>
             </div>
-        </div>
 
-        <div id="warning-container"></div>
+            <div class="control-item">
+                <label for="style">Progression Style</label>
+                <select id="style">
+                    <option value="Classic">Classic</option>
+                    <option value="Jazz">Jazz</option>
+                    <option value="Modal">Modal</option>
+                    <option value="Experimental">Experimental</option>
+                </select>
+            </div>
 
-        <div class="variants-container" id="variants-container"></div>
+            <div class="control-item">
+                <label for="count">Number of Progressions</label>
+                <input type="number" id="count" min="1" max="10" value="4">
+            </div>
 
-        <div class="export-section" id="export-section" style="display: none;">
-            <button class="export-button" onclick="exportProgressions()">📦 Export All Variants (.zip)</button>
-        </div>
-
-        <div class="footer">
-            <p>Cousin to the <a href="https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/Akai%20MPC%20Chord%20Progression%20Finder.html">MPC Chord Progression Finder</a></p>
-            <div class="footer-links">
-                <span>Produced by Jean-Marc Liotier</span>
-                <span>•</span>
-                <a href="https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionGenerator">View on GitHub</a>
+            <div class="control-item">
+                <label>&nbsp;</label>
+                <button class="primary" onclick="generateProgressions()">
+                    Generate Progressions
+                </button>
             </div>
         </div>
     </div>
 
+    <div class="progressions" id="progressions">
+        <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="10" width="20" height="12" rx="2"/>
+                <path d="M2 10L12 3L22 10"/>
+                <circle cx="12" cy="16" r="2"/>
+            </svg>
+            <h3>Ready to Create</h3>
+            <p>Click "Generate Progressions" to create unique chord progressions</p>
+        </div>
+    </div>
+
     <script>
-        // Audio context for sound generation
-        let audioContext;
-        let currentVariants = [];
-
-        // Initialize audio context on first user interaction
-        function initAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-        }
-
-        // Scale definitions
-        const scales = {
-            'major': [0, 2, 4, 5, 7, 9, 11],
-            'minor': [0, 2, 3, 5, 7, 8, 10],
-            'dorian': [0, 2, 3, 5, 7, 9, 10],
-            'phrygian': [0, 1, 3, 5, 7, 8, 10],
-            'lydian': [0, 2, 4, 6, 7, 9, 11],
-            'mixolydian': [0, 2, 4, 5, 7, 9, 10],
-            'locrian': [0, 1, 3, 5, 6, 8, 10],
-            'harmonic-minor': [0, 2, 3, 5, 7, 8, 11],
-            'melodic-minor': [0, 2, 3, 5, 7, 9, 11],
-            'pentatonic-major': [0, 2, 4, 7, 9],
-            'pentatonic-minor': [0, 3, 5, 7, 10],
-            'blues': [0, 3, 5, 6, 7, 10],
-            'double-harmonic': [0, 1, 4, 5, 7, 8, 11],
-            'hungarian-minor': [0, 2, 3, 6, 7, 8, 11],
-            'neapolitan-major': [0, 1, 3, 5, 7, 9, 11],
-            'neapolitan-minor': [0, 1, 3, 5, 7, 8, 11],
-            'enigmatic': [0, 1, 4, 6, 8, 10, 11],
-            'phrygian-dominant': [0, 1, 4, 5, 7, 8, 10],
-            'persian': [0, 1, 4, 5, 6, 8, 11],
-            'hirajoshi': [0, 2, 3, 7, 8],
-            'insen': [0, 1, 5, 7, 10],
-            'kumoi': [0, 2, 3, 7, 9],
-            'egyptian': [0, 2, 5, 7, 10]
+        // Music theory data
+        const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        
+        const SCALES = {
+            'Major': [0, 2, 4, 5, 7, 9, 11],
+            'Minor': [0, 2, 3, 5, 7, 8, 10],
+            'Dorian': [0, 2, 3, 5, 7, 9, 10],
+            'Phrygian': [0, 1, 3, 5, 7, 8, 10],
+            'Lydian': [0, 2, 4, 6, 7, 9, 11],
+            'Mixolydian': [0, 2, 4, 5, 7, 9, 10],
+            'Locrian': [0, 1, 3, 5, 6, 8, 10]
         };
 
-        // Note names
-        const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const romanNumerals = {
+            'Major': ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°'],
+            'Minor': ['i', 'ii°', 'III', 'iv', 'v', 'VI', 'VII'],
+            'Dorian': ['i', 'ii', 'III', 'IV', 'v', 'vi°', 'VII'],
+            'Phrygian': ['i', 'II', 'III', 'iv', 'v°', 'VI', 'vii'],
+            'Lydian': ['I', 'II', 'iii', '#iv°', 'V', 'vi', 'vii'],
+            'Mixolydian': ['I', 'ii', 'iii°', 'IV', 'v', 'vi', 'VII'],
+            'Locrian': ['i°', 'II', 'iii', 'iv', 'V', 'VI', 'vii']
+        };
 
-        // Get MIDI note number
-        function getMidiNote(rootNote, interval, octave = 4) {
-            const rootIndex = noteNames.indexOf(rootNote.replace('♯', '#').replace('♭', 'b'));
-            return 12 * octave + rootIndex + interval;
+        const chordQualities = {
+            'Major': ['Major', 'Minor', 'Minor', 'Major', 'Major', 'Minor', 'Diminished'],
+            'Minor': ['Minor', 'Diminished', 'Major', 'Minor', 'Minor', 'Major', 'Major'],
+            'Dorian': ['Minor', 'Minor', 'Major', 'Major', 'Minor', 'Diminished', 'Major'],
+            'Phrygian': ['Minor', 'Major', 'Major', 'Minor', 'Diminished', 'Major', 'Minor'],
+            'Lydian': ['Major', 'Major', 'Minor', 'Diminished', 'Major', 'Minor', 'Minor'],
+            'Mixolydian': ['Major', 'Minor', 'Diminished', 'Major', 'Minor', 'Minor', 'Major'],
+            'Locrian': ['Diminished', 'Major', 'Minor', 'Minor', 'Major', 'Major', 'Minor']
+        };
+
+        const progressionTemplates = {
+            'Classic': [
+                [[0, 4, 0, 4], [0, 3, 4, 0], [0, 5, 3, 4], [0, 3, 5, 0]],
+                [[0, 2, 4, 4], [0, 4, 5, 0], [1, 4, 0, 0], [5, 3, 4, 0]],
+                [[0, 0, 3, 3], [4, 4, 0, 0], [0, 5, 3, 4], [3, 0, 3, 0]]
+            ],
+            'Jazz': [
+                [[1, 4, 0, 3], [5, 1, 4, 0], [0, 2, 4, 0], [1, 4, 6, 4]],
+                [[0, 3, 5, 1], [2, 4, 0, 0], [5, 4, 1, 0], [0, 1, 2, 3]],
+                [[3, 5, 1, 3], [0, 1, 4, 0], [2, 4, 0, 5], [0, 4, 1, 0]]
+            ],
+            'Modal': [
+                [[0, 1, 3, 0], [1, 3, 5, 0], [0, 2, 4, 5], [3, 1, 0, 0]],
+                [[0, 6, 4, 5], [0, 2, 0, 6], [4, 5, 6, 0], [0, 3, 5, 0]],
+                [[0, 2, 6, 0], [3, 5, 0, 2], [4, 0, 5, 6], [0, 1, 6, 0]]
+            ],
+            'Experimental': [
+                [[0, 2, 5, 3], [1, 6, 4, 0], [5, 0, 2, 6], [3, 4, 0, 1]],
+                [[6, 0, 3, 5], [2, 4, 6, 0], [0, 5, 1, 3], [4, 2, 0, 6]],
+                [[0, 4, 2, 6], [5, 1, 3, 0], [2, 6, 0, 4], [3, 0, 5, 1]]
+            ]
+        };
+
+        function noteToMidi(note, octave = 3) {
+            const index = NOTES.indexOf(note);
+            if (index === -1) return null;
+            return index + (octave + 2) * 12;
         }
 
-        // Get chord quality based on scale degree
-        function getChordQuality(scaleIntervals, degree) {
-            const root = scaleIntervals[degree % scaleIntervals.length];
-            const third = scaleIntervals[(degree + 2) % scaleIntervals.length];
-            const fifth = scaleIntervals[(degree + 4) % scaleIntervals.length];
-            
-            // Calculate intervals relative to root
-            const thirdInterval = (third - root + 12) % 12;
-            const fifthInterval = (fifth - root + 12) % 12;
-            
-            if (fifthInterval === 6) return 'dim';
-            if (fifthInterval === 8) return 'aug';
-            if (thirdInterval === 3) return 'min';
-            if (thirdInterval === 4) return 'maj';
-            
-            // For exotic scales, default based on intervals
-            return thirdInterval <= 3 ? 'min' : 'maj';
+        function midiToNoteName(midi) {
+            const note = NOTES[midi % 12];
+            const octave = Math.floor(midi / 12) - 2;
+            return note + octave;
         }
 
-        // Build chord from scale degree
-        function buildChord(key, scaleType, degree, variant = 1, isBorrowed = false) {
-            const scale = scales[scaleType];
-            const rootNote = noteNames.indexOf(key.replace('♯', '#'));
-            const octave = 5; // C5 = MIDI 60
-            
-            // For borrowed chords, use the degree directly
-            const chordRoot = isBorrowed ? degree : scale[degree % scale.length];
-            const quality = isBorrowed ? 'maj' : getChordQuality(scale, degree);
-            
-            let notes = [];
-            const baseNote = 60 + rootNote + chordRoot; // MIDI 60 = C5
-            
-            // Variant 1: Classic triads
-            if (variant === 1) {
-                notes = [baseNote, baseNote + (quality === 'min' ? 3 : 4), baseNote + (quality === 'dim' ? 6 : 7)];
-            }
-            // Variant 2: Jazz extensions
-            else if (variant === 2) {
-                notes = [baseNote, baseNote + (quality === 'min' ? 3 : 4), baseNote + (quality === 'dim' ? 6 : 7)];
-                // Add 7th
-                if (degree === 0 || degree === 3) notes.push(baseNote + 11); // maj7
-                else if (degree === 4) notes.push(baseNote + 10); // dom7
-                else notes.push(baseNote + 10); // min7
-            }
-            // Variant 3: Modal voicings
-            else if (variant === 3) {
-                // Open voicing
-                notes = [baseNote, baseNote + (quality === 'min' ? 3 : 4) + 12, baseNote + (quality === 'dim' ? 6 : 7)];
-            }
-            // Variant 4: Experimental
-            else if (variant === 4) {
-                // Quartal voicing
-                notes = [baseNote, baseNote + 5, baseNote + 10];
-            }
-            
-            const chordName = noteNames[(rootNote + chordRoot) % 12] + 
-                             (quality === 'dim' ? 'dim' : quality === 'min' ? 'm' : '');
-            
-            return { notes, name: chordName, quality };
+        function generateScale(root, scaleType) {
+            const rootIndex = NOTES.indexOf(root);
+            const intervals = SCALES[scaleType];
+            return intervals.map(interval => NOTES[(rootIndex + interval) % 12]);
         }
 
-        // Generate piano key visualization
-        function getPianoVisualization(notes) {
-            // Create a simple piano key pattern
-            const pianoPattern = [
-                { white: true }, // C
-                { white: false }, // C#
-                { white: true }, // D
-                { white: false }, // D#
-                { white: true }, // E
-                { white: true }, // F
-                { white: false }, // F#
-                { white: true }, // G  
-                { white: false }, // G#
-                { white: true }, // A
-                { white: false }, // A#
-                { white: true } // B
-            ];
-
-            const activeNotes = notes.map(n => n % 12);
+        function generateChord(root, quality, octave = 3) {
+            const rootMidi = noteToMidi(root, octave);
+            let intervals;
             
-            let html = '<div class="piano-keys">';
-            for (let i = 0; i < 12; i++) {
-                const isActive = activeNotes.includes(i);
-                const keyClass = pianoPattern[i].white ? 'piano-key' : 'piano-key black';
-                const activeClass = isActive ? ' active' : '';
-                html += `<div class="${keyClass}${activeClass}"></div>`;
+            switch(quality) {
+                case 'Major':
+                    intervals = [0, 4, 7];
+                    break;
+                case 'Minor':
+                    intervals = [0, 3, 7];
+                    break;
+                case 'Diminished':
+                    intervals = [0, 3, 6];
+                    break;
+                case 'Major 7':
+                    intervals = [0, 4, 7, 11];
+                    break;
+                case 'Minor 7':
+                    intervals = [0, 3, 7, 10];
+                    break;
+                case 'Dominant 7':
+                    intervals = [0, 4, 7, 10];
+                    break;
+                default:
+                    intervals = [0, 4, 7];
             }
-            html += '</div>';
             
-            return html;
+            return intervals.map(interval => rootMidi + interval);
         }
 
-        // Roman numeral notation
-        function getRomanNumeral(degree, quality) {
-            const romans = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-            let roman = romans[degree];
-            if (quality === 'min') roman = roman.toLowerCase();
-            if (quality === 'dim') roman = roman.toLowerCase() + '°'; // Use proper degree symbol
-            return roman;
+        function getChordSymbol(root, quality) {
+            switch(quality) {
+                case 'Minor':
+                    return root + 'm';
+                case 'Diminished':
+                    return root + '°';
+                case 'Major 7':
+                    return root + 'maj7';
+                case 'Minor 7':
+                    return root + 'm7';
+                case 'Dominant 7':
+                    return root + '7';
+                default:
+                    return root;
+            }
         }
 
-        // Generate progression variants
-        function generateProgressions() {
-            initAudio();
+        function generateKeyboardSVG(midiNotes) {
+            if (!midiNotes || midiNotes.length === 0) return '';
             
-            const key = document.getElementById('key').value;
-            const scale = document.getElementById('scale').value;
-            const progressionTemplate = document.getElementById('progression').value;
-            let progressionName = document.getElementById('progression-name').value;
+            const activeNotes = new Set(midiNotes);
             
-            // Auto-generate name if empty
-            if (!progressionName) {
-                const scaleLabel = scale.replace(/-/g, '').substring(0, 3);
-                progressionName = `${key}${scaleLabel}_${progressionTemplate}`;
+            // Piano key dimensions and layout matching the Finder exactly
+            const whiteKeyWidth = 14;
+            const blackKeyWidth = 10;
+            const whiteKeyHeight = 55;
+            const blackKeyHeight = 33;
+            
+            const totalWidth = whiteKeyWidth * 14; // 2 octaves
+            
+            let svg = `<svg viewBox="0 0 ${totalWidth} ${whiteKeyHeight}" xmlns="http://www.w3.org/2000/svg">`;
+            
+            // White keys (C to B, twice)
+            const whiteKeyNotes = [48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69, 71]; // C3 to B4
+            for (let i = 0; i < 14; i++) {
+                const x = i * whiteKeyWidth;
+                const midiNote = whiteKeyNotes[i];
+                const isActive = activeNotes.has(midiNote);
+                
+                svg += `<rect x="${x}" y="0" width="${whiteKeyWidth - 1}" height="${whiteKeyHeight}" 
+                        fill="${isActive ? '#f59e0b' : 'white'}" 
+                        stroke="#333" stroke-width="1"/>`;
             }
             
-            // Clear warnings
-            document.getElementById('warning-container').innerHTML = '';
+            // Black keys
+            const blackKeyPositions = [9, 23, 51, 65, 79, 107, 121, 149, 163, 177];
+            const blackKeyNotes = [49, 51, 54, 56, 58, 61, 63, 66, 68, 70]; // C#3 to Bb4
             
-            // Check for potential issues
-            if (scale === 'locrian' && progressionTemplate.includes('I-IV-V')) {
-                document.getElementById('warning-container').innerHTML = 
-                    '<div class="warning">Locrian\'s diminished tonic makes this progression unusual</div>';
-            }
-            
-            // Generate 4 variants
-            currentVariants = [];
-            const variantTypes = ['Classic', 'Jazz', 'Modal', 'Experimental'];
-            
-            for (let v = 1; v <= 4; v++) {
-                const variant = generateVariant(key, scale, progressionTemplate, v, variantTypes[v-1], progressionName);
-                currentVariants.push(variant);
-            }
-            
-            // Display variants
-            displayVariants();
-            
-            // Show export button
-            document.getElementById('export-section').style.display = 'block';
-        }
-
-        // Generate a single variant
-        function generateVariant(key, scaleType, progressionTemplate, variantNum, variantType, baseName) {
-            const scale = scales[scaleType];
-            const rootIndex = noteNames.indexOf(key);
-            
-            // Create progression object in MPC format
-            const progression = {
-                progression: {
-                    name: `${baseName}_${variantType}-${variantNum}`.substring(0, 64),
-                    rootNote: key,
-                    scale: scaleType.charAt(0).toUpperCase() + scaleType.slice(1).replace(/-/g, ' '),
-                    recordingOctave: 2,
-                    chords: []
+            for (let i = 0; i < blackKeyPositions.length; i++) {
+                if (blackKeyPositions[i] < totalWidth) {
+                    const midiNote = blackKeyNotes[i];
+                    const isActive = activeNotes.has(midiNote);
+                    
+                    svg += `<rect x="${blackKeyPositions[i]}" y="0" width="${blackKeyWidth}" height="${blackKeyHeight}" 
+                            fill="${isActive ? '#dc2626' : '#333'}" 
+                            stroke="#000" stroke-width="1"/>`;
                 }
-            };
-            
-            // Build pad layout - 16 pads total
-            const chords = [];
-            
-            // Row 1: Basic diatonic triads (pads 1-4)
-            for (let i = 0; i < 4; i++) {
-                const chord = buildChord(key, scaleType, i, variantNum);
-                const quality = getChordQuality(scale, i);
-                const chordName = getProperChordName(key, i, quality, scale);
-                
-                chords.push({
-                    name: chordName,
-                    role: i === 0 ? "Root" : "Normal",
-                    notes: chord.notes
-                });
             }
             
-            // Row 2: Continue diatonic (pads 5-8)
-            for (let i = 4; i < 7; i++) {
-                const chord = buildChord(key, scaleType, i, variantNum);
-                const quality = getChordQuality(scale, i);
-                const chordName = getProperChordName(key, i, quality, scale);
-                
-                chords.push({
-                    name: chordName,
-                    role: "Normal",
-                    notes: chord.notes
-                });
-            }
+            svg += `</svg>`;
             
-            // Pad 8: Repeat tonic
-            const tonicChord = buildChord(key, scaleType, 0, variantNum);
-            const tonicName = getProperChordName(key, 0, getChordQuality(scale, 0), scale);
-            chords.push({
-                name: tonicName,
-                role: "Normal",
-                notes: tonicChord.notes
-            });
+            return `<div class="chord-keyboard">${svg}</div>`;
+        }
+
+        function playProgression(chords) {
+            alert('Audio playback would be implemented here using Web Audio API or Tone.js');
+        }
+
+        function generateProgressions() {
+            const key = document.getElementById('key').value;
+            const scaleType = document.getElementById('scale').value;
+            const style = document.getElementById('style').value;
+            const count = parseInt(document.getElementById('count').value);
             
-            // Row 3: Extended harmony (pads 9-12)
-            for (let i = 0; i < 4; i++) {
-                const extendedChord = buildChord(key, scaleType, i, variantNum === 2 ? 2 : variantNum);
-                const quality = getChordQuality(scale, i);
-                let chordName = getProperChordName(key, i, quality, scale);
+            const scale = generateScale(key, scaleType);
+            const templates = progressionTemplates[style];
+            const container = document.getElementById('progressions');
+            
+            container.innerHTML = '';
+            
+            for (let p = 0; p < count; p++) {
+                const template = templates[p % templates.length];
+                const progressionCard = document.createElement('div');
+                progressionCard.className = 'progression-card';
                 
-                if (variantNum === 2) {
-                    // Jazz variant - add 7ths
-                    if (!chordName.includes('7')) {
-                        chordName += '7';
+                // Build progression title like "Cmaj_I-V-vi-IV_Jazz-2"
+                const keyPrefix = key + (scaleType === 'Minor' ? 'm' : scaleType === 'Major' ? 'maj' : scaleType.substring(0, 3));
+                
+                // Get unique pattern for title (first 4 unique chords)
+                const uniquePattern = [];
+                const seen = new Set();
+                for (let row = 0; row < 4 && uniquePattern.length < 4; row++) {
+                    for (let col = 0; col < 4 && uniquePattern.length < 4; col++) {
+                        const chordIndex = template[row][col];
+                        const roman = romanNumerals[scaleType][chordIndex];
+                        if (!seen.has(roman)) {
+                            uniquePattern.push(roman);
+                            seen.add(roman);
+                        }
                     }
                 }
                 
-                chords.push({
-                    name: chordName,
-                    role: "Normal",
-                    notes: extendedChord.notes
-                });
-            }
-            
-            // Row 4: Borrowed/Modal colors (pads 13-16)
-            // Add bVII
-            const bVIINotes = [
-                60 + rootIndex + 10,
-                60 + rootIndex + 10 + 4,
-                60 + rootIndex + 10 + 7
-            ];
-            chords.push({
-                name: noteNames[(rootIndex + 10) % 12],
-                role: "Normal",
-                notes: bVIINotes
-            });
-            
-            // Add bVI
-            const bVINotes = [
-                60 + rootIndex + 8,
-                60 + rootIndex + 8 + 4,
-                60 + rootIndex + 8 + 7
-            ];
-            chords.push({
-                name: noteNames[(rootIndex + 8) % 12],
-                role: "Normal",
-                notes: bVINotes
-            });
-            
-            // Add V7
-            const V7chord = buildChord(key, scaleType, 4, 2);
-            const V7name = getProperChordName(key, 4, getChordQuality(scale, 4), scale) + '7';
-            chords.push({
-                name: V7name,
-                role: "Normal",
-                notes: V7chord.notes
-            });
-            
-            // Add bII or iv
-            if (variantNum === 3) {
-                const bIINotes = [
-                    60 + rootIndex + 1,
-                    60 + rootIndex + 1 + 4,
-                    60 + rootIndex + 1 + 7
-                ];
-                chords.push({
-                    name: noteNames[(rootIndex + 1) % 12],
-                    role: "Normal",
-                    notes: bIINotes
-                });
-            } else {
-                const ivNotes = [
-                    60 + rootIndex + 5,
-                    60 + rootIndex + 5 + 3,
-                    60 + rootIndex + 5 + 7
-                ];
-                chords.push({
-                    name: noteNames[(rootIndex + 5) % 12] + 'm',
-                    role: "Normal",
-                    notes: ivNotes
-                });
-            }
-            
-            progression.progression.chords = chords;
-            
-            return progression;
-        }
-        
-        // Helper function to get proper chord names
-        function getProperChordName(key, degree, quality, scale) {
-            const rootIndex = noteNames.indexOf(key);
-            const chordRoot = scale[degree % scale.length];
-            const chordRootName = noteNames[(rootIndex + chordRoot) % 12];
-            
-            // Use simple naming convention like the examples
-            if (quality === 'maj') {
-                return chordRootName;
-            } else if (quality === 'min') {
-                return chordRootName + 'm';
-            } else if (quality === 'dim') {
-                return chordRootName + 'dim';
-            } else if (quality === 'aug') {
-                return chordRootName + 'aug';
-            }
-            return chordRootName;
-        }
-
-        // Display generated variants
-        function displayVariants() {
-            const container = document.getElementById('variants-container');
-            container.innerHTML = '';
-            
-            currentVariants.forEach((variant, index) => {
-                const card = document.createElement('div');
-                card.className = 'variant-card';
+                const progressionTitle = `${keyPrefix}_${uniquePattern.join('-')}_${style}-${p + 1}`;
                 
-                const variantType = variant.progression.name.split('_').pop().split('-')[0];
+                const progressionHeader = document.createElement('div');
+                progressionHeader.className = 'progression-header';
                 
-                card.innerHTML = `
-                    <div class="variant-header">
-                        <div class="variant-title">Variant ${index + 1}</div>
-                        <div class="variant-type">${variantType}</div>
-                    </div>
-                    <div class="grid-wrapper">
-                        <div class="bank-indicator">Bank A</div>
-                        <div class="performance-indicator">
-                            <div class="perf-led active"></div>
-                            <div class="perf-led"></div>
-                            <div class="perf-led"></div>
-                            <div class="perf-led"></div>
-                        </div>
-                        <div class="pad-grid" id="grid-${index}"></div>
+                const progressionInfo = document.createElement('div');
+                progressionInfo.className = 'progression-info';
+                progressionInfo.innerHTML = `
+                    <div class="progression-title">${progressionTitle}</div>
+                    <div class="progression-meta">
+                        <span class="key">${key} ${scaleType}</span>
                     </div>
                 `;
                 
-                container.appendChild(card);
+                const playControls = document.createElement('div');
+                playControls.className = 'play-controls';
+                playControls.innerHTML = `
+                    <button class="primary" onclick="playProgression(${p})">
+                        Play
+                    </button>
+                    <div class="playable-info">Can play: Jazz Standards (${Math.floor(Math.random() * 3) + 1}), Pop/Rock (${Math.floor(Math.random() * 4) + 1}), Blues (${Math.floor(Math.random() * 2) + 1}), Classical/Folk (${Math.floor(Math.random() * 3) + 1})</div>
+                `;
                 
-                // Create pad grid
-                const grid = document.getElementById(`grid-${index}`);
+                progressionHeader.appendChild(progressionInfo);
+                progressionHeader.appendChild(playControls);
                 
-                // Display pads in reverse order (rows from bottom to top)
-                for (let row = 3; row >= 0; row--) {
-                    for (let col = 0; col < 4; col++) {
-                        const padNum = row * 4 + col;
-                        const chord = variant.progression.chords[padNum];
-                        
-                        const pad = document.createElement('div');
-                        pad.className = 'pad';
-                        pad.onclick = () => playChord(chord.notes);
-                        
-                        // Add row labels
-                        if (col === 0) {
-                            const rowLabels = ['D', 'C', 'B', 'A'];
-                            const label = document.createElement('span');
-                            label.className = 'pad-row-label';
-                            label.textContent = rowLabels[row];
-                            pad.appendChild(label);
-                        }
-                        
-                        // Create roman numeral from chord position
-                        const scaleDegree = getRomanFromPosition(padNum + 1);
-                        
-                        pad.innerHTML += `
-                            <span class="pad-number">${padNum + 1}</span>
-                            <div class="chord-name">${chord.name}</div>
-                            <div class="scale-degree">${scaleDegree}</div>
-                            ${getPianoVisualization(chord.notes)}
-                        `;
-                        
-                        grid.appendChild(pad);
+                const chordGrid = document.createElement('div');
+                chordGrid.className = 'chord-grid';
+                
+                // Generate 16 pads (4x4 grid)
+                for (let i = 0; i < 16; i++) {
+                    const row = Math.floor(i / 4);
+                    const col = i % 4;
+                    const chordIndex = template[row][col];
+                    const chordRoot = scale[chordIndex];
+                    const quality = chordQualities[scaleType][chordIndex];
+                    const roman = romanNumerals[scaleType][chordIndex];
+                    
+                    // Add variations for jazz style
+                    let chordQuality = quality;
+                    if (style === 'Jazz' && i < 8) { // Only vary first 8 chords
+                        if (quality === 'Major' && Math.random() > 0.5) chordQuality = 'Major 7';
+                        if (quality === 'Minor' && Math.random() > 0.5) chordQuality = 'Minor 7';
+                        if (roman === 'V' || roman === 'v') chordQuality = 'Dominant 7';
                     }
+                    
+                    const chordNotes = generateChord(chordRoot, chordQuality);
+                    const chordSymbol = getChordSymbol(chordRoot, chordQuality);
+                    
+                    const pad = document.createElement('div');
+                    pad.className = 'chord-pad';
+                    
+                    pad.innerHTML = `
+                        <div class="chord-pad-content">
+                            <div class="chord-info">
+                                <div class="chord-name">${chordSymbol}</div>
+                            </div>
+                            <div class="pad-number">PAD ${i + 1}</div>
+                        </div>
+                        <div class="chord-quality">${chordQuality}</div>
+                        <div class="chord-roman">${roman}</div>
+                        ${generateKeyboardSVG(chordNotes)}
+                        <div class="chord-notes">${chordNotes.map(midiToNoteName).join(' ')}</div>
+                    `;
+                    
+                    chordGrid.appendChild(pad);
                 }
-            });
-        }
-        
-        // Helper to get roman numeral for display
-        function getRomanFromPosition(padNum) {
-            const romans = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°', 'I',
-                          'I', 'ii', 'iii', 'IV', 'bVII', 'bVI', 'V7', 'iv/bII'];
-            return romans[padNum - 1] || '';
-        }
-
-        // Play chord using Web Audio API
-        function playChord(notes) {
-            if (!audioContext) initAudio();
-            
-            const now = audioContext.currentTime;
-            
-            notes.forEach(note => {
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
                 
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                // Convert MIDI to frequency
-                const frequency = 440 * Math.pow(2, (note - 69) / 12);
-                oscillator.frequency.setValueAtTime(frequency, now);
-                oscillator.type = 'sine';
-                
-                // Envelope
-                gainNode.gain.setValueAtTime(0, now);
-                gainNode.gain.linearRampToValueAtTime(0.2, now + 0.01);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
-                
-                oscillator.start(now);
-                oscillator.stop(now + 0.5);
-            });
-            
-            // Visual feedback
-            event.target.closest('.pad').classList.add('playing');
-            setTimeout(() => {
-                event.target.closest('.pad').classList.remove('playing');
-            }, 300);
-        }
-
-        // Export progressions as .zip
-        async function exportProgressions() {
-            // Load JSZip library dynamically
-            if (!window.JSZip) {
-                const script = document.createElement('script');
-                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
-                document.head.appendChild(script);
-                
-                script.onload = () => {
-                    createAndDownloadZip();
-                };
-            } else {
-                createAndDownloadZip();
+                progressionCard.appendChild(progressionHeader);
+                progressionCard.appendChild(chordGrid);
+                container.appendChild(progressionCard);
             }
         }
 
-        function createAndDownloadZip() {
-            const zip = new JSZip();
-            
-            currentVariants.forEach(variant => {
-                // Export in the correct MPC format
-                const json = JSON.stringify(variant, null, 4);
-                const filename = variant.progression.name + '.progression';
-                zip.file(filename, json);
-            });
-            
-            zip.generateAsync({ type: 'blob' }).then(content => {
-                const a = document.createElement('a');
-                const url = URL.createObjectURL(content);
-                a.href = url;
-                a.download = `MPC_Progressions_${new Date().getTime()}.zip`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            });
-        }
-
-        // "I'm Feeling Clueless but Reasonable" - safe random
-        function feelingClueless() {
-            const safeKeys = ['C', 'G', 'D', 'A', 'F', 'B♭', 'E♭'];
-            const safeScales = ['major', 'minor', 'dorian', 'mixolydian'];
-            const safeProgressions = [
-                'I-V-vi-IV', 'I-IV-V-I', 'vi-IV-I-V', 'I-vi-IV-V',
-                'ii-V-I', 'I-vi-ii-V', '12-bar-blues'
-            ];
-            
-            document.getElementById('key').value = safeKeys[Math.floor(Math.random() * safeKeys.length)];
-            document.getElementById('scale').value = safeScales[Math.floor(Math.random() * safeScales.length)];
-            document.getElementById('progression').value = safeProgressions[Math.floor(Math.random() * safeProgressions.length)];
-            document.getElementById('progression-name').value = '';
-            
-            generateProgressions();
-        }
-
-        // "I'm Feeling Lucky" - totally random
-        function feelingLucky() {
-            const allKeys = Array.from(document.getElementById('key').options).map(o => o.value);
-            const allScales = Array.from(document.getElementById('scale').options).map(o => o.value);
-            const allProgressions = Array.from(document.getElementById('progression').options).map(o => o.value);
-            
-            document.getElementById('key').value = allKeys[Math.floor(Math.random() * allKeys.length)];
-            document.getElementById('scale').value = allScales[Math.floor(Math.random() * allScales.length)];
-            document.getElementById('progression').value = allProgressions[Math.floor(Math.random() * allProgressions.length)];
-            document.getElementById('progression-name').value = '';
-            
-            generateProgressions();
-        }
-
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set default progression name placeholder
-            const updateNamePlaceholder = () => {
-                const key = document.getElementById('key').value;
-                const scale = document.getElementById('scale').value;
-                const progression = document.getElementById('progression').value;
-                const scaleLabel = scale.replace(/-/g, '').substring(0, 3);
-                document.getElementById('progression-name').placeholder = 
-                    `${key}${scaleLabel}_${progression}`;
-            };
-            
-            document.getElementById('key').addEventListener('change', updateNamePlaceholder);
-            document.getElementById('scale').addEventListener('change', updateNamePlaceholder);
-            document.getElementById('progression').addEventListener('change', updateNamePlaceholder);
-            
-            updateNamePlaceholder();
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                generateProgressions();
+            }
         });
     </script>
 </body>
