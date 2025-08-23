@@ -2,7 +2,7 @@
 
 A web-based tool for analyzing and exploring chord progressions from Akai MPC `.progression` files. Find the perfect chord set for any song style, discover which famous progressions you can play, and visualize your chords in the familiar MPC 4x4 pad layout.
 
-![MPC One](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/20250821%20MPC%20One%20on%20chair%20-%20web%20sized.jpg)
+![Screenshot](Screenshot%202025-08-23%20at%2011-37-07%20MPC%20Chord%20Progression%20Finder.png)
 
 ## 🎹 Features
 
@@ -131,4 +131,5 @@ This project is open source and available under the Unlicense.
 
 - GitHub: [liotier/AkaiMPC](https://github.com/liotier/AkaiMPC)
 - Issues: [GitHub Issues](https://github.com/liotier/AkaiMPC/issues)
+
 
