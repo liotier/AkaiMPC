@@ -386,8 +386,15 @@
 
             <div class="control-item">
                 <label>&nbsp;</label>
-                <button class="primary" onclick="generateProgressions()">
+                <button class="primary" onclick="window.generateProgressions()">
                     Generate Progressions
+                </button>
+            </div>
+
+            <div class="control-item" id="downloadAllContainer" style="display: none;">
+                <label>&nbsp;</label>
+                <button onclick="window.downloadAllProgressions()">
+                    Download All
                 </button>
             </div>
         </div>
@@ -461,6 +468,9 @@
                 [[0, 4, 2, 6], [5, 1, 3, 0], [2, 6, 0, 4], [3, 0, 5, 1]]
             ]
         };
+
+        // Store generated progressions data
+        let generatedProgressions = [];
 
         function noteToMidi(note, octave = 3) {
             const index = NOTES.indexOf(note);
@@ -629,9 +639,14 @@
                 const playControls = document.createElement('div');
                 playControls.className = 'play-controls';
                 playControls.innerHTML = `
-                    <button class="primary" onclick="playProgression(${p})">
-                        Play
-                    </button>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="primary" onclick="window.playProgression(${p})">
+                            Play
+                        </button>
+                        <button onclick="window.downloadProgression(${p})">
+                            Download
+                        </button>
+                    </div>
                     <div class="playable-info">Can play: Jazz Standards (${Math.floor(Math.random() * 3) + 1}), Pop/Rock (${Math.floor(Math.random() * 4) + 1}), Blues (${Math.floor(Math.random() * 2) + 1}), Classical/Folk (${Math.floor(Math.random() * 3) + 1})</div>
                 `;
                 
@@ -684,12 +699,15 @@
                 progressionCard.appendChild(chordGrid);
                 container.appendChild(progressionCard);
             }
+            
+            // Show the Download All button after generating progressions
+            document.getElementById('downloadAllContainer').style.display = 'block';
         }
 
         // Add keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
-                generateProgressions();
+                window.generateProgressions();
             }
         });
     </script>
