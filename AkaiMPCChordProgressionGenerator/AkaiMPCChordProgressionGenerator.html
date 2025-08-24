@@ -79,13 +79,13 @@
         }
 
         select:hover, input:hover {
-            border-color: #667eea;
+            border-color: #4a90e2;
         }
 
         select:focus, input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
         }
 
         button {
@@ -188,26 +188,26 @@
         }
 
         .chord-pad {
-            background: linear-gradient(145deg, #f0f0f0, #ffffff);
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 15px;
+            background: linear-gradient(145deg, #f8f8f8, #ffffff);
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 8px;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
         }
 
         .chord-pad:hover {
-            border-color: #667eea;
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            border-color: #999;
+            transform: scale(1.01);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
         }
 
         .chord-pad:active {
             transform: scale(0.98);
-            background: linear-gradient(145deg, #667eea, #764ba2);
+            background: #4a90e2;
         }
 
         .chord-pad:active .chord-name,
@@ -221,7 +221,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
         }
 
         .chord-info {
@@ -229,35 +229,35 @@
         }
 
         .chord-name {
-            font-size: 1.4em;
-            font-weight: 700;
+            font-size: 1.1em;
+            font-weight: 600;
             color: #333;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         .pad-number {
-            font-size: 0.75em;
-            color: #999;
-            font-weight: 600;
+            font-size: 0.6em;
+            color: #bbb;
+            font-weight: 400;
             text-align: right;
         }
 
         .chord-quality {
-            font-size: 0.85em;
+            font-size: 0.75em;
             color: #666;
-            margin-top: 5px;
+            margin-top: 2px;
         }
 
         .chord-roman {
-            font-size: 1em;
-            font-weight: 600;
+            font-size: 0.85em;
+            font-weight: 500;
             color: #667eea;
-            margin-top: 5px;
+            margin-top: 2px;
         }
 
         .chord-keyboard {
-            margin: 10px 0;
-            height: 40px;
+            margin: 6px 0;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -269,9 +269,9 @@
         }
 
         .chord-notes {
-            font-size: 0.85em;
+            font-size: 0.7em;
             color: #888;
-            margin-top: 5px;
+            margin-top: 3px;
             font-family: 'Courier New', monospace;
         }
 
@@ -288,30 +288,12 @@
                 width: 100%;
             }
         }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
-            }
-        }
-
-        .generating {
-            animation: pulse 2s infinite;
-        }
     </style>
 </head>
 <body id="artifacts-component-root-html">
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
-        <div>
-            <h1>MPC Chord Progression Generator</h1>
-            <p class="subtitle">Generate unique chord progressions in any key and style. Perfect for Akai MPC workflow!</p>
-        </div>
+    <div>
+        <h1>MPC Chord Progression Generator</h1>
+        <p class="subtitle">Generate unique chord progressions in any key and style. Perfect for Akai MPC workflow!</p>
     </div>
 
     <div class="controls">
@@ -365,14 +347,14 @@
             <div class="control-item">
                 <label>&nbsp;</label>
                 <button class="primary" onclick="window.generateProgressions()">
-                    Generate Progressions
+                    GENERATE
                 </button>
             </div>
 
             <div class="control-item" id="downloadAllContainer" style="display: none;">
                 <label>&nbsp;</label>
                 <button onclick="window.downloadAllProgressions()">
-                    Download All
+                    DOWNLOAD ALL
                 </button>
             </div>
         </div>
@@ -510,15 +492,15 @@
             
             const activeNotes = new Set(midiNotes);
             
-            // Piano key dimensions and layout matching the Finder exactly
-            const whiteKeyWidth = 14;
-            const blackKeyWidth = 10;
-            const whiteKeyHeight = 55;
-            const blackKeyHeight = 33;
+            // Fixed piano key dimensions matching the Finder
+            const whiteKeyWidth = 10;
+            const blackKeyWidth = 7;
+            const whiteKeyHeight = 35;
+            const blackKeyHeight = 22;
             
-            const totalWidth = whiteKeyWidth * 14; // 2 octaves
+            const totalWidth = 140; // Fixed width
             
-            let svg = `<svg viewBox="0 0 ${totalWidth} ${whiteKeyHeight}" xmlns="http://www.w3.org/2000/svg">`;
+            let svg = `<svg width="140" height="35" viewBox="0 0 140 35" xmlns="http://www.w3.org/2000/svg">`;
             
             // White keys (C to B, twice)
             const whiteKeyNotes = [48, 50, 52, 53, 55, 57, 59, 60, 62, 64, 65, 67, 69, 71]; // C3 to B4
@@ -529,11 +511,11 @@
                 
                 svg += `<rect x="${x}" y="0" width="${whiteKeyWidth - 1}" height="${whiteKeyHeight}" 
                         fill="${isActive ? '#f59e0b' : 'white'}" 
-                        stroke="#333" stroke-width="1"/>`;
+                        stroke="#333" stroke-width="0.5"/>`;
             }
             
-            // Black keys
-            const blackKeyPositions = [9, 23, 51, 65, 79, 107, 121, 149, 163, 177];
+            // Black keys - adjusted positions for smaller width
+            const blackKeyPositions = [7, 17, 37, 47, 57, 77, 87, 107, 117, 127];
             const blackKeyNotes = [49, 51, 54, 56, 58, 61, 63, 66, 68, 70]; // C#3 to Bb4
             
             for (let i = 0; i < blackKeyPositions.length; i++) {
@@ -543,7 +525,7 @@
                     
                     svg += `<rect x="${blackKeyPositions[i]}" y="0" width="${blackKeyWidth}" height="${blackKeyHeight}" 
                             fill="${isActive ? '#dc2626' : '#333'}" 
-                            stroke="#000" stroke-width="1"/>`;
+                            stroke="#000" stroke-width="0.5"/>`;
                 }
             }
             
@@ -573,7 +555,7 @@
                 const progressionCard = document.createElement('div');
                 progressionCard.className = 'progression-card';
                 
-                // Build progression title like "Cmaj_I-V-vi-IV_Jazz-2"
+                // Build progression title simpler like "Cmaj I-V-IV-vi Classic-1"
                 const keyPrefix = key + (scaleType === 'Minor' ? 'm' : scaleType === 'Major' ? 'maj' : scaleType.substring(0, 3));
                 
                 // Get unique pattern for title (first 4 unique chords)
@@ -590,7 +572,7 @@
                     }
                 }
                 
-                const progressionTitle = `${keyPrefix}_${uniquePattern.join('-')}_${style}-${p + 1}`;
+                const progressionTitle = `${keyPrefix} ${uniquePattern.join('-')} ${style}-${p + 1}`;
                 
                 const progressionHeader = document.createElement('div');
                 progressionHeader.className = 'progression-header';
@@ -607,15 +589,15 @@
                 const playControls = document.createElement('div');
                 playControls.className = 'play-controls';
                 playControls.innerHTML = `
-                    <div style="display: flex; gap: 8px;">
+                    <div style="display: flex; gap: 6px;">
                         <button class="primary" onclick="window.playProgression(${p})">
-                            Play
+                            PLAY
                         </button>
                         <button onclick="window.downloadProgression(${p})">
-                            Download
+                            DOWNLOAD
                         </button>
                     </div>
-                    <div class="playable-info">Can play: Jazz Standards (${Math.floor(Math.random() * 3) + 1}), Pop/Rock (${Math.floor(Math.random() * 4) + 1}), Blues (${Math.floor(Math.random() * 2) + 1}), Classical/Folk (${Math.floor(Math.random() * 3) + 1})</div>
+                    <div class="playable-info">Can play: ${style} (${Math.floor(Math.random() * 3) + 1}), Pop/Rock (${Math.floor(Math.random() * 4) + 1}), Blues (${Math.floor(Math.random() * 2) + 1}), Classical/Folk (${Math.floor(Math.random() * 3) + 1})</div>
                 `;
                 
                 progressionHeader.appendChild(progressionInfo);
@@ -649,13 +631,13 @@
                     
                     pad.innerHTML = `
                         <div class="chord-pad-content">
-                            <div class="chord-info">
-                                <div class="chord-name">${chordSymbol}</div>
-                            </div>
+                            <div class="chord-name">${chordSymbol}</div>
                             <div class="pad-number">PAD ${i + 1}</div>
                         </div>
-                        <div class="chord-quality">${chordQuality}</div>
-                        <div class="chord-roman">${roman}</div>
+                        <div class="chord-info">
+                            <div class="chord-quality">${chordQuality}</div>
+                            <div class="chord-roman">${roman}</div>
+                        </div>
                         <div class="chord-keyboard">${generateKeyboardSVG(chordNotes)}</div>
                         <div class="chord-notes">${chordNotes.map(midiToNoteName).join(' ')}</div>
                     `;
@@ -721,7 +703,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${title}.progression`;
+            a.download = `${title.replace(/ /g, '_')}.progression`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
