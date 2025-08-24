@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+        .progression-info {
+            flex: 1;
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -79,13 +81,13 @@
         }
 
         select:hover, input:hover {
-            border-color: #4a90e2;
+            border-color: #bbb;
         }
 
         select:focus, input:focus {
             outline: none;
-            border-color: #4a90e2;
-            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+            border-color: #70a8db;
+            box-shadow: 0 0 0 1px rgba(112, 168, 219, 0.1);
         }
 
         button {
@@ -172,6 +174,9 @@
 
         .play-controls {
             text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
         }
 
         .playable-info {
@@ -200,14 +205,13 @@
         }
 
         .chord-pad:hover {
-            border-color: #999;
-            transform: scale(1.01);
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            border-color: #ccc;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         }
 
         .chord-pad:active {
-            transform: scale(0.98);
-            background: #4a90e2;
+            transform: scale(0.99);
+            background: #6ba3d5;
         }
 
         .chord-pad:active .chord-name,
@@ -236,8 +240,8 @@
         }
 
         .pad-number {
-            font-size: 0.6em;
-            color: #bbb;
+            font-size: 0.55em;
+            color: #ccc;
             font-weight: 400;
             text-align: right;
         }
@@ -346,15 +350,15 @@
 
             <div class="control-item">
                 <label>&nbsp;</label>
-                <button class="primary" onclick="window.generateProgressions()">
-                    GENERATE
+                <button class="primary" onclick="window.generateProgressions()" style="font-size: 0.65em; padding: 3px 8px;">
+                    Generate
                 </button>
             </div>
 
             <div class="control-item" id="downloadAllContainer" style="display: none;">
                 <label>&nbsp;</label>
-                <button onclick="window.downloadAllProgressions()">
-                    DOWNLOAD ALL
+                <button onclick="window.downloadAllProgressions()" style="font-size: 0.65em; padding: 3px 8px;">
+                    Download All
                 </button>
             </div>
         </div>
@@ -589,15 +593,13 @@
                 const playControls = document.createElement('div');
                 playControls.className = 'play-controls';
                 playControls.innerHTML = `
-                    <div style="display: flex; gap: 6px;">
-                        <button class="primary" onclick="window.playProgression(${p})">
-                            PLAY
-                        </button>
-                        <button onclick="window.downloadProgression(${p})">
-                            DOWNLOAD
-                        </button>
-                    </div>
-                    <div class="playable-info">Can play: ${style} (${Math.floor(Math.random() * 3) + 1}), Pop/Rock (${Math.floor(Math.random() * 4) + 1}), Blues (${Math.floor(Math.random() * 2) + 1}), Classical/Folk (${Math.floor(Math.random() * 3) + 1})</div>
+                    <button class="primary" onclick="window.playProgression(${p})" style="display: block; margin-bottom: 2px;">
+                        Play
+                    </button>
+                    <button onclick="window.downloadProgression(${p})" style="display: block; margin-bottom: 2px;">
+                        Export progression
+                    </button>
+                    <div class="playable-info">Can play: ${style}, Pop/Rock, Blues</div>
                 `;
                 
                 progressionHeader.appendChild(progressionInfo);
