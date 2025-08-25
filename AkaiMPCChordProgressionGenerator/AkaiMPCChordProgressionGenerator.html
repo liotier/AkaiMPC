@@ -124,10 +124,14 @@
         }
 
         .action-buttons {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 12px;
             margin-bottom: 24px;
-            flex-wrap: wrap;
+        }
+
+        .action-buttons .full-width {
+            grid-column: 1 / -1;
         }
 
         .progressions {
@@ -154,6 +158,12 @@
             justify-content: space-between;
             align-items: start;
             margin-bottom: 16px;
+            gap: 12px;
+        }
+
+        .progression-info {
+            flex: 1;
+            min-width: 0;
         }
 
         .progression-title {
@@ -179,10 +189,34 @@
             font-weight: 500;
         }
 
-        .play-controls {
+        .download-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 6px;
+            cursor: pointer;
             display: flex;
-            gap: 8px;
             align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: var(--pad-hover);
+            border-color: var(--accent);
+        }
+
+        .download-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--muted);
+        }
+
+        .download-btn:hover svg {
+            stroke: var(--accent);
         }
 
         .chord-grid {
@@ -201,7 +235,7 @@
             transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
-            min-height: 100px;  /* Slightly reduced since keyboard is shorter */
+            min-height: 100px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -217,6 +251,11 @@
             animation: pulse 0.3s ease;
             background: #dbeafe;
             border-color: var(--accent);
+        }
+
+        .chord-pad.progression-chord {
+            background: #fef3c7;
+            border-color: #f59e0b;
         }
 
         @keyframes pulse {
@@ -278,17 +317,12 @@
             margin-top: 1px;
             margin-bottom: 1px;
             width: 100%;
-            height: 35px;  /* Reduced height since keyboard is wider */
+            height: 35px;
         }
 
         .chord-keyboard svg {
             width: 100%;
             height: 100%;
-        }
-
-        .export-section {
-            text-align: center;
-            margin-bottom: 24px;
         }
 
         .hidden {
@@ -329,8 +363,15 @@
             }
             
             .action-buttons {
-                flex-direction: column;
-                align-items: stretch;
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons .full-width {
+                grid-column: 1;
+            }
+
+            .action-buttons .empty-cell {
+                display: none;
             }
 
             .chord-grid {
@@ -340,12 +381,6 @@
             .chord-pad {
                 min-height: 80px;
                 padding: 8px;
-                font-size: 12px;
-            }
-            
-            .progression-header {
-                flex-direction: column;
-                gap: 12px;
             }
         }
     </style>
@@ -389,16 +424,16 @@
         </div>
 
         <div class="action-buttons">
-            <button class="primary" id="generateBtn">Generate Progressions</button>
-            <button id="cluelessBtn">I'm Feeling Clueless but Reasonable</button>
-            <button id="luckyBtn">I'm Feeling Lucky</button>
+            <button class="primary full-width" id="generateBtn">Generate Progressions</button>
+            <button id="cluelessBtn">I'm clueless but reasonable</button>
+            <div class="empty-cell"></div>
+            <div class="empty-cell"></div>
+            <button id="luckyBtn">I'm feeling lucky</button>
+            <div class="empty-cell"></div>
+            <button class="primary" id="downloadAllBtn" style="display: none;">Download all</button>
         </div>
 
         <div id="progressionsContainer" class="progressions hidden"></div>
-        
-        <div id="exportSection" class="export-section hidden">
-            <button class="primary" id="exportBtn">Export All Variants (.zip)</button>
-        </div>
 
         <footer>
             <p>
@@ -424,7 +459,7 @@
         // Global state
         let selectedKey = 'C';
         let selectedMode = 'Major';
-        let selectedProgression = 'I–IV–V–I';
+        let selectedProgression = 'I–V–vi–IV';
         let progressionName = '';
         let variants = [];
         let audioContext = null;
@@ -449,74 +484,172 @@
 
         const progressions = {
             'Pop/Rock': [
-                'I–IV–V–I', 'I–V–vi–IV', 'vi–IV–I–V', 'I–vi–IV–V', 'I–V–vi–iii–IV', 
-                '12-bar blues', 'Andalusian'
+                { value: 'I–V–vi–IV', name: 'I–V–vi–IV', nickname: 'Axis of Awesome' },
+                { value: 'I–IV–V–I', name: 'I–IV–V–I', nickname: 'Classic Rock' },
+                { value: 'vi–IV–I–V', name: 'vi–IV–I–V', nickname: 'Pop Punk' },
+                { value: 'I–vi–IV–V', name: 'I–vi–IV–V', nickname: '50s Doo-Wop' },
+                { value: 'I–V–vi–iii–IV', name: 'I–V–vi–iii–IV', nickname: 'Canon Progression' },
+                { value: 'IV–I–V–vi', name: 'IV–I–V–vi', nickname: 'Despacito' },
+                { value: 'vi–V–IV–V', name: 'vi–V–IV–V', nickname: 'Grenade' },
+                { value: 'I–III–IV–iv', name: 'I–III–IV–iv', nickname: 'Creep' },
+                { value: 'I–V–♭VII–IV', name: 'I–V–♭VII–IV', nickname: 'Sweet Home' },
+                { value: 'I–♭VII–IV–I', name: 'I–♭VII–IV–I', nickname: 'Mixolydian Vamp' }
+            ],
+            'Blues/Soul': [
+                { value: '12-bar-blues', name: 'I–I–I–I–IV–IV–I–I–V–IV–I–V', nickname: '12-Bar Blues' },
+                { value: 'I–vi–ii–V', name: 'I–vi–ii–V', nickname: 'Turnaround' },
+                { value: 'ii–V–I–VI', name: 'ii–V–I–VI', nickname: 'Rhythm Changes A' },
+                { value: 'I–VI–ii–V', name: 'I–VI–ii–V', nickname: 'I Got Rhythm' },
+                { value: 'i–♭III–♭VII–IV', name: 'i–♭III–♭VII–IV', nickname: 'Dorian Vamp' },
+                { value: 'i–IV–i–V', name: 'i–IV–i–V', nickname: 'Minor Blues' },
+                { value: 'I–IV', name: 'I–IV', nickname: 'Two Chord Vamp' }
             ],
             'Jazz/Functional': [
-                'ii–V–I', 'ii–V–I–vi', 'I–vi–ii–V', 'Rhythm Changes', 'Coltrane Changes', 
-                'Backdoor iv–♭VII–I'
+                { value: 'ii–V–I', name: 'ii–V–I', nickname: '2-5-1' },
+                { value: 'ii–V–I–vi', name: 'ii–V–I–vi', nickname: 'Jazz Standard' },
+                { value: 'iii–vi–ii–V', name: 'iii–vi–ii–V', nickname: 'Circle Progression' },
+                { value: 'IVM7–V7–iii7–vi', name: 'IVM7–V7–iii7–vi', nickname: 'Fly Me To The Moon' },
+                { value: 'IM7–ii7–iii7–IVM7', name: 'IM7–ii7–iii7–IVM7', nickname: 'Ascending Jazz' },
+                { value: 'vi–ii–V–I', name: 'vi–ii–V–I', nickname: 'Minor Turnaround' },
+                { value: 'I–vi–IV–♯iv°–V', name: 'I–vi–IV–♯iv°–V', nickname: 'Chromatic Turnaround' },
+                { value: 'iv–♭VII–I', name: 'iv–♭VII–I', nickname: 'Backdoor' },
+                { value: 'I–♯I°–ii–♯II°', name: 'I–♯I°–ii–♯II°', nickname: 'Chromatic Walk' },
+                { value: 'IM7–♭IIIM7–♭VIM7–♭II7', name: 'IM7–♭IIIM7–♭VIM7–♭II7', nickname: 'Giant Steps' }
             ],
             'Classical/Modal': [
-                'Circle of Fifths', 'Pachelbel Canon', 'Descending Tetrachord', 'Passamezzo Antico'
+                { value: 'I–IV–vii°–iii–vi–ii–V–I', name: 'I–IV–vii°–iii–vi–ii–V–I', nickname: 'Circle of Fifths' },
+                { value: 'I–V–vi–iii–IV–I–IV–V', name: 'I–V–vi–iii–IV–I–IV–V', nickname: 'Pachelbel Canon' },
+                { value: 'i–♭VII–♭VI–V', name: 'i–♭VII–♭VI–V', nickname: 'Andalusian' },
+                { value: 'i–♭VII–i–V', name: 'i–♭VII–i–V', nickname: 'Passamezzo Antico' },
+                { value: 'I–V–I–IV', name: 'I–V–I–IV', nickname: 'Passamezzo Moderno' },
+                { value: 'iv–♭VII–♭III–♭VI', name: 'iv–♭VII–♭III–♭VI', nickname: 'Plagal Cascade' },
+                { value: 'I–♭II', name: 'I–♭II', nickname: 'Neapolitan' },
+                { value: 'i–iv–♭VII–♭III', name: 'i–iv–♭VII–♭III', nickname: 'Natural Minor' }
+            ],
+            'Electronic/Modern': [
+                { value: 'i–♭VI–♭III–♭VII', name: 'i–♭VI–♭III–♭VII', nickname: 'EDM Drop' },
+                { value: 'i–♭VII–♭VI–♭VII', name: 'i–♭VII–♭VI–♭VII', nickname: 'Dark House' },
+                { value: 'vi–IV–I–V', name: 'vi–IV–I–V', nickname: 'Pop Loop' },
+                { value: 'i–i–i–i', name: 'i–i–i–i', nickname: 'Techno' },
+                { value: 'I–V–vi–IV–I–V–iii–IV', name: 'I–V–vi–IV–I–V–iii–IV', nickname: 'Extended Pop' },
+                { value: 'i–♭III–♭VII–i', name: 'i–♭III–♭VII–i', nickname: 'Modal Interchange' },
+                { value: 'I–♭III–IV–♭VI', name: 'I–♭III–IV–♭VI', nickname: 'Chromatic Mediant' }
             ]
         };
 
-        // Initialize audio context
-        function initAudio() {
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            } catch (error) {
-                console.warn('Web Audio API not supported');
+        // Parse progression notation and return chord degrees
+        function parseProgression(progressionString) {
+            const chords = progressionString.split('–');
+            return chords.map(chord => {
+                // Remove any quality indicators for parsing
+                const cleanChord = chord.replace(/M7|m7|7|°|dim|maj|min/g, '');
+                
+                // Parse roman numerals
+                const romanToNumber = {
+                    'i': 0, 'I': 0,
+                    'ii': 1, 'II': 1, '♭II': 1,
+                    'iii': 2, 'III': 2, '♭III': 2,
+                    'iv': 3, 'IV': 3,
+                    'v': 4, 'V': 4,
+                    'vi': 5, 'VI': 5, '♭VI': 5,
+                    'vii': 6, 'VII': 6, '♭VII': 6,
+                    '♯I': 1, '♯II': 3, '♯iv': 4, '♭IIIM7': 2, '♭VIM7': 5
+                };
+                
+                // Special cases
+                if (cleanChord === '♯I°') return { degree: 1, quality: 'diminished', alteration: 'sharp' };
+                if (cleanChord === '♯II°') return { degree: 3, quality: 'diminished', alteration: 'sharp' };
+                if (cleanChord === '♯iv°') return { degree: 4, quality: 'diminished', alteration: 'sharp' };
+                
+                // Determine if flat or sharp
+                let alteration = '';
+                if (cleanChord.includes('♭')) alteration = 'flat';
+                if (cleanChord.includes('♯')) alteration = 'sharp';
+                
+                // Get base numeral
+                const baseChord = cleanChord.replace(/♭|♯/g, '');
+                const degree = romanToNumber[baseChord] !== undefined ? romanToNumber[baseChord] : 0;
+                
+                // Determine quality from original chord string
+                let quality = 'major';
+                if (chord.includes('°') || chord.includes('dim')) {
+                    quality = 'diminished';
+                } else if (chord.includes('M7') || chord.includes('maj7')) {
+                    quality = 'major7';
+                } else if (chord.includes('m7')) {
+                    quality = 'minor7';
+                } else if (chord.match(/[IV]7/) && !chord.includes('M7')) {
+                    quality = 'dom7';
+                } else if (baseChord === baseChord.toLowerCase() || 
+                          (baseChord === 'ii' || baseChord === 'iii' || baseChord === 'vi' || baseChord === 'vii')) {
+                    quality = 'minor';
+                }
+                
+                return { degree, quality, alteration };
+            });
+        }
+
+        function generateProgressionChords(progressionString, keyOffset, scaleDegrees) {
+            // Special handling for 12-bar blues
+            if (progressionString === '12-bar-blues') {
+                const progression = [];
+                // 12-bar blues pattern: I-I-I-I-IV-IV-I-I-V-IV-I-V
+                const pattern = [0, 0, 0, 0, 3, 3, 0, 0, 4, 3, 0, 4];
+                pattern.forEach(degree => {
+                    const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
+                    const chordType = degree === 4 ? 'dom7' : 'major';
+                    progression.push({
+                        degree,
+                        notes: buildChord(scaleDegree, chordType, keyOffset),
+                        chordType,
+                        chordName: getChordName(scaleDegree, chordType, keyOffset),
+                        romanNumeral: getRomanNumeral(degree, false, false)
+                    });
+                });
+                return progression;
             }
-        }
-
-        // Populate select elements
-        function populateSelects() {
-            // Keys
-            const keySelect = document.getElementById('keySelect');
-            keys.forEach(key => {
-                const option = document.createElement('option');
-                option.value = key;
-                option.textContent = key;
-                keySelect.appendChild(option);
+            
+            const parsedChords = parseProgression(progressionString);
+            return parsedChords.map(({ degree, quality, alteration }) => {
+                let scaleDegree = scaleDegrees[degree % scaleDegrees.length];
+                
+                // Handle alterations
+                if (alteration === 'flat') {
+                    scaleDegree = (scaleDegree - 1 + 12) % 12;
+                } else if (alteration === 'sharp') {
+                    scaleDegree = (scaleDegree + 1) % 12;
+                }
+                
+                const notes = buildChord(scaleDegree, quality, keyOffset);
+                const chordName = getChordName(scaleDegree, quality, keyOffset);
+                
+                // Create roman numeral with proper formatting
+                const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+                let romanNumeral = numerals[degree] || 'I';
+                
+                if (quality === 'minor' || quality === 'minor7') {
+                    romanNumeral = romanNumeral.toLowerCase();
+                }
+                if (quality === 'diminished') {
+                    romanNumeral += '°';
+                }
+                if (quality === 'dom7' && degree === 4) {
+                    romanNumeral = 'V7';
+                }
+                if (alteration === 'flat') {
+                    romanNumeral = '♭' + romanNumeral;
+                } else if (alteration === 'sharp') {
+                    romanNumeral = '♯' + romanNumeral;
+                }
+                
+                return {
+                    degree,
+                    notes,
+                    chordType: quality,
+                    chordName,
+                    romanNumeral
+                };
             });
-
-            // Modes
-            const modeSelect = document.getElementById('modeSelect');
-            Object.entries(modes).forEach(([category, modeList]) => {
-                const optgroup = document.createElement('optgroup');
-                optgroup.label = category;
-                modeList.forEach(mode => {
-                    const option = document.createElement('option');
-                    option.value = mode;
-                    option.textContent = mode;
-                    optgroup.appendChild(option);
-                });
-                modeSelect.appendChild(optgroup);
-            });
-
-            // Progressions
-            const progressionSelect = document.getElementById('progressionSelect');
-            Object.entries(progressions).forEach(([category, progList]) => {
-                const optgroup = document.createElement('optgroup');
-                optgroup.label = category;
-                progList.forEach(prog => {
-                    const option = document.createElement('option');
-                    option.value = prog;
-                    option.textContent = prog;
-                    optgroup.appendChild(option);
-                });
-                progressionSelect.appendChild(optgroup);
-            });
-        }
-
-        // Update progression name
-        function updateProgressionName() {
-            const key = selectedKey.split('/')[0];
-            const modeShort = selectedMode.slice(0, 3);
-            const prog = selectedProgression.replace(/–/g, '-');
-            progressionName = `${key}${modeShort}_${prog}`;
-            document.getElementById('progressionName').value = progressionName;
         }
 
         // Note calculations
@@ -618,15 +751,15 @@
             // Determine octave range to display - center around the chord
             const minNote = Math.min(...notes);
             const maxNote = Math.max(...notes);
-            const startOctave = Math.floor(minNote / 12) - 1; // Start one octave below lowest note
+            const startOctave = Math.floor(minNote / 12) - 1;
             const startNote = startOctave * 12;
             
             // Create set of active notes (absolute, not modulo)
             const activeNotes = new Set(notes);
             
             // Two octaves = 14 white keys
-            const whiteKeyPattern = [0, 2, 4, 5, 7, 9, 11]; // C, D, E, F, G, A, B
-            const blackKeyPattern = [1, 3, 6, 8, 10]; // C#, D#, F#, G#, A#
+            const whiteKeyPattern = [0, 2, 4, 5, 7, 9, 11];
+            const blackKeyPattern = [1, 3, 6, 8, 10];
             
             let svg = '<svg viewBox="0 0 196 35" xmlns="http://www.w3.org/2000/svg">';
             
@@ -641,7 +774,7 @@
             }
             
             // Draw two octaves of black keys
-            const blackKeyPositions = [7, 21, 42, 56, 70]; // Positions within one octave
+            const blackKeyPositions = [7, 21, 42, 56, 70];
             for (let octave = 0; octave < 2; octave++) {
                 blackKeyPattern.forEach((note, i) => {
                     const x = (octave * 98) + blackKeyPositions[i] - 5;
@@ -659,110 +792,125 @@
             const keyOffset = getKeyOffset(selectedKey);
             const scaleDegrees = getScaleDegrees(selectedMode);
             const pads = [];
+            
+            // Generate the actual progression chords
+            const progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees);
 
-            function getChordType(padIndex, degree) {
-                const isMinorDegree = [1, 2, 5].includes(degree);
-                const isDimDegree = degree === 6;
-                
-                switch (variantType) {
-                    case 'Classic':
-                        if (isDimDegree) return 'diminished';
-                        return isMinorDegree ? 'minor' : 'major';
-                    
-                    case 'Jazz':
-                        if (padIndex >= 8 && padIndex < 12) {
-                            if (isDimDegree) return 'diminished';
-                            if (degree === 4) return 'dom7';
-                            return isMinorDegree ? 'minor7' : 'major7';
-                        }
-                        if (isDimDegree) return 'diminished';
-                        return isMinorDegree ? 'minor' : 'major';
-                    
-                    case 'Modal':
-                        if (padIndex >= 8 && padIndex < 12) {
-                            if (isDimDegree) return 'diminished';
-                            return isMinorDegree ? 'minor' : 'major';
-                        }
-                        if (isDimDegree) return 'diminished';
-                        return isMinorDegree ? 'minor' : 'major';
-                    
-                    case 'Experimental':
-                        if (padIndex >= 8 && padIndex < 12) {
-                            return 'quartal';
-                        }
-                        if (isDimDegree) return 'diminished';
-                        return isMinorDegree ? 'minor' : 'major';
-                    
-                    default:
-                        return 'major';
-                }
-            }
-
+            // Layout strategy: Place progression chords in the first row(s)
+            // Then fill remaining pads with scale chords
             for (let i = 0; i < 16; i++) {
                 let degree, chordType, notes, chordName, romanNumeral, quality;
+                let isProgressionChord = false;
 
-                if (i < 8) {
-                    degree = i === 7 ? 0 : i;
-                    const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
-                    chordType = getChordType(i, degree);
-                    notes = buildChord(scaleDegree, chordType, keyOffset);
-                    chordName = getChordName(scaleDegree, chordType, keyOffset);
-                    romanNumeral = getRomanNumeral(degree, chordType.includes('minor'), chordType === 'diminished');
-                    quality = chordType === 'minor' ? 'Minor' : chordType === 'major' ? 'Major' : chordType === 'diminished' ? 'Diminished' : 'Major';
-                } else if (i < 12) {
-                    degree = i - 8;
-                    const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
-                    chordType = getChordType(i, degree);
-                    notes = buildChord(scaleDegree, chordType, keyOffset);
-                    chordName = getChordName(scaleDegree, chordType, keyOffset);
-                    romanNumeral = getRomanNumeral(degree, chordType.includes('minor'), chordType === 'diminished');
-                    quality = chordType.includes('7') ? 
-                        (chordType.includes('maj7') ? 'Major 7' : chordType.includes('m7') ? 'Minor 7' : 'Dominant 7') : 
-                        (chordType === 'quartal' ? 'Sus4' : chordType === 'minor' ? 'Minor' : 'Major');
+                // First, place the progression chords
+                if (i < progressionChords.length && i < 12) {
+                    const progChord = progressionChords[i];
+                    notes = progChord.notes;
+                    chordName = progChord.chordName;
+                    romanNumeral = progChord.romanNumeral;
+                    chordType = progChord.chordType;
+                    isProgressionChord = true;
+                    
+                    // Enhance chords based on variant type
+                    if (variantType === 'Jazz' && i >= 4) {
+                        // Add 7ths to some chords in Jazz variant
+                        const scaleDegree = scaleDegrees[progChord.degree % scaleDegrees.length];
+                        if (!chordType.includes('7')) {
+                            chordType = chordType === 'minor' ? 'minor7' : 
+                                       chordType === 'major' ? 'major7' : chordType;
+                            notes = buildChord(scaleDegree, chordType, keyOffset);
+                            chordName = getChordName(scaleDegree, chordType, keyOffset);
+                        }
+                    }
+                    
+                    quality = chordType === 'minor' ? 'Minor' : 
+                             chordType === 'major' ? 'Major' : 
+                             chordType === 'diminished' ? 'Diminished' :
+                             chordType === 'major7' ? 'Major 7' :
+                             chordType === 'minor7' ? 'Minor 7' :
+                             chordType === 'dom7' ? 'Dominant 7' : 'Major';
                 } else {
-                    switch (i) {
-                        case 12:
-                            const flatSeven = (scaleDegrees[0] + 10) % 12;
-                            notes = buildChord(flatSeven, 'major', keyOffset);
-                            chordName = getChordName(flatSeven, 'major', keyOffset);
-                            romanNumeral = '♭VII';
+                    // Fill remaining pads with scale chords and variations
+                    const padOffset = i - progressionChords.length;
+                    
+                    if (i === 12 || (progressionChords.length < 4 && i === progressionChords.length)) {
+                        // Common borrowed chord - ♭VII
+                        const flatSeven = (scaleDegrees[0] + 10) % 12;
+                        notes = buildChord(flatSeven, 'major', keyOffset);
+                        chordName = getChordName(flatSeven, 'major', keyOffset);
+                        romanNumeral = '♭VII';
+                        quality = 'Major';
+                    } else if (i === 13 || (progressionChords.length < 4 && i === progressionChords.length + 1)) {
+                        // Common borrowed chord - ♭VI
+                        const flatSix = (scaleDegrees[0] + 8) % 12;
+                        notes = buildChord(flatSix, 'major', keyOffset);
+                        chordName = getChordName(flatSix, 'major', keyOffset);
+                        romanNumeral = '♭VI';
+                        quality = 'Major';
+                    } else if (i === 14) {
+                        // Dominant 7th
+                        const fifth = scaleDegrees[4 % scaleDegrees.length];
+                        notes = buildChord(fifth, 'dom7', keyOffset);
+                        chordName = getChordName(fifth, 'dom7', keyOffset);
+                        romanNumeral = 'V7';
+                        quality = 'Dominant 7';
+                    } else if (i === 15) {
+                        // Variant-specific special chord
+                        if (variantType === 'Modal') {
+                            // Neapolitan chord
+                            const neapolitan = (scaleDegrees[0] + 1) % 12;
+                            notes = buildChord(neapolitan, 'major', keyOffset);
+                            chordName = getChordName(neapolitan, 'major', keyOffset);
+                            romanNumeral = '♭II';
                             quality = 'Major';
-                            break;
-                        case 13:
-                            const flatSix = (scaleDegrees[0] + 8) % 12;
-                            notes = buildChord(flatSix, 'major', keyOffset);
-                            chordName = getChordName(flatSix, 'major', keyOffset);
-                            romanNumeral = '♭VI';
-                            quality = 'Major';
-                            break;
-                        case 14:
-                            const fifth = scaleDegrees[4 % scaleDegrees.length];
-                            notes = buildChord(fifth, 'dom7', keyOffset);
-                            chordName = getChordName(fifth, 'dom7', keyOffset);
-                            romanNumeral = 'V7';
-                            quality = 'Dominant 7';
-                            break;
-                        case 15:
-                            if (variantType === 'Modal') {
-                                const neapolitan = (scaleDegrees[0] + 1) % 12;
-                                notes = buildChord(neapolitan, 'major', keyOffset);
-                                chordName = getChordName(neapolitan, 'major', keyOffset);
-                                romanNumeral = '♭II';
-                                quality = 'Major';
-                            } else {
-                                const fourth = scaleDegrees[3 % scaleDegrees.length];
-                                notes = buildChord(fourth, 'minor', keyOffset);
-                                chordName = getChordName(fourth, 'minor', keyOffset);
-                                romanNumeral = 'iv';
-                                quality = 'Minor';
-                            }
-                            break;
-                        default:
-                            const scaleDegree = scaleDegrees[0];
-                            notes = buildChord(scaleDegree, 'major', keyOffset);
-                            chordName = getChordName(scaleDegree, 'major', keyOffset);
-                            romanNumeral = 'I';
-                            quality = 'Major';
+                        } else if (variantType === 'Experimental') {
+                            // Augmented tonic
+                            const tonic = scaleDegrees[0];
+                            notes = [60 + keyOffset + tonic, 64 + keyOffset + tonic, 68 + keyOffset + tonic];
+                            chordName = getChordName(tonic, 'augmented', keyOffset) + 'aug';
+                            romanNumeral = 'I+';
+                            quality = 'Augmented';
+                        } else {
+                            // Minor iv (borrowed)
+                            const fourth = scaleDegrees[3 % scaleDegrees.length];
+                            notes = buildChord(fourth, 'minor', keyOffset);
+                            chordName = getChordName(fourth, 'minor', keyOffset);
+                            romanNumeral = 'iv';
+                            quality = 'Minor';
+                        }
+                    } else {
+                        // Fill with scale degree chords
+                        degree = (i % 7);
+                        const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
+                        const isMinorDegree = [1, 2, 5].includes(degree);
+                        const isDimDegree = degree === 6;
+                        
+                        if (isDimDegree) {
+                            chordType = 'diminished';
+                        } else if (isMinorDegree) {
+                            chordType = 'minor';
+                        } else {
+                            chordType = 'major';
+                        }
+                        
+                        // Add variations based on variant type
+                        if (variantType === 'Jazz' && i >= 8) {
+                            chordType = chordType === 'minor' ? 'minor7' : 
+                                       chordType === 'major' ? 'major7' : chordType;
+                        } else if (variantType === 'Experimental' && i >= 8) {
+                            chordType = 'quartal';
+                        }
+                        
+                        notes = buildChord(scaleDegree, chordType, keyOffset);
+                        chordName = getChordName(scaleDegree, chordType, keyOffset);
+                        romanNumeral = getRomanNumeral(degree, chordType.includes('minor'), chordType === 'diminished');
+                        
+                        quality = chordType === 'minor' ? 'Minor' : 
+                                 chordType === 'major' ? 'Major' : 
+                                 chordType === 'diminished' ? 'Diminished' :
+                                 chordType === 'major7' ? 'Major 7' :
+                                 chordType === 'minor7' ? 'Minor 7' :
+                                 chordType === 'quartal' ? 'Sus4' : 'Major';
                     }
                 }
 
@@ -773,7 +921,8 @@
                     notes,
                     quality,
                     row: Math.floor(i / 4) + 1,
-                    col: (i % 4) + 1
+                    col: (i % 4) + 1,
+                    isProgressionChord
                 });
             }
 
@@ -781,6 +930,64 @@
                 name: variantType,
                 pads
             };
+        }
+
+        // Initialize audio context
+        function initAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (error) {
+                console.warn('Web Audio API not supported');
+            }
+        }
+
+        // Populate select elements
+        function populateSelects() {
+            // Keys
+            const keySelect = document.getElementById('keySelect');
+            keys.forEach(key => {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = key;
+                keySelect.appendChild(option);
+            });
+
+            // Modes
+            const modeSelect = document.getElementById('modeSelect');
+            Object.entries(modes).forEach(([category, modeList]) => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = category;
+                modeList.forEach(mode => {
+                    const option = document.createElement('option');
+                    option.value = mode;
+                    option.textContent = mode;
+                    optgroup.appendChild(option);
+                });
+                modeSelect.appendChild(optgroup);
+            });
+
+            // Progressions
+            const progressionSelect = document.getElementById('progressionSelect');
+            Object.entries(progressions).forEach(([category, progList]) => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = category;
+                progList.forEach(prog => {
+                    const option = document.createElement('option');
+                    option.value = prog.value;
+                    option.textContent = prog.nickname ? `${prog.name} (${prog.nickname})` : prog.name;
+                    optgroup.appendChild(option);
+                });
+                progressionSelect.appendChild(optgroup);
+            });
+        }
+
+        // Update progression name
+        function updateProgressionName() {
+            const key = selectedKey.split('/')[0];
+            const modeShort = selectedMode.slice(0, 3);
+            const prog = selectedProgression.replace(/–/g, '-');
+            progressionName = `${key}${modeShort}_${prog}`;
+            document.getElementById('progressionName').value = progressionName;
         }
 
         function generateProgressions() {
@@ -796,6 +1003,35 @@
             ];
             
             renderProgressions();
+        }
+
+        function downloadSingleProgression(variant, index) {
+            const keyName = selectedKey.split('/')[0];
+            const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/–/g, '-')}_${variant.name}-${index + 1}.progression`;
+            
+            const progressionData = {
+                progression: {
+                    name: fileName.replace('.progression', ''),
+                    rootNote: keyName,
+                    scale: selectedMode,
+                    recordingOctave: 2,
+                    chords: variant.pads.map((pad, idx) => ({
+                        name: pad.chordName,
+                        role: idx === 0 ? "Root" : "Normal",
+                        notes: pad.notes
+                    }))
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(progressionData, null, 4)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         function renderProgressions() {
@@ -814,7 +1050,7 @@
                 
                 const gridHTML = rows.reverse().map(row => 
                     row.map(pad => `
-                        <div class="chord-pad" data-notes="${pad.notes.join(',')}">
+                        <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}" data-notes="${pad.notes.join(',')}">
                             <div class="chord-pad-content">
                                 <div class="chord-info">
                                     <div class="chord-name">${pad.chordName}</div>
@@ -844,6 +1080,11 @@
                                 <span class="pattern">${selectedProgression}</span>
                             </div>
                         </div>
+                        <button class="download-btn" title="Download" data-variant-index="${index}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            </svg>
+                        </button>
                     </div>
                     <div class="chord-grid">${gridHTML}</div>
                 `;
@@ -861,8 +1102,16 @@
                 });
             });
 
+            // Add click handlers for individual download buttons
+            container.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const variantIndex = parseInt(this.getAttribute('data-variant-index'));
+                    downloadSingleProgression(variants[variantIndex], variantIndex);
+                });
+            });
+
             container.classList.remove('hidden');
-            document.getElementById('exportSection').classList.remove('hidden');
+            document.getElementById('downloadAllBtn').style.display = 'block';
         }
 
         async function playChord(notes) {
@@ -896,7 +1145,10 @@
             if (safe) {
                 const safeKeys = ['C', 'G', 'D', 'A', 'F', 'A♯/B♭', 'D♯/E♭'];
                 const safeModes = ['Major', 'Minor', 'Dorian', 'Mixolydian'];
-                const safeProgressions = ['I–V–vi–IV', 'I–IV–V–I', 'vi–IV–I–V', 'I–vi–IV–V', 'ii–V–I', 'I–vi–ii–V', '12-bar blues'];
+                const safeProgressions = [
+                    'I–V–vi–IV', 'I–IV–V–I', 'vi–IV–I–V', 'I–vi–IV–V', 
+                    'ii–V–I', 'I–vi–ii–V', '12-bar-blues'
+                ];
                 
                 selectedKey = safeKeys[Math.floor(Math.random() * safeKeys.length)];
                 selectedMode = safeModes[Math.floor(Math.random() * safeModes.length)];
@@ -908,7 +1160,8 @@
                 selectedMode = allModes[Math.floor(Math.random() * allModes.length)];
                 
                 const allProgressions = Object.values(progressions).flat();
-                selectedProgression = allProgressions[Math.floor(Math.random() * allProgressions.length)];
+                const randomProg = allProgressions[Math.floor(Math.random() * allProgressions.length)];
+                selectedProgression = randomProg.value;
             }
             
             document.getElementById('keySelect').value = selectedKey;
@@ -984,9 +1237,15 @@
             });
 
             document.getElementById('generateBtn').addEventListener('click', generateProgressions);
-            document.getElementById('cluelessBtn').addEventListener('click', () => generateRandom(true));
-            document.getElementById('luckyBtn').addEventListener('click', () => generateRandom(false));
-            document.getElementById('exportBtn').addEventListener('click', exportProgressions);
+            document.getElementById('cluelessBtn').addEventListener('click', () => {
+                generateRandom(true);
+                generateProgressions();
+            });
+            document.getElementById('luckyBtn').addEventListener('click', () => {
+                generateRandom(false);
+                generateProgressions();
+            });
+            document.getElementById('downloadAllBtn').addEventListener('click', exportProgressions);
         });
     </script>
 </body>
