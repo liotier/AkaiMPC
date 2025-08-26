@@ -63,6 +63,154 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
+        .chord-matcher {
+            background: #f0f9ff;
+            border: 2px dashed var(--accent);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .chord-matcher-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .chord-matcher-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 0;
+        }
+
+        .optional-badge {
+            background: white;
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .expand-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--accent);
+            transition: transform 0.2s ease;
+        }
+
+        .chord-matcher.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .chord-matcher-content {
+            display: none;
+            margin-top: 16px;
+        }
+
+        .chord-matcher.expanded .chord-matcher-content {
+            display: block;
+        }
+
+        .chord-matcher-description {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .chord-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .chord-input-row select {
+            flex: 0 1 120px;
+        }
+
+        .chord-input-row button {
+            flex: 0 0 auto;
+        }
+
+        .selected-chords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+            min-height: 32px;
+        }
+
+        .chord-tag {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 4px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .chord-tag button {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 0;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .chord-tag button:hover {
+            background: var(--error);
+            color: white;
+        }
+
+        .key-mode-suggestions {
+            margin-top: 16px;
+            padding: 12px;
+            background: white;
+            border-radius: var(--radius);
+            font-size: 14px;
+        }
+
+        .suggestion-label {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .suggestion-list {
+            color: var(--fg);
+            line-height: 1.6;
+        }
+
+        .suggestion-item {
+            padding: 2px 0;
+        }
+
+        .suggestion-item.compatible {
+            color: var(--success);
+        }
+
+        .suggestion-item.incompatible {
+            color: var(--muted);
+            text-decoration: line-through;
+        }
+
         .controls {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -401,6 +549,56 @@
                  class="mpc-image">
         </div>
 
+        <div class="chord-matcher" id="chordMatcher">
+            <div class="chord-matcher-header" onclick="toggleChordMatcher()">
+                <h3>🎹 Chord Matcher</h3>
+                <span class="optional-badge">Optional</span>
+                <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="chord-matcher-content">
+                <p class="chord-matcher-description">
+                    Found a sample with great chords? Enter them here to find compatible keys and modes for your production.
+                </p>
+                <div class="chord-input-row">
+                    <select id="chordNote">
+                        <option value="">Note...</option>
+                        <option value="C">C</option>
+                        <option value="C#">C#/D♭</option>
+                        <option value="D">D</option>
+                        <option value="D#">D#/E♭</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="F#">F#/G♭</option>
+                        <option value="G">G</option>
+                        <option value="G#">G#/A♭</option>
+                        <option value="A">A</option>
+                        <option value="A#">A#/B♭</option>
+                        <option value="B">B</option>
+                    </select>
+                    <select id="chordQuality">
+                        <option value="">Quality...</option>
+                        <option value="major">Major</option>
+                        <option value="minor">Minor</option>
+                        <option value="dim">Diminished</option>
+                        <option value="aug">Augmented</option>
+                        <option value="sus4">Sus4</option>
+                        <option value="7">Dominant 7</option>
+                        <option value="maj7">Major 7</option>
+                        <option value="m7">Minor 7</option>
+                    </select>
+                    <button onclick="addChordRequirement()">Add Chord</button>
+                    <button onclick="clearChordRequirements()">Clear All</button>
+                </div>
+                <div class="selected-chords" id="selectedChords"></div>
+                <div class="key-mode-suggestions" id="keyModeSuggestions" style="display: none;">
+                    <div class="suggestion-label">Compatible Keys & Modes:</div>
+                    <div class="suggestion-list" id="suggestionList"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="controls">
             <div class="filter-group">
                 <label>Key</label>
@@ -444,12 +642,12 @@
                     MPC Chord Progression Finder
                 </a>
             </p>
+            <p>Produced by Jean-Marc Liotier</p>
             <p>
-                Produced by Jean-Marc Liotier | 
                 <a href="https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionGenerator"
                    target="_blank"
                    rel="noopener noreferrer">
-                    GitHub
+                    View on GitHub
                 </a>
             </p>
         </footer>
@@ -463,6 +661,7 @@
         let progressionName = '';
         let variants = [];
         let audioContext = null;
+        let chordRequirements = [];
 
         // Data definitions
         const keys = ['C', 'C♯/D♭', 'D', 'D♯/E♭', 'E', 'F', 'F♯/G♭', 'G', 'G♯/A♭', 'A', 'A♯/B♭', 'B'];
@@ -536,6 +735,236 @@
                 { value: 'I–♭III–IV–♭VI', name: 'I–♭III–IV–♭VI', nickname: 'Chromatic Mediant' }
             ]
         };
+
+        // Chord Matcher Functions
+        function toggleChordMatcher() {
+            const matcher = document.getElementById('chordMatcher');
+            matcher.classList.toggle('expanded');
+        }
+
+        function addChordRequirement() {
+            const noteSelect = document.getElementById('chordNote');
+            const qualitySelect = document.getElementById('chordQuality');
+            
+            if (!noteSelect.value || !qualitySelect.value) {
+                return;
+            }
+            
+            const chord = {
+                note: noteSelect.value,
+                quality: qualitySelect.value,
+                display: noteSelect.value + (qualitySelect.value === 'major' ? '' : 
+                         qualitySelect.value === 'minor' ? 'm' :
+                         qualitySelect.value === 'dim' ? '°' :
+                         qualitySelect.value === 'aug' ? '+' :
+                         qualitySelect.value === 'sus4' ? 'sus4' :
+                         qualitySelect.value === '7' ? '7' :
+                         qualitySelect.value === 'maj7' ? 'maj7' :
+                         qualitySelect.value === 'm7' ? 'm7' : '')
+            };
+            
+            // Check if chord already exists
+            if (!chordRequirements.find(c => c.display === chord.display)) {
+                chordRequirements.push(chord);
+                renderChordRequirements();
+                analyzeCompatibleKeys();
+            }
+            
+            // Reset selectors
+            noteSelect.value = '';
+            qualitySelect.value = '';
+        }
+
+        function removeChordRequirement(index) {
+            chordRequirements.splice(index, 1);
+            renderChordRequirements();
+            analyzeCompatibleKeys();
+        }
+
+        function clearChordRequirements() {
+            chordRequirements = [];
+            renderChordRequirements();
+            analyzeCompatibleKeys();
+        }
+
+        function renderChordRequirements() {
+            const container = document.getElementById('selectedChords');
+            
+            if (chordRequirements.length === 0) {
+                container.innerHTML = '<span style="color: var(--muted); font-size: 14px;">No chords selected</span>';
+            } else {
+                container.innerHTML = chordRequirements.map((chord, index) => `
+                    <div class="chord-tag">
+                        ${chord.display}
+                        <button onclick="removeChordRequirement(${index})">×</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function analyzeCompatibleKeys() {
+            if (chordRequirements.length === 0) {
+                // Reset filters and hide suggestions
+                document.getElementById('keyModeSuggestions').style.display = 'none';
+                resetKeyModeFilters();
+                return;
+            }
+            
+            const compatibleKeysAndModes = [];
+            
+            // Check each key and mode combination
+            keys.forEach(key => {
+                Object.values(modes).flat().forEach(mode => {
+                    if (isKeyModeCompatible(key, mode)) {
+                        compatibleKeysAndModes.push({ key, mode });
+                    }
+                });
+            });
+            
+            // Update UI
+            displayCompatibilityResults(compatibleKeysAndModes);
+            filterKeyModeDropdowns(compatibleKeysAndModes);
+        }
+
+        function isKeyModeCompatible(key, mode) {
+            const keyOffset = getKeyOffset(key);
+            const scaleDegrees = getScaleDegrees(mode);
+            
+            // Get all triads in this key/mode
+            const availableChords = [];
+            for (let i = 0; i < scaleDegrees.length; i++) {
+                const degree = scaleDegrees[i];
+                
+                // Determine chord quality based on scale degree
+                let quality;
+                if (mode === 'Major') {
+                    quality = [0, 3, 4].includes(i) ? 'major' : [1, 2, 5].includes(i) ? 'minor' : 'diminished';
+                } else if (mode === 'Minor') {
+                    quality = [0, 3, 4].includes(i) ? 'minor' : [2, 5, 6].includes(i) ? 'major' : 'diminished';
+                } else {
+                    // Simplified for other modes - would need full implementation
+                    quality = i === 0 ? 'major' : 'minor';
+                }
+                
+                const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][(degree + keyOffset) % 12];
+                availableChords.push({ note: noteName, quality });
+                
+                // Also add 7th chords if base triad exists
+                if (quality === 'major') {
+                    availableChords.push({ note: noteName, quality: 'maj7' });
+                    availableChords.push({ note: noteName, quality: '7' });
+                } else if (quality === 'minor') {
+                    availableChords.push({ note: noteName, quality: 'm7' });
+                }
+            }
+            
+            // Check if all required chords are available
+            return chordRequirements.every(req => 
+                availableChords.some(chord => 
+                    chord.note.replace('#', '').replace('♭', '') === req.note.replace('#', '').replace('♭', '') &&
+                    (chord.quality === req.quality || 
+                     (req.quality === '7' && chord.quality === 'major') ||
+                     (req.quality === 'm7' && chord.quality === 'minor') ||
+                     (req.quality === 'maj7' && chord.quality === 'major'))
+                )
+            );
+        }
+
+        function displayCompatibilityResults(compatibleList) {
+            const suggestionsDiv = document.getElementById('keyModeSuggestions');
+            const listDiv = document.getElementById('suggestionList');
+            
+            if (compatibleList.length === 0) {
+                listDiv.innerHTML = '<div class="suggestion-item incompatible">No compatible keys found. Try fewer or different chords.</div>';
+            } else {
+                // Group by key
+                const byKey = {};
+                compatibleList.forEach(({ key, mode }) => {
+                    if (!byKey[key]) byKey[key] = [];
+                    byKey[key].push(mode);
+                });
+                
+                let html = '';
+                Object.entries(byKey).forEach(([key, modes]) => {
+                    if (modes.length > 0) {
+                        html += `<div class="suggestion-item compatible"><strong>${key}:</strong> ${modes.join(', ')}</div>`;
+                    }
+                });
+                listDiv.innerHTML = html;
+            }
+            
+            suggestionsDiv.style.display = 'block';
+        }
+
+        function filterKeyModeDropdowns(compatibleList) {
+            const keySelect = document.getElementById('keySelect');
+            const modeSelect = document.getElementById('modeSelect');
+            
+            if (compatibleList.length === 0) {
+                // Disable selects if no compatible options
+                keySelect.disabled = true;
+                modeSelect.disabled = true;
+                return;
+            }
+            
+            keySelect.disabled = false;
+            modeSelect.disabled = false;
+            
+            // Store original selected values
+            const originalKey = selectedKey;
+            const originalMode = selectedMode;
+            
+            // Get unique keys and modes
+            const compatibleKeys = [...new Set(compatibleList.map(item => item.key))];
+            const compatibleModes = [...new Set(compatibleList.map(item => item.mode))];
+            
+            // Update key select options
+            Array.from(keySelect.options).forEach(option => {
+                if (option.value) {
+                    option.disabled = !compatibleKeys.includes(option.value);
+                    option.style.color = option.disabled ? 'var(--muted)' : '';
+                }
+            });
+            
+            // Update mode select options
+            Array.from(modeSelect.options).forEach(option => {
+                if (option.value) {
+                    option.disabled = !compatibleModes.includes(option.value);
+                    option.style.color = option.disabled ? 'var(--muted)' : '';
+                }
+            });
+            
+            // If current selection is incompatible, select first compatible option
+            if (!compatibleKeys.includes(originalKey)) {
+                keySelect.value = compatibleKeys[0];
+                selectedKey = compatibleKeys[0];
+            }
+            
+            if (!compatibleModes.includes(originalMode)) {
+                modeSelect.value = compatibleModes[0];
+                selectedMode = compatibleModes[0];
+            }
+            
+            updateProgressionName();
+        }
+
+        function resetKeyModeFilters() {
+            const keySelect = document.getElementById('keySelect');
+            const modeSelect = document.getElementById('modeSelect');
+            
+            keySelect.disabled = false;
+            modeSelect.disabled = false;
+            
+            Array.from(keySelect.options).forEach(option => {
+                option.disabled = false;
+                option.style.color = '';
+            });
+            
+            Array.from(modeSelect.options).forEach(option => {
+                option.disabled = false;
+                option.style.color = '';
+            });
+        }
 
         // Parse progression notation and return chord degrees
         function parseProgression(progressionString) {
@@ -1216,6 +1645,7 @@
             initAudio();
             populateSelects();
             updateProgressionName();
+            renderChordRequirements(); // Initialize chord requirements display
 
             document.getElementById('keySelect').addEventListener('change', function() {
                 selectedKey = this.value;
