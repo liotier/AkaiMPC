@@ -8,7 +8,7 @@ Instead of trawling through thousands of inane progressions, generate musically 
 
 ## Try It Now
 
-**[Access the complete MPC Chord Progression Generator](https://github.com/liotier/AkaiMPC/blob/main/AkaiMPCChordProgressionGenerator/AkaiMPCChordProgressionGenerator.html)**
+**[Access the complete MPC Chord Progression Generator](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/AkaiMPCChordProgressionGenerator.html)**
 
 This is the full product, freely available online. No installation, no sign-up, no limitations. Works directly in your browser and runs completely offline once loaded.
 
