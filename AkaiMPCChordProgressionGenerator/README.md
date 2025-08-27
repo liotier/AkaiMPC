@@ -130,9 +130,21 @@ Together, they provide the complete harmonic toolkit for modern MPC-based Pad Pe
 - Responsive CSS Grid that mirrors the MPC's 4×4 pad layout
 - JSZip for seamless multi-file exports
 
-## License
+## 🤝 Contributing
 
-Released under the Unlicense - This is free and unencumbered software released into the public domain. Use it however you want, commercially or otherwise, with no attribution required.
+Contributions are welcome! Feel free to:
+- Report bugs or suggest features via GitHub Issues
+- Submit pull requests with improvements
+- Share your `.progression` files for testing
+
+## 📝 License
+
+This project is open source and available under the Unlicense.
+
+## 🙏 Acknowledgments
+
+- Built for the Akai MPC community
+- Shout out to the amazing folks at [MPC Forums](https://www.mpc-forums.com/) - where the real MPC magic happens !
 
 ## Credits & Links
 
