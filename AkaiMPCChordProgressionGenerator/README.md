@@ -8,6 +8,8 @@ Generate custom chord progressions optimized for your Akai MPC hardware and soft
 
 This is the full product, freely available online. No installation, no sign-up, no limitations. Works directly in your browser and runs completely offline once loaded.
 
+![image](MPC Chord Progression Generator - Screenshot.png)
+
 ## Two Approaches, One Ecosystem
 
 While the [MPC Chord Progression Finder](https://github.com/liotier/AkaiMPC/blob/main/AkaiMPCChordProgressionFinder/README.md) helps you identify and recreate chord progressions from existing music, this Generator takes the opposite approach: **it creates new progressions from scratch based on music theory principles**.
