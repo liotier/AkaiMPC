@@ -127,9 +127,8 @@ This project is open source and available under the Unlicense.
 - Shout out to the amazing folks at [MPC Forums](https://www.mpc-forums.com/) - where the real MPC magic happens !
 - Inspired by the [J-6 Chord Finder](https://j6chordfinder.github.io/)
 
-## 📞 Contact
+## Credits & Links
 
-- GitHub: [liotier/AkaiMPC](https://github.com/liotier/AkaiMPC)
-- Issues: [GitHub Issues](https://github.com/liotier/AkaiMPC/issues)
-
-
+**Created by Jean-Marc Liotier**  
+**Sister project: [MPC Chord Progression Finder](https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionGenerator)**  
+**GitHub: [Source Code](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/Akai%20MPC%20Chord%20Progression%20Finder.html)**
