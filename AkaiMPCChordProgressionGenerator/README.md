@@ -1,4 +1,4 @@
-# MPC Chord Progression Generator
+# Akai MPC Chord Progression Generator - generates smart .progression files for Pad Perform
 
 Generate musically intelligent custom chord progressions in 4×4 pad layouts, delivered as `.progression` files for Akai MPC Pad Perform.
 
