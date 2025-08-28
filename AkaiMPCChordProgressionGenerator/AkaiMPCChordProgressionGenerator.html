@@ -473,6 +473,43 @@
             height: 100%;
         }
 
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.4;
+            max-width: 250px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 1000;
+            white-space: normal;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+
+        .tooltip::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid rgba(0, 0, 0, 0.9);
+        }
+
+        .chord-pad {
+            position: relative;
+        }
         .hidden {
             display: none;
         }
@@ -1494,6 +1531,138 @@
             return selected;
         }
 
+        // Tooltip functions
+function getChordTooltip(romanNumeral, chordType) {
+    // Normalize roman numeral for matching
+    const normalized = romanNumeral ? romanNumeral.toUpperCase() : '';
+    
+    // Map of roman numerals to tooltip text
+    const tooltipMap = {
+        'I': 'Tonic - the home chord, gives resolution and stability.',
+        'IMAJ7': 'Tonic - the home chord, gives resolution and stability.',
+        'II': 'Supertonic - predominant chord, often leading to V.',
+        'IIM7': 'Supertonic - predominant chord, often leading to V.',
+        'III': 'Mediant - weaker predominant or color chord, connects I and IV/vi.',
+        'IIIM7': 'Mediant - weaker predominant or color chord, connects I and IV/vi.',
+        'IV': 'Subdominant - predominant chord, prepares motion to V.',
+        'IVMAJ7': 'Subdominant - predominant chord, prepares motion to V.',
+        'V': 'Dominant - creates tension that resolves to I.',
+        'V7': 'Dominant - creates tension that resolves to I.',
+        'VI': 'Submediant - relative minor, often used for deceptive cadences.',
+        'VIM7': 'Submediant - relative minor, often used for deceptive cadences.',
+        'VII°': 'Leading-tone - diminished chord, pulls strongly to I.',
+        'VIIØ7': 'Leading-tone - diminished chord, pulls strongly to I.',
+        
+        // Modal mixture / Borrowed chords
+        '?III': 'Borrowed from parallel minor, adds dramatic color, substitutes I.',
+        'IV': 'Borrowed minor subdominant, softens motion to V.',
+        '?VI': 'Borrowed from parallel minor, dramatic predominant, often moves to V.',
+        '?VII': 'Borrowed from Mixolydian, gives rock/blues flavor, often moves to I or V.',
+        '?II': 'Borrowed flat-II (Neapolitan), strong predominant, prepares V.',
+        '?V': 'Rare borrowed chord, chromatic color.',
+        '?IV°': 'Borrowed diminished passing chord, leads to V.',
+        
+        // Secondary dominants
+        'V/II': 'Secondary dominant - tonicizes ii, creates motion to ii.',
+        'V/III': 'Secondary dominant - tonicizes iii, rarely used but colorful.',
+        'V/IV': 'Secondary dominant - tonicizes IV, brightens progression.',
+        'V/V': 'Secondary dominant - tonicizes V, very common to strengthen cadence.',
+        'V/VI': 'Secondary dominant - tonicizes vi, used for deceptive shifts.',
+        
+        // Secondary leading-tones
+        'VII°/II': 'Leading-tone chord of ii, resolves strongly to ii.',
+        'VII°/III': 'Leading-tone chord of iii, resolves strongly to iii.',
+        'VII°/IV': 'Leading-tone chord of IV, resolves strongly to IV.',
+        'VII°/V': 'Leading-tone chord of V, resolves strongly to V.',
+        'VII°/VI': 'Leading-tone chord of vi, resolves strongly to vi.',
+        
+        // Special chords
+        'SUBV7': 'Tritone substitution - jazz substitution for V7, creates chromatic voice leading.',
+        '?I°': 'Passing diminished - chromatic connector between diatonic chords.',
+        '?II°': 'Passing diminished - chromatic connector between diatonic chords.'
+    };
+    
+    // Handle lowercase roman numerals (minor chords)
+    const upperNormalized = normalized.replace(/^([IVX]+)/i, (match) => {
+        // Check if the original was lowercase
+        if (romanNumeral && romanNumeral[0] === romanNumeral[0].toLowerCase() && romanNumeral[0] !== '?' && romanNumeral[0] !== '?') {
+            // It's a minor chord
+            const base = match.toUpperCase();
+            switch(base) {
+                case 'I': return 'I';
+                case 'II': return 'II';
+                case 'III': return 'III';
+                case 'IV': return 'IV';
+                case 'V': return 'V';
+                case 'VI': return 'VI';
+                case 'VII': return 'VII';
+                default: return match;
+            }
+        }
+        return match.toUpperCase();
+    });
+    
+    // First try exact match
+    if (tooltipMap[upperNormalized]) {
+        return tooltipMap[upperNormalized];
+    }
+    
+    // Try without quality indicators
+    const withoutQuality = upperNormalized.replace(/M7|MAJ7|7|°|Ø7|DIM/g, '');
+    if (tooltipMap[withoutQuality]) {
+        return tooltipMap[withoutQuality];
+    }
+    
+    // Handle chord types
+    if (chordType) {
+        if (chordType.includes('sus')) {
+            return 'Suspended chord - replaces 3rd with 2nd/4th, creates suspension before resolution.';
+        }
+        if (chordType.includes('add9')) {
+            return 'Adds brightness, dreamy color.';
+        }
+        if (chordType.includes('6')) {
+            return 'Vintage color, softens the harmony.';
+        }
+        if (chordType.includes('9') || chordType.includes('11') || chordType.includes('13')) {
+            return 'Extended harmony - jazz/pop color, adds depth.';
+        }
+    }
+    
+    // Default based on whether it's borrowed
+    if (normalized.includes('?') || normalized.includes('?')) {
+        return 'Borrowed chord - adds expressive color by borrowing from parallel mode.';
+    }
+    
+    // Default for unrecognized chords
+    return 'Harmonic color - adds variety and interest to the progression.';
+}
+
+function showTooltip(element, text) {
+    const tooltip = document.getElementById('chordTooltip') || createTooltip();
+    tooltip.textContent = text;
+    
+    const rect = element.getBoundingClientRect();
+    tooltip.style.left = rect.left + rect.width / 2 + 'px';
+    tooltip.style.top = (rect.top - 10) + 'px';
+    tooltip.style.transform = 'translate(-50%, -100%)';
+    
+    setTimeout(() => tooltip.classList.add('visible'), 10);
+}
+
+function createTooltip() {
+    const existing = document.getElementById('chordTooltip');
+    if (existing) return existing;
+    
+    const tooltip = document.createElement('div');
+    tooltip.id = 'chordTooltip';
+    tooltip.className = 'tooltip';
+    tooltip.style.position = 'fixed';
+    document.body.appendChild(tooltip);
+    
+    return tooltip;
+}
+        
         function generateVariant(variantType) {
             const keyOffset = getKeyOffset(selectedKey);
             const scaleDegrees = getScaleDegrees(selectedMode);
@@ -1740,7 +1909,8 @@
                 
                 const gridHTML = rows.reverse().map(row => 
                     row.map(pad => `
-                        <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}" data-notes="${pad.notes.join(',')}">
+                        <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}" 
+                            data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}">
                             <div class="chord-pad-content">
                                 <div class="chord-info">
                                     <div class="chord-name">${pad.chordName}</div>
@@ -1782,6 +1952,21 @@
                 container.appendChild(card);
             });
 
+// Add hover handlers for tooltips
+container.querySelectorAll('.chord-pad').forEach(pad => {
+    pad.addEventListener('mouseenter', function() {
+        const roman = this.getAttribute('data-roman');
+        const quality = this.getAttribute('data-quality');
+        const tooltipText = getChordTooltip(roman, quality);
+        showTooltip(this, tooltipText);
+    });
+    
+    pad.addEventListener('mouseleave', function() {
+        const tooltip = document.getElementById('chordTooltip');
+        if (tooltip) tooltip.classList.remove('visible');
+    });
+});
+            
             // Add click handlers for playing chords
             container.querySelectorAll('.chord-pad').forEach(pad => {
                 pad.addEventListener('click', function() {
