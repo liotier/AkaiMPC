@@ -473,6 +473,44 @@
             height: 100%;
         }
 
+		.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.4;
+    max-width: 250px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 1000;
+    white-space: normal;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.tooltip.visible {
+    opacity: 1;
+}
+
+.tooltip::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid rgba(0, 0, 0, 0.9);
+}
+
+.chord-pad {
+    position: relative;
+}
+		
         .hidden {
             display: none;
         }
@@ -541,7 +579,7 @@
                 <h1>MPC Chord Progression Generator</h1>
                 <p class="subtitle">
                     Generate custom .progression files for your Akai MPC hardware and software.<br>
-                    Create musically intelligent chord progressions optimized for the MPC's 4×4 pad layout.
+                    Create musically intelligent chord progressions optimized for the MPC's 4Ã—4 pad layout.
                 </p>
             </div>
             <img src="https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/20250821%20MPC%20One%20on%20chair%20-%20web%20sized.jpg" 
@@ -551,7 +589,7 @@
 
         <div class="chord-matcher" id="chordMatcher">
             <div class="chord-matcher-header" onclick="toggleChordMatcher()">
-                <h3>🎹 Chord Matcher</h3>
+                <h3>ðŸŽ¹ Chord Matcher</h3>
                 <span class="optional-badge">Optional</span>
                 <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -565,16 +603,16 @@
                     <select id="chordNote">
                         <option value="">Note...</option>
                         <option value="C">C</option>
-                        <option value="C#">C#/D♭</option>
+                        <option value="C#">C#/Dâ™­</option>
                         <option value="D">D</option>
-                        <option value="D#">D#/E♭</option>
+                        <option value="D#">D#/Eâ™­</option>
                         <option value="E">E</option>
                         <option value="F">F</option>
-                        <option value="F#">F#/G♭</option>
+                        <option value="F#">F#/Gâ™­</option>
                         <option value="G">G</option>
-                        <option value="G#">G#/A♭</option>
+                        <option value="G#">G#/Aâ™­</option>
                         <option value="A">A</option>
-                        <option value="A#">A#/B♭</option>
+                        <option value="A#">A#/Bâ™­</option>
                         <option value="B">B</option>
                     </select>
                     <select id="chordQuality">
@@ -657,14 +695,14 @@
         // Global state
         let selectedKey = 'C';
         let selectedMode = 'Major';
-        let selectedProgression = 'I—V—vi—IV';
+        let selectedProgression = 'Iâ€”Vâ€”viâ€”IV';
         let progressionName = '';
         let variants = [];
         let audioContext = null;
         let chordRequirements = [];
 
         // Data definitions
-        const keys = ['C', 'C♯/D♭', 'D', 'D♯/E♭', 'E', 'F', 'F♯/G♭', 'G', 'G♯/A♭', 'A', 'A♯/B♭', 'B'];
+        const keys = ['C', 'Câ™¯/Dâ™­', 'D', 'Dâ™¯/Eâ™­', 'E', 'F', 'Fâ™¯/Gâ™­', 'G', 'Gâ™¯/Aâ™­', 'A', 'Aâ™¯/Bâ™­', 'B'];
         
         const modes = {
             'Common Western Tonal': [
@@ -683,56 +721,56 @@
 
         const progressions = {
             'Pop/Rock': [
-                { value: 'I—V—vi—IV', name: 'I—V—vi—IV', nickname: 'Axis of Awesome' },
-                { value: 'I—IV—V—I', name: 'I—IV—V—I', nickname: 'Classic Rock' },
-                { value: 'vi—IV—I—V', name: 'vi—IV—I—V', nickname: 'Pop Punk' },
-                { value: 'I—vi—IV—V', name: 'I—vi—IV—V', nickname: '50s Doo-Wop' },
-                { value: 'I—V—vi—iii—IV', name: 'I—V—vi—iii—IV', nickname: 'Canon Progression' },
-                { value: 'IV—I—V—vi', name: 'IV—I—V—vi', nickname: 'Despacito' },
-                { value: 'vi—V—IV—V', name: 'vi—V—IV—V', nickname: 'Grenade' },
-                { value: 'I—III—IV—iv', name: 'I—III—IV—iv', nickname: 'Creep' },
-                { value: 'I—V—♭VII—IV', name: 'I—V—♭VII—IV', nickname: 'Sweet Home' },
-                { value: 'I—♭VII—IV—I', name: 'I—♭VII—IV—I', nickname: 'Mixolydian Vamp' }
+                { value: 'Iâ€”Vâ€”viâ€”IV', name: 'Iâ€”Vâ€”viâ€”IV', nickname: 'Axis of Awesome' },
+                { value: 'Iâ€”IVâ€”Vâ€”I', name: 'Iâ€”IVâ€”Vâ€”I', nickname: 'Classic Rock' },
+                { value: 'viâ€”IVâ€”Iâ€”V', name: 'viâ€”IVâ€”Iâ€”V', nickname: 'Pop Punk' },
+                { value: 'Iâ€”viâ€”IVâ€”V', name: 'Iâ€”viâ€”IVâ€”V', nickname: '50s Doo-Wop' },
+                { value: 'Iâ€”Vâ€”viâ€”iiiâ€”IV', name: 'Iâ€”Vâ€”viâ€”iiiâ€”IV', nickname: 'Canon Progression' },
+                { value: 'IVâ€”Iâ€”Vâ€”vi', name: 'IVâ€”Iâ€”Vâ€”vi', nickname: 'Despacito' },
+                { value: 'viâ€”Vâ€”IVâ€”V', name: 'viâ€”Vâ€”IVâ€”V', nickname: 'Grenade' },
+                { value: 'Iâ€”IIIâ€”IVâ€”iv', name: 'Iâ€”IIIâ€”IVâ€”iv', nickname: 'Creep' },
+                { value: 'Iâ€”Vâ€”â™­VIIâ€”IV', name: 'Iâ€”Vâ€”â™­VIIâ€”IV', nickname: 'Sweet Home' },
+                { value: 'Iâ€”â™­VIIâ€”IVâ€”I', name: 'Iâ€”â™­VIIâ€”IVâ€”I', nickname: 'Mixolydian Vamp' }
             ],
             'Blues/Soul': [
-                { value: '12-bar-blues', name: 'I—I—I—I—IV—IV—I—I—V—IV—I—V', nickname: '12-Bar Blues' },
-                { value: 'I—vi—ii—V', name: 'I—vi—ii—V', nickname: 'Turnaround' },
-                { value: 'ii—V—I—VI', name: 'ii—V—I—VI', nickname: 'Rhythm Changes A' },
-                { value: 'I—VI—ii—V', name: 'I—VI—ii—V', nickname: 'I Got Rhythm' },
-                { value: 'i—♭III—♭VII—IV', name: 'i—♭III—♭VII—IV', nickname: 'Dorian Vamp' },
-                { value: 'i—IV—i—V', name: 'i—IV—i—V', nickname: 'Minor Blues' },
-                { value: 'I—IV', name: 'I—IV', nickname: 'Two Chord Vamp' }
+                { value: '12-bar-blues', name: 'Iâ€”Iâ€”Iâ€”Iâ€”IVâ€”IVâ€”Iâ€”Iâ€”Vâ€”IVâ€”Iâ€”V', nickname: '12-Bar Blues' },
+                { value: 'Iâ€”viâ€”iiâ€”V', name: 'Iâ€”viâ€”iiâ€”V', nickname: 'Turnaround' },
+                { value: 'iiâ€”Vâ€”Iâ€”VI', name: 'iiâ€”Vâ€”Iâ€”VI', nickname: 'Rhythm Changes A' },
+                { value: 'Iâ€”VIâ€”iiâ€”V', name: 'Iâ€”VIâ€”iiâ€”V', nickname: 'I Got Rhythm' },
+                { value: 'iâ€”â™­IIIâ€”â™­VIIâ€”IV', name: 'iâ€”â™­IIIâ€”â™­VIIâ€”IV', nickname: 'Dorian Vamp' },
+                { value: 'iâ€”IVâ€”iâ€”V', name: 'iâ€”IVâ€”iâ€”V', nickname: 'Minor Blues' },
+                { value: 'Iâ€”IV', name: 'Iâ€”IV', nickname: 'Two Chord Vamp' }
             ],
             'Jazz/Functional': [
-                { value: 'ii—V—I', name: 'ii—V—I', nickname: '2-5-1' },
-                { value: 'ii—V—I—vi', name: 'ii—V—I—vi', nickname: 'Jazz Standard' },
-                { value: 'iii—vi—ii—V', name: 'iii—vi—ii—V', nickname: 'Circle Progression' },
-                { value: 'IVM7—V7—iii7—vi', name: 'IVM7—V7—iii7—vi', nickname: 'Fly Me To The Moon' },
-                { value: 'IM7—ii7—iii7—IVM7', name: 'IM7—ii7—iii7—IVM7', nickname: 'Ascending Jazz' },
-                { value: 'vi—ii—V—I', name: 'vi—ii—V—I', nickname: 'Minor Turnaround' },
-                { value: 'I—vi—IV—♯iv°—V', name: 'I—vi—IV—♯iv°—V', nickname: 'Chromatic Turnaround' },
-                { value: 'iv—♭VII—I', name: 'iv—♭VII—I', nickname: 'Backdoor' },
-                { value: 'I—♯I°—ii—♯II°', name: 'I—♯I°—ii—♯II°', nickname: 'Chromatic Walk' },
-                { value: 'IM7—♭IIIM7—♭VIM7—♭II7', name: 'IM7—♭IIIM7—♭VIM7—♭II7', nickname: 'Giant Steps' }
+                { value: 'iiâ€”Vâ€”I', name: 'iiâ€”Vâ€”I', nickname: '2-5-1' },
+                { value: 'iiâ€”Vâ€”Iâ€”vi', name: 'iiâ€”Vâ€”Iâ€”vi', nickname: 'Jazz Standard' },
+                { value: 'iiiâ€”viâ€”iiâ€”V', name: 'iiiâ€”viâ€”iiâ€”V', nickname: 'Circle Progression' },
+                { value: 'IVM7â€”V7â€”iii7â€”vi', name: 'IVM7â€”V7â€”iii7â€”vi', nickname: 'Fly Me To The Moon' },
+                { value: 'IM7â€”ii7â€”iii7â€”IVM7', name: 'IM7â€”ii7â€”iii7â€”IVM7', nickname: 'Ascending Jazz' },
+                { value: 'viâ€”iiâ€”Vâ€”I', name: 'viâ€”iiâ€”Vâ€”I', nickname: 'Minor Turnaround' },
+                { value: 'Iâ€”viâ€”IVâ€”â™¯ivÂ°â€”V', name: 'Iâ€”viâ€”IVâ€”â™¯ivÂ°â€”V', nickname: 'Chromatic Turnaround' },
+                { value: 'ivâ€”â™­VIIâ€”I', name: 'ivâ€”â™­VIIâ€”I', nickname: 'Backdoor' },
+                { value: 'Iâ€”â™¯IÂ°â€”iiâ€”â™¯IIÂ°', name: 'Iâ€”â™¯IÂ°â€”iiâ€”â™¯IIÂ°', nickname: 'Chromatic Walk' },
+                { value: 'IM7â€”â™­IIIM7â€”â™­VIM7â€”â™­II7', name: 'IM7â€”â™­IIIM7â€”â™­VIM7â€”â™­II7', nickname: 'Giant Steps' }
             ],
             'Classical/Modal': [
-                { value: 'I—IV—vii°—iii—vi—ii—V—I', name: 'I—IV—vii°—iii—vi—ii—V—I', nickname: 'Circle of Fifths' },
-                { value: 'I—V—vi—iii—IV—I—IV—V', name: 'I—V—vi—iii—IV—I—IV—V', nickname: 'Pachelbel Canon' },
-                { value: 'i—♭VII—♭VI—V', name: 'i—♭VII—♭VI—V', nickname: 'Andalusian' },
-                { value: 'i—♭VII—i—V', name: 'i—♭VII—i—V', nickname: 'Passamezzo Antico' },
-                { value: 'I—V—I—IV', name: 'I—V—I—IV', nickname: 'Passamezzo Moderno' },
-                { value: 'iv—♭VII—♭III—♭VI', name: 'iv—♭VII—♭III—♭VI', nickname: 'Plagal Cascade' },
-                { value: 'I—♭II', name: 'I—♭II', nickname: 'Neapolitan' },
-                { value: 'i—iv—♭VII—♭III', name: 'i—iv—♭VII—♭III', nickname: 'Natural Minor' }
+                { value: 'Iâ€”IVâ€”viiÂ°â€”iiiâ€”viâ€”iiâ€”Vâ€”I', name: 'Iâ€”IVâ€”viiÂ°â€”iiiâ€”viâ€”iiâ€”Vâ€”I', nickname: 'Circle of Fifths' },
+                { value: 'Iâ€”Vâ€”viâ€”iiiâ€”IVâ€”Iâ€”IVâ€”V', name: 'Iâ€”Vâ€”viâ€”iiiâ€”IVâ€”Iâ€”IVâ€”V', nickname: 'Pachelbel Canon' },
+                { value: 'iâ€”â™­VIIâ€”â™­VIâ€”V', name: 'iâ€”â™­VIIâ€”â™­VIâ€”V', nickname: 'Andalusian' },
+                { value: 'iâ€”â™­VIIâ€”iâ€”V', name: 'iâ€”â™­VIIâ€”iâ€”V', nickname: 'Passamezzo Antico' },
+                { value: 'Iâ€”Vâ€”Iâ€”IV', name: 'Iâ€”Vâ€”Iâ€”IV', nickname: 'Passamezzo Moderno' },
+                { value: 'ivâ€”â™­VIIâ€”â™­IIIâ€”â™­VI', name: 'ivâ€”â™­VIIâ€”â™­IIIâ€”â™­VI', nickname: 'Plagal Cascade' },
+                { value: 'Iâ€”â™­II', name: 'Iâ€”â™­II', nickname: 'Neapolitan' },
+                { value: 'iâ€”ivâ€”â™­VIIâ€”â™­III', name: 'iâ€”ivâ€”â™­VIIâ€”â™­III', nickname: 'Natural Minor' }
             ],
             'Electronic/Modern': [
-                { value: 'i—♭VI—♭III—♭VII', name: 'i—♭VI—♭III—♭VII', nickname: 'EDM Drop' },
-                { value: 'i—♭VII—♭VI—♭VII', name: 'i—♭VII—♭VI—♭VII', nickname: 'Dark House' },
-                { value: 'vi—IV—I—V', name: 'vi—IV—I—V', nickname: 'Pop Loop' },
-                { value: 'i—i—i—i', name: 'i—i—i—i', nickname: 'Techno' },
-                { value: 'I—V—vi—IV—I—V—iii—IV', name: 'I—V—vi—IV—I—V—iii—IV', nickname: 'Extended Pop' },
-                { value: 'i—♭III—♭VII—i', name: 'i—♭III—♭VII—i', nickname: 'Modal Interchange' },
-                { value: 'I—♭III—IV—♭VI', name: 'I—♭III—IV—♭VI', nickname: 'Chromatic Mediant' }
+                { value: 'iâ€”â™­VIâ€”â™­IIIâ€”â™­VII', name: 'iâ€”â™­VIâ€”â™­IIIâ€”â™­VII', nickname: 'EDM Drop' },
+                { value: 'iâ€”â™­VIIâ€”â™­VIâ€”â™­VII', name: 'iâ€”â™­VIIâ€”â™­VIâ€”â™­VII', nickname: 'Dark House' },
+                { value: 'viâ€”IVâ€”Iâ€”V', name: 'viâ€”IVâ€”Iâ€”V', nickname: 'Pop Loop' },
+                { value: 'iâ€”iâ€”iâ€”i', name: 'iâ€”iâ€”iâ€”i', nickname: 'Techno' },
+                { value: 'Iâ€”Vâ€”viâ€”IVâ€”Iâ€”Vâ€”iiiâ€”IV', name: 'Iâ€”Vâ€”viâ€”IVâ€”Iâ€”Vâ€”iiiâ€”IV', nickname: 'Extended Pop' },
+                { value: 'iâ€”â™­IIIâ€”â™­VIIâ€”i', name: 'iâ€”â™­IIIâ€”â™­VIIâ€”i', nickname: 'Modal Interchange' },
+                { value: 'Iâ€”â™­IIIâ€”IVâ€”â™­VI', name: 'Iâ€”â™­IIIâ€”IVâ€”â™­VI', nickname: 'Chromatic Mediant' }
             ]
         };
 
@@ -755,7 +793,7 @@
                 quality: qualitySelect.value,
                 display: noteSelect.value + (qualitySelect.value === 'major' ? '' : 
                          qualitySelect.value === 'minor' ? 'm' :
-                         qualitySelect.value === 'dim' ? '°' :
+                         qualitySelect.value === 'dim' ? 'Â°' :
                          qualitySelect.value === 'aug' ? '+' :
                          qualitySelect.value === 'sus4' ? 'sus4' :
                          qualitySelect.value === '7' ? '7' :
@@ -796,7 +834,7 @@
                 container.innerHTML = chordRequirements.map((chord, index) => `
                     <div class="chord-tag">
                         ${chord.display}
-                        <button onclick="removeChordRequirement(${index})">×</button>
+                        <button onclick="removeChordRequirement(${index})">Ã—</button>
                     </div>
                 `).join('');
             }
@@ -861,7 +899,7 @@
             // Check if all required chords are available
             return chordRequirements.every(req => 
                 availableChords.some(chord => 
-                    chord.note.replace('#', '').replace('♭', '') === req.note.replace('#', '').replace('♭', '') &&
+                    chord.note.replace('#', '').replace('â™­', '') === req.note.replace('#', '').replace('â™­', '') &&
                     (chord.quality === req.quality || 
                      (req.quality === '7' && chord.quality === 'major') ||
                      (req.quality === 'm7' && chord.quality === 'minor') ||
@@ -968,40 +1006,40 @@
 
         // Parse progression notation and return chord degrees
         function parseProgression(progressionString) {
-            const chords = progressionString.split('—');
+            const chords = progressionString.split('â€”');
             return chords.map(chord => {
                 // Remove any quality indicators for parsing
-                const cleanChord = chord.replace(/M7|m7|7|°|dim|maj|min/g, '');
+                const cleanChord = chord.replace(/M7|m7|7|Â°|dim|maj|min/g, '');
                 
                 // Parse roman numerals
                 const romanToNumber = {
                     'i': 0, 'I': 0,
-                    'ii': 1, 'II': 1, '♭II': 1,
-                    'iii': 2, 'III': 2, '♭III': 2,
+                    'ii': 1, 'II': 1, 'â™­II': 1,
+                    'iii': 2, 'III': 2, 'â™­III': 2,
                     'iv': 3, 'IV': 3,
                     'v': 4, 'V': 4,
-                    'vi': 5, 'VI': 5, '♭VI': 5,
-                    'vii': 6, 'VII': 6, '♭VII': 6,
-                    '♯I': 1, '♯II': 3, '♯iv': 4, '♭IIIM7': 2, '♭VIM7': 5
+                    'vi': 5, 'VI': 5, 'â™­VI': 5,
+                    'vii': 6, 'VII': 6, 'â™­VII': 6,
+                    'â™¯I': 1, 'â™¯II': 3, 'â™¯iv': 4, 'â™­IIIM7': 2, 'â™­VIM7': 5
                 };
                 
                 // Special cases
-                if (cleanChord === '♯I°') return { degree: 1, quality: 'diminished', alteration: 'sharp' };
-                if (cleanChord === '♯II°') return { degree: 3, quality: 'diminished', alteration: 'sharp' };
-                if (cleanChord === '♯iv°') return { degree: 4, quality: 'diminished', alteration: 'sharp' };
+                if (cleanChord === 'â™¯IÂ°') return { degree: 1, quality: 'diminished', alteration: 'sharp' };
+                if (cleanChord === 'â™¯IIÂ°') return { degree: 3, quality: 'diminished', alteration: 'sharp' };
+                if (cleanChord === 'â™¯ivÂ°') return { degree: 4, quality: 'diminished', alteration: 'sharp' };
                 
                 // Determine if flat or sharp
                 let alteration = '';
-                if (cleanChord.includes('♭')) alteration = 'flat';
-                if (cleanChord.includes('♯')) alteration = 'sharp';
+                if (cleanChord.includes('â™­')) alteration = 'flat';
+                if (cleanChord.includes('â™¯')) alteration = 'sharp';
                 
                 // Get base numeral
-                const baseChord = cleanChord.replace(/♭|♯/g, '');
+                const baseChord = cleanChord.replace(/â™­|â™¯/g, '');
                 const degree = romanToNumber[baseChord] !== undefined ? romanToNumber[baseChord] : 0;
                 
                 // Determine quality from original chord string
                 let quality = 'major';
-                if (chord.includes('°') || chord.includes('dim')) {
+                if (chord.includes('Â°') || chord.includes('dim')) {
                     quality = 'diminished';
                 } else if (chord.includes('M7') || chord.includes('maj7')) {
                     quality = 'major7';
@@ -1060,15 +1098,15 @@
                     romanNumeral = romanNumeral.toLowerCase();
                 }
                 if (quality === 'diminished') {
-                    romanNumeral += '°';
+                    romanNumeral += 'Â°';
                 }
                 if (quality === 'dom7' && degree === 4) {
                     romanNumeral = 'V7';
                 }
                 if (alteration === 'flat') {
-                    romanNumeral = '♭' + romanNumeral;
+                    romanNumeral = 'â™­' + romanNumeral;
                 } else if (alteration === 'sharp') {
-                    romanNumeral = '♯' + romanNumeral;
+                    romanNumeral = 'â™¯' + romanNumeral;
                 }
                 
                 return {
@@ -1084,8 +1122,8 @@
         // Note calculations
         function getKeyOffset(key) {
             const keyMap = {
-                'C': 0, 'C♯/D♭': 1, 'D': 2, 'D♯/E♭': 3, 'E': 4, 'F': 5,
-                'F♯/G♭': 6, 'G': 7, 'G♯/A♭': 8, 'A': 9, 'A♯/B♭': 10, 'B': 11
+                'C': 0, 'Câ™¯/Dâ™­': 1, 'D': 2, 'Dâ™¯/Eâ™­': 3, 'E': 4, 'F': 5,
+                'Fâ™¯/Gâ™­': 6, 'G': 7, 'Gâ™¯/Aâ™­': 8, 'A': 9, 'Aâ™¯/Bâ™­': 10, 'B': 11
             };
             return keyMap[key] || 0;
         }
@@ -1168,7 +1206,7 @@
             let numeral = numerals[degree] || 'I';
             
             if (isDim) {
-                numeral += '°';
+                numeral += 'Â°';
             }
             
             return numeral;
@@ -1242,7 +1280,7 @@
                 }
                 
                 // Check for borrowed chords
-                if (chord.romanNumeral && (chord.romanNumeral.includes('♭') || chord.romanNumeral.includes('♯'))) {
+                if (chord.romanNumeral && (chord.romanNumeral.includes('â™­') || chord.romanNumeral.includes('â™¯'))) {
                     analysis.hasBorrowed = true;
                 }
                 
@@ -1280,27 +1318,27 @@
             const candidates = [];
             
             // Always consider these common non-diatonic chords
-            // ♭VII (borrowed from mixolydian/minor)
+            // â™­VII (borrowed from mixolydian/minor)
             const flatSeven = (scaleDegrees[0] + 10) % 12;
             candidates.push({
                 root: flatSeven,
                 notes: buildChord(flatSeven, 'major', keyOffset),
                 chordType: 'major',
                 chordName: getChordName(flatSeven, 'major', keyOffset),
-                romanNumeral: '♭VII',
+                romanNumeral: 'â™­VII',
                 quality: 'Major',
                 category: 'borrowed',
                 commonUsage: 0.9
             });
             
-            // ♭VI (borrowed from minor)
+            // â™­VI (borrowed from minor)
             const flatSix = (scaleDegrees[0] + 8) % 12;
             candidates.push({
                 root: flatSix,
                 notes: buildChord(flatSix, 'major', keyOffset),
                 chordType: 'major',
                 chordName: getChordName(flatSix, 'major', keyOffset),
-                romanNumeral: '♭VI',
+                romanNumeral: 'â™­VI',
                 quality: 'Major',
                 category: 'borrowed',
                 commonUsage: 0.8
@@ -1366,27 +1404,27 @@
                 });
             }
             
-            // ♭III (borrowed from minor)
+            // â™­III (borrowed from minor)
             const flatThree = (scaleDegrees[0] + 3) % 12;
             candidates.push({
                 root: flatThree,
                 notes: buildChord(flatThree, 'major', keyOffset),
                 chordType: 'major',
                 chordName: getChordName(flatThree, 'major', keyOffset),
-                romanNumeral: '♭III',
+                romanNumeral: 'â™­III',
                 quality: 'Major',
                 category: 'borrowed',
                 commonUsage: 0.5
             });
             
-            // ♭II (Neapolitan)
+            // â™­II (Neapolitan)
             const neapolitan = (scaleDegrees[0] + 1) % 12;
             candidates.push({
                 root: neapolitan,
                 notes: buildChord(neapolitan, 'major', keyOffset),
                 chordType: 'major',
                 chordName: getChordName(neapolitan, 'major', keyOffset),
-                romanNumeral: '♭II',
+                romanNumeral: 'â™­II',
                 quality: 'Major',
                 category: 'chromatic',
                 commonUsage: 0.4
@@ -1494,6 +1532,138 @@
             return selected;
         }
 
+		// Tooltip functions
+function getChordTooltip(romanNumeral, chordType) {
+    // Normalize roman numeral for matching
+    const normalized = romanNumeral ? romanNumeral.toUpperCase() : '';
+    
+    // Map of roman numerals to tooltip text
+    const tooltipMap = {
+        'I': 'Tonic - the home chord, gives resolution and stability.',
+        'IMAJ7': 'Tonic - the home chord, gives resolution and stability.',
+        'II': 'Supertonic - predominant chord, often leading to V.',
+        'IIM7': 'Supertonic - predominant chord, often leading to V.',
+        'III': 'Mediant - weaker predominant or color chord, connects I and IV/vi.',
+        'IIIM7': 'Mediant - weaker predominant or color chord, connects I and IV/vi.',
+        'IV': 'Subdominant - predominant chord, prepares motion to V.',
+        'IVMAJ7': 'Subdominant - predominant chord, prepares motion to V.',
+        'V': 'Dominant - creates tension that resolves to I.',
+        'V7': 'Dominant - creates tension that resolves to I.',
+        'VI': 'Submediant - relative minor, often used for deceptive cadences.',
+        'VIM7': 'Submediant - relative minor, often used for deceptive cadences.',
+        'VII°': 'Leading-tone - diminished chord, pulls strongly to I.',
+        'VIIØ7': 'Leading-tone - diminished chord, pulls strongly to I.',
+        
+        // Modal mixture / Borrowed chords
+        '?III': 'Borrowed from parallel minor, adds dramatic color, substitutes I.',
+        'IV': 'Borrowed minor subdominant, softens motion to V.',
+        '?VI': 'Borrowed from parallel minor, dramatic predominant, often moves to V.',
+        '?VII': 'Borrowed from Mixolydian, gives rock/blues flavor, often moves to I or V.',
+        '?II': 'Borrowed flat-II (Neapolitan), strong predominant, prepares V.',
+        '?V': 'Rare borrowed chord, chromatic color.',
+        '?IV°': 'Borrowed diminished passing chord, leads to V.',
+        
+        // Secondary dominants
+        'V/II': 'Secondary dominant - tonicizes ii, creates motion to ii.',
+        'V/III': 'Secondary dominant - tonicizes iii, rarely used but colorful.',
+        'V/IV': 'Secondary dominant - tonicizes IV, brightens progression.',
+        'V/V': 'Secondary dominant - tonicizes V, very common to strengthen cadence.',
+        'V/VI': 'Secondary dominant - tonicizes vi, used for deceptive shifts.',
+        
+        // Secondary leading-tones
+        'VII°/II': 'Leading-tone chord of ii, resolves strongly to ii.',
+        'VII°/III': 'Leading-tone chord of iii, resolves strongly to iii.',
+        'VII°/IV': 'Leading-tone chord of IV, resolves strongly to IV.',
+        'VII°/V': 'Leading-tone chord of V, resolves strongly to V.',
+        'VII°/VI': 'Leading-tone chord of vi, resolves strongly to vi.',
+        
+        // Special chords
+        'SUBV7': 'Tritone substitution - jazz substitution for V7, creates chromatic voice leading.',
+        '?I°': 'Passing diminished - chromatic connector between diatonic chords.',
+        '?II°': 'Passing diminished - chromatic connector between diatonic chords.'
+    };
+    
+    // Handle lowercase roman numerals (minor chords)
+    const upperNormalized = normalized.replace(/^([IVX]+)/i, (match) => {
+        // Check if the original was lowercase
+        if (romanNumeral && romanNumeral[0] === romanNumeral[0].toLowerCase() && romanNumeral[0] !== '?' && romanNumeral[0] !== '?') {
+            // It's a minor chord
+            const base = match.toUpperCase();
+            switch(base) {
+                case 'I': return 'I';
+                case 'II': return 'II';
+                case 'III': return 'III';
+                case 'IV': return 'IV';
+                case 'V': return 'V';
+                case 'VI': return 'VI';
+                case 'VII': return 'VII';
+                default: return match;
+            }
+        }
+        return match.toUpperCase();
+    });
+    
+    // First try exact match
+    if (tooltipMap[upperNormalized]) {
+        return tooltipMap[upperNormalized];
+    }
+    
+    // Try without quality indicators
+    const withoutQuality = upperNormalized.replace(/M7|MAJ7|7|°|Ø7|DIM/g, '');
+    if (tooltipMap[withoutQuality]) {
+        return tooltipMap[withoutQuality];
+    }
+    
+    // Handle chord types
+    if (chordType) {
+        if (chordType.includes('sus')) {
+            return 'Suspended chord - replaces 3rd with 2nd/4th, creates suspension before resolution.';
+        }
+        if (chordType.includes('add9')) {
+            return 'Adds brightness, dreamy color.';
+        }
+        if (chordType.includes('6')) {
+            return 'Vintage color, softens the harmony.';
+        }
+        if (chordType.includes('9') || chordType.includes('11') || chordType.includes('13')) {
+            return 'Extended harmony - jazz/pop color, adds depth.';
+        }
+    }
+    
+    // Default based on whether it's borrowed
+    if (normalized.includes('?') || normalized.includes('?')) {
+        return 'Borrowed chord - adds expressive color by borrowing from parallel mode.';
+    }
+    
+    // Default for unrecognized chords
+    return 'Harmonic color - adds variety and interest to the progression.';
+}
+
+function showTooltip(element, text) {
+    const tooltip = document.getElementById('chordTooltip') || createTooltip();
+    tooltip.textContent = text;
+    
+    const rect = element.getBoundingClientRect();
+    tooltip.style.left = rect.left + rect.width / 2 + 'px';
+    tooltip.style.top = (rect.top - 10) + 'px';
+    tooltip.style.transform = 'translate(-50%, -100%)';
+    
+    setTimeout(() => tooltip.classList.add('visible'), 10);
+}
+
+function createTooltip() {
+    const existing = document.getElementById('chordTooltip');
+    if (existing) return existing;
+    
+    const tooltip = document.createElement('div');
+    tooltip.id = 'chordTooltip';
+    tooltip.className = 'tooltip';
+    tooltip.style.position = 'fixed';
+    document.body.appendChild(tooltip);
+    
+    return tooltip;
+}
+		
         function generateVariant(variantType) {
             const keyOffset = getKeyOffset(selectedKey);
             const scaleDegrees = getScaleDegrees(selectedMode);
@@ -1675,14 +1845,14 @@
         function updateProgressionName() {
             const key = selectedKey.split('/')[0];
             const modeShort = selectedMode.slice(0, 3);
-            const prog = selectedProgression.replace(/—/g, '-');
+            const prog = selectedProgression.replace(/â€”/g, '-');
             progressionName = `${key}${modeShort}_${prog}`;
             document.getElementById('progressionName').value = progressionName;
         }
 
         function generateProgressions() {
-            if (selectedMode === 'Locrian' && selectedProgression.includes('I—IV—V')) {
-                console.warn('⚠️ Locrian\'s diminished tonic makes this progression unusual');
+            if (selectedMode === 'Locrian' && selectedProgression.includes('Iâ€”IVâ€”V')) {
+                console.warn('âš ï¸ Locrian\'s diminished tonic makes this progression unusual');
             }
 
             variants = [
@@ -1697,7 +1867,7 @@
 
         function downloadSingleProgression(variant, index) {
             const keyName = selectedKey.split('/')[0];
-            const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
+            const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/â€”/g, '-')}_${variant.name}-${index + 1}.progression`;
             
             const progressionData = {
                 progression: {
@@ -1740,7 +1910,8 @@
                 
                 const gridHTML = rows.reverse().map(row => 
                     row.map(pad => `
-                        <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}" data-notes="${pad.notes.join(',')}">
+                        <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}" 
+     data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}">
                             <div class="chord-pad-content">
                                 <div class="chord-info">
                                     <div class="chord-name">${pad.chordName}</div>
@@ -1782,6 +1953,21 @@
                 container.appendChild(card);
             });
 
+			// Add hover handlers for tooltips
+container.querySelectorAll('.chord-pad').forEach(pad => {
+    pad.addEventListener('mouseenter', function() {
+        const roman = this.getAttribute('data-roman');
+        const quality = this.getAttribute('data-quality');
+        const tooltipText = getChordTooltip(roman, quality);
+        showTooltip(this, tooltipText);
+    });
+    
+    pad.addEventListener('mouseleave', function() {
+        const tooltip = document.getElementById('chordTooltip');
+        if (tooltip) tooltip.classList.remove('visible');
+    });
+});
+			
             // Add click handlers for playing chords
             container.querySelectorAll('.chord-pad').forEach(pad => {
                 pad.addEventListener('click', function() {
@@ -1833,11 +2019,11 @@
 
         function generateRandom(safe = false) {
             if (safe) {
-                const safeKeys = ['C', 'G', 'D', 'A', 'F', 'A♯/B♭', 'D♯/E♭'];
+                const safeKeys = ['C', 'G', 'D', 'A', 'F', 'Aâ™¯/Bâ™­', 'Dâ™¯/Eâ™­'];
                 const safeModes = ['Major', 'Minor', 'Dorian', 'Mixolydian'];
                 const safeProgressions = [
-                    'I—V—vi—IV', 'I—IV—V—I', 'vi—IV—I—V', 'I—vi—IV—V', 
-                    'ii—V—I', 'I—vi—ii—V', '12-bar-blues'
+                    'Iâ€”Vâ€”viâ€”IV', 'Iâ€”IVâ€”Vâ€”I', 'viâ€”IVâ€”Iâ€”V', 'Iâ€”viâ€”IVâ€”V', 
+                    'iiâ€”Vâ€”I', 'Iâ€”viâ€”iiâ€”V', '12-bar-blues'
                 ];
                 
                 selectedKey = safeKeys[Math.floor(Math.random() * safeKeys.length)];
@@ -1870,7 +2056,7 @@
             const keyName = selectedKey.split('/')[0];
             
             variants.forEach((variant, index) => {
-                const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
+                const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/â€”/g, '-')}_${variant.name}-${index + 1}.progression`;
                 
                 const progressionData = {
                     progression: {
