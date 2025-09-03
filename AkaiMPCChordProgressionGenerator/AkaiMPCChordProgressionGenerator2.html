@@ -2163,79 +2163,7 @@ function createTooltip() {
             URL.revokeObjectURL(url);
         }
 
-        function renderProgressions() {
-            const container = document.getElementById('progressionsContainer');
-            container.innerHTML = '';
-            
-            variants.forEach((variant, index) => {
-                const card = document.createElement('div');
-                card.className = 'progression-card';
-                
-                // Create grid HTML for pads (reverse rows for MPC layout)
-                const rows = [[], [], [], []];
-                variant.pads.forEach(pad => {
-                    rows[pad.row - 1].push(pad);
-                });
-                
-                const gridHTML = rows.reverse().map(row => 
-                    row.map(pad => `
-                        <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}" 
-                            data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}">
-                            <div class="chord-pad-content">
-                                <div class="chord-info">
-                                    <div class="chord-name">${pad.chordName}</div>
-                                </div>
-                                <div class="pad-number">PAD ${pad.id}</div>
-                            </div>
-                            <div class="chord-quality">${pad.quality}</div>
-                            <div class="chord-roman">${pad.romanNumeral}</div>
-                            <div class="chord-keyboard">${generateKeyboardSVG(pad.notes)}</div>
-                            <div class="chord-notes">
-                                ${pad.notes.map(note => {
-                                    const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
-                                    const octave = Math.floor(note / 12) - 2;
-                                    return noteName + octave;
-                                }).join(' ')}
-                            </div>
-                        </div>
-                    `).join('')
-                ).join('');
-                
-                card.innerHTML = `
-                    <div class="progression-header">
-                        <div class="progression-info">
-                            <div class="progression-title">${progressionName}_${variant.name}</div>
-                            <div class="progression-meta">
-                                <span class="key">${selectedKey} ${selectedMode}</span>
-                                <span class="pattern">${selectedProgression}</span>
-                            </div>
-                        </div>
-                        <button class="download-btn" title="Download" data-variant-index="${index}">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="chord-grid">${gridHTML}</div>
-                    <div class="variant-tabs">
-                        <button class="variant-tab active" data-tab="mpc" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'mpc')">MPC Pads</button>
-                        <button class="variant-tab" data-tab="keyboard" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'keyboard')">Keyboard</button>
-                        <button class="variant-tab" data-tab="guitar" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'guitar')">Guitar</button>
-                    </div>
-                    <div class="variant-tab-content active" data-content="mpc" data-variant="${index}">
-                        <!-- MPC view already rendered above in chord-grid -->
-                    </div>
-                    <div class="variant-tab-content" data-content="keyboard" data-variant="${index}">
-                        <!-- Keyboard view will be rendered here -->
-                    </div>
-                    <div class="variant-tab-content" data-content="guitar" data-variant="${index}">
-                        <!-- Guitar view will be rendered here -->
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-
-            function switchVariantTab(button, variantIndex, tab) {
+                    function switchVariantTab(button, variantIndex, tab) {
             // Update tab buttons
             const tabs = button.parentElement.querySelectorAll('.variant-tab');
             tabs.forEach(t => t.classList.remove('active'));
@@ -2490,6 +2418,78 @@ function toggleLeftHanded(checkbox, variantIndex) {
             }, 100);
         }
 
+        function renderProgressions() {
+            const container = document.getElementById('progressionsContainer');
+            container.innerHTML = '';
+            
+            variants.forEach((variant, index) => {
+                const card = document.createElement('div');
+                card.className = 'progression-card';
+                
+                // Create grid HTML for pads (reverse rows for MPC layout)
+                const rows = [[], [], [], []];
+                variant.pads.forEach(pad => {
+                    rows[pad.row - 1].push(pad);
+                });
+                
+                const gridHTML = rows.reverse().map(row => 
+                    row.map(pad => `
+                        <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}" 
+                            data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}">
+                            <div class="chord-pad-content">
+                                <div class="chord-info">
+                                    <div class="chord-name">${pad.chordName}</div>
+                                </div>
+                                <div class="pad-number">PAD ${pad.id}</div>
+                            </div>
+                            <div class="chord-quality">${pad.quality}</div>
+                            <div class="chord-roman">${pad.romanNumeral}</div>
+                            <div class="chord-keyboard">${generateKeyboardSVG(pad.notes)}</div>
+                            <div class="chord-notes">
+                                ${pad.notes.map(note => {
+                                    const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
+                                    const octave = Math.floor(note / 12) - 2;
+                                    return noteName + octave;
+                                }).join(' ')}
+                            </div>
+                        </div>
+                    `).join('')
+                ).join('');
+                
+                card.innerHTML = `
+                    <div class="progression-header">
+                        <div class="progression-info">
+                            <div class="progression-title">${progressionName}_${variant.name}</div>
+                            <div class="progression-meta">
+                                <span class="key">${selectedKey} ${selectedMode}</span>
+                                <span class="pattern">${selectedProgression}</span>
+                            </div>
+                        </div>
+                        <button class="download-btn" title="Download" data-variant-index="${index}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="chord-grid">${gridHTML}</div>
+                    <div class="variant-tabs">
+                        <button class="variant-tab active" data-tab="mpc" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'mpc')">MPC Pads</button>
+                        <button class="variant-tab" data-tab="keyboard" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'keyboard')">Keyboard</button>
+                        <button class="variant-tab" data-tab="guitar" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'guitar')">Guitar</button>
+                    </div>
+                    <div class="variant-tab-content active" data-content="mpc" data-variant="${index}">
+                        <!-- MPC view already rendered above in chord-grid -->
+                    </div>
+                    <div class="variant-tab-content" data-content="keyboard" data-variant="${index}">
+                        <!-- Keyboard view will be rendered here -->
+                    </div>
+                    <div class="variant-tab-content" data-content="guitar" data-variant="${index}">
+                        <!-- Guitar view will be rendered here -->
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
 // Add hover handlers for tooltips
 container.querySelectorAll('.chord-pad').forEach(pad => {
     pad.addEventListener('mouseenter', function() {
@@ -2526,7 +2526,7 @@ container.querySelectorAll('.chord-pad').forEach(pad => {
             container.classList.remove('hidden');
             document.getElementById('downloadAllBtn').style.display = 'block';
         }
-
+        
         async function playChord(notes) {
             if (!audioContext) return;
             
