@@ -337,6 +337,163 @@
             font-weight: 500;
         }
 
+        /* Multi-Instrument Tab System for Each Variant */
+        .variant-tabs {
+            display: flex;
+            gap: 2px;
+            margin-top: 12px;
+            margin-bottom: 12px;
+            background: #f0f0f0;
+            padding: 2px;
+            border-radius: 6px;
+        }
+
+        .variant-tab {
+            padding: 6px 12px;
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .variant-tab:hover {
+            background: white;
+            color: var(--fg);
+        }
+
+        .variant-tab.active {
+            background: white;
+            color: var(--accent);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .variant-tab-content {
+            display: none;
+        }
+
+        .variant-tab-content.active {
+            display: block;
+        }
+
+        .instrument-print-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .instrument-print-btn:hover {
+            background: var(--pad-hover);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Keyboard Sheet Styles */
+        .keyboard-sheet {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .keyboard-chord-card {
+            text-align: center;
+            padding: 10px;
+            background: var(--pad-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .keyboard-chord-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .keyboard-large-svg {
+            width: 100%;
+            height: 50px;
+        }
+
+        /* Guitar Sheet Styles */
+        .guitar-controls {
+            margin-bottom: 12px;
+            padding: 8px;
+            background: var(--pad-bg);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .guitar-controls label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .guitar-sheet {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .guitar-chord-card {
+            text-align: center;
+            padding: 10px;
+            background: var(--pad-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .guitar-chord-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .guitar-fretboard-svg {
+            width: 100%;
+            height: 120px;
+        }
+
+        /* Print Styles for Multi-Instrument Views */
+        @media print {
+            .chord-matcher, .controls, .action-buttons, footer, 
+            .variant-tabs, .guitar-controls, .instrument-print-btn,
+            .download-btn, .expand-icon, .optional-badge {
+                display: none !important;
+            }
+            
+            .variant-tab-content {
+                display: none !important;
+            }
+            
+            .variant-tab-content.print-target {
+                display: block !important;
+                page-break-inside: avoid;
+            }
+            
+            .progression-header {
+                margin-bottom: 20px !important;
+            }
+            
+            .keyboard-chord-card, .guitar-chord-card {
+                page-break-inside: avoid;
+            }
+        }
+        
         .download-btn {
             background: transparent;
             border: 1px solid var(--border);
@@ -699,7 +856,8 @@
         let variants = [];
         let audioContext = null;
         let chordRequirements = [];
-
+        let isLeftHanded = false;
+        
         // Data definitions
         const keys = ['C', 'C♯/D♭', 'D', 'D♯/E♭', 'E', 'F', 'F♯/G♭', 'G', 'G♯/A♭', 'A', 'A♯/B♭', 'B'];
         
@@ -773,6 +931,116 @@
             ]
         };
 
+        const guitarChords = {
+            'C': {
+                'major': {frets: 'x32010', fingers: 'x32010'},
+                'minor': {frets: 'x35543', fingers: 'x13421', barre: {fret: 3, from: 1, to: 6}},
+                'diminished': {frets: 'x3454x', fingers: 'x1243x'},
+                'dom7': {frets: 'x32310', fingers: 'x32410'},
+                'major7': {frets: 'x32000', fingers: 'x32000'},
+                'minor7': {frets: 'x35343', fingers: 'x13141', barre: {fret: 3, from: 1, to: 6}}
+            },
+            'D': {
+                'major': {frets: 'xx0232', fingers: 'xx0132'},
+                'minor': {frets: 'xx0231', fingers: 'xx0231'},
+                'diminished': {frets: 'xx0101', fingers: 'xx0102'},
+                'dom7': {frets: 'xx0212', fingers: 'xx0213'},
+                'major7': {frets: 'xx0222', fingers: 'xx0111'},
+                'minor7': {frets: 'xx0211', fingers: 'xx0211'}
+            },
+            'E': {
+                'major': {frets: '022100', fingers: '023100'},
+                'minor': {frets: '022000', fingers: '023000'},
+                'diminished': {frets: 'xx2323', fingers: 'xx1324'},
+                'dom7': {frets: '020100', fingers: '020100'},
+                'major7': {frets: '021100', fingers: '021100'},
+                'minor7': {frets: '022030', fingers: '023040'}
+            },
+            'F': {
+                'major': {frets: '133211', fingers: '134211', barre: {fret: 1, from: 1, to: 6}},
+                'minor': {frets: '133111', fingers: '134111', barre: {fret: 1, from: 1, to: 6}},
+                'diminished': {frets: '1x0101', fingers: '1x0203'},
+                'dom7': {frets: '131211', fingers: '131211', barre: {fret: 1, from: 1, to: 6}},
+                'major7': {frets: 'xx3210', fingers: 'xx3210'},
+                'minor7': {frets: '131111', fingers: '131111', barre: {fret: 1, from: 1, to: 6}}
+            },
+            'G': {
+                'major': {frets: '320003', fingers: '320004'},
+                'minor': {frets: '355333', fingers: '134111', barre: {fret: 3, from: 1, to: 6}},
+                'diminished': {frets: '3x2323', fingers: '3x1324'},
+                'dom7': {frets: '320001', fingers: '320001'},
+                'major7': {frets: '320002', fingers: '320002'},
+                'minor7': {frets: '353333', fingers: '131111', barre: {fret: 3, from: 1, to: 6}}
+            },
+            'A': {
+                'major': {frets: 'x02220', fingers: 'x01230'},
+                'minor': {frets: 'x02210', fingers: 'x02310'},
+                'diminished': {frets: '5x4545', fingers: '2x1314'},
+                'dom7': {frets: 'x02020', fingers: 'x02030'},
+                'major7': {frets: 'x02120', fingers: 'x02130'},
+                'minor7': {frets: 'x02010', fingers: 'x02010'}
+            },
+            'B': {
+                'major': {frets: 'x24442', fingers: 'x13331', barre: {fret: 2, from: 1, to: 5}},
+                'minor': {frets: 'x24432', fingers: 'x13421', barre: {fret: 2, from: 1, to: 5}},
+                'diminished': {frets: '7x6767', fingers: '2x1324'},
+                'dom7': {frets: 'x21202', fingers: 'x21304'},
+                'major7': {frets: 'x24342', fingers: 'x24342', barre: {fret: 2, from: 1, to: 5}},
+                'minor7': {frets: 'x24232', fingers: 'x13121', barre: {fret: 2, from: 1, to: 5}}
+            }
+        };
+
+        // Add sharp/flat variations
+        // C# / Db
+        guitarChords['C#'] = guitarChords['C♯/D♭'] = {
+            'major': {frets: 'x46664', fingers: 'x13331', barre: {fret: 4, from: 1, to: 6}},
+            'minor': {frets: 'x46654', fingers: 'x13421', barre: {fret: 4, from: 1, to: 6}},
+            'diminished': {frets: 'x4565x', fingers: 'x1243x'},
+            'dom7': {frets: 'x46464', fingers: 'x13141', barre: {fret: 4, from: 1, to: 6}},
+            'major7': {frets: 'x46564', fingers: 'x13241', barre: {fret: 4, from: 1, to: 6}},
+            'minor7': {frets: 'x46454', fingers: 'x13121', barre: {fret: 4, from: 1, to: 6}}
+        };
+
+        // D# / Eb
+        guitarChords['D#'] = guitarChords['D♯/E♭'] = {
+            'major': {frets: 'x68886', fingers: 'x13331', barre: {fret: 6, from: 1, to: 6}},
+            'minor': {frets: 'x68876', fingers: 'x13421', barre: {fret: 6, from: 1, to: 6}},
+            'diminished': {frets: 'x6787x', fingers: 'x1243x'},
+            'dom7': {frets: 'x68686', fingers: 'x13141', barre: {fret: 6, from: 1, to: 6}},
+            'major7': {frets: 'x68786', fingers: 'x13241', barre: {fret: 6, from: 1, to: 6}},
+            'minor7': {frets: 'x68676', fingers: 'x13121', barre: {fret: 6, from: 1, to: 6}}
+        };
+
+        // F# / Gb
+        guitarChords['F#'] = guitarChords['F♯/G♭'] = {
+            'major': {frets: '244322', fingers: '134211', barre: {fret: 2, from: 1, to: 6}},
+            'minor': {frets: '244222', fingers: '134111', barre: {fret: 2, from: 1, to: 6}},
+            'diminished': {frets: '2x1212', fingers: '2x1314'},
+            'dom7': {frets: '242322', fingers: '131211', barre: {fret: 2, from: 1, to: 6}},
+            'major7': {frets: 'xx4321', fingers: 'xx4321'},
+            'minor7': {frets: '242222', fingers: '131111', barre: {fret: 2, from: 1, to: 6}}
+        };
+
+        // G# / Ab
+        guitarChords['G#'] = guitarChords['G♯/A♭'] = {
+            'major': {frets: '466544', fingers: '134211', barre: {fret: 4, from: 1, to: 6}},
+            'minor': {frets: '466444', fingers: '134111', barre: {fret: 4, from: 1, to: 6}},
+            'diminished': {frets: '4x3434', fingers: '2x1314'},
+            'dom7': {frets: '464544', fingers: '131211', barre: {fret: 4, from: 1, to: 6}},
+            'major7': {frets: '465544', fingers: '132411', barre: {fret: 4, from: 1, to: 6}},
+            'minor7': {frets: '464444', fingers: '131111', barre: {fret: 4, from: 1, to: 6}}
+        };
+
+        // A# / Bb
+        guitarChords['A#'] = guitarChords['A♯/B♭'] = {
+            'major': {frets: 'x13331', fingers: 'x13331', barre: {fret: 1, from: 1, to: 5}},
+            'minor': {frets: 'x13321', fingers: 'x13421', barre: {fret: 1, from: 1, to: 5}},
+            'diminished': {frets: '6x5656', fingers: '2x1314'},
+            'dom7': {frets: 'x13131', fingers: 'x13141', barre: {fret: 1, from: 1, to: 5}},
+            'major7': {frets: 'x13231', fingers: 'x13241', barre: {fret: 1, from: 1, to: 5}},
+            'minor7': {frets: 'x13121', fingers: 'x13121', barre: {fret: 1, from: 1, to: 5}}
+        };
+        
         // Chord Matcher Functions
         function toggleChordMatcher() {
             const matcher = document.getElementById('chordMatcher');
@@ -1211,7 +1479,7 @@
             return numeral;
         }
 
-        function generateKeyboardSVG(notes) {
+        function generateKeyboardSVG(notes, twoOctaves = false) {
             if (!notes || notes.length === 0) return '';
             
             // Determine octave range to display - center around the chord
@@ -1227,10 +1495,12 @@
             const whiteKeyPattern = [0, 2, 4, 5, 7, 9, 11];
             const blackKeyPattern = [1, 3, 6, 8, 10];
             
-            let svg = '<svg viewBox="0 0 196 35" xmlns="http://www.w3.org/2000/svg">';
+            const numOctaves = twoOctaves ? 2 : 1;
+            const viewWidth = twoOctaves ? 196 : 98;
+            let svg = `<svg viewBox="0 0 ${viewWidth} 35" xmlns="http://www.w3.org/2000/svg">`;
             
             // Draw two octaves of white keys
-            for (let octave = 0; octave < 2; octave++) {
+            for (let octave = 0; octave < numOctaves; octave++) {
                 whiteKeyPattern.forEach((note, i) => {
                     const x = (octave * 7 + i) * 14;
                     const absoluteNote = startNote + (octave * 12) + note;
@@ -1947,10 +2217,110 @@ function createTooltip() {
                         </button>
                     </div>
                     <div class="chord-grid">${gridHTML}</div>
+                    <div class="variant-tabs">
+                        <button class="variant-tab active" data-tab="mpc" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'mpc')">MPC Pads</button>
+                        <button class="variant-tab" data-tab="keyboard" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'keyboard')">Keyboard</button>
+                        <button class="variant-tab" data-tab="guitar" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'guitar')">Guitar</button>
+                    </div>
+                    <div class="variant-tab-content active" data-content="mpc" data-variant="${index}">
+                        <!-- MPC view already rendered above in chord-grid -->
+                    </div>
+                    <div class="variant-tab-content" data-content="keyboard" data-variant="${index}">
+                        <!-- Keyboard view will be rendered here -->
+                    </div>
+                    <div class="variant-tab-content" data-content="guitar" data-variant="${index}">
+                        <!-- Guitar view will be rendered here -->
+                    </div>
                 `;
-                
                 container.appendChild(card);
             });
+
+            function switchVariantTab(button, variantIndex, tab) {
+            // Update tab buttons
+            const tabs = button.parentElement.querySelectorAll('.variant-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Update content
+            const card = button.closest('.progression-card');
+            const contents = card.querySelectorAll('.variant-tab-content');
+            contents.forEach(c => c.classList.remove('active'));
+            
+            const targetContent = card.querySelector(`.variant-tab-content[data-content="${tab}"]`);
+            targetContent.classList.add('active');
+            
+            // Generate content if not already generated
+            if (targetContent.innerHTML.trim() === '' || targetContent.innerHTML.includes('will be rendered')) {
+                if (tab === 'keyboard') {
+                    renderKeyboardView(targetContent, variants[variantIndex]);
+                } else if (tab === 'guitar') {
+                    renderGuitarView(targetContent, variants[variantIndex]);
+                }
+            }
+        }
+
+        function renderKeyboardView(container, variant) {
+            const keyboardGrid = document.createElement('div');
+            keyboardGrid.className = 'keyboard-sheet';
+            
+            // Get unique chords from the progression
+            const progressionChords = variant.pads.filter(pad => pad.isProgressionChord);
+            
+            progressionChords.forEach(pad => {
+                const card = document.createElement('div');
+                card.className = 'keyboard-chord-card';
+                
+                card.innerHTML = `
+                    <div class="keyboard-chord-name">${pad.chordName}</div>
+                    <div class="chord-roman">${pad.romanNumeral}</div>
+                    <div class="keyboard-large-svg">${generateLargeKeyboardSVG(pad.notes)}</div>
+                `;
+                
+                keyboardGrid.appendChild(card);
+            });
+            
+            container.innerHTML = '';
+            container.appendChild(keyboardGrid);
+            
+            // Add print button
+            const printBtn = document.createElement('button');
+            printBtn.className = 'instrument-print-btn';
+            printBtn.textContent = 'Print Keyboard Sheet';
+            printBtn.onclick = () => printInstrumentView(container, 'keyboard');
+            container.appendChild(printBtn);
+        }
+
+        function generateLargeKeyboardSVG(notes) {
+            // Enhanced version showing two octaves
+            return generateKeyboardSVG(notes, true);
+        }
+
+        function renderGuitarView(container, variant) {
+            // (Full function code in next message)
+        }
+
+        function printInstrumentView(container, instrumentType) {
+            // Temporarily add print-target class
+            container.classList.add('print-target');
+            
+            // Store current view state
+            const currentlyVisible = document.querySelector('.variant-tab-content.active');
+            
+            // Make only this content visible for print
+            document.querySelectorAll('.variant-tab-content').forEach(content => {
+                if (content !== container) {
+                    content.classList.remove('active');
+                }
+            });
+            
+            window.print();
+            
+            // Restore state
+            setTimeout(() => {
+                container.classList.remove('print-target');
+                if (currentlyVisible) currentlyVisible.classList.add('active');
+            }, 100);
+        }
 
 // Add hover handlers for tooltips
 container.querySelectorAll('.chord-pad').forEach(pad => {
