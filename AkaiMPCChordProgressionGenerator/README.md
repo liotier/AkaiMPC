@@ -137,6 +137,16 @@ Contributions are welcome! Feel free to:
 - Submit pull requests with improvements
 - Share your `.progression` files for testing
 
+Note about repository layout
+---------------------------------
+This project was originally distributed as a single self-contained HTML file for maximum deployment simplicity. It has since been split into three static files for better maintainability:
+
+- `AkaiMPCChordProgressionGenerator.html` — the entry HTML (loads the CSS and JS)
+- `styles.css` — extracted stylesheet
+- `app.js` — main JavaScript logic
+
+Deployment remains the same: host these files on any static file host (GitHub Pages, Netlify, etc.). Keeping them separate improves readability, caching, and makes incremental development and testing easier.
+
 ## 📝 License
 
 This project is open source and available under the Unlicense.
