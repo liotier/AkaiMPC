@@ -8,6 +8,8 @@ on:
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       
@@ -18,3 +20,4 @@ jobs:
           folder: AkaiMPCChordProgressionGeneratorPreview
           target-folder: AkaiMPCChordProgressionGeneratorPreview
           clean: true
+          token: ${{ secrets.GITHUB_TOKEN }}
