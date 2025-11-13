@@ -1681,13 +1681,6 @@ function toggleLeftHandedGlobal(checkbox) {
 function printInstrumentSheets(instrumentType) {
     window.print();
 }
-            downloadSingleProgression(variants[variantIndex], variantIndex);
-        });
-    });
-
-    container.classList.remove('hidden');
-    document.getElementById('downloadAllBtn').style.display = 'block';
-}
 
 async function playChord(notes) {
     if (!audioContext) return;
