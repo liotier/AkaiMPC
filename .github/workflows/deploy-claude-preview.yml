@@ -1,0 +1,23 @@
+name: Deploy Claude Preview to GitHub Pages
+
+on:
+  push:
+    branches:
+      - claude/review-dev-status-011CV67MScZSsav95jDHJDkV
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./AkaiMPCChordProgressionGeneratorPreview
+          destination_dir: claude-preview
+          keep_files: true
