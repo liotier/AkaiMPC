@@ -1400,8 +1400,8 @@ function generateProgressions() {
 
 function downloadSingleProgression(variant, index) {
     const keyName = selectedKey.split('/')[0];
-    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
-    
+    const fileName = `${progressionName}_${variant.name}.progression`;
+
     const progressionData = {
         progression: {
             name: fileName.replace('.progression', ''),
