@@ -571,6 +571,28 @@ footer a:hover {
     display: block;
 }
 
+.tab-action-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.tab-action-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.tab-action-btn:hover {
+    background: var(--accent-dark);
+}
+
 .instrument-print-btn {
     background: transparent;
     border: 1px solid var(--border);
@@ -647,6 +669,7 @@ footer a:hover {
     background: var(--pad-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
+    overflow: hidden;
 }
 
 .guitar-chord-name {
@@ -657,7 +680,8 @@ footer a:hover {
 
 .guitar-fretboard-svg {
     width: 100%;
-    height: 120px;
+    height: auto;
+    max-height: 140px;
 }
 
 /* Print Styles for Multi-Instrument Views */
@@ -669,7 +693,8 @@ footer a:hover {
 
     .chord-matcher, .controls, .action-buttons, footer,
     .instrument-tabs, .guitar-controls, .instrument-print-btn,
-    .download-btn, .expand-icon, .optional-badge, .header {
+    .download-btn, .expand-icon, .optional-badge, .header,
+    .tab-action-header, .tab-action-btn {
         display: none !important;
     }
 

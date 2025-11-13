@@ -1446,6 +1446,14 @@ function renderProgressions() {
     mpcContent.className = 'instrument-content active';
     mpcContent.setAttribute('data-instrument', 'mpc');
 
+    // Add Download All button at the top
+    const mpcActionHeader = document.createElement('div');
+    mpcActionHeader.className = 'tab-action-header';
+    mpcActionHeader.innerHTML = `
+        <button class="tab-action-btn" id="downloadAllBtnTab" onclick="exportProgressions()">Download All</button>
+    `;
+    mpcContent.appendChild(mpcActionHeader);
+
     variants.forEach((variant, index) => {
         const card = document.createElement('div');
         card.className = 'progression-card';
@@ -1507,6 +1515,14 @@ function renderProgressions() {
     keyboardContent.className = 'instrument-content';
     keyboardContent.setAttribute('data-instrument', 'keyboard');
 
+    // Add Print button at the top
+    const keyboardActionHeader = document.createElement('div');
+    keyboardActionHeader.className = 'tab-action-header';
+    keyboardActionHeader.innerHTML = `
+        <button class="tab-action-btn" onclick="printInstrumentSheets('keyboard')">Print Keyboard Sheets</button>
+    `;
+    keyboardContent.appendChild(keyboardActionHeader);
+
     variants.forEach((variant, index) => {
         const card = document.createElement('div');
         card.className = 'progression-card';
@@ -1545,13 +1561,6 @@ function renderProgressions() {
         keyboardContent.appendChild(card);
     });
 
-    // Add print button for keyboard
-    const keyboardPrintBtn = document.createElement('button');
-    keyboardPrintBtn.className = 'instrument-print-btn';
-    keyboardPrintBtn.textContent = 'Print Keyboard Sheets';
-    keyboardPrintBtn.onclick = () => printInstrumentSheets('keyboard');
-    keyboardContent.appendChild(keyboardPrintBtn);
-
     container.appendChild(keyboardContent);
 
     // Create Guitar content (all 4 variants with guitar sheets)
@@ -1559,7 +1568,14 @@ function renderProgressions() {
     guitarContent.className = 'instrument-content';
     guitarContent.setAttribute('data-instrument', 'guitar');
 
-    // Add left-handed toggle at the top
+    // Add Print button at the top
+    const guitarActionHeader = document.createElement('div');
+    guitarActionHeader.className = 'tab-action-header';
+    guitarActionHeader.innerHTML = `
+        <button class="tab-action-btn" onclick="printInstrumentSheets('guitar')">Print Guitar Sheets</button>
+    `;
+    guitarContent.appendChild(guitarActionHeader);
+
     const guitarControls = document.createElement('div');
     guitarControls.className = 'guitar-controls';
     guitarControls.innerHTML = `
@@ -1627,7 +1643,6 @@ function renderProgressions() {
 
     // Show container
     container.classList.remove('hidden');
-    document.getElementById('downloadAllBtn').style.display = 'block';
 }
 
 function addMpcPadHandlers(container) {
