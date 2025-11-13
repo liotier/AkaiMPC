@@ -681,7 +681,7 @@ footer a:hover {
 .guitar-fretboard-svg {
     width: 100%;
     height: auto;
-    max-height: 140px;
+    max-height: 110px;
 }
 
 /* Print Styles for Multi-Instrument Views */
