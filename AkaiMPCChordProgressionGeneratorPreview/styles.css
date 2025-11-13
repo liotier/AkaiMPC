@@ -530,20 +530,177 @@ footer a:hover {
     text-decoration: underline;
 }
 
+/* Multi-Instrument Tab System for Each Variant */
+.variant-tabs {
+    display: flex;
+    gap: 2px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    background: #f0f0f0;
+    padding: 2px;
+    border-radius: 6px;
+}
+
+.variant-tab {
+    padding: 6px 12px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.variant-tab:hover {
+    background: white;
+    color: var(--fg);
+}
+
+.variant-tab.active {
+    background: white;
+    color: var(--accent);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.variant-tab-content {
+    display: none;
+}
+
+.variant-tab-content.active {
+    display: block;
+}
+
+.instrument-print-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 12px;
+    transition: all 0.2s ease;
+}
+
+.instrument-print-btn:hover {
+    background: var(--pad-hover);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Keyboard Sheet Styles */
+.keyboard-sheet {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.keyboard-chord-card {
+    text-align: center;
+    padding: 10px;
+    background: var(--pad-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.keyboard-chord-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.keyboard-large-svg {
+    width: 100%;
+    height: 50px;
+}
+
+/* Guitar Sheet Styles */
+.guitar-controls {
+    margin-bottom: 12px;
+    padding: 8px;
+    background: var(--pad-bg);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.guitar-controls label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.guitar-sheet {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.guitar-chord-card {
+    text-align: center;
+    padding: 10px;
+    background: var(--pad-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.guitar-chord-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.guitar-fretboard-svg {
+    width: 100%;
+    height: 120px;
+}
+
+/* Print Styles for Multi-Instrument Views */
+@media print {
+    .chord-matcher, .controls, .action-buttons, footer,
+    .variant-tabs, .guitar-controls, .instrument-print-btn,
+    .download-btn, .expand-icon, .optional-badge {
+        display: none !important;
+    }
+
+    .variant-tab-content {
+        display: none !important;
+    }
+
+    .variant-tab-content.print-target {
+        display: block !important;
+        page-break-inside: avoid;
+    }
+
+    .progression-header {
+        margin-bottom: 20px !important;
+    }
+
+    .keyboard-chord-card, .guitar-chord-card {
+        page-break-inside: avoid;
+    }
+}
+
 @media (max-width: 768px) {
     .controls {
         grid-template-columns: 1fr;
     }
-    
+
     .header {
         flex-direction: column;
         gap: 12px;
     }
-    
+
     .action-buttons {
         grid-template-columns: 1fr;
     }
-    
+
     .action-buttons .full-width {
         grid-column: 1;
     }
@@ -555,7 +712,7 @@ footer a:hover {
     .chord-grid {
         max-width: 100%;
     }
-    
+
     .chord-pad {
         min-height: 80px;
         padding: 8px;
