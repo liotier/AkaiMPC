@@ -667,108 +667,7 @@ function generateLargeKeyboardSVG(notes) {
     return generateKeyboardSVG(notes, true);
 }
 
-// Multi-Instrument Tab Functions
-function switchVariantTab(button, variantIndex, tab) {
-    // Update tab buttons
-    const tabs = button.parentElement.querySelectorAll('.variant-tab');
-    tabs.forEach(t => t.classList.remove('active'));
-    button.classList.add('active');
-
-    // Update content
-    const card = button.closest('.progression-card');
-    const contents = card.querySelectorAll('.variant-tab-content');
-    contents.forEach(c => c.classList.remove('active'));
-
-    const targetContent = card.querySelector(`.variant-tab-content[data-content="${tab}"]`);
-    targetContent.classList.add('active');
-
-    // Generate content if not already generated
-    if (targetContent.innerHTML.trim() === '' || targetContent.innerHTML.includes('will be rendered')) {
-        if (tab === 'keyboard') {
-            renderKeyboardView(targetContent, variants[variantIndex]);
-        } else if (tab === 'guitar') {
-            renderGuitarView(targetContent, variants[variantIndex]);
-        }
-    }
-}
-
-function renderKeyboardView(container, variant) {
-    const keyboardGrid = document.createElement('div');
-    keyboardGrid.className = 'keyboard-sheet';
-
-    // Get unique chords from the progression (first 4-8 chords typically)
-    const progressionChords = variant.pads.filter(pad => pad.isProgressionChord);
-
-    progressionChords.forEach(pad => {
-        const card = document.createElement('div');
-        card.className = 'keyboard-chord-card';
-
-        card.innerHTML = `
-            <div class="keyboard-chord-name">${pad.chordName}</div>
-            <div class="chord-roman">${pad.romanNumeral}</div>
-            <div class="keyboard-large-svg">${generateLargeKeyboardSVG(pad.notes)}</div>
-        `;
-
-        keyboardGrid.appendChild(card);
-    });
-
-    container.innerHTML = '';
-    container.appendChild(keyboardGrid);
-
-    // Add print button
-    const printBtn = document.createElement('button');
-    printBtn.className = 'instrument-print-btn';
-    printBtn.textContent = 'Print Keyboard Sheet';
-    printBtn.onclick = () => printInstrumentView(container, 'keyboard');
-    container.appendChild(printBtn);
-}
-
-function renderGuitarView(container, variant) {
-    // Add controls for left-handed mode
-    const controlsDiv = document.createElement('div');
-    controlsDiv.className = 'guitar-controls';
-    controlsDiv.innerHTML = `
-        <label>
-            <input type="checkbox" id="leftHanded-${variant.name}" ${isLeftHanded ? 'checked' : ''}
-                   onchange="toggleLeftHanded(this, ${variants.indexOf(variant)})">
-            Left-handed mode
-        </label>
-    `;
-
-    const guitarGrid = document.createElement('div');
-    guitarGrid.className = 'guitar-sheet';
-
-    // Get unique chords from the progression
-    const progressionChords = variant.pads.filter(pad => pad.isProgressionChord);
-
-    progressionChords.forEach(pad => {
-        const card = document.createElement('div');
-        card.className = 'guitar-chord-card';
-
-        const guitarChord = getGuitarChord(pad);
-
-        card.innerHTML = `
-            <div class="guitar-chord-name">${pad.chordName}</div>
-            <div class="chord-roman">${pad.romanNumeral}</div>
-            <div class="guitar-fretboard-svg">${generateGuitarSVG(guitarChord, pad)}</div>
-            ${guitarChord.simplified ? '<div style="font-size: 10px; color: var(--muted); font-style: italic;">Simplified</div>' : ''}
-        `;
-
-        guitarGrid.appendChild(card);
-    });
-
-    container.innerHTML = '';
-    container.appendChild(controlsDiv);
-    container.appendChild(guitarGrid);
-
-    // Add print button
-    const printBtn = document.createElement('button');
-    printBtn.className = 'instrument-print-btn';
-    printBtn.textContent = 'Print Guitar Sheet';
-    printBtn.onclick = () => printInstrumentView(container, 'guitar');
-    container.appendChild(printBtn);
-}
-
+// Guitar chord helper functions
 function getGuitarChord(pad) {
     // Map pad quality to guitar chord type
     let chordType = 'major';
@@ -888,35 +787,6 @@ function generateGuitarSVG(guitarChord, pad) {
     return svg;
 }
 
-function toggleLeftHanded(checkbox, variantIndex) {
-    isLeftHanded = checkbox.checked;
-    // Re-render the guitar view for this variant
-    const container = checkbox.closest('.variant-tab-content');
-    renderGuitarView(container, variants[variantIndex]);
-}
-
-function printInstrumentView(container, instrumentType) {
-    // Temporarily add print-target class
-    container.classList.add('print-target');
-
-    // Store current view state
-    const currentlyVisible = document.querySelector('.variant-tab-content.active');
-
-    // Make only this content visible for print
-    document.querySelectorAll('.variant-tab-content').forEach(content => {
-        if (content !== container) {
-            content.classList.remove('active');
-        }
-    });
-
-    window.print();
-
-    // Restore state
-    setTimeout(() => {
-        container.classList.remove('print-target');
-        if (currentlyVisible) currentlyVisible.classList.add('active');
-    }, 100);
-}
 
 // Dynamic Row 4 Analysis Functions
 function analyzeExistingChords(chords) {
@@ -1560,20 +1430,35 @@ function downloadSingleProgression(variant, index) {
 function renderProgressions() {
     const container = document.getElementById('progressionsContainer');
     container.innerHTML = '';
-    
+
+    // Create instrument tabs at the top
+    const tabsContainer = document.createElement('div');
+    tabsContainer.className = 'instrument-tabs';
+    tabsContainer.innerHTML = `
+        <button class="instrument-tab active" data-instrument="mpc" onclick="switchInstrumentTab(this, 'mpc')">MPC Pads</button>
+        <button class="instrument-tab" data-instrument="keyboard" onclick="switchInstrumentTab(this, 'keyboard')">Keyboard</button>
+        <button class="instrument-tab" data-instrument="guitar" onclick="switchInstrumentTab(this, 'guitar')">Guitar</button>
+    `;
+    container.appendChild(tabsContainer);
+
+    // Create MPC Pads content (all 4 variants with full grids)
+    const mpcContent = document.createElement('div');
+    mpcContent.className = 'instrument-content active';
+    mpcContent.setAttribute('data-instrument', 'mpc');
+
     variants.forEach((variant, index) => {
         const card = document.createElement('div');
         card.className = 'progression-card';
-        
+
         // Create grid HTML for pads (reverse rows for MPC layout)
         const rows = [[], [], [], []];
         variant.pads.forEach(pad => {
             rows[pad.row - 1].push(pad);
         });
-        
-        const gridHTML = rows.reverse().map(row => 
+
+        const gridHTML = rows.reverse().map(row =>
             row.map(pad => `
-                <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}" 
+                <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}"
                     data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}">
                     <div class="chord-pad-content">
                         <div class="chord-info">
@@ -1594,7 +1479,7 @@ function renderProgressions() {
                 </div>
             `).join('')
         ).join('');
-        
+
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
@@ -1610,40 +1495,157 @@ function renderProgressions() {
                     </svg>
                 </button>
             </div>
-            <div class="variant-tabs">
-                <button class="variant-tab active" data-tab="mpc" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'mpc')">MPC Pads</button>
-                <button class="variant-tab" data-tab="keyboard" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'keyboard')">Keyboard</button>
-                <button class="variant-tab" data-tab="guitar" data-variant="${index}" onclick="switchVariantTab(this, ${index}, 'guitar')">Guitar</button>
-            </div>
-            <div class="variant-tab-content active" data-content="mpc" data-variant="${index}">
-                <div class="chord-grid">${gridHTML}</div>
-            </div>
-            <div class="variant-tab-content" data-content="keyboard" data-variant="${index}">
-                <!-- Keyboard view will be rendered here -->
-            </div>
-            <div class="variant-tab-content" data-content="guitar" data-variant="${index}">
-                <!-- Guitar view will be rendered here -->
-            </div>
+            <div class="chord-grid">${gridHTML}</div>
         `;
 
-        container.appendChild(card);
+        mpcContent.appendChild(card);
+    });
+    container.appendChild(mpcContent);
+
+    // Create Keyboard content (all 4 variants with keyboard sheets)
+    const keyboardContent = document.createElement('div');
+    keyboardContent.className = 'instrument-content';
+    keyboardContent.setAttribute('data-instrument', 'keyboard');
+
+    variants.forEach((variant, index) => {
+        const card = document.createElement('div');
+        card.className = 'progression-card';
+
+        // Get only bottom row chords (row 1 - the progression chords)
+        const bottomRowChords = variant.pads.filter(pad => pad.row === 1);
+
+        const keyboardGrid = document.createElement('div');
+        keyboardGrid.className = 'keyboard-sheet';
+
+        bottomRowChords.forEach(pad => {
+            const chordCard = document.createElement('div');
+            chordCard.className = 'keyboard-chord-card';
+
+            chordCard.innerHTML = `
+                <div class="keyboard-chord-name">${pad.chordName} ${pad.quality}</div>
+                <div class="chord-roman">${pad.romanNumeral}</div>
+                <div class="keyboard-large-svg">${generateLargeKeyboardSVG(pad.notes)}</div>
+            `;
+
+            keyboardGrid.appendChild(chordCard);
+        });
+
+        card.innerHTML = `
+            <div class="progression-header">
+                <div class="progression-info">
+                    <div class="progression-title">${progressionName}_${variant.name}</div>
+                    <div class="progression-meta">
+                        <span class="key">${selectedKey} ${selectedMode}</span>
+                        <span class="pattern">${selectedProgression}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+        card.appendChild(keyboardGrid);
+        keyboardContent.appendChild(card);
     });
 
-// Add hover handlers for tooltips
-container.querySelectorAll('.chord-pad').forEach(pad => {
-    pad.addEventListener('mouseenter', function() {
-const roman = this.getAttribute('data-roman');
-const quality = this.getAttribute('data-quality');
-const tooltipText = getChordTooltip(roman, quality);
-showTooltip(this, tooltipText);
+    // Add print button for keyboard
+    const keyboardPrintBtn = document.createElement('button');
+    keyboardPrintBtn.className = 'instrument-print-btn';
+    keyboardPrintBtn.textContent = 'Print Keyboard Sheets';
+    keyboardPrintBtn.onclick = () => printInstrumentSheets('keyboard');
+    keyboardContent.appendChild(keyboardPrintBtn);
+
+    container.appendChild(keyboardContent);
+
+    // Create Guitar content (all 4 variants with guitar sheets)
+    const guitarContent = document.createElement('div');
+    guitarContent.className = 'instrument-content';
+    guitarContent.setAttribute('data-instrument', 'guitar');
+
+    // Add left-handed toggle at the top
+    const guitarControls = document.createElement('div');
+    guitarControls.className = 'guitar-controls';
+    guitarControls.innerHTML = `
+        <label>
+            <input type="checkbox" id="leftHandedGlobal" ${isLeftHanded ? 'checked' : ''}
+                   onchange="toggleLeftHandedGlobal(this)">
+            Left-handed mode
+        </label>
+    `;
+    guitarContent.appendChild(guitarControls);
+
+    variants.forEach((variant, index) => {
+        const card = document.createElement('div');
+        card.className = 'progression-card';
+
+        // Get only bottom row chords (row 1 - the progression chords)
+        const bottomRowChords = variant.pads.filter(pad => pad.row === 1);
+
+        const guitarGrid = document.createElement('div');
+        guitarGrid.className = 'guitar-sheet';
+
+        bottomRowChords.forEach(pad => {
+            const chordCard = document.createElement('div');
+            chordCard.className = 'guitar-chord-card';
+
+            const guitarChord = getGuitarChord(pad);
+
+            chordCard.innerHTML = `
+                <div class="guitar-chord-name">${pad.chordName} ${pad.quality}</div>
+                <div class="chord-roman">${pad.romanNumeral}</div>
+                <div class="guitar-fretboard-svg">${generateGuitarSVG(guitarChord, pad)}</div>
+                ${guitarChord.simplified ? '<div style="font-size: 10px; color: var(--muted); font-style: italic;">Simplified</div>' : ''}
+            `;
+
+            guitarGrid.appendChild(chordCard);
+        });
+
+        card.innerHTML = `
+            <div class="progression-header">
+                <div class="progression-info">
+                    <div class="progression-title">${progressionName}_${variant.name}</div>
+                    <div class="progression-meta">
+                        <span class="key">${selectedKey} ${selectedMode}</span>
+                        <span class="pattern">${selectedProgression}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+        card.appendChild(guitarGrid);
+        guitarContent.appendChild(card);
     });
-    
-    pad.addEventListener('mouseleave', function() {
-const tooltip = document.getElementById('chordTooltip');
-if (tooltip) tooltip.classList.remove('visible');
+
+    container.appendChild(guitarContent);
+
+    // Add event handlers for MPC pads
+    addMpcPadHandlers(container);
+
+    // Add download button handlers
+    container.querySelectorAll('.download-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const variantIndex = parseInt(this.getAttribute('data-variant-index'));
+            downloadSingleProgression(variants[variantIndex], variantIndex);
+        });
     });
-});
-    
+
+    // Show container
+    container.classList.remove('hidden');
+    document.getElementById('downloadAllBtn').style.display = 'block';
+}
+
+function addMpcPadHandlers(container) {
+    // Add hover handlers for tooltips
+    container.querySelectorAll('.chord-pad').forEach(pad => {
+        pad.addEventListener('mouseenter', function() {
+            const roman = this.getAttribute('data-roman');
+            const quality = this.getAttribute('data-quality');
+            const tooltipText = getChordTooltip(roman, quality);
+            showTooltip(this, tooltipText);
+        });
+
+        pad.addEventListener('mouseleave', function() {
+            const tooltip = document.getElementById('chordTooltip');
+            if (tooltip) tooltip.classList.remove('visible');
+        });
+    });
+
     // Add click handlers for playing chords
     container.querySelectorAll('.chord-pad').forEach(pad => {
         pad.addEventListener('click', function() {
@@ -1653,11 +1655,32 @@ if (tooltip) tooltip.classList.remove('visible');
             setTimeout(() => this.classList.remove('playing'), 300);
         });
     });
+}
 
-    // Add click handlers for individual download buttons
-    container.querySelectorAll('.download-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const variantIndex = parseInt(this.getAttribute('data-variant-index'));
+function switchInstrumentTab(button, instrument) {
+    // Update tab buttons
+    const tabs = button.parentElement.querySelectorAll('.instrument-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    button.classList.add('active');
+
+    // Update content
+    const container = document.getElementById('progressionsContainer');
+    const contents = container.querySelectorAll('.instrument-content');
+    contents.forEach(c => c.classList.remove('active'));
+
+    const targetContent = container.querySelector(`.instrument-content[data-instrument="${instrument}"]`);
+    targetContent.classList.add('active');
+}
+
+function toggleLeftHandedGlobal(checkbox) {
+    isLeftHanded = checkbox.checked;
+    // Re-render all guitar views
+    renderProgressions();
+}
+
+function printInstrumentSheets(instrumentType) {
+    window.print();
+}
             downloadSingleProgression(variants[variantIndex], variantIndex);
         });
     });
