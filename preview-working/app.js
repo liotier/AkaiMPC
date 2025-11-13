@@ -1527,13 +1527,10 @@ function renderProgressions() {
         const card = document.createElement('div');
         card.className = 'progression-card';
 
-        // Get only bottom row chords (row 1 - the progression chords)
-        const bottomRowChords = variant.pads.filter(pad => pad.row === 1);
-
         const keyboardGrid = document.createElement('div');
         keyboardGrid.className = 'keyboard-sheet';
 
-        bottomRowChords.forEach(pad => {
+        variant.pads.forEach(pad => {
             const chordCard = document.createElement('div');
             chordCard.className = 'keyboard-chord-card';
 
@@ -1591,13 +1588,10 @@ function renderProgressions() {
         const card = document.createElement('div');
         card.className = 'progression-card';
 
-        // Get only bottom row chords (row 1 - the progression chords)
-        const bottomRowChords = variant.pads.filter(pad => pad.row === 1);
-
         const guitarGrid = document.createElement('div');
         guitarGrid.className = 'guitar-sheet';
 
-        bottomRowChords.forEach(pad => {
+        variant.pads.forEach(pad => {
             const chordCard = document.createElement('div');
             chordCard.className = 'guitar-chord-card';
 
@@ -1694,7 +1688,18 @@ function toggleLeftHandedGlobal(checkbox) {
 }
 
 function printInstrumentSheets(instrumentType) {
+    // Temporarily change document title to include progression name for PDF filename
+    const originalTitle = document.title;
+    const instrumentName = instrumentType.charAt(0).toUpperCase() + instrumentType.slice(1);
+    document.title = `${progressionName}_${instrumentName}`;
+
+    // Print
     window.print();
+
+    // Restore original title after a short delay to ensure print dialog captures the new title
+    setTimeout(() => {
+        document.title = originalTitle;
+    }, 1000);
 }
 
 async function playChord(notes) {
