@@ -530,45 +530,44 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Multi-Instrument Tab System for Each Variant */
-.variant-tabs {
+/* Multi-Instrument Tab System at Generation Level */
+.instrument-tabs {
     display: flex;
     gap: 2px;
-    margin-top: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 24px;
     background: #f0f0f0;
-    padding: 2px;
-    border-radius: 6px;
+    padding: 4px;
+    border-radius: 8px;
 }
 
-.variant-tab {
-    padding: 6px 12px;
+.instrument-tab {
+    padding: 10px 20px;
     background: transparent;
     border: none;
     color: var(--muted);
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: all 0.2s ease;
 }
 
-.variant-tab:hover {
+.instrument-tab:hover {
     background: white;
     color: var(--fg);
 }
 
-.variant-tab.active {
+.instrument-tab.active {
     background: white;
     color: var(--accent);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.variant-tab-content {
+.instrument-content {
     display: none;
 }
 
-.variant-tab-content.active {
+.instrument-content.active {
     display: block;
 }
 
@@ -663,19 +662,35 @@ footer a:hover {
 
 /* Print Styles for Multi-Instrument Views */
 @media print {
+    @page {
+        size: portrait;
+        margin: 1.5cm;
+    }
+
     .chord-matcher, .controls, .action-buttons, footer,
-    .variant-tabs, .guitar-controls, .instrument-print-btn,
-    .download-btn, .expand-icon, .optional-badge {
+    .instrument-tabs, .guitar-controls, .instrument-print-btn,
+    .download-btn, .expand-icon, .optional-badge, .header {
         display: none !important;
     }
 
-    .variant-tab-content {
+    /* Only show the active instrument content when printing */
+    .instrument-content {
         display: none !important;
     }
 
-    .variant-tab-content.print-target {
+    .instrument-content.active {
         display: block !important;
+    }
+
+    /* One variant per page */
+    .progression-card {
+        page-break-after: always;
         page-break-inside: avoid;
+        margin-bottom: 0;
+    }
+
+    .progression-card:last-child {
+        page-break-after: auto;
     }
 
     .progression-header {
@@ -685,8 +700,23 @@ footer a:hover {
     .keyboard-chord-card, .guitar-chord-card {
         page-break-inside: avoid;
     }
-}
 
+    .chord-pad {
+        page-break-inside: avoid;
+    }
+
+    /* Print footer on each page */
+    .progression-card::after {
+        content: "MPC Chord Progression Generator - https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/AkaiMPCChordProgressionGenerator.html";
+        display: block;
+        margin-top: 2cm;
+        padding-top: 0.5cm;
+        border-top: 1px solid #ccc;
+        font-size: 10px;
+        color: #666;
+        text-align: center;
+    }
+}
 @media (max-width: 768px) {
     .controls {
         grid-template-columns: 1fr;
