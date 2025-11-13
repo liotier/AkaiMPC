@@ -1,0 +1,63 @@
+--- a/AkaiMPCChordProgressionGenerator.html
++++ b/AkaiMPCChordProgressionGenerator.html
+@@ -549,6 +549,31 @@
+             height: 120px;
+         }
+ 
++        /* Print Styles for Multi-Instrument Views */
++        @media print {
++            .chord-matcher, .controls, .action-buttons, footer, 
++            .variant-tabs, .guitar-controls, .instrument-print-btn,
++            .download-btn, .expand-icon, .optional-badge {
++                display: none !important;
++            }
++            
++            .variant-tab-content {
++                display: none !important;
++            }
++            
++            .variant-tab-content.print-target {
++                display: block !important;
++                page-break-inside: avoid;
++            }
++            
++            .progression-header {
++                margin-bottom: 20px !important;
++            }
++            
++            .keyboard-chord-card, .guitar-chord-card {
++                page-break-inside: avoid;
++            }
++        }
++
+         @media (max-width: 768px) {
+             .controls {
+                 grid-template-columns: 1fr;
+@@ -1802,7 +1827,25 @@
+         }
+ 
+         function printInstrumentView(container, instrumentType) {
+-            // Print functionality will be added in a later patch
++            // Temporarily add print-target class
++            container.classList.add('print-target');
++            
++            // Store current view state
++            const currentlyVisible = document.querySelector('.variant-tab-content.active');
++            
++            // Make only this content visible for print
++            document.querySelectorAll('.variant-tab-content').forEach(content => {
++                if (content !== container) {
++                    content.classList.remove('active');
++                }
++            });
++            
++            window.print();
++            
++            // Restore state
++            setTimeout(() => {
++                container.classList.remove('print-target');
++                if (currentlyVisible) currentlyVisible.classList.add('active');
++            }, 100);
+         }
+ 
+         function renderGuitarView(container, variant) {

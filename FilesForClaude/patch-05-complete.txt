@@ -1,0 +1,231 @@
+--- a/AkaiMPCChordProgressionGenerator.html
++++ b/AkaiMPCChordProgressionGenerator.html
+@@ -505,6 +505,50 @@
+             height: 50px;
+         }
+ 
++        /* Guitar Sheet Styles */
++        .guitar-controls {
++            margin-bottom: 12px;
++            padding: 8px;
++            background: var(--pad-bg);
++            border-radius: var(--radius);
++            display: flex;
++            align-items: center;
++            gap: 12px;
++        }
++
++        .guitar-controls label {
++            display: flex;
++            align-items: center;
++            gap: 6px;
++            font-size: 13px;
++            cursor: pointer;
++        }
++
++        .guitar-sheet {
++            display: grid;
++            grid-template-columns: repeat(4, 1fr);
++            gap: 12px;
++            margin-top: 12px;
++        }
++
++        .guitar-chord-card {
++            text-align: center;
++            padding: 10px;
++            background: var(--pad-bg);
++            border: 1px solid var(--border);
++            border-radius: var(--radius);
++        }
++
++        .guitar-chord-name {
++            font-size: 16px;
++            font-weight: 600;
++            margin-bottom: 4px;
++        }
++
++        .guitar-fretboard-svg {
++            width: 100%;
++            height: 120px;
++        }
++
+         @media (max-width: 768px) {
+             .controls {
+                 grid-template-columns: 1fr;
+@@ -1766,7 +1810,165 @@
+         }
+ 
+         function renderGuitarView(container, variant) {
+-            // Will be implemented in patch 4
++            // Add controls for left-handed mode
++            const controlsDiv = document.createElement('div');
++            controlsDiv.className = 'guitar-controls';
++            controlsDiv.innerHTML = `
++                <label>
++                    <input type="checkbox" id="leftHanded-${variant.name}" ${isLeftHanded ? 'checked' : ''} 
++                           onchange="toggleLeftHanded(this, ${variants.indexOf(variant)})">
++                    Left-handed mode
++                </label>
++            `;
++            
++            const guitarGrid = document.createElement('div');
++            guitarGrid.className = 'guitar-sheet';
++            
++            // Get unique chords from the progression
++            const progressionChords = variant.pads.filter(pad => pad.isProgressionChord);
++            
++            progressionChords.forEach(pad => {
++                const card = document.createElement('div');
++                card.className = 'guitar-chord-card';
++                
++                const guitarChord = getGuitarChord(pad);
++                
++                card.innerHTML = `
++                    <div class="guitar-chord-name">${pad.chordName}</div>
++                    <div class="chord-roman">${pad.romanNumeral}</div>
++                    <div class="guitar-fretboard-svg">${generateGuitarSVG(guitarChord, pad)}</div>
++                    ${guitarChord.simplified ? '<div style="font-size: 10px; color: var(--muted); font-style: italic;">Simplified</div>' : ''}
++                `;
++                
++                guitarGrid.appendChild(card);
++            });
++            
++            container.innerHTML = '';
++            container.appendChild(controlsDiv);
++            container.appendChild(guitarGrid);
++            
++            // Add print button
++            const printBtn = document.createElement('button');
++            printBtn.className = 'instrument-print-btn';
++            printBtn.textContent = 'Print Guitar Sheet';
++            printBtn.onclick = () => printInstrumentView(container, 'guitar');
++            container.appendChild(printBtn);
++        }
++
++        function getGuitarChord(pad) {
++            // Map pad quality to guitar chord type
++            let chordType = 'major';
++            if (pad.quality === 'Minor') chordType = 'minor';
++            else if (pad.quality === 'Diminished') chordType = 'diminished';
++            else if (pad.quality === 'Dominant 7') chordType = 'dom7';
++            else if (pad.quality === 'Major 7') chordType = 'major7';
++            else if (pad.quality === 'Minor 7') chordType = 'minor7';
++            
++            // Get root note name
++            const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
++            const rootNote = noteNames[pad.notes[0] % 12];
++            
++            // Look up chord in database
++            let lookupKey = rootNote;
++            // Handle enharmonic equivalents
++            if (rootNote === 'C#') lookupKey = 'C♯/D♭';
++            if (rootNote === 'D#') lookupKey = 'D♯/E♭';
++            if (rootNote === 'F#') lookupKey = 'F♯/G♭';
++            if (rootNote === 'G#') lookupKey = 'G♯/A♭';
++            if (rootNote === 'A#') lookupKey = 'A♯/B♭';
++            
++            if (guitarChords[lookupKey] && guitarChords[lookupKey][chordType]) {
++                return guitarChords[lookupKey][chordType];
++            }
++            
++            // Fallback for missing chords - try simpler version
++            const fallbacks = {
++                'major7': 'major',
++                'minor7': 'minor',
++                'dom7': 'major',
++                'diminished': 'minor'
++            };
++            
++            const fallbackType = fallbacks[chordType] || 'major';
++            if (guitarChords[lookupKey] && guitarChords[lookupKey][fallbackType]) {
++                return {...guitarChords[lookupKey][fallbackType], simplified: true};
++            }
++            
++            // Ultimate fallback - just mute all strings
++            return {frets: 'xxxxxx', fingers: 'xxxxxx', simplified: true};
++        }
++
++        function generateGuitarSVG(guitarChord, pad) {
++            const width = 150;
++            const height = 140;
++            const stringSpacing = 20;
++            const fretSpacing = 28;
++            const leftMargin = 25;
++            const topMargin = 25;
++            
++            let svg = `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
++            
++            // Parse frets and fingers
++            const frets = guitarChord.frets.split('');
++            const fingers = guitarChord.fingers ? guitarChord.fingers.split('') : frets;
++            
++            // Flip for left-handed
++            if (isLeftHanded) {
++                frets.reverse();
++                fingers.reverse();
++            }
++            
++            // Draw frets (horizontal lines)
++            for (let i = 0; i <= 4; i++) {
++                const y = topMargin + i * fretSpacing;
++                const strokeWidth = i === 0 ? 3 : 1;
++                svg += `<line x1="${leftMargin}" y1="${y}" x2="${leftMargin + 5 * stringSpacing}" y2="${y}" 
++                    stroke="black" stroke-width="${strokeWidth}"/>`;
++            }
++            
++            // Draw strings (vertical lines)
++            for (let i = 0; i < 6; i++) {
++                const x = leftMargin + i * stringSpacing;
++                const strokeWidth = isLeftHanded ? i + 1 : 6 - i;
++                svg += `<line x1="${x}" y1="${topMargin}" x2="${x}" y2="${topMargin + 4 * fretSpacing}" 
++                    stroke="black" stroke-width="${strokeWidth}"/>`;
++            }
++            
++            // Draw fret positions
++            frets.forEach((fret, stringIndex) => {
++                const x = leftMargin + stringIndex * stringSpacing;
++                
++                if (fret === 'x') {
++                    // Muted string
++                    svg += `<text x="${x}" y="${topMargin - 8}" text-anchor="middle" 
++                        font-size="16" font-weight="bold">×</text>`;
++                } else if (fret === '0') {
++                    // Open string
++                    svg += `<circle cx="${x}" cy="${topMargin - 8}" r="6" 
++                        fill="none" stroke="black" stroke-width="2"/>`;
++                } else {
++                    // Fretted note
++                    const fretNum = parseInt(fret);
++                    const y = topMargin + (fretNum - 0.5) * fretSpacing;
++                    svg += `<circle cx="${x}" cy="${y}" r="8" fill="black"/>`;
++                    
++                    // Add finger number if available
++                    const fingerNum = fingers[stringIndex];
++                    if (fingerNum !== 'x' && fingerNum !== '0' && fingerNum !== fret) {
++                        svg += `<text x="${x}" y="${y + 3}" text-anchor="middle" 
++                            font-size="8" fill="white" font-weight="bold">${fingerNum}</text>`;
++                    }
++                }
++            });
++            
++            // Draw barre if present
++            if (guitarChord.barre) {
++                const y = topMargin + (guitarChord.barre.fret - 0.5) * fretSpacing;
++                const fromX = leftMargin + (guitarChord.barre.from - 1) * stringSpacing;
++                const toX = leftMargin + Math.min(5, guitarChord.barre.to - 1) * stringSpacing;
++                svg += `<rect x="${fromX - 8}" y="${y - 8}" width="${toX - fromX + 16}" height="16" 
++                    rx="8" fill="black" opacity="0.3"/>`;
++            }
++            
++            svg += '</svg>';
++            return svg;
++        }
++
++        function toggleLeftHanded(checkbox, variantIndex) {
++            isLeftHanded = checkbox.checked;
++            // Re-render the guitar view for this variant
++            const container = checkbox.closest('.variant-tab-content');
++            renderGuitarView(container, variants[variantIndex]);
+         }
+ 
+         async function playChord(notes) {
