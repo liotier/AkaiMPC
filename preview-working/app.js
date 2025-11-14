@@ -1570,6 +1570,13 @@ function renderProgressions() {
                 <div class="chord-quality">${pad.quality}</div>
                 <div class="chord-roman">${pad.romanNumeral}</div>
                 <div class="keyboard-large-svg">${generateLargeKeyboardSVG(pad.notes)}</div>
+                <div class="chord-notes">
+                    ${pad.notes.map(note => {
+                        const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
+                        const octave = Math.floor(note / 12) - 2;
+                        return noteName + octave;
+                    }).join(' ')}
+                </div>
             `;
 
             keyboardGrid.appendChild(chordCard);
