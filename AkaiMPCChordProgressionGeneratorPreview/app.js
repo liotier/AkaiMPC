@@ -1394,7 +1394,10 @@ function generateProgressions() {
         generateVariant('Modal'),
         generateVariant('Experimental')
     ];
-    
+
+    // Debug: Log variant names
+    console.log('Generated variants:', variants.map(v => v.name));
+
     renderProgressions();
 }
 
@@ -1455,6 +1458,7 @@ function renderProgressions() {
     mpcContent.appendChild(mpcActionHeader);
 
     variants.forEach((variant, index) => {
+        console.log(`Rendering MPC variant ${index}: ${variant.name}`);
         const card = document.createElement('div');
         card.className = 'progression-card';
 
