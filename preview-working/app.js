@@ -725,16 +725,31 @@ function generateGuitarSVG(guitarChord, pad) {
     const frets = guitarChord.frets.split('');
     const fingers = guitarChord.fingers ? guitarChord.fingers.split('') : frets;
 
+    // Calculate minimum fret position (excluding open strings and muted strings)
+    const fretNumbers = frets
+        .filter(f => f !== 'x' && f !== '0')
+        .map(f => parseInt(f));
+    const minFret = fretNumbers.length > 0 ? Math.min(...fretNumbers) : 1;
+    const startFret = minFret > 3 ? minFret : 1;
+    const isOpenPosition = startFret === 1;
+
     // Flip for left-handed
     if (isLeftHanded) {
         frets.reverse();
         fingers.reverse();
     }
 
+    // Add fret position indicator if not in open position
+    if (!isOpenPosition) {
+        svg += `<text x="${leftMargin - 12}" y="${topMargin + fretSpacing / 2 + 3}"
+            text-anchor="middle" font-size="11" font-weight="bold">${startFret}fr</text>`;
+    }
+
     // Draw frets (horizontal lines)
     for (let i = 0; i <= 4; i++) {
         const y = topMargin + i * fretSpacing;
-        const strokeWidth = i === 0 ? 3 : 1;
+        // First line is bold nut only in open position
+        const strokeWidth = (i === 0 && isOpenPosition) ? 3 : 1;
         svg += `<line x1="${leftMargin}" y1="${y}" x2="${leftMargin + 5 * stringSpacing}" y2="${y}"
             stroke="black" stroke-width="${strokeWidth}"/>`;
     }
@@ -762,7 +777,9 @@ function generateGuitarSVG(guitarChord, pad) {
         } else {
             // Fretted note
             const fretNum = parseInt(fret);
-            const y = topMargin + (fretNum - 0.5) * fretSpacing;
+            // Adjust position based on starting fret (for positions above open position)
+            const displayFret = fretNum - startFret + 1;
+            const y = topMargin + (displayFret - 0.5) * fretSpacing;
             svg += `<circle cx="${x}" cy="${y}" r="8" fill="black"/>`;
 
             // Add finger number if available
@@ -776,7 +793,8 @@ function generateGuitarSVG(guitarChord, pad) {
 
     // Draw barre if present
     if (guitarChord.barre) {
-        const y = topMargin + (guitarChord.barre.fret - 0.5) * fretSpacing;
+        const displayBarreFret = guitarChord.barre.fret - startFret + 1;
+        const y = topMargin + (displayBarreFret - 0.5) * fretSpacing;
         const fromX = leftMargin + (guitarChord.barre.from - 1) * stringSpacing;
         const toX = leftMargin + Math.min(5, guitarChord.barre.to - 1) * stringSpacing;
         svg += `<rect x="${fromX - 8}" y="${y - 8}" width="${toX - fromX + 16}" height="16"
