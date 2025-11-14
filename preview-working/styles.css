@@ -707,71 +707,71 @@ footer a:hover {
         display: block !important;
     }
 
-    /* One variant per page */
+    /* One variant per page - simplified to avoid spurious breaks */
     .progression-card {
-        page-break-after: always;
-        page-break-inside: avoid;
+        page-break-before: always;
         margin: 0;
         padding: 0;
     }
 
-    .progression-card:last-child {
-        page-break-after: auto;
+    .progression-card:first-child {
+        page-break-before: avoid;
     }
 
     .progression-header {
-        margin-bottom: 6px !important;
+        margin-bottom: 8px !important;
     }
 
     .progression-title {
+        font-size: 14px !important;
+        margin-bottom: 3px !important;
+    }
+
+    .progression-meta {
+        font-size: 11px !important;
+    }
+
+    /* Increase spacing and sizes for better legibility */
+    .chord-grid, .keyboard-sheet, .guitar-sheet {
+        gap: 6px !important;
+        margin-top: 6px !important;
+    }
+
+    .keyboard-chord-card, .guitar-chord-card {
+        padding: 5px !important;
+        font-size: 10px !important;
+        margin: 0 !important;
+        overflow: visible !important;
+    }
+
+    .keyboard-chord-name, .guitar-chord-name {
         font-size: 12px !important;
         margin-bottom: 2px !important;
     }
 
-    .progression-meta {
-        font-size: 9px !important;
-    }
-
-    /* Scale down grids to fit on one page */
-    .chord-grid, .keyboard-sheet, .guitar-sheet {
-        gap: 3px !important;
-        margin-top: 4px !important;
-    }
-
-    .keyboard-chord-card, .guitar-chord-card {
-        padding: 3px !important;
-        font-size: 9px !important;
-        margin: 0 !important;
-    }
-
-    .keyboard-chord-name, .guitar-chord-name {
-        font-size: 10px !important;
-        margin-bottom: 1px !important;
-    }
-
     .chord-quality {
-        font-size: 8px !important;
-        margin-bottom: 1px !important;
+        font-size: 10px !important;
+        margin-bottom: 2px !important;
     }
 
     .chord-roman {
-        font-size: 9px !important;
-        margin-bottom: 1px !important;
+        font-size: 11px !important;
+        margin-bottom: 2px !important;
     }
 
     .chord-notes {
-        font-size: 7px !important;
-        margin-top: 1px !important;
+        font-size: 8px !important;
+        margin-top: 2px !important;
     }
 
     .keyboard-large-svg {
-        height: 30px !important;
-        margin: 1px 0 !important;
+        height: 50px !important;
+        margin: 2px 0 !important;
     }
 
     .guitar-fretboard-svg {
-        max-height: 60px !important;
-        margin: 1px 0 !important;
+        max-height: 100px !important;
+        margin: 2px 0 !important;
     }
 
     .chord-pad {
@@ -788,14 +788,14 @@ footer a:hover {
         margin-top: 2px !important;
     }
 
-    /* Compact footer to prevent overflow */
+    /* Footer at bottom of page */
     .progression-card::after {
         content: "MPC Chord Progression Generator - https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/AkaiMPCChordProgressionGenerator.html";
         display: block;
-        margin-top: 0.3cm;
-        padding-top: 0.2cm;
+        margin-top: 0.8cm;
+        padding-top: 0.3cm;
         border-top: 1px solid #ccc;
-        font-size: 7px;
+        font-size: 8px;
         color: #666;
         text-align: center;
     }
