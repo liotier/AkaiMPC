@@ -1552,7 +1552,16 @@ function renderProgressions() {
         const keyboardGrid = document.createElement('div');
         keyboardGrid.className = 'keyboard-sheet';
 
+        // Organize pads by row and reverse to match MPC layout (row 4 first, row 1 last)
+        const rows = [[], [], [], []];
         variant.pads.forEach(pad => {
+            rows[pad.row - 1].push(pad);
+        });
+
+        // Flatten reversed rows to get pads in order: 13-16, 9-12, 5-8, 1-4
+        const orderedPads = rows.reverse().flat();
+
+        orderedPads.forEach(pad => {
             const chordCard = document.createElement('div');
             chordCard.className = 'keyboard-chord-card';
 
@@ -1614,7 +1623,16 @@ function renderProgressions() {
         const guitarGrid = document.createElement('div');
         guitarGrid.className = 'guitar-sheet';
 
+        // Organize pads by row and reverse to match MPC layout (row 4 first, row 1 last)
+        const rows = [[], [], [], []];
         variant.pads.forEach(pad => {
+            rows[pad.row - 1].push(pad);
+        });
+
+        // Flatten reversed rows to get pads in order: 13-16, 9-12, 5-8, 1-4
+        const orderedPads = rows.reverse().flat();
+
+        orderedPads.forEach(pad => {
             const chordCard = document.createElement('div');
             chordCard.className = 'guitar-chord-card';
 
