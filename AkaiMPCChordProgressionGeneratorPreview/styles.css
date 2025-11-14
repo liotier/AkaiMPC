@@ -687,8 +687,8 @@ footer a:hover {
 /* Print Styles for Multi-Instrument Views */
 @media print {
     @page {
-        size: portrait;
-        margin: 1.5cm;
+        size: A4 portrait;
+        margin: 1cm;
     }
 
     .chord-matcher, .controls, .action-buttons, footer,
@@ -712,6 +712,9 @@ footer a:hover {
         page-break-after: always;
         page-break-inside: avoid;
         margin-bottom: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
     .progression-card:last-child {
@@ -719,25 +722,75 @@ footer a:hover {
     }
 
     .progression-header {
-        margin-bottom: 20px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .progression-title {
+        font-size: 14px !important;
+    }
+
+    .progression-meta {
+        font-size: 11px !important;
+    }
+
+    /* Scale down grids to fit on one page */
+    .chord-grid, .keyboard-sheet, .guitar-sheet {
+        gap: 6px !important;
+        margin-top: 8px !important;
     }
 
     .keyboard-chord-card, .guitar-chord-card {
         page-break-inside: avoid;
+        padding: 6px !important;
+        font-size: 11px !important;
+    }
+
+    .keyboard-chord-name, .guitar-chord-name {
+        font-size: 13px !important;
+    }
+
+    .chord-quality {
+        font-size: 10px !important;
+    }
+
+    .chord-roman {
+        font-size: 11px !important;
+    }
+
+    .chord-notes {
+        font-size: 9px !important;
+    }
+
+    .keyboard-large-svg {
+        height: 40px !important;
+    }
+
+    .guitar-fretboard-svg {
+        max-height: 80px !important;
     }
 
     .chord-pad {
         page-break-inside: avoid;
+        padding: 4px !important;
+        min-height: auto !important;
     }
 
-    /* Print footer on each page */
+    .chord-name {
+        font-size: 14px !important;
+    }
+
+    .chord-keyboard {
+        margin-top: 2px !important;
+    }
+
+    /* Compact footer to prevent overflow */
     .progression-card::after {
         content: "MPC Chord Progression Generator - https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/AkaiMPCChordProgressionGenerator.html";
         display: block;
-        margin-top: 2cm;
-        padding-top: 0.5cm;
+        margin-top: 0.5cm;
+        padding-top: 0.3cm;
         border-top: 1px solid #ccc;
-        font-size: 10px;
+        font-size: 8px;
         color: #666;
         text-align: center;
     }
