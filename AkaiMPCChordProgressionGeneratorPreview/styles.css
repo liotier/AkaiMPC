@@ -707,15 +707,19 @@ footer a:hover {
         display: block !important;
     }
 
-    /* One variant per page - simplified to avoid spurious breaks */
+    /* One variant per page */
     .progression-card {
-        page-break-before: always;
+        page-break-after: always;
+        break-after: page;
+        page-break-inside: avoid;
+        break-inside: avoid;
         margin: 0;
         padding: 0;
     }
 
-    .progression-card:first-child {
-        page-break-before: avoid;
+    .progression-card:last-child {
+        page-break-after: auto;
+        break-after: auto;
     }
 
     .progression-header {
@@ -765,13 +769,13 @@ footer a:hover {
     }
 
     .keyboard-large-svg {
-        height: 50px !important;
-        margin: 2px 0 !important;
+        height: 65px !important;
     }
 
     .guitar-fretboard-svg {
-        max-height: 100px !important;
-        margin: 2px 0 !important;
+        height: auto !important;
+        max-height: none !important;
+        width: 100% !important;
     }
 
     .chord-pad {
@@ -788,14 +792,14 @@ footer a:hover {
         margin-top: 2px !important;
     }
 
-    /* Footer at bottom of page */
+    /* Footer */
     .progression-card::after {
         content: "MPC Chord Progression Generator - https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/AkaiMPCChordProgressionGenerator.html";
         display: block;
-        margin-top: 0.8cm;
-        padding-top: 0.3cm;
+        margin-top: 1cm;
+        padding-top: 0.4cm;
         border-top: 1px solid #ccc;
-        font-size: 8px;
+        font-size: 9px;
         color: #666;
         text-align: center;
     }
