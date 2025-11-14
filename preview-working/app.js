@@ -1394,7 +1394,10 @@ function generateProgressions() {
         generateVariant('Modal'),
         generateVariant('Experimental')
     ];
-    
+
+    // Debug: Log variant names
+    console.log('Generated variants:', variants.map(v => v.name));
+
     renderProgressions();
 }
 
@@ -1455,6 +1458,7 @@ function renderProgressions() {
     mpcContent.appendChild(mpcActionHeader);
 
     variants.forEach((variant, index) => {
+        console.log(`Rendering MPC variant ${index}: ${variant.name}`);
         const card = document.createElement('div');
         card.className = 'progression-card';
 
@@ -1535,7 +1539,8 @@ function renderProgressions() {
             chordCard.className = 'keyboard-chord-card';
 
             chordCard.innerHTML = `
-                <div class="keyboard-chord-name">${pad.chordName} ${pad.quality}</div>
+                <div class="keyboard-chord-name">${pad.chordName}</div>
+                <div class="chord-quality">${pad.quality}</div>
                 <div class="chord-roman">${pad.romanNumeral}</div>
                 <div class="keyboard-large-svg">${generateLargeKeyboardSVG(pad.notes)}</div>
             `;
@@ -1598,7 +1603,8 @@ function renderProgressions() {
             const guitarChord = getGuitarChord(pad);
 
             chordCard.innerHTML = `
-                <div class="guitar-chord-name">${pad.chordName} ${pad.quality}</div>
+                <div class="guitar-chord-name">${pad.chordName}</div>
+                <div class="chord-quality">${pad.quality}</div>
                 <div class="chord-roman">${pad.romanNumeral}</div>
                 <div class="guitar-fretboard-svg">${generateGuitarSVG(guitarChord, pad)}</div>
                 ${guitarChord.simplified ? '<div style="font-size: 10px; color: var(--muted); font-style: italic;">Simplified</div>' : ''}
