@@ -624,10 +624,24 @@ function generateKeyboardSVG(notes, twoOctaves = true) {
     const numOctaves = twoOctaves ? 2 : 1;
     const viewWidth = twoOctaves ? 196 : 98;
 
-    // Determine octave range to display - center around the chord
+    // Determine octave range to display - ensure all notes are visible
     const minNote = Math.min(...notes);
     const maxNote = Math.max(...notes);
-    const startOctave = Math.floor(minNote / 12) - 1;
+    const minOctave = Math.floor(minNote / 12);
+    const maxOctave = Math.floor(maxNote / 12);
+    const noteSpan = maxOctave - minOctave + 1;
+
+    // Start from the minimum note's octave, or adjust if chord spans more than display allows
+    let startOctave = minOctave;
+    if (noteSpan > numOctaves) {
+        // If chord spans more octaves than we can display, start from min
+        startOctave = minOctave;
+    } else if (twoOctaves && noteSpan === 1) {
+        // If using 1 octave out of 2 available, we could shift down to center,
+        // but let's keep starting from minOctave for consistency
+        startOctave = minOctave;
+    }
+
     const startNote = startOctave * 12;
 
     // Create set of active notes (absolute, not modulo)
