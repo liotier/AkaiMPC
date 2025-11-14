@@ -619,7 +619,7 @@ footer a:hover {
 }
 
 .keyboard-chord-card {
-    text-align: center;
+    text-align: left;
     padding: 10px;
     background: var(--pad-bg);
     border: 1px solid var(--border);
@@ -664,7 +664,7 @@ footer a:hover {
 }
 
 .guitar-chord-card {
-    text-align: center;
+    text-align: left;
     padding: 10px;
     background: var(--pad-bg);
     border: 1px solid var(--border);
