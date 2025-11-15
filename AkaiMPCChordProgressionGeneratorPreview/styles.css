@@ -717,8 +717,9 @@ footer a:hover {
         margin: 1cm;
     }
 
-    * {
-        overflow: visible !important;
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     .chord-matcher, .controls, .action-buttons, footer,
@@ -735,21 +736,20 @@ footer a:hover {
 
     .instrument-content.active {
         display: block !important;
-        page-break-before: avoid !important;
         margin: 0 !important;
         padding: 0 !important;
     }
 
     /* One progression per page */
     .progression-card {
-        margin: 0;
-        padding: 0;
+        margin: 0 !important;
+        padding: 0 !important;
         page-break-before: always;
         page-break-inside: avoid;
     }
 
     .progression-card:first-of-type {
-        page-break-before: auto !important;
+        page-break-before: avoid !important;
     }
 
     .progression-header {
@@ -767,15 +767,24 @@ footer a:hover {
 
     /* Very compact grids to fit on page */
     .chord-grid, .keyboard-sheet, .guitar-sheet {
-        gap: 4px !important;
+        gap: 5px !important;
         margin-top: 4px !important;
     }
 
     .keyboard-chord-card, .guitar-chord-card {
-        padding: 4px !important;
+        padding: 3px !important;
         font-size: 9px !important;
         margin: 0 !important;
-        border: 1px solid #ccc !important;
+        border: 1px solid #999 !important;
+        border-radius: 3px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .guitar-chord-card {
+        overflow: visible !important;
     }
 
     .keyboard-chord-name, .guitar-chord-name {
