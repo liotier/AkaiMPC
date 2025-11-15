@@ -721,7 +721,7 @@ footer a:hover {
         break-inside: avoid;
     }
 
-    .progression-card:first-child {
+    .progression-card:first-of-type {
         page-break-before: avoid;
         break-before: avoid;
     }
