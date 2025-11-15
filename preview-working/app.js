@@ -1578,6 +1578,8 @@ function renderProgressions() {
         orderedPads.forEach(pad => {
             const chordCard = document.createElement('div');
             chordCard.className = 'keyboard-chord-card';
+            chordCard.setAttribute('data-notes', pad.notes.join(','));
+            chordCard.style.cursor = 'pointer';
 
             chordCard.innerHTML = `
                 <div class="keyboard-chord-name">${pad.chordName}</div>
@@ -1656,6 +1658,8 @@ function renderProgressions() {
         orderedPads.forEach(pad => {
             const chordCard = document.createElement('div');
             chordCard.className = 'guitar-chord-card';
+            chordCard.setAttribute('data-notes', pad.notes.join(','));
+            chordCard.style.cursor = 'pointer';
 
             const guitarChord = getGuitarChord(pad);
 
@@ -1690,6 +1694,9 @@ function renderProgressions() {
     // Add event handlers for MPC pads
     addMpcPadHandlers(container);
 
+    // Add event handlers for Keyboard and Guitar cards
+    addKeyboardAndGuitarHandlers(container);
+
     // Add download button handlers
     container.querySelectorAll('.download-btn').forEach(btn => {
         btn.addEventListener('click', function() {
@@ -1721,6 +1728,28 @@ function addMpcPadHandlers(container) {
     // Add click handlers for playing chords
     container.querySelectorAll('.chord-pad').forEach(pad => {
         pad.addEventListener('click', function() {
+            const notes = this.getAttribute('data-notes').split(',').map(Number);
+            playChord(notes);
+            this.classList.add('playing');
+            setTimeout(() => this.classList.remove('playing'), 300);
+        });
+    });
+}
+
+function addKeyboardAndGuitarHandlers(container) {
+    // Add click handlers for Keyboard cards
+    container.querySelectorAll('.keyboard-chord-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const notes = this.getAttribute('data-notes').split(',').map(Number);
+            playChord(notes);
+            this.classList.add('playing');
+            setTimeout(() => this.classList.remove('playing'), 300);
+        });
+    });
+
+    // Add click handlers for Guitar cards
+    container.querySelectorAll('.guitar-chord-card').forEach(card => {
+        card.addEventListener('click', function() {
             const notes = this.getAttribute('data-notes').split(',').map(Number);
             playChord(notes);
             this.classList.add('playing');

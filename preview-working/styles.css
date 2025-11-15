@@ -624,6 +624,19 @@ footer a:hover {
     background: var(--pad-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
+    transition: all 0.2s ease;
+}
+
+.keyboard-chord-card:hover {
+    background: var(--pad-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.keyboard-chord-card.playing {
+    animation: pulse 0.3s ease;
+    background: #dbeafe;
+    border-color: var(--accent);
 }
 
 .keyboard-chord-name {
@@ -670,6 +683,19 @@ footer a:hover {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.guitar-chord-card:hover {
+    background: var(--pad-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.guitar-chord-card.playing {
+    animation: pulse 0.3s ease;
+    background: #dbeafe;
+    border-color: var(--accent);
 }
 
 .guitar-chord-name {
