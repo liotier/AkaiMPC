@@ -662,8 +662,8 @@ function generateKeyboardSVG(notes, twoOctaves = true) {
         });
     }
 
-    // Draw black keys
-    const blackKeyPositions = [7, 21, 42, 56, 70];
+    // Draw black keys - positioned at centers of gaps between white keys
+    const blackKeyPositions = [13.5, 27.5, 55.5, 69.5, 83.5];
     for (let octave = 0; octave < numOctaves; octave++) {
         blackKeyPattern.forEach((note, i) => {
             const x = (octave * 98) + blackKeyPositions[i] - 5;
