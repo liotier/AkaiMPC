@@ -682,7 +682,7 @@ footer a:hover {
     background: var(--pad-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.2s ease;
 }
 
@@ -707,7 +707,7 @@ footer a:hover {
 .guitar-fretboard-svg {
     width: 100%;
     height: auto;
-    max-height: 110px;
+    max-height: none;
 }
 
 /* Print Styles for Multi-Instrument Views */
