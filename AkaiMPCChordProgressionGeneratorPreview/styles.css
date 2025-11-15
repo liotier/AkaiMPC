@@ -722,8 +722,8 @@ footer a:hover {
     }
 
     .progression-card:first-of-type {
-        page-break-before: avoid;
-        break-before: avoid;
+        page-break-before: auto !important;
+        break-before: auto !important;
     }
 
     .progression-header {
