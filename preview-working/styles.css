@@ -642,7 +642,7 @@ footer a:hover {
     #downloadAllBtn,
     .context-tabs-container,
     footer {
-        display: none;
+        display: none !important;
     }
 
     .progressions {
@@ -655,18 +655,29 @@ footer a:hover {
         page-break-inside: avoid;
         margin: 0;
         padding: 14px;
+        display: block;
     }
 
     .progression-card:last-child {
         page-break-after: auto;
     }
 
-    .chord-grid.mpc-context {
-        display: grid !important;
+    .progression-header {
+        margin-bottom: 12px;
     }
 
-    .chord-grid.keyboard-context,
-    .chord-grid.guitar-context {
+    .chord-grid {
         display: none !important;
+        height: 0;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .chord-grid.mpc-context {
+        display: grid !important;
+        height: auto;
+        margin: 0;
+        padding: 0;
     }
 }
