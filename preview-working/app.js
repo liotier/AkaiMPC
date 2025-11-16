@@ -5,7 +5,6 @@ let progressionName = '';
 let variants = [];
 let audioContext = null;
 let chordRequirements = [];
-let isLeftHanded = false;
 
 // Data definitions
 const keys = ['C', 'C♯/D♭', 'D', 'D♯/E♭', 'E', 'F', 'F♯/G♭', 'G', 'G♯/A♭', 'A', 'A♯/B♭', 'B'];
@@ -78,106 +77,6 @@ const progressions = {
         { value: 'i—♭III—♭VII—i', name: 'i—♭III—♭VII—i', nickname: 'Modal Interchange' },
         { value: 'I—♭III—IV—♭VI', name: 'I—♭III—IV—♭VI', nickname: 'Chromatic Mediant' }
     ]
-};
-
-// Guitar chord database for all 12 keys
-const guitarChords = {
-    'C': {
-        'major': {frets: 'x32010', fingers: 'x32010'},
-        'minor': {frets: 'x35543', fingers: 'x13421', barre: {fret: 3, from: 1, to: 6}},
-        'diminished': {frets: 'x3454x', fingers: 'x1243x'},
-        'dom7': {frets: 'x32310', fingers: 'x32410'},
-        'major7': {frets: 'x32000', fingers: 'x32000'},
-        'minor7': {frets: 'x35343', fingers: 'x13141', barre: {fret: 3, from: 1, to: 6}}
-    },
-    'D': {
-        'major': {frets: 'xx0232', fingers: 'xx0132'},
-        'minor': {frets: 'xx0231', fingers: 'xx0231'},
-        'diminished': {frets: 'xx0101', fingers: 'xx0102'},
-        'dom7': {frets: 'xx0212', fingers: 'xx0213'},
-        'major7': {frets: 'xx0222', fingers: 'xx0111'},
-        'minor7': {frets: 'xx0211', fingers: 'xx0211'}
-    },
-    'E': {
-        'major': {frets: '022100', fingers: '023100'},
-        'minor': {frets: '022000', fingers: '023000'},
-        'diminished': {frets: 'xx2323', fingers: 'xx1324'},
-        'dom7': {frets: '020100', fingers: 'x20100'},
-        'major7': {frets: '021100', fingers: '021100'},
-        'minor7': {frets: '022030', fingers: '023040'}
-    },
-    'F': {
-        'major': {frets: '133211', fingers: '134211', barre: {fret: 1, from: 1, to: 6}},
-        'minor': {frets: '133111', fingers: '134111', barre: {fret: 1, from: 1, to: 6}},
-        'diminished': {frets: '1x0101', fingers: '1x0203'},
-        'dom7': {frets: '131211', fingers: '131211', barre: {fret: 1, from: 1, to: 6}},
-        'major7': {frets: 'xx3210', fingers: 'xx3210'},
-        'minor7': {frets: '131111', fingers: '131111', barre: {fret: 1, from: 1, to: 6}}
-    },
-    'G': {
-        'major': {frets: '320003', fingers: '320004'},
-        'minor': {frets: '355333', fingers: '134111', barre: {fret: 3, from: 1, to: 6}},
-        'diminished': {frets: '3x2323', fingers: '3x1324'},
-        'dom7': {frets: '320001', fingers: '320001'},
-        'major7': {frets: '320002', fingers: '320002'},
-        'minor7': {frets: '353333', fingers: '131111', barre: {fret: 3, from: 1, to: 6}}
-    },
-    'A': {
-        'major': {frets: 'x02220', fingers: 'x01230'},
-        'minor': {frets: 'x02210', fingers: 'x02310'},
-        'diminished': {frets: '5x4545', fingers: '2x1314'},
-        'dom7': {frets: 'x02020', fingers: 'x02030'},
-        'major7': {frets: 'x02120', fingers: 'x02130'},
-        'minor7': {frets: 'x02010', fingers: 'x02010'}
-    },
-    'B': {
-        'major': {frets: 'x24442', fingers: 'x13331', barre: {fret: 2, from: 1, to: 5}},
-        'minor': {frets: 'x24432', fingers: 'x13421', barre: {fret: 2, from: 1, to: 5}},
-        'diminished': {frets: '7x6767', fingers: '2x1324'},
-        'dom7': {frets: 'x21202', fingers: 'x21304'},
-        'major7': {frets: 'x24342', fingers: 'x24342', barre: {fret: 2, from: 1, to: 5}},
-        'minor7': {frets: 'x24232', fingers: 'x13121', barre: {fret: 2, from: 1, to: 5}}
-    },
-    'C♯/D♭': {
-        'major': {frets: 'x46664', fingers: 'x13331', barre: {fret: 4, from: 1, to: 6}},
-        'minor': {frets: 'x46654', fingers: 'x13421', barre: {fret: 4, from: 1, to: 6}},
-        'diminished': {frets: 'x4565x', fingers: 'x1243x'},
-        'dom7': {frets: 'x46464', fingers: 'x13141', barre: {fret: 4, from: 1, to: 6}},
-        'major7': {frets: 'x46564', fingers: 'x13241', barre: {fret: 4, from: 1, to: 6}},
-        'minor7': {frets: 'x46454', fingers: 'x13121', barre: {fret: 4, from: 1, to: 6}}
-    },
-    'D♯/E♭': {
-        'major': {frets: 'x68886', fingers: 'x13331', barre: {fret: 6, from: 1, to: 6}},
-        'minor': {frets: 'x68876', fingers: 'x13421', barre: {fret: 6, from: 1, to: 6}},
-        'diminished': {frets: 'x6787x', fingers: 'x1243x'},
-        'dom7': {frets: 'x68686', fingers: 'x13141', barre: {fret: 6, from: 1, to: 6}},
-        'major7': {frets: 'x68786', fingers: 'x13241', barre: {fret: 6, from: 1, to: 6}},
-        'minor7': {frets: 'x68676', fingers: 'x13121', barre: {fret: 6, from: 1, to: 6}}
-    },
-    'F♯/G♭': {
-        'major': {frets: '244322', fingers: '134211', barre: {fret: 2, from: 1, to: 6}},
-        'minor': {frets: '244222', fingers: '134111', barre: {fret: 2, from: 1, to: 6}},
-        'diminished': {frets: '2x1212', fingers: '2x1314'},
-        'dom7': {frets: '242322', fingers: '131211', barre: {fret: 2, from: 1, to: 6}},
-        'major7': {frets: 'xx4321', fingers: 'xx4321'},
-        'minor7': {frets: '242222', fingers: '131111', barre: {fret: 2, from: 1, to: 6}}
-    },
-    'G♯/A♭': {
-        'major': {frets: '466544', fingers: '134211', barre: {fret: 4, from: 1, to: 6}},
-        'minor': {frets: '466444', fingers: '134111', barre: {fret: 4, from: 1, to: 6}},
-        'diminished': {frets: '4x3434', fingers: '2x1314'},
-        'dom7': {frets: '464544', fingers: '131211', barre: {fret: 4, from: 1, to: 6}},
-        'major7': {frets: '465544', fingers: '132411', barre: {fret: 4, from: 1, to: 6}},
-        'minor7': {frets: '464444', fingers: '131111', barre: {fret: 4, from: 1, to: 6}}
-    },
-    'A♯/B♭': {
-        'major': {frets: 'x13331', fingers: 'x13331', barre: {fret: 1, from: 1, to: 5}},
-        'minor': {frets: 'x13321', fingers: 'x13421', barre: {fret: 1, from: 1, to: 5}},
-        'diminished': {frets: '6x5656', fingers: '2x1314'},
-        'dom7': {frets: 'x13131', fingers: 'x13141', barre: {fret: 1, from: 1, to: 5}},
-        'major7': {frets: 'x13231', fingers: 'x13241', barre: {fret: 1, from: 1, to: 5}},
-        'minor7': {frets: 'x13121', fingers: 'x13121', barre: {fret: 1, from: 1, to: 5}}
-    }
 };
 
 // Chord Matcher Functions
@@ -618,42 +517,26 @@ function getRomanNumeral(degree, isMinor = false, isDim = false) {
     return numeral;
 }
 
-function generateKeyboardSVG(notes, twoOctaves = true) {
+function generateKeyboardSVG(notes) {
     if (!notes || notes.length === 0) return '';
 
-    const numOctaves = twoOctaves ? 2 : 1;
-    const viewWidth = twoOctaves ? 196 : 98;
-
-    // Determine octave range to display - ensure all notes are visible
+    // Determine octave range to display - center around the chord
     const minNote = Math.min(...notes);
     const maxNote = Math.max(...notes);
-    const minOctave = Math.floor(minNote / 12);
-    const maxOctave = Math.floor(maxNote / 12);
-    const noteSpan = maxOctave - minOctave + 1;
-
-    // Start from the minimum note's octave, or adjust if chord spans more than display allows
-    let startOctave = minOctave;
-    if (noteSpan > numOctaves) {
-        // If chord spans more octaves than we can display, start from min
-        startOctave = minOctave;
-    } else if (twoOctaves && noteSpan === 1) {
-        // If using 1 octave out of 2 available, we could shift down to center,
-        // but let's keep starting from minOctave for consistency
-        startOctave = minOctave;
-    }
-
+    const startOctave = Math.floor(minNote / 12) - 1;
     const startNote = startOctave * 12;
 
     // Create set of active notes (absolute, not modulo)
     const activeNotes = new Set(notes);
 
+    // Two octaves = 14 white keys
     const whiteKeyPattern = [0, 2, 4, 5, 7, 9, 11];
     const blackKeyPattern = [1, 3, 6, 8, 10];
 
-    let svg = `<svg viewBox="0 0 ${viewWidth} 35" xmlns="http://www.w3.org/2000/svg">`;
+    let svg = '<svg viewBox="0 0 196 35" xmlns="http://www.w3.org/2000/svg">';
 
-    // Draw white keys
-    for (let octave = 0; octave < numOctaves; octave++) {
+    // Draw two octaves of white keys
+    for (let octave = 0; octave < 2; octave++) {
         whiteKeyPattern.forEach((note, i) => {
             const x = (octave * 7 + i) * 14;
             const absoluteNote = startNote + (octave * 12) + note;
@@ -662,9 +545,9 @@ function generateKeyboardSVG(notes, twoOctaves = true) {
         });
     }
 
-    // Draw black keys - positioned at centers of gaps between white keys
-    const blackKeyPositions = [13.5, 27.5, 55.5, 69.5, 83.5];
-    for (let octave = 0; octave < numOctaves; octave++) {
+    // Draw two octaves of black keys
+    const blackKeyPositions = [7, 21, 42, 56, 70];
+    for (let octave = 0; octave < 2; octave++) {
         blackKeyPattern.forEach((note, i) => {
             const x = (octave * 98) + blackKeyPositions[i] - 5;
             const absoluteNote = startNote + (octave * 12) + note;
@@ -677,148 +560,52 @@ function generateKeyboardSVG(notes, twoOctaves = true) {
     return svg;
 }
 
-function generateLargeKeyboardSVG(notes) {
-    return generateKeyboardSVG(notes, true);
-}
+function generateGuitarSVG(notes) {
+    if (!notes || notes.length === 0) return '';
 
-// Guitar chord helper functions
-function getGuitarChord(pad) {
-    // Map pad quality to guitar chord type
-    let chordType = 'major';
-    if (pad.quality === 'Minor') chordType = 'minor';
-    else if (pad.quality === 'Diminished') chordType = 'diminished';
-    else if (pad.quality === 'Dominant 7') chordType = 'dom7';
-    else if (pad.quality === 'Major 7') chordType = 'major7';
-    else if (pad.quality === 'Minor 7') chordType = 'minor7';
+    // Standard guitar tuning (E2=40, A2=45, D3=50, G3=55, B3=59, E4=64)
+    const strings = [64, 59, 55, 50, 45, 40];
+    const frets = 5; // Show first 5 frets
 
-    // Get root note name
-    const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-    const rootNote = noteNames[pad.notes[0] % 12];
+    let svg = '<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">';
 
-    // Look up chord in database
-    let lookupKey = rootNote;
-    // Handle enharmonic equivalents
-    if (rootNote === 'C#') lookupKey = 'C♯/D♭';
-    if (rootNote === 'D#') lookupKey = 'D♯/E♭';
-    if (rootNote === 'F#') lookupKey = 'F♯/G♭';
-    if (rootNote === 'G#') lookupKey = 'G♯/A♭';
-    if (rootNote === 'A#') lookupKey = 'A♯/B♭';
-
-    if (guitarChords[lookupKey] && guitarChords[lookupKey][chordType]) {
-        return guitarChords[lookupKey][chordType];
-    }
-
-    // Fallback for missing chords - try simpler version
-    const fallbacks = {
-        'major7': 'major',
-        'minor7': 'minor',
-        'dom7': 'major',
-        'diminished': 'minor'
-    };
-
-    const fallbackType = fallbacks[chordType] || 'major';
-    if (guitarChords[lookupKey] && guitarChords[lookupKey][fallbackType]) {
-        return {...guitarChords[lookupKey][fallbackType], simplified: true};
-    }
-
-    // Ultimate fallback - just mute all strings
-    return {frets: 'xxxxxx', fingers: 'xxxxxx', simplified: true};
-}
-
-function generateGuitarSVG(guitarChord, pad) {
-    const width = 150;
-    const height = 140;
-    const stringSpacing = 20;
-    const fretSpacing = 28;
-    const leftMargin = 25;
-    const topMargin = 25;
-
-    let svg = `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
-
-    // Parse frets and fingers
-    const frets = guitarChord.frets.split('');
-    const fingers = guitarChord.fingers ? guitarChord.fingers.split('') : frets;
-
-    // Calculate minimum fret position (excluding open strings and muted strings)
-    const fretNumbers = frets
-        .filter(f => f !== 'x' && f !== '0')
-        .map(f => parseInt(f));
-    const minFret = fretNumbers.length > 0 ? Math.min(...fretNumbers) : 1;
-    const startFret = minFret > 3 ? minFret : 1;
-    const isOpenPosition = startFret === 1;
-
-    // Flip for left-handed
-    if (isLeftHanded) {
-        frets.reverse();
-        fingers.reverse();
-    }
-
-    // Add fret position indicator if not in open position
-    if (!isOpenPosition) {
-        svg += `<text x="${leftMargin - 12}" y="${topMargin + fretSpacing / 2 + 3}"
-            text-anchor="middle" font-size="11" font-weight="bold">${startFret}fr</text>`;
-    }
-
-    // Draw frets (horizontal lines)
-    for (let i = 0; i <= 4; i++) {
-        const y = topMargin + i * fretSpacing;
-        // First line is bold nut only in open position
-        const strokeWidth = (i === 0 && isOpenPosition) ? 3 : 1;
-        svg += `<line x1="${leftMargin}" y1="${y}" x2="${leftMargin + 5 * stringSpacing}" y2="${y}"
-            stroke="black" stroke-width="${strokeWidth}"/>`;
-    }
-
-    // Draw strings (vertical lines)
+    // Draw strings (horizontal lines)
     for (let i = 0; i < 6; i++) {
-        const x = leftMargin + i * stringSpacing;
-        const strokeWidth = isLeftHanded ? i + 1 : 6 - i;
-        svg += `<line x1="${x}" y1="${topMargin}" x2="${x}" y2="${topMargin + 4 * fretSpacing}"
-            stroke="black" stroke-width="${strokeWidth}"/>`;
+        const y = 10 + i * 10;
+        svg += `<line x1="10" y1="${y}" x2="90" y2="${y}" stroke="#666" stroke-width="0.5"/>`;
     }
 
-    // Draw fret positions
-    frets.forEach((fret, stringIndex) => {
-        const x = leftMargin + stringIndex * stringSpacing;
+    // Draw frets (vertical lines)
+    for (let i = 0; i <= frets; i++) {
+        const x = 10 + i * 16;
+        const strokeWidth = i === 0 ? 2 : 0.5;
+        svg += `<line x1="${x}" y1="10" x2="${x}" y2="60" stroke="#333" stroke-width="${strokeWidth}"/>`;
+    }
 
-        if (fret === 'x') {
-            // Muted string
-            svg += `<text x="${x}" y="${topMargin - 8}" text-anchor="middle"
-                font-size="16" font-weight="bold">×</text>`;
-        } else if (fret === '0') {
-            // Open string
-            svg += `<circle cx="${x}" cy="${topMargin - 8}" r="6"
-                fill="none" stroke="black" stroke-width="2"/>`;
-        } else {
-            // Fretted note
-            const fretNum = parseInt(fret);
-            // Adjust position based on starting fret (for positions above open position)
-            const displayFret = fretNum - startFret + 1;
-            const y = topMargin + (displayFret - 0.5) * fretSpacing;
-            svg += `<circle cx="${x}" cy="${y}" r="8" fill="black"/>`;
+    // Find positions for each note
+    const noteSet = new Set(notes.map(n => n % 12));
+    const positions = [];
 
-            // Add finger number if available
-            const fingerNum = fingers[stringIndex];
-            if (fingerNum !== 'x' && fingerNum !== '0' && fingerNum !== fret) {
-                svg += `<text x="${x}" y="${y + 3}" text-anchor="middle"
-                    font-size="8" fill="white" font-weight="bold">${fingerNum}</text>`;
+    strings.forEach((stringNote, stringIndex) => {
+        for (let fret = 0; fret <= frets; fret++) {
+            const fretNote = (stringNote + fret) % 12;
+            if (noteSet.has(fretNote)) {
+                positions.push({ string: stringIndex, fret });
+                break; // Take first occurrence on each string
             }
         }
     });
 
-    // Draw barre if present
-    if (guitarChord.barre) {
-        const displayBarreFret = guitarChord.barre.fret - startFret + 1;
-        const y = topMargin + (displayBarreFret - 0.5) * fretSpacing;
-        const fromX = leftMargin + (guitarChord.barre.from - 1) * stringSpacing;
-        const toX = leftMargin + Math.min(5, guitarChord.barre.to - 1) * stringSpacing;
-        svg += `<rect x="${fromX - 8}" y="${y - 8}" width="${toX - fromX + 16}" height="16"
-            rx="8" fill="black" opacity="0.3"/>`;
-    }
+    // Draw finger positions
+    positions.forEach(pos => {
+        const x = 10 + (pos.fret === 0 ? 0 : pos.fret * 16 - 8);
+        const y = 10 + pos.string * 10;
+        svg += `<circle cx="${x}" cy="${y}" r="3" fill="#f59e0b" stroke="#333" stroke-width="0.5"/>`;
+    });
 
     svg += '</svg>';
     return svg;
 }
-
 
 // Dynamic Row 4 Analysis Functions
 function analyzeExistingChords(chords) {
@@ -1426,17 +1213,14 @@ function generateProgressions() {
         generateVariant('Modal'),
         generateVariant('Experimental')
     ];
-
-    // Debug: Log variant names
-    console.log('Generated variants:', variants.map(v => v.name));
-
+    
     renderProgressions();
 }
 
 function downloadSingleProgression(variant, index) {
     const keyName = selectedKey.split('/')[0];
-    const fileName = `${progressionName}_${variant.name}.progression`;
-
+    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
+    
     const progressionData = {
         progression: {
             name: fileName.replace('.progression', ''),
@@ -1465,42 +1249,42 @@ function downloadSingleProgression(variant, index) {
 function renderProgressions() {
     const container = document.getElementById('progressionsContainer');
     container.innerHTML = '';
-
-    // Create instrument tabs at the top
-    const tabsContainer = document.createElement('div');
-    tabsContainer.className = 'instrument-tabs';
-    tabsContainer.innerHTML = `
-        <button class="instrument-tab active" data-instrument="mpc" onclick="switchInstrumentTab(this, 'mpc')">MPC Pads</button>
-        <button class="instrument-tab" data-instrument="keyboard" onclick="switchInstrumentTab(this, 'keyboard')">Keyboard</button>
-        <button class="instrument-tab" data-instrument="guitar" onclick="switchInstrumentTab(this, 'guitar')">Guitar</button>
-    `;
-    container.appendChild(tabsContainer);
-
-    // Create MPC Pads content (all 4 variants with full grids)
-    const mpcContent = document.createElement('div');
-    mpcContent.className = 'instrument-content active';
-    mpcContent.setAttribute('data-instrument', 'mpc');
-
-    // Add Download All button at the top
-    const mpcActionHeader = document.createElement('div');
-    mpcActionHeader.className = 'tab-action-header';
-    mpcActionHeader.innerHTML = `
-        <button class="tab-action-btn" id="downloadAllBtnTab" onclick="exportProgressions()">Download All</button>
-    `;
-    mpcContent.appendChild(mpcActionHeader);
-
+    
     variants.forEach((variant, index) => {
-        console.log(`Rendering MPC variant ${index}: ${variant.name}`);
         const card = document.createElement('div');
         card.className = 'progression-card';
-
+        
         // Create grid HTML for pads (reverse rows for MPC layout)
         const rows = [[], [], [], []];
         variant.pads.forEach(pad => {
             rows[pad.row - 1].push(pad);
         });
+        
+        const mpcGridHTML = rows.reverse().map(row =>
+            row.map(pad => `
+                <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}"
+                    data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}">
+                    <div class="chord-pad-content">
+                        <div class="chord-info">
+                            <div class="chord-name">${pad.chordName}</div>
+                        </div>
+                        <div class="pad-number">PAD ${pad.id}</div>
+                    </div>
+                    <div class="chord-quality">${pad.quality}</div>
+                    <div class="chord-roman">${pad.romanNumeral}</div>
+                    <div class="chord-notes">
+                        ${pad.notes.map(note => {
+                            const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
+                            const octave = Math.floor(note / 12) - 2;
+                            return noteName + octave;
+                        }).join(' ')}
+                    </div>
+                </div>
+            `).join('')
+        ).join('');
 
-        const gridHTML = rows.reverse().map(row =>
+        // Generate keyboard grid
+        const keyboardGridHTML = rows.map(row =>
             row.map(pad => `
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}"
                     data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}">
@@ -1524,6 +1308,31 @@ function renderProgressions() {
             `).join('')
         ).join('');
 
+        // Generate guitar grid
+        const guitarGridHTML = rows.map(row =>
+            row.map(pad => `
+                <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}"
+                    data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}">
+                    <div class="chord-pad-content">
+                        <div class="chord-info">
+                            <div class="chord-name">${pad.chordName}</div>
+                        </div>
+                        <div class="pad-number">PAD ${pad.id}</div>
+                    </div>
+                    <div class="chord-quality">${pad.quality}</div>
+                    <div class="chord-roman">${pad.romanNumeral}</div>
+                    <div class="chord-guitar">${generateGuitarSVG(pad.notes)}</div>
+                    <div class="chord-notes">
+                        ${pad.notes.map(note => {
+                            const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
+                            const octave = Math.floor(note / 12) - 2;
+                            return noteName + octave;
+                        }).join(' ')}
+                    </div>
+                </div>
+            `).join('')
+        ).join('');
+
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
@@ -1533,198 +1342,42 @@ function renderProgressions() {
                         <span class="pattern">${selectedProgression}</span>
                     </div>
                 </div>
-                <button class="download-btn" title="Download" data-variant-index="${index}">
+            </div>
+            <div class="context-tabs-container">
+                <div class="context-tabs">
+                    <button class="context-tab active" data-context="mpc">MPC Pads</button>
+                    <button class="context-tab" data-context="keyboard">Keyboard</button>
+                    <button class="context-tab" data-context="guitar">Guitar</button>
+                </div>
+                <button class="download-btn" title="Download .progression file" data-variant-index="${index}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
                     </svg>
                 </button>
             </div>
-            <div class="chord-grid">${gridHTML}</div>
+            <div class="chord-grid mpc-context active" data-context="mpc">${mpcGridHTML}</div>
+            <div class="chord-grid keyboard-context" data-context="keyboard">${keyboardGridHTML}</div>
+            <div class="chord-grid guitar-context" data-context="guitar">${guitarGridHTML}</div>
         `;
-
-        mpcContent.appendChild(card);
-    });
-    container.appendChild(mpcContent);
-
-    // Create Keyboard content (all 4 variants with keyboard sheets)
-    const keyboardContent = document.createElement('div');
-    keyboardContent.className = 'instrument-content';
-    keyboardContent.setAttribute('data-instrument', 'keyboard');
-
-    // Add Print button at the top
-    const keyboardActionHeader = document.createElement('div');
-    keyboardActionHeader.className = 'tab-action-header';
-    keyboardActionHeader.innerHTML = `
-        <button class="tab-action-btn" onclick="printInstrumentSheets('keyboard')">Print Keyboard Sheets</button>
-    `;
-    keyboardContent.appendChild(keyboardActionHeader);
-
-    variants.forEach((variant, index) => {
-        const card = document.createElement('div');
-        card.className = 'progression-card';
-
-        const keyboardGrid = document.createElement('div');
-        keyboardGrid.className = 'keyboard-sheet';
-
-        // Organize pads by row and reverse to match MPC layout (row 4 first, row 1 last)
-        const rows = [[], [], [], []];
-        variant.pads.forEach(pad => {
-            rows[pad.row - 1].push(pad);
-        });
-
-        // Flatten reversed rows to get pads in order: 13-16, 9-12, 5-8, 1-4
-        const orderedPads = rows.reverse().flat();
-
-        orderedPads.forEach(pad => {
-            const chordCard = document.createElement('div');
-            chordCard.className = 'keyboard-chord-card';
-            chordCard.setAttribute('data-notes', pad.notes.join(','));
-            chordCard.style.cursor = 'pointer';
-
-            chordCard.innerHTML = `
-                <div class="keyboard-chord-name">${pad.chordName}</div>
-                <div class="chord-quality">${pad.quality}</div>
-                <div class="chord-roman">${pad.romanNumeral}</div>
-                <div class="keyboard-large-svg">${generateLargeKeyboardSVG(pad.notes)}</div>
-                <div class="chord-notes">
-                    ${pad.notes.map(note => {
-                        const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
-                        const octave = Math.floor(note / 12) - 2;
-                        return noteName + octave;
-                    }).join(' ')}
-                </div>
-            `;
-
-            keyboardGrid.appendChild(chordCard);
-        });
-
-        card.innerHTML = `
-            <div class="progression-header">
-                <div class="progression-info">
-                    <div class="progression-title">${progressionName}_${variant.name}</div>
-                    <div class="progression-meta">
-                        <span class="key">${selectedKey} ${selectedMode}</span>
-                        <span class="pattern">${selectedProgression}</span>
-                    </div>
-                </div>
-            </div>
-        `;
-        card.appendChild(keyboardGrid);
-        keyboardContent.appendChild(card);
+        
+        container.appendChild(card);
     });
 
-    container.appendChild(keyboardContent);
-
-    // Create Guitar content (all 4 variants with guitar sheets)
-    const guitarContent = document.createElement('div');
-    guitarContent.className = 'instrument-content';
-    guitarContent.setAttribute('data-instrument', 'guitar');
-
-    // Add Print button at the top
-    const guitarActionHeader = document.createElement('div');
-    guitarActionHeader.className = 'tab-action-header';
-    guitarActionHeader.innerHTML = `
-        <button class="tab-action-btn" onclick="printInstrumentSheets('guitar')">Print Guitar Sheets</button>
-    `;
-    guitarContent.appendChild(guitarActionHeader);
-
-    const guitarControls = document.createElement('div');
-    guitarControls.className = 'guitar-controls';
-    guitarControls.innerHTML = `
-        <label>
-            <input type="checkbox" id="leftHandedGlobal" ${isLeftHanded ? 'checked' : ''}
-                   onchange="toggleLeftHandedGlobal(this)">
-            Left-handed mode
-        </label>
-    `;
-    guitarContent.appendChild(guitarControls);
-
-    variants.forEach((variant, index) => {
-        const card = document.createElement('div');
-        card.className = 'progression-card';
-
-        const guitarGrid = document.createElement('div');
-        guitarGrid.className = 'guitar-sheet';
-
-        // Organize pads by row and reverse to match MPC layout (row 4 first, row 1 last)
-        const rows = [[], [], [], []];
-        variant.pads.forEach(pad => {
-            rows[pad.row - 1].push(pad);
-        });
-
-        // Flatten reversed rows to get pads in order: 13-16, 9-12, 5-8, 1-4
-        const orderedPads = rows.reverse().flat();
-
-        orderedPads.forEach(pad => {
-            const chordCard = document.createElement('div');
-            chordCard.className = 'guitar-chord-card';
-            chordCard.setAttribute('data-notes', pad.notes.join(','));
-            chordCard.style.cursor = 'pointer';
-
-            const guitarChord = getGuitarChord(pad);
-
-            chordCard.innerHTML = `
-                <div class="guitar-chord-name">${pad.chordName}</div>
-                <div class="chord-quality">${pad.quality}</div>
-                <div class="chord-roman">${pad.romanNumeral}</div>
-                <div class="guitar-fretboard-svg">${generateGuitarSVG(guitarChord, pad)}</div>
-                ${guitarChord.simplified ? '<div style="font-size: 10px; color: var(--muted); font-style: italic;">Simplified</div>' : ''}
-            `;
-
-            guitarGrid.appendChild(chordCard);
-        });
-
-        card.innerHTML = `
-            <div class="progression-header">
-                <div class="progression-info">
-                    <div class="progression-title">${progressionName}_${variant.name}</div>
-                    <div class="progression-meta">
-                        <span class="key">${selectedKey} ${selectedMode}</span>
-                        <span class="pattern">${selectedProgression}</span>
-                    </div>
-                </div>
-            </div>
-        `;
-        card.appendChild(guitarGrid);
-        guitarContent.appendChild(card);
+// Add hover handlers for tooltips
+container.querySelectorAll('.chord-pad').forEach(pad => {
+    pad.addEventListener('mouseenter', function() {
+const roman = this.getAttribute('data-roman');
+const quality = this.getAttribute('data-quality');
+const tooltipText = getChordTooltip(roman, quality);
+showTooltip(this, tooltipText);
     });
-
-    container.appendChild(guitarContent);
-
-    // Add event handlers for MPC pads
-    addMpcPadHandlers(container);
-
-    // Add event handlers for Keyboard and Guitar cards
-    addKeyboardAndGuitarHandlers(container);
-
-    // Add download button handlers
-    container.querySelectorAll('.download-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const variantIndex = parseInt(this.getAttribute('data-variant-index'));
-            downloadSingleProgression(variants[variantIndex], variantIndex);
-        });
+    
+    pad.addEventListener('mouseleave', function() {
+const tooltip = document.getElementById('chordTooltip');
+if (tooltip) tooltip.classList.remove('visible');
     });
-
-    // Show container
-    container.classList.remove('hidden');
-}
-
-function addMpcPadHandlers(container) {
-    // Add hover handlers for tooltips
-    container.querySelectorAll('.chord-pad').forEach(pad => {
-        pad.addEventListener('mouseenter', function() {
-            const roman = this.getAttribute('data-roman');
-            const quality = this.getAttribute('data-quality');
-            const tooltipText = getChordTooltip(roman, quality);
-            showTooltip(this, tooltipText);
-        });
-
-        pad.addEventListener('mouseleave', function() {
-            const tooltip = document.getElementById('chordTooltip');
-            if (tooltip) tooltip.classList.remove('visible');
-        });
-    });
-
+});
+    
     // Add click handlers for playing chords
     container.querySelectorAll('.chord-pad').forEach(pad => {
         pad.addEventListener('click', function() {
@@ -1734,64 +1387,33 @@ function addMpcPadHandlers(container) {
             setTimeout(() => this.classList.remove('playing'), 300);
         });
     });
-}
 
-function addKeyboardAndGuitarHandlers(container) {
-    // Add click handlers for Keyboard cards
-    container.querySelectorAll('.keyboard-chord-card').forEach(card => {
-        card.addEventListener('click', function() {
-            const notes = this.getAttribute('data-notes').split(',').map(Number);
-            playChord(notes);
-            this.classList.add('playing');
-            setTimeout(() => this.classList.remove('playing'), 300);
+    // Add click handlers for individual download buttons
+    container.querySelectorAll('.download-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const variantIndex = parseInt(this.getAttribute('data-variant-index'));
+            downloadSingleProgression(variants[variantIndex], variantIndex);
         });
     });
 
-    // Add click handlers for Guitar cards
-    container.querySelectorAll('.guitar-chord-card').forEach(card => {
-        card.addEventListener('click', function() {
-            const notes = this.getAttribute('data-notes').split(',').map(Number);
-            playChord(notes);
-            this.classList.add('playing');
-            setTimeout(() => this.classList.remove('playing'), 300);
+    // Add click handlers for context tabs
+    container.querySelectorAll('.context-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            const context = this.getAttribute('data-context');
+            const card = this.closest('.progression-card');
+
+            // Update active tab
+            card.querySelectorAll('.context-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+            // Update active context grid
+            card.querySelectorAll('.chord-grid').forEach(g => g.classList.remove('active'));
+            card.querySelector(`.chord-grid[data-context="${context}"]`).classList.add('active');
         });
     });
-}
 
-function switchInstrumentTab(button, instrument) {
-    // Update tab buttons
-    const tabs = button.parentElement.querySelectorAll('.instrument-tab');
-    tabs.forEach(t => t.classList.remove('active'));
-    button.classList.add('active');
-
-    // Update content
-    const container = document.getElementById('progressionsContainer');
-    const contents = container.querySelectorAll('.instrument-content');
-    contents.forEach(c => c.classList.remove('active'));
-
-    const targetContent = container.querySelector(`.instrument-content[data-instrument="${instrument}"]`);
-    targetContent.classList.add('active');
-}
-
-function toggleLeftHandedGlobal(checkbox) {
-    isLeftHanded = checkbox.checked;
-    // Re-render all guitar views
-    renderProgressions();
-}
-
-function printInstrumentSheets(instrumentType) {
-    // Temporarily change document title to include progression name for PDF filename
-    const originalTitle = document.title;
-    const instrumentName = instrumentType.charAt(0).toUpperCase() + instrumentType.slice(1);
-    document.title = `${progressionName}_${instrumentName}`;
-
-    // Print
-    window.print();
-
-    // Restore original title after a short delay to ensure print dialog captures the new title
-    setTimeout(() => {
-        document.title = originalTitle;
-    }, 1000);
+    container.classList.remove('hidden');
+    document.getElementById('downloadAllBtn').style.display = 'block';
 }
 
 async function playChord(notes) {

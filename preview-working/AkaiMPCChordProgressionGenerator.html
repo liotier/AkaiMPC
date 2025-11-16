@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MPC Chord Progression Generator</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512x512.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="app.js" defer></script>
@@ -95,15 +99,16 @@
             </div>
         </div>
 
-        <div class="action-buttons">
-            <button class="primary full-width" id="generateBtn">Generate Progressions</button>
-            <button id="cluelessBtn">I'm clueless but reasonable</button>
-            <div class="empty-cell"></div>
-            <div class="empty-cell"></div>
-            <button id="luckyBtn">I'm feeling lucky</button>
-            <div class="empty-cell"></div>
-            <button class="primary" id="downloadAllBtn" style="display: none;">Download all</button>
+        <button class="primary full-width generate-btn" id="generateBtn">Generate Progressions</button>
+
+        <div class="random-buttons-container" title="No inspiration for selecting parameters ? Try these random selections !">
+            <div class="random-buttons">
+                <button id="cluelessBtn">I'm clueless but reasonable</button>
+                <button id="luckyBtn">I'm feeling lucky</button>
+            </div>
         </div>
+
+        <button class="primary" id="downloadAllBtn" style="display: none;">Download all</button>
 
         <div id="progressionsContainer" class="progressions hidden"></div>
 

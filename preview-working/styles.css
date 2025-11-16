@@ -264,15 +264,33 @@ button:disabled {
     cursor: not-allowed;
 }
 
-.action-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 24px;
+.generate-btn {
+    width: 100%;
+    margin-bottom: 16px;
 }
 
-.action-buttons .full-width {
-    grid-column: 1 / -1;
+.random-buttons-container {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    background: white;
+}
+
+.random-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.random-buttons button {
+    flex: 1 1 200px;
+}
+
+#downloadAllBtn {
+    width: 100%;
+    margin-bottom: 24px;
 }
 
 .progressions {
@@ -286,25 +304,56 @@ button:disabled {
     border-radius: var(--radius);
     padding: 14px;
     background: white;
-    transition: all 0.2s ease;
-}
-
-.progression-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transform: translateY(-2px);
+    page-break-inside: avoid;
 }
 
 .progression-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 16px;
-    gap: 12px;
+    margin-bottom: 12px;
 }
 
 .progression-info {
     flex: 1;
     min-width: 0;
+}
+
+.context-tabs-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 12px;
+}
+
+.context-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--pad-bg);
+    padding: 4px;
+    border-radius: var(--radius);
+}
+
+.context-tab {
+    padding: 6px 16px;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: calc(var(--radius) - 2px);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.context-tab:hover {
+    background: white;
+    color: var(--fg);
+}
+
+.context-tab.active {
+    background: white;
+    color: var(--accent);
+    border-color: var(--border);
+    font-weight: 600;
 }
 
 .progression-title {
@@ -358,13 +407,6 @@ button:disabled {
 
 .download-btn:hover svg {
     stroke: var(--accent);
-}
-
-.chord-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    max-width: 600px;
 }
 
 .chord-pad {
@@ -466,6 +508,29 @@ button:disabled {
     height: 100%;
 }
 
+.chord-guitar {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    width: 100%;
+    height: 50px;
+}
+
+.chord-guitar svg {
+    width: 100%;
+    height: 100%;
+}
+
+.chord-grid {
+    display: none;
+}
+
+.chord-grid.active {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    max-width: 600px;
+}
+
 .tooltip {
     position: absolute;
     background: rgba(0, 0, 0, 0.9);
@@ -530,325 +595,6 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Multi-Instrument Tab System at Generation Level */
-.instrument-tabs {
-    display: flex;
-    gap: 2px;
-    margin-bottom: 24px;
-    background: #f0f0f0;
-    padding: 4px;
-    border-radius: 8px;
-}
-
-.instrument-tab {
-    padding: 10px 20px;
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-}
-
-.instrument-tab:hover {
-    background: white;
-    color: var(--fg);
-}
-
-.instrument-tab.active {
-    background: white;
-    color: var(--accent);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.instrument-content {
-    display: none;
-}
-
-.instrument-content.active {
-    display: block;
-}
-
-.tab-action-header {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-}
-
-.tab-action-btn {
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.2s ease;
-}
-
-.tab-action-btn:hover {
-    background: var(--accent-dark);
-}
-
-.instrument-print-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 6px 12px;
-    cursor: pointer;
-    font-size: 12px;
-    margin-top: 12px;
-    transition: all 0.2s ease;
-}
-
-.instrument-print-btn:hover {
-    background: var(--pad-hover);
-    border-color: var(--accent);
-    color: var(--accent);
-}
-
-/* Keyboard Sheet Styles */
-.keyboard-sheet {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-top: 12px;
-}
-
-.keyboard-chord-card {
-    text-align: left;
-    padding: 10px;
-    background: var(--pad-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    transition: all 0.2s ease;
-}
-
-.keyboard-chord-card:hover {
-    background: var(--pad-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.keyboard-chord-card.playing {
-    animation: pulse 0.3s ease;
-    background: #dbeafe;
-    border-color: var(--accent);
-}
-
-.keyboard-chord-name {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.keyboard-large-svg {
-    width: 100%;
-    height: 50px;
-}
-
-/* Guitar Sheet Styles */
-.guitar-controls {
-    margin-bottom: 12px;
-    padding: 8px;
-    background: var(--pad-bg);
-    border-radius: var(--radius);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.guitar-controls label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-.guitar-sheet {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-top: 12px;
-}
-
-.guitar-chord-card {
-    text-align: left;
-    padding: 10px;
-    background: var(--pad-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: visible;
-    transition: all 0.2s ease;
-}
-
-.guitar-chord-card:hover {
-    background: var(--pad-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.guitar-chord-card.playing {
-    animation: pulse 0.3s ease;
-    background: #dbeafe;
-    border-color: var(--accent);
-}
-
-.guitar-chord-name {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.guitar-fretboard-svg {
-    width: 100%;
-    height: auto;
-    max-height: none;
-}
-
-/* Print Styles for Multi-Instrument Views */
-@media print {
-    @page {
-        size: A4 portrait;
-        margin: 1cm;
-    }
-
-    body {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    .chord-matcher, .controls, .action-buttons, footer,
-    .instrument-tabs, .guitar-controls, .instrument-print-btn,
-    .download-btn, .expand-icon, .optional-badge, .header,
-    .tab-action-header, .tab-action-btn {
-        display: none !important;
-    }
-
-    /* Only show the active instrument content when printing */
-    .instrument-content {
-        display: none !important;
-    }
-
-    .instrument-content.active {
-        display: block !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    /* One progression per page */
-    .progression-card {
-        margin: 0 !important;
-        padding: 0 !important;
-        page-break-before: always;
-        page-break-inside: avoid;
-    }
-
-    .progression-card:first-of-type {
-        page-break-before: avoid !important;
-    }
-
-    .progression-header {
-        margin-bottom: 4px !important;
-    }
-
-    .progression-title {
-        font-size: 12px !important;
-        margin-bottom: 2px !important;
-    }
-
-    .progression-meta {
-        font-size: 9px !important;
-    }
-
-    /* Very compact grids to fit on page */
-    .chord-grid, .keyboard-sheet, .guitar-sheet {
-        gap: 5px !important;
-        margin-top: 4px !important;
-    }
-
-    .keyboard-chord-card, .guitar-chord-card {
-        padding: 3px !important;
-        font-size: 9px !important;
-        margin: 0 !important;
-        border: 1px solid #999 !important;
-        border-radius: 3px !important;
-        box-sizing: border-box !important;
-        overflow: hidden !important;
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    .guitar-chord-card {
-        overflow: visible !important;
-    }
-
-    .keyboard-chord-name, .guitar-chord-name {
-        font-size: 10px !important;
-        margin-bottom: 1px !important;
-    }
-
-    .chord-quality {
-        font-size: 8px !important;
-        margin-bottom: 1px !important;
-    }
-
-    .chord-roman {
-        font-size: 9px !important;
-        margin-bottom: 1px !important;
-    }
-
-    .chord-notes {
-        font-size: 7px !important;
-        margin-top: 1px !important;
-    }
-
-    .keyboard-large-svg {
-        height: 55px !important;
-    }
-
-    .guitar-fretboard-svg {
-        height: auto !important;
-        max-height: 75px !important;
-        width: 100% !important;
-    }
-
-    .guitar-fretboard-svg svg {
-        width: 100% !important;
-        height: auto !important;
-        max-height: 75px !important;
-    }
-
-    .chord-pad {
-        page-break-inside: avoid;
-        padding: 6px !important;
-        min-height: auto !important;
-    }
-
-    .chord-name {
-        font-size: 15px !important;
-    }
-
-    .chord-keyboard {
-        margin-top: 3px !important;
-    }
-
-    /* Footer */
-    .progression-card::after {
-        content: "MPC Chord Progression Generator - https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/AkaiMPCChordProgressionGenerator.html";
-        display: block;
-        margin-top: 0.4cm;
-        padding-top: 0.2cm;
-        border-top: 1px solid #ccc;
-        font-size: 7px;
-        color: #666;
-        text-align: center;
-    }
-}
 @media (max-width: 768px) {
     .controls {
         grid-template-columns: 1fr;
@@ -859,16 +605,12 @@ footer a:hover {
         gap: 12px;
     }
 
-    .action-buttons {
-        grid-template-columns: 1fr;
+    .random-buttons {
+        flex-direction: column;
     }
 
-    .action-buttons .full-width {
-        grid-column: 1;
-    }
-
-    .action-buttons .empty-cell {
-        display: none;
+    .random-buttons button {
+        flex: 1 1 auto;
     }
 
     .chord-grid {
@@ -878,5 +620,53 @@ footer a:hover {
     .chord-pad {
         min-height: 80px;
         padding: 8px;
+    }
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .app {
+        padding: 0;
+        margin: 0;
+    }
+
+    .header,
+    .chord-matcher,
+    .controls,
+    .generate-btn,
+    .random-buttons-container,
+    #downloadAllBtn,
+    .context-tabs-container,
+    footer {
+        display: none;
+    }
+
+    .progressions {
+        margin: 0;
+        padding: 0;
+    }
+
+    .progression-card {
+        page-break-after: always;
+        page-break-inside: avoid;
+        margin: 0;
+        padding: 14px;
+    }
+
+    .progression-card:last-child {
+        page-break-after: auto;
+    }
+
+    .chord-grid.mpc-context {
+        display: grid !important;
+    }
+
+    .chord-grid.keyboard-context,
+    .chord-grid.guitar-context {
+        display: none !important;
     }
 }
