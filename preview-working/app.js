@@ -1272,6 +1272,7 @@ function renderProgressions() {
                     </div>
                     <div class="chord-quality">${pad.quality}</div>
                     <div class="chord-roman">${pad.romanNumeral}</div>
+                    <div class="chord-keyboard">${generateKeyboardSVG(pad.notes)}</div>
                     <div class="chord-notes">
                         ${pad.notes.map(note => {
                             const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
