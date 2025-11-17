@@ -734,7 +734,6 @@ function generateKeyboardSVG(notes) {
     
     // Determine octave range to display - start at the lowest note's octave
     const minNote = Math.min(...notes);
-    const maxNote = Math.max(...notes);
     const startOctave = Math.floor(minNote / 12);
     const startNote = startOctave * 12;
     
@@ -1248,7 +1247,7 @@ function getChordTooltip(romanNumeral, chordType) {
 
 // Modal mixture / Borrowed chords
 '?III': 'Borrowed from parallel minor, adds dramatic color, substitutes I.',
-'IV': 'Borrowed minor subdominant, softens motion to V.',
+'♭IV': 'Borrowed minor subdominant, softens motion to V.',
 '?VI': 'Borrowed from parallel minor, dramatic predominant, often moves to V.',
 '?VII': 'Borrowed from Mixolydian, gives rock/blues flavor, often moves to I or V.',
 '?II': 'Borrowed flat-II (Neapolitan), strong predominant, prepares V.',
@@ -1371,7 +1370,7 @@ function generateVariant(variantType) {
         let isProgressionChord = false;
 
         // First, place the progression chords
-        if (i < progressionChords.length && i < 12) {
+        if (i < progressionChords.length) {
             const progChord = progressionChords[i];
             notes = progChord.notes;
             chordName = progChord.chordName;
