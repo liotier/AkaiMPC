@@ -681,7 +681,6 @@ export function applyOpenVoicing(chordNotes) {
     if (chordNotes.length < 3) return chordNotes;
 
     const sorted = [...chordNotes].sort((a, b) => a - b);
-    const bass = sorted[0];
 
     // Drop-2 voicing: move second-highest note down an octave
     const openVoiced = [...sorted];
