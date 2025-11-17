@@ -407,6 +407,13 @@ button:disabled {
     font-weight: 500;
 }
 
+.progression-meta .analysis {
+    color: var(--muted);
+    font-size: 12px;
+    font-style: italic;
+    opacity: 0.7;
+}
+
 .download-btn {
     background: transparent;
     border: 1px solid var(--border);
