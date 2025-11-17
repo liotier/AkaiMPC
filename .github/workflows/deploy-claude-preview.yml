@@ -3,7 +3,7 @@ name: Deploy Claude Preview to GitHub Pages
 on:
   push:
     branches:
-      - claude/preview-working-01MUemracESBMU7M5VsATGHe
+      - claude/url-storage-lefty-sus-chords-01MUemracESBMU7M5VsATGHe
 
 permissions:
   contents: write
