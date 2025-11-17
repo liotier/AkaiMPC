@@ -534,6 +534,123 @@ export function buildChord(root, chordType, keyOffset) {
 }
 
 // ============================================================================
+// Voice Leading Optimization
+// ============================================================================
+
+// Calculate the total voice leading distance between two chords
+export function calculateVoiceLeadingDistance(chord1Notes, chord2Notes) {
+    // For chords with different numbers of notes, pad the shorter one
+    const maxLength = Math.max(chord1Notes.length, chord2Notes.length);
+    const notes1 = [...chord1Notes];
+    const notes2 = [...chord2Notes];
+
+    while (notes1.length < maxLength) notes1.push(notes1[notes1.length - 1] + 12);
+    while (notes2.length < maxLength) notes2.push(notes2[notes2.length - 1] + 12);
+
+    // Calculate minimum total distance using Hungarian algorithm approximation
+    // For simplicity, we'll use a greedy approach
+    let totalDistance = 0;
+    const used = new Set();
+
+    notes1.forEach(note1 => {
+        let minDist = Infinity;
+        let closestIndex = -1;
+
+        notes2.forEach((note2, idx) => {
+            if (!used.has(idx)) {
+                const dist = Math.abs(note1 - note2);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closestIndex = idx;
+                }
+            }
+        });
+
+        if (closestIndex >= 0) {
+            totalDistance += minDist;
+            used.add(closestIndex);
+        }
+    });
+
+    return totalDistance;
+}
+
+// Generate all reasonable inversions of a chord within a comfortable range
+export function generateInversions(chordNotes) {
+    const inversions = [];
+    const baseChord = [...chordNotes];
+
+    // Root position
+    inversions.push([...baseChord]);
+
+    // First inversion (move root up an octave)
+    if (baseChord.length >= 2) {
+        const firstInv = [...baseChord];
+        firstInv[0] += 12;
+        inversions.push(firstInv.sort((a, b) => a - b));
+    }
+
+    // Second inversion (move root and third up an octave)
+    if (baseChord.length >= 3) {
+        const secondInv = [...baseChord];
+        secondInv[0] += 12;
+        secondInv[1] += 12;
+        inversions.push(secondInv.sort((a, b) => a - b));
+    }
+
+    // Drop voicings (move top note down an octave)
+    if (baseChord.length >= 3) {
+        const drop2 = [...baseChord];
+        drop2[drop2.length - 1] -= 12;
+        inversions.push(drop2.sort((a, b) => a - b));
+    }
+
+    return inversions;
+}
+
+// Find the best inversion for smooth voice leading
+export function findBestVoicing(targetChordNotes, previousChordNotes) {
+    if (!previousChordNotes) {
+        return targetChordNotes; // First chord, use root position
+    }
+
+    const inversions = generateInversions(targetChordNotes);
+    let bestInversion = targetChordNotes;
+    let minDistance = Infinity;
+
+    inversions.forEach(inversion => {
+        const distance = calculateVoiceLeadingDistance(previousChordNotes, inversion);
+        if (distance < minDistance) {
+            minDistance = distance;
+            bestInversion = inversion;
+        }
+    });
+
+    return bestInversion;
+}
+
+// Optimize voice leading for an entire progression
+export function optimizeVoiceLeading(chordProgression) {
+    if (chordProgression.length === 0) return chordProgression;
+
+    const optimized = [];
+    let previousNotes = null;
+
+    chordProgression.forEach((chord, index) => {
+        const optimizedNotes = findBestVoicing(chord.notes, previousNotes);
+
+        optimized.push({
+            ...chord,
+            notes: optimizedNotes
+        });
+
+        previousNotes = optimizedNotes;
+    });
+
+    return optimized;
+}
+
+// ============================================================================
 // Note Naming and Enharmonic Spelling
 // ============================================================================
 
@@ -711,9 +828,10 @@ function parseProgression(progressionString) {
 }
 
 export function generateProgressionChords(progressionString, keyOffset, scaleDegrees, selectedMode) {
+    let progression = [];
+
     // Special handling for 12-bar blues
     if (progressionString === '12-bar-blues') {
-        const progression = [];
         // 12-bar blues pattern: I-I-I-I-IV-IV-I-I-V-IV-I-V
         const pattern = [0, 0, 0, 0, 3, 3, 0, 0, 4, 3, 0, 4];
         pattern.forEach(degree => {
@@ -727,55 +845,57 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
                 romanNumeral: getRomanNumeral(degree, false, false)
             });
         });
-        return progression;
+    } else {
+        const parsedChords = parseProgression(progressionString);
+        progression = parsedChords.map(({ degree, quality, alteration }) => {
+            let scaleDegree = scaleDegrees[degree % scaleDegrees.length];
+
+            // Handle alterations
+            if (alteration === 'flat') {
+                scaleDegree = (scaleDegree - 1 + 12) % 12;
+            } else if (alteration === 'sharp') {
+                scaleDegree = (scaleDegree + 1) % 12;
+            }
+
+            // FIX FOR MINOR CHORD ISSUE:
+            // For the tonic (degree 0) without alterations, use the mode's chord quality
+            // This ensures that in Minor mode, the tonic is always minor
+            if (degree === 0 && !alteration) {
+                quality = getChordQualityForMode(0, selectedMode);
+            }
+
+            const notes = buildChord(scaleDegree, quality, keyOffset);
+            const chordName = getChordName(scaleDegree, quality, keyOffset);
+
+            // Create roman numeral with proper formatting
+            const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+            let romanNumeral = numerals[degree] || 'I';
+
+            if (quality === 'minor' || quality === 'minor7') {
+                romanNumeral = romanNumeral.toLowerCase();
+            }
+            if (quality === 'diminished') {
+                romanNumeral += '°';
+            }
+            if (quality === 'dom7' && degree === 4) {
+                romanNumeral = 'V7';
+            }
+            if (alteration === 'flat') {
+                romanNumeral = '♭' + romanNumeral;
+            } else if (alteration === 'sharp') {
+                romanNumeral = '♯' + romanNumeral;
+            }
+
+            return {
+                degree,
+                notes,
+                chordType: quality,
+                chordName,
+                romanNumeral
+            };
+        });
     }
 
-    const parsedChords = parseProgression(progressionString);
-    return parsedChords.map(({ degree, quality, alteration }) => {
-        let scaleDegree = scaleDegrees[degree % scaleDegrees.length];
-
-        // Handle alterations
-        if (alteration === 'flat') {
-            scaleDegree = (scaleDegree - 1 + 12) % 12;
-        } else if (alteration === 'sharp') {
-            scaleDegree = (scaleDegree + 1) % 12;
-        }
-
-        // FIX FOR MINOR CHORD ISSUE:
-        // For the tonic (degree 0) without alterations, use the mode's chord quality
-        // This ensures that in Minor mode, the tonic is always minor
-        if (degree === 0 && !alteration) {
-            quality = getChordQualityForMode(0, selectedMode);
-        }
-
-        const notes = buildChord(scaleDegree, quality, keyOffset);
-        const chordName = getChordName(scaleDegree, quality, keyOffset);
-
-        // Create roman numeral with proper formatting
-        const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-        let romanNumeral = numerals[degree] || 'I';
-
-        if (quality === 'minor' || quality === 'minor7') {
-            romanNumeral = romanNumeral.toLowerCase();
-        }
-        if (quality === 'diminished') {
-            romanNumeral += '°';
-        }
-        if (quality === 'dom7' && degree === 4) {
-            romanNumeral = 'V7';
-        }
-        if (alteration === 'flat') {
-            romanNumeral = '♭' + romanNumeral;
-        } else if (alteration === 'sharp') {
-            romanNumeral = '♯' + romanNumeral;
-        }
-
-        return {
-            degree,
-            notes,
-            chordType: quality,
-            chordName,
-            romanNumeral
-        };
-    });
+    // Apply voice leading optimization to the progression
+    return optimizeVoiceLeading(progression);
 }
