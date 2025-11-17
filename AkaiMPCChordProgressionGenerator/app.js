@@ -10,7 +10,8 @@ import {
     getChordName,
     getRomanNumeral,
     generateProgressionChords,
-    spellChordNotes
+    spellChordNotes,
+    applyVoicingStyle
 } from './modules/musicTheory.js';
 
 import {
@@ -387,6 +388,27 @@ function determineChordFunction(romanNumeral) {
     return 'chromatic';
 }
 
+function analyzeProgression(pads) {
+    const progressionPads = pads.filter(p => p.isProgressionChord);
+    if (progressionPads.length === 0) return '';
+
+    const hasBorrowed = progressionPads.some(p => p.romanNumeral && (p.romanNumeral.includes('♭') || p.romanNumeral.includes('♯')));
+    const hasSecondary = progressionPads.some(p => p.romanNumeral && p.romanNumeral.includes('/'));
+    const has7ths = progressionPads.some(p => p.quality && p.quality.includes('7'));
+    const hasDiminished = progressionPads.some(p => p.quality === 'Diminished');
+
+    const characteristics = [];
+    if (hasBorrowed) characteristics.push('Modal Interchange');
+    if (hasSecondary) characteristics.push('Secondary Dominants');
+    if (has7ths) characteristics.push('Extended Harmony');
+    if (hasDiminished) characteristics.push('Chromatic');
+
+    if (characteristics.length === 0) {
+        return 'Diatonic progression';
+    }
+    return characteristics.join(' • ');
+}
+
 function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType) {
     const candidates = [];
 
@@ -760,7 +782,26 @@ function generateVariant(variantType) {
     const pads = [];
 
     // Generate the actual progression chords - PASS selectedMode as 4th parameter (FIX!)
-    const progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees, selectedMode);
+    let progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees, selectedMode);
+
+    // Apply variant-specific voicing styles for more diversity
+    switch (variantType) {
+        case 'Classic':
+            // Classic uses default voice leading (already optimized)
+            break;
+        case 'Jazz':
+            // Jazz uses close voicings for that tight, sophisticated sound
+            progressionChords = applyVoicingStyle(progressionChords, 'close');
+            break;
+        case 'Modal':
+            // Modal uses open voicings for a more spacious sound
+            progressionChords = applyVoicingStyle(progressionChords, 'open');
+            break;
+        case 'Experimental':
+            // Experimental uses spread voicings for maximum variation
+            progressionChords = applyVoicingStyle(progressionChords, 'spread');
+            break;
+    }
 
     // Fill first 12 pads (rows 1-3)
     const rows1to3 = [];
@@ -1034,6 +1075,8 @@ function renderProgressions() {
             `).join('')
         ).join('');
 
+        const progressionAnalysis = analyzeProgression(variant.pads);
+
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
@@ -1041,6 +1084,7 @@ function renderProgressions() {
                     <div class="progression-meta">
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
+                        ${progressionAnalysis ? `<span class="analysis">${progressionAnalysis}</span>` : ''}
                     </div>
                 </div>
                 <button class="download-btn" title="Download" data-variant-index="${index}">

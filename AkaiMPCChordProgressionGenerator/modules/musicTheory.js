@@ -15,6 +15,15 @@ export const modes = {
     'Compact/Popular': [
         'Pentatonic Major', 'Pentatonic Minor', 'Blues'
     ],
+    'Symmetrical/Jazz': [
+        'Whole Tone', 'Diminished (W-H)', 'Diminished (H-W)', 'Augmented'
+    ],
+    'Arabic Maqamat': [
+        'Maqam Hijaz', 'Maqam Bayati', 'Maqam Rast', 'Maqam Saba', 'Maqam Kurd'
+    ],
+    'Indian Ragas': [
+        'Bhairav', 'Kafi', 'Yaman', 'Bhairavi', 'Todi'
+    ],
     'Exotic': [
         'Double Harmonic', 'Hungarian Minor', 'Neapolitan Major', 'Neapolitan Minor',
         'Enigmatic', 'Phrygian Dominant', 'Persian', 'Hirajoshi', 'Insen', 'Kumoi',
@@ -103,6 +112,24 @@ export function getScaleDegrees(mode) {
         'Pentatonic Major': [0, 2, 4, 7, 9],
         'Pentatonic Minor': [0, 3, 5, 7, 10],
         'Blues': [0, 3, 5, 6, 7, 10],
+        // Symmetrical/Jazz scales
+        'Whole Tone': [0, 2, 4, 6, 8, 10],  // 6 notes, all whole steps
+        'Diminished (W-H)': [0, 2, 3, 5, 6, 8, 9, 11],  // Whole-Half octatonic
+        'Diminished (H-W)': [0, 1, 3, 4, 6, 7, 9, 10],  // Half-Whole octatonic
+        'Augmented': [0, 3, 4, 7, 8, 11],  // Hexatonic scale
+        // Arabic Maqamat (12-TET approximations)
+        'Maqam Hijaz': [0, 1, 4, 5, 7, 8, 11],  // Like Phrygian Dominant
+        'Maqam Bayati': [0, 1.5, 3, 5, 7, 8, 10],  // Quarter tone approximated to [0, 2, 3, 5, 7, 8, 10]
+        'Maqam Rast': [0, 2, 3.5, 5, 7, 9, 10.5],  // Quarter tone approximated to [0, 2, 4, 5, 7, 9, 11]
+        'Maqam Saba': [0, 1.5, 3, 4, 6, 8, 10],  // Quarter tone approximated to [0, 1, 3, 4, 6, 8, 10]
+        'Maqam Kurd': [0, 1, 3, 5, 7, 8, 10],  // Like Phrygian
+        // Indian Ragas (12-TET approximations)
+        'Bhairav': [0, 1, 4, 5, 7, 8, 11],  // Double Harmonic
+        'Kafi': [0, 2, 3, 5, 7, 9, 10],  // Like Dorian
+        'Yaman': [0, 2, 4, 6, 7, 9, 11],  // Like Lydian
+        'Bhairavi': [0, 1, 3, 5, 7, 8, 10],  // Like Phrygian
+        'Todi': [0, 1, 3, 6, 7, 8, 11],  // Unique raga scale
+        // Exotic scales
         'Double Harmonic': [0, 1, 4, 5, 7, 8, 11],
         'Hungarian Minor': [0, 2, 3, 6, 7, 8, 11],
         'Neapolitan Major': [0, 1, 3, 5, 7, 9, 11],
@@ -115,7 +142,10 @@ export function getScaleDegrees(mode) {
         'Kumoi': [0, 2, 3, 7, 9],
         'Egyptian Pentatonic': [0, 2, 5, 7, 10]
     };
-    return scales[mode] || scales['Major'];
+
+    // Handle quarter tone approximations
+    const scale = scales[mode] || scales['Major'];
+    return scale.map(note => Math.round(note));  // Round any quarter tones to nearest semitone
 }
 
 // Get chord quality for a scale degree in a given mode
@@ -315,6 +345,135 @@ export function getChordQualityForMode(degree, mode) {
             2: 'minor',   // iv
             3: 'minor',   // v
             4: 'major'    // VII (with b7)
+        },
+        // Symmetrical/Jazz scales
+        'Whole Tone': {
+            0: 'major',   // I (augmented context)
+            1: 'major',   // II
+            2: 'major',   // III
+            3: 'major',   // #IV
+            4: 'major',   // #V
+            5: 'major'    // #VI
+        },
+        'Diminished (W-H)': {
+            0: 'diminished',  // i°
+            1: 'minor',   // ii
+            2: 'diminished',  // iii°
+            3: 'major',   // IV
+            4: 'diminished',  // v°
+            5: 'minor',   // vi
+            6: 'diminished',  // vii°
+            7: 'major'    // I (octave)
+        },
+        'Diminished (H-W)': {
+            0: 'minor',   // i
+            1: 'diminished',  // ii°
+            2: 'minor',   // iii
+            3: 'diminished',  // iv°
+            4: 'minor',   // v
+            5: 'diminished',  // vi°
+            6: 'minor',   // vii
+            7: 'diminished'  // i° (octave)
+        },
+        'Augmented': {
+            0: 'major',   // I (augmented context)
+            1: 'minor',   // iii
+            2: 'major',   // III
+            3: 'major',   // V
+            4: 'major',   // VI
+            5: 'major'    // VII
+        },
+        // Arabic Maqamat
+        'Maqam Hijaz': {
+            0: 'major',   // I
+            1: 'major',   // II (with b2)
+            2: 'diminished',  // iii°
+            3: 'minor',   // iv
+            4: 'minor',   // v
+            5: 'major',   // VI (with b6)
+            6: 'minor'    // vii
+        },
+        'Maqam Bayati': {
+            0: 'minor',   // i
+            1: 'major',   // II
+            2: 'minor',   // iii
+            3: 'minor',   // iv
+            4: 'minor',   // v
+            5: 'major',   // VI
+            6: 'major'    // VII
+        },
+        'Maqam Rast': {
+            0: 'major',   // I
+            1: 'major',   // II
+            2: 'major',   // III
+            3: 'major',   // IV
+            4: 'major',   // V
+            5: 'minor',   // vi
+            6: 'major'    // VII
+        },
+        'Maqam Saba': {
+            0: 'minor',   // i
+            1: 'major',   // II (with b2)
+            2: 'minor',   // iii
+            3: 'diminished',  // iv°
+            4: 'major',   // V (with b5)
+            5: 'major',   // VI (with b6)
+            6: 'major'    // VII
+        },
+        'Maqam Kurd': {
+            0: 'minor',   // i
+            1: 'major',   // II
+            2: 'major',   // III
+            3: 'minor',   // iv
+            4: 'diminished',  // v°
+            5: 'major',   // VI
+            6: 'minor'    // vii
+        },
+        // Indian Ragas
+        'Bhairav': {
+            0: 'major',   // I
+            1: 'major',   // II (with b2)
+            2: 'major',   // III
+            3: 'minor',   // iv
+            4: 'major',   // V
+            5: 'major',   // VI (with b6)
+            6: 'diminished'  // vii°
+        },
+        'Kafi': {
+            0: 'minor',   // i
+            1: 'minor',   // ii
+            2: 'major',   // III
+            3: 'major',   // IV
+            4: 'minor',   // v
+            5: 'diminished',  // vi°
+            6: 'major'    // VII
+        },
+        'Yaman': {
+            0: 'major',   // I
+            1: 'major',   // II
+            2: 'minor',   // iii
+            3: 'diminished',  // #iv°
+            4: 'major',   // V
+            5: 'minor',   // vi
+            6: 'minor'    // vii
+        },
+        'Bhairavi': {
+            0: 'minor',   // i
+            1: 'major',   // II
+            2: 'major',   // III
+            3: 'minor',   // iv
+            4: 'diminished',  // v°
+            5: 'major',   // VI
+            6: 'minor'    // vii
+        },
+        'Todi': {
+            0: 'minor',   // i
+            1: 'major',   // II (with b2)
+            2: 'minor',   // iii
+            3: 'diminished',  // #iv°
+            4: 'major',   // V
+            5: 'major',   // VI (with b6)
+            6: 'diminished'  // vii°
         }
     };
 
@@ -372,6 +531,216 @@ export function buildChord(root, chordType, keyOffset) {
         default:
             return [baseNote, baseNote + 4, baseNote + 7];
     }
+}
+
+// ============================================================================
+// Voice Leading Optimization
+// ============================================================================
+
+// Calculate the total voice leading distance between two chords
+export function calculateVoiceLeadingDistance(chord1Notes, chord2Notes) {
+    // For chords with different numbers of notes, pad the shorter one
+    const maxLength = Math.max(chord1Notes.length, chord2Notes.length);
+    const notes1 = [...chord1Notes];
+    const notes2 = [...chord2Notes];
+
+    while (notes1.length < maxLength) notes1.push(notes1[notes1.length - 1] + 12);
+    while (notes2.length < maxLength) notes2.push(notes2[notes2.length - 1] + 12);
+
+    // Calculate minimum total distance using Hungarian algorithm approximation
+    // For simplicity, we'll use a greedy approach
+    let totalDistance = 0;
+    const used = new Set();
+
+    notes1.forEach(note1 => {
+        let minDist = Infinity;
+        let closestIndex = -1;
+
+        notes2.forEach((note2, idx) => {
+            if (!used.has(idx)) {
+                const dist = Math.abs(note1 - note2);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closestIndex = idx;
+                }
+            }
+        });
+
+        if (closestIndex >= 0) {
+            totalDistance += minDist;
+            used.add(closestIndex);
+        }
+    });
+
+    return totalDistance;
+}
+
+// Generate all reasonable inversions of a chord within a comfortable range
+export function generateInversions(chordNotes) {
+    const inversions = [];
+    const baseChord = [...chordNotes];
+
+    // Root position
+    inversions.push([...baseChord]);
+
+    // First inversion (move root up an octave)
+    if (baseChord.length >= 2) {
+        const firstInv = [...baseChord];
+        firstInv[0] += 12;
+        inversions.push(firstInv.sort((a, b) => a - b));
+    }
+
+    // Second inversion (move root and third up an octave)
+    if (baseChord.length >= 3) {
+        const secondInv = [...baseChord];
+        secondInv[0] += 12;
+        secondInv[1] += 12;
+        inversions.push(secondInv.sort((a, b) => a - b));
+    }
+
+    // Drop voicings (move top note down an octave)
+    if (baseChord.length >= 3) {
+        const drop2 = [...baseChord];
+        drop2[drop2.length - 1] -= 12;
+        inversions.push(drop2.sort((a, b) => a - b));
+    }
+
+    return inversions;
+}
+
+// Find the best inversion for smooth voice leading
+export function findBestVoicing(targetChordNotes, previousChordNotes) {
+    if (!previousChordNotes) {
+        return targetChordNotes; // First chord, use root position
+    }
+
+    const inversions = generateInversions(targetChordNotes);
+    let bestInversion = targetChordNotes;
+    let minDistance = Infinity;
+
+    inversions.forEach(inversion => {
+        const distance = calculateVoiceLeadingDistance(previousChordNotes, inversion);
+        if (distance < minDistance) {
+            minDistance = distance;
+            bestInversion = inversion;
+        }
+    });
+
+    return bestInversion;
+}
+
+// Optimize voice leading for an entire progression
+export function optimizeVoiceLeading(chordProgression) {
+    if (chordProgression.length === 0) return chordProgression;
+
+    const optimized = [];
+    let previousNotes = null;
+
+    chordProgression.forEach((chord, index) => {
+        const optimizedNotes = findBestVoicing(chord.notes, previousNotes);
+
+        optimized.push({
+            ...chord,
+            notes: optimizedNotes
+        });
+
+        previousNotes = optimizedNotes;
+    });
+
+    return optimized;
+}
+
+// Create close voicing (all notes within an octave or close together)
+export function applyCloseVoicing(chordNotes) {
+    if (chordNotes.length === 0) return chordNotes;
+
+    const sorted = [...chordNotes].sort((a, b) => a - b);
+    const bass = sorted[0];
+    const pitchClasses = sorted.map(note => note % 12);
+
+    // Build close voicing starting from bass note
+    const closeVoiced = [bass];
+    let currentNote = bass;
+
+    for (let i = 1; i < pitchClasses.length; i++) {
+        const targetPC = pitchClasses[i];
+        // Find the next note above current that matches this pitch class
+        let nextNote = currentNote + 1;
+        while ((nextNote % 12) !== targetPC) {
+            nextNote++;
+        }
+        closeVoiced.push(nextNote);
+        currentNote = nextNote;
+    }
+
+    return closeVoiced;
+}
+
+// Create open voicing (spread notes across multiple octaves)
+export function applyOpenVoicing(chordNotes) {
+    if (chordNotes.length < 3) return chordNotes;
+
+    const sorted = [...chordNotes].sort((a, b) => a - b);
+
+    // Drop-2 voicing: move second-highest note down an octave
+    const openVoiced = [...sorted];
+    if (openVoiced.length >= 3) {
+        openVoiced[openVoiced.length - 2] -= 12;
+    }
+
+    return openVoiced.sort((a, b) => a - b);
+}
+
+// Create spread voicing (maximum distance between voices)
+export function applySpreadVoicing(chordNotes) {
+    if (chordNotes.length < 3) return chordNotes;
+
+    const sorted = [...chordNotes].sort((a, b) => a - b);
+    const bass = sorted[0];
+    const pitchClasses = sorted.map(note => note % 12);
+
+    // Spread voices across wider range
+    const spreadVoiced = [bass];
+    let octaveOffset = 0;
+
+    for (let i = 1; i < pitchClasses.length; i++) {
+        const targetPC = pitchClasses[i];
+        // Add notes in higher octaves
+        octaveOffset += (i === 1) ? 7 : 5; // Skip larger intervals
+        let nextNote = bass + octaveOffset;
+        while ((nextNote % 12) !== targetPC) {
+            nextNote++;
+        }
+        spreadVoiced.push(nextNote);
+    }
+
+    return spreadVoiced.sort((a, b) => a - b);
+}
+
+// Apply voicing style to a progression
+export function applyVoicingStyle(chordProgression, voicingType = 'default') {
+    if (voicingType === 'default') return chordProgression;
+
+    return chordProgression.map(chord => {
+        let voicedNotes = chord.notes;
+
+        switch (voicingType) {
+            case 'close':
+                voicedNotes = applyCloseVoicing(chord.notes);
+                break;
+            case 'open':
+                voicedNotes = applyOpenVoicing(chord.notes);
+                break;
+            case 'spread':
+                voicedNotes = applySpreadVoicing(chord.notes);
+                break;
+        }
+
+        return {
+            ...chord,
+            notes: voicedNotes
+        };
+    });
 }
 
 // ============================================================================
@@ -552,9 +921,10 @@ function parseProgression(progressionString) {
 }
 
 export function generateProgressionChords(progressionString, keyOffset, scaleDegrees, selectedMode) {
+    let progression = [];
+
     // Special handling for 12-bar blues
     if (progressionString === '12-bar-blues') {
-        const progression = [];
         // 12-bar blues pattern: I-I-I-I-IV-IV-I-I-V-IV-I-V
         const pattern = [0, 0, 0, 0, 3, 3, 0, 0, 4, 3, 0, 4];
         pattern.forEach(degree => {
@@ -568,55 +938,57 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
                 romanNumeral: getRomanNumeral(degree, false, false)
             });
         });
-        return progression;
+    } else {
+        const parsedChords = parseProgression(progressionString);
+        progression = parsedChords.map(({ degree, quality, alteration }) => {
+            let scaleDegree = scaleDegrees[degree % scaleDegrees.length];
+
+            // Handle alterations
+            if (alteration === 'flat') {
+                scaleDegree = (scaleDegree - 1 + 12) % 12;
+            } else if (alteration === 'sharp') {
+                scaleDegree = (scaleDegree + 1) % 12;
+            }
+
+            // FIX FOR MINOR CHORD ISSUE:
+            // For the tonic (degree 0) without alterations, use the mode's chord quality
+            // This ensures that in Minor mode, the tonic is always minor
+            if (degree === 0 && !alteration) {
+                quality = getChordQualityForMode(0, selectedMode);
+            }
+
+            const notes = buildChord(scaleDegree, quality, keyOffset);
+            const chordName = getChordName(scaleDegree, quality, keyOffset);
+
+            // Create roman numeral with proper formatting
+            const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+            let romanNumeral = numerals[degree] || 'I';
+
+            if (quality === 'minor' || quality === 'minor7') {
+                romanNumeral = romanNumeral.toLowerCase();
+            }
+            if (quality === 'diminished') {
+                romanNumeral += '°';
+            }
+            if (quality === 'dom7' && degree === 4) {
+                romanNumeral = 'V7';
+            }
+            if (alteration === 'flat') {
+                romanNumeral = '♭' + romanNumeral;
+            } else if (alteration === 'sharp') {
+                romanNumeral = '♯' + romanNumeral;
+            }
+
+            return {
+                degree,
+                notes,
+                chordType: quality,
+                chordName,
+                romanNumeral
+            };
+        });
     }
 
-    const parsedChords = parseProgression(progressionString);
-    return parsedChords.map(({ degree, quality, alteration }) => {
-        let scaleDegree = scaleDegrees[degree % scaleDegrees.length];
-
-        // Handle alterations
-        if (alteration === 'flat') {
-            scaleDegree = (scaleDegree - 1 + 12) % 12;
-        } else if (alteration === 'sharp') {
-            scaleDegree = (scaleDegree + 1) % 12;
-        }
-
-        // FIX FOR MINOR CHORD ISSUE:
-        // For the tonic (degree 0) without alterations, use the mode's chord quality
-        // This ensures that in Minor mode, the tonic is always minor
-        if (degree === 0 && !alteration) {
-            quality = getChordQualityForMode(0, selectedMode);
-        }
-
-        const notes = buildChord(scaleDegree, quality, keyOffset);
-        const chordName = getChordName(scaleDegree, quality, keyOffset);
-
-        // Create roman numeral with proper formatting
-        const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-        let romanNumeral = numerals[degree] || 'I';
-
-        if (quality === 'minor' || quality === 'minor7') {
-            romanNumeral = romanNumeral.toLowerCase();
-        }
-        if (quality === 'diminished') {
-            romanNumeral += '°';
-        }
-        if (quality === 'dom7' && degree === 4) {
-            romanNumeral = 'V7';
-        }
-        if (alteration === 'flat') {
-            romanNumeral = '♭' + romanNumeral;
-        } else if (alteration === 'sharp') {
-            romanNumeral = '♯' + romanNumeral;
-        }
-
-        return {
-            degree,
-            notes,
-            chordType: quality,
-            chordName,
-            romanNumeral
-        };
-    });
+    // Apply voice leading optimization to the progression
+    return optimizeVoiceLeading(progression);
 }
