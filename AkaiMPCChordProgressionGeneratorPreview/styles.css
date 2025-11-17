@@ -562,6 +562,56 @@ body[data-context="guitar"] .chord-keyboard {
     display: none;
 }
 
+/* Hide pad numbers in Keyboard and Guitar contexts */
+body[data-context="keyboard"] .pad-number,
+body[data-context="guitar"] .pad-number {
+    display: none;
+}
+
+/* Two-column layout for Guitar cards */
+body[data-context="guitar"] .chord-pad {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto;
+    gap: 8px;
+    align-items: start;
+    min-height: 150px;
+}
+
+body[data-context="guitar"] .chord-pad-content {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+body[data-context="guitar"] .chord-guitar {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    width: 150px;
+    height: 140px;
+    margin: 0;
+}
+
+body[data-context="guitar"] .chord-quality,
+body[data-context="guitar"] .chord-roman,
+body[data-context="guitar"] .chord-notes {
+    grid-column: 1;
+}
+
+/* Wrap notes every 2 notes in Guitar context */
+body[data-context="guitar"] .chord-notes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    max-width: 150px;
+}
+
+body[data-context="guitar"] .note-pair {
+    white-space: nowrap;
+}
+
 .tooltip {
     position: absolute;
     background: rgba(0, 0, 0, 0.9);

@@ -1494,11 +1494,20 @@ function renderProgressions() {
                     <div class="chord-keyboard">${generateKeyboardSVG(pad.notes)}</div>
                     <div class="chord-guitar">${generateGuitarSVG(getGuitarChord(pad), pad)}</div>
                     <div class="chord-notes">
-                        ${pad.notes.map(note => {
-                            const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
-                            const octave = Math.floor(note / 12) - 2;
-                            return noteName + octave;
-                        }).join(' ')}
+                        ${(() => {
+                            const noteStrings = pad.notes.map(note => {
+                                const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
+                                const octave = Math.floor(note / 12) - 2;
+                                return noteName + octave;
+                            });
+                            // Group notes in pairs for wrapping
+                            const pairs = [];
+                            for (let i = 0; i < noteStrings.length; i += 2) {
+                                const pair = noteStrings.slice(i, i + 2).join(' ');
+                                pairs.push(`<span class="note-pair">${pair}</span>`);
+                            }
+                            return pairs.join(' ');
+                        })()}
                     </div>
                 </div>
             `).join('')
