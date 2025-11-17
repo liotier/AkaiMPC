@@ -846,6 +846,14 @@ function switchContext(context) {
     } else {
         downloadBtn.textContent = 'Print all progressions';
     }
+
+    // Show/hide left-handed toggle for guitar context
+    const leftHandedToggle = document.getElementById('leftHandedToggle');
+    if (context === 'guitar') {
+        leftHandedToggle.style.display = 'flex';
+    } else {
+        leftHandedToggle.style.display = 'none';
+    }
 }
 
 // Print all progressions (for keyboard/guitar contexts)
@@ -1748,6 +1756,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const context = tab.getAttribute('data-context');
             switchContext(context);
         });
+    });
+
+    // Left-handed toggle for guitar
+    document.getElementById('leftHandedCheckbox').addEventListener('change', function() {
+        isLeftHanded = this.checked;
+        // Regenerate progressions to reflect the change
+        const progressionsContainer = document.getElementById('progressionsContainer');
+        if (!progressionsContainer.classList.contains('hidden')) {
+            generateProgressions();
+        }
     });
 
     // Handle print orientation based on context
