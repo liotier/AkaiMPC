@@ -1479,36 +1479,38 @@ function renderProgressions() {
             rows[pad.row - 1].push(pad);
         });
         
-        const gridHTML = rows.reverse().map(row => 
+        const gridHTML = rows.reverse().map(row =>
             row.map(pad => `
-                <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}" 
+                <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}"
                     data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}">
-                    <div class="chord-pad-content">
-                        <div class="chord-info">
-                            <div class="chord-name">${pad.chordName}</div>
+                    <div class="chord-text-column">
+                        <div class="chord-pad-content">
+                            <div class="chord-info">
+                                <div class="chord-name">${pad.chordName}</div>
+                            </div>
+                            <div class="pad-number">PAD ${pad.id}</div>
                         </div>
-                        <div class="pad-number">PAD ${pad.id}</div>
+                        <div class="chord-quality">${pad.quality}</div>
+                        <div class="chord-roman">${pad.romanNumeral}</div>
+                        <div class="chord-notes">
+                            ${(() => {
+                                const noteStrings = pad.notes.map(note => {
+                                    const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
+                                    const octave = Math.floor(note / 12) - 2;
+                                    return noteName + octave;
+                                });
+                                // Group notes in pairs for wrapping
+                                const pairs = [];
+                                for (let i = 0; i < noteStrings.length; i += 2) {
+                                    const pair = noteStrings.slice(i, i + 2).join(' ');
+                                    pairs.push(`<span class="note-pair">${pair}</span>`);
+                                }
+                                return pairs.join(' ');
+                            })()}
+                        </div>
                     </div>
-                    <div class="chord-quality">${pad.quality}</div>
-                    <div class="chord-roman">${pad.romanNumeral}</div>
                     <div class="chord-keyboard">${generateKeyboardSVG(pad.notes)}</div>
                     <div class="chord-guitar">${generateGuitarSVG(getGuitarChord(pad), pad)}</div>
-                    <div class="chord-notes">
-                        ${(() => {
-                            const noteStrings = pad.notes.map(note => {
-                                const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
-                                const octave = Math.floor(note / 12) - 2;
-                                return noteName + octave;
-                            });
-                            // Group notes in pairs for wrapping
-                            const pairs = [];
-                            for (let i = 0; i < noteStrings.length; i += 2) {
-                                const pair = noteStrings.slice(i, i + 2).join(' ');
-                                pairs.push(`<span class="note-pair">${pair}</span>`);
-                            }
-                            return pairs.join(' ');
-                        })()}
-                    </div>
                 </div>
             `).join('')
         ).join('');
