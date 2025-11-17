@@ -684,6 +684,79 @@ function getScaleDegrees(mode) {
     return scales[mode] || scales['Major'];
 }
 
+// Get chord quality for a scale degree in a given mode
+function getChordQualityForMode(degree, mode) {
+    // Define triads for each mode (0-indexed scale degrees)
+    const modeChordQualities = {
+        'Major': {
+            0: 'major',   // I
+            1: 'minor',   // ii
+            2: 'minor',   // iii
+            3: 'major',   // IV
+            4: 'major',   // V
+            5: 'minor',   // vi
+            6: 'diminished'  // vii°
+        },
+        'Minor': {
+            0: 'minor',   // i
+            1: 'diminished',  // ii°
+            2: 'major',   // III
+            3: 'minor',   // iv
+            4: 'minor',   // v
+            5: 'major',   // VI
+            6: 'major'    // VII
+        },
+        'Dorian': {
+            0: 'minor',   // i
+            1: 'minor',   // ii
+            2: 'major',   // III
+            3: 'major',   // IV
+            4: 'minor',   // v
+            5: 'diminished',  // vi°
+            6: 'major'    // VII
+        },
+        'Phrygian': {
+            0: 'minor',   // i
+            1: 'major',   // II
+            2: 'major',   // III
+            3: 'minor',   // iv
+            4: 'diminished',  // v°
+            5: 'major',   // VI
+            6: 'minor'    // vii
+        },
+        'Lydian': {
+            0: 'major',   // I
+            1: 'major',   // II
+            2: 'minor',   // iii
+            3: 'diminished',  // #iv°
+            4: 'major',   // V
+            5: 'minor',   // vi
+            6: 'minor'    // vii
+        },
+        'Mixolydian': {
+            0: 'major',   // I
+            1: 'minor',   // ii
+            2: 'diminished',  // iii°
+            3: 'major',   // IV
+            4: 'minor',   // v
+            5: 'minor',   // vi
+            6: 'major'    // VII
+        },
+        'Locrian': {
+            0: 'diminished',  // i°
+            1: 'major',   // II
+            2: 'minor',   // iii
+            3: 'minor',   // iv
+            4: 'major',   // V
+            5: 'major',   // VI
+            6: 'minor'    // vii
+        }
+    };
+
+    const qualities = modeChordQualities[mode] || modeChordQualities['Major'];
+    return qualities[degree % 7] || 'major';
+}
+
 // Enharmonic spelling helpers
 function getEnharmonicContext(rootMidi, romanNumeral) {
     // Determine if we should use sharps or flats based on roman numeral
@@ -1539,23 +1612,16 @@ function generateVariant(variantType) {
             // Fill with scale degree chords
                 degree = (i % 7);
                 const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
-                const isMinorDegree = [1, 2, 5].includes(degree);
-                const isDimDegree = degree === 6;
-                
-                if (isDimDegree) {
-                    chordType = 'diminished';
-                } else if (isMinorDegree) {
-                    chordType = 'minor';
-                } else {
-                    chordType = 'major';
-                }
-                
+
+                // Get proper chord quality based on mode
+                chordType = getChordQualityForMode(degree, selectedMode);
+
                 // Add variations based on variant type
                 if (variantType === 'Jazz' && i >= 8) {
-                    chordType = chordType === 'minor' ? 'minor7' : 
+                    chordType = chordType === 'minor' ? 'minor7' :
                                chordType === 'major' ? 'major7' : chordType;
                 }
-                
+
                 notes = buildChord(scaleDegree, chordType, keyOffset);
                 chordName = getChordName(scaleDegree, chordType, keyOffset);
                 romanNumeral = getRomanNumeral(degree, chordType.includes('minor'), chordType === 'diminished');
