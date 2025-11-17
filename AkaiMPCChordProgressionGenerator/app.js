@@ -7,6 +7,16 @@ let audioContext = null;
 let chordRequirements = [];
 let currentContext = 'mpc'; // 'mpc', 'keyboard', or 'guitar'
 let isLeftHanded = false;
+let hasGeneratedOnce = false; // Track if user has generated at least once
+
+// Trigger sparkle animation on Generate button
+function triggerSparkle() {
+    const btn = document.getElementById('generateBtn');
+    if (btn) {
+        btn.classList.add('sparkle');
+        setTimeout(() => btn.classList.remove('sparkle'), 600);
+    }
+}
 
 // LocalStorage and URL parameter handling
 const STORAGE_KEY = 'akaiMPCPreferences';
@@ -1552,8 +1562,9 @@ function generateProgressions() {
         generateVariant('Modal'),
         generateVariant('Experimental')
     ];
-    
+
     renderProgressions();
+    hasGeneratedOnce = true;
 }
 
 function downloadSingleProgression(variant, index) {
@@ -1812,6 +1823,10 @@ document.addEventListener('DOMContentLoaded', function() {
         updateProgressionName();
         saveToLocalStorage();
         updateURL();
+        if (hasGeneratedOnce) {
+            triggerSparkle();
+            generateProgressions();
+        }
     });
 
     document.getElementById('modeSelect').addEventListener('change', function() {
@@ -1819,6 +1834,10 @@ document.addEventListener('DOMContentLoaded', function() {
         updateProgressionName();
         saveToLocalStorage();
         updateURL();
+        if (hasGeneratedOnce) {
+            triggerSparkle();
+            generateProgressions();
+        }
     });
 
     document.getElementById('progressionSelect').addEventListener('change', function() {
@@ -1826,6 +1845,10 @@ document.addEventListener('DOMContentLoaded', function() {
         updateProgressionName();
         saveToLocalStorage();
         updateURL();
+        if (hasGeneratedOnce) {
+            triggerSparkle();
+            generateProgressions();
+        }
     });
 
     document.getElementById('progressionName').addEventListener('input', function() {

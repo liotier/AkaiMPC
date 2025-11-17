@@ -901,3 +901,40 @@ footer a:hover {
         /* Handled via JavaScript size injection if needed */
     }
 }
+
+/* Sparkle animation for auto-generation feature */
+@keyframes rainbowScan {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+button.primary.sparkle {
+    position: relative;
+    overflow: hidden;
+}
+
+button.primary.sparkle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 0, 128, 0.7),
+        rgba(255, 0, 255, 0.8),
+        rgba(0, 128, 255, 0.8),
+        rgba(0, 255, 255, 0.8),
+        rgba(0, 255, 0, 0.8),
+        rgba(255, 255, 0, 0.7),
+        transparent
+    );
+    animation: rainbowScan 0.6s ease-out;
+    pointer-events: none;
+}
