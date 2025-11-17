@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - 'claude/**'
-    branches-ignore:
-      - 'claude/production-**'
 
 permissions:
   contents: write
