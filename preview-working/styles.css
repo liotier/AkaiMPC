@@ -264,33 +264,69 @@ button:disabled {
     cursor: not-allowed;
 }
 
-.generate-btn {
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.action-buttons .full-width {
     width: 100%;
-    margin-bottom: 16px;
 }
 
-.random-buttons-container {
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-top: 32px;
-    margin-bottom: 16px;
-    background: white;
-}
-
-.random-buttons {
+.random-buttons-group {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+    margin-top: -8px;
 }
 
-.random-buttons button {
-    flex: 1 1 200px;
+.random-buttons-group button {
+    flex: 1 1 auto;
+    min-width: 200px;
 }
 
-#downloadAllBtn {
-    width: 100%;
+/* Context tabs container */
+.context-tabs-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.context-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.context-tab {
+    padding: 10px 20px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.context-tab:hover {
+    background: var(--pad-hover);
+    border-color: var(--accent);
+}
+
+.context-tab.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.context-tab.active:hover {
+    background: var(--accent-dark);
 }
 
 .progressions {
@@ -304,56 +340,19 @@ button:disabled {
     border-radius: var(--radius);
     padding: 14px;
     background: white;
-    page-break-inside: avoid;
 }
 
 .progression-header {
-    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 16px;
+    gap: 12px;
 }
 
 .progression-info {
     flex: 1;
     min-width: 0;
-}
-
-.context-tabs-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    gap: 12px;
-}
-
-.context-tabs {
-    display: flex;
-    gap: 4px;
-    background: var(--pad-bg);
-    padding: 4px;
-    border-radius: var(--radius);
-}
-
-.context-tab {
-    padding: 6px 16px;
-    border: 1px solid transparent;
-    background: transparent;
-    border-radius: calc(var(--radius) - 2px);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.context-tab:hover {
-    background: white;
-    color: var(--fg);
-}
-
-.context-tab.active {
-    background: white;
-    color: var(--accent);
-    border-color: var(--border);
-    font-weight: 600;
 }
 
 .progression-title {
@@ -407,6 +406,13 @@ button:disabled {
 
 .download-btn:hover svg {
     stroke: var(--accent);
+}
+
+.chord-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    max-width: 600px;
 }
 
 .chord-pad {
@@ -512,7 +518,8 @@ button:disabled {
     margin-top: 1px;
     margin-bottom: 1px;
     width: 100%;
-    height: 50px;
+    height: 60px;
+    display: none;
 }
 
 .chord-guitar svg {
@@ -520,15 +527,18 @@ button:disabled {
     height: 100%;
 }
 
-.chord-grid {
-    display: none;
+/* Show/hide notation based on context */
+body[data-context="keyboard"] .chord-keyboard {
+    display: block;
 }
 
-.chord-grid.active {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    max-width: 600px;
+body[data-context="guitar"] .chord-guitar {
+    display: block;
+}
+
+body[data-context="mpc"] .chord-keyboard,
+body[data-context="mpc"] .chord-guitar {
+    display: none;
 }
 
 .tooltip {
@@ -605,12 +615,17 @@ footer a:hover {
         gap: 12px;
     }
 
-    .random-buttons {
+    .random-buttons-group {
         flex-direction: column;
     }
 
-    .random-buttons button {
-        flex: 1 1 auto;
+    .random-buttons-group button {
+        min-width: 100%;
+    }
+
+    .context-tabs-container {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .chord-grid {
@@ -623,7 +638,81 @@ footer a:hover {
     }
 }
 
+/* Print styles */
 @media print {
+    /* Hide all controls and headers */
+    .header,
+    .chord-matcher,
+    .controls,
+    .action-buttons,
+    .context-tabs-container,
+    footer,
+    .download-btn {
+        display: none !important;
+    }
+
+    /* Show progressions container */
+    .progressions {
+        display: block !important;
+    }
+
+    /* Each progression on its own page */
+    .progression-card {
+        page-break-after: always;
+        page-break-inside: avoid;
+        border: none;
+        padding: 0;
+        margin: 0;
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    /* Remove margins from first progression */
+    .progression-card:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .progression-header {
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #000;
+    }
+
+    .progression-title {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .chord-grid {
+        max-width: 100%;
+    }
+
+    .chord-pad {
+        border: 1px solid #000;
+        background: white;
+        page-break-inside: avoid;
+    }
+
+    /* For Guitar and Keyboard contexts - show appropriate notation */
+    body[data-context="keyboard"] .chord-keyboard {
+        display: block !important;
+    }
+
+    body[data-context="guitar"] .chord-guitar {
+        display: block !important;
+    }
+
+    body[data-context="mpc"] .chord-keyboard,
+    body[data-context="mpc"] .chord-guitar {
+        display: none !important;
+    }
+
+    /* Ensure no blank pages */
+    @page {
+        margin: 1cm;
+    }
+
     body {
         margin: 0;
         padding: 0;
@@ -634,50 +723,9 @@ footer a:hover {
         margin: 0;
     }
 
-    .header,
-    .chord-matcher,
-    .controls,
-    .generate-btn,
-    .random-buttons-container,
-    #downloadAllBtn,
-    .context-tabs-container,
-    footer {
-        display: none !important;
-    }
-
     .progressions {
         margin: 0;
         padding: 0;
-    }
-
-    .progression-card {
-        page-break-after: always;
-        page-break-inside: avoid;
-        margin: 0;
-        padding: 14px;
-        display: block;
-    }
-
-    .progression-card:last-child {
-        page-break-after: auto;
-    }
-
-    .progression-header {
-        margin-bottom: 12px;
-    }
-
-    .chord-grid {
-        display: none !important;
-        height: 0;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    .chord-grid.mpc-context {
-        display: grid !important;
-        height: auto;
-        margin: 0;
-        padding: 0;
+        gap: 0;
     }
 }
