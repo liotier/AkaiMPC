@@ -10,7 +10,8 @@ import {
     getChordName,
     getRomanNumeral,
     generateProgressionChords,
-    spellChordNotes
+    spellChordNotes,
+    applyVoicingStyle
 } from './modules/musicTheory.js';
 
 import {
@@ -760,7 +761,26 @@ function generateVariant(variantType) {
     const pads = [];
 
     // Generate the actual progression chords - PASS selectedMode as 4th parameter (FIX!)
-    const progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees, selectedMode);
+    let progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees, selectedMode);
+
+    // Apply variant-specific voicing styles for more diversity
+    switch (variantType) {
+        case 'Classic':
+            // Classic uses default voice leading (already optimized)
+            break;
+        case 'Jazz':
+            // Jazz uses close voicings for that tight, sophisticated sound
+            progressionChords = applyVoicingStyle(progressionChords, 'close');
+            break;
+        case 'Modal':
+            // Modal uses open voicings for a more spacious sound
+            progressionChords = applyVoicingStyle(progressionChords, 'open');
+            break;
+        case 'Experimental':
+            // Experimental uses spread voicings for maximum variation
+            progressionChords = applyVoicingStyle(progressionChords, 'spread');
+            break;
+    }
 
     // Fill first 12 pads (rows 1-3)
     const rows1to3 = [];

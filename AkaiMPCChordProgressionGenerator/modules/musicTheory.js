@@ -650,6 +650,100 @@ export function optimizeVoiceLeading(chordProgression) {
     return optimized;
 }
 
+// Create close voicing (all notes within an octave or close together)
+export function applyCloseVoicing(chordNotes) {
+    if (chordNotes.length === 0) return chordNotes;
+
+    const sorted = [...chordNotes].sort((a, b) => a - b);
+    const bass = sorted[0];
+    const pitchClasses = sorted.map(note => note % 12);
+
+    // Build close voicing starting from bass note
+    const closeVoiced = [bass];
+    let currentNote = bass;
+
+    for (let i = 1; i < pitchClasses.length; i++) {
+        const targetPC = pitchClasses[i];
+        // Find the next note above current that matches this pitch class
+        let nextNote = currentNote + 1;
+        while ((nextNote % 12) !== targetPC) {
+            nextNote++;
+        }
+        closeVoiced.push(nextNote);
+        currentNote = nextNote;
+    }
+
+    return closeVoiced;
+}
+
+// Create open voicing (spread notes across multiple octaves)
+export function applyOpenVoicing(chordNotes) {
+    if (chordNotes.length < 3) return chordNotes;
+
+    const sorted = [...chordNotes].sort((a, b) => a - b);
+    const bass = sorted[0];
+
+    // Drop-2 voicing: move second-highest note down an octave
+    const openVoiced = [...sorted];
+    if (openVoiced.length >= 3) {
+        openVoiced[openVoiced.length - 2] -= 12;
+    }
+
+    return openVoiced.sort((a, b) => a - b);
+}
+
+// Create spread voicing (maximum distance between voices)
+export function applySpreadVoicing(chordNotes) {
+    if (chordNotes.length < 3) return chordNotes;
+
+    const sorted = [...chordNotes].sort((a, b) => a - b);
+    const bass = sorted[0];
+    const pitchClasses = sorted.map(note => note % 12);
+
+    // Spread voices across wider range
+    const spreadVoiced = [bass];
+    let octaveOffset = 0;
+
+    for (let i = 1; i < pitchClasses.length; i++) {
+        const targetPC = pitchClasses[i];
+        // Add notes in higher octaves
+        octaveOffset += (i === 1) ? 7 : 5; // Skip larger intervals
+        let nextNote = bass + octaveOffset;
+        while ((nextNote % 12) !== targetPC) {
+            nextNote++;
+        }
+        spreadVoiced.push(nextNote);
+    }
+
+    return spreadVoiced.sort((a, b) => a - b);
+}
+
+// Apply voicing style to a progression
+export function applyVoicingStyle(chordProgression, voicingType = 'default') {
+    if (voicingType === 'default') return chordProgression;
+
+    return chordProgression.map(chord => {
+        let voicedNotes = chord.notes;
+
+        switch (voicingType) {
+            case 'close':
+                voicedNotes = applyCloseVoicing(chord.notes);
+                break;
+            case 'open':
+                voicedNotes = applyOpenVoicing(chord.notes);
+                break;
+            case 'spread':
+                voicedNotes = applySpreadVoicing(chord.notes);
+                break;
+        }
+
+        return {
+            ...chord,
+            notes: voicedNotes
+        };
+    });
+}
+
 // ============================================================================
 // Note Naming and Enharmonic Spelling
 // ============================================================================
