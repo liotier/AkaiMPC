@@ -208,7 +208,7 @@ h1 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .filter-group {
@@ -267,19 +267,23 @@ button:disabled {
 .action-buttons {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 8px;
     margin-bottom: 24px;
 }
 
 .action-buttons .full-width {
     width: 100%;
+    margin-bottom: 16px;
 }
 
 .random-buttons-group {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
-    margin-top: -8px;
+    padding: 16px;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    background: var(--pad-bg);
 }
 
 .random-buttons-group button {
@@ -413,6 +417,12 @@ button:disabled {
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
     max-width: 600px;
+}
+
+/* Wider grid for keyboard and guitar contexts */
+body[data-context="keyboard"] .chord-grid,
+body[data-context="guitar"] .chord-grid {
+    max-width: 100%;
 }
 
 .chord-pad {
