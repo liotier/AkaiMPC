@@ -695,7 +695,7 @@ body[data-context="guitar"] .note-pair {
 }
 
 .tooltip {
-    position: absolute;
+    position: fixed;
     background: rgba(0, 0, 0, 0.9);
     color: white;
     padding: 8px 12px;
@@ -718,14 +718,14 @@ body[data-context="guitar"] .note-pair {
 .tooltip::before {
     content: '';
     position: absolute;
-    top: -5px;
+    bottom: -5px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-bottom: 5px solid rgba(0, 0, 0, 0.9);
+    border-top: 5px solid rgba(0, 0, 0, 0.9);
 }
 
 .chord-pad {
