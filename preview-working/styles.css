@@ -906,28 +906,24 @@ footer a:hover {
 @keyframes sparkle {
     0%, 100% {
         box-shadow: 0 0 0 rgba(59, 130, 246, 0);
-        transform: scale(1);
     }
     25% {
         box-shadow: 0 0 15px rgba(236, 72, 153, 0.8), 0 0 30px rgba(168, 85, 247, 0.4);
-        transform: scale(1.02);
     }
     50% {
         box-shadow: 0 0 20px rgba(59, 130, 246, 0.9), 0 0 40px rgba(34, 211, 238, 0.5);
-        transform: scale(1.03);
     }
     75% {
         box-shadow: 0 0 15px rgba(52, 211, 153, 0.8), 0 0 30px rgba(251, 191, 36, 0.4);
-        transform: scale(1.02);
     }
 }
 
 @keyframes shimmer {
     0% {
-        background-position: -200% center;
+        background-position: 200% center;
     }
     100% {
-        background-position: 200% center;
+        background-position: -200% center;
     }
 }
 
