@@ -9,7 +9,7 @@ let currentContext = 'mpc'; // 'mpc', 'keyboard', or 'guitar'
 let isLeftHanded = false;
 let hasGeneratedOnce = false; // Track if user has generated at least once
 
-// Sparkle animation trigger
+// Trigger sparkle animation on Generate button
 function triggerSparkle() {
     const btn = document.getElementById('generateBtn');
     if (btn) {
@@ -30,8 +30,8 @@ function saveToLocalStorage() {
     };
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
-    } catch (e) {
-        console.warn('Could not save to localStorage:', e);
+    } catch (error) {
+        console.warn('Could not save to localStorage:', error);
     }
 }
 
@@ -39,11 +39,10 @@ function loadFromLocalStorage() {
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
-            const preferences = JSON.parse(stored);
-            return preferences;
+            return JSON.parse(stored);
         }
-    } catch (e) {
-        console.warn('Could not load from localStorage:', e);
+    } catch (error) {
+        console.warn('Could not load from localStorage:', error);
     }
     return null;
 }
@@ -687,7 +686,8 @@ function getScaleDegrees(mode) {
 
 function buildChord(root, chordType, keyOffset) {
     const baseNote = 60 + keyOffset + root;
-    
+    console.log(`buildChord: root=${root}, chordType=${chordType}, keyOffset=${keyOffset}, baseNote=${baseNote}`);
+
     switch (chordType) {
         case 'major':
             return [baseNote, baseNote + 4, baseNote + 7];
@@ -711,7 +711,8 @@ function buildChord(root, chordType, keyOffset) {
 function getChordName(degree, chordType, keyOffset) {
     const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const rootNote = noteNames[(degree + keyOffset) % 12];
-    
+    console.log(`getChordName: degree=${degree}, keyOffset=${keyOffset}, rootNote=${rootNote}`);
+
     switch (chordType) {
         case 'minor':
         case 'minor7':
@@ -745,7 +746,6 @@ function generateKeyboardSVG(notes) {
     
     // Determine octave range to display - start at the lowest note's octave
     const minNote = Math.min(...notes);
-    const maxNote = Math.max(...notes);
     const startOctave = Math.floor(minNote / 12);
     const startNote = startOctave * 12;
     
@@ -1259,7 +1259,7 @@ function getChordTooltip(romanNumeral, chordType) {
 
 // Modal mixture / Borrowed chords
 '?III': 'Borrowed from parallel minor, adds dramatic color, substitutes I.',
-'IV': 'Borrowed minor subdominant, softens motion to V.',
+'♭IV': 'Borrowed minor subdominant, softens motion to V.',
 '?VI': 'Borrowed from parallel minor, dramatic predominant, often moves to V.',
 '?VII': 'Borrowed from Mixolydian, gives rock/blues flavor, often moves to I or V.',
 '?II': 'Borrowed flat-II (Neapolitan), strong predominant, prepares V.',
@@ -1382,7 +1382,7 @@ function generateVariant(variantType) {
         let isProgressionChord = false;
 
         // First, place the progression chords
-        if (i < progressionChords.length && i < 12) {
+        if (i < progressionChords.length) {
             const progChord = progressionChords[i];
             notes = progChord.notes;
             chordName = progChord.chordName;

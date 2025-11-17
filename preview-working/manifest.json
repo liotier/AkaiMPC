@@ -1,7 +1,7 @@
 {
-  "name": "Akai MPC Chord Progression Generator - Preview",
-  "short_name": "MPC Chords (Preview)",
-  "description": "Preview version - Interactive web app to design and explore chord progressions for Akai MPC with multi-context display. Free, browser-based, no installation required.",
+  "name": "Akai MPC Chord Progression Generator",
+  "short_name": "MPC Chords",
+  "description": "Interactive web app to design and explore chord progressions for Akai MPC. Free, browser-based, no installation required.",
   "start_url": "AkaiMPCChordProgressionGenerator.html",
   "scope": "./",
   "display": "standalone",
