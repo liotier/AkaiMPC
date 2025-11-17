@@ -3,7 +3,9 @@ name: Deploy Claude Preview to GitHub Pages
 on:
   push:
     branches:
-      - claude/clean-auto-gen-01MUemracESBMU7M5VsATGHe
+      - 'claude/**'
+    branches-ignore:
+      - 'claude/production-**'
 
 permissions:
   contents: write
@@ -18,6 +20,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./AkaiMPCChordProgressionGeneratorPreview
+          publish_dir: ./AkaiMPCChordProgressionGenerator
           destination_dir: preview-working
           keep_files: true
