@@ -83,6 +83,65 @@ export const progressions = {
         { value: 'I—V—vi—IV—I—V—iii—IV', name: 'I—V—vi—IV—I—V—iii—IV', nickname: 'Extended Pop' },
         { value: 'i—♭III—♭VII—i', name: 'i—♭III—♭VII—i', nickname: 'Modal Interchange' },
         { value: 'I—♭III—IV—♭VI', name: 'I—♭III—IV—♭VI', nickname: 'Chromatic Mediant' }
+    ],
+    'R&B/Neo-Soul': [
+        { value: 'ii—V—IM7—vi', name: 'ii—V—IM7—vi', nickname: 'Neo-Soul Standard' },
+        { value: 'IM7—iii7—vi7—ii7', name: 'IM7—iii7—vi7—ii7', nickname: 'Smooth R&B' },
+        { value: 'I—IV—ii—V', name: 'I—IV—ii—V', nickname: 'Classic R&B' },
+        { value: 'vi—ii—iii—IV', name: 'vi—ii—iii—IV', nickname: 'Emotional Ballad' },
+        { value: 'IM7—V7/IV—IVM7—iv', name: 'IM7—V7/IV—IVM7—iv', nickname: 'Chromatic Soul' },
+        { value: 'i—iv—♭VII—♭VI', name: 'i—iv—♭VII—♭VI', nickname: 'Minor Soul' },
+        { value: 'I—♯iv°—ii—V', name: 'I—♯iv°—ii—V', nickname: 'Gospel Soul' }
+    ],
+    'Gospel/Worship': [
+        { value: 'I—V/ii—ii—V', name: 'I—V/ii—ii—V', nickname: 'Gospel Turnaround' },
+        { value: 'IV—V—iii—vi', name: 'IV—V—iii—vi', nickname: 'Praise Progression' },
+        { value: 'I—IV—V/vi—vi', name: 'I—IV—V/vi—vi', nickname: 'Contemporary Worship' },
+        { value: 'ii—V—I—IV', name: 'ii—V—I—IV', nickname: 'Church Cadence' },
+        { value: 'I—V/V—V—vi—IV', name: 'I—V/V—V—vi—IV', nickname: 'Gospel Rock' },
+        { value: 'IV—I—V—vi—IV—♭VII', name: 'IV—I—V—vi—IV—♭VII', nickname: 'Extended Worship' }
+    ],
+    'Hip-Hop/Trap': [
+        { value: 'i—♭VI—♭VII', name: 'i—♭VI—♭VII', nickname: 'Trap Minor' },
+        { value: 'i—♭III—♭VI—♭VII', name: 'i—♭III—♭VI—♭VII', nickname: 'Dark Trap' },
+        { value: 'vi—IV—I', name: 'vi—IV—I', nickname: 'Sad Trap' },
+        { value: 'i—♭VII—♭VI', name: 'i—♭VII—♭VI', nickname: 'Lofi Hip-Hop' },
+        { value: 'i—iv—i—♭VI', name: 'i—iv—i—♭VI', nickname: 'Boom Bap' },
+        { value: 'i—♭III—iv—♭VI', name: 'i—♭III—iv—♭VI', nickname: 'Emo Rap' },
+        { value: 'I—♭III—♭VII—IV', name: 'I—♭III—♭VII—IV', nickname: 'West Coast' }
+    ],
+    'Latin/Bossa': [
+        { value: 'IM7—VI7—ii7—V7', name: 'IM7—VI7—ii7—V7', nickname: 'Bossa Nova' },
+        { value: 'i—iv—V—i', name: 'i—iv—V—i', nickname: 'Tango' },
+        { value: 'I—♭II—I—V', name: 'I—♭II—I—V', nickname: 'Flamenco' },
+        { value: 'i—V—i—VII', name: 'i—V—i—VII', nickname: 'Samba' },
+        { value: 'I—V/ii—ii—V/V—V', name: 'I—V/ii—ii—V/V—V', nickname: 'Latin Jazz' },
+        { value: 'i—♭VII—♭VI—V', name: 'i—♭VII—♭VI—V', nickname: 'Bolero' }
+    ],
+    'Film/Cinematic': [
+        { value: 'I—♭VI—♭III—♭VII', name: 'I—♭VI—♭III—♭VII', nickname: 'Epic Trailer' },
+        { value: 'i—♭VI—♭VII—i', name: 'i—♭VI—♭VII—i', nickname: 'Dark Cinematic' },
+        { value: 'I—V—vi—♭VI—IV', name: 'I—V—vi—♭VI—IV', nickname: 'Emotional Score' },
+        { value: 'i—♭III—♭VII—♭VI—V', name: 'i—♭III—♭VII—♭VI—V', nickname: 'Heroic Theme' },
+        { value: 'I—♭VII—♭VI—♭VII', name: 'I—♭VII—♭VI—♭VII', nickname: 'Adventure' },
+        { value: 'i—iv—♭VI—♭III', name: 'i—iv—♭VI—♭III', nickname: 'Suspense' },
+        { value: 'I—♭III—♭VI—♭II', name: 'I—♭III—♭VI—♭II', nickname: 'Chromatic Film' }
+    ],
+    'Folk/Singer-Songwriter': [
+        { value: 'I—IV—I—V', name: 'I—IV—I—V', nickname: 'Folk Standard' },
+        { value: 'vi—IV—V—I', name: 'vi—IV—V—I', nickname: 'Sad Folk' },
+        { value: 'I—V—IV—I', name: 'I—V—IV—I', nickname: 'Country' },
+        { value: 'I—iii—IV—V', name: 'I—iii—IV—V', nickname: 'Classic Folk' },
+        { value: 'IV—V—I—vi', name: 'IV—V—I—vi', nickname: 'Americana' },
+        { value: 'I—V—vi—iii', name: 'I—V—vi—iii', nickname: 'Irish Folk' }
+    ],
+    'Metal/Rock': [
+        { value: 'i—♭VI—♭VII—i', name: 'i—♭VI—♭VII—i', nickname: 'Power Metal' },
+        { value: 'i—♭III—♭VI—♭VII', name: 'i—♭III—♭VI—♭VII', nickname: 'Doom Metal' },
+        { value: 'i—v—♭VII—iv', name: 'i—v—♭VII—iv', nickname: 'Prog Metal' },
+        { value: 'i—♭II—i', name: 'i—♭II—i', nickname: 'Thrash' },
+        { value: 'i—♭VII—♭VI—V', name: 'i—♭VII—♭VI—V', nickname: 'Melodic Metal' },
+        { value: 'i—iv—v—i', name: 'i—iv—v—i', nickname: 'Minor Rock' }
     ]
 };
 
