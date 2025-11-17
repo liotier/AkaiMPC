@@ -798,6 +798,27 @@ footer a:hover {
         margin: 1cm;
     }
 
+    /* Named pages for different orientations */
+    @page portrait-page {
+        size: portrait;
+        margin: 1cm;
+    }
+
+    @page landscape-page {
+        size: landscape;
+        margin: 1cm;
+    }
+
+    /* Apply portrait to guitar context (diagrams are tall) */
+    body[data-context="guitar"] {
+        page: portrait-page;
+    }
+
+    /* Apply landscape to keyboard context (diagrams are wide) */
+    body[data-context="keyboard"] {
+        page: landscape-page;
+    }
+
     body {
         margin: 0;
         padding: 0;
