@@ -142,6 +142,65 @@ export const progressions = {
         { value: 'i—♭II—i', name: 'i—♭II—i', nickname: 'Thrash' },
         { value: 'i—♭VII—♭VI—V', name: 'i—♭VII—♭VI—V', nickname: 'Melodic Metal' },
         { value: 'i—iv—v—i', name: 'i—iv—v—i', nickname: 'Minor Rock' }
+    ],
+    'Trance/Psytrance/Goa': [
+        { value: 'i—v', name: 'i—v', nickname: 'Minimal Trance' },
+        { value: 'i—VII', name: 'i—VII', nickname: 'Phrygian Trance' },
+        { value: 'i—♭VII—i—♭VI', name: 'i—♭VII—i—♭VI', nickname: 'Classic Goa' },
+        { value: 'i—♭II—♭VII—i', name: 'i—♭II—♭VII—i', nickname: 'Phrygian Dominant' },
+        { value: 'i—V—♭VI—♭VII', name: 'i—V—♭VI—♭VII', nickname: 'Uplifting Trance' },
+        { value: 'i—iv—VII—III', name: 'i—iv—VII—III', nickname: 'Harmonic Minor Psy' },
+        { value: 'i—♭VI—III—VII', name: 'i—♭VI—III—VII', nickname: 'Dark Psy' },
+        { value: 'i—♭III—♭VI—V', name: 'i—♭III—♭VI—V', nickname: 'Progressive Psy' },
+        { value: 'i—VII—VI—VII', name: 'i—VII—VI—VII', nickname: 'Full-On' },
+        { value: 'i—♭II—VII—V', name: 'i—♭II—VII—V', nickname: 'Goa Classic' },
+        { value: 'i—iv—i—VII', name: 'i—iv—i—VII', nickname: 'Forest Psy' },
+        { value: 'i—III—VII—IV', name: 'i—III—VII—IV', nickname: 'Morning Trance' }
+    ],
+    'Jungle/Drum\'n\'Bass': [
+        { value: 'i—v', name: 'i—v', nickname: 'Minimal Jungle' },
+        { value: 'i—♭VII', name: 'i—♭VII', nickname: 'Dark Jungle' },
+        { value: 'i—IV', name: 'i—IV', nickname: 'Dub Jungle' },
+        { value: 'i—♭VII—♭VI—V', name: 'i—♭VII—♭VI—V', nickname: 'Liquid DnB' },
+        { value: 'i—♭III—♭VII—iv', name: 'i—♭III—♭VII—iv', nickname: 'Neurofunk' },
+        { value: 'i—v—♭VII—iv', name: 'i—v—♭VII—iv', nickname: 'Jump-Up' },
+        { value: 'ii7—V7—IM7—vi7', name: 'ii7—V7—IM7—vi7', nickname: 'Jazzstep' }
+    ],
+    'Italo-Disco/House': [
+        { value: 'I—vi—IV—V', name: 'I—vi—IV—V', nickname: 'Classic Italo' },
+        { value: 'I—iii—vi—IV', name: 'I—iii—vi—IV', nickname: 'Italo Romantic' },
+        { value: 'I—IV—V—iii', name: 'I—IV—V—iii', nickname: 'Italo House' },
+        { value: 'vi—IV—I—V', name: 'vi—IV—I—V', nickname: 'Italo Pop' },
+        { value: 'I—V—vi—iii—IV—I', name: 'I—V—vi—iii—IV—I', nickname: 'Extended Italo' },
+        { value: 'IM7—vi7—IVM7—V7', name: 'IM7—vi7—IVM7—V7', nickname: 'Smooth Italo' }
+    ],
+    'Synthwave/Retrowave': [
+        { value: 'i—♭VII—♭VI—V', name: 'i—♭VII—♭VI—V', nickname: 'Outrun' },
+        { value: 'i—♭III—♭VII—♭VI', name: 'i—♭III—♭VII—♭VI', nickname: 'Darkwave' },
+        { value: 'I—V—vi—IV', name: 'I—V—vi—IV', nickname: 'Synthpop' },
+        { value: 'i—v—♭VI—♭VII', name: 'i—v—♭VI—♭VII', nickname: 'Cyberpunk' },
+        { value: 'I—♭VII—♭VI—I', name: 'I—♭VII—♭VI—I', nickname: 'Dreamwave' },
+        { value: 'vi—IV—I—V', name: 'vi—IV—I—V', nickname: 'Retrowave Pop' },
+        { value: 'i—♭VI—III—♭VII', name: 'i—♭VI—III—♭VII', nickname: 'Dark Synth' }
+    ],
+    'African Dance': [
+        { value: 'I—IV—V—IV', name: 'I—IV—V—IV', nickname: 'Soukous Sebene' },
+        { value: 'I—IV—I—V', name: 'I—IV—I—V', nickname: 'Soukous Classic' },
+        { value: 'I—♭VII—IV—I', name: 'I—♭VII—IV—I', nickname: 'Soukous Modern' },
+        { value: 'I—IV', name: 'I—IV', nickname: 'Makossa Groove' },
+        { value: 'I—IV—♭VII—I', name: 'I—IV—♭VII—I', nickname: 'Makossa Funk' },
+        { value: 'i—iv', name: 'i—iv', nickname: 'Kwaito Minimal' },
+        { value: 'I—V', name: 'I—V', nickname: 'Kwaito House' },
+        { value: 'i—♭VII—i', name: 'i—♭VII—i', nickname: 'Kwaito Deep' }
+    ],
+    'Acid/EBM': [
+        { value: 'i—i', name: 'i—i', nickname: 'Acid 303' },
+        { value: 'i—iv', name: 'i—iv', nickname: 'Acid Minimal' },
+        { value: 'i—♭VII—i', name: 'i—♭VII—i', nickname: 'Acid House' },
+        { value: 'i—♭VI', name: 'i—♭VI', nickname: 'EBM Dark' },
+        { value: 'i—v', name: 'i—v', nickname: 'EBM Industrial' },
+        { value: 'i—iv—♭VII—i', name: 'i—iv—♭VII—i', nickname: 'EBM Classic' },
+        { value: 'i—♭III—i', name: 'i—♭III—i', nickname: 'Body Music' }
     ]
 };
 
