@@ -743,21 +743,21 @@ function getRomanNumeral(degree, isMinor = false, isDim = false) {
 
 function generateKeyboardSVG(notes) {
     if (!notes || notes.length === 0) return '';
-    
+
     // Determine octave range to display - start at the lowest note's octave
     const minNote = Math.min(...notes);
     const startOctave = Math.floor(minNote / 12);
     const startNote = startOctave * 12;
-    
+
     // Create set of active notes (absolute, not modulo)
     const activeNotes = new Set(notes);
-    
+
     // Two octaves = 14 white keys
     const whiteKeyPattern = [0, 2, 4, 5, 7, 9, 11];
     const blackKeyPattern = [1, 3, 6, 8, 10];
-    
+
     let svg = '<svg viewBox="0 0 196 35" xmlns="http://www.w3.org/2000/svg">';
-    
+
     // Draw two octaves of white keys
     for (let octave = 0; octave < 2; octave++) {
         whiteKeyPattern.forEach((note, i) => {
@@ -767,18 +767,21 @@ function generateKeyboardSVG(notes) {
             svg += `<rect x="${x}" y="0" width="13" height="35" fill="${active ? '#f59e0b' : 'white'}" stroke="#333" stroke-width="1"/>`;
         });
     }
-    
+
     // Draw two octaves of black keys
-    const blackKeyPositions = [7, 21, 42, 56, 70];
+    // Black keys come after white keys at indices: C#=0, D#=1, F#=3, G#=4, A#=5
+    const whiteKeyIndices = [0, 1, 3, 4, 5];
     for (let octave = 0; octave < 2; octave++) {
         blackKeyPattern.forEach((note, i) => {
-            const x = (octave * 98) + blackKeyPositions[i] - 5;
+            // Center black key between white keys (each white key is 14px wide)
+            // Black key is 10px wide, so offset by 8.5 from left edge of white key
+            const x = (octave * 7 + whiteKeyIndices[i]) * 14 + 8.5;
             const absoluteNote = startNote + (octave * 12) + note;
             const active = activeNotes.has(absoluteNote);
             svg += `<rect x="${x}" y="0" width="10" height="21" fill="${active ? '#dc2626' : '#333'}" stroke="#000" stroke-width="1"/>`;
         });
     }
-    
+
     svg += '</svg>';
     return svg;
 }
