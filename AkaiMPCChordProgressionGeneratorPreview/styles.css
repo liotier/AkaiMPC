@@ -901,3 +901,35 @@ footer a:hover {
         /* Handled via JavaScript size injection if needed */
     }
 }
+
+/* Sparkle animation for auto-generation feature */
+@keyframes sparkle {
+    0%, 100% {
+        box-shadow: 0 0 0 rgba(59, 130, 246, 0);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+button.primary.sparkle {
+    animation: sparkle 0.6s ease, shimmer 0.6s ease;
+    background: linear-gradient(
+        90deg,
+        var(--accent) 0%,
+        var(--accent-dark) 25%,
+        #60a5fa 50%,
+        var(--accent-dark) 75%,
+        var(--accent) 100%
+    );
+    background-size: 200% auto;
+}
