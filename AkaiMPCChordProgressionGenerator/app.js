@@ -20,8 +20,8 @@ function saveToLocalStorage() {
     };
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
-    } catch (e) {
-        console.warn('Could not save to localStorage:', e);
+    } catch (error) {
+        console.warn('Could not save to localStorage:', error);
     }
 }
 
@@ -29,11 +29,10 @@ function loadFromLocalStorage() {
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
-            const preferences = JSON.parse(stored);
-            return preferences;
+            return JSON.parse(stored);
         }
-    } catch (e) {
-        console.warn('Could not load from localStorage:', e);
+    } catch (error) {
+        console.warn('Could not load from localStorage:', error);
     }
     return null;
 }
