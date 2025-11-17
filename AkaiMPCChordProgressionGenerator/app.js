@@ -750,11 +750,145 @@ function getChordQualityForMode(degree, mode) {
             4: 'major',   // V
             5: 'major',   // VI
             6: 'minor'    // vii
+        },
+        'Harmonic Minor': {
+            0: 'minor',   // i
+            1: 'diminished',  // ii°
+            2: 'major',   // III+ (augmented, but using major as fallback)
+            3: 'minor',   // iv
+            4: 'major',   // V
+            5: 'major',   // VI
+            6: 'diminished'  // vii°
+        },
+        'Melodic Minor': {
+            0: 'minor',   // i
+            1: 'minor',   // ii
+            2: 'major',   // III+ (augmented, but using major as fallback)
+            3: 'major',   // IV
+            4: 'major',   // V
+            5: 'diminished',  // vi°
+            6: 'diminished'  // vii°
+        },
+        'Pentatonic Major': {
+            0: 'major',   // I
+            1: 'minor',   // ii
+            2: 'minor',   // iii
+            3: 'major',   // V
+            4: 'minor'    // vi
+        },
+        'Pentatonic Minor': {
+            0: 'minor',   // i
+            1: 'major',   // III
+            2: 'minor',   // iv
+            3: 'minor',   // v
+            4: 'major'    // VII
+        },
+        'Blues': {
+            0: 'minor',   // i
+            1: 'major',   // III
+            2: 'minor',   // iv
+            3: 'major',   // IV (with blue note)
+            4: 'minor',   // v
+            5: 'major'    // VII
+        },
+        'Double Harmonic': {
+            0: 'major',   // I
+            1: 'major',   // II (with b2)
+            2: 'major',   // III
+            3: 'minor',   // iv
+            4: 'major',   // V
+            5: 'major',   // VI (with b6)
+            6: 'diminished'  // vii°
+        },
+        'Hungarian Minor': {
+            0: 'minor',   // i
+            1: 'diminished',  // ii°
+            2: 'major',   // III+
+            3: 'minor',   // #iv
+            4: 'major',   // V
+            5: 'major',   // VI
+            6: 'diminished'  // vii°
+        },
+        'Neapolitan Major': {
+            0: 'major',   // I
+            1: 'major',   // II (with b2)
+            2: 'minor',   // iii
+            3: 'major',   // IV
+            4: 'major',   // V
+            5: 'minor',   // vi
+            6: 'diminished'  // vii°
+        },
+        'Neapolitan Minor': {
+            0: 'minor',   // i
+            1: 'major',   // II (with b2)
+            2: 'minor',   // iii
+            3: 'minor',   // iv
+            4: 'major',   // V
+            5: 'major',   // VI
+            6: 'diminished'  // vii°
+        },
+        'Enigmatic': {
+            0: 'major',   // I
+            1: 'major',   // II (with b2)
+            2: 'major',   // III
+            3: 'major',   // #IV
+            4: 'major',   // #V
+            5: 'major',   // #VI
+            6: 'diminished'  // vii°
+        },
+        'Phrygian Dominant': {
+            0: 'major',   // I
+            1: 'major',   // II (with b2)
+            2: 'diminished',  // iii°
+            3: 'minor',   // iv
+            4: 'minor',   // v
+            5: 'major',   // VI (with b6)
+            6: 'minor'    // vii
+        },
+        'Persian': {
+            0: 'major',   // I
+            1: 'major',   // II (with b2)
+            2: 'major',   // III
+            3: 'minor',   // iv
+            4: 'diminished',  // v° (with b5)
+            5: 'major',   // VI (with b6)
+            6: 'diminished'  // vii°
+        },
+        'Hirajoshi': {
+            0: 'minor',   // i
+            1: 'major',   // II
+            2: 'minor',   // iii (with b3)
+            3: 'major',   // V
+            4: 'major'    // VI (with b6)
+        },
+        'Insen': {
+            0: 'minor',   // i
+            1: 'major',   // II (with b2)
+            2: 'minor',   // iv
+            3: 'minor',   // v
+            4: 'major'    // VII (with b7)
+        },
+        'Kumoi': {
+            0: 'minor',   // i
+            1: 'major',   // II
+            2: 'minor',   // iii (with b3)
+            3: 'major',   // V
+            4: 'minor'    // vi
+        },
+        'Egyptian Pentatonic': {
+            0: 'minor',   // i
+            1: 'major',   // II
+            2: 'minor',   // iv
+            3: 'minor',   // v
+            4: 'major'    // VII (with b7)
         }
     };
 
     const qualities = modeChordQualities[mode] || modeChordQualities['Major'];
-    return qualities[degree % 7] || 'major';
+
+    // For pentatonic and other scales with fewer than 7 degrees, use modulo of actual scale length
+    const scaleLength = getScaleDegrees(mode).length;
+    return qualities[degree % scaleLength] || 'major';
 }
 
 // Enharmonic spelling helpers
