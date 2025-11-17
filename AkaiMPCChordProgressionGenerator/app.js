@@ -684,9 +684,116 @@ function getScaleDegrees(mode) {
     return scales[mode] || scales['Major'];
 }
 
+// Enharmonic spelling helpers
+function getEnharmonicContext(rootMidi, romanNumeral) {
+    // Determine if we should use sharps or flats based on roman numeral
+    const rootPitchClass = rootMidi % 12;
+
+    // Borrowed chords with flats prefer flat spelling
+    if (romanNumeral && (romanNumeral.includes('♭VII') || romanNumeral.includes('♭VI') ||
+        romanNumeral.includes('♭III') || romanNumeral.includes('♭II') || romanNumeral === 'SubV7')) {
+        return 'flats';
+    }
+
+    // Sharp alterations prefer sharp spelling
+    if (romanNumeral && (romanNumeral.includes('♯') || romanNumeral === '#VI')) {
+        return 'sharps';
+    }
+
+    // Use flats for Db, Eb, Gb, Ab, Bb pitch classes in most contexts
+    if ([1, 3, 6, 8, 10].includes(rootPitchClass) && !romanNumeral?.includes('♯')) {
+        return 'flats';
+    }
+
+    return 'sharps';
+}
+
+function getNoteNameWithContext(midiNote, preferFlats = false) {
+    const sharpNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+    const flatNames = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+    const pitchClass = midiNote % 12;
+    return preferFlats ? flatNames[pitchClass] : sharpNames[pitchClass];
+}
+
+function spellChordNotes(rootMidi, chordType, romanNumeral = '') {
+    // Get the MIDI notes for the chord
+    const notes = buildChordRaw(rootMidi, chordType);
+
+    // Determine spelling preference
+    const useFlats = getEnharmonicContext(rootMidi, romanNumeral) === 'flats';
+
+    // Spell notes properly in thirds
+    const noteNames = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+    const rootName = getNoteNameWithContext(rootMidi, useFlats).replace(/[#b]/g, '');
+    const rootIndex = noteNames.indexOf(rootName);
+
+    const spelled = notes.map((midi, i) => {
+        // Calculate expected note letter (every other letter = third)
+        const expectedIndex = (rootIndex + i * 2) % 7;
+        const expectedLetter = noteNames[expectedIndex];
+
+        // Get actual pitch class
+        const pitchClass = midi % 12;
+        const octave = Math.floor(midi / 12) - 2;
+
+        // Find the spelling that matches the expected letter
+        const sharpName = getNoteNameWithContext(midi, false);
+        const flatName = getNoteNameWithContext(midi, true);
+
+        let noteName;
+        if (sharpName[0] === expectedLetter) {
+            noteName = sharpName;
+        } else if (flatName[0] === expectedLetter) {
+            noteName = flatName;
+        } else {
+            // Need double sharp or double flat
+            const letterPitches = { 'C': 0, 'D': 2, 'E': 4, 'F': 5, 'G': 7, 'A': 9, 'B': 11 };
+            const expectedPitch = letterPitches[expectedLetter];
+            const difference = (pitchClass - expectedPitch + 12) % 12;
+
+            if (difference === 1) {
+                noteName = expectedLetter + '#';
+            } else if (difference === 2) {
+                noteName = expectedLetter + '##';
+            } else if (difference === 11) {
+                noteName = expectedLetter + 'b';
+            } else if (difference === 10) {
+                noteName = expectedLetter + 'bb';
+            } else {
+                noteName = useFlats ? flatName : sharpName;
+            }
+        }
+
+        return noteName + octave;
+    });
+
+    return spelled;
+}
+
+function buildChordRaw(baseNote, chordType) {
+    // Helper function that just returns MIDI notes without context
+    switch (chordType) {
+        case 'major':
+            return [baseNote, baseNote + 4, baseNote + 7];
+        case 'minor':
+            return [baseNote, baseNote + 3, baseNote + 7];
+        case 'diminished':
+            return [baseNote, baseNote + 3, baseNote + 6];
+        case 'major7':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 11];
+        case 'minor7':
+            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 10];
+        case 'dom7':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10];
+        case 'quartal':
+            return [baseNote, baseNote + 5, baseNote + 10];
+        default:
+            return [baseNote, baseNote + 4, baseNote + 7];
+    }
+}
+
 function buildChord(root, chordType, keyOffset) {
     const baseNote = 60 + keyOffset + root;
-    console.log(`buildChord: root=${root}, chordType=${chordType}, keyOffset=${keyOffset}, baseNote=${baseNote}`);
 
     switch (chordType) {
         case 'major':
@@ -708,10 +815,10 @@ function buildChord(root, chordType, keyOffset) {
     }
 }
 
-function getChordName(degree, chordType, keyOffset) {
-    const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-    const rootNote = noteNames[(degree + keyOffset) % 12];
-    console.log(`getChordName: degree=${degree}, keyOffset=${keyOffset}, rootNote=${rootNote}`);
+function getChordName(degree, chordType, keyOffset, romanNumeral = '') {
+    const midiNote = 60 + keyOffset + degree;
+    const useFlats = getEnharmonicContext(midiNote, romanNumeral) === 'flats';
+    const rootNote = getNoteNameWithContext(midiNote, useFlats);
 
     switch (chordType) {
         case 'minor':
@@ -1030,20 +1137,20 @@ function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType) 
         root: flatSeven,
         notes: buildChord(flatSeven, 'major', keyOffset),
         chordType: 'major',
-        chordName: getChordName(flatSeven, 'major', keyOffset),
+        chordName: getChordName(flatSeven, 'major', keyOffset, '♭VII'),
         romanNumeral: '♭VII',
         quality: 'Major',
         category: 'borrowed',
         commonUsage: 0.9
     });
-    
+
     // ♭VI (borrowed from minor)
     const flatSix = (scaleDegrees[0] + 8) % 12;
     candidates.push({
         root: flatSix,
         notes: buildChord(flatSix, 'major', keyOffset),
         chordType: 'major',
-        chordName: getChordName(flatSix, 'major', keyOffset),
+        chordName: getChordName(flatSix, 'major', keyOffset, '♭VI'),
         romanNumeral: '♭VI',
         quality: 'Major',
         category: 'borrowed',
@@ -1091,7 +1198,24 @@ function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType) 
             romanNumeral: 'iv',
             quality: 'Minor',
             category: 'borrowed',
-            commonUsage: 0.7
+            commonUsage: 0.85
+        });
+    }
+
+    // VI (major sixth - raised submediant, common in pop/rock)
+    if (scaleDegrees.length > 5) {
+        const sixth = scaleDegrees[5 % scaleDegrees.length];
+        // Raise it by a semitone to make it major VI instead of minor vi
+        const majorSixth = (sixth + 1) % 12;
+        candidates.push({
+            root: majorSixth,
+            notes: buildChord(majorSixth, 'major', keyOffset),
+            chordType: 'major',
+            chordName: getChordName(majorSixth, 'major', keyOffset),
+            romanNumeral: 'VI',
+            quality: 'Major',
+            category: 'borrowed',
+            commonUsage: 0.8
         });
     }
     
@@ -1116,35 +1240,35 @@ function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType) 
         root: flatThree,
         notes: buildChord(flatThree, 'major', keyOffset),
         chordType: 'major',
-        chordName: getChordName(flatThree, 'major', keyOffset),
+        chordName: getChordName(flatThree, 'major', keyOffset, '♭III'),
         romanNumeral: '♭III',
         quality: 'Major',
         category: 'borrowed',
         commonUsage: 0.5
     });
-    
+
     // ♭II (Neapolitan)
     const neapolitan = (scaleDegrees[0] + 1) % 12;
     candidates.push({
         root: neapolitan,
         notes: buildChord(neapolitan, 'major', keyOffset),
         chordType: 'major',
-        chordName: getChordName(neapolitan, 'major', keyOffset),
+        chordName: getChordName(neapolitan, 'major', keyOffset, '♭II'),
         romanNumeral: '♭II',
         quality: 'Major',
         category: 'chromatic',
         commonUsage: 0.4
     });
-    
+
     // Variant-specific additions
     if (variantType === 'Jazz') {
-        // SubV7 (tritone substitution)
-        const tritone = (scaleDegrees[0] + 6) % 12;
+        // SubV7 (tritone substitution for V7)
+        const tritone = (scaleDegrees[4] + 6) % 12;  // Tritone from V, not I
         candidates.push({
             root: tritone,
             notes: buildChord(tritone, 'dom7', keyOffset),
             chordType: 'dom7',
-            chordName: getChordName(tritone, 'dom7', keyOffset),
+            chordName: getChordName(tritone, 'dom7', keyOffset, 'SubV7'),
             romanNumeral: 'SubV7',
             quality: 'Dominant 7',
             category: 'substitution',
@@ -1630,11 +1754,17 @@ function renderProgressions() {
                         <div class="chord-roman">${pad.romanNumeral}</div>
                         <div class="chord-notes">
                             ${(() => {
-                                const noteStrings = pad.notes.map(note => {
-                                    const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
-                                    const octave = Math.floor(note / 12) - 2;
-                                    return noteName + octave;
-                                });
+                                // Map quality to chord type for proper spelling
+                                let chordType = 'major';
+                                if (pad.quality === 'Minor') chordType = 'minor';
+                                else if (pad.quality === 'Minor 7') chordType = 'minor7';
+                                else if (pad.quality === 'Major 7') chordType = 'major7';
+                                else if (pad.quality === 'Dominant 7') chordType = 'dom7';
+                                else if (pad.quality === 'Diminished') chordType = 'diminished';
+
+                                // Get properly spelled note names
+                                const noteStrings = spellChordNotes(pad.notes[0], chordType, pad.romanNumeral);
+
                                 // Group notes in pairs for wrapping
                                 const pairs = [];
                                 for (let i = 0; i < noteStrings.length; i += 2) {
