@@ -568,6 +568,22 @@ body[data-context="guitar"] .pad-number {
     display: none;
 }
 
+/* Keyboard context: Move roman numeral to top right */
+body[data-context="keyboard"] .chord-pad {
+    position: relative;
+}
+
+body[data-context="keyboard"] .chord-roman {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    opacity: 0.8;
+    margin: 0;
+}
+
 /* Two-column layout for Guitar cards */
 body[data-context="guitar"] .chord-pad {
     display: grid;
@@ -599,6 +615,58 @@ body[data-context="guitar"] .chord-notes {
 
 body[data-context="guitar"] .note-pair {
     white-space: nowrap;
+}
+
+/* Responsive guitar card layout */
+@media (max-width: 768px) {
+    /* Scale down diagram on tablets */
+    body[data-context="guitar"] .chord-guitar {
+        width: 120px;
+        height: 112px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Stack layout on narrow viewports */
+    body[data-context="guitar"] .chord-pad {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    body[data-context="guitar"] .chord-guitar {
+        width: 100%;
+        max-width: 180px;
+        height: auto;
+        aspect-ratio: 150 / 140;
+        margin: 0 auto;
+    }
+
+    /* Notes in single line */
+    body[data-context="guitar"] .chord-notes {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    /* Chord name and quality on same line */
+    body[data-context="guitar"] .chord-text-column {
+        gap: 8px;
+    }
+
+    body[data-context="guitar"] .chord-pad-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 400px) {
+    /* Further scale down on very narrow screens */
+    body[data-context="guitar"] .chord-guitar {
+        max-width: 140px;
+    }
 }
 
 .tooltip {
@@ -773,30 +841,9 @@ footer a:hover {
         display: none !important;
     }
 
-    /* Ensure no blank pages */
+    /* Default page setup */
     @page {
         margin: 1cm;
-    }
-
-    /* Named pages for different orientations */
-    @page portrait-page {
-        size: portrait;
-        margin: 1cm;
-    }
-
-    @page landscape-page {
-        size: landscape;
-        margin: 1cm;
-    }
-
-    /* Apply portrait to guitar context progression cards (diagrams are tall) */
-    body[data-context="guitar"] .progression-card {
-        page: portrait-page;
-    }
-
-    /* Apply landscape to keyboard context progression cards (diagrams are wide) */
-    body[data-context="keyboard"] .progression-card {
-        page: landscape-page;
     }
 
     body {
@@ -813,5 +860,19 @@ footer a:hover {
         margin: 0;
         padding: 0;
         gap: 0;
+    }
+}
+
+/* Page orientation for print - must be defined outside @media */
+@page {
+    size: portrait;
+    margin: 1cm;
+}
+
+/* Override for keyboard context */
+@media print {
+    /* Guitar stays portrait (default), keyboard needs landscape */
+    body[data-context="keyboard"] {
+        /* Handled via JavaScript size injection if needed */
     }
 }

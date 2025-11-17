@@ -1723,6 +1723,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Handle print orientation based on context
+    let printStyleElement = null;
+
+    window.addEventListener('beforeprint', () => {
+        // Remove any existing print style
+        if (printStyleElement) {
+            printStyleElement.remove();
+        }
+
+        // Create dynamic @page rule based on current context
+        printStyleElement = document.createElement('style');
+        if (currentContext === 'keyboard') {
+            // Keyboard diagrams are wide - use landscape
+            printStyleElement.textContent = '@page { size: landscape; margin: 1cm; }';
+        } else {
+            // Guitar and MPC use portrait (guitar diagrams are tall)
+            printStyleElement.textContent = '@page { size: portrait; margin: 1cm; }';
+        }
+        document.head.appendChild(printStyleElement);
+    });
+
+    window.addEventListener('afterprint', () => {
+        // Clean up after printing
+        if (printStyleElement) {
+            printStyleElement.remove();
+            printStyleElement = null;
+        }
+    });
+
     // Initialize context
     switchContext('mpc');
 });
