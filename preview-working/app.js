@@ -7,17 +7,13 @@ import {
     getScaleDegrees,
     getChordQualityForMode,
     buildChord,
-    buildChordRaw,
     getChordName,
     getRomanNumeral,
     generateProgressionChords,
-    getEnharmonicContext,
-    getNoteNameWithContext,
     spellChordNotes
 } from './modules/musicTheory.js';
 
 import {
-    guitarChords,
     getGuitarChord
 } from './modules/guitarChords.js';
 
@@ -141,6 +137,12 @@ function clearChordRequirements() {
     renderChordRequirements();
     analyzeCompatibleKeys();
 }
+
+// Expose functions to global scope for HTML onclick attributes
+window.toggleChordMatcher = toggleChordMatcher;
+window.addChordRequirement = addChordRequirement;
+window.removeChordRequirement = removeChordRequirement;
+window.clearChordRequirements = clearChordRequirements;
 
 function renderChordRequirements() {
     const container = document.getElementById('selectedChords');
