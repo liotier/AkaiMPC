@@ -208,7 +208,7 @@ h1 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .filter-group {
@@ -265,14 +265,72 @@ button:disabled {
 }
 
 .action-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     margin-bottom: 24px;
 }
 
 .action-buttons .full-width {
-    grid-column: 1 / -1;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.random-buttons-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    background: var(--pad-bg);
+}
+
+.random-buttons-group button {
+    flex: 1 1 auto;
+    min-width: 200px;
+}
+
+/* Context tabs container */
+.context-tabs-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.context-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.context-tab {
+    padding: 10px 20px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.context-tab:hover {
+    background: var(--pad-hover);
+    border-color: var(--accent);
+}
+
+.context-tab.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.context-tab.active:hover {
+    background: var(--accent-dark);
 }
 
 .progressions {
@@ -286,12 +344,6 @@ button:disabled {
     border-radius: var(--radius);
     padding: 14px;
     background: white;
-    transition: all 0.2s ease;
-}
-
-.progression-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transform: translateY(-2px);
 }
 
 .progression-header {
@@ -365,6 +417,18 @@ button:disabled {
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
     max-width: 600px;
+}
+
+/* Wider grid for keyboard and guitar contexts */
+body[data-context="keyboard"] .chord-grid,
+body[data-context="guitar"] .chord-grid {
+    max-width: 100%;
+}
+
+/* Hide download buttons in Keyboard and Guitar contexts */
+body[data-context="keyboard"] .download-btn,
+body[data-context="guitar"] .download-btn {
+    display: none;
 }
 
 .chord-pad {
@@ -466,6 +530,145 @@ button:disabled {
     height: 100%;
 }
 
+.chord-guitar {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    width: 100%;
+    height: 60px;
+    display: none;
+}
+
+.chord-guitar svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Show/hide notation based on context */
+/* MPC and Keyboard contexts show keyboard diagrams */
+body[data-context="mpc"] .chord-keyboard,
+body[data-context="keyboard"] .chord-keyboard {
+    display: block;
+}
+
+/* Only Guitar context shows guitar diagrams */
+body[data-context="guitar"] .chord-guitar {
+    display: block;
+}
+
+/* Hide guitar in MPC/Keyboard, hide keyboard in Guitar */
+body[data-context="mpc"] .chord-guitar,
+body[data-context="keyboard"] .chord-guitar,
+body[data-context="guitar"] .chord-keyboard {
+    display: none;
+}
+
+/* Hide pad numbers in Keyboard and Guitar contexts */
+body[data-context="keyboard"] .pad-number,
+body[data-context="guitar"] .pad-number {
+    display: none;
+}
+
+/* Keyboard context: Move roman numeral to top right */
+body[data-context="keyboard"] .chord-pad {
+    position: relative;
+}
+
+body[data-context="keyboard"] .chord-roman {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    opacity: 0.8;
+    margin: 0;
+}
+
+/* Two-column layout for Guitar cards */
+body[data-context="guitar"] .chord-pad {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: start;
+    min-height: 150px;
+}
+
+body[data-context="guitar"] .chord-text-column {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+body[data-context="guitar"] .chord-guitar {
+    width: 150px;
+    height: 140px;
+    margin: 0;
+}
+
+/* Wrap notes every 2 notes in Guitar context */
+body[data-context="guitar"] .chord-notes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    max-width: 150px;
+}
+
+body[data-context="guitar"] .note-pair {
+    white-space: nowrap;
+}
+
+/* Responsive guitar card layout */
+@media (max-width: 768px) {
+    /* Scale down diagram on tablets */
+    body[data-context="guitar"] .chord-guitar {
+        width: 120px;
+        height: 112px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Stack layout on narrow viewports */
+    body[data-context="guitar"] .chord-pad {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    body[data-context="guitar"] .chord-guitar {
+        width: 100%;
+        max-width: 180px;
+        height: auto;
+        aspect-ratio: 150 / 140;
+        margin: 0 auto;
+    }
+
+    /* Notes in single line */
+    body[data-context="guitar"] .chord-notes {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    /* Chord name and quality on same line */
+    body[data-context="guitar"] .chord-text-column {
+        gap: 8px;
+    }
+
+    body[data-context="guitar"] .chord-pad-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 400px) {
+    /* Further scale down on very narrow screens */
+    body[data-context="guitar"] .chord-guitar {
+        max-width: 140px;
+    }
+}
+
 .tooltip {
     position: absolute;
     background: rgba(0, 0, 0, 0.9);
@@ -534,30 +737,142 @@ footer a:hover {
     .controls {
         grid-template-columns: 1fr;
     }
-    
+
     .header {
         flex-direction: column;
         gap: 12px;
     }
-    
-    .action-buttons {
-        grid-template-columns: 1fr;
-    }
-    
-    .action-buttons .full-width {
-        grid-column: 1;
+
+    .random-buttons-group {
+        flex-direction: column;
     }
 
-    .action-buttons .empty-cell {
-        display: none;
+    .random-buttons-group button {
+        min-width: 100%;
+    }
+
+    .context-tabs-container {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .chord-grid {
         max-width: 100%;
     }
-    
+
     .chord-pad {
         min-height: 80px;
         padding: 8px;
+    }
+}
+
+/* Print styles */
+@media print {
+    /* Hide all controls and headers */
+    .header,
+    .chord-matcher,
+    .controls,
+    .action-buttons,
+    .context-tabs-container,
+    footer,
+    .download-btn {
+        display: none !important;
+    }
+
+    /* Show progressions container */
+    .progressions {
+        display: block !important;
+    }
+
+    /* Each progression on its own page */
+    .progression-card {
+        page-break-after: always;
+        page-break-inside: avoid;
+        border: none;
+        padding: 0;
+        margin: 0;
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    /* Remove margins from first progression */
+    .progression-card:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .progression-header {
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #000;
+    }
+
+    .progression-title {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .chord-grid {
+        max-width: 100%;
+    }
+
+    .chord-pad {
+        border: 1px solid #000;
+        background: white;
+        page-break-inside: avoid;
+    }
+
+    /* For Guitar and Keyboard contexts - show appropriate notation */
+    /* MPC and Keyboard show keyboard diagrams when printing */
+    body[data-context="mpc"] .chord-keyboard,
+    body[data-context="keyboard"] .chord-keyboard {
+        display: block !important;
+    }
+
+    /* Guitar shows guitar diagrams when printing */
+    body[data-context="guitar"] .chord-guitar {
+        display: block !important;
+    }
+
+    /* Hide guitar in MPC/Keyboard print, hide keyboard in Guitar print */
+    body[data-context="mpc"] .chord-guitar,
+    body[data-context="keyboard"] .chord-guitar,
+    body[data-context="guitar"] .chord-keyboard {
+        display: none !important;
+    }
+
+    /* Default page setup */
+    @page {
+        margin: 1cm;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .app {
+        padding: 0;
+        margin: 0;
+    }
+
+    .progressions {
+        margin: 0;
+        padding: 0;
+        gap: 0;
+    }
+}
+
+/* Page orientation for print - must be defined outside @media */
+@page {
+    size: portrait;
+    margin: 1cm;
+}
+
+/* Override for keyboard context */
+@media print {
+    /* Guitar stays portrait (default), keyboard needs landscape */
+    body[data-context="keyboard"] {
+        /* Handled via JavaScript size injection if needed */
     }
 }

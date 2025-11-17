@@ -3,7 +3,7 @@ name: Deploy Claude Preview to GitHub Pages
 on:
   push:
     branches:
-      - claude/review-dev-status-011CV67MScZSsav95jDHJDkV
+      - claude/preview-working-01MUemracESBMU7M5VsATGHe
 
 permissions:
   contents: write

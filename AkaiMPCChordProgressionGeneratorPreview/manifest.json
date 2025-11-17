@@ -1,0 +1,23 @@
+{
+  "name": "Akai MPC Chord Progression Generator - Preview",
+  "short_name": "MPC Chords (Preview)",
+  "description": "Preview version - Interactive web app to design and explore chord progressions for Akai MPC with multi-context display. Free, browser-based, no installation required.",
+  "start_url": "AkaiMPCChordProgressionGenerator.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#1a1a1a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
