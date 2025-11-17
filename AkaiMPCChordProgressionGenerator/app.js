@@ -686,7 +686,8 @@ function getScaleDegrees(mode) {
 
 function buildChord(root, chordType, keyOffset) {
     const baseNote = 60 + keyOffset + root;
-    
+    console.log(`buildChord: root=${root}, chordType=${chordType}, keyOffset=${keyOffset}, baseNote=${baseNote}`);
+
     switch (chordType) {
         case 'major':
             return [baseNote, baseNote + 4, baseNote + 7];
@@ -710,7 +711,8 @@ function buildChord(root, chordType, keyOffset) {
 function getChordName(degree, chordType, keyOffset) {
     const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const rootNote = noteNames[(degree + keyOffset) % 12];
-    
+    console.log(`getChordName: degree=${degree}, keyOffset=${keyOffset}, rootNote=${rootNote}`);
+
     switch (chordType) {
         case 'minor':
         case 'minor7':
