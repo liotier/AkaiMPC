@@ -521,10 +521,10 @@ function getRomanNumeral(degree, isMinor = false, isDim = false) {
 function generateKeyboardSVG(notes) {
     if (!notes || notes.length === 0) return '';
     
-    // Determine octave range to display - center around the chord
+    // Determine octave range to display - start at the lowest note's octave
     const minNote = Math.min(...notes);
     const maxNote = Math.max(...notes);
-    const startOctave = Math.floor(minNote / 12) - 1;
+    const startOctave = Math.floor(minNote / 12);
     const startNote = startOctave * 12;
     
     // Create set of active notes (absolute, not modulo)
