@@ -34,14 +34,6 @@ Found a sample with killer chords but don't know the key? The Chord Matcher lets
 
 ## Musical Intelligence Under the Hood
 
-### Dynamic Row 4: Your Secret Weapon
-The fourth row isn't just filler—it's dynamically calculated based on sophisticated harmonic analysis:
-
-- **Harmonic Function Analysis** - Identifies what your progression needs: missing tonic resolution? Need more tension? The algorithm knows.
-- **Voice Leading Optimization** - Selects chords that create the smoothest transitions with minimal finger movement
-- **Context-Aware Suggestions** - Adds borrowed chords, secondary dominants, and modal interchange based on your selected style
-- **Genre Intelligence** - Hip-hop? Adds that ♭VII. Jazz? Throws in a ii-V. Neo-soul? Extended harmony all day.
-
 ### Four Intelligent Variants, Four Different Vibes
 
 Each generation creates four musically distinct versions of your progression:
@@ -74,6 +66,14 @@ Covering every genre and era:
 - **Blues Forms**: 12-bar blues, 8-bar blues, minor blues with proper substitutions
 - **Classical**: Circle of Fifths, Andalusian Cadence, Pachelbel's Canon sequence
 - **Electronic**: EDM build progressions, Future Bass sequences, Lo-fi hip-hop loops
+
+### Dynamic Row 4: Your Secret Weapon
+The fourth row isn't just filler—it's dynamically calculated based on sophisticated harmonic analysis:
+
+- **Harmonic Function Analysis** - Identifies what your progression needs: missing tonic resolution? Need more tension? The algorithm knows.
+- **Voice Leading Optimization** - Selects chords that create the smoothest transitions with minimal finger movement
+- **Context-Aware Suggestions** - Adds borrowed chords, secondary dominants, and modal interchange based on your selected style
+- **Genre Intelligence** - Hip-hop? Adds that ♭VII. Jazz? Throws in a ii-V. Neo-soul? Extended harmony all day.
 
 ## Production-Ready Features
 
@@ -130,7 +130,7 @@ Together, they provide the complete harmonic toolkit for modern MPC-based Pad Pe
 - Responsive CSS Grid that mirrors the MPC's 4×4 pad layout
 - JSZip for seamless multi-file exports
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Feel free to:
 - Report bugs or suggest features via GitHub Issues
