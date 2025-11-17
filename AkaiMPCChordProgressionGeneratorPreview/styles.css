@@ -425,6 +425,12 @@ body[data-context="guitar"] .chord-grid {
     max-width: 100%;
 }
 
+/* Hide download buttons in Keyboard and Guitar contexts */
+body[data-context="keyboard"] .download-btn,
+body[data-context="guitar"] .download-btn {
+    display: none;
+}
+
 .chord-pad {
     background: var(--pad-bg);
     border: 1px solid var(--border);
