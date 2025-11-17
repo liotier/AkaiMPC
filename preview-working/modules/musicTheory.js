@@ -142,6 +142,20 @@ export const progressions = {
         { value: 'i—♭II—i', name: 'i—♭II—i', nickname: 'Thrash' },
         { value: 'i—♭VII—♭VI—V', name: 'i—♭VII—♭VI—V', nickname: 'Melodic Metal' },
         { value: 'i—iv—v—i', name: 'i—iv—v—i', nickname: 'Minor Rock' }
+    ],
+    'Trance/Psytrance/Goa': [
+        { value: 'i—v', name: 'i—v', nickname: 'Minimal Trance' },
+        { value: 'i—VII', name: 'i—VII', nickname: 'Phrygian Trance' },
+        { value: 'i—♭VII—i—♭VI', name: 'i—♭VII—i—♭VI', nickname: 'Classic Goa' },
+        { value: 'i—♭II—♭VII—i', name: 'i—♭II—♭VII—i', nickname: 'Phrygian Dominant' },
+        { value: 'i—V—♭VI—♭VII', name: 'i—V—♭VI—♭VII', nickname: 'Uplifting Trance' },
+        { value: 'i—iv—VII—III', name: 'i—iv—VII—III', nickname: 'Harmonic Minor Psy' },
+        { value: 'i—♭VI—III—VII', name: 'i—♭VI—III—VII', nickname: 'Dark Psy' },
+        { value: 'i—♭III—♭VI—V', name: 'i—♭III—♭VI—V', nickname: 'Progressive Psy' },
+        { value: 'i—VII—VI—VII', name: 'i—VII—VI—VII', nickname: 'Full-On' },
+        { value: 'i—♭II—VII—V', name: 'i—♭II—VII—V', nickname: 'Goa Classic' },
+        { value: 'i—iv—i—VII', name: 'i—iv—i—VII', nickname: 'Forest Psy' },
+        { value: 'i—III—VII—IV', name: 'i—III—VII—IV', nickname: 'Morning Trance' }
     ]
 };
 
