@@ -5,6 +5,7 @@ let progressionName = '';
 let variants = [];
 let audioContext = null;
 let chordRequirements = [];
+let currentContext = 'mpc'; // 'mpc', 'keyboard', or 'guitar'
 
 // Data definitions
 const keys = ['C', 'C♯/D♭', 'D', 'D♯/E♭', 'E', 'F', 'F♯/G♭', 'G', 'G♯/A♭', 'A', 'A♯/B♭', 'B'];
@@ -558,6 +559,126 @@ function generateKeyboardSVG(notes) {
     
     svg += '</svg>';
     return svg;
+}
+
+// Guitar chord diagram generation
+function generateGuitarSVG(notes, chordName) {
+    if (!notes || notes.length === 0) return '';
+
+    // Simple guitar chord diagram database for common chords
+    const guitarChords = {
+        'C': [null, 3, 2, 0, 1, 0],
+        'Cmaj7': [null, 3, 2, 0, 0, 0],
+        'C#': [null, 4, 6, 6, 6, 4],
+        'C#m': [null, 4, 6, 6, 5, 4],
+        'D': [null, null, 0, 2, 3, 2],
+        'Dm': [null, null, 0, 2, 3, 1],
+        'Dmaj7': [null, null, 0, 2, 2, 2],
+        'Dm7': [null, null, 0, 2, 1, 1],
+        'D#': [null, null, 1, 3, 4, 3],
+        'D#m': [null, null, 1, 3, 4, 2],
+        'E': [0, 2, 2, 1, 0, 0],
+        'Em': [0, 2, 2, 0, 0, 0],
+        'Emaj7': [0, 2, 1, 1, 0, 0],
+        'Em7': [0, 2, 0, 0, 0, 0],
+        'F': [1, 3, 3, 2, 1, 1],
+        'Fm': [1, 3, 3, 1, 1, 1],
+        'F#': [2, 4, 4, 3, 2, 2],
+        'F#m': [2, 4, 4, 2, 2, 2],
+        'G': [3, 2, 0, 0, 0, 3],
+        'Gm': [3, 5, 5, 3, 3, 3],
+        'Gmaj7': [3, 2, 0, 0, 0, 2],
+        'Gm7': [3, 5, 3, 3, 3, 3],
+        'G#': [4, 6, 6, 5, 4, 4],
+        'G#m': [4, 6, 6, 4, 4, 4],
+        'A': [null, 0, 2, 2, 2, 0],
+        'Am': [null, 0, 2, 2, 1, 0],
+        'Amaj7': [null, 0, 2, 1, 2, 0],
+        'Am7': [null, 0, 2, 0, 1, 0],
+        'A#': [null, 1, 3, 3, 3, 1],
+        'A#m': [null, 1, 3, 3, 2, 1],
+        'B': [null, 2, 4, 4, 4, 2],
+        'Bm': [null, 2, 4, 4, 3, 2],
+        'Bmaj7': [null, 2, 4, 3, 4, 2],
+        'Bm7': [null, 2, 4, 2, 3, 2]
+    };
+
+    const fretPositions = guitarChords[chordName];
+    if (!fretPositions) {
+        // Default: show "N/A" text
+        return `<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+            <text x="50" y="30" text-anchor="middle" font-size="12" fill="#666">N/A</text>
+        </svg>`;
+    }
+
+    const width = 100;
+    const height = 60;
+    const stringSpacing = 16;
+    const fretSpacing = 10;
+    const startX = 20;
+    const startY = 15;
+    const numFrets = 4;
+
+    let svg = `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
+
+    // Draw frets
+    for (let i = 0; i <= numFrets; i++) {
+        const y = startY + i * fretSpacing;
+        const strokeWidth = i === 0 ? 2 : 1;
+        svg += `<line x1="${startX}" y1="${y}" x2="${startX + stringSpacing * 5}" y2="${y}" stroke="#333" stroke-width="${strokeWidth}"/>`;
+    }
+
+    // Draw strings
+    for (let i = 0; i < 6; i++) {
+        const x = startX + i * stringSpacing;
+        svg += `<line x1="${x}" y1="${startY}" x2="${x}" y2="${startY + numFrets * fretSpacing}" stroke="#333" stroke-width="1"/>`;
+    }
+
+    // Draw finger positions
+    fretPositions.forEach((fret, stringIndex) => {
+        const x = startX + stringIndex * stringSpacing;
+        if (fret === null) {
+            // Draw X for muted string
+            svg += `<text x="${x}" y="${startY - 5}" text-anchor="middle" font-size="10" fill="#666">×</text>`;
+        } else if (fret === 0) {
+            // Draw O for open string
+            svg += `<circle cx="${x}" cy="${startY - 5}" r="4" fill="none" stroke="#666" stroke-width="1"/>`;
+        } else {
+            // Draw dot on fret
+            const y = startY + (fret - 0.5) * fretSpacing;
+            svg += `<circle cx="${x}" cy="${y}" r="4" fill="#f59e0b"/>`;
+        }
+    });
+
+    svg += '</svg>';
+    return svg;
+}
+
+// Context switching
+function switchContext(context) {
+    currentContext = context;
+    document.body.setAttribute('data-context', context);
+
+    // Update active tab
+    document.querySelectorAll('.context-tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.getAttribute('data-context') === context) {
+            tab.classList.add('active');
+        }
+    });
+
+    // Update button label
+    const downloadBtn = document.getElementById('downloadAllBtn');
+    if (context === 'mpc') {
+        downloadBtn.textContent = 'Download all .progression files';
+    } else {
+        downloadBtn.textContent = 'Print all progressions';
+    }
+}
+
+// Print all progressions (for keyboard/guitar contexts)
+function printAllProgressions() {
+    window.print();
 }
 
 // Dynamic Row 4 Analysis Functions
@@ -1226,6 +1347,7 @@ function renderProgressions() {
                     <div class="chord-quality">${pad.quality}</div>
                     <div class="chord-roman">${pad.romanNumeral}</div>
                     <div class="chord-keyboard">${generateKeyboardSVG(pad.notes)}</div>
+                    <div class="chord-guitar">${generateGuitarSVG(pad.notes, pad.chordName)}</div>
                     <div class="chord-notes">
                         ${pad.notes.map(note => {
                             const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][note % 12];
@@ -1427,5 +1549,24 @@ document.addEventListener('DOMContentLoaded', function() {
         generateRandom(false);
         generateProgressions();
     });
-    document.getElementById('downloadAllBtn').addEventListener('click', exportProgressions);
+
+    // Handle Download/Print button based on context
+    document.getElementById('downloadAllBtn').addEventListener('click', () => {
+        if (currentContext === 'mpc') {
+            exportProgressions();
+        } else {
+            printAllProgressions();
+        }
+    });
+
+    // Context tab switching
+    document.querySelectorAll('.context-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const context = tab.getAttribute('data-context');
+            switchContext(context);
+        });
+    });
+
+    // Initialize context
+    switchContext('mpc');
 });

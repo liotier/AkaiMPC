@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPC Chord Progression Generator</title>
+    <title>MPC Chord Progression Generator - Preview</title>
+    <meta name="description" content="Interactive web app to design and explore chord progressions for Akai MPC. Free, browser-based, no installation required.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="app.js" defer></script>
@@ -97,12 +101,19 @@
 
         <div class="action-buttons">
             <button class="primary full-width" id="generateBtn">Generate Progressions</button>
-            <button id="cluelessBtn">I'm clueless but reasonable</button>
-            <div class="empty-cell"></div>
-            <div class="empty-cell"></div>
-            <button id="luckyBtn">I'm feeling lucky</button>
-            <div class="empty-cell"></div>
-            <button class="primary" id="downloadAllBtn" style="display: none;">Download all</button>
+            <div class="random-buttons-group" title="No inspiration for selecting parameters ? Try these random selections !">
+                <button id="cluelessBtn">I'm clueless but reasonable</button>
+                <button id="luckyBtn">I'm feeling lucky</button>
+            </div>
+        </div>
+
+        <div class="context-tabs-container">
+            <div class="context-tabs">
+                <button class="context-tab active" data-context="mpc">MPC Pads</button>
+                <button class="context-tab" data-context="keyboard">Keyboard</button>
+                <button class="context-tab" data-context="guitar">Guitar</button>
+            </div>
+            <button class="primary" id="downloadAllBtn" style="display: none;">Download all .progression files</button>
         </div>
 
         <div id="progressionsContainer" class="progressions hidden"></div>
