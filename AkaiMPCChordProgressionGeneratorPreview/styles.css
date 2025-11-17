@@ -905,31 +905,10 @@ footer a:hover {
 /* Sparkle animation for auto-generation feature */
 @keyframes rainbowScan {
     0% {
-        mask-position: -150% center;
+        mask-position: -100% center;
     }
     100% {
-        mask-position: 250% center;
-    }
-}
-
-@keyframes sparkleGlow {
-    0%, 100% {
-        box-shadow:
-            0 0 0 0 rgba(236, 72, 153, 0),
-            0 0 0 0 rgba(168, 85, 247, 0),
-            0 0 0 0 rgba(59, 130, 246, 0),
-            0 0 0 0 rgba(34, 211, 238, 0),
-            0 0 0 0 rgba(52, 211, 153, 0),
-            0 0 0 0 rgba(251, 191, 36, 0);
-    }
-    50% {
-        box-shadow:
-            0 0 15px 3px rgba(236, 72, 153, 0.4),
-            0 0 15px 3px rgba(168, 85, 247, 0.4),
-            0 0 15px 3px rgba(59, 130, 246, 0.4),
-            0 0 20px 5px rgba(34, 211, 238, 0.3),
-            0 0 20px 5px rgba(52, 211, 153, 0.3),
-            0 0 25px 8px rgba(251, 191, 36, 0.3);
+        mask-position: 200% center;
     }
 }
 
@@ -947,29 +926,22 @@ button.primary.sparkle::before {
     bottom: 0;
     background: linear-gradient(
         90deg,
-        #ec4899 0%,
-        #a855f7 16%,
-        #3b82f6 32%,
-        #22d3ee 48%,
-        #34d399 64%,
-        #fbbf24 80%,
-        #ec4899 100%
+        #ec4899,
+        #a855f7,
+        #3b82f6,
+        #22d3ee,
+        #34d399,
+        #fbbf24
     );
     mask: linear-gradient(
         90deg,
         transparent 0%,
-        transparent 30%,
-        rgba(255,255,255,0.3) 40%,
-        rgba(255,255,255,0.9) 50%,
-        rgba(255,255,255,0.3) 60%,
-        transparent 70%,
+        rgba(255,255,255,0.2) 25%,
+        rgba(255,255,255,0.7) 50%,
+        rgba(255,255,255,0.2) 75%,
         transparent 100%
     );
-    mask-size: 200% 100%;
+    mask-size: 100% 100%;
     animation: rainbowScan 0.3s ease-out;
     pointer-events: none;
-}
-
-button.primary.sparkle {
-    animation: sparkleGlow 0.3s ease-out;
 }
