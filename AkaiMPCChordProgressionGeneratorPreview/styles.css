@@ -578,27 +578,17 @@ body[data-context="guitar"] .chord-pad {
     min-height: 150px;
 }
 
-body[data-context="guitar"] .chord-pad-content {
+body[data-context="guitar"] .chord-pad-content,
+body[data-context="guitar"] .chord-quality,
+body[data-context="guitar"] .chord-roman,
+body[data-context="guitar"] .chord-notes {
     grid-column: 1;
-    grid-row: 1;
+}
+
+body[data-context="guitar"] .chord-pad-content {
     display: flex;
     flex-direction: column;
     gap: 4px;
-}
-
-body[data-context="guitar"] .chord-quality {
-    grid-column: 1;
-    grid-row: 2;
-}
-
-body[data-context="guitar"] .chord-roman {
-    grid-column: 1;
-    grid-row: 3;
-}
-
-body[data-context="guitar"] .chord-notes {
-    grid-column: 1;
-    grid-row: 4;
 }
 
 body[data-context="guitar"] .chord-guitar {
