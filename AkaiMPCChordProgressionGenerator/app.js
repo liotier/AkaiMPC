@@ -144,6 +144,11 @@ window.addChordRequirement = addChordRequirement;
 window.removeChordRequirement = removeChordRequirement;
 window.clearChordRequirements = clearChordRequirements;
 
+// Expose state variables for debugging (read-only via getters)
+Object.defineProperty(window, 'selectedKey', { get: () => selectedKey });
+Object.defineProperty(window, 'selectedMode', { get: () => selectedMode });
+Object.defineProperty(window, 'selectedProgression', { get: () => selectedProgression });
+
 function renderChordRequirements() {
     const container = document.getElementById('selectedChords');
 
@@ -1195,7 +1200,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const prefsToApply = urlPrefs || storedPrefs;
 
     if (prefsToApply) {
-        applyPreferences(prefsToApply);
+        const applied = applyPreferences(prefsToApply);
+        // CRITICAL: Update state variables from applied preferences
+        if (applied) {
+            if (applied.key) selectedKey = applied.key;
+            if (applied.mode) selectedMode = applied.mode;
+            if (applied.progression) selectedProgression = applied.progression;
+            if (applied.leftHanded !== undefined) isLeftHanded = applied.leftHanded;
+        }
     }
 
     updateProgressionName();
