@@ -15,6 +15,15 @@ export const modes = {
     'Compact/Popular': [
         'Pentatonic Major', 'Pentatonic Minor', 'Blues'
     ],
+    'Symmetrical/Jazz': [
+        'Whole Tone', 'Diminished (W-H)', 'Diminished (H-W)', 'Augmented'
+    ],
+    'Arabic Maqamat': [
+        'Maqam Hijaz', 'Maqam Bayati', 'Maqam Rast', 'Maqam Saba', 'Maqam Kurd'
+    ],
+    'Indian Ragas': [
+        'Bhairav', 'Kafi', 'Yaman', 'Bhairavi', 'Todi'
+    ],
     'Exotic': [
         'Double Harmonic', 'Hungarian Minor', 'Neapolitan Major', 'Neapolitan Minor',
         'Enigmatic', 'Phrygian Dominant', 'Persian', 'Hirajoshi', 'Insen', 'Kumoi',
@@ -103,6 +112,24 @@ export function getScaleDegrees(mode) {
         'Pentatonic Major': [0, 2, 4, 7, 9],
         'Pentatonic Minor': [0, 3, 5, 7, 10],
         'Blues': [0, 3, 5, 6, 7, 10],
+        // Symmetrical/Jazz scales
+        'Whole Tone': [0, 2, 4, 6, 8, 10],  // 6 notes, all whole steps
+        'Diminished (W-H)': [0, 2, 3, 5, 6, 8, 9, 11],  // Whole-Half octatonic
+        'Diminished (H-W)': [0, 1, 3, 4, 6, 7, 9, 10],  // Half-Whole octatonic
+        'Augmented': [0, 3, 4, 7, 8, 11],  // Hexatonic scale
+        // Arabic Maqamat (12-TET approximations)
+        'Maqam Hijaz': [0, 1, 4, 5, 7, 8, 11],  // Like Phrygian Dominant
+        'Maqam Bayati': [0, 1.5, 3, 5, 7, 8, 10],  // Quarter tone approximated to [0, 2, 3, 5, 7, 8, 10]
+        'Maqam Rast': [0, 2, 3.5, 5, 7, 9, 10.5],  // Quarter tone approximated to [0, 2, 4, 5, 7, 9, 11]
+        'Maqam Saba': [0, 1.5, 3, 4, 6, 8, 10],  // Quarter tone approximated to [0, 1, 3, 4, 6, 8, 10]
+        'Maqam Kurd': [0, 1, 3, 5, 7, 8, 10],  // Like Phrygian
+        // Indian Ragas (12-TET approximations)
+        'Bhairav': [0, 1, 4, 5, 7, 8, 11],  // Double Harmonic
+        'Kafi': [0, 2, 3, 5, 7, 9, 10],  // Like Dorian
+        'Yaman': [0, 2, 4, 6, 7, 9, 11],  // Like Lydian
+        'Bhairavi': [0, 1, 3, 5, 7, 8, 10],  // Like Phrygian
+        'Todi': [0, 1, 3, 6, 7, 8, 11],  // Unique raga scale
+        // Exotic scales
         'Double Harmonic': [0, 1, 4, 5, 7, 8, 11],
         'Hungarian Minor': [0, 2, 3, 6, 7, 8, 11],
         'Neapolitan Major': [0, 1, 3, 5, 7, 9, 11],
@@ -115,7 +142,10 @@ export function getScaleDegrees(mode) {
         'Kumoi': [0, 2, 3, 7, 9],
         'Egyptian Pentatonic': [0, 2, 5, 7, 10]
     };
-    return scales[mode] || scales['Major'];
+
+    // Handle quarter tone approximations
+    const scale = scales[mode] || scales['Major'];
+    return scale.map(note => Math.round(note));  // Round any quarter tones to nearest semitone
 }
 
 // Get chord quality for a scale degree in a given mode
@@ -315,6 +345,135 @@ export function getChordQualityForMode(degree, mode) {
             2: 'minor',   // iv
             3: 'minor',   // v
             4: 'major'    // VII (with b7)
+        },
+        // Symmetrical/Jazz scales
+        'Whole Tone': {
+            0: 'major',   // I (augmented context)
+            1: 'major',   // II
+            2: 'major',   // III
+            3: 'major',   // #IV
+            4: 'major',   // #V
+            5: 'major'    // #VI
+        },
+        'Diminished (W-H)': {
+            0: 'diminished',  // i°
+            1: 'minor',   // ii
+            2: 'diminished',  // iii°
+            3: 'major',   // IV
+            4: 'diminished',  // v°
+            5: 'minor',   // vi
+            6: 'diminished',  // vii°
+            7: 'major'    // I (octave)
+        },
+        'Diminished (H-W)': {
+            0: 'minor',   // i
+            1: 'diminished',  // ii°
+            2: 'minor',   // iii
+            3: 'diminished',  // iv°
+            4: 'minor',   // v
+            5: 'diminished',  // vi°
+            6: 'minor',   // vii
+            7: 'diminished'  // i° (octave)
+        },
+        'Augmented': {
+            0: 'major',   // I (augmented context)
+            1: 'minor',   // iii
+            2: 'major',   // III
+            3: 'major',   // V
+            4: 'major',   // VI
+            5: 'major'    // VII
+        },
+        // Arabic Maqamat
+        'Maqam Hijaz': {
+            0: 'major',   // I
+            1: 'major',   // II (with b2)
+            2: 'diminished',  // iii°
+            3: 'minor',   // iv
+            4: 'minor',   // v
+            5: 'major',   // VI (with b6)
+            6: 'minor'    // vii
+        },
+        'Maqam Bayati': {
+            0: 'minor',   // i
+            1: 'major',   // II
+            2: 'minor',   // iii
+            3: 'minor',   // iv
+            4: 'minor',   // v
+            5: 'major',   // VI
+            6: 'major'    // VII
+        },
+        'Maqam Rast': {
+            0: 'major',   // I
+            1: 'major',   // II
+            2: 'major',   // III
+            3: 'major',   // IV
+            4: 'major',   // V
+            5: 'minor',   // vi
+            6: 'major'    // VII
+        },
+        'Maqam Saba': {
+            0: 'minor',   // i
+            1: 'major',   // II (with b2)
+            2: 'minor',   // iii
+            3: 'diminished',  // iv°
+            4: 'major',   // V (with b5)
+            5: 'major',   // VI (with b6)
+            6: 'major'    // VII
+        },
+        'Maqam Kurd': {
+            0: 'minor',   // i
+            1: 'major',   // II
+            2: 'major',   // III
+            3: 'minor',   // iv
+            4: 'diminished',  // v°
+            5: 'major',   // VI
+            6: 'minor'    // vii
+        },
+        // Indian Ragas
+        'Bhairav': {
+            0: 'major',   // I
+            1: 'major',   // II (with b2)
+            2: 'major',   // III
+            3: 'minor',   // iv
+            4: 'major',   // V
+            5: 'major',   // VI (with b6)
+            6: 'diminished'  // vii°
+        },
+        'Kafi': {
+            0: 'minor',   // i
+            1: 'minor',   // ii
+            2: 'major',   // III
+            3: 'major',   // IV
+            4: 'minor',   // v
+            5: 'diminished',  // vi°
+            6: 'major'    // VII
+        },
+        'Yaman': {
+            0: 'major',   // I
+            1: 'major',   // II
+            2: 'minor',   // iii
+            3: 'diminished',  // #iv°
+            4: 'major',   // V
+            5: 'minor',   // vi
+            6: 'minor'    // vii
+        },
+        'Bhairavi': {
+            0: 'minor',   // i
+            1: 'major',   // II
+            2: 'major',   // III
+            3: 'minor',   // iv
+            4: 'diminished',  // v°
+            5: 'major',   // VI
+            6: 'minor'    // vii
+        },
+        'Todi': {
+            0: 'minor',   // i
+            1: 'major',   // II (with b2)
+            2: 'minor',   // iii
+            3: 'diminished',  // #iv°
+            4: 'major',   // V
+            5: 'major',   // VI (with b6)
+            6: 'diminished'  // vii°
         }
     };
 
