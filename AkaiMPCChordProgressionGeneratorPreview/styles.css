@@ -528,16 +528,21 @@ button:disabled {
 }
 
 /* Show/hide notation based on context */
+/* MPC and Keyboard contexts show keyboard diagrams */
+body[data-context="mpc"] .chord-keyboard,
 body[data-context="keyboard"] .chord-keyboard {
     display: block;
 }
 
+/* Only Guitar context shows guitar diagrams */
 body[data-context="guitar"] .chord-guitar {
     display: block;
 }
 
-body[data-context="mpc"] .chord-keyboard,
-body[data-context="mpc"] .chord-guitar {
+/* Hide guitar in MPC/Keyboard, hide keyboard in Guitar */
+body[data-context="mpc"] .chord-guitar,
+body[data-context="keyboard"] .chord-guitar,
+body[data-context="guitar"] .chord-keyboard {
     display: none;
 }
 
@@ -695,16 +700,21 @@ footer a:hover {
     }
 
     /* For Guitar and Keyboard contexts - show appropriate notation */
+    /* MPC and Keyboard show keyboard diagrams when printing */
+    body[data-context="mpc"] .chord-keyboard,
     body[data-context="keyboard"] .chord-keyboard {
         display: block !important;
     }
 
+    /* Guitar shows guitar diagrams when printing */
     body[data-context="guitar"] .chord-guitar {
         display: block !important;
     }
 
-    body[data-context="mpc"] .chord-keyboard,
-    body[data-context="mpc"] .chord-guitar {
+    /* Hide guitar in MPC/Keyboard print, hide keyboard in Guitar print */
+    body[data-context="mpc"] .chord-guitar,
+    body[data-context="keyboard"] .chord-guitar,
+    body[data-context="guitar"] .chord-keyboard {
         display: none !important;
     }
 
