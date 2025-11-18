@@ -1257,6 +1257,12 @@ document.addEventListener('DOMContentLoaded', function() {
     updateProgressionName();
     renderChordRequirements(); // Initialize chord requirements display
 
+    // Disable mode selector on page load (progressions are self-contained)
+    const modeSelect = document.getElementById('modeSelect');
+    modeSelect.disabled = true;
+    modeSelect.title = 'Mode is defined by the progression itself. In standard Roman numeral analysis, all numerals reference the parallel major scale.';
+    modeSelect.style.cursor = 'not-allowed';
+
     document.getElementById('keySelect').addEventListener('change', function() {
         selectedKey = this.value;
         updateProgressionName();
@@ -1282,6 +1288,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('progressionSelect').addEventListener('change', function() {
         selectedProgression = this.value;
         updateProgressionName();
+
+        // Disable mode selector when a progression is selected (Option A: theoretically correct)
+        // Progressions are self-contained and use parallel major scale as reference
+        const modeSelect = document.getElementById('modeSelect');
+        modeSelect.disabled = true;
+        modeSelect.title = 'Mode is defined by the progression itself. In standard Roman numeral analysis, all numerals reference the parallel major scale.';
+        modeSelect.style.cursor = 'not-allowed';
+
         saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         if (hasGeneratedOnce) {
