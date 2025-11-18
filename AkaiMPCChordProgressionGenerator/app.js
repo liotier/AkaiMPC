@@ -42,6 +42,7 @@ let chordRequirements = [];
 let currentContext = 'mpc'; // 'mpc', 'keyboard', or 'guitar'
 let isLeftHanded = false;
 let hasGeneratedOnce = false; // Track if user has generated at least once
+let generationMode = 'template'; // 'template' or 'scale'
 
 // Trigger sparkle animation on Generate button
 function triggerSparkle() {
@@ -79,6 +80,42 @@ function switchContext(context) {
         leftHandedToggle.style.display = 'flex';
     } else {
         leftHandedToggle.style.display = 'none';
+    }
+}
+
+// Generation mode switching (Template vs Scale Exploration)
+function switchGenerationMode(mode) {
+    generationMode = mode;
+    const modeSelect = document.getElementById('modeSelect');
+    const progressionSelect = document.getElementById('progressionSelect');
+    const progressionNameInput = document.getElementById('progressionName');
+
+    if (mode === 'template') {
+        // Template Mode: Progression is active, Mode is disabled
+        progressionSelect.disabled = false;
+        progressionSelect.title = '';
+        progressionSelect.style.cursor = '';
+        progressionNameInput.disabled = false;
+
+        modeSelect.disabled = true;
+        modeSelect.title = 'Mode is defined by the progression itself. In standard Roman numeral analysis, all numerals reference the parallel major scale.';
+        modeSelect.style.cursor = 'not-allowed';
+    } else {
+        // Scale Exploration Mode: Mode is active, Progression is disabled
+        modeSelect.disabled = false;
+        modeSelect.title = '';
+        modeSelect.style.cursor = '';
+
+        progressionSelect.disabled = true;
+        progressionSelect.title = 'Progression templates are not used in Scale Exploration mode. All chords from the selected scale will be generated.';
+        progressionSelect.style.cursor = 'not-allowed';
+        progressionNameInput.disabled = true;
+    }
+
+    // Re-generate if user has generated at least once
+    if (hasGeneratedOnce) {
+        triggerSparkle();
+        generateProgressions();
     }
 }
 
@@ -776,6 +813,137 @@ function createTooltip() {
     return tooltip;
 }
 
+// Generate scale exploration (all chords from a scale/mode)
+function generateScaleExploration() {
+    const keyOffset = getKeyOffset(selectedKey);
+    const scaleDegrees = getScaleDegrees(selectedMode);
+    const pads = [];
+
+    const scaleLength = scaleDegrees.length;
+
+    // Generate triads for each scale degree
+    for (let i = 0; i < scaleLength && i < 8; i++) {
+        const degree = i;
+        const scaleDegree = scaleDegrees[degree % scaleLength];
+        const chordType = getChordQualityForMode(degree, selectedMode);
+        const notes = buildChord(scaleDegree, chordType, keyOffset);
+        const chordName = getChordName(scaleDegree, chordType, keyOffset);
+        const romanNumeral = getRomanNumeral(degree, chordType.includes('minor'), chordType === 'diminished');
+
+        const quality = chordType === 'minor' ? 'Minor' :
+                       chordType === 'major' ? 'Major' :
+                       chordType === 'diminished' ? 'Diminished' : 'Major';
+
+        pads.push({
+            id: i + 1,
+            chordName,
+            romanNumeral,
+            notes,
+            quality,
+            row: Math.floor(i / 4) + 1,
+            col: (i % 4) + 1,
+            isProgressionChord: false
+        });
+    }
+
+    // Fill remaining spots in first two rows with tonic chord if needed
+    while (pads.length < 8) {
+        const scaleDegree = scaleDegrees[0];
+        const chordType = getChordQualityForMode(0, selectedMode);
+        const notes = buildChord(scaleDegree, chordType, keyOffset);
+        const chordName = getChordName(scaleDegree, chordType, keyOffset);
+        const romanNumeral = getRomanNumeral(0, chordType.includes('minor'), false);
+        const quality = chordType === 'minor' ? 'Minor' : 'Major';
+
+        pads.push({
+            id: pads.length + 1,
+            chordName,
+            romanNumeral,
+            notes,
+            quality,
+            row: Math.floor(pads.length / 4) + 1,
+            col: (pads.length % 4) + 1,
+            isProgressionChord: false
+        });
+    }
+
+    // Generate 7th chords for each scale degree (pads 9-16)
+    for (let i = 0; i < scaleLength && pads.length < 16; i++) {
+        const degree = i;
+        const scaleDegree = scaleDegrees[degree % scaleLength];
+        let chordType = getChordQualityForMode(degree, selectedMode);
+
+        // Convert to 7th chord
+        if (chordType === 'minor') {
+            chordType = 'minor7';
+        } else if (chordType === 'major') {
+            chordType = 'major7';
+        } else if (chordType === 'diminished') {
+            chordType = 'diminished'; // Keep diminished as is
+        }
+
+        // Special case: V chord becomes dominant 7th
+        if (degree === 4 && scaleLength === 7) {
+            chordType = 'dom7';
+        }
+
+        const notes = buildChord(scaleDegree, chordType, keyOffset);
+        const chordName = getChordName(scaleDegree, chordType, keyOffset);
+        let romanNumeral = getRomanNumeral(degree, chordType.includes('minor'), chordType === 'diminished');
+
+        // Add 7 to roman numeral
+        if (chordType.includes('7')) {
+            if (!romanNumeral.includes('7')) {
+                romanNumeral = chordType === 'major7' ? romanNumeral + 'M7' :
+                              chordType === 'dom7' ? romanNumeral + '7' :
+                              romanNumeral + '7';
+            }
+        }
+
+        const quality = chordType === 'minor7' ? 'Minor 7' :
+                       chordType === 'major7' ? 'Major 7' :
+                       chordType === 'dom7' ? 'Dominant 7' :
+                       chordType === 'diminished' ? 'Diminished' : 'Major';
+
+        pads.push({
+            id: pads.length + 1,
+            chordName,
+            romanNumeral,
+            notes,
+            quality,
+            row: Math.floor(pads.length / 4) + 1,
+            col: (pads.length % 4) + 1,
+            isProgressionChord: false
+        });
+    }
+
+    // Fill any remaining pads with tonic 7th chord
+    while (pads.length < 16) {
+        const scaleDegree = scaleDegrees[0];
+        const chordType = getChordQualityForMode(0, selectedMode) === 'minor' ? 'minor7' : 'major7';
+        const notes = buildChord(scaleDegree, chordType, keyOffset);
+        const chordName = getChordName(scaleDegree, chordType, keyOffset);
+        const romanNumeral = getRomanNumeral(0, chordType.includes('minor'), false) + (chordType === 'major7' ? 'M7' : '7');
+        const quality = chordType === 'minor7' ? 'Minor 7' : 'Major 7';
+
+        pads.push({
+            id: pads.length + 1,
+            chordName,
+            romanNumeral,
+            notes,
+            quality,
+            row: Math.floor(pads.length / 4) + 1,
+            col: (pads.length % 4) + 1,
+            isProgressionChord: false
+        });
+    }
+
+    return {
+        name: `${selectedKey} ${selectedMode} - Scale Exploration`,
+        pads: pads
+    };
+}
+
 function generateVariant(variantType) {
     const keyOffset = getKeyOffset(selectedKey);
     const scaleDegrees = getScaleDegrees(selectedMode);
@@ -975,16 +1143,24 @@ function updateProgressionName() {
 }
 
 function generateProgressions() {
-    if (selectedMode === 'Locrian' && selectedProgression.includes('I—IV—V')) {
-        console.warn('⚠️ Locrian\'s diminished tonic makes this progression unusual');
-    }
+    if (generationMode === 'template') {
+        // Template Mode: Generate 4 variants based on progression
+        if (selectedMode === 'Locrian' && selectedProgression.includes('I—IV—V')) {
+            console.warn('⚠️ Locrian\'s diminished tonic makes this progression unusual');
+        }
 
-    variants = [
-        generateVariant('Classic'),
-        generateVariant('Jazz'),
-        generateVariant('Modal'),
-        generateVariant('Experimental')
-    ];
+        variants = [
+            generateVariant('Classic'),
+            generateVariant('Jazz'),
+            generateVariant('Modal'),
+            generateVariant('Experimental')
+        ];
+    } else {
+        // Scale Exploration Mode: Generate single variant showing all scale chords
+        variants = [
+            generateScaleExploration()
+        ];
+    }
 
     renderProgressions();
     hasGeneratedOnce = true;
@@ -1257,11 +1433,16 @@ document.addEventListener('DOMContentLoaded', function() {
     updateProgressionName();
     renderChordRequirements(); // Initialize chord requirements display
 
-    // Disable mode selector on page load (progressions are self-contained)
-    const modeSelect = document.getElementById('modeSelect');
-    modeSelect.disabled = true;
-    modeSelect.title = 'Mode is defined by the progression itself. In standard Roman numeral analysis, all numerals reference the parallel major scale.';
-    modeSelect.style.cursor = 'not-allowed';
+    // Initialize generation mode (default to template mode)
+    switchGenerationMode('template');
+
+    // Add event listeners for generation mode toggle
+    document.getElementById('templateModeRadio').addEventListener('change', function() {
+        if (this.checked) switchGenerationMode('template');
+    });
+    document.getElementById('scaleModeRadio').addEventListener('change', function() {
+        if (this.checked) switchGenerationMode('scale');
+    });
 
     document.getElementById('keySelect').addEventListener('change', function() {
         selectedKey = this.value;
@@ -1288,14 +1469,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('progressionSelect').addEventListener('change', function() {
         selectedProgression = this.value;
         updateProgressionName();
-
-        // Disable mode selector when a progression is selected (Option A: theoretically correct)
-        // Progressions are self-contained and use parallel major scale as reference
-        const modeSelect = document.getElementById('modeSelect');
-        modeSelect.disabled = true;
-        modeSelect.title = 'Mode is defined by the progression itself. In standard Roman numeral analysis, all numerals reference the parallel major scale.';
-        modeSelect.style.cursor = 'not-allowed';
-
         saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         if (hasGeneratedOnce) {
