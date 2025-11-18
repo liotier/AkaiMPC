@@ -104,6 +104,12 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 - **Roman Numeral Analysis** - Know the function of every chord in your progression
 - **Batch Operations** - Generate and export multiple progressions for your entire project
 
+### Beyond the MPC: Keyboard & Guitar Support
+- **Switch between three views** - MPC pads, piano keyboard, or guitar fretboard
+- **Print chord diagrams** - Generate progressions, switch to keyboard or guitar view, and print
+- **Jam with friends** - Hand out printed chord sheets for your custom progressions
+- **Left-handed guitar support** - Mirror fretboard diagrams for left-handed players
+
 ### Zero Friction Workflow
 - **No Installation** - Works in any modern browser
 - **No Server Dependency** - Runs completely offline after first load
@@ -116,12 +122,7 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
    - **Template Mode** - Select a key and browse 135 progression templates organized by genre. Generate 4 voicing variants instantly.
    - **Scale Exploration Mode** - Select a key + mode/scale to see all available chords from that scale. Perfect for learning exotic scales.
 
-2. **Generate & Explore**
-   - Hit generate to create your progressions
-   - Click pads to preview how they sound (routes to MIDI device if selected, or browser beep)
-   - Check the Roman numerals to understand the harmonic movement
-
-3. **Export to MPC**
+2. **Export to MPC**
    - Download individual progressions or all variants as a ZIP
    - Drop the `.progression` files into your MPC
    - Select a progression in the Pad Perform page
@@ -158,10 +159,10 @@ This project was originally distributed as a single self-contained HTML file for
 - `index.html` (was AkaiMPCChordProgressionGenerator.html) — the entry HTML
 - `styles.css` — extracted stylesheet
 - `app.js` — main application logic
-- `modules/musicTheory.js` — core music theory engine (622 lines)
-- `modules/guitarChords.js` — guitar chord library (171 lines)
-- `modules/storage.js` — localStorage and URL handling (91 lines)
-- `modules/rendering.js` — SVG generation for diagrams (141 lines)
+- `modules/musicTheory.js` — core music theory engine
+- `modules/guitarChords.js` — guitar chord library
+- `modules/storage.js` — localStorage and URL handling
+- `modules/rendering.js` — SVG generation for diagrams
 
 Deployment remains the same: host these files on any static file host (GitHub Pages, Netlify, etc.). Modular structure improves readability, caching, and makes incremental development and testing easier.
 
