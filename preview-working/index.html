@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/webmidi@latest/dist/iife/webmidi.iife.js"></script>
     <script src="app.js" type="module"></script>
 </head>
 <body>
@@ -126,6 +127,12 @@
                     <input type="checkbox" id="leftHandedCheckbox">
                     Left-handed
                 </label>
+            </div>
+            <div class="midi-selector" id="midiSelector" style="display: none;">
+                <label for="midiOutputSelect">MIDI Output:</label>
+                <select id="midiOutputSelect">
+                    <option value="">Browser beep (no MIDI)</option>
+                </select>
             </div>
             <button class="primary" id="downloadAllBtn" style="display: none;">Download all .progression files</button>
         </div>

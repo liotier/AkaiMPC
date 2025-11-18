@@ -43,6 +43,7 @@ let currentContext = 'mpc'; // 'mpc', 'keyboard', or 'guitar'
 let isLeftHanded = false;
 let hasGeneratedOnce = false; // Track if user has generated at least once
 let generationMode = 'template'; // 'template' or 'scale'
+let selectedMidiOutput = null; // Selected MIDI output device
 
 // Trigger sparkle animation on Generate button
 function triggerSparkle() {
@@ -122,6 +123,54 @@ function switchGenerationMode(mode) {
 // Print all progressions (for keyboard/guitar contexts)
 function printAllProgressions() {
     window.print();
+}
+
+// WebMIDI initialization (Firefox 108+, Chrome, Edge)
+async function initMIDI() {
+    try {
+        // Check if WebMIDI.js loaded
+        if (typeof WebMidi === 'undefined') {
+            console.log('WebMIDI.js not loaded');
+            return;
+        }
+
+        await WebMidi.enable();
+        console.log('WebMIDI enabled successfully');
+
+        const midiSelector = document.getElementById('midiSelector');
+        const midiOutputSelect = document.getElementById('midiOutputSelect');
+
+        // Show MIDI selector if outputs are available
+        if (WebMidi.outputs.length > 0) {
+            midiSelector.style.display = 'flex';
+
+            // Populate MIDI output devices
+            WebMidi.outputs.forEach(output => {
+                const option = document.createElement('option');
+                option.value = output.id;
+                option.textContent = output.name;
+                midiOutputSelect.appendChild(option);
+            });
+
+            console.log(`Found ${WebMidi.outputs.length} MIDI output(s)`);
+        } else {
+            console.log('No MIDI outputs available');
+        }
+
+        // Handle device selection
+        midiOutputSelect.addEventListener('change', function() {
+            if (this.value === '') {
+                selectedMidiOutput = null;
+                console.log('Using browser beep');
+            } else {
+                selectedMidiOutput = WebMidi.getOutputById(this.value);
+                console.log('Selected MIDI output:', selectedMidiOutput.name);
+            }
+        });
+
+    } catch (error) {
+        console.log('WebMIDI not available:', error.message);
+    }
 }
 
 // Chord Matcher Functions
@@ -1313,6 +1362,20 @@ function renderProgressions() {
 }
 
 async function playChord(notes) {
+    // Try MIDI output first if a device is selected
+    if (selectedMidiOutput) {
+        try {
+            // Send note on messages
+            notes.forEach(midiNote => {
+                selectedMidiOutput.playNote(midiNote, { duration: 500, velocity: 0.7 });
+            });
+            return; // MIDI successful, skip beep
+        } catch (error) {
+            console.warn('MIDI playback failed, falling back to beep:', error);
+        }
+    }
+
+    // Fallback to Web Audio beep
     if (!audioContext) return;
 
     if (audioContext.state === 'suspended') {
@@ -1383,6 +1446,7 @@ function exportProgressions() {
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
     initAudio();
+    initMIDI();
     populateSelects();
 
     // Load preferences: URL params take priority over localStorage
