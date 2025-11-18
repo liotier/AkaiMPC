@@ -310,22 +310,6 @@ button:disabled {
 
 .action-buttons .full-width {
     width: 100%;
-    margin-bottom: 16px;
-}
-
-.random-buttons-group {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    padding: 16px;
-    border: 2px dashed var(--border);
-    border-radius: var(--radius);
-    background: var(--pad-bg);
-}
-
-.random-buttons-group button {
-    flex: 1 1 auto;
-    min-width: 200px;
 }
 
 /* Context tabs container */
