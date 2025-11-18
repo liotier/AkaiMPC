@@ -1059,33 +1059,27 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
     } else {
         const parsedChords = parseProgression(progressionString);
         progression = parsedChords.map(({ degree, quality, alteration }) => {
-            let scaleDegree;
+            // OPTION A: Pure parallel major analysis (r/MusicTheory approved!)
+            // ALL roman numerals reference the parallel major scale, regardless of mode.
+            // The chord quality is determined ONLY by the roman numeral itself:
+            //   - Uppercase (I, V, etc.) = major
+            //   - Lowercase (i, vi, etc.) = minor
+            //   - Symbols (°, 7, etc.) = diminished, dominant 7th, etc.
+            // This is standard Roman numeral analysis convention.
 
-            // CRITICAL: Alterations (♭, ♯) are always relative to the major scale,
-            // not the current mode. This is standard Roman numeral analysis convention.
-            // For example, ♭III should always mean "flatten the 3rd degree of the major scale"
-            // whether we're in Major mode (E→Eb) or Minor mode (also E→Eb, NOT Eb→D)
-            if (alteration === 'flat' || alteration === 'sharp') {
-                // Use major scale as reference for alterations
-                const majorScale = [0, 2, 4, 5, 7, 9, 11];
-                scaleDegree = majorScale[degree % majorScale.length];
+            // Always use major scale as reference
+            const majorScale = [0, 2, 4, 5, 7, 9, 11];
+            let scaleDegree = majorScale[degree % majorScale.length];
 
-                if (alteration === 'flat') {
-                    scaleDegree = (scaleDegree - 1 + 12) % 12;
-                } else if (alteration === 'sharp') {
-                    scaleDegree = (scaleDegree + 1) % 12;
-                }
-            } else {
-                // No alteration: use the current mode's scale degree
-                scaleDegree = scaleDegrees[degree % scaleDegrees.length];
+            // Apply alterations (♭, ♯) relative to major scale
+            if (alteration === 'flat') {
+                scaleDegree = (scaleDegree - 1 + 12) % 12;
+            } else if (alteration === 'sharp') {
+                scaleDegree = (scaleDegree + 1) % 12;
             }
 
-            // FIX FOR MINOR CHORD ISSUE:
-            // For the tonic (degree 0) without alterations, use the mode's chord quality
-            // This ensures that in Minor mode, the tonic is always minor
-            if (degree === 0 && !alteration) {
-                quality = getChordQualityForMode(0, selectedMode);
-            }
+            // Quality is already determined by parseProgression() based on the numeral itself
+            // No need to override it based on mode
 
             const notes = buildChord(scaleDegree, quality, keyOffset);
             const chordName = getChordName(scaleDegree, quality, keyOffset);
