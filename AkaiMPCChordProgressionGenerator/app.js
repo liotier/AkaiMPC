@@ -99,7 +99,7 @@ function switchGenerationMode(mode) {
         progressionNameInput.disabled = false;
 
         modeSelect.disabled = true;
-        modeSelect.title = 'Mode is defined by the progression itself. In standard Roman numeral analysis, all numerals reference the parallel major scale.';
+        modeSelect.title = 'Mode/Scale selector is not used in Template mode. The progression defines its own harmonic structure.';
         modeSelect.style.cursor = 'not-allowed';
     } else {
         // Scale Exploration Mode: Mode is active, Progression is disabled
@@ -112,6 +112,9 @@ function switchGenerationMode(mode) {
         progressionSelect.style.cursor = 'not-allowed';
         progressionNameInput.disabled = true;
     }
+
+    // Update progression name to reflect new mode
+    updateProgressionName();
 
     // Re-generate if user has generated at least once
     if (hasGeneratedOnce) {
@@ -1185,9 +1188,17 @@ function populateSelects() {
 // Update progression name
 function updateProgressionName() {
     const key = selectedKey.split('/')[0];
-    const modeShort = selectedMode.slice(0, 3);
-    const prog = selectedProgression.replace(/—/g, '-');
-    progressionName = `${key}${modeShort}_${prog}`;
+
+    if (generationMode === 'template') {
+        // Template Mode: Key + Progression
+        const prog = selectedProgression.replace(/—/g, '-');
+        progressionName = `${key}_${prog}`;
+    } else {
+        // Scale Exploration Mode: Key + Mode
+        const modeShort = selectedMode.slice(0, 3);
+        progressionName = `${key}_${modeShort}_Scale-Exploration`;
+    }
+
     document.getElementById('progressionName').value = progressionName;
 }
 
