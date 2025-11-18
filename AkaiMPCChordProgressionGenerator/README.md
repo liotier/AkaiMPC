@@ -8,7 +8,7 @@ Instead of trawling through thousands of inane progressions, generate musically 
 
 ## Try It Now
 
-**[Access the complete MPC Chord Progression Generator](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/AkaiMPCChordProgressionGenerator.html)**
+**[Access the complete MPC Chord Progression Generator](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/)**
 
 This is the full product, freely available online. No installation, no sign-up, no limitations. Works directly in your browser and runs completely offline once loaded.
 
@@ -27,30 +27,32 @@ Found a sample with killer chords but don't know the key? The Chord Matcher lets
 - Generate complementary progressions that work with your source material
 - Bridge the gap between sample-based and theory-based production
 
-### Instant Inspiration
-- **"I'm clueless but reasonable"** - Generates safe, proven progressions in common keys (think Billboard Top 100 ready)
-- **"I'm feeling lucky"** - Explores exotic scales and advanced harmony (for when you want to sound like nobody else)
+### Two Workflows for Every Creative Process
+- **Template Mode** - Choose from 135 progression templates across 15 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). Generate four voicing variants instantly.
+- **Scale Exploration Mode** - Pick from 36 scales/modes and explore all available chords. Perfect for learning exotic scales like Whole Tone, Maqam Hijaz, or Phrygian Dominant.
 - Download individual variants or bulk export all four versions at once
 
 ## Musical Intelligence Under the Hood
 
 ### Four Intelligent Variants, Four Different Vibes
 
-Each generation creates four musically distinct versions of your progression:
+Each generation creates four musically distinct versions of your progression with optimized voice leading:
 
-- **Classic** - Radio-ready progressions with just enough spice. Perfect for pop, rock, and R&B.
-- **Jazz** - Extended chords (9ths, 11ths, 13ths), altered dominants, and smooth voice leading. Think Robert Glasper meets your MPC.
-- **Modal** - Explores the unique colors of each mode. Dorian ♮6, Lydian #4, Mixolydian ♭7—all the flavors.
-- **Experimental** - Unconventional voicings, quartal harmony, and unexpected substitutions. For producers who color outside the lines.
+- **Classic** - Default voice leading optimization for smooth transitions with minimal finger movement.
+- **Jazz** - Close voicings for that tight, sophisticated sound. Extended chords (7ths, 9ths) where appropriate.
+- **Modal** - Open voicings (drop-2) for a more spacious, airy sound. Perfect for atmospheric pads.
+- **Experimental** - Spread voicings for maximum variation. For producers who color outside the lines.
 
 ## Deep Music Theory, Simple Interface
 
 ### Comprehensive Scale Support
-From the familiar to the exotic, we've got you covered:
-- **Foundation**: Major, Natural/Harmonic/Melodic Minor, all seven Church Modes
-- **Blues & Soul**: Pentatonic scales, Blues scale with proper ♭5
-- **World Music**: Persian, Japanese, Hungarian Minor, Double Harmonic, and more
-- **Jazz Extensions**: Bebop scales, Altered scale, Whole Tone
+36 scales organized into 6 categories - from the familiar to the exotic:
+- **Common Western Tonal**: Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian, Harmonic Minor, Melodic Minor
+- **Compact/Popular**: Pentatonic Major/Minor, Blues scale
+- **Symmetrical/Jazz**: Whole Tone, Diminished scales, Augmented
+- **Arabic Maqamat**: Hijaz, Bayati, Rast, Saba, Kurd
+- **Indian Ragas**: Bhairav, Kafi, Yaman, Bhairavi, Todi
+- **Exotic**: Double Harmonic, Hungarian Minor, Neapolitan Major/Minor, Enigmatic, Phrygian Dominant, Persian, Hirajoshi, Insen, Kumoi, Egyptian Pentatonic
 
 ### Advanced Harmonic Concepts Made Easy
 The generator seamlessly incorporates:
@@ -60,12 +62,22 @@ The generator seamlessly incorporates:
 - **Tritone Substitutions** - Jazz reharmonization at the click of a button
 
 ### Battle-Tested Progression Templates
-Covering every genre and era:
-- **Modern Pop**: I-V-vi-IV (the "four chord song"), vi-IV-I-V (pop-punk anthem)
-- **Jazz Standards**: ii-V-I in all keys, Rhythm Changes, Giant Steps cycle
-- **Blues Forms**: 12-bar blues, 8-bar blues, minor blues with proper substitutions
-- **Classical**: Circle of Fifths, Andalusian Cadence, Pachelbel's Canon sequence
-- **Electronic**: EDM build progressions, Future Bass sequences, Lo-fi hip-hop loops
+135 progressions across 15 genres covering every style:
+- **Pop/Rock**: I-V-vi-IV (the "four chord song"), vi-IV-I-V (pop-punk anthem), classic rock patterns
+- **Blues/Soul**: 12-bar blues, turnarounds, Dorian vamps, minor blues with substitutions
+- **Jazz/Functional**: ii-V-I, Rhythm Changes, Giant Steps cycle, circle progressions
+- **Classical/Modal**: Circle of Fifths, Andalusian Cadence, Pachelbel's Canon, Passamezzo patterns
+- **Electronic/Modern**: EDM drops, dark house, modal interchange, chromatic mediant
+- **R&B/Neo-Soul**: Extended harmony, chromatic soul, emotional ballads
+- **Gospel/Worship**: Gospel turnarounds, praise progressions, secondary dominants
+- **Hip-Hop/Trap**: Trap minor, dark trap, lofi hip-hop, boom bap, emo rap
+- **Latin/Bossa**: Bossa nova, tango, samba, flamenco, bolero
+- **Film/Cinematic**: Epic trailer progressions, dark cinematic, heroic themes
+- **Folk/Singer-Songwriter**: Folk standards, country, Americana, Irish folk
+- **Metal/Rock**: Power metal, doom metal, prog metal, melodic metal
+- **Trance/Psytrance/Goa**: Classic Goa, dark psy, uplifting trance, phrygian trance
+- **Jungle/Drum'n'Bass**: Dark jungle, liquid DnB, neurofunk, jazzstep
+- **Italo-Disco/House, Synthwave/Retrowave, African Dance, Acid/EBM**: Genre-specific progressions for electronic producers
 
 ### Dynamic Row 4: Your Secret Weapon
 The fourth row isn't just filler—it's dynamically calculated based on sophisticated harmonic analysis:
@@ -86,10 +98,17 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 - Optimized pad layouts for finger drumming
 
 ### Real-Time Production Tools
-- **Instant Audio Preview** - Hear any chord instantly with a single click
+- **WebMIDI Output Support** - Send chords directly to softsynths or hardware via MIDI (Firefox 108+, Chrome, Edge). Auto-detects available devices with graceful fallback to browser beep.
+- **Instant Audio Preview** - Hear any chord with real instrument sounds or browser beep
 - **Visual Feedback** - See the notes on a piano roll, understand the intervals
 - **Roman Numeral Analysis** - Know the function of every chord in your progression
 - **Batch Operations** - Generate and export multiple progressions for your entire project
+
+### Beyond the MPC: Keyboard & Guitar Support
+- **Switch between three views** - MPC pads, piano keyboard, or guitar fretboard
+- **Print chord diagrams** - Generate progressions, switch to keyboard or guitar view, and print
+- **Jam with friends** - Hand out printed chord sheets for your custom progressions
+- **Left-handed guitar support** - Mirror fretboard diagrams for left-handed players
 
 ### Zero Friction Workflow
 - **No Installation** - Works in any modern browser
@@ -99,18 +118,12 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 
 ## Quick Start Guide
 
-1. **Choose Your Vibe**
-   - Select a key that matches your sample or vocal range
-   - Pick a mode for the mood (Major = happy, Minor = sad, Dorian = jazzy, etc.)
-   - Choose a progression template or roll the dice
+1. **Choose Your Workflow**
+   - **Template Mode** - Select a key and browse 135 progression templates organized by genre. Generate 4 voicing variants instantly.
+   - **Scale Exploration Mode** - Select a key + mode/scale to see all available chords from that scale. Perfect for learning exotic scales.
 
-2. **Generate & Explore**
-   - Hit generate to create four intelligent variants instantly
-   - Click pads to preview how they sound
-   - Check the Roman numerals to understand the harmonic movement
-
-3. **Export to MPC**
-   - Download individual progressions or all four as a ZIP
+2. **Export to MPC**
+   - Download individual progressions or all variants as a ZIP
    - Drop the `.progression` files into your MPC
    - Select a progression in the Pad Perform page
    - Start making beats !
@@ -124,9 +137,11 @@ Together, they provide the complete harmonic toolkit for modern MPC-based Pad Pe
 
 ## Under the Hood
 
-- Pure HTML5/CSS3/JavaScript - no frameworks, no bloat
-- Web Audio API for low-latency chord playback
-- Custom harmonic analysis engine with weighted scoring algorithms
+- Pure HTML5/CSS3/JavaScript ES6 modules - no frameworks, no bloat
+- WebMIDI API (via webmidi.js) for cross-browser MIDI output support
+- Web Audio API for low-latency chord playback fallback
+- Voice leading optimization with greedy algorithm for smooth transitions
+- Custom harmonic analysis engine with parallel major Roman numeral analysis
 - Responsive CSS Grid that mirrors the MPC's 4×4 pad layout
 - JSZip for seamless multi-file exports
 
@@ -139,13 +154,17 @@ Contributions are welcome! Feel free to:
 
 Note about repository layout
 ---------------------------------
-This project was originally distributed as a single self-contained HTML file for maximum deployment simplicity. It has since been split into three static files for better maintainability:
+This project was originally distributed as a single self-contained HTML file for maximum deployment simplicity. It has since been split into modular ES6 files for better maintainability:
 
-- `AkaiMPCChordProgressionGenerator.html` — the entry HTML (loads the CSS and JS)
+- `index.html` (was AkaiMPCChordProgressionGenerator.html) — the entry HTML
 - `styles.css` — extracted stylesheet
-- `app.js` — main JavaScript logic
+- `app.js` — main application logic
+- `modules/musicTheory.js` — core music theory engine
+- `modules/guitarChords.js` — guitar chord library
+- `modules/storage.js` — localStorage and URL handling
+- `modules/rendering.js` — SVG generation for diagrams
 
-Deployment remains the same: host these files on any static file host (GitHub Pages, Netlify, etc.). Keeping them separate improves readability, caching, and makes incremental development and testing easier.
+Deployment remains the same: host these files on any static file host (GitHub Pages, Netlify, etc.). Modular structure improves readability, caching, and makes incremental development and testing easier.
 
 ## 📝 License
 
