@@ -379,6 +379,30 @@ button:disabled {
     height: 16px;
 }
 
+.midi-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    font-size: 14px;
+}
+
+.midi-selector label {
+    margin: 0;
+    font-weight: 500;
+}
+
+.midi-selector select {
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
 .progressions {
     display: grid;
     gap: 20px;
