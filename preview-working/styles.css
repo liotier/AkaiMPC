@@ -720,6 +720,35 @@ body[data-context="guitar"] .note-pair {
     white-space: nowrap;
 }
 
+/* Two-column layout for Staff cards */
+body[data-context="staff"] .chord-pad {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: start;
+    min-height: 180px;
+}
+
+body[data-context="staff"] .chord-text-column {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+body[data-context="staff"] .chord-staff {
+    width: 280px;
+    height: 170px;
+    margin: 0;
+}
+
+/* Wrap notes in Staff context */
+body[data-context="staff"] .chord-notes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    max-width: 200px;
+}
+
 /* Responsive guitar card layout */
 @media (max-width: 768px) {
     /* Scale down diagram on tablets */
@@ -769,6 +798,57 @@ body[data-context="guitar"] .note-pair {
     /* Further scale down on very narrow screens */
     body[data-context="guitar"] .chord-guitar {
         max-width: 140px;
+    }
+}
+
+/* Responsive staff card layout */
+@media (max-width: 768px) {
+    /* Scale down diagram on tablets */
+    body[data-context="staff"] .chord-staff {
+        width: 220px;
+        height: 130px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Stack layout on narrow viewports */
+    body[data-context="staff"] .chord-pad {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    body[data-context="staff"] .chord-staff {
+        width: 100%;
+        max-width: 280px;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    /* Notes in single line */
+    body[data-context="staff"] .chord-notes {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    /* Chord name and quality on same line */
+    body[data-context="staff"] .chord-text-column {
+        gap: 8px;
+    }
+
+    body[data-context="staff"] .chord-pad-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 400px) {
+    /* Further scale down on very narrow screens */
+    body[data-context="staff"] .chord-staff {
+        max-width: 240px;
     }
 }
 
