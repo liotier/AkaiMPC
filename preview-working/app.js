@@ -28,7 +28,8 @@ import {
 
 import {
     generateKeyboardSVG,
-    generateGuitarSVG
+    generateGuitarSVG,
+    generateStaffSVG
 } from './modules/rendering.js';
 
 // State variables
@@ -1314,6 +1315,7 @@ function renderProgressions() {
                     </div>
                     <div class="chord-keyboard">${generateKeyboardSVG(pad.notes)}</div>
                     <div class="chord-guitar">${generateGuitarSVG(getGuitarChord(pad), pad, isLeftHanded)}</div>
+                    <div class="chord-staff">${generateStaffSVG(pad.notes)}</div>
                 </div>
             `).join('')
         ).join('');
