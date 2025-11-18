@@ -1059,13 +1059,25 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
     } else {
         const parsedChords = parseProgression(progressionString);
         progression = parsedChords.map(({ degree, quality, alteration }) => {
-            let scaleDegree = scaleDegrees[degree % scaleDegrees.length];
+            let scaleDegree;
 
-            // Handle alterations
-            if (alteration === 'flat') {
-                scaleDegree = (scaleDegree - 1 + 12) % 12;
-            } else if (alteration === 'sharp') {
-                scaleDegree = (scaleDegree + 1) % 12;
+            // CRITICAL: Alterations (♭, ♯) are always relative to the major scale,
+            // not the current mode. This is standard Roman numeral analysis convention.
+            // For example, ♭III should always mean "flatten the 3rd degree of the major scale"
+            // whether we're in Major mode (E→Eb) or Minor mode (also E→Eb, NOT Eb→D)
+            if (alteration === 'flat' || alteration === 'sharp') {
+                // Use major scale as reference for alterations
+                const majorScale = [0, 2, 4, 5, 7, 9, 11];
+                scaleDegree = majorScale[degree % majorScale.length];
+
+                if (alteration === 'flat') {
+                    scaleDegree = (scaleDegree - 1 + 12) % 12;
+                } else if (alteration === 'sharp') {
+                    scaleDegree = (scaleDegree + 1) % 12;
+                }
+            } else {
+                // No alteration: use the current mode's scale degree
+                scaleDegree = scaleDegrees[degree % scaleDegrees.length];
             }
 
             // FIX FOR MINOR CHORD ISSUE:
