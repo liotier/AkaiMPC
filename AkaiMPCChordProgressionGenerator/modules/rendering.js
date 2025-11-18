@@ -139,3 +139,103 @@ export function generateGuitarSVG(guitarChord, pad, isLeftHanded) {
     svg += '</svg>';
     return svg;
 }
+
+export function generateStaffSVG(notes) {
+    if (!notes || notes.length === 0) return '';
+
+    const width = 280;
+    const height = 120;
+    const staffY = 30;
+    const lineSpacing = 10;
+    const noteSpacing = 35;
+    const leftMargin = 40;
+
+    let svg = `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
+
+    // Draw the 5 staff lines
+    for (let i = 0; i < 5; i++) {
+        const y = staffY + i * lineSpacing;
+        svg += `<line x1="10" y1="${y}" x2="${width - 10}" y2="${y}" stroke="black" stroke-width="1"/>`;
+    }
+
+    // Draw treble clef (simplified)
+    svg += `<text x="15" y="${staffY + 35}" font-family="serif" font-size="45" font-weight="bold">𝄞</text>`;
+
+    // MIDI note to staff position mapping (middle C = 60)
+    // Staff lines from bottom to top: E4(64), G4(67), B4(71), D5(74), F5(77)
+    // Spaces from bottom to top: F4(65), A4(69), C5(72), E5(76)
+    const notePositions = {
+        48: 13, // C3
+        49: 12.5, // C#3/Db3
+        50: 12, // D3
+        51: 11.5, // D#3/Eb3
+        52: 11, // E3
+        53: 10.5, // F3
+        54: 10, // F#3/Gb3
+        55: 9.5, // G3
+        56: 9, // G#3/Ab3
+        57: 8.5, // A3
+        58: 8, // A#3/Bb3
+        59: 7.5, // B3
+        60: 7, // C4 (middle C)
+        61: 6.5, // C#4/Db4
+        62: 6, // D4
+        63: 5.5, // D#4/Eb4
+        64: 5, // E4 (bottom staff line)
+        65: 4.5, // F4
+        66: 4, // F#4/Gb4
+        67: 3.5, // G4
+        68: 3, // G#4/Ab4
+        69: 2.5, // A4
+        70: 2, // A#4/Bb4
+        71: 1.5, // B4
+        72: 1, // C5
+        73: 0.5, // C#5/Db5
+        74: 0, // D5
+        75: -0.5, // D#5/Eb5
+        76: -1, // E5
+        77: -1.5, // F5 (top staff line)
+        78: -2, // F#5/Gb5
+        79: -2.5, // G5
+        80: -3, // G#5/Ab5
+        81: -3.5, // A5
+        82: -4, // A#5/Bb5
+        83: -4.5, // B5
+        84: -5  // C6
+    };
+
+    // Draw each note as an eighth note
+    notes.forEach((midiNote, index) => {
+        const x = leftMargin + index * noteSpacing;
+        const staffPosition = notePositions[midiNote] || 7; // Default to middle C if not in range
+        const y = staffY + 20 + staffPosition * (lineSpacing / 2);
+
+        // Draw ledger lines if needed
+        if (staffPosition > 5) {
+            // Below staff
+            for (let line = 6; line <= Math.floor(staffPosition); line += 2) {
+                const ledgerY = staffY + 20 + line * (lineSpacing / 2);
+                svg += `<line x1="${x - 8}" y1="${ledgerY}" x2="${x + 8}" y2="${ledgerY}" stroke="black" stroke-width="1"/>`;
+            }
+        } else if (staffPosition < -1) {
+            // Above staff
+            for (let line = -2; line >= Math.ceil(staffPosition); line -= 2) {
+                const ledgerY = staffY + 20 + line * (lineSpacing / 2);
+                svg += `<line x1="${x - 8}" y1="${ledgerY}" x2="${x + 8}" y2="${ledgerY}" stroke="black" stroke-width="1"/>`;
+            }
+        }
+
+        // Draw note head (filled oval for eighth notes)
+        svg += `<ellipse cx="${x}" cy="${y}" rx="5" ry="4" fill="black" transform="rotate(-20 ${x} ${y})"/>`;
+
+        // Draw stem (upward for all notes in this context)
+        const stemHeight = 30;
+        svg += `<line x1="${x + 4}" y1="${y}" x2="${x + 4}" y2="${y - stemHeight}" stroke="black" stroke-width="1.5"/>`;
+
+        // Draw flag for eighth note
+        svg += `<path d="M ${x + 4} ${y - stemHeight} Q ${x + 14} ${y - stemHeight + 5} ${x + 14} ${y - stemHeight + 12} Q ${x + 14} ${y - stemHeight + 8} ${x + 4} ${y - stemHeight + 5}" fill="black"/>`;
+    });
+
+    svg += '</svg>';
+    return svg;
+}
