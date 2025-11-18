@@ -1339,35 +1339,6 @@ async function playChord(notes) {
     });
 }
 
-function generateRandom(safe = false) {
-    if (safe) {
-        const safeKeys = ['C', 'G', 'D', 'A', 'F', 'A♯/B♭', 'D♯/E♭'];
-        const safeModes = ['Major', 'Minor', 'Dorian', 'Mixolydian'];
-        const safeProgressions = [
-            'I—V—vi—IV', 'I—IV—V—I', 'vi—IV—I—V', 'I—vi—IV—V',
-            'ii—V—I', 'I—vi—ii—V', '12-bar-blues'
-        ];
-
-        selectedKey = safeKeys[Math.floor(Math.random() * safeKeys.length)];
-        selectedMode = safeModes[Math.floor(Math.random() * safeModes.length)];
-        selectedProgression = safeProgressions[Math.floor(Math.random() * safeProgressions.length)];
-    } else {
-        selectedKey = keys[Math.floor(Math.random() * keys.length)];
-
-        const allModes = Object.values(modes).flat();
-        selectedMode = allModes[Math.floor(Math.random() * allModes.length)];
-
-        const allProgressions = Object.values(progressions).flat();
-        const randomProg = allProgressions[Math.floor(Math.random() * allProgressions.length)];
-        selectedProgression = randomProg.value;
-    }
-
-    document.getElementById('keySelect').value = selectedKey;
-    document.getElementById('modeSelect').value = selectedMode;
-    document.getElementById('progressionSelect').value = selectedProgression;
-    updateProgressionName();
-}
-
 function exportProgressions() {
     if (variants.length === 0) {
         alert('Please generate progressions first!');
@@ -1482,14 +1453,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('generateBtn').addEventListener('click', generateProgressions);
-    document.getElementById('cluelessBtn').addEventListener('click', () => {
-        generateRandom(true);
-        generateProgressions();
-    });
-    document.getElementById('luckyBtn').addEventListener('click', () => {
-        generateRandom(false);
-        generateProgressions();
-    });
 
     // Handle Download/Print button based on context
     document.getElementById('downloadAllBtn').addEventListener('click', () => {
