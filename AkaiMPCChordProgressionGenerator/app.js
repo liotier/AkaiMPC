@@ -155,6 +155,13 @@ async function initMIDI() {
                 midiOutputSelect.appendChild(option);
             });
 
+            // Auto-select first MIDI device
+            if (WebMidi.outputs.length > 0) {
+                selectedMidiOutput = WebMidi.outputs[0];
+                midiOutputSelect.value = selectedMidiOutput.id;
+                console.log(`Auto-selected MIDI output: ${selectedMidiOutput.name}`);
+            }
+
             console.log(`Found ${WebMidi.outputs.length} MIDI output(s)`);
         } else {
             console.log('No MIDI outputs available');
@@ -1376,14 +1383,22 @@ async function playChord(notes) {
     // Try MIDI output first if a device is selected
     if (selectedMidiOutput) {
         try {
-            // Send note on messages
+            console.log('Sending MIDI notes:', notes, 'to', selectedMidiOutput.name);
+            // Play all notes as a chord using channels() to get channel 1
+            const channel = selectedMidiOutput.channels[1];
             notes.forEach(midiNote => {
-                selectedMidiOutput.playNote(midiNote, { duration: 500, velocity: 0.7 });
+                channel.playNote(midiNote, {
+                    duration: 500,
+                    velocity: 0.7
+                });
             });
             return; // MIDI successful, skip beep
         } catch (error) {
-            console.warn('MIDI playback failed, falling back to beep:', error);
+            console.error('MIDI playback failed, falling back to beep:', error);
+            console.error('Error details:', error.message, error.stack);
         }
+    } else {
+        console.log('No MIDI device selected, using browser beep');
     }
 
     // Fallback to Web Audio beep
