@@ -204,6 +204,43 @@ h1 {
     text-decoration: line-through;
 }
 
+.generation-mode-toggle {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 24px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    margin-bottom: 8px;
+}
+
+.mode-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color 0.2s ease;
+}
+
+.mode-option input[type="radio"] {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+
+.mode-option input[type="radio"]:checked + span {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.mode-option:hover span {
+    color: var(--text);
+}
+
 .controls {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
