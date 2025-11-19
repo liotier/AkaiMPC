@@ -1091,11 +1091,12 @@ footer a:hover {
     margin: 1cm;
 }
 
-/* Override for keyboard context */
+/* Override for keyboard and staff contexts */
 @media print {
-    /* Guitar stays portrait (default), keyboard needs landscape */
-    body[data-context="keyboard"] {
-        /* Handled via JavaScript size injection if needed */
+    /* Guitar and MPC use portrait (default), keyboard and staff need landscape */
+    body[data-context="keyboard"],
+    body[data-context="staff"] {
+        /* Handled via JavaScript @page rule injection in beforeprint event */
     }
 }
 
