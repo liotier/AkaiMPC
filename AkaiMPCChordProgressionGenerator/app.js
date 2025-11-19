@@ -156,14 +156,9 @@ async function initMIDI() {
                 midiOutputSelect.appendChild(option);
             });
 
-            // Auto-select first MIDI device
-            if (WebMidi.outputs.length > 0) {
-                selectedMidiOutput = WebMidi.outputs[0];
-                midiOutputSelect.value = selectedMidiOutput.id;
-                console.log(`Auto-selected MIDI output: ${selectedMidiOutput.name}`);
-            }
-
             console.log(`Found ${WebMidi.outputs.length} MIDI output(s)`);
+            // Default remains "Browser beep" (selectedMidiOutput = null)
+            console.log('Default audio output: Browser beep');
         } else {
             console.log('No MIDI outputs available');
         }
@@ -1447,19 +1442,51 @@ function updateProgressionName() {
     document.getElementById('progressionName').value = progressionName;
 }
 
+// Helper to create a signature for a variant for duplicate detection
+function getVariantSignature(variant) {
+    return variant.pads.map(pad =>
+        `${pad.chordName}|${pad.notes.join(',')}`
+    ).join('||');
+}
+
+// Remove duplicate variants
+function deduplicateVariants(variantList) {
+    const seen = new Map();
+    const unique = [];
+
+    variantList.forEach(variant => {
+        const signature = getVariantSignature(variant);
+        if (!seen.has(signature)) {
+            seen.set(signature, true);
+            unique.push(variant);
+        } else {
+            console.log(`Dropped duplicate variant: ${variant.name}`);
+        }
+    });
+
+    return unique;
+}
+
 function generateProgressions() {
     if (generationMode === 'template') {
-        // Template Mode: Generate 4 variants based on progression
+        // Template Mode: Generate up to 4 variants based on progression
         if (selectedMode === 'Locrian' && selectedProgression.includes('I—IV—V')) {
             console.warn('⚠️ Locrian\'s diminished tonic makes this progression unusual');
         }
 
-        variants = [
+        const allVariants = [
             generateVariant('Classic'),
             generateVariant('Jazz'),
             generateVariant('Modal'),
             generateVariant('Experimental')
         ];
+
+        // Remove duplicates - keep only unique variants
+        variants = deduplicateVariants(allVariants);
+
+        if (variants.length < allVariants.length) {
+            console.log(`Generated ${variants.length} unique variant(s) out of ${allVariants.length}`);
+        }
     } else {
         // Scale Exploration Mode: Generate single variant showing all scale chords
         variants = [
