@@ -754,7 +754,7 @@ body[data-context="staff"] .chord-pad {
     grid-template-columns: 30% 70%;
     gap: 12px;
     align-items: start;
-    min-height: 180px;
+    min-height: 135px;
 }
 
 body[data-context="staff"] .chord-text-column {
@@ -765,7 +765,7 @@ body[data-context="staff"] .chord-text-column {
 
 body[data-context="staff"] .chord-staff {
     width: 100%;
-    height: 170px;
+    height: 187px;
     margin: 0;
 }
 
@@ -834,7 +834,7 @@ body[data-context="staff"] .chord-notes {
     /* Scale down diagram on tablets */
     body[data-context="staff"] .chord-staff {
         width: 220px;
-        height: 130px;
+        height: 143px;
     }
 }
 
