@@ -1012,78 +1012,129 @@ function generateVariant(variantType) {
     // Generate the actual progression chords - PASS selectedMode as 4th parameter (FIX!)
     let progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees, selectedMode);
 
-    // Convert progression sequence to palette of unique chords with voicing variations
-    // Extract unique chords (by romanNumeral + chordType combination)
-    const uniqueChords = [];
-    const seenChords = new Set();
+    // Convert progression sequence to palette ensuring ALL 16 PADS ARE UNIQUE
+    // Harmonic gradient: Row 1 (pads 1-4, bottom visual row) = foundation with tonic
+    //                    Row 4 (pads 13-16, top visual row) = spicy adventurous chords
 
+    // Extract unique chord degrees
+    const uniqueDegrees = [];
+    const seenDegrees = new Set();
     progressionChords.forEach(chord => {
-        const key = `${chord.romanNumeral}-${chord.chordType}`;
-        if (!seenChords.has(key)) {
-            seenChords.add(key);
-            uniqueChords.push(chord);
+        if (!seenDegrees.has(chord.degree)) {
+            seenDegrees.add(chord.degree);
+            uniqueDegrees.push({ degree: chord.degree, original: chord });
         }
     });
 
-    // Create palette with voicing variations for each unique chord
+    // Build comprehensive palette with DIFFERENT extensions for each degree
     const palette = [];
+    const usedRomanNumerals = new Set();
 
-    uniqueChords.forEach((chord, idx) => {
-        const scaleDegree = scaleDegrees[chord.degree % scaleDegrees.length];
+    // Helper to add unique chord
+    const addChord = (degree, type, romanBase, suffix, spice) => {
+        const roman = romanBase + suffix;
+        if (usedRomanNumerals.has(roman)) return; // Skip duplicates
+        usedRomanNumerals.add(roman);
 
-        // Create 2-3 voicing variations per unique chord depending on variant type
-        const voicings = [];
-
-        if (variantType === 'Classic') {
-            // Classic: original + same chord (different voicing via voice leading)
-            voicings.push(chord.chordType);
-            voicings.push(chord.chordType);
-        } else if (variantType === 'Jazz') {
-            // Jazz: add 7ths/extensions
-            voicings.push(chord.chordType);
-            if (chord.chordType === 'major') {
-                voicings.push('major7');
-            } else if (chord.chordType === 'minor') {
-                voicings.push('minor7');
-            } else if (chord.chordType === 'dom7') {
-                voicings.push('dom7'); // keep as dom7
-            } else {
-                voicings.push(chord.chordType);
-            }
-        } else if (variantType === 'Modal') {
-            // Modal: triad + sus variation
-            voicings.push(chord.chordType);
-            if (chord.chordType === 'major' || chord.chordType === 'minor') {
-                voicings.push(chord.chordType); // same type, different open voicing
-            } else {
-                voicings.push(chord.chordType);
-            }
-        } else { // Experimental
-            // Experimental: original + altered version
-            voicings.push(chord.chordType);
-            voicings.push(chord.chordType); // will be spread voicing
-        }
-
-        voicings.forEach(type => {
-            // Determine roman numeral with correct suffix
-            let roman = chord.romanNumeral;
-            if (type === 'major7' && !roman.includes('M7') && !roman.includes('maj7')) {
-                roman = roman.replace(/7$/, '') + 'M7';
-            } else if (type === 'minor7' && !roman.includes('m7') && !roman.includes('7')) {
-                roman = roman + '7';
-            } else if (type === 'dom7' && !roman.includes('7')) {
-                roman = roman + '7';
-            }
-
-            palette.push({
-                degree: chord.degree,
-                notes: buildChord(scaleDegree, type, keyOffset),
-                chordType: type,
-                chordName: getChordName(scaleDegree, type, keyOffset, chord.romanNumeral),
-                romanNumeral: roman
-            });
+        const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
+        palette.push({
+            degree,
+            notes: buildChord(scaleDegree, type, keyOffset),
+            chordType: type,
+            chordName: getChordName(scaleDegree, type, keyOffset, romanBase),
+            romanNumeral: roman,
+            spiceLevel: spice // 0=foundation, 1=standard, 2=colorful, 3=spicy
         });
+    };
+
+    // Generate extensions for each unique degree
+    uniqueDegrees.forEach(({ degree, original }) => {
+        const romanBase = original.romanNumeral.replace(/7|M7|m7|°/g, '');
+        const baseType = original.chordType;
+
+        if (baseType.includes('major') || baseType === 'dom7') {
+            // Major/dominant chords: generate varied extensions
+            addChord(degree, 'major', romanBase, '', degree === 0 ? 0 : 1);
+            addChord(degree, 'dom7', romanBase, '7', 1);
+            addChord(degree, 'major7', romanBase, 'M7', 2);
+            if (variantType === 'Jazz' || variantType === 'Experimental') {
+                // Add 9th implied (use dom7 as placeholder)
+                addChord(degree, 'dom7', romanBase, '9', 2);
+            }
+        } else if (baseType.includes('minor')) {
+            // Minor chords
+            addChord(degree, 'minor', romanBase, '', 1);
+            addChord(degree, 'minor7', romanBase, '7', 1);
+            if (variantType === 'Jazz') {
+                addChord(degree, 'minor7', romanBase, '9', 2);
+            }
+        } else {
+            // Diminished, etc.
+            addChord(degree, baseType, romanBase, '', 1);
+        }
     });
+
+    // Add complementary chords (foundation and spicy)
+    // ii7 - foundation (if not already present)
+    if (scaleDegrees.length > 1) {
+        addChord(1, 'minor7', 'ii', '7', 0);
+        addChord(1, 'minor', 'ii', '', 1);
+    }
+
+    // vi - foundation/standard
+    if (scaleDegrees.length > 5) {
+        addChord(5, 'minor', 'vi', '', 1);
+        addChord(5, 'minor7', 'vi', '7', 1);
+    }
+
+    // ♭VII - colorful (Mixolydian/blues flavor)
+    const flatSeven = (scaleDegrees[0] + 10) % 12;
+    palette.push({
+        degree: 6,
+        notes: buildChord(flatSeven, 'major', keyOffset),
+        chordType: 'major',
+        chordName: getChordName(flatSeven, 'major', keyOffset, '♭VII'),
+        romanNumeral: '♭VII',
+        spiceLevel: 2
+    });
+
+    // ♭VI - spicy! (borrowed from minor)
+    const flatSix = (scaleDegrees[0] + 8) % 12;
+    palette.push({
+        degree: 5,
+        notes: buildChord(flatSix, 'major', keyOffset),
+        chordType: 'major',
+        chordName: getChordName(flatSix, 'major', keyOffset, '♭VI'),
+        romanNumeral: '♭VI',
+        spiceLevel: 3
+    });
+
+    // ♭III - spicy!
+    const flatThree = (scaleDegrees[0] + 3) % 12;
+    palette.push({
+        degree: 2,
+        notes: buildChord(flatThree, 'major', keyOffset),
+        chordType: 'major',
+        chordName: getChordName(flatThree, 'major', keyOffset, '♭III'),
+        romanNumeral: '♭III',
+        spiceLevel: 3
+    });
+
+    // iv - colorful (borrowed from parallel minor)
+    if (scaleDegrees.length > 3) {
+        const fourth = scaleDegrees[3];
+        palette.push({
+            degree: 3,
+            notes: buildChord(fourth, 'minor', keyOffset),
+            chordType: 'minor',
+            chordName: getChordName(fourth, 'minor', keyOffset),
+            romanNumeral: 'iv',
+            spiceLevel: 2
+        });
+    }
+
+    // Sort by spice level (foundation first, spicy last)
+    palette.sort((a, b) => a.spiceLevel - b.spiceLevel);
 
     progressionChords = palette;
 
@@ -1752,6 +1803,43 @@ document.addEventListener('DOMContentLoaded', function() {
         if (printStyleElement) {
             printStyleElement.remove();
             printStyleElement = null;
+        }
+    });
+
+    // Keyboard controls for triggering pads 1-16
+    // Keys cvbndfgherty3456 map to pads, works with CAPS LOCK on
+    const keyToPad = {
+        'c': 1, 'v': 2, 'b': 3, 'n': 4,     // Bottom visual row (Row 1)
+        'd': 5, 'f': 6, 'g': 7, 'h': 8,     // Row 2
+        'e': 9, 'r': 10, 't': 11, 'y': 12,  // Row 3
+        '3': 13, '4': 14, '5': 15, '6': 16  // Top visual row (Row 4)
+    };
+
+    document.addEventListener('keydown', (event) => {
+        // Ignore if typing in an input field
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT' || event.target.tagName === 'TEXTAREA') {
+            return;
+        }
+
+        // Get key in lowercase to support CAPS LOCK
+        const key = event.key.toLowerCase();
+        const padNumber = keyToPad[key];
+
+        if (padNumber) {
+            // Prevent default browser behavior
+            event.preventDefault();
+
+            // Find all pads with matching PAD number across all progression cards
+            const container = document.getElementById('progressionsContainer');
+            const allPads = container.querySelectorAll('.chord-pad');
+
+            allPads.forEach(pad => {
+                const padText = pad.querySelector('.pad-number');
+                if (padText && padText.textContent === `PAD ${padNumber}`) {
+                    // Trigger click on this pad
+                    pad.click();
+                }
+            });
         }
     });
 
