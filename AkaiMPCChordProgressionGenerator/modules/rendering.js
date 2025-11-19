@@ -216,19 +216,19 @@ export function generateStaffSVG(notes) {
     sortedNotes.forEach((midiNote, index) => {
         const x = leftMargin + index * baseNoteSpacing;
         const staffPosition = notePositions[midiNote] || 10;
-        const y = staffY + 20 + staffPosition * (lineSpacing / 2);
+        const y = staffY + staffPosition * (lineSpacing / 2);
 
         // Draw ledger lines if needed
         if (staffPosition >= 10) {
             // Below staff (middle C and below)
             for (let line = 10; line <= staffPosition; line += 2) {
-                const ledgerY = staffY + 20 + line * (lineSpacing / 2);
+                const ledgerY = staffY + line * (lineSpacing / 2);
                 svg += `<line x1="${x - 10}" y1="${ledgerY}" x2="${x + 10}" y2="${ledgerY}" stroke="black" stroke-width="1.2"/>`;
             }
         } else if (staffPosition <= -2) {
             // Above staff
             for (let line = -2; line >= staffPosition; line -= 2) {
-                const ledgerY = staffY + 20 + line * (lineSpacing / 2);
+                const ledgerY = staffY + line * (lineSpacing / 2);
                 svg += `<line x1="${x - 10}" y1="${ledgerY}" x2="${x + 10}" y2="${ledgerY}" stroke="black" stroke-width="1.2"/>`;
             }
         }
