@@ -1012,6 +1012,81 @@ function generateVariant(variantType) {
     // Generate the actual progression chords - PASS selectedMode as 4th parameter (FIX!)
     let progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees, selectedMode);
 
+    // Convert progression sequence to palette of unique chords with voicing variations
+    // Extract unique chords (by romanNumeral + chordType combination)
+    const uniqueChords = [];
+    const seenChords = new Set();
+
+    progressionChords.forEach(chord => {
+        const key = `${chord.romanNumeral}-${chord.chordType}`;
+        if (!seenChords.has(key)) {
+            seenChords.add(key);
+            uniqueChords.push(chord);
+        }
+    });
+
+    // Create palette with voicing variations for each unique chord
+    const palette = [];
+
+    uniqueChords.forEach((chord, idx) => {
+        const scaleDegree = scaleDegrees[chord.degree % scaleDegrees.length];
+
+        // Create 2-3 voicing variations per unique chord depending on variant type
+        const voicings = [];
+
+        if (variantType === 'Classic') {
+            // Classic: original + same chord (different voicing via voice leading)
+            voicings.push(chord.chordType);
+            voicings.push(chord.chordType);
+        } else if (variantType === 'Jazz') {
+            // Jazz: add 7ths/extensions
+            voicings.push(chord.chordType);
+            if (chord.chordType === 'major') {
+                voicings.push('major7');
+            } else if (chord.chordType === 'minor') {
+                voicings.push('minor7');
+            } else if (chord.chordType === 'dom7') {
+                voicings.push('dom7'); // keep as dom7
+            } else {
+                voicings.push(chord.chordType);
+            }
+        } else if (variantType === 'Modal') {
+            // Modal: triad + sus variation
+            voicings.push(chord.chordType);
+            if (chord.chordType === 'major' || chord.chordType === 'minor') {
+                voicings.push(chord.chordType); // same type, different open voicing
+            } else {
+                voicings.push(chord.chordType);
+            }
+        } else { // Experimental
+            // Experimental: original + altered version
+            voicings.push(chord.chordType);
+            voicings.push(chord.chordType); // will be spread voicing
+        }
+
+        voicings.forEach(type => {
+            // Determine roman numeral with correct suffix
+            let roman = chord.romanNumeral;
+            if (type === 'major7' && !roman.includes('M7') && !roman.includes('maj7')) {
+                roman = roman.replace(/7$/, '') + 'M7';
+            } else if (type === 'minor7' && !roman.includes('m7') && !roman.includes('7')) {
+                roman = roman + '7';
+            } else if (type === 'dom7' && !roman.includes('7')) {
+                roman = roman + '7';
+            }
+
+            palette.push({
+                degree: chord.degree,
+                notes: buildChord(scaleDegree, type, keyOffset),
+                chordType: type,
+                chordName: getChordName(scaleDegree, type, keyOffset, chord.romanNumeral),
+                romanNumeral: roman
+            });
+        });
+    });
+
+    progressionChords = palette;
+
     // Apply variant-specific voicing styles for more diversity
     switch (variantType) {
         case 'Classic':
