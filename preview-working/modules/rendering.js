@@ -150,18 +150,20 @@ export function generateStaffSVG(notes) {
     const staffY = 30;
     const lineSpacing = 12;
     const stemHeight = 35;
-    const fixedWidth = 400;  // Constant width - no horizontal scaling
-    const fixedHeight = 160; // Constant height - no vertical scaling
-
-    // Calculate note positions
     const baseNoteSpacing = 45;
     const leftMargin = 80;
-    const totalNotesWidth = (sortedNotes.length - 1) * baseNoteSpacing;
-    const startX = leftMargin; // Notes start at same position for consistency
+    const rightMargin = 20;
+
+    // Hardcode width for maximum 4 notes (typical chord voicings)
+    const maxNotes = 4;
+    const fixedWidth = leftMargin + (maxNotes - 1) * baseNoteSpacing + rightMargin; // 235px
+    const fixedHeight = 160; // Constant height
+
+    const startX = leftMargin;
 
     // MIDI note to staff position mapping - based on treble clef
-    // Staff lines (from bottom): E4(64)=8, G4(67)=6, B4(71)=4, D5(74)=2, F5(77)=0
-    // Spaces (from bottom): F4(65)=7, A4(69)=5, C5(72)=3, E5(76)=1
+    // Staff lines (from bottom): E4(64)=15, G4(67)=13, B4(71)=11, D5(74)=9, F5(77)=7
+    // Spaces (from bottom): F4(65)=14, A4(69)=12, C5(72)=10, E5(76)=8
     const noteToStaffPosition = (midi) => {
         // Using modulo 12 to get note within octave, then octave offset
         const noteInOctave = midi % 12; // 0=C, 1=C#, 2=D, etc.
@@ -169,13 +171,13 @@ export function generateStaffSVG(notes) {
 
         // Map each note in octave to its position offset within an octave
         // C=0, C#=0, D=1, D#=1, E=2, F=3, F#=3, G=4, G#=4, A=5, A#=5, B=6
-        const noteOffsets = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6]; // positions within octave
+        const noteOffsets = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
         const offsetInOctave = noteOffsets[noteInOctave];
 
-        // C4 (MIDI 60, octave 5) is at position 10
+        // C4 (MIDI 60) now at position 17 (one octave lower than before)
         // Each octave up decreases position by 7, down increases by 7
-        const c4Position = 10; // Middle C position
-        const c4Octave = 5; // MIDI 60-71 is octave 5
+        const c4Position = 17; // Middle C position - moved down one octave
+        const c4Octave = 5; // floor(60/12) = 5
         const octaveDifference = octave - c4Octave;
 
         return c4Position - (octaveDifference * 7) - offsetInOctave;
