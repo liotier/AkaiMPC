@@ -873,6 +873,30 @@ function createTooltip() {
     return tooltip;
 }
 
+// Helper to check if a chord matches Chord Matcher requirements
+function matchesChordRequirement(scaleDegree, chordType, keyOffset) {
+    if (chordRequirements.length === 0) return false;
+
+    const noteMap = { 'C': 0, 'C#': 1, 'D': 2, 'D#': 3, 'E': 4, 'F': 5, 'F#': 6, 'G': 7, 'G#': 8, 'A': 9, 'A#': 10, 'B': 11 };
+    const chordRoot = (scaleDegree + keyOffset) % 12;
+    const chordRootName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][chordRoot];
+
+    const typeToQuality = {
+        'major': 'major',
+        'minor': 'minor',
+        'diminished': 'dim',
+        'augmented': 'aug',
+        'dom7': '7',
+        'major7': 'maj7',
+        'minor7': 'm7'
+    };
+    const quality = typeToQuality[chordType];
+
+    return chordRequirements.some(req =>
+        noteMap[req.note] === chordRoot && req.quality === quality
+    );
+}
+
 // Generate scale exploration (all chords from a scale/mode)
 function generateScaleExploration() {
     const keyOffset = getKeyOffset(selectedKey);
@@ -902,7 +926,8 @@ function generateScaleExploration() {
             quality,
             row: Math.floor(i / 4) + 1,
             col: (i % 4) + 1,
-            isProgressionChord: false
+            isProgressionChord: false,
+            isChordMatcherChord: matchesChordRequirement(scaleDegree, chordType, keyOffset)
         });
     }
 
@@ -923,7 +948,8 @@ function generateScaleExploration() {
             quality,
             row: Math.floor(pads.length / 4) + 1,
             col: (pads.length % 4) + 1,
-            isProgressionChord: false
+            isProgressionChord: false,
+            isChordMatcherChord: matchesChordRequirement(scaleDegree, chordType, keyOffset)
         });
     }
 
@@ -973,7 +999,8 @@ function generateScaleExploration() {
             quality,
             row: Math.floor(pads.length / 4) + 1,
             col: (pads.length % 4) + 1,
-            isProgressionChord: false
+            isProgressionChord: false,
+            isChordMatcherChord: matchesChordRequirement(scaleDegree, chordType, keyOffset)
         });
     }
 
@@ -994,7 +1021,8 @@ function generateScaleExploration() {
             quality,
             row: Math.floor(pads.length / 4) + 1,
             col: (pads.length % 4) + 1,
-            isProgressionChord: false
+            isProgressionChord: false,
+            isChordMatcherChord: matchesChordRequirement(scaleDegree, chordType, keyOffset)
         });
     }
 
@@ -1031,7 +1059,7 @@ function generateVariant(variantType) {
     const usedRomanNumerals = new Set();
 
     // Helper to add unique chord
-    const addChord = (degree, type, romanBase, suffix, spice) => {
+    const addChord = (degree, type, romanBase, suffix, spice, isChordMatcher = false) => {
         const roman = romanBase + suffix;
         if (usedRomanNumerals.has(roman)) return; // Skip duplicates
         usedRomanNumerals.add(roman);
@@ -1043,9 +1071,87 @@ function generateVariant(variantType) {
             chordType: type,
             chordName: getChordName(scaleDegree, type, keyOffset, romanBase),
             romanNumeral: roman,
-            spiceLevel: spice // 0=foundation, 1=standard, 2=colorful, 3=spicy
+            spiceLevel: spice, // 0=foundation, 1=standard, 2=colorful, 3=spicy
+            isChordMatcherChord: isChordMatcher
         });
     };
+
+    // Helper to determine spice level based on harmonic function
+    const getSpiceLevelForDegree = (degree, type) => {
+        // Tonic (I or i) = foundation (0)
+        if (degree === 0) return 0;
+        // Subdominant/Dominant (IV, V) = standard (1)
+        if (degree === 3 || degree === 4) return 1;
+        // Supertonic, Submediant (ii, vi) = standard (1)
+        if (degree === 1 || degree === 5) return 1;
+        // Mediant (iii) = colorful (2)
+        if (degree === 2) return 2;
+        // Leading tone/Subtonic (vii°, ♭VII) = spicy (3)
+        if (degree === 6) return 3;
+        // Default
+        return 1;
+    };
+
+    // Inject Chord Matcher requirements into palette
+    if (chordRequirements.length > 0) {
+        chordRequirements.forEach(req => {
+            // Convert chord requirement note to MIDI offset
+            const noteMap = { 'C': 0, 'C#': 1, 'D': 2, 'D#': 3, 'E': 4, 'F': 5, 'F#': 6, 'G': 7, 'G#': 8, 'A': 9, 'A#': 10, 'B': 11 };
+            const reqNoteOffset = noteMap[req.note];
+
+            // Find which scale degree this chord corresponds to
+            let matchedDegree = -1;
+            for (let i = 0; i < scaleDegrees.length; i++) {
+                const scaleDegreeNote = (scaleDegrees[i] + keyOffset) % 12;
+                if (scaleDegreeNote === reqNoteOffset) {
+                    matchedDegree = i;
+                    break;
+                }
+            }
+
+            if (matchedDegree === -1) {
+                // Chord not in scale - skip it (shouldn't happen if Chord Matcher filtering works)
+                console.warn(`Chord Matcher chord ${req.display} not found in ${selectedKey} ${selectedMode}`);
+                return;
+            }
+
+            // Map quality to chord type
+            const qualityToType = {
+                'major': 'major',
+                'minor': 'minor',
+                'dim': 'diminished',
+                'aug': 'augmented',
+                '7': 'dom7',
+                'maj7': 'major7',
+                'm7': 'minor7'
+            };
+            const chordType = qualityToType[req.quality] || 'major';
+
+            // Determine roman numeral base
+            const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+            let romanBase = romanNumerals[matchedDegree];
+            if (chordType.includes('minor') || chordType.includes('diminished')) {
+                romanBase = romanBase.toLowerCase();
+            }
+            if (chordType === 'diminished') {
+                romanBase = romanBase + '°';
+            }
+
+            // Determine suffix
+            let suffix = '';
+            if (chordType === 'dom7' || chordType === 'minor7') {
+                suffix = '7';
+            } else if (chordType === 'major7') {
+                suffix = 'M7';
+            }
+
+            // Determine spice level
+            const spiceLevel = getSpiceLevelForDegree(matchedDegree, chordType);
+
+            // Add to palette with Chord Matcher flag
+            addChord(matchedDegree, chordType, romanBase.replace('°', ''), suffix, spiceLevel, true);
+        });
+    }
 
     // Generate extensions for each unique degree
     uniqueDegrees.forEach(({ degree, original }) => {
@@ -1162,6 +1268,7 @@ function generateVariant(variantType) {
     for (let i = 0; i < 12; i++) {
         let degree, chordType, notes, chordName, romanNumeral, quality;
         let isProgressionChord = false;
+        let isChordMatcherChord = false;
 
         // First, place the progression chords
         if (i < progressionChords.length) {
@@ -1171,6 +1278,7 @@ function generateVariant(variantType) {
             romanNumeral = progChord.romanNumeral;
             chordType = progChord.chordType;
             isProgressionChord = true;
+            isChordMatcherChord = progChord.isChordMatcherChord || false;
 
             // Enhance chords based on variant type
             if (variantType === 'Jazz' && i >= 4) {
@@ -1223,7 +1331,8 @@ function generateVariant(variantType) {
             quality,
             row: Math.floor(i / 4) + 1,
             col: (i % 4) + 1,
-            isProgressionChord
+            isProgressionChord,
+            isChordMatcherChord
         };
 
         pads.push(pad);
@@ -1245,7 +1354,8 @@ function generateVariant(variantType) {
                 quality: chord.quality,
                 row: 4,
                 col: i + 1,
-                isProgressionChord: false
+                isProgressionChord: false,
+                isChordMatcherChord: false
             });
         } else {
             // Fallback if not enough candidates (shouldn't happen)
@@ -1259,7 +1369,8 @@ function generateVariant(variantType) {
                 quality: 'Major',
                 row: 4,
                 col: i + 1,
-                isProgressionChord: false
+                isProgressionChord: false,
+                isChordMatcherChord: false
             });
         }
     }
@@ -1405,7 +1516,7 @@ function renderProgressions() {
 
         const gridHTML = rows.reverse().map(row =>
             row.map(pad => `
-                <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''}"
+                <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''}"
                     data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}">
                     <div class="chord-text-column">
                         <div class="chord-pad-content">
