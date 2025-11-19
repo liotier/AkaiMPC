@@ -2021,8 +2021,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Create dynamic @page rule based on current context
         printStyleElement = document.createElement('style');
-        if (currentContext === 'keyboard') {
-            // Keyboard diagrams are wide - use landscape
+        if (currentContext === 'keyboard' || currentContext === 'staff') {
+            // Keyboard and staff diagrams are wide - use landscape
             printStyleElement.textContent = '@page { size: landscape; margin: 1cm; }';
         } else {
             // Guitar and MPC use portrait (guitar diagrams are tall)
