@@ -696,7 +696,7 @@ body[data-context="keyboard"] .chord-pad {
 body[data-context="keyboard"] .chord-role {
     display: block;
     position: absolute;
-    top: 30px;
+    top: 5px;
     right: 12px;
     max-width: 50%;
     font-size: 10px;
@@ -704,7 +704,15 @@ body[data-context="keyboard"] .chord-role {
     color: var(--muted);
     text-align: right;
     margin: 0;
-    transform: translateY(-50%);
+}
+
+body[data-context="keyboard"] .chord-notes {
+    position: absolute;
+    bottom: 40px;
+    right: 12px;
+    max-width: 50%;
+    text-align: right;
+    margin: 0;
 }
 
 /* Two-column layout for Guitar cards */
