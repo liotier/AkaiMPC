@@ -1815,6 +1815,25 @@ document.addEventListener('DOMContentLoaded', function() {
         '3': 13, '4': 14, '5': 15, '6': 16  // Top visual row (Row 4)
     };
 
+    // Calculate visible area of element in viewport
+    function getVisibleArea(element) {
+        const rect = element.getBoundingClientRect();
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+
+        // Calculate intersection rectangle
+        const visibleTop = Math.max(0, rect.top);
+        const visibleBottom = Math.min(viewportHeight, rect.bottom);
+        const visibleLeft = Math.max(0, rect.left);
+        const visibleRight = Math.min(viewportWidth, rect.right);
+
+        // Calculate visible area
+        const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+        const visibleWidth = Math.max(0, visibleRight - visibleLeft);
+
+        return visibleHeight * visibleWidth;
+    }
+
     document.addEventListener('keydown', (event) => {
         // Ignore if typing in an input field
         if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT' || event.target.tagName === 'TEXTAREA') {
@@ -1829,17 +1848,31 @@ document.addEventListener('DOMContentLoaded', function() {
             // Prevent default browser behavior
             event.preventDefault();
 
-            // Find all pads with matching PAD number across all progression cards
+            // Find the progression card with the most visible area in viewport
             const container = document.getElementById('progressionsContainer');
-            const allPads = container.querySelectorAll('.chord-pad');
+            const allCards = container.querySelectorAll('.progression-card');
 
-            allPads.forEach(pad => {
-                const padText = pad.querySelector('.pad-number');
-                if (padText && padText.textContent === `PAD ${padNumber}`) {
-                    // Trigger click on this pad
-                    pad.click();
+            let mostVisibleCard = null;
+            let maxVisibleArea = 0;
+
+            allCards.forEach(card => {
+                const visibleArea = getVisibleArea(card);
+                if (visibleArea > maxVisibleArea) {
+                    maxVisibleArea = visibleArea;
+                    mostVisibleCard = card;
                 }
             });
+
+            // Trigger the pad only in the most visible card
+            if (mostVisibleCard) {
+                const pads = mostVisibleCard.querySelectorAll('.chord-pad');
+                pads.forEach(pad => {
+                    const padText = pad.querySelector('.pad-number');
+                    if (padText && padText.textContent === `PAD ${padNumber}`) {
+                        pad.click();
+                    }
+                });
+            }
         }
     });
 
