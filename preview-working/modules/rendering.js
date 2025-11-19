@@ -143,73 +143,65 @@ export function generateGuitarSVG(guitarChord, pad, isLeftHanded) {
 export function generateStaffSVG(notes) {
     if (!notes || notes.length === 0) return '';
 
-    // Calculate dimensions based on number of notes
-    const noteSpacing = 45;
-    const leftMargin = 80; // Start first note where second one used to be
+    // Sort notes from low to high
+    const sortedNotes = [...notes].sort((a, b) => a - b);
+
+    // Fixed staff dimensions for visual consistency
+    const staffY = 30;
+    const lineSpacing = 12;
+    const stemHeight = 35;
+    const fixedHeight = 160; // Constant height
+
+    // Calculate width based on number of notes
+    const baseNoteSpacing = 45;
+    const leftMargin = 80;
     const rightMargin = 20;
-    const width = leftMargin + (notes.length - 1) * noteSpacing + rightMargin;
+    const width = leftMargin + (sortedNotes.length - 1) * baseNoteSpacing + rightMargin;
 
-    const staffY = 20; // Reduce top margin
-    const lineSpacing = 12; // Slightly larger for better readability
-    const bottomMargin = 15; // Reduce bottom margin
-
-    // MIDI note to staff position mapping (middle C = 60)
+    // MIDI note to staff position mapping
+    // Position 8 = E4 (bottom line), decreasing numbers go up
+    // Notes must be exactly on lines or in spaces (integer positions only)
     const notePositions = {
-        48: 13, // C3
-        49: 12.5, // C#3/Db3
-        50: 12, // D3
-        51: 11.5, // D#3/Eb3
-        52: 11, // E3
-        53: 10.5, // F3
-        54: 10, // F#3/Gb3
-        55: 9.5, // G3
-        56: 9, // G#3/Ab3
-        57: 8.5, // A3
-        58: 8, // A#3/Bb3
-        59: 7.5, // B3
-        60: 7, // C4 (middle C)
-        61: 6.5, // C#4/Db4
-        62: 6, // D4
-        63: 5.5, // D#4/Eb4
-        64: 5, // E4 (bottom staff line)
-        65: 4.5, // F4
-        66: 4, // F#4/Gb4
-        67: 3.5, // G4
-        68: 3, // G#4/Ab4
-        69: 2.5, // A4
-        70: 2, // A#4/Bb4
-        71: 1.5, // B4
-        72: 1, // C5
-        73: 0.5, // C#5/Db5
-        74: 0, // D5
-        75: -0.5, // D#5/Eb5
-        76: -1, // E5
-        77: -1.5, // F5 (top staff line)
-        78: -2, // F#5/Gb5
-        79: -2.5, // G5
-        80: -3, // G#5/Ab5
-        81: -3.5, // A5
-        82: -4, // A#5/Bb5
-        83: -4.5, // B5
-        84: -5  // C6
+        48: 17, // C3
+        49: 17, // C#3/Db3
+        50: 16, // D3
+        51: 16, // D#3/Eb3
+        52: 15, // E3
+        53: 14, // F3
+        54: 14, // F#3/Gb3
+        55: 13, // G3
+        56: 13, // G#3/Ab3
+        57: 12, // A3
+        58: 12, // A#3/Bb3
+        59: 11, // B3
+        60: 10, // C4 (middle C - ledger line)
+        61: 10, // C#4/Db4
+        62: 9,  // D4
+        63: 9,  // D#4/Eb4
+        64: 8,  // E4 (bottom staff line)
+        65: 7,  // F4
+        66: 7,  // F#4/Gb4
+        67: 6,  // G4
+        68: 6,  // G#4/Ab4
+        69: 5,  // A4
+        70: 5,  // A#4/Bb4
+        71: 4,  // B4
+        72: 3,  // C5
+        73: 3,  // C#5/Db5
+        74: 2,  // D5
+        75: 2,  // D#5/Eb5
+        76: 1,  // E5
+        77: 0,  // F5 (top staff line)
+        78: 0,  // F#5/Gb5
+        79: -1, // G5
+        80: -1, // G#5/Ab5
+        81: -2, // A5
+        82: -2, // A#5/Bb5
+        83: -3, // B5
+        84: -4  // C6
     };
 
-    // Find min and max staff positions to calculate height
-    let minPosition = 0;
-    let maxPosition = 5;
-    notes.forEach(midiNote => {
-        const pos = notePositions[midiNote] || 7;
-        if (pos < minPosition) minPosition = pos;
-        if (pos > maxPosition) maxPosition = pos;
-    });
-
-    // Calculate height based on actual note range
-    const stemHeight = 35;
-    const topY = staffY + 20 + minPosition * (lineSpacing / 2) - stemHeight;
-    const bottomY = staffY + 20 + maxPosition * (lineSpacing / 2) + 10;
-    const height = Math.max(bottomY + bottomMargin - Math.min(topY, staffY), 100);
-
-    let svg = `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
+    let svg = `<svg viewBox="0 0 ${width} ${fixedHeight}" xmlns="http://www.w3.org/2000/svg">`;
 
     // Draw the 5 staff lines
     for (let i = 0; i < 5; i++) {
@@ -217,25 +209,25 @@ export function generateStaffSVG(notes) {
         svg += `<line x1="15" y1="${y}" x2="${width - 10}" y2="${y}" stroke="black" stroke-width="1.2"/>`;
     }
 
-    // Draw treble clef
+    // Draw treble clef (clé de sol) - always same size
     svg += `<text x="20" y="${staffY + 42}" font-family="serif" font-size="55" font-weight="bold">𝄞</text>`;
 
     // Draw each note as an eighth note
-    notes.forEach((midiNote, index) => {
-        const x = leftMargin + index * noteSpacing;
-        const staffPosition = notePositions[midiNote] || 7;
+    sortedNotes.forEach((midiNote, index) => {
+        const x = leftMargin + index * baseNoteSpacing;
+        const staffPosition = notePositions[midiNote] || 10;
         const y = staffY + 20 + staffPosition * (lineSpacing / 2);
 
         // Draw ledger lines if needed
-        if (staffPosition > 5) {
-            // Below staff
-            for (let line = 6; line <= Math.floor(staffPosition); line += 2) {
+        if (staffPosition >= 10) {
+            // Below staff (middle C and below)
+            for (let line = 10; line <= staffPosition; line += 2) {
                 const ledgerY = staffY + 20 + line * (lineSpacing / 2);
                 svg += `<line x1="${x - 10}" y1="${ledgerY}" x2="${x + 10}" y2="${ledgerY}" stroke="black" stroke-width="1.2"/>`;
             }
-        } else if (staffPosition < -1) {
+        } else if (staffPosition <= -2) {
             // Above staff
-            for (let line = -2; line >= Math.ceil(staffPosition); line -= 2) {
+            for (let line = -2; line >= staffPosition; line -= 2) {
                 const ledgerY = staffY + 20 + line * (lineSpacing / 2);
                 svg += `<line x1="${x - 10}" y1="${ledgerY}" x2="${x + 10}" y2="${ledgerY}" stroke="black" stroke-width="1.2"/>`;
             }
