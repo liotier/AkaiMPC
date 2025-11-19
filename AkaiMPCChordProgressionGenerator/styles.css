@@ -768,6 +768,7 @@ body[data-context="staff"] .chord-staff {
     height: 144px;
     margin: 0;
     padding-right: 12px;
+    padding-top: 26px;
 }
 
 /* Wrap notes in Staff context */
@@ -1015,13 +1016,18 @@ footer a:hover {
 
     .progression-header {
         margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #000;
     }
 
     .progression-title {
         font-size: 20px;
         font-weight: 700;
+        display: inline;
+        margin-right: 12px;
+    }
+
+    .progression-meta {
+        display: inline;
+        font-size: 14px;
     }
 
     .chord-grid {
