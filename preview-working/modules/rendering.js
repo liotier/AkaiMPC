@@ -146,6 +146,18 @@ export function generateStaffSVG(notes) {
     // Sort notes from low to high
     const sortedNotes = [...notes].sort((a, b) => a - b);
 
+    // Intelligently transpose notes to fit optimally on staff
+    // Target: center notes around B4 (MIDI 71), the middle staff line
+    const median = sortedNotes[Math.floor(sortedNotes.length / 2)];
+    const targetMedian = 71; // B4 - middle line of treble staff
+
+    // Calculate octave shift (in multiples of 12 semitones)
+    const rawShift = targetMedian - median;
+    const octaveShift = Math.round(rawShift / 12) * 12;
+
+    // Transpose all notes by the calculated octave shift
+    const transposedNotes = sortedNotes.map(note => note + octaveShift);
+
     // FIXED staff dimensions for visual consistency - no scaling
     const staffY = 30;
     const lineSpacing = 12;
@@ -162,8 +174,8 @@ export function generateStaffSVG(notes) {
     const startX = leftMargin;
 
     // MIDI note to staff position mapping - based on treble clef
-    // Staff lines (from bottom): E4(64)=15, G4(67)=13, B4(71)=11, D5(74)=9, F5(77)=7
-    // Spaces (from bottom): F4(65)=14, A4(69)=12, C5(72)=10, E5(76)=8
+    // Staff lines (from bottom): E4(64)=8, G4(67)=6, B4(71)=4, D5(74)=2, F5(77)=0
+    // Spaces (from bottom): F4(65)=7, A4(69)=5, C5(72)=3, E5(76)=1
     const noteToStaffPosition = (midi) => {
         // Using modulo 12 to get note within octave, then octave offset
         const noteInOctave = midi % 12; // 0=C, 1=C#, 2=D, etc.
@@ -174,9 +186,9 @@ export function generateStaffSVG(notes) {
         const noteOffsets = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
         const offsetInOctave = noteOffsets[noteInOctave];
 
-        // C4 (MIDI 60) now at position 17 (one octave lower than before)
+        // C4 (MIDI 60) is at position 10 (ledger line below staff)
         // Each octave up decreases position by 7, down increases by 7
-        const c4Position = 17; // Middle C position - moved down one octave
+        const c4Position = 10; // Middle C position
         const c4Octave = 5; // floor(60/12) = 5
         const octaveDifference = octave - c4Octave;
 
@@ -195,7 +207,7 @@ export function generateStaffSVG(notes) {
     svg += `<text x="20" y="${staffY + 42}" font-family="serif" font-size="55" font-weight="bold">𝄞</text>`;
 
     // Draw each note as an eighth note
-    sortedNotes.forEach((midiNote, index) => {
+    transposedNotes.forEach((midiNote, index) => {
         const x = startX + index * baseNoteSpacing;
         const staffPosition = noteToStaffPosition(midiNote);
         const y = staffY + staffPosition * (lineSpacing / 2);
