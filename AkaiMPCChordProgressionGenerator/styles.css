@@ -610,6 +610,10 @@ body[data-context="staff"] .download-btn {
     word-break: break-all;
 }
 
+.chord-role {
+    display: none;
+}
+
 .chord-keyboard {
     margin-top: 1px;
     margin-bottom: 1px;
@@ -684,20 +688,23 @@ body[data-context="staff"] .pad-number {
     display: none;
 }
 
-/* Keyboard context: Move roman numeral to top right */
+/* Keyboard context: Display role in top right */
 body[data-context="keyboard"] .chord-pad {
     position: relative;
 }
 
-body[data-context="keyboard"] .chord-roman {
+body[data-context="keyboard"] .chord-role {
+    display: block;
     position: absolute;
-    top: 12px;
+    top: 30px;
     right: 12px;
-    font-size: 11px;
-    font-weight: 700;
+    max-width: 50%;
+    font-size: 10px;
+    line-height: 1.3;
     color: var(--muted);
-    opacity: 0.8;
+    text-align: right;
     margin: 0;
+    transform: translateY(-50%);
 }
 
 /* Two-column layout for Guitar cards */

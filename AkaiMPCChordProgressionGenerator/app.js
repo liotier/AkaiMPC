@@ -1542,9 +1542,11 @@ function renderProgressions() {
         });
 
         const gridHTML = rows.reverse().map(row =>
-            row.map(pad => `
+            row.map(pad => {
+                const roleText = getChordTooltip(pad.romanNumeral, pad.quality);
+                return `
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''}"
-                    data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}">
+                    data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replace(/"/g, '&quot;')}">
                     <div class="chord-text-column">
                         <div class="chord-pad-content">
                             <div class="chord-info">
@@ -1554,6 +1556,7 @@ function renderProgressions() {
                         </div>
                         <div class="chord-quality">${pad.quality}</div>
                         <div class="chord-roman">${pad.romanNumeral}</div>
+                        <div class="chord-role">${roleText}</div>
                         <div class="chord-notes">
                             ${(() => {
                                 // Map quality to chord type for proper spelling
@@ -1581,7 +1584,8 @@ function renderProgressions() {
                     <div class="chord-guitar">${generateGuitarSVG(getGuitarChord(pad), pad, isLeftHanded)}</div>
                     <div class="chord-staff">${generateStaffSVG(pad.notes)}</div>
                 </div>
-            `).join('')
+            `;
+            }).join('')
         ).join('');
 
         const progressionAnalysis = analyzeProgression(variant.pads);
@@ -1608,9 +1612,10 @@ function renderProgressions() {
         container.appendChild(card);
     });
 
-    // Add hover handlers for tooltips
+    // Add hover handlers for tooltips (skip for keyboard context where role is always visible)
     container.querySelectorAll('.chord-pad').forEach(pad => {
         pad.addEventListener('mouseenter', function() {
+            if (currentContext === 'keyboard') return; // Skip tooltip in keyboard context
             const roman = this.getAttribute('data-roman');
             const quality = this.getAttribute('data-quality');
             const tooltipText = getChordTooltip(roman, quality);
@@ -1618,6 +1623,7 @@ function renderProgressions() {
         });
 
         pad.addEventListener('mouseleave', function() {
+            if (currentContext === 'keyboard') return; // Skip tooltip in keyboard context
             const tooltip = document.getElementById('chordTooltip');
             if (tooltip) tooltip.classList.remove('visible');
         });
