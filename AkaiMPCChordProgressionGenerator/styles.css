@@ -754,7 +754,7 @@ body[data-context="staff"] .chord-pad {
     grid-template-columns: 30% 70%;
     gap: 12px;
     align-items: start;
-    min-height: 135px;
+    min-height: 130px;
 }
 
 body[data-context="staff"] .chord-text-column {
@@ -765,8 +765,9 @@ body[data-context="staff"] .chord-text-column {
 
 body[data-context="staff"] .chord-staff {
     width: 100%;
-    height: 187px;
+    height: 120px;
     margin: 0;
+    padding-right: 12px;
 }
 
 /* Wrap notes in Staff context */
@@ -834,7 +835,7 @@ body[data-context="staff"] .chord-notes {
     /* Scale down diagram on tablets */
     body[data-context="staff"] .chord-staff {
         width: 220px;
-        height: 143px;
+        height: 90px;
     }
 }
 
