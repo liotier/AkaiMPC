@@ -28,7 +28,8 @@ import {
 
 import {
     generateKeyboardSVG,
-    generateGuitarSVG
+    generateGuitarSVG,
+    generateStaffSVG
 } from './modules/rendering.js';
 
 // State variables
@@ -1314,6 +1315,7 @@ function renderProgressions() {
                     </div>
                     <div class="chord-keyboard">${generateKeyboardSVG(pad.notes)}</div>
                     <div class="chord-guitar">${generateGuitarSVG(getGuitarChord(pad), pad, isLeftHanded)}</div>
+                    <div class="chord-staff">${generateStaffSVG(pad.notes)}</div>
                 </div>
             `).join('')
         ).join('');
@@ -1361,9 +1363,20 @@ function renderProgressions() {
     container.querySelectorAll('.chord-pad').forEach(pad => {
         pad.addEventListener('click', function() {
             const notes = this.getAttribute('data-notes').split(',').map(Number);
-            playChord(notes);
-            this.classList.add('playing');
-            setTimeout(() => this.classList.remove('playing'), 300);
+
+            // In staff context, play notes sequentially as eighth notes at 90 BPM
+            if (currentContext === 'staff') {
+                playNotesSequentially(notes);
+                this.classList.add('playing');
+                // Remove playing class after all notes have played
+                const totalDuration = notes.length * 333;
+                setTimeout(() => this.classList.remove('playing'), totalDuration);
+            } else {
+                // In other contexts, play as a chord
+                playChord(notes);
+                this.classList.add('playing');
+                setTimeout(() => this.classList.remove('playing'), 300);
+            }
         });
     });
 
@@ -1426,6 +1439,71 @@ async function playChord(notes) {
         oscillator.start(audioContext.currentTime);
         oscillator.stop(audioContext.currentTime + 0.5);
     });
+}
+
+// Play notes sequentially as eighth notes at 90 BPM (for staff context)
+async function playNotesSequentially(notes) {
+    // At 90 BPM: 1 beat = 667ms, 1 eighth note = 333ms
+    const eighthNoteDuration = 333; // milliseconds
+    const noteSustain = 300; // slightly shorter than duration for clarity
+
+    // Try MIDI output first if a device is selected
+    if (selectedMidiOutput) {
+        try {
+            console.log('Sending MIDI notes sequentially:', notes, 'to', selectedMidiOutput.name);
+            const channel = selectedMidiOutput.channels[1];
+
+            for (let i = 0; i < notes.length; i++) {
+                channel.playNote(notes[i], {
+                    duration: noteSustain,
+                    velocity: 0.7
+                });
+                // Wait for the eighth note duration before playing next note
+                if (i < notes.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, eighthNoteDuration));
+                }
+            }
+            return; // MIDI successful, skip beep
+        } catch (error) {
+            console.error('MIDI sequential playback failed, falling back to beep:', error);
+            console.error('Error details:', error.message, error.stack);
+        }
+    } else {
+        console.log('No MIDI device selected, using browser beep');
+    }
+
+    // Fallback to Web Audio beep
+    if (!audioContext) return;
+
+    if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+    }
+
+    for (let i = 0; i < notes.length; i++) {
+        const midiNote = notes[i];
+        const frequency = 440 * Math.pow(2, (midiNote - 69) / 12);
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+        oscillator.type = 'sine';
+
+        const startTime = audioContext.currentTime;
+        gainNode.gain.setValueAtTime(0, startTime);
+        gainNode.gain.linearRampToValueAtTime(0.2, startTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + noteSustain / 1000);
+
+        oscillator.start(startTime);
+        oscillator.stop(startTime + noteSustain / 1000);
+
+        // Wait for the eighth note duration before playing next note
+        if (i < notes.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, eighthNoteDuration));
+        }
+    }
 }
 
 function exportProgressions() {
