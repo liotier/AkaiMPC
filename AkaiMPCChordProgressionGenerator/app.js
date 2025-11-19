@@ -1013,7 +1013,8 @@ function generateVariant(variantType) {
     let progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees, selectedMode);
 
     // Convert progression sequence to palette ensuring ALL 16 PADS ARE UNIQUE
-    // Harmonic gradient: Row 4 (pads 13-16) = foundation, Row 1 (pads 1-4) = spicy
+    // Harmonic gradient: Row 1 (pads 1-4, bottom visual row) = foundation with tonic
+    //                    Row 4 (pads 13-16, top visual row) = spicy adventurous chords
 
     // Extract unique chord degrees
     const uniqueDegrees = [];
@@ -1802,6 +1803,43 @@ document.addEventListener('DOMContentLoaded', function() {
         if (printStyleElement) {
             printStyleElement.remove();
             printStyleElement = null;
+        }
+    });
+
+    // Keyboard controls for triggering pads 1-16
+    // Keys cvbndfgherty3456 map to pads, works with CAPS LOCK on
+    const keyToPad = {
+        'c': 1, 'v': 2, 'b': 3, 'n': 4,     // Bottom visual row (Row 1)
+        'd': 5, 'f': 6, 'g': 7, 'h': 8,     // Row 2
+        'e': 9, 'r': 10, 't': 11, 'y': 12,  // Row 3
+        '3': 13, '4': 14, '5': 15, '6': 16  // Top visual row (Row 4)
+    };
+
+    document.addEventListener('keydown', (event) => {
+        // Ignore if typing in an input field
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT' || event.target.tagName === 'TEXTAREA') {
+            return;
+        }
+
+        // Get key in lowercase to support CAPS LOCK
+        const key = event.key.toLowerCase();
+        const padNumber = keyToPad[key];
+
+        if (padNumber) {
+            // Prevent default browser behavior
+            event.preventDefault();
+
+            // Find all pads with matching PAD number across all progression cards
+            const container = document.getElementById('progressionsContainer');
+            const allPads = container.querySelectorAll('.chord-pad');
+
+            allPads.forEach(pad => {
+                const padText = pad.querySelector('.pad-number');
+                if (padText && padText.textContent === `PAD ${padNumber}`) {
+                    // Trigger click on this pad
+                    pad.click();
+                }
+            });
         }
     });
 
