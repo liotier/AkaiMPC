@@ -156,14 +156,9 @@ async function initMIDI() {
                 midiOutputSelect.appendChild(option);
             });
 
-            // Auto-select first MIDI device
-            if (WebMidi.outputs.length > 0) {
-                selectedMidiOutput = WebMidi.outputs[0];
-                midiOutputSelect.value = selectedMidiOutput.id;
-                console.log(`Auto-selected MIDI output: ${selectedMidiOutput.name}`);
-            }
-
             console.log(`Found ${WebMidi.outputs.length} MIDI output(s)`);
+            // Default remains "Browser beep" (selectedMidiOutput = null)
+            console.log('Default audio output: Browser beep');
         } else {
             console.log('No MIDI outputs available');
         }
