@@ -146,76 +146,56 @@ export function generateStaffSVG(notes) {
     // Sort notes from low to high
     const sortedNotes = [...notes].sort((a, b) => a - b);
 
-    // Fixed staff dimensions for visual consistency
+    // FIXED staff dimensions for visual consistency - no scaling
     const staffY = 30;
     const lineSpacing = 12;
     const stemHeight = 35;
-    const fixedHeight = 160; // Constant height
+    const fixedWidth = 400;  // Constant width - no horizontal scaling
+    const fixedHeight = 160; // Constant height - no vertical scaling
 
-    // Calculate width based on number of notes
+    // Calculate note positions
     const baseNoteSpacing = 45;
     const leftMargin = 80;
-    const rightMargin = 20;
-    const width = leftMargin + (sortedNotes.length - 1) * baseNoteSpacing + rightMargin;
+    const totalNotesWidth = (sortedNotes.length - 1) * baseNoteSpacing;
+    const startX = leftMargin; // Notes start at same position for consistency
 
-    // MIDI note to staff position mapping
-    // Position 8 = E4 (bottom line), decreasing numbers go up
-    // Notes must be exactly on lines or in spaces (integer positions only)
-    const notePositions = {
-        48: 17, // C3
-        49: 17, // C#3/Db3
-        50: 16, // D3
-        51: 16, // D#3/Eb3
-        52: 15, // E3
-        53: 14, // F3
-        54: 14, // F#3/Gb3
-        55: 13, // G3
-        56: 13, // G#3/Ab3
-        57: 12, // A3
-        58: 12, // A#3/Bb3
-        59: 11, // B3
-        60: 10, // C4 (middle C - ledger line)
-        61: 10, // C#4/Db4
-        62: 9,  // D4
-        63: 9,  // D#4/Eb4
-        64: 8,  // E4 (bottom staff line)
-        65: 7,  // F4
-        66: 7,  // F#4/Gb4
-        67: 6,  // G4
-        68: 6,  // G#4/Ab4
-        69: 5,  // A4
-        70: 5,  // A#4/Bb4
-        71: 4,  // B4
-        72: 3,  // C5
-        73: 3,  // C#5/Db5
-        74: 2,  // D5
-        75: 2,  // D#5/Eb5
-        76: 1,  // E5
-        77: 0,  // F5 (top staff line)
-        78: 0,  // F#5/Gb5
-        79: -1, // G5
-        80: -1, // G#5/Ab5
-        81: -2, // A5
-        82: -2, // A#5/Bb5
-        83: -3, // B5
-        84: -4  // C6
+    // MIDI note to staff position mapping - based on treble clef
+    // Staff lines (from bottom): E4(64)=8, G4(67)=6, B4(71)=4, D5(74)=2, F5(77)=0
+    // Spaces (from bottom): F4(65)=7, A4(69)=5, C5(72)=3, E5(76)=1
+    const noteToStaffPosition = (midi) => {
+        // Using modulo 12 to get note within octave, then octave offset
+        const noteInOctave = midi % 12; // 0=C, 1=C#, 2=D, etc.
+        const octave = Math.floor(midi / 12);
+
+        // Map each note in octave to its position offset within an octave
+        // C=0, C#=0, D=1, D#=1, E=2, F=3, F#=3, G=4, G#=4, A=5, A#=5, B=6
+        const noteOffsets = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6]; // positions within octave
+        const offsetInOctave = noteOffsets[noteInOctave];
+
+        // C4 (MIDI 60, octave 5) is at position 10
+        // Each octave up decreases position by 7, down increases by 7
+        const c4Position = 10; // Middle C position
+        const c4Octave = 5; // MIDI 60-71 is octave 5
+        const octaveDifference = octave - c4Octave;
+
+        return c4Position - (octaveDifference * 7) - offsetInOctave;
     };
 
-    let svg = `<svg viewBox="0 0 ${width} ${fixedHeight}" xmlns="http://www.w3.org/2000/svg">`;
+    let svg = `<svg viewBox="0 0 ${fixedWidth} ${fixedHeight}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">`;
 
-    // Draw the 5 staff lines
+    // Draw the 5 staff lines - always same position
     for (let i = 0; i < 5; i++) {
         const y = staffY + i * lineSpacing;
-        svg += `<line x1="15" y1="${y}" x2="${width - 10}" y2="${y}" stroke="black" stroke-width="1.2"/>`;
+        svg += `<line x1="15" y1="${y}" x2="${fixedWidth - 10}" y2="${y}" stroke="black" stroke-width="1.2"/>`;
     }
 
-    // Draw treble clef (clé de sol) - always same size
+    // Draw treble clef (clé de sol) - always same size and position
     svg += `<text x="20" y="${staffY + 42}" font-family="serif" font-size="55" font-weight="bold">𝄞</text>`;
 
     // Draw each note as an eighth note
     sortedNotes.forEach((midiNote, index) => {
-        const x = leftMargin + index * baseNoteSpacing;
-        const staffPosition = notePositions[midiNote] || 10;
+        const x = startX + index * baseNoteSpacing;
+        const staffPosition = noteToStaffPosition(midiNote);
         const y = staffY + staffPosition * (lineSpacing / 2);
 
         // Draw ledger lines if needed
