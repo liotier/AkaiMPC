@@ -43,6 +43,15 @@ Each generation creates four musically distinct versions of your progression wit
 - **Modal** - Open voicings (drop-2) for a more spacious, airy sound. Perfect for atmospheric pads.
 - **Experimental** - Spread voicings for maximum variation. For producers who color outside the lines.
 
+### Chord Palette Approach: Your Musical Color Wheel
+
+Rather than repeating chords sequentially, each progression provides a **palette of 16 unique chords** - like a painter's color palette for harmonic exploration:
+
+- **All 16 pads are unique** - No duplicate chord types, maximizing your harmonic options
+- **Harmonic gradient from foundation to spice** - Bottom row (pads 1-4) provides bread-and-butter chords with the tonic anchoring pad 1. Top row (pads 13-16) offers adventurous, colorful extensions for when you want to take risks.
+- **Intelligent extensions** - For each chord degree, generates different variations (triads, 7ths, major 7ths, 9ths) plus complementary chords (ii7, vi, ♭VII, ♭VI, ♭III, iv)
+- **Your sequence, your choice** - The generator gives you the colors; you paint the progression
+
 ## Deep Music Theory, Simple Interface
 
 ### Comprehensive Scale Support
@@ -99,14 +108,17 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 
 ### Real-Time Production Tools
 - **WebMIDI Output Support** - Send chords directly to softsynths or hardware via MIDI (Firefox 108+, Chrome, Edge). Auto-detects available devices with graceful fallback to browser beep.
+- **Computer Keyboard Control** - Trigger pads 1-16 with keys `cvbn` (pads 1-4), `dfgh` (5-8), `erty` (9-12), `3456` (13-16). Layout mirrors the MPC grid. Works with CAPS LOCK on, compatible with AZERTY/QWERTY keyboards. Automatically targets the progression variant most visible in your viewport.
 - **Instant Audio Preview** - Hear any chord with real instrument sounds or browser beep
 - **Visual Feedback** - See the notes on a piano roll, understand the intervals
 - **Roman Numeral Analysis** - Know the function of every chord in your progression
 - **Batch Operations** - Generate and export multiple progressions for your entire project
 
-### Beyond the MPC: Keyboard & Guitar Support
-- **Switch between three views** - MPC pads, piano keyboard, or guitar fretboard
-- **Print chord diagrams** - Generate progressions, switch to keyboard or guitar view, and print
+### Beyond the MPC: Multi-Instrument Visualization
+- **Switch between four views** - MPC pads, piano keyboard, guitar fretboard, or staff notation
+- **Staff notation with intelligent octave placement** - Treble clef with automatic transposition for optimal readability
+- **Sequential playback in staff view** - Notes play as eighth notes at 90 BPM for melodic exploration
+- **Print chord diagrams** - Generate progressions, switch to any view, and print
 - **Jam with friends** - Hand out printed chord sheets for your custom progressions
 - **Left-handed guitar support** - Mirror fretboard diagrams for left-handed players
 
@@ -143,6 +155,8 @@ Together, they provide the complete harmonic toolkit for modern MPC-based Pad Pe
 - Voice leading optimization with greedy algorithm for smooth transitions
 - Custom harmonic analysis engine with parallel major Roman numeral analysis
 - Responsive CSS Grid that mirrors the MPC's 4×4 pad layout
+- SVG-based staff notation rendering with intelligent octave transposition
+- Viewport-aware keyboard event handling for seamless multi-progression browsing
 - JSZip for seamless multi-file exports
 
 ## Contributing
@@ -162,7 +176,7 @@ This project was originally distributed as a single self-contained HTML file for
 - `modules/musicTheory.js` — core music theory engine
 - `modules/guitarChords.js` — guitar chord library
 - `modules/storage.js` — localStorage and URL handling
-- `modules/rendering.js` — SVG generation for diagrams
+- `modules/rendering.js` — SVG generation for keyboard, guitar, and staff notation diagrams
 
 Deployment remains the same: host these files on any static file host (GitHub Pages, Netlify, etc.). Modular structure improves readability, caching, and makes incremental development and testing easier.
 
