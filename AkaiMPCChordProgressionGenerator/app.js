@@ -1518,6 +1518,95 @@ function renderProgressions() {
     document.getElementById('downloadAllBtn').style.display = 'block';
 }
 
+// Start playing chord (note-on) - for keyboard sustain
+let activeOscillators = {}; // Track active Web Audio oscillators by MIDI note
+
+async function startChord(notes) {
+    // Try MIDI output first if a device is selected
+    if (selectedMidiOutput) {
+        try {
+            console.log('Sending MIDI note-on:', notes, 'to', selectedMidiOutput.name);
+            const channel = selectedMidiOutput.channels[1];
+            notes.forEach(midiNote => {
+                channel.playNote(midiNote, {
+                    duration: Infinity, // Sustain until note-off
+                    velocity: 0.7
+                });
+            });
+            return; // MIDI successful, skip beep
+        } catch (error) {
+            console.error('MIDI playback failed, falling back to beep:', error);
+            console.error('Error details:', error.message, error.stack);
+        }
+    }
+
+    // Fallback to Web Audio beep with sustain
+    if (!audioContext) return;
+
+    if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+    }
+
+    notes.forEach(midiNote => {
+        // Stop any existing oscillator for this note
+        if (activeOscillators[midiNote]) {
+            activeOscillators[midiNote].gainNode.gain.cancelScheduledValues(audioContext.currentTime);
+            activeOscillators[midiNote].gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+            activeOscillators[midiNote].oscillator.stop(audioContext.currentTime + 0.05);
+            delete activeOscillators[midiNote];
+        }
+
+        const frequency = 440 * Math.pow(2, (midiNote - 69) / 12);
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+        oscillator.type = 'sine';
+
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.01);
+
+        oscillator.start(audioContext.currentTime);
+
+        // Store the oscillator for later stopping
+        activeOscillators[midiNote] = { oscillator, gainNode };
+    });
+}
+
+// Stop playing chord (note-off) - for keyboard release
+function stopChord(notes) {
+    // Try MIDI output first if a device is selected
+    if (selectedMidiOutput) {
+        try {
+            console.log('Sending MIDI note-off:', notes, 'to', selectedMidiOutput.name);
+            const channel = selectedMidiOutput.channels[1];
+            notes.forEach(midiNote => {
+                channel.stopNote(midiNote);
+            });
+            return; // MIDI successful, skip beep
+        } catch (error) {
+            console.error('MIDI note-off failed:', error);
+        }
+    }
+
+    // Fallback to Web Audio beep
+    if (!audioContext) return;
+
+    notes.forEach(midiNote => {
+        if (activeOscillators[midiNote]) {
+            const { oscillator, gainNode } = activeOscillators[midiNote];
+            gainNode.gain.cancelScheduledValues(audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+            oscillator.stop(audioContext.currentTime + 0.1);
+            delete activeOscillators[midiNote];
+        }
+    });
+}
+
+// Play chord with fixed duration (for mouse clicks)
 async function playChord(notes) {
     // Try MIDI output first if a device is selected
     if (selectedMidiOutput) {
@@ -1815,6 +1904,9 @@ document.addEventListener('DOMContentLoaded', function() {
         '3': 13, '4': 14, '5': 15, '6': 16  // Top visual row (Row 4)
     };
 
+    // Track pressed keys to avoid key-repeat and for note-off
+    const pressedKeys = new Map(); // key -> { notes, padElement }
+
     // Calculate visible area of element in viewport
     function getVisibleArea(element) {
         const rect = element.getBoundingClientRect();
@@ -1834,6 +1926,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return visibleHeight * visibleWidth;
     }
 
+    // Keydown: start playing chord
     document.addEventListener('keydown', (event) => {
         // Ignore if typing in an input field
         if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT' || event.target.tagName === 'TEXTAREA') {
@@ -1845,6 +1938,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const padNumber = keyToPad[key];
 
         if (padNumber) {
+            // Ignore key-repeat
+            if (pressedKeys.has(key)) {
+                return;
+            }
+
             // Prevent default browser behavior
             event.preventDefault();
 
@@ -1863,17 +1961,69 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // Trigger the pad only in the most visible card
+            // Find and play the pad in the most visible card
             if (mostVisibleCard) {
                 const pads = mostVisibleCard.querySelectorAll('.chord-pad');
                 pads.forEach(pad => {
                     const padText = pad.querySelector('.pad-number');
                     if (padText && padText.textContent === `PAD ${padNumber}`) {
-                        pad.click();
+                        const notes = pad.getAttribute('data-notes').split(',').map(Number);
+
+                        // In staff context, play sequentially (click behavior)
+                        if (currentContext === 'staff') {
+                            playNotesSequentially(notes);
+                            pad.classList.add('playing');
+                            const totalDuration = notes.length * 333;
+                            setTimeout(() => pad.classList.remove('playing'), totalDuration);
+                        } else {
+                            // Start sustained chord for keyboard
+                            startChord(notes);
+                            pad.classList.add('playing');
+
+                            // Store for keyup event
+                            pressedKeys.set(key, { notes, padElement: pad });
+                        }
                     }
                 });
             }
         }
+    });
+
+    // Keyup: stop playing chord
+    document.addEventListener('keyup', (event) => {
+        // Ignore if typing in an input field
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT' || event.target.tagName === 'TEXTAREA') {
+            return;
+        }
+
+        // Get key in lowercase to support CAPS LOCK
+        const key = event.key.toLowerCase();
+
+        if (pressedKeys.has(key)) {
+            const { notes, padElement } = pressedKeys.get(key);
+
+            // Stop the chord
+            stopChord(notes);
+
+            // Remove visual feedback
+            if (padElement) {
+                padElement.classList.remove('playing');
+            }
+
+            // Remove from pressed keys
+            pressedKeys.delete(key);
+        }
+    });
+
+    // Release all notes when window loses focus (prevent stuck notes)
+    window.addEventListener('blur', () => {
+        pressedKeys.forEach(({ notes, padElement }) => {
+            stopChord(notes);
+            if (padElement) {
+                padElement.classList.remove('playing');
+            }
+        });
+        pressedKeys.clear();
     });
 
     // Initialize context
