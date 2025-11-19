@@ -139,3 +139,90 @@ export function generateGuitarSVG(guitarChord, pad, isLeftHanded) {
     svg += '</svg>';
     return svg;
 }
+
+export function generateStaffSVG(notes) {
+    if (!notes || notes.length === 0) return '';
+
+    // Sort notes from low to high
+    const sortedNotes = [...notes].sort((a, b) => a - b);
+
+    // FIXED staff dimensions for visual consistency - no scaling
+    const staffY = 30;
+    const lineSpacing = 12;
+    const stemHeight = 35;
+    const fixedWidth = 400;  // Constant width - no horizontal scaling
+    const fixedHeight = 160; // Constant height - no vertical scaling
+
+    // Calculate note positions
+    const baseNoteSpacing = 45;
+    const leftMargin = 80;
+    const totalNotesWidth = (sortedNotes.length - 1) * baseNoteSpacing;
+    const startX = leftMargin; // Notes start at same position for consistency
+
+    // MIDI note to staff position mapping - based on treble clef
+    // Staff lines (from bottom): E4(64)=8, G4(67)=6, B4(71)=4, D5(74)=2, F5(77)=0
+    // Spaces (from bottom): F4(65)=7, A4(69)=5, C5(72)=3, E5(76)=1
+    const noteToStaffPosition = (midi) => {
+        // Using modulo 12 to get note within octave, then octave offset
+        const noteInOctave = midi % 12; // 0=C, 1=C#, 2=D, etc.
+        const octave = Math.floor(midi / 12);
+
+        // Map each note in octave to its position offset within an octave
+        // C=0, C#=0, D=1, D#=1, E=2, F=3, F#=3, G=4, G#=4, A=5, A#=5, B=6
+        const noteOffsets = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6]; // positions within octave
+        const offsetInOctave = noteOffsets[noteInOctave];
+
+        // C4 (MIDI 60, octave 5) is at position 10
+        // Each octave up decreases position by 7, down increases by 7
+        const c4Position = 10; // Middle C position
+        const c4Octave = 5; // MIDI 60-71 is octave 5
+        const octaveDifference = octave - c4Octave;
+
+        return c4Position - (octaveDifference * 7) - offsetInOctave;
+    };
+
+    let svg = `<svg viewBox="0 0 ${fixedWidth} ${fixedHeight}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">`;
+
+    // Draw the 5 staff lines - always same position
+    for (let i = 0; i < 5; i++) {
+        const y = staffY + i * lineSpacing;
+        svg += `<line x1="15" y1="${y}" x2="${fixedWidth - 10}" y2="${y}" stroke="black" stroke-width="1.2"/>`;
+    }
+
+    // Draw treble clef (clé de sol) - always same size and position
+    svg += `<text x="20" y="${staffY + 42}" font-family="serif" font-size="55" font-weight="bold">𝄞</text>`;
+
+    // Draw each note as an eighth note
+    sortedNotes.forEach((midiNote, index) => {
+        const x = startX + index * baseNoteSpacing;
+        const staffPosition = noteToStaffPosition(midiNote);
+        const y = staffY + staffPosition * (lineSpacing / 2);
+
+        // Draw ledger lines if needed
+        if (staffPosition >= 10) {
+            // Below staff (middle C and below)
+            for (let line = 10; line <= staffPosition; line += 2) {
+                const ledgerY = staffY + line * (lineSpacing / 2);
+                svg += `<line x1="${x - 10}" y1="${ledgerY}" x2="${x + 10}" y2="${ledgerY}" stroke="black" stroke-width="1.2"/>`;
+            }
+        } else if (staffPosition <= -2) {
+            // Above staff
+            for (let line = -2; line >= staffPosition; line -= 2) {
+                const ledgerY = staffY + line * (lineSpacing / 2);
+                svg += `<line x1="${x - 10}" y1="${ledgerY}" x2="${x + 10}" y2="${ledgerY}" stroke="black" stroke-width="1.2"/>`;
+            }
+        }
+
+        // Draw note head (filled oval for eighth notes)
+        svg += `<ellipse cx="${x}" cy="${y}" rx="6" ry="4.5" fill="black" transform="rotate(-20 ${x} ${y})"/>`;
+
+        // Draw stem (upward for all notes)
+        svg += `<line x1="${x + 5}" y1="${y}" x2="${x + 5}" y2="${y - stemHeight}" stroke="black" stroke-width="1.8"/>`;
+
+        // Draw flag for eighth note
+        svg += `<path d="M ${x + 5} ${y - stemHeight} Q ${x + 16} ${y - stemHeight + 6} ${x + 16} ${y - stemHeight + 14} Q ${x + 16} ${y - stemHeight + 9} ${x + 5} ${y - stemHeight + 6}" fill="black"/>`;
+    });
+
+    svg += '</svg>';
+    return svg;
+}
