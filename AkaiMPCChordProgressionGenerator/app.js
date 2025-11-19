@@ -1933,6 +1933,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Ignore if any modifier keys are pressed (allow browser shortcuts like Ctrl-R, Ctrl-T, etc.)
+        if (event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) {
+            return;
+        }
+
         // Get key in lowercase to support CAPS LOCK
         const key = event.key.toLowerCase();
         const padNumber = keyToPad[key];
@@ -1993,6 +1998,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keyup', (event) => {
         // Ignore if typing in an input field
         if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT' || event.target.tagName === 'TEXTAREA') {
+            return;
+        }
+
+        // Ignore if any modifier keys are pressed
+        if (event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) {
             return;
         }
 
