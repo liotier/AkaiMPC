@@ -555,6 +555,25 @@ body[data-context="staff"] .download-btn {
     box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
 }
 
+/* Voice Leading Quality Indicators (subtle color tints for pedagogical value) */
+/* Smooth voice leading: green tint (common tones + step motion) */
+.chord-pad.progression-chord.vl-smooth {
+    border-left: 3px solid #10b981;
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.08) 0%, transparent 20%);
+}
+
+/* Moderate voice leading: blue tint (some smooth movement) */
+.chord-pad.progression-chord.vl-moderate {
+    border-left: 3px solid #3b82f6;
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.08) 0%, transparent 20%);
+}
+
+/* Dramatic leaps: amber tint (large intervals, dramatic effect) */
+.chord-pad.progression-chord.vl-leap {
+    border-left: 3px solid #f59e0b;
+    background: linear-gradient(to right, rgba(245, 158, 11, 0.08) 0%, transparent 20%);
+}
+
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
@@ -916,6 +935,48 @@ body[data-context="staff"] .chord-notes {
     border-top: 5px solid rgba(0, 0, 0, 0.9);
 }
 
+/* Notification Toast */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--accent);
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 2000;
+    max-width: 350px;
+    pointer-events: none;
+}
+
+.notification.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification-info {
+    background: var(--accent);
+}
+
+.notification-success {
+    background: var(--success);
+}
+
+.notification-warning {
+    background: var(--warning);
+    color: var(--fg);
+}
+
+.notification-error {
+    background: var(--error);
+}
+
 .chord-pad {
     position: relative;
 }
@@ -954,14 +1015,6 @@ footer a:hover {
     .header {
         flex-direction: column;
         gap: 12px;
-    }
-
-    .random-buttons-group {
-        flex-direction: column;
-    }
-
-    .random-buttons-group button {
-        min-width: 100%;
     }
 
     .context-tabs-container {
