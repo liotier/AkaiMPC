@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MPC Chord Progression Finder</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --pad-bg: #f9fafb;
+      --pad-hover: #f3f4f6;
+      --accent: #3b82f6;
+      --accent-dark: #2563eb;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --radius: 8px;
+      --font-mono: 'Fira Code', 'Monaco', monospace;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    
+    /* Loading State */
+    .loading {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--accent);
+      color: white;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+    }
+    
+    .loading.active {
+      display: flex;
+    }
+    
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Drop Zone */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 24px;
+      background: var(--pad-bg);
+    }
+    
+    .drop-zone:hover {
+      border-color: var(--accent);
+      background: var(--pad-hover);
+    }
+    
+    .drop-zone.dragging {
+      border-color: var(--accent);
+      background: #eff6ff;
+      transform: scale(1.02);
+    }
+    
+    .drop-zone input[type="file"] {
+      display: none;
+    }
+    
+    /* Stats Bar */
+    .stats-bar {
+      display: flex;
+      gap: 20px;
+      padding: 12px;
+      background: var(--pad-bg);
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .stat {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--fg);
+    }
+    
+    /* Filter Section */
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .filter-group label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    
+    .filter-group input[type="radio"] {
+      margin-right: 4px;
+    }
+    
+    select, input[type="text"], input[type="number"], button {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 14px;
+      background: white;
+      transition: all 0.2s ease;
+    }
+    
+    select optgroup {
+      font-weight: 600;
+      color: var(--muted);
+    }
+    
+    select option {
+      font-weight: normal;
+      color: var(--fg);
+    }
+    
+    select.active-filter, input.active-filter {
+      border-color: var(--warning);
+      box-shadow: 0 0 0 1px var(--warning);
+    }
+    
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    button {
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    button:hover {
+      background: var(--pad-hover);
+    }
+    
+    button.primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+    
+    button.primary:hover {
+      background: var(--accent-dark);
+    }
+    
+    /* Chord Builder */
+    .chord-builder {
+      grid-column: span 2;
+      padding: 16px;
+      background: var(--pad-bg);
+      border-radius: var(--radius);
+    }
+    
+    .chord-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      min-height: 32px;
+    }
+    
+    .chord-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: var(--accent);
+      color: white;
+      border-radius: 20px;
+      font-size: 14px;
+      animation: tagSlide 0.3s ease;
+    }
+    
+    @keyframes tagSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .chord-tag button {
+      background: none;
+      border: none;
+      color: white;
+      padding: 0;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+    
+    .chord-tag button:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    /* Progression Cards */
+    .progressions {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .progression-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: white;
+      transition: all 0.2s ease;
+    }
+    
+    .progression-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transform: translateY(-2px);
+    }
+    
+    .progression-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 16px;
+    }
+    
+    .progression-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .progression-meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 4px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    
+    .progression-meta .key {
+      color: var(--success);
+      font-weight: 500;
+    }
+    
+    .progression-meta .pattern {
+      color: var(--warning);
+      font-weight: 500;
+    }
+    
+    /* Chord Grid - Fixed 4x4 layout like MPC hardware */
+    .chord-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 8px;
+      max-width: 600px;
+    }
+    
+    .chord-pad {
+      background: var(--pad-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    
+    .chord-pad-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+    }
+    
+    .chord-info {
+      flex: 1;
+    }
+    
+    .pad-number {
+      font-size: 9px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      opacity: 0.7;
+      white-space: nowrap;
+      margin-left: 4px;
+    }
+    
+    .chord-pad.empty {
+      opacity: 0.3;
+      cursor: default;
+    }
+    
+    .chord-pad:not(.empty):hover {
+      background: var(--pad-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .chord-pad.playing {
+      animation: pulse 0.3s ease;
+      background: #dbeafe;
+      border-color: var(--accent);
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .pad-number {
+      font-size: 9px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      opacity: 0.7;
+      white-space: nowrap;
+      margin-left: 4px;
+    }
+    
+    .chord-name {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 1px;
+      color: var(--fg);
+    }
+    
+    .chord-quality {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    
+    .chord-intervals {
+      font-size: 10px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      margin-bottom: 1px;
+    }
+    
+    .chord-roman {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--warning);
+      margin-bottom: 1px;
+    }
+    
+    .chord-notes {
+      font-size: 10px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      word-break: break-all;
+    }
+    
+    .chord-keyboard {
+      margin-top: 1px;
+      margin-bottom: 1px;
+      width: 100%;
+      height: 55px;
+    }
+    
+    .chord-keyboard svg {
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Play Controls */
+    .play-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    
+    .tempo-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+    
+    .tempo-control input {
+      width: 60px;
+    }
+    
+    /* Group Headers */
+    .group-header {
+      background: var(--pad-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    
+    .group-header:hover {
+      background: var(--pad-hover);
+    }
+    
+    .group-header .toggle {
+      transition: transform 0.3s ease;
+    }
+    
+    .group-header.collapsed .toggle {
+      transform: rotate(-90deg);
+    }
+    
+    .group-content {
+      margin-left: 16px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .group-content.collapsed {
+      display: none;
+    }
+    
+    /* Utility Classes */
+    .hidden { display: none !important; }
+    .flex { display: flex; }
+    .gap-8 { gap: 8px; }
+    .gap-16 { gap: 16px; }
+    
+    @media (max-width: 768px) {
+      .filters {
+        grid-template-columns: 1fr;
+      }
+      
+      .chord-grid {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 100%;
+      }
+      
+      .chord-pad {
+        min-height: 80px;
+        padding: 8px;
+        font-size: 12px;
+      }
+      
+      .progression-header {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+    <div>
+      <h1>MPC Chord Progression Finder</h1>
+      <p class="subtitle">A web-based tool for analyzing and exploring chord progressions from Akai MPC .progression files.<br>
+      Find the perfect chord set for any song style, discover which famous progressions you can play, and visualize your chords in the familiar MPC 4x4 pad layout.</p>
+    </div>
+    <img src="20250821%20MPC%20One%20on%20chair%20-%20web%20sized.jpg"
+         alt="MPC One"
+         style="height: 80px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  </div>
+  
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <span>Processing files...</span>
+  </div>
+  
+  <div class="drop-zone" id="dropZone">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 12px; opacity: 0.3;">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="17 8 12 3 7 8"></polyline>
+      <line x1="12" y1="3" x2="12" y2="15"></line>
+    </svg>
+    <p><strong>Drop .progression files here</strong></p>
+    <p style="color: var(--muted); font-size: 14px; margin-top: 8px;">or click to browse</p>
+    <input type="file" id="fileInput" accept=".progression,.json" multiple>
+  </div>
+  
+  <div class="stats-bar hidden" id="statsBar">
+    <div class="stat">
+      <span class="stat-label">Total</span>
+      <span class="stat-value" id="statTotal">0</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Shown</span>
+      <span class="stat-value" id="statShown">0</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Unique Keys</span>
+      <span class="stat-value" id="statKeys">0</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Unique Chords</span>
+      <span class="stat-value" id="statChords">0</span>
+    </div>
+    <div style="margin-left: auto; display: flex; align-items: center; gap: 12px;">
+      <button id="exportProgressions" style="display: none;">Export Progressions</button>
+      <button id="clearAllFiltersTop" style="display: none;">Clear All Filters</button>
+      <div class="stat" id="activeFiltersIndicator" style="display: none;">
+        <span class="stat-label">Active Filters</span>
+        <span class="stat-value" id="statActiveFilters" style="color: var(--warning);">0</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="filters hidden" id="filters">
+    <div class="filter-group">
+      <label>Root Note</label>
+      <select id="filterRoot">
+        <option value="">All roots</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label>Scale/Mode</label>
+      <select id="filterScale">
+        <option value="">All scales</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label>Can Play Progression</label>
+      <select id="filterCanPlay">
+        <option value="">Any chord set</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label>Progression Name</label>
+      <input type="text" id="filterName" placeholder="Search by name...">
+    </div>
+    
+    <div class="chord-builder">
+      <label>Chord Filter (must contain all)</label>
+      <div class="flex gap-8">
+        <select id="chordFilterNote">
+          <option value="">Select note...</option>
+        </select>
+        <select id="chordFilterQuality">
+          <option value="">Select quality...</option>
+        </select>
+        <button class="primary" id="addChordFilter">Add Chord</button>
+      </div>
+      <div class="chord-tags" id="chordTags"></div>
+    </div>
+    
+    <div class="filter-group">
+      <label>Display Options</label>
+      <div class="flex gap-16" style="margin-top: 8px;">
+        <label style="display: flex; align-items: center; gap: 4px; font-size: 14px;">
+          <input type="checkbox" id="groupByKey"> Group by key
+        </label>
+        <label style="display: flex; align-items: center; gap: 4px; font-size: 14px;">
+          <input type="checkbox" id="showIntervals"> Show intervals
+        </label>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  
+  <div class="progressions" id="progressions"></div>
+  
+  <button id="toggleAllGroups" class="primary" style="position: fixed; bottom: 20px; right: 20px; display: none; z-index: 100;">
+    Expand All
+  </button>
+  
+  <footer style="margin-top: 40px; padding: 20px 0; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 14px;">
+                <p>
+                Cousin to the
+                <a href="https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    MPC Chord Progression Generator
+                </a>
+            </p>
+            <p>Produced by Jean-Marc Liotier</p>
+            <p>
+                <a href="https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionFinder"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    View on GitHub
+                </a>
+            </p>
+  </footer>
+
+<script>
+// Constants
+const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const ENHARMONICS = {
+  'C#': 'Db', 'D#': 'Eb', 'F#': 'Gb', 'G#': 'Ab', 'A#': 'Bb',
+  'Db': 'C#', 'Eb': 'D#', 'Gb': 'F#', 'Ab': 'G#', 'Bb': 'A#',
+  'Cb': 'B', 'B#': 'C', 'E#': 'F', 'Fb': 'E'
+};
+
+const SCALES = {
+  'Major': [0, 2, 4, 5, 7, 9, 11],
+  'Natural Minor': [0, 2, 3, 5, 7, 8, 10],
+  'Harmonic Minor': [0, 2, 3, 5, 7, 8, 11],
+  'Melodic Minor': [0, 2, 3, 5, 7, 9, 11],
+  'Dorian': [0, 2, 3, 5, 7, 9, 10],
+  'Phrygian': [0, 1, 3, 5, 7, 8, 10],
+  'Lydian': [0, 2, 4, 6, 7, 9, 11],
+  'Mixolydian': [0, 2, 4, 5, 7, 9, 10],
+  'Locrian': [0, 1, 3, 5, 6, 8, 10]
+};
+
+const INTERVAL_NAMES = [
+  'R', 'm2', 'M2', 'm3', 'M3', 'P4', 'TT', 'P5', 'm6', 'M6', 'm7', 'M7'
+];
+
+// Well-known progressions that musicians might want to play
+const STANDARD_PROGRESSIONS = {
+  'Jazz Standards': [
+    { pattern: ['ii', 'V', 'I'], name: 'ii-V-I (Jazz Cadence)' },
+    { pattern: ['I', 'vi', 'ii', 'V'], name: 'I-vi-ii-V (Rhythm Changes A)' },
+    { pattern: ['I', 'VI', 'II', 'V'], name: 'I-VI-II-V (Ragtime)' },
+    { pattern: ['iii', 'vi', 'ii', 'V'], name: 'iii-vi-ii-V (Jazz Turnaround)' }
+  ],
+  'Pop/Rock': [
+    { pattern: ['I', 'V', 'vi', 'IV'], name: 'I-V-vi-IV (Pop Progression)' },
+    { pattern: ['I', 'vi', 'IV', 'V'], name: 'I-vi-IV-V (50s Progression)' },
+    { pattern: ['vi', 'IV', 'I', 'V'], name: 'vi-IV-I-V (Deceptive Pop)' },
+    { pattern: ['I', 'IV', 'V'], name: 'I-IV-V (Blues/Rock)' },
+    { pattern: ['I', 'bVII', 'IV', 'I'], name: 'I-bVII-IV-I (Rock Cadence)' }
+  ],
+  'Blues': [
+    { pattern: ['I', 'I', 'I', 'I', 'IV', 'IV', 'I', 'I', 'V', 'IV', 'I', 'V'], name: '12-Bar Blues' },
+    { pattern: ['I', 'IV', 'I', 'V'], name: 'Simple Blues' },
+    { pattern: ['i', 'iv', 'V'], name: 'Minor Blues Core' }
+  ],
+  'Classical/Folk': [
+    { pattern: ['I', 'V', 'V', 'I'], name: 'Authentic Cadence' },
+    { pattern: ['I', 'IV', 'I'], name: 'Plagal Cadence' },
+    { pattern: ['I', 'ii', 'V', 'I'], name: 'Classical Cadence' }
+  ]
+};
+
+// Global state
+let progressions = [];
+let chordFilters = [];
+let audioContext = null;
+let isPlaying = false;
+let playbackTimeout = null;
+
+// Utility functions
+function normalizeNote(note) {
+  if (!note) return null;
+  let normalized = note.trim().toUpperCase();
+  normalized = normalized.replace(/♭/g, 'b').replace(/♯/g, '#');
+  normalized = normalized.replace(/[0-9]/g, '');
+  if (normalized.includes('b') && ENHARMONICS[normalized]) {
+    normalized = ENHARMONICS[normalized];
+  }
+  return NOTES.includes(normalized) ? normalized : null;
+}
+
+function midiToNote(midi) {
+  return NOTES[midi % 12];
+}
+
+function midiToNoteName(midi) {
+  const note = NOTES[midi % 12];
+  const octave = Math.floor(midi / 12) - 2;
+  return note + octave;
+}
+
+function noteToMidi(note, octave = 4) {
+  const index = NOTES.indexOf(normalizeNote(note));
+  if (index === -1) return null;
+  return index + (octave + 2) * 12;
+}
+
+// Pure interval-based chord analysis
+function analyzeChord(midiNotes) {
+  if (!midiNotes || midiNotes.length === 0) {
+    return { root: null, quality: 'Empty', intervals: [], name: '?' };
+  }
+  
+  if (midiNotes.length === 1) {
+    const root = midiToNote(midiNotes[0]);
+    return { root, quality: 'Single Note', intervals: [0], name: root };
+  }
+  
+  const sorted = [...midiNotes].sort((a, b) => a - b);
+  const bassNote = sorted[0];
+  const bassPC = bassNote % 12;
+
+  const intervals = [];
+
+  for (const note of sorted) {
+    const pc = note % 12;
+    const interval = (pc - bassPC + 12) % 12;
+    if (!intervals.includes(interval)) {
+      intervals.push(interval);
+    }
+  }
+  
+  intervals.sort((a, b) => a - b);
+  
+  const { quality, root } = identifyChordQuality(intervals, bassPC);
+  
+  const rootNote = NOTES[root];
+  let chordName = rootNote;
+  
+  if (quality !== 'Major') {
+    const qualitySuffixes = {
+      'Minor': 'm',
+      'Diminished': 'dim',
+      'Augmented': 'aug',
+      'Dominant 7': '7',
+      'Major 7': 'maj7',
+      'Minor 7': 'm7',
+      'Half-Diminished 7': 'ø7',
+      'Diminished 7': 'dim7',
+      'Sus2': 'sus2',
+      'Sus4': 'sus4',
+      'Major 6': '6',
+      'Minor 6': 'm6',
+      'Add9': 'add9',
+      'Major 9': 'maj9',
+      'Minor 9': 'm9',
+      '11th': '11',
+      '13th': '13'
+    };
+    chordName += qualitySuffixes[quality] || '';
+  }
+  
+  if (bassPC !== root) {
+    chordName += '/' + NOTES[bassPC];
+  }
+  
+  return {
+    root: rootNote,
+    quality,
+    intervals,
+    name: chordName,
+    bassNote: NOTES[bassPC]
+  };
+}
+
+function identifyChordQuality(intervals, bassPC) {
+  const hasInterval = (i) => intervals.includes(i);
+  const pattern = intervals.join(',');
+  
+  const patterns = {
+    '0,4,7': { quality: 'Major', root: 0 },
+    '0,3,7': { quality: 'Minor', root: 0 },
+    '0,3,6': { quality: 'Diminished', root: 0 },
+    '0,4,8': { quality: 'Augmented', root: 0 },
+    '0,2,7': { quality: 'Sus2', root: 0 },
+    '0,5,7': { quality: 'Sus4', root: 0 },
+    '0,4,7,10': { quality: 'Dominant 7', root: 0 },
+    '0,4,7,11': { quality: 'Major 7', root: 0 },
+    '0,3,7,10': { quality: 'Minor 7', root: 0 },
+    '0,3,6,10': { quality: 'Half-Diminished 7', root: 0 },
+    '0,3,6,9': { quality: 'Diminished 7', root: 0 },
+    '0,4,7,9': { quality: 'Major 6', root: 0 },
+    '0,3,7,9': { quality: 'Minor 6', root: 0 },
+    '0,4,7,10,14': { quality: '9th', root: 0 },
+    '0,4,7,11,14': { quality: 'Major 9', root: 0 },
+    '0,3,7,10,14': { quality: 'Minor 9', root: 0 },
+    '0,4,7,14': { quality: 'Add9', root: 0 },
+    '0,3,8': { quality: 'Major', root: 8 },
+    '0,4,9': { quality: 'Minor', root: 9 },
+    '0,5,9': { quality: 'Major', root: 5 },
+    '0,5,8': { quality: 'Minor', root: 5 },
+  };
+  
+  if (patterns[pattern]) {
+    const result = patterns[pattern];
+    return {
+      quality: result.quality,
+      root: (bassPC + result.root) % 12
+    };
+  }
+
+  let quality = 'Unknown';
+  let root = bassPC;
+  
+  if (hasInterval(3) && hasInterval(7)) {
+    quality = 'Minor';
+    if (hasInterval(10)) quality = 'Minor 7';
+    else if (hasInterval(11)) quality = 'Minor Major 7';
+  } else if (hasInterval(4) && hasInterval(7)) {
+    quality = 'Major';
+    if (hasInterval(10)) quality = 'Dominant 7';
+    else if (hasInterval(11)) quality = 'Major 7';
+  } else if (hasInterval(3) && hasInterval(6)) {
+    quality = 'Diminished';
+    if (hasInterval(9)) quality = 'Diminished 7';
+    else if (hasInterval(10)) quality = 'Half-Diminished 7';
+  } else if (hasInterval(4) && hasInterval(8)) {
+    quality = 'Augmented';
+  } else if (hasInterval(2) && hasInterval(7)) {
+    quality = 'Sus2';
+  } else if (hasInterval(5) && hasInterval(7)) {
+    quality = 'Sus4';
+  }
+  
+  return { quality, root };
+}
+
+// Roman numeral generation - using alternative notation (simpler)
+function generateRomanNumerals(progression) {
+  if (!progression.key || progression.key.root === '?') return [];
+  
+  const rootIndex = NOTES.indexOf(progression.key.root);
+  const scale = SCALES[progression.key.scale];
+  if (!scale) return [];
+  
+  const romans = [];
+  const romanBase = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+  
+  progression.chords.forEach(chord => {
+    if (!chord.analysis || !chord.analysis.root) {
+      romans.push('?');
+      return;
+    }
+    
+    const chordRootIndex = NOTES.indexOf(chord.analysis.root);
+    const interval = (chordRootIndex - rootIndex + 12) % 12;
+    
+    const degree = scale.indexOf(interval);
+    if (degree === -1) {
+      let closestDegree = 0;
+      let closestDistance = 12;
+      
+      scale.forEach((scaleInterval, idx) => {
+        const distance = Math.abs(interval - scaleInterval);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestDegree = idx;
+        }
+      });
+      
+      const scaleInterval = scale[closestDegree];
+      const diff = interval - scaleInterval;
+      let roman = romanBase[closestDegree];
+      
+      if (diff === 1 || diff === -11) {
+        roman = '#' + roman;
+      } else if (diff === -1 || diff === 11) {
+        roman = 'b' + roman;
+      }
+      
+      romans.push(roman);
+      return;
+    }
+    
+    let roman = romanBase[degree];
+    
+    const isMinorChord = chord.analysis.quality.includes('Minor') || 
+                         chord.analysis.quality.includes('Diminished') ||
+                         chord.analysis.quality === 'Half-Diminished 7';
+    
+    if (isMinorChord) {
+      roman = roman.toLowerCase();
+    }
+    
+    if (chord.analysis.quality.includes('Diminished')) {
+      roman += '°';
+    }
+    
+    romans.push(roman);
+  });
+  
+  return romans;
+}
+
+// Check if a chord set contains all required chords for a progression
+function canPlayProgression(chordSet, progressionPattern) {
+  const setRomans = new Set(chordSet);
+  return progressionPattern.every(chord => setRomans.has(chord));
+}
+
+// Get all playable progressions for a chord set
+function getPlayableProgressions(chordSet) {
+  const playable = [];
+  
+  for (const [category, progressions] of Object.entries(STANDARD_PROGRESSIONS)) {
+    progressions.forEach(prog => {
+      const uniqueChords = [...new Set(prog.pattern)];
+      if (canPlayProgression(chordSet, uniqueChords)) {
+        playable.push({
+          category,
+          name: prog.name,
+          pattern: prog.pattern
+        });
+      }
+    });
+  }
+  
+  return playable;
+}
+
+// Scale detection
+function detectKeyAndScale(progression) {
+  const notesUsed = new Set();
+  const chordRoots = [];
+  const chordQualities = [];
+  
+  progression.chords.forEach(chord => {
+    if (chord.notes && chord.notes.length > 0) {
+      chord.notes.forEach(note => {
+        notesUsed.add(note % 12);
+      });
+      
+      const analysis = analyzeChord(chord.notes);
+      if (analysis.root) {
+        const rootIndex = NOTES.indexOf(analysis.root);
+        if (rootIndex !== -1) {
+          chordRoots.push(rootIndex);
+          chordQualities.push(analysis.quality);
+        }
+      }
+    }
+  });
+  
+  if (notesUsed.size === 0) return { root: '?', scale: '?' };
+  
+  let bestFit = null;
+  let bestScore = -1;
+  
+  for (let rootIdx = 0; rootIdx < 12; rootIdx++) {
+    for (const [scaleName, intervals] of Object.entries(SCALES)) {
+      const scaleNotes = new Set(intervals.map(i => (rootIdx + i) % 12));
+      
+      let matches = 0;
+      let total = 0;
+      
+      notesUsed.forEach(note => {
+        total++;
+        if (scaleNotes.has(note)) matches++;
+      });
+      
+      let rootMatches = 0;
+      chordRoots.forEach(chordRoot => {
+        if (scaleNotes.has(chordRoot)) rootMatches++;
+      });
+      
+      let tonicBonus = 0;
+      if (chordRoots.length > 0 && chordRoots[0] === rootIdx) {
+        tonicBonus = 0.2;
+      }
+      
+      const score = (matches / total) + (rootMatches / chordRoots.length) * 0.5 + tonicBonus;
+      
+      if (score > bestScore) {
+        bestScore = score;
+        bestFit = { root: NOTES[rootIdx], scale: scaleName };
+      }
+    }
+  }
+  
+  if (bestScore < 0.7) {
+    return { root: '?', scale: '?' };
+  }
+  
+  return bestFit;
+}
+
+// Audio playback
+function initAudio() {
+  if (!audioContext) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) {
+      audioContext = new AudioContext();
+    }
+  }
+  return audioContext;
+}
+
+function playChord(midiNotes, duration = 1000) {
+  const ctx = initAudio();
+  if (!ctx) return;
+  
+  const now = ctx.currentTime;
+  const noteGain = 0.15 / Math.sqrt(midiNotes.length);
+  
+  midiNotes.forEach((midi, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const freq = 440 * Math.pow(2, (midi - 69) / 12);
+    
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    osc.detune.value = (i - midiNotes.length / 2) * 2;
+    
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(noteGain, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(noteGain * 0.7, now + 0.1);
+    gain.gain.setValueAtTime(noteGain * 0.7, now + duration / 1000 - 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + duration / 1000);
+    
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + duration / 1000 + 0.1);
+  });
+}
+
+function playProgression(chords, tempo = 120) {
+  if (isPlaying) {
+    stopPlayback();
+    return;
+  }
+  
+  isPlaying = true;
+  const beatDuration = 60000 / tempo;
+  let currentChord = 0;
+  
+  function playNext() {
+    if (!isPlaying || currentChord >= chords.length) {
+      stopPlayback();
+      return;
+    }
+    
+    const chord = chords[currentChord];
+    if (chord.notes && chord.notes.length > 0) {
+      playChord(chord.notes, beatDuration * 0.9);
+      
+      const pads = document.querySelectorAll('.chord-pad');
+      pads.forEach(pad => pad.classList.remove('playing'));
+      if (pads[currentChord]) {
+        pads[currentChord].classList.add('playing');
+      }
+    }
+    
+    currentChord++;
+    playbackTimeout = setTimeout(playNext, beatDuration);
+  }
+  
+  playNext();
+}
+
+function stopPlayback() {
+  isPlaying = false;
+  if (playbackTimeout) {
+    clearTimeout(playbackTimeout);
+    playbackTimeout = null;
+  }
+  document.querySelectorAll('.chord-pad').forEach(pad => {
+    pad.classList.remove('playing');
+  });
+}
+
+// File handling
+function handleDrop(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  
+  const zone = document.getElementById('dropZone');
+  zone.classList.remove('dragging');
+  
+  const files = e.dataTransfer.files;
+  if (files.length > 0) {
+    processFiles(files);
+  }
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+function handleDragEnter(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').classList.add('dragging');
+}
+
+function handleDragLeave(e) {
+  e.preventDefault();
+  if (e.target.id === 'dropZone') {
+    e.target.classList.remove('dragging');
+  }
+}
+
+function processFiles(files) {
+  const loading = document.getElementById('loading');
+  loading.classList.add('active');
+  
+  let processed = 0;
+  const newProgressions = [];
+  
+  Array.from(files).forEach(file => {
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (data.progression) {
+          const prog = processProgression(data.progression);
+          if (prog) {
+            newProgressions.push(prog);
+          }
+        }
+      } catch (err) {
+        console.warn(`Failed to parse ${file.name}:`, err);
+      }
+      
+      processed++;
+      if (processed === files.length) {
+        finishLoading(newProgressions);
+      }
+    };
+    
+    reader.onerror = () => {
+      processed++;
+      if (processed === files.length) {
+        finishLoading(newProgressions);
+      }
+    };
+    
+    reader.readAsText(file);
+  });
+}
+
+// Process and store progression data
+function processProgression(data) {
+  if (!data.chords || !Array.isArray(data.chords)) return null;
+  
+  const progression = {
+    name: data.name || 'Untitled',
+    chords: [],
+    // Store the original data for export
+    originalData: { progression: data }
+  };
+  
+  data.chords.forEach((chord, index) => {
+    const chordData = {
+      name: chord.name || `Chord ${index + 1}`,
+      notes: chord.notes || [],
+      analysis: null
+    };
+    
+    if (chordData.notes.length > 0) {
+      chordData.analysis = analyzeChord(chordData.notes);
+    }
+    
+    progression.chords.push(chordData);
+  });
+  
+  progression.key = detectKeyAndScale(progression);
+  progression.romanNumerals = generateRomanNumerals(progression);
+  progression.playableProgressions = getPlayableProgressions(progression.romanNumerals);
+  
+  return progression;
+}
+
+function finishLoading(newProgressions) {
+  progressions.push(...newProgressions);
+  
+  document.getElementById('loading').classList.remove('active');
+  document.getElementById('statsBar').classList.remove('hidden');
+  document.getElementById('filters').classList.remove('hidden');
+  
+  updateFilters();
+  updateStats();
+  render();
+}
+
+// UI Updates
+function updateFilters() {
+  const roots = new Set();
+  const scales = new Set();
+  const chordTypes = new Set();
+  
+  progressions.forEach(prog => {
+    if (prog.key.root !== '?') {
+      roots.add(prog.key.root);
+      scales.add(prog.key.scale);
+    }
+    
+    prog.chords.forEach(chord => {
+      if (chord.analysis && chord.analysis.root) {
+        chordTypes.add(chord.analysis.root);
+      }
+    });
+  });
+  
+  const rootSelect = document.getElementById('filterRoot');
+  rootSelect.innerHTML = '<option value="">All roots</option>';
+  Array.from(roots).sort().forEach(root => {
+    rootSelect.innerHTML += `<option value="${root}">${root}</option>`;
+  });
+  
+  const scaleSelect = document.getElementById('filterScale');
+  scaleSelect.innerHTML = '<option value="">All scales</option>';
+  Array.from(scales).sort().forEach(scale => {
+    scaleSelect.innerHTML += `<option value="${scale}">${scale}</option>`;
+  });
+  
+  const canPlaySelect = document.getElementById('filterCanPlay');
+  canPlaySelect.innerHTML = '<option value="">Any chord set</option>';
+  
+  for (const [category, progressions] of Object.entries(STANDARD_PROGRESSIONS)) {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = category;
+    
+    progressions.forEach(prog => {
+      const option = document.createElement('option');
+      option.value = prog.pattern.join('-');
+      option.textContent = prog.name;
+      optgroup.appendChild(option);
+    });
+    
+    canPlaySelect.appendChild(optgroup);
+  }
+  
+  const chordNoteSelect = document.getElementById('chordFilterNote');
+  chordNoteSelect.innerHTML = '<option value="">Select note...</option>';
+  NOTES.forEach(note => {
+    chordNoteSelect.innerHTML += `<option value="${note}">${note}</option>`;
+  });
+  
+  const chordQualitySelect = document.getElementById('chordFilterQuality');
+  chordQualitySelect.innerHTML = '<option value="">Select quality...</option>';
+  const qualities = ['Major', 'Minor', 'Dominant 7', 'Major 7', 'Minor 7', 'Diminished', 'Augmented', 'Sus2', 'Sus4'];
+  qualities.forEach(q => {
+    chordQualitySelect.innerHTML += `<option value="${q}">${q}</option>`;
+  });
+}
+
+// Export filtered progressions as ZIP
+async function exportProgressions() {
+  const filtered = getFilteredProgressions();
+  
+  if (filtered.length === 0) {
+    alert('No progressions to export');
+    return;
+  }
+  
+  // Check if JSZip is loaded
+  if (typeof JSZip === 'undefined') {
+    alert('Export functionality is loading, please try again in a moment.');
+    return;
+  }
+  
+  try {
+    const zip = new JSZip();
+    
+    // Build filename based on active filters
+    let zipFilename = 'progressions';
+    const filterParts = [];
+    
+    const rootFilter = document.getElementById('filterRoot').value;
+    if (rootFilter) filterParts.push(`root-${rootFilter}`);
+    
+    const scaleFilter = document.getElementById('filterScale').value;
+    if (scaleFilter) filterParts.push(`scale-${scaleFilter.replace(/\s+/g, '_')}`);
+    
+    const canPlayFilter = document.getElementById('filterCanPlay').value;
+    if (canPlayFilter) {
+      // Extract just the progression type name
+      const match = canPlayFilter.match(/([IVvi\-]+)/);
+      if (match) filterParts.push(`pattern-${match[1]}`);
+    }
+    
+    const nameFilter = document.getElementById('filterName').value.trim();
+    if (nameFilter) filterParts.push(`search-${nameFilter.replace(/\s+/g, '_')}`);
+    
+    if (chordFilters.length > 0) {
+      const chordNames = chordFilters.map(f => f.root + (f.quality || '')).join('_');
+      filterParts.push(`chords-${chordNames}`);
+    }
+    
+    if (filterParts.length > 0) {
+      zipFilename += '_' + filterParts.join('_');
+    } else {
+      zipFilename += '_all';
+    }
+    
+    // Add timestamp
+    const timestamp = new Date().toISOString().split('T')[0];
+    zipFilename += '_' + timestamp + '.zip';
+    
+    // Add each progression to the ZIP
+    filtered.forEach((prog, index) => {
+      // Try to use original filename or create one from progression name
+      let filename = prog.name.replace(/[^a-z0-9_\-\s]/gi, '').replace(/\s+/g, '_');
+      if (!filename) filename = `progression_${index + 1}`;
+      
+      // Ensure unique filenames
+      let finalFilename = filename + '.progression';
+      let counter = 1;
+      while (zip.file(finalFilename)) {
+        finalFilename = `${filename}_${counter}.progression`;
+        counter++;
+      }
+      
+      // Add the original JSON data to the ZIP
+      const jsonContent = JSON.stringify(prog.originalData, null, 2);
+      zip.file(finalFilename, jsonContent);
+    });
+    
+    // Generate and download the ZIP
+    const blob = await zip.generateAsync({ type: 'blob' });
+    
+    // Create download link
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = zipFilename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    // Show success message
+    const exportButton = document.getElementById('exportProgressions');
+    const originalText = exportButton.textContent;
+    exportButton.textContent = `✓ Exported ${filtered.length} progressions`;
+    exportButton.style.background = 'var(--success)';
+    exportButton.style.color = 'white';
+    
+    setTimeout(() => {
+      exportButton.textContent = originalText;
+      exportButton.style.background = '';
+      exportButton.style.color = '';
+    }, 2000);
+    
+  } catch (error) {
+    console.error('Export failed:', error);
+    alert('Failed to export progressions. Please try again.');
+  }
+}
+
+// Update stats and export button visibility
+function updateStats() {
+  const total = progressions.length;
+  const shown = getFilteredProgressions().length;
+  
+  const keys = new Set();
+  const chords = new Set();
+  
+  progressions.forEach(prog => {
+    if (prog.key.root !== '?') {
+      keys.add(`${prog.key.root} ${prog.key.scale}`);
+    }
+    prog.chords.forEach(chord => {
+      if (chord.analysis && chord.analysis.name) {
+        chords.add(chord.analysis.name);
+      }
+    });
+  });
+  
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statShown').textContent = shown;
+  document.getElementById('statKeys').textContent = keys.size;
+  document.getElementById('statChords').textContent = chords.size;
+  
+  // Show/hide export button based on filtered results
+  const exportButton = document.getElementById('exportProgressions');
+  if (shown > 0) {
+    exportButton.style.display = 'block';
+    exportButton.textContent = `Export ${shown} Progression${shown !== 1 ? 's' : ''}`;
+  } else {
+    exportButton.style.display = 'none';
+  }
+}
+
+// Filtering
+function getFilteredProgressions() {
+  let filtered = [...progressions];
+  
+  const rootFilter = document.getElementById('filterRoot').value;
+  if (rootFilter) {
+    filtered = filtered.filter(p => p.key.root === rootFilter);
+  }
+  
+  const scaleFilter = document.getElementById('filterScale').value;
+  if (scaleFilter) {
+    filtered = filtered.filter(p => p.key.scale === scaleFilter);
+  }
+  
+  const canPlayFilter = document.getElementById('filterCanPlay').value;
+  if (canPlayFilter) {
+    const requiredChords = canPlayFilter.split('-');
+    filtered = filtered.filter(p => {
+      if (!p.romanNumerals || p.romanNumerals.length === 0) return false;
+      return canPlayProgression(p.romanNumerals, requiredChords);
+    });
+  }
+  
+  const nameFilter = document.getElementById('filterName').value.toLowerCase().trim();
+  if (nameFilter) {
+    filtered = filtered.filter(p => {
+      return p.name.toLowerCase().includes(nameFilter);
+    });
+  }
+  
+  if (chordFilters.length > 0) {
+    filtered = filtered.filter(prog => {
+      return chordFilters.every(filter => {
+        return prog.chords.some(chord => {
+          if (!chord.analysis) return false;
+          const matchesRoot = chord.analysis.root === filter.root;
+          const matchesQuality = !filter.quality || chord.analysis.quality === filter.quality;
+          return matchesRoot && matchesQuality;
+        });
+      });
+    });
+  }
+  
+  return filtered;
+}
+
+// Update active filters count and visual indicators
+function updateActiveFiltersCount() {
+  let count = 0;
+  
+  // Reset all filter highlights
+  document.querySelectorAll('.active-filter').forEach(el => {
+    el.classList.remove('active-filter');
+  });
+  
+  // Check and highlight each filter
+  const rootFilter = document.getElementById('filterRoot');
+  if (rootFilter.value) {
+    count++;
+    rootFilter.classList.add('active-filter');
+  }
+  
+  const scaleFilter = document.getElementById('filterScale');
+  if (scaleFilter.value) {
+    count++;
+    scaleFilter.classList.add('active-filter');
+  }
+  
+  const canPlayFilter = document.getElementById('filterCanPlay');
+  if (canPlayFilter.value) {
+    count++;
+    canPlayFilter.classList.add('active-filter');
+  }
+  
+  const nameFilter = document.getElementById('filterName');
+  if (nameFilter.value.trim()) {
+    count++;
+    nameFilter.classList.add('active-filter');
+  }
+  
+  // Highlight chord builder if chord filters active
+  if (chordFilters.length > 0) {
+    count += chordFilters.length;
+    document.querySelector('.chord-builder').style.borderColor = 'var(--warning)';
+  } else {
+    document.querySelector('.chord-builder').style.borderColor = '';
+  }
+  
+  // Update display
+  const indicator = document.getElementById('activeFiltersIndicator');
+  const clearButton = document.getElementById('clearAllFiltersTop');
+  const value = document.getElementById('statActiveFilters');
+  
+  if (count > 0) {
+    indicator.style.display = 'flex';
+    clearButton.style.display = 'block';
+    value.textContent = count;
+  } else {
+    indicator.style.display = 'none';
+    clearButton.style.display = 'none';
+  }
+  
+  return count;
+}
+
+// Toggle all groups expanded/collapsed
+function toggleAllGroups() {
+  const headers = document.querySelectorAll('.group-header');
+  const contents = document.querySelectorAll('.group-content');
+  const button = document.getElementById('toggleAllGroups');
+  
+  if (!headers.length) return;
+  
+  // Check if any are collapsed
+  const anyCollapsed = Array.from(contents).some(content => 
+    content.classList.contains('collapsed')
+  );
+  
+  if (anyCollapsed) {
+    // Expand all
+    headers.forEach(header => header.classList.remove('collapsed'));
+    contents.forEach(content => content.classList.remove('collapsed'));
+    button.textContent = 'Collapse All';
+  } else {
+    // Collapse all
+    headers.forEach(header => header.classList.add('collapsed'));
+    contents.forEach(content => content.classList.add('collapsed'));
+    button.textContent = 'Expand All';
+  }
+}
+
+// Rendering
+function render() {
+  const container = document.getElementById('progressions');
+  container.innerHTML = '';
+  
+  const filtered = getFilteredProgressions();
+  const groupByKey = document.getElementById('groupByKey').checked;
+  
+  // Show/hide toggle all button
+  const toggleButton = document.getElementById('toggleAllGroups');
+  if (groupByKey && filtered.length > 0) {
+    toggleButton.style.display = 'block';
+  } else {
+    toggleButton.style.display = 'none';
+  }
+  
+  if (groupByKey) {
+    renderGrouped(filtered, container);
+  } else {
+    renderFlat(filtered, container);
+  }
+  
+  updateStats();
+  updateActiveFiltersCount();
+}
+
+function renderFlat(progs, container) {
+  progs.forEach(prog => {
+    container.appendChild(createProgressionCard(prog));
+  });
+}
+
+function renderGrouped(progs, container) {
+  const groups = {};
+  
+  progs.forEach(prog => {
+    const key = prog.key.root !== '?' ? `${prog.key.root} ${prog.key.scale}` : 'Unknown Key';
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+    groups[key].push(prog);
+  });
+  
+  Object.entries(groups).sort().forEach(([key, groupProgs]) => {
+    const header = document.createElement('div');
+    header.className = 'group-header';
+    header.innerHTML = `
+      <span>${key} (${groupProgs.length})</span>
+      <span class="toggle">▼</span>
+    `;
+    
+    const content = document.createElement('div');
+    content.className = 'group-content';
+    
+    groupProgs.forEach(prog => {
+      content.appendChild(createProgressionCard(prog));
+    });
+    
+    header.addEventListener('click', () => {
+      header.classList.toggle('collapsed');
+      content.classList.toggle('collapsed');
+    });
+    
+    container.appendChild(header);
+    container.appendChild(content);
+  });
+}
+
+// Generate SVG keyboard diagram for a chord
+function generateKeyboardSVG(midiNotes) {
+  if (!midiNotes || midiNotes.length === 0) return '';
+  
+  // Find the range of notes to display (1 or 2 octaves centered on the chord)
+  const minNote = Math.min(...midiNotes);
+  const maxNote = Math.max(...midiNotes);
+  
+  // Determine octave range - show at least one full octave
+  const minOctave = Math.floor(minNote / 12) - 2; // Convert from MIDI octave
+  const maxOctave = Math.max(minOctave + 1, Math.floor(maxNote / 12) - 2);
+  const octaveCount = Math.min(2, maxOctave - minOctave + 1); // Show max 2 octaves
+
+  const startNote = (minOctave + 2) * 12; // Convert back to MIDI
+
+  // Create set of active notes for quick lookup
+  const activeNotes = new Set(midiNotes);
+  
+  // Piano key dimensions
+  const whiteKeyWidth = 14;
+  const blackKeyWidth = 10;
+  const whiteKeyHeight = 55;  // Reduced from 60
+  const blackKeyHeight = 33;  // Reduced proportionally
+  
+  // Pattern of black keys in an octave (true = black key exists)
+  const blackKeyPattern = [false, true, true, false, true, true, true];
+  const whiteKeyIndices = [0, 2, 4, 5, 7, 9, 11]; // C, D, E, F, G, A, B
+  
+  let svg = `<svg viewBox="0 0 ${whiteKeyWidth * 7 * octaveCount} ${whiteKeyHeight}" xmlns="http://www.w3.org/2000/svg">`;
+  
+  // Draw white keys first
+  for (let octave = 0; octave < octaveCount; octave++) {
+    for (let i = 0; i < 7; i++) {
+      const x = (octave * 7 + i) * whiteKeyWidth;
+      const midiNote = startNote + octave * 12 + whiteKeyIndices[i];
+      const isActive = activeNotes.has(midiNote);
+      
+      svg += `<rect x="${x}" y="0" width="${whiteKeyWidth - 1}" height="${whiteKeyHeight}" 
+              fill="${isActive ? '#f59e0b' : 'white'}" 
+              stroke="#333" stroke-width="1"/>`;
+    }
+  }
+  
+  // Draw black keys on top
+  for (let octave = 0; octave < octaveCount; octave++) {
+    let blackKeyPosition = 0;
+    for (let i = 0; i < 7; i++) {
+      if (blackKeyPattern[i]) {
+        const whiteKeyX = (octave * 7 + i) * whiteKeyWidth;
+        const x = whiteKeyX - blackKeyWidth / 2;
+        const blackKeyNote = [1, 3, 6, 8, 10][blackKeyPosition]; // C#, D#, F#, G#, A#
+        const midiNote = startNote + octave * 12 + blackKeyNote;
+        const isActive = activeNotes.has(midiNote);
+        
+        svg += `<rect x="${x}" y="0" width="${blackKeyWidth}" height="${blackKeyHeight}" 
+                fill="${isActive ? '#dc2626' : '#333'}" 
+                stroke="#000" stroke-width="1"/>`;
+        
+        blackKeyPosition++;
+      }
+    }
+  }
+  
+  svg += '</svg>';
+  
+  return `<div class="chord-keyboard">${svg}</div>`;
+}
+
+function createProgressionCard(progression) {
+  const card = document.createElement('div');
+  card.className = 'progression-card';
+  
+  const header = document.createElement('div');
+  header.className = 'progression-header';
+  
+  // Left side - progression info
+  const infoSection = document.createElement('div');
+  infoSection.className = 'progression-info';
+  infoSection.innerHTML = `
+    <div class="progression-title">${progression.name}</div>
+    <div class="progression-meta">
+      <span class="key">${progression.key.root} ${progression.key.scale}</span>
+    </div>
+  `;
+  
+  // Right side - controls and playable info
+  const controls = document.createElement('div');
+  controls.className = 'play-controls';
+  
+  let controlsHTML = `
+    <button class="primary" onclick="playProgression(progressions[${progressions.indexOf(progression)}].chords)">
+      Play
+    </button>
+  `;
+  
+  if (progression.playableProgressions && progression.playableProgressions.length > 0) {
+    const byCategory = {};
+    progression.playableProgressions.forEach(p => {
+      if (!byCategory[p.category]) byCategory[p.category] = [];
+      byCategory[p.category].push(p.name);
+    });
+    
+    const categoryNames = Object.keys(byCategory).map(cat => 
+      `${cat} (${byCategory[cat].length})`
+    ).join(', ');
+    
+    controlsHTML += `<div class="playable-info">Can play: ${categoryNames}</div>`;
+  }
+  
+  controls.innerHTML = controlsHTML;
+  
+  header.appendChild(infoSection);
+  header.appendChild(controls);
+  card.appendChild(header);
+  
+  const grid = document.createElement('div');
+  grid.className = 'chord-grid';
+  
+  const showIntervals = document.getElementById('showIntervals').checked;
+  
+  // MPC pads layout - 4x4 grid
+  for (let padIndex = 0; padIndex < 16; padIndex++) {
+    const chord = progression.chords[padIndex];
+    const pad = document.createElement('div');
+    
+    if (chord) {
+      pad.className = 'chord-pad';
+      pad.onclick = () => {
+        if (chord.notes && chord.notes.length > 0) {
+          playChord(chord.notes);
+          pad.classList.add('playing');
+          setTimeout(() => pad.classList.remove('playing'), 300);
+        }
+      };
+      
+      let padHTML = '';
+      
+      if (chord.analysis) {
+        padHTML += `<div class="chord-pad-content">`;
+        padHTML += `<div class="chord-info">`;
+        padHTML += `<div class="chord-name">${chord.analysis.name}</div>`;
+        padHTML += `</div>`;
+        padHTML += `<div class="pad-number">PAD ${padIndex + 1}</div>`;
+        padHTML += `</div>`;
+        
+        padHTML += `<div class="chord-quality">${chord.analysis.quality}</div>`;
+        
+        if (showIntervals && chord.analysis.intervals.length > 0) {
+          const intervalNames = chord.analysis.intervals.map(i => INTERVAL_NAMES[i]).join('-');
+          padHTML += `<div class="chord-intervals">[${intervalNames}]</div>`;
+        }
+        
+        if (progression.romanNumerals && progression.romanNumerals[padIndex]) {
+          const roman = progression.romanNumerals[padIndex];
+          if (roman && roman !== '?') {
+            padHTML += `<div class="chord-roman">${roman}</div>`;
+          }
+        }
+      } else {
+        padHTML += `<div class="chord-pad-content">`;
+        padHTML += `<div class="chord-info"></div>`;
+        padHTML += `<div class="pad-number">PAD ${padIndex + 1}</div>`;
+        padHTML += `</div>`;
+      }
+      
+      // Add keyboard diagram
+      if (chord.notes && chord.notes.length > 0) {
+        padHTML += generateKeyboardSVG(chord.notes);
+        const noteNames = chord.notes.map(midiToNoteName).join(' ');
+        padHTML += `<div class="chord-notes">${noteNames}</div>`;
+      }
+      
+      pad.innerHTML = padHTML;
+    } else {
+      // Empty pad slot
+      pad.className = 'chord-pad empty';
+      pad.innerHTML = `
+        <div class="chord-pad-content">
+          <div class="chord-info"></div>
+          <div class="pad-number">PAD ${padIndex + 1}</div>
+        </div>
+      `;
+    }
+    
+    grid.appendChild(pad);
+  }
+  
+  card.appendChild(grid);
+  return card;
+}
+
+// Chord filter management
+function addChordFilter() {
+  const root = document.getElementById('chordFilterNote').value;
+  const quality = document.getElementById('chordFilterQuality').value;
+  
+  if (!root) return;
+  
+  const filter = { root, quality };
+  chordFilters.push(filter);
+  
+  updateChordTags();
+  render();
+  updateActiveFiltersCount();
+  
+  document.getElementById('chordFilterNote').value = '';
+  document.getElementById('chordFilterQuality').value = '';
+}
+
+function removeChordFilter(index) {
+  chordFilters.splice(index, 1);
+  updateChordTags();
+  render();
+  updateActiveFiltersCount();
+}
+
+function updateChordTags() {
+  const container = document.getElementById('chordTags');
+  container.innerHTML = '';
+  
+  chordFilters.forEach((filter, i) => {
+    const tag = document.createElement('div');
+    tag.className = 'chord-tag';
+    const label = filter.quality ? `${filter.root} ${filter.quality}` : filter.root;
+    tag.innerHTML = `
+      ${label}
+      <button onclick="removeChordFilter(${i})">×</button>
+    `;
+    container.appendChild(tag);
+  });
+}
+
+function clearAllFilters() {
+  chordFilters = [];
+  document.getElementById('filterRoot').value = '';
+  document.getElementById('filterScale').value = '';
+  document.getElementById('filterCanPlay').value = '';
+  document.getElementById('filterName').value = '';
+  document.getElementById('chordFilterNote').value = '';
+  document.getElementById('chordFilterQuality').value = '';
+  updateChordTags();
+  render();
+  updateActiveFiltersCount();
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  
+  dropZone.addEventListener('drop', handleDrop);
+  dropZone.addEventListener('dragover', handleDragOver);
+  dropZone.addEventListener('dragenter', handleDragEnter);
+  dropZone.addEventListener('dragleave', handleDragLeave);
+  
+  dropZone.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+      processFiles(e.target.files);
+    }
+  });
+  
+  // Filter listeners
+  document.getElementById('filterRoot').addEventListener('change', () => {
+    render();
+    updateActiveFiltersCount();
+  });
+  document.getElementById('filterScale').addEventListener('change', () => {
+    render();
+    updateActiveFiltersCount();
+  });
+  document.getElementById('filterCanPlay').addEventListener('change', () => {
+    render();
+    updateActiveFiltersCount();
+  });
+  document.getElementById('filterName').addEventListener('input', () => {
+    render();
+    updateActiveFiltersCount();
+  });
+  document.getElementById('groupByKey').addEventListener('change', render);
+  document.getElementById('showIntervals').addEventListener('change', render);
+  
+  document.getElementById('addChordFilter').addEventListener('click', addChordFilter);
+  document.getElementById('clearAllFiltersTop').addEventListener('click', clearAllFilters);
+  document.getElementById('exportProgressions').addEventListener('click', exportProgressions);
+  
+  // Toggle all groups button
+  document.getElementById('toggleAllGroups').addEventListener('click', toggleAllGroups);
+  
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      stopPlayback();
+    }
+  });
+});
+</script>
+</body>
+</html>

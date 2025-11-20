@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPC Chord Progression Generator</title>
+    <meta name="description" content="Interactive web app to design and explore chord progressions for Akai MPC. Free, browser-based, no installation required.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/webmidi@latest/dist/iife/webmidi.iife.js"></script>
+    <script src="app.js" type="module"></script>
+</head>
+<body>
+    <div class="app">
+        <div class="header">
+            <div>
+                <h1>MPC Chord Progression Generator</h1>
+                <p class="subtitle">
+                    Create musically intelligent chord progressions optimized for the MPC's 4×4 pad layout<br>
+                    Generate Akai MPC .progression files - also get keyboard and guitar diagrams, to jam with others
+                </p>
+            </div>
+            <img src="https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/20250821%20MPC%20One%20on%20chair%20-%20web%20sized.jpg"
+                 alt="MPC One"
+                 class="mpc-image">
+        </div>
+
+        <div class="chord-matcher" id="chordMatcher">
+            <div class="chord-matcher-header" onclick="toggleChordMatcher()">
+                <h3>🎹 Chord Matcher</h3>
+                <span class="optional-badge">Optional</span>
+                <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="chord-matcher-content">
+                <p class="chord-matcher-description">
+                    Found a sample with great chords ? Enter them here to find compatible keys and modes for your production.
+                </p>
+                <div class="chord-input-row">
+                    <select id="chordNote">
+                        <option value="">Note...</option>
+                        <option value="C">C</option>
+                        <option value="C#">C#/D♭</option>
+                        <option value="D">D</option>
+                        <option value="D#">D#/E♭</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="F#">F#/G♭</option>
+                        <option value="G">G</option>
+                        <option value="G#">G#/A♭</option>
+                        <option value="A">A</option>
+                        <option value="A#">A#/B♭</option>
+                        <option value="B">B</option>
+                    </select>
+                    <select id="chordQuality">
+                        <option value="">Quality...</option>
+                        <option value="major">Major</option>
+                        <option value="minor">Minor</option>
+                        <option value="dim">Diminished</option>
+                        <option value="aug">Augmented</option>
+                        <option value="sus2">Sus2</option>
+                        <option value="sus4">Sus4</option>
+                        <option value="7">Dominant 7</option>
+                        <option value="maj7">Major 7</option>
+                        <option value="m7">Minor 7</option>
+                    </select>
+                    <button onclick="addChordRequirement()">Add Chord</button>
+                    <button onclick="clearChordRequirements()">Clear All</button>
+                </div>
+                <div class="selected-chords" id="selectedChords"></div>
+                <div class="key-mode-suggestions" id="keyModeSuggestions" style="display: none;">
+                    <div class="suggestion-label">Compatible Keys & Modes:</div>
+                    <div class="suggestion-list" id="suggestionList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="generation-mode-toggle">
+                <label class="mode-option" title="Generate progressions from 135 pre-made templates across 15 genres. Creates 4 voicing variants (Classic, Jazz, Modal, Experimental).">
+                    <input type="radio" name="generationMode" value="template" id="templateModeRadio" checked>
+                    <span>Use Progression Template</span>
+                </label>
+                <label class="mode-option" title="Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.">
+                    <input type="radio" name="generationMode" value="scale" id="scaleModeRadio">
+                    <span>Explore Scale/Mode</span>
+                </label>
+            </div>
+
+            <div class="filter-group">
+                <label>Key</label>
+                <select id="keySelect"></select>
+            </div>
+
+            <div class="filter-group">
+                <label>Mode/Scale</label>
+                <select id="modeSelect"></select>
+            </div>
+
+            <div class="filter-group">
+                <label>Progression Template</label>
+                <select id="progressionSelect"></select>
+            </div>
+
+            <div class="filter-group">
+                <label>Progression Name</label>
+                <input type="text" id="progressionName" maxlength="64">
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="primary full-width" id="generateBtn">Generate Progressions</button>
+        </div>
+
+        <div class="context-tabs-container">
+            <div class="context-tabs">
+                <button class="context-tab active" data-context="mpc">MPC Pads</button>
+                <button class="context-tab" data-context="keyboard">Keyboard</button>
+                <button class="context-tab" data-context="guitar">Guitar</button>
+                <button class="context-tab" data-context="staff">Staff</button>
+            </div>
+            <div class="left-handed-toggle" id="leftHandedToggle" style="display: none;">
+                <label>
+                    <input type="checkbox" id="leftHandedCheckbox">
+                    Left-handed
+                </label>
+            </div>
+            <div class="midi-selector" id="midiSelector" style="display: none;" title="Play with computer keys: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)">
+                <label for="midiOutputSelect">MIDI Output:</label>
+                <select id="midiOutputSelect">
+                    <option value="">Browser beep (no MIDI)</option>
+                </select>
+            </div>
+            <button class="primary" id="downloadAllBtn" style="display: none;">Download all .progression files</button>
+        </div>
+
+        <div id="progressionsContainer" class="progressions hidden"></div>
+
+        <footer>
+            <p>
+                Cousin to the
+                <a href="https://liotier.github.io/AkaiMPC/"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    MPC Chord Progression Finder
+                </a>
+            </p>
+            <p>Produced by Jean-Marc Liotier</p>
+            <p>
+                <a href="https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionGenerator"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    View on GitHub
+                </a>
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>

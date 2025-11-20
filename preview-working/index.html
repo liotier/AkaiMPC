@@ -3,162 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPC Chord Progression Generator</title>
-    <meta name="description" content="Interactive web app to design and explore chord progressions for Akai MPC. Free, browser-based, no installation required.">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/webmidi@latest/dist/iife/webmidi.iife.js"></script>
-    <script src="app.js" type="module"></script>
+    <title>Akai MPC Tools - Chord Progressions & MIDI Programs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 20px;
+            opacity: 0.95;
+            font-weight: 300;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        .card p {
+            color: #2c3e50;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .status {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status.resources {
+            background: #6366f1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+            transition: border-color 0.2s;
+        }
+
+        footer a:hover {
+            border-bottom-color: white;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .card h2 {
+                font-size: 24px;
+            }
+
+            .projects {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="app">
-        <div class="header">
-            <div>
-                <h1>MPC Chord Progression Generator</h1>
-                <p class="subtitle">
-                    Create musically intelligent chord progressions optimized for the MPC's 4×4 pad layout<br>
-                    Generate Akai MPC .progression files - also get keyboard and guitar diagrams, to jam with others
-                </p>
-            </div>
-            <img src="https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/20250821%20MPC%20One%20on%20chair%20-%20web%20sized.jpg"
-                 alt="MPC One"
-                 class="mpc-image">
+    <div class="container">
+        <header>
+            <h1>Akai MPC Tools</h1>
+            <p class="subtitle">Chord progression generators, analyzers, and MIDI resources</p>
+        </header>
+
+        <div class="projects">
+            <a href="AkaiMPCChordProgressionGenerator/" class="card">
+                <h2>Chord Progression Generator</h2>
+                <p>Generate musically intelligent custom chord progressions in 4×4 pad layouts. 135 progression templates across 15 genres, 36 scales, four voicing variants, and intelligent voice leading optimization.</p>
+                <span class="status">Active</span>
+            </a>
+
+            <a href="AkaiMPCChordProgressionFinder/" class="card">
+                <h2>Chord Progression Finder</h2>
+                <p>Analyze and explore chord progressions from MPC .progression files. Smart key detection, Roman numeral analysis, and instant playable progressions detection. Find the perfect chord set for any song style.</p>
+                <span class="status">Active</span>
+            </a>
+
+            <a href="https://github.com/liotier/AkaiMPC/tree/main/MIDI%20programs" target="_blank" rel="noopener noreferrer" class="card">
+                <h2>MIDI Programs</h2>
+                <p>Pre-configured MIDI program files for Roland hardware (MX-1, TR-8, VT-4). Download and use these templates to quickly set up your MIDI controllers and sound modules.</p>
+                <span class="status resources">Resources</span>
+            </a>
         </div>
-
-        <div class="chord-matcher" id="chordMatcher">
-            <div class="chord-matcher-header" onclick="toggleChordMatcher()">
-                <h3>🎹 Chord Matcher</h3>
-                <span class="optional-badge">Optional</span>
-                <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </div>
-            <div class="chord-matcher-content">
-                <p class="chord-matcher-description">
-                    Found a sample with great chords ? Enter them here to find compatible keys and modes for your production.
-                </p>
-                <div class="chord-input-row">
-                    <select id="chordNote">
-                        <option value="">Note...</option>
-                        <option value="C">C</option>
-                        <option value="C#">C#/D♭</option>
-                        <option value="D">D</option>
-                        <option value="D#">D#/E♭</option>
-                        <option value="E">E</option>
-                        <option value="F">F</option>
-                        <option value="F#">F#/G♭</option>
-                        <option value="G">G</option>
-                        <option value="G#">G#/A♭</option>
-                        <option value="A">A</option>
-                        <option value="A#">A#/B♭</option>
-                        <option value="B">B</option>
-                    </select>
-                    <select id="chordQuality">
-                        <option value="">Quality...</option>
-                        <option value="major">Major</option>
-                        <option value="minor">Minor</option>
-                        <option value="dim">Diminished</option>
-                        <option value="aug">Augmented</option>
-                        <option value="sus2">Sus2</option>
-                        <option value="sus4">Sus4</option>
-                        <option value="7">Dominant 7</option>
-                        <option value="maj7">Major 7</option>
-                        <option value="m7">Minor 7</option>
-                    </select>
-                    <button onclick="addChordRequirement()">Add Chord</button>
-                    <button onclick="clearChordRequirements()">Clear All</button>
-                </div>
-                <div class="selected-chords" id="selectedChords"></div>
-                <div class="key-mode-suggestions" id="keyModeSuggestions" style="display: none;">
-                    <div class="suggestion-label">Compatible Keys & Modes:</div>
-                    <div class="suggestion-list" id="suggestionList"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="controls">
-            <div class="generation-mode-toggle">
-                <label class="mode-option" title="Generate progressions from 135 pre-made templates across 15 genres. Creates 4 voicing variants (Classic, Jazz, Modal, Experimental).">
-                    <input type="radio" name="generationMode" value="template" id="templateModeRadio" checked>
-                    <span>Use Progression Template</span>
-                </label>
-                <label class="mode-option" title="Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.">
-                    <input type="radio" name="generationMode" value="scale" id="scaleModeRadio">
-                    <span>Explore Scale/Mode</span>
-                </label>
-            </div>
-
-            <div class="filter-group">
-                <label>Key</label>
-                <select id="keySelect"></select>
-            </div>
-
-            <div class="filter-group">
-                <label>Mode/Scale</label>
-                <select id="modeSelect"></select>
-            </div>
-
-            <div class="filter-group">
-                <label>Progression Template</label>
-                <select id="progressionSelect"></select>
-            </div>
-
-            <div class="filter-group">
-                <label>Progression Name</label>
-                <input type="text" id="progressionName" maxlength="64">
-            </div>
-        </div>
-
-        <div class="action-buttons">
-            <button class="primary full-width" id="generateBtn">Generate Progressions</button>
-        </div>
-
-        <div class="context-tabs-container">
-            <div class="context-tabs">
-                <button class="context-tab active" data-context="mpc">MPC Pads</button>
-                <button class="context-tab" data-context="keyboard">Keyboard</button>
-                <button class="context-tab" data-context="guitar">Guitar</button>
-                <button class="context-tab" data-context="staff">Staff</button>
-            </div>
-            <div class="left-handed-toggle" id="leftHandedToggle" style="display: none;">
-                <label>
-                    <input type="checkbox" id="leftHandedCheckbox">
-                    Left-handed
-                </label>
-            </div>
-            <div class="midi-selector" id="midiSelector" style="display: none;" title="Play with computer keys: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)">
-                <label for="midiOutputSelect">MIDI Output:</label>
-                <select id="midiOutputSelect">
-                    <option value="">Browser beep (no MIDI)</option>
-                </select>
-            </div>
-            <button class="primary" id="downloadAllBtn" style="display: none;">Download all .progression files</button>
-        </div>
-
-        <div id="progressionsContainer" class="progressions hidden"></div>
 
         <footer>
-            <p>
-                Cousin to the
-                <a href="https://liotier.github.io/AkaiMPC/"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    MPC Chord Progression Finder
-                </a>
-            </p>
-            <p>Produced by Jean-Marc Liotier</p>
-            <p>
-                <a href="https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionGenerator"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    View on GitHub
-                </a>
-            </p>
+            <p>Built for the Akai MPC community by Jean-Marc Liotier</p>
+            <p><a href="https://github.com/liotier/AkaiMPC" target="_blank" rel="noopener noreferrer">View on GitHub</a></p>
         </footer>
     </div>
-
 </body>
 </html>
