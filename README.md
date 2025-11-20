@@ -94,7 +94,7 @@ Please submit issues and pull requests on GitHub.
 
 ## License
 
-MIT License - See [LICENSE](LICENSE) file for details.
+This project is released under the Unlicense - See [LICENSE](LICENSE) file for details.
 
 ## Credits
 
