@@ -85,6 +85,47 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
+/**
+ * Analyze voice leading between two chords
+ * @param {Array} notes1 - First chord notes (MIDI numbers)
+ * @param {Array} notes2 - Second chord notes (MIDI numbers)
+ * @returns {Object} Voice leading analysis
+ */
+function analyzeVoiceLeading(notes1, notes2) {
+    if (!notes1 || !notes2) return null;
+
+    // Convert to pitch classes (0-11) for common tone analysis
+    const pc1 = notes1.map(n => n % 12);
+    const pc2 = notes2.map(n => n % 12);
+
+    // Find common tones (pitch classes that appear in both chords)
+    const commonTones = pc1.filter(pc => pc2.includes(pc));
+
+    // Analyze voice movement
+    const movements = [];
+    for (let i = 0; i < Math.min(notes1.length, notes2.length); i++) {
+        const interval = Math.abs(notes2[i] - notes1[i]);
+        if (interval === 0) {
+            movements.push('common tone');
+        } else if (interval <= 2) {
+            movements.push('step motion');
+        } else if (interval <= 4) {
+            movements.push('skip');
+        } else {
+            movements.push('leap');
+        }
+    }
+
+    const stepMotion = movements.filter(m => m === 'step motion').length;
+    const commonToneCount = commonTones.length;
+
+    return {
+        commonTones: commonToneCount,
+        stepMotion: stepMotion,
+        smoothness: commonToneCount + stepMotion // Higher = smoother voice leading
+    };
+}
+
 // Trigger sparkle animation on Generate button
 function triggerSparkle() {
     const btn = document.getElementById('generateBtn');

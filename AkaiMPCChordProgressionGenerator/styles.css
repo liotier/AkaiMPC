@@ -998,14 +998,6 @@ footer a:hover {
         gap: 12px;
     }
 
-    .random-buttons-group {
-        flex-direction: column;
-    }
-
-    .random-buttons-group button {
-        min-width: 100%;
-    }
-
     .context-tabs-container {
         flex-direction: column;
         align-items: flex-start;
