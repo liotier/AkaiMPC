@@ -19,12 +19,12 @@ Visualize chord progressions in four different contexts:
 - **Multiple Modes**: Major, Minor (Natural/Harmonic/Melodic), Church Modes, Pentatonic, Blues, and more
 - **Chord Matcher**: Find keys that contain specific chords you want to use
 - **Scale Exploration Mode**: Generate all diatonic chords for any mode
-- **Voice Leading Analysis & Visualization**: Real-time analysis with color-coded smoothness indicators (NEW)
+- **Voice Leading Analysis & Visualization**: Real-time analysis with color-coded smoothness indicators
   - **Green border**: Smooth transitions (common tones + step motion)
   - **Blue border**: Moderate movement (some smoothness)
   - **Amber border**: Dramatic leaps (large intervals for effect)
   - Hover for detailed analysis (e.g., "2 common tones, 1 step")
-- **Genre-Specific Voice Leading**: Each variant optimizes differently (NEW)
+- **Genre-Specific Voice Leading**: Each variant optimizes differently
   - **Classic**: Strict voice leading rules for classical style
   - **Jazz**: Smooth transitions with close voicings
   - **Modal**: Spacious open voicings
@@ -43,65 +43,32 @@ Visualize chord progressions in four different contexts:
 
 ### User Experience
 
-- **Context Persistence**: Your last used view (MPC/Keyboard/Guitar/Staff) is remembered (NEW)
-- **Input Validation**: Helpful error messages prevent mistakes (NEW)
-- **Toast Notifications**: Clear feedback for user actions (NEW)
+- **Context Persistence**: Your last used view (MPC/Keyboard/Guitar/Staff) is remembered
+- **Input Validation**: Helpful error messages prevent mistakes
+- **Toast Notifications**: Clear feedback for user actions
 - **Left-Handed Mode**: Guitar diagrams can be flipped for left-handed players
 - **Responsive Design**: Works on desktop, tablet, and mobile devices
 - **URL Sharing**: Share exact progressions via URL parameters
 
-## Recent Improvements
+## Why This App?
 
-### Code Quality & Performance
+### Educational Value
 
-- **Modular Architecture**: Separated concerns into focused modules
-  - `modules/constants.js`: Centralized configuration
-  - `modules/audio.js`: All audio playback logic
-  - `modules/musicTheory.js`: Music theory calculations
-  - `modules/rendering.js`: SVG generation
-  - `modules/storage.js`: Persistence and preferences
-  - `modules/guitarChords.js`: Guitar chord database
+Learn music theory through visual and interactive exploration:
 
-- **Eliminated Code Duplication**:
-  - Removed 200+ lines of duplicate audio code
-  - Consolidated MIDI frequency calculations
-  - Centralized magic numbers into named constants
+- **Voice Leading Principles**: See why certain progressions sound smooth (common tones, step motion) vs. dramatic (large leaps)
+- **Genre Differences**: Compare how Jazz favors smooth voice leading while Experimental embraces dramatic jumps
+- **Chord Functions**: Understand tonic, dominant, subdominant roles in progressions
+- **Multiple Perspectives**: Same progression viewed as keyboard, guitar, staff, or MPC pads
 
-- **Better Error Handling**:
-  - Try-catch blocks throughout
-  - LocalStorage quota handling
-  - Null checks on DOM elements
-  - Graceful degradation
+### Practical Composition
 
-- **Enhanced Documentation**:
-  - JSDoc comments on all functions
-  - Inline explanations of complex algorithms
-  - Clear parameter and return types
+Quickly generate and explore chord progressions for:
 
-### Music Theory Features
-
-- **Voice Leading Visualization**: Visual color-coding shows voice movement quality
-  - **Smooth (green)**: 4+ smoothness score - lots of common tones and step motion
-  - **Moderate (blue)**: 2-3 smoothness - some smooth movement
-  - **Dramatic (amber)**: 0-1 smoothness - large leaps for emotional effect
-  - Hover tooltips show exact counts (e.g., "Smooth: 2 common tones, 1 step")
-  - Only shown on progression chords for clarity
-
-- **Genre-Optimized Voice Leading**:
-  - **Classic variant**: Re-optimizes for classical voice leading principles
-  - **Jazz variant**: Close voicings with smooth transitions (common tones + steps)
-  - **Modal variant**: Open voicings for spacious sound
-  - **Experimental variant**: Spread voicings create natural dramatic leaps
-  - Different genres have different voice leading priorities!
-
-- **Voice Leading Analysis Engine**: Analyzes transitions between chords
-  - Identifies common tones (notes that stay the same)
-  - Tracks step motion (1-2 semitone smooth movement)
-  - Detects skips (3-4 semitones) and leaps (5+ semitones)
-  - Calculates smoothness score for comparison
-  - Pedagogically valuable for learning composition
-
-- **Chord Role Visibility**: In keyboard view, chord roles (tonic, dominant, etc.) are always visible, not just in tooltips
+- **Songwriting**: Find interesting progressions in your preferred key
+- **Practice**: Learn new chord voicings on piano or guitar
+- **Arranging**: Understand voice leading for better arrangements
+- **MPC Production**: Export directly to Akai MPC for beat production
 
 ## Technical Details
 
@@ -212,36 +179,53 @@ AkaiMPCChordProgressionGenerator/
 │   └── guitarChords.js    # Guitar chord database
 ```
 
-### Key Concepts
+### Architecture
+
+**Modular Design**:
+- `modules/constants.js`: Centralized configuration (audio parameters, limits, messages)
+- `modules/audio.js`: All audio playback (Web Audio API + MIDI)
+- `modules/musicTheory.js`: Chord generation, voice leading, mode calculations
+- `modules/rendering.js`: SVG generation (keyboard, guitar, staff)
+- `modules/storage.js`: Persistence (localStorage + URL parameters)
+- `modules/guitarChords.js`: Guitar chord database
 
 **Music Theory Engine**:
-- Modes defined by interval patterns
-- Chords built from scale degrees
-- Roman numeral analysis
-- Multiple voicing algorithms
+- Modes defined by interval patterns (e.g., Major: 2-2-1-2-2-2-1)
+- Chords built from scale degrees with proper voicing
+- Roman numeral analysis (I, ii, iii, IV, V, vi, vii°)
+- Voice leading optimization (minimizes voice movement)
+- Genre-specific voicing algorithms (close, open, spread)
+
+**Voice Leading Analysis**:
+- Calculates common tones (notes that stay the same between chords)
+- Tracks step motion (1-2 semitone smooth movement)
+- Identifies skips (3-4 semitones) and leaps (5+ semitones)
+- Smoothness score = common tones + step motion count
+- Visual feedback via color-coded borders
 
 **SVG Rendering**:
-- Piano keyboard (2-octave range)
-- Guitar fretboard (auto-positioned)
-- Staff notation with ledger lines
-- Dynamic sizing and positioning
+- Piano keyboard: 2-octave range, dynamically positioned to show active notes
+- Guitar fretboard: Auto-calculates fret position, supports left-handed mode
+- Staff notation: Treble clef with ledger lines, proper note spacing
+- All diagrams scale responsively
 
 **Audio System**:
-- MIDI note to frequency conversion: `f = 440 * 2^((n-69)/12)`
-- Web Audio envelope (ADSR)
-- Oscillator pooling for efficiency
+- MIDI note to frequency: `f = 440 * 2^((n-69)/12)`
+- Web Audio envelope: Attack (10ms) → Sustain → Release (100ms)
+- Sine wave oscillators for pure tone
+- MIDI device support for authentic instrument sounds
 
 ## Contributing
 
-Contributions welcome! Areas for improvement:
+Contributions welcome! Potential areas for enhancement:
 
-- Additional progression templates
-- More guitar chord voicings
+- Additional progression templates (post-rock, neo-soul, etc.)
+- More guitar chord voicings and alternate fingerings
 - Bass clef support for staff notation
-- Drum pattern integration
-- MIDI file export
-- Additional modes/scales
-- UI for displaying voice leading analysis
+- Drum pattern integration for rhythm
+- MIDI file export functionality
+- Additional modes/scales (Harmonic Major, Hungarian Minor, etc.)
+- Enhanced voice leading visualizations
 
 ## License
 
@@ -251,28 +235,8 @@ MIT License - See LICENSE file for details
 
 - Treble clef SVG from [Openclipart](https://openclipart.org/)
 - Built with vanilla JavaScript (no frameworks)
-- Web Audio API
-- WebMIDI API (chrome/edge)
-
-## Version History
-
-### Latest (2025-01-XX)
-- **Voice leading visualization**: Color-coded borders show smoothness
-- **Genre-specific voice leading**: Jazz/Classic optimize for smoothness, Experimental for drama
-- **Context persistence**: Your last view is remembered across sessions
-- **Improved error handling**: Better validation and user feedback
-- **Modular architecture**: Separated into focused, well-documented modules
-- **Consolidated audio code**: Eliminated 200+ lines of duplication
-- **Constants extraction**: All magic numbers now named and documented
-- **Notification system**: Toast messages for clear user feedback
-- **Voice leading analysis**: Foundation for pedagogical insights
-- **Code quality improvements**: JSDoc, error handling, null checks throughout
-
-### Previous
-- Added staff notation view
-- Improved print layouts
-- Added chord role display in keyboard view
-- Multiple bug fixes and optimizations
+- Web Audio API for synthesis
+- WebMIDI API for external device support (Chrome/Edge)
 
 ---
 
