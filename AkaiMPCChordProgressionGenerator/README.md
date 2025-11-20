@@ -192,5 +192,5 @@ This project is open source and available under the Unlicense.
 ## Credits & Links
 
 **Created by Jean-Marc Liotier**
-**Sister project: [MPC Chord Progression Finder](https://liotier.github.io/AkaiMPC/)**
+**Sister project: [MPC Chord Progression Finder](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/)**
 **GitHub: [Source Code](https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionGenerator)**

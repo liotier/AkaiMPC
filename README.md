@@ -1,12 +1,39 @@
-# Akai MPC Chord Progression Generator
+# Akai MPC Tools
 
-A powerful, educational web application for generating and visualizing chord progressions across multiple musical instruments and notation systems.
+Professional-grade chord progression tools and MIDI resources for Akai MPC users.
 
-## Features
+**[Browse All Tools →](https://liotier.github.io/AkaiMPC/)**
 
-### Multi-View Support
+This repository contains two complementary web applications for working with chord progressions on the Akai MPC, plus MIDI program files for Roland hardware.
 
-Visualize chord progressions in four different contexts:
+## Projects
+
+### 🎹 [Chord Progression Generator](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/)
+Generate musically intelligent custom chord progressions in 4×4 pad layouts for Akai MPC Pad Perform.
+
+**Key Features:**
+- 135 progression templates across 15 genres
+- 36 scales and modes from common to exotic
+- Four intelligent voicing variants (Classic, Jazz, Modal, Experimental)
+- Voice leading optimization for smooth transitions
+- Chord Matcher for finding keys from specific chords
+
+### 🔍 [Chord Progression Finder](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/)
+Analyze and explore chord progressions from MPC .progression files.
+
+**Key Features:**
+- Pure interval-based chord analysis
+- Automatic key and scale detection
+- Roman numeral analysis
+- Playable progressions detection (ii-V-I, I-V-vi-IV, etc.)
+- Real-time filtering and export capabilities
+
+### 🎛️ MIDI Programs
+Pre-configured MIDI program files for Roland hardware (MX-1, TR-8, VT-4).
+
+## Multi-View Support
+
+Both tools visualize chord progressions in four different contexts:
 
 - **MPC View**: Akai MPC-style 4x4 pad layout with chord annotations
 - **Keyboard View**: Piano keyboard diagrams showing which keys to press
