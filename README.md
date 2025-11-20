@@ -19,7 +19,16 @@ Visualize chord progressions in four different contexts:
 - **Multiple Modes**: Major, Minor (Natural/Harmonic/Melodic), Church Modes, Pentatonic, Blues, and more
 - **Chord Matcher**: Find keys that contain specific chords you want to use
 - **Scale Exploration Mode**: Generate all diatonic chords for any mode
-- **Voice Leading Analysis**: Analyzes common tones and smooth voice movement (NEW)
+- **Voice Leading Analysis & Visualization**: Real-time analysis with color-coded smoothness indicators (NEW)
+  - **Green border**: Smooth transitions (common tones + step motion)
+  - **Blue border**: Moderate movement (some smoothness)
+  - **Amber border**: Dramatic leaps (large intervals for effect)
+  - Hover for detailed analysis (e.g., "2 common tones, 1 step")
+- **Genre-Specific Voice Leading**: Each variant optimizes differently (NEW)
+  - **Classic**: Strict voice leading rules for classical style
+  - **Jazz**: Smooth transitions with close voicings
+  - **Modal**: Spacious open voicings
+  - **Experimental**: Dramatic leaps for emotional impact
 - **Chord Role Descriptions**: Educational tooltips explaining each chord's function
 
 ### Playback & Export
@@ -71,11 +80,26 @@ Visualize chord progressions in four different contexts:
 
 ### Music Theory Features
 
-- **Voice Leading Analysis**: New function to analyze chord-to-chord movement
-  - Identifies common tones
-  - Tracks step motion vs leaps
-  - Calculates smoothness scores
-  - Foundation for future pedagogical UI enhancements
+- **Voice Leading Visualization**: Visual color-coding shows voice movement quality
+  - **Smooth (green)**: 4+ smoothness score - lots of common tones and step motion
+  - **Moderate (blue)**: 2-3 smoothness - some smooth movement
+  - **Dramatic (amber)**: 0-1 smoothness - large leaps for emotional effect
+  - Hover tooltips show exact counts (e.g., "Smooth: 2 common tones, 1 step")
+  - Only shown on progression chords for clarity
+
+- **Genre-Optimized Voice Leading**:
+  - **Classic variant**: Re-optimizes for classical voice leading principles
+  - **Jazz variant**: Close voicings with smooth transitions (common tones + steps)
+  - **Modal variant**: Open voicings for spacious sound
+  - **Experimental variant**: Spread voicings create natural dramatic leaps
+  - Different genres have different voice leading priorities!
+
+- **Voice Leading Analysis Engine**: Analyzes transitions between chords
+  - Identifies common tones (notes that stay the same)
+  - Tracks step motion (1-2 semitone smooth movement)
+  - Detects skips (3-4 semitones) and leaps (5+ semitones)
+  - Calculates smoothness score for comparison
+  - Pedagogically valuable for learning composition
 
 - **Chord Role Visibility**: In keyboard view, chord roles (tonic, dominant, etc.) are always visible, not just in tooltips
 
@@ -233,14 +257,16 @@ MIT License - See LICENSE file for details
 ## Version History
 
 ### Latest (2025-01-XX)
-- Added context persistence across sessions
-- Improved error handling and validation
-- Added voice leading analysis foundation
-- Refactored to modular architecture
-- Extracted all magic numbers to constants
-- Consolidated audio code
-- Added notification system
-- Code quality improvements
+- **Voice leading visualization**: Color-coded borders show smoothness
+- **Genre-specific voice leading**: Jazz/Classic optimize for smoothness, Experimental for drama
+- **Context persistence**: Your last view is remembered across sessions
+- **Improved error handling**: Better validation and user feedback
+- **Modular architecture**: Separated into focused, well-documented modules
+- **Consolidated audio code**: Eliminated 200+ lines of duplication
+- **Constants extraction**: All magic numbers now named and documented
+- **Notification system**: Toast messages for clear user feedback
+- **Voice leading analysis**: Foundation for pedagogical insights
+- **Code quality improvements**: JSDoc, error handling, null checks throughout
 
 ### Previous
 - Added staff notation view
