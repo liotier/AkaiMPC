@@ -32,26 +32,43 @@ import {
     generateStaffSVG
 } from './modules/rendering.js';
 
+import {
+    AUDIO,
+    TIMING,
+    MESSAGES,
+    STORAGE_KEYS
+} from './modules/constants.js';
+
+import {
+    initAudioContext,
+    setMidiOutput,
+    getMidiOutput,
+    startChord,
+    stopChord,
+    playChord,
+    playNotesSequentially,
+    stopAllNotes,
+    getSequentialDuration
+} from './modules/audio.js';
+
 // State variables
 let selectedKey = 'C';
 let selectedMode = 'Major';
 let selectedProgression = 'I—V—vi—IV';
 let progressionName = '';
 let variants = [];
-let audioContext = null;
 let chordRequirements = [];
-let currentContext = 'mpc'; // 'mpc', 'keyboard', or 'guitar'
+let currentContext = 'mpc'; // Current view context: 'mpc', 'keyboard', 'guitar', or 'staff'
 let isLeftHanded = false;
 let hasGeneratedOnce = false; // Track if user has generated at least once
 let generationMode = 'template'; // 'template' or 'scale'
-let selectedMidiOutput = null; // Selected MIDI output device
 
 // Trigger sparkle animation on Generate button
 function triggerSparkle() {
     const btn = document.getElementById('generateBtn');
     if (btn) {
         btn.classList.add('sparkle');
-        setTimeout(() => btn.classList.remove('sparkle'), 600);
+        setTimeout(() => btn.classList.remove('sparkle'), TIMING.SPARKLE_DURATION);
     }
 }
 
@@ -157,7 +174,7 @@ async function initMIDI() {
             });
 
             console.log(`Found ${WebMidi.outputs.length} MIDI output(s)`);
-            // Default remains "Browser beep" (selectedMidiOutput = null)
+            // Default remains "Browser beep" (MIDI output = null)
             console.log('Default audio output: Browser beep');
         } else {
             console.log('No MIDI outputs available');
@@ -166,11 +183,12 @@ async function initMIDI() {
         // Handle device selection
         midiOutputSelect.addEventListener('change', function() {
             if (this.value === '') {
-                selectedMidiOutput = null;
+                setMidiOutput(null);
                 console.log('Using browser beep');
             } else {
-                selectedMidiOutput = WebMidi.getOutputById(this.value);
-                console.log('Selected MIDI output:', selectedMidiOutput.name);
+                const output = WebMidi.getOutputById(this.value);
+                setMidiOutput(output);
+                console.log('Selected MIDI output:', output.name);
             }
         });
 
@@ -852,7 +870,7 @@ function showTooltip(element, text) {
     tooltip.style.top = (rect.top - 10) + 'px';
     tooltip.style.transform = 'translate(-50%, -100%)';
 
-    setTimeout(() => tooltip.classList.add('visible'), 10);
+    setTimeout(() => tooltip.classList.add('visible'), TIMING.TOOLTIP_DELAY);
 }
 
 function createTooltip() {
@@ -1376,15 +1394,6 @@ function generateVariant(variantType) {
     };
 }
 
-// Initialize audio context
-function initAudio() {
-    try {
-        audioContext = new (globalThis.AudioContext || globalThis.webkitAudioContext)();
-    } catch (error) {
-        console.warn('Web Audio API not supported');
-    }
-}
-
 // Populate select elements
 function populateSelects() {
     // Keys
@@ -1639,13 +1648,13 @@ function renderProgressions() {
                 playNotesSequentially(notes);
                 this.classList.add('playing');
                 // Remove playing class after all notes have played
-                const totalDuration = notes.length * 333;
+                const totalDuration = getSequentialDuration(notes.length);
                 setTimeout(() => this.classList.remove('playing'), totalDuration);
             } else {
                 // In other contexts, play as a chord
                 playChord(notes);
                 this.classList.add('playing');
-                setTimeout(() => this.classList.remove('playing'), 300);
+                setTimeout(() => this.classList.remove('playing'), TIMING.PLAYING_FLASH);
             }
         });
     });
@@ -1660,209 +1669,6 @@ function renderProgressions() {
 
     container.classList.remove('hidden');
     document.getElementById('downloadAllBtn').style.display = 'block';
-}
-
-// Start playing chord (note-on) - for keyboard sustain
-let activeOscillators = {}; // Track active Web Audio oscillators by MIDI note
-
-async function startChord(notes) {
-    // Try MIDI output first if a device is selected
-    if (selectedMidiOutput) {
-        try {
-            console.log('Sending MIDI note-on:', notes, 'to', selectedMidiOutput.name);
-            const channel = selectedMidiOutput.channels[1];
-            notes.forEach(midiNote => {
-                channel.playNote(midiNote, {
-                    duration: Infinity, // Sustain until note-off
-                    velocity: 0.7
-                });
-            });
-            return; // MIDI successful, skip beep
-        } catch (error) {
-            console.error('MIDI playback failed, falling back to beep:', error);
-            console.error('Error details:', error.message, error.stack);
-        }
-    }
-
-    // Fallback to Web Audio beep with sustain
-    if (!audioContext) return;
-
-    if (audioContext.state === 'suspended') {
-        await audioContext.resume();
-    }
-
-    notes.forEach(midiNote => {
-        // Stop any existing oscillator for this note
-        if (activeOscillators[midiNote]) {
-            activeOscillators[midiNote].gainNode.gain.cancelScheduledValues(audioContext.currentTime);
-            activeOscillators[midiNote].gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
-            activeOscillators[midiNote].oscillator.stop(audioContext.currentTime + 0.05);
-            delete activeOscillators[midiNote];
-        }
-
-        const frequency = 440 * Math.pow(2, (midiNote - 69) / 12);
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-
-        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-        oscillator.type = 'sine';
-
-        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.01);
-
-        oscillator.start(audioContext.currentTime);
-
-        // Store the oscillator for later stopping
-        activeOscillators[midiNote] = { oscillator, gainNode };
-    });
-}
-
-// Stop playing chord (note-off) - for keyboard release
-function stopChord(notes) {
-    // Try MIDI output first if a device is selected
-    if (selectedMidiOutput) {
-        try {
-            console.log('Sending MIDI note-off:', notes, 'to', selectedMidiOutput.name);
-            const channel = selectedMidiOutput.channels[1];
-            notes.forEach(midiNote => {
-                channel.stopNote(midiNote);
-            });
-            return; // MIDI successful, skip beep
-        } catch (error) {
-            console.error('MIDI note-off failed:', error);
-        }
-    }
-
-    // Fallback to Web Audio beep
-    if (!audioContext) return;
-
-    notes.forEach(midiNote => {
-        if (activeOscillators[midiNote]) {
-            const { oscillator, gainNode } = activeOscillators[midiNote];
-            gainNode.gain.cancelScheduledValues(audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
-            oscillator.stop(audioContext.currentTime + 0.1);
-            delete activeOscillators[midiNote];
-        }
-    });
-}
-
-// Play chord with fixed duration (for mouse clicks)
-async function playChord(notes) {
-    // Try MIDI output first if a device is selected
-    if (selectedMidiOutput) {
-        try {
-            console.log('Sending MIDI notes:', notes, 'to', selectedMidiOutput.name);
-            // Play all notes as a chord using channels() to get channel 1
-            const channel = selectedMidiOutput.channels[1];
-            notes.forEach(midiNote => {
-                channel.playNote(midiNote, {
-                    duration: 500,
-                    velocity: 0.7
-                });
-            });
-            return; // MIDI successful, skip beep
-        } catch (error) {
-            console.error('MIDI playback failed, falling back to beep:', error);
-            console.error('Error details:', error.message, error.stack);
-        }
-    } else {
-        console.log('No MIDI device selected, using browser beep');
-    }
-
-    // Fallback to Web Audio beep
-    if (!audioContext) return;
-
-    if (audioContext.state === 'suspended') {
-        await audioContext.resume();
-    }
-
-    notes.forEach(midiNote => {
-        const frequency = 440 * Math.pow(2, (midiNote - 69) / 12);
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-
-        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-        oscillator.type = 'sine';
-
-        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
-
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.5);
-    });
-}
-
-// Play notes sequentially as eighth notes at 90 BPM (for staff context)
-async function playNotesSequentially(notes) {
-    // At 90 BPM: 1 beat = 667ms, 1 eighth note = 333ms
-    const eighthNoteDuration = 333; // milliseconds
-    const noteSustain = 300; // slightly shorter than duration for clarity
-
-    // Try MIDI output first if a device is selected
-    if (selectedMidiOutput) {
-        try {
-            console.log('Sending MIDI notes sequentially:', notes, 'to', selectedMidiOutput.name);
-            const channel = selectedMidiOutput.channels[1];
-
-            for (let i = 0; i < notes.length; i++) {
-                channel.playNote(notes[i], {
-                    duration: noteSustain,
-                    velocity: 0.7
-                });
-                // Wait for the eighth note duration before playing next note
-                if (i < notes.length - 1) {
-                    await new Promise(resolve => setTimeout(resolve, eighthNoteDuration));
-                }
-            }
-            return; // MIDI successful, skip beep
-        } catch (error) {
-            console.error('MIDI sequential playback failed, falling back to beep:', error);
-            console.error('Error details:', error.message, error.stack);
-        }
-    } else {
-        console.log('No MIDI device selected, using browser beep');
-    }
-
-    // Fallback to Web Audio beep
-    if (!audioContext) return;
-
-    if (audioContext.state === 'suspended') {
-        await audioContext.resume();
-    }
-
-    for (let i = 0; i < notes.length; i++) {
-        const midiNote = notes[i];
-        const frequency = 440 * Math.pow(2, (midiNote - 69) / 12);
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-
-        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-        oscillator.type = 'sine';
-
-        const startTime = audioContext.currentTime;
-        gainNode.gain.setValueAtTime(0, startTime);
-        gainNode.gain.linearRampToValueAtTime(0.2, startTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + noteSustain / 1000);
-
-        oscillator.start(startTime);
-        oscillator.stop(startTime + noteSustain / 1000);
-
-        // Wait for the eighth note duration before playing next note
-        if (i < notes.length - 1) {
-            await new Promise(resolve => setTimeout(resolve, eighthNoteDuration));
-        }
-    }
 }
 
 function exportProgressions() {
@@ -1908,7 +1714,7 @@ function exportProgressions() {
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
-    initAudio();
+    initAudioContext();
     initMIDI();
     populateSelects();
 
@@ -2171,8 +1977,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Release all notes when window loses focus (prevent stuck notes)
     globalThis.addEventListener('blur', () => {
-        pressedKeys.forEach(({ notes, padElement }) => {
-            stopChord(notes);
+        // Stop all audio
+        stopAllNotes();
+
+        // Clear visual feedback
+        pressedKeys.forEach(({ padElement }) => {
             if (padElement) {
                 padElement.classList.remove('playing');
             }
