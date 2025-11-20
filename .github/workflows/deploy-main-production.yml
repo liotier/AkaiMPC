@@ -18,6 +18,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./AkaiMPCChordProgressionGenerator
-          destination_dir: AkaiMPCChordProgressionGenerator
-          keep_files: true
+          publish_dir: .
+          keep_files: false
