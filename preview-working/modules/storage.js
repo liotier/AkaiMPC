@@ -38,16 +38,16 @@ export function updateURL(selectedKey, selectedMode, selectedProgression, isLeft
         params.set('leftHanded', 'true');
     }
 
-    const newURL = window.location.pathname + '?' + params.toString();
+    const newURL = globalThis.location.pathname + '?' + params.toString();
     if (replaceState) {
-        window.history.replaceState({}, '', newURL);
+        globalThis.history.replaceState({}, '', newURL);
     } else {
-        window.history.pushState({}, '', newURL);
+        globalThis.history.pushState({}, '', newURL);
     }
 }
 
 export function loadFromURL() {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(globalThis.location.search);
     const urlPreferences = {};
 
     if (params.has('key')) urlPreferences.key = params.get('key');
