@@ -27,7 +27,7 @@ A web-based tool for analyzing and exploring chord progressions from Akai MPC `.
 ## 🚀 Quick Start
 
 ### Online Version
-Visit the live tool at: [https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/)
+Visit the live tool at: [https://liotier.github.io/AkaiMPC/](https://liotier.github.io/AkaiMPC/)
 
 ### Local Usage
 1. Download the HTML file
@@ -129,6 +129,6 @@ This project is open source and available under the Unlicense.
 
 ## Credits & Links
 
-**Created by Jean-Marc Liotier**  
-**Sister project: [MPC Chord Progression Finder](https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionGenerator)**  
-**GitHub: [Source Code](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/Akai%20MPC%20Chord%20Progression%20Finder.html)**
+**Created by Jean-Marc Liotier**
+**Sister project: [MPC Chord Progression Generator](https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionGenerator)**
+**Live Tool: [https://liotier.github.io/AkaiMPC/](https://liotier.github.io/AkaiMPC/)**
