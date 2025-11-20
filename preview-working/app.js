@@ -11,7 +11,8 @@ import {
     getRomanNumeral,
     generateProgressionChords,
     spellChordNotes,
-    applyVoicingStyle
+    applyVoicingStyle,
+    optimizeVoiceLeading
 } from './modules/musicTheory.js';
 
 import {
@@ -1353,11 +1354,15 @@ function generateVariant(variantType) {
     // Apply variant-specific voicing styles for more diversity
     switch (variantType) {
         case 'Classic':
-            // Classic uses default voice leading (already optimized)
+            // Classic uses default voice leading (already optimized in generateProgressionChords)
+            // Re-optimize for classical strict voice leading rules
+            progressionChords = optimizeVoiceLeading(progressionChords);
             break;
         case 'Jazz':
             // Jazz uses close voicings for that tight, sophisticated sound
             progressionChords = applyVoicingStyle(progressionChords, 'close');
+            // Then optimize voice leading to maximize smoothness (common tones + step motion)
+            progressionChords = optimizeVoiceLeading(progressionChords);
             break;
         case 'Modal':
             // Modal uses open voicings for a more spacious sound
@@ -1643,12 +1648,42 @@ function renderProgressions() {
             rows[pad.row - 1].push(pad);
         });
 
-        const gridHTML = rows.reverse().map(row =>
-            row.map(pad => {
+        const gridHTML = rows.reverse().map((row, rowIndex) =>
+            row.map((pad, padIndexInRow) => {
                 const roleText = getChordTooltip(pad.romanNumeral, pad.quality);
+
+                // Calculate voice leading smoothness for progression chords
+                let voiceLeadingClass = '';
+                let voiceLeadingTitle = '';
+                if (pad.isProgressionChord) {
+                    // Find previous progression chord
+                    const allPads = variant.pads.filter(p => p.isProgressionChord).sort((a, b) => a.id - b.id);
+                    const padPositionInProgression = allPads.findIndex(p => p.id === pad.id);
+
+                    if (padPositionInProgression > 0) {
+                        const previousPad = allPads[padPositionInProgression - 1];
+                        const vlAnalysis = analyzeVoiceLeading(previousPad.notes, pad.notes);
+
+                        if (vlAnalysis) {
+                            // Color code based on smoothness for pedagogical value
+                            if (vlAnalysis.smoothness >= 4) {
+                                voiceLeadingClass = 'vl-smooth';  // Lots of common tones/steps
+                                voiceLeadingTitle = `Smooth: ${vlAnalysis.commonTones} common tone(s), ${vlAnalysis.stepMotion} step(s)`;
+                            } else if (vlAnalysis.smoothness >= 2) {
+                                voiceLeadingClass = 'vl-moderate';  // Some smooth movement
+                                voiceLeadingTitle = `Moderate: ${vlAnalysis.commonTones} common tone(s), ${vlAnalysis.stepMotion} step(s)`;
+                            } else {
+                                voiceLeadingClass = 'vl-leap';  // Larger leaps
+                                voiceLeadingTitle = `Dramatic leaps: ${vlAnalysis.commonTones} common tone(s), ${vlAnalysis.stepMotion} step(s)`;
+                            }
+                        }
+                    }
+                }
+
                 return `
-                <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''}"
-                    data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replace(/"/g, '&quot;')}">
+                <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''} ${voiceLeadingClass}"
+                    data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replace(/"/g, '&quot;')}"
+                    ${voiceLeadingTitle ? `title="${voiceLeadingTitle}"` : ''}>
                     <div class="chord-text-column">
                         <div class="chord-pad-content">
                             <div class="chord-info">
