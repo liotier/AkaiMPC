@@ -36,7 +36,8 @@ import {
     AUDIO,
     TIMING,
     MESSAGES,
-    STORAGE_KEYS
+    STORAGE_KEYS,
+    LIMITS
 } from './modules/constants.js';
 
 import {
@@ -63,6 +64,27 @@ let isLeftHanded = false;
 let hasGeneratedOnce = false; // Track if user has generated at least once
 let generationMode = 'template'; // 'template' or 'scale'
 
+// Show user notification (toast message)
+function showNotification(message, type = 'info') {
+    // Create or get notification element
+    let notification = document.getElementById('appNotification');
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.id = 'appNotification';
+        notification.className = 'notification';
+        document.body.appendChild(notification);
+    }
+
+    // Set message and type
+    notification.textContent = message;
+    notification.className = `notification notification-${type} visible`;
+
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+        notification.classList.remove('visible');
+    }, 3000);
+}
+
 // Trigger sparkle animation on Generate button
 function triggerSparkle() {
     const btn = document.getElementById('generateBtn');
@@ -87,19 +109,26 @@ function switchContext(context) {
 
     // Update button label
     const downloadBtn = document.getElementById('downloadAllBtn');
-    if (context === 'mpc') {
-        downloadBtn.textContent = 'Download all .progression files';
-    } else {
-        downloadBtn.textContent = 'Print all progressions';
+    if (downloadBtn) {
+        if (context === 'mpc') {
+            downloadBtn.textContent = 'Download all .progression files';
+        } else {
+            downloadBtn.textContent = 'Print all progressions';
+        }
     }
 
     // Show/hide left-handed toggle for guitar context
     const leftHandedToggle = document.getElementById('leftHandedToggle');
-    if (context === 'guitar') {
-        leftHandedToggle.style.display = 'flex';
-    } else {
-        leftHandedToggle.style.display = 'none';
+    if (leftHandedToggle) {
+        if (context === 'guitar') {
+            leftHandedToggle.style.display = 'flex';
+        } else {
+            leftHandedToggle.style.display = 'none';
+        }
     }
+
+    // Save context preference
+    saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, context);
 }
 
 // Generation mode switching (Template vs Scale Exploration)
@@ -207,7 +236,20 @@ function addChordRequirement() {
     const noteSelect = document.getElementById('chordNote');
     const qualitySelect = document.getElementById('chordQuality');
 
+    // Validate inputs
+    if (!noteSelect || !qualitySelect) {
+        console.error(MESSAGES.ERRORS.DOM_ELEMENT_NOT_FOUND);
+        return;
+    }
+
     if (!noteSelect.value || !qualitySelect.value) {
+        showNotification('Please select both a note and chord quality', 'warning');
+        return;
+    }
+
+    // Check maximum limit
+    if (chordRequirements.length >= LIMITS.MAX_CHORD_REQUIREMENTS) {
+        showNotification(`Maximum ${LIMITS.MAX_CHORD_REQUIREMENTS} chords allowed in matcher`, 'warning');
         return;
     }
 
@@ -226,15 +268,25 @@ function addChordRequirement() {
     };
 
     // Check if chord already exists
-    if (!chordRequirements.find(c => c.display === chord.display)) {
-        chordRequirements.push(chord);
-        renderChordRequirements();
-        analyzeCompatibleKeys();
+    if (chordRequirements.find(c => c.display === chord.display)) {
+        showNotification(MESSAGES.WARNINGS.CHORD_ALREADY_EXISTS, 'warning');
+        // Reset selectors even if duplicate
+        noteSelect.value = '';
+        qualitySelect.value = '';
+        return;
     }
+
+    // Add chord
+    chordRequirements.push(chord);
+    renderChordRequirements();
+    analyzeCompatibleKeys();
 
     // Reset selectors
     noteSelect.value = '';
     qualitySelect.value = '';
+
+    // Success feedback
+    showNotification(`Added ${chord.display} to chord matcher`, 'info');
 }
 
 function removeChordRequirement(index) {
@@ -1731,6 +1783,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (applied.mode) selectedMode = applied.mode;
             if (applied.progression) selectedProgression = applied.progression;
             if (applied.leftHanded !== undefined) isLeftHanded = applied.leftHanded;
+            // Restore saved context (will be applied after event listeners are set up)
+            if (applied.context) {
+                // Don't call switchContext yet, just store it for later
+                currentContext = applied.context;
+            }
         }
     }
 
@@ -1751,7 +1808,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('keySelect').addEventListener('change', function() {
         selectedKey = this.value;
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext);
         updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         if (hasGeneratedOnce) {
             triggerSparkle();
@@ -1762,7 +1819,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('modeSelect').addEventListener('change', function() {
         selectedMode = this.value;
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext);
         updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         if (hasGeneratedOnce) {
             triggerSparkle();
@@ -1773,7 +1830,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('progressionSelect').addEventListener('change', function() {
         selectedProgression = this.value;
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext);
         updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         if (hasGeneratedOnce) {
             triggerSparkle();
@@ -1807,7 +1864,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Left-handed toggle for guitar
     document.getElementById('leftHandedCheckbox').addEventListener('change', function() {
         isLeftHanded = this.checked;
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext);
         updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         // Regenerate progressions to reflect the change
         const progressionsContainer = document.getElementById('progressionsContainer');
@@ -1928,7 +1985,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (currentContext === 'staff') {
                             playNotesSequentially(notes);
                             pad.classList.add('playing');
-                            const totalDuration = notes.length * 333;
+                            const totalDuration = getSequentialDuration(notes.length);
                             setTimeout(() => pad.classList.remove('playing'), totalDuration);
                         } else {
                             // Start sustained chord for keyboard
@@ -1989,6 +2046,6 @@ document.addEventListener('DOMContentLoaded', function() {
         pressedKeys.clear();
     });
 
-    // Initialize context
-    switchContext('mpc');
+    // Initialize context (use saved context or default to 'mpc')
+    switchContext(currentContext);
 });
