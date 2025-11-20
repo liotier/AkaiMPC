@@ -126,7 +126,7 @@ function switchGenerationMode(mode) {
 
 // Print all progressions (for keyboard/guitar contexts)
 function printAllProgressions() {
-    window.print();
+    globalThis.print();
 }
 
 // WebMIDI initialization (Firefox 108+, Chrome, Edge)
@@ -232,15 +232,15 @@ function clearChordRequirements() {
 }
 
 // Expose functions to global scope for HTML onclick attributes
-window.toggleChordMatcher = toggleChordMatcher;
-window.addChordRequirement = addChordRequirement;
-window.removeChordRequirement = removeChordRequirement;
-window.clearChordRequirements = clearChordRequirements;
+globalThis.toggleChordMatcher = toggleChordMatcher;
+globalThis.addChordRequirement = addChordRequirement;
+globalThis.removeChordRequirement = removeChordRequirement;
+globalThis.clearChordRequirements = clearChordRequirements;
 
 // Expose state variables for debugging (read-only via getters)
-Object.defineProperty(window, 'selectedKey', { get: () => selectedKey });
-Object.defineProperty(window, 'selectedMode', { get: () => selectedMode });
-Object.defineProperty(window, 'selectedProgression', { get: () => selectedProgression });
+Object.defineProperty(globalThis, 'selectedKey', { get: () => selectedKey });
+Object.defineProperty(globalThis, 'selectedMode', { get: () => selectedMode });
+Object.defineProperty(globalThis, 'selectedProgression', { get: () => selectedProgression });
 
 function renderChordRequirements() {
     const container = document.getElementById('selectedChords');
@@ -1379,7 +1379,7 @@ function generateVariant(variantType) {
 // Initialize audio context
 function initAudio() {
     try {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        audioContext = new (globalThis.AudioContext || globalThis.webkitAudioContext)();
     } catch (error) {
         console.warn('Web Audio API not supported');
     }
@@ -2013,7 +2013,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle print orientation based on context
     let printStyleElement = null;
 
-    window.addEventListener('beforeprint', () => {
+    globalThis.addEventListener('beforeprint', () => {
         // Remove any existing print style
         if (printStyleElement) {
             printStyleElement.remove();
@@ -2031,7 +2031,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.head.appendChild(printStyleElement);
     });
 
-    window.addEventListener('afterprint', () => {
+    globalThis.addEventListener('afterprint', () => {
         // Clean up after printing
         if (printStyleElement) {
             printStyleElement.remove();
@@ -2054,8 +2054,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Calculate visible area of element in viewport
     function getVisibleArea(element) {
         const rect = element.getBoundingClientRect();
-        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-        const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+        const viewportHeight = globalThis.innerHeight || document.documentElement.clientHeight;
+        const viewportWidth = globalThis.innerWidth || document.documentElement.clientWidth;
 
         // Calculate intersection rectangle
         const visibleTop = Math.max(0, rect.top);
@@ -2170,7 +2170,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Release all notes when window loses focus (prevent stuck notes)
-    window.addEventListener('blur', () => {
+    globalThis.addEventListener('blur', () => {
         pressedKeys.forEach(({ notes, padElement }) => {
             stopChord(notes);
             if (padElement) {

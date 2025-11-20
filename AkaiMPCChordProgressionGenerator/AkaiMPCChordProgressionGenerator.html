@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url=./">
     <title>Redirecting to MPC Chord Progression Generator...</title>
     <script>
         // Preserve URL parameters during redirect
-        const params = window.location.search;
-        window.location.replace('./' + params);
+        const params = globalThis.location.search;
+        globalThis.location.replace('./' + params);
     </script>
     <style>
         body {

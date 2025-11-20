@@ -756,13 +756,11 @@ function analyzeChord(midiNotes) {
   const sorted = [...midiNotes].sort((a, b) => a - b);
   const bassNote = sorted[0];
   const bassPC = bassNote % 12;
-  
+
   const intervals = [];
-  const uniquePCs = new Set();
-  
+
   for (const note of sorted) {
     const pc = note % 12;
-    uniquePCs.add(pc);
     const interval = (pc - bassPC + 12) % 12;
     if (!intervals.includes(interval)) {
       intervals.push(interval);
@@ -847,11 +845,7 @@ function identifyChordQuality(intervals, bassPC) {
       root: (bassPC + result.root) % 12
     };
   }
-  
-  const third = hasInterval(3) || hasInterval(4);
-  const fifth = hasInterval(7) || hasInterval(6) || hasInterval(8);
-  const seventh = hasInterval(10) || hasInterval(11);
-  
+
   let quality = 'Unknown';
   let root = bassPC;
   
@@ -1647,10 +1641,9 @@ function generateKeyboardSVG(midiNotes) {
   const minOctave = Math.floor(minNote / 12) - 2; // Convert from MIDI octave
   const maxOctave = Math.max(minOctave + 1, Math.floor(maxNote / 12) - 2);
   const octaveCount = Math.min(2, maxOctave - minOctave + 1); // Show max 2 octaves
-  
+
   const startNote = (minOctave + 2) * 12; // Convert back to MIDI
-  const endNote = startNote + (octaveCount * 12);
-  
+
   // Create set of active notes for quick lookup
   const activeNotes = new Set(midiNotes);
   
