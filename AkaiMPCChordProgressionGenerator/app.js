@@ -1754,39 +1754,29 @@ function renderProgressions() {
 
             // Interactive voice leading: recolor all pads based on distance from this pad
             const referenceNotesStr = this.getAttribute('data-notes');
-            if (!referenceNotesStr) {
-                console.warn('Hover: No data-notes attribute');
-                return;
-            }
+            if (!referenceNotesStr) return;
 
             const referenceNotes = referenceNotesStr.split(',').map(Number);
             const card = this.closest('.progression-card');
-            if (!card) {
-                console.warn('Hover: No progression-card parent');
-                return;
-            }
+            if (!card) return;
 
             const allPads = card.querySelectorAll('.chord-pad');
-            console.log(`Hover activated: found ${allPads.length} pads, reference notes:`, referenceNotes);
 
             // Add hover-reference class to this pad
             this.classList.add('vl-hover-reference');
-            console.log('Added vl-hover-reference class to hovered pad');
 
             // Recalculate colors for all other pads
             const hoverLegend = 'Distance from hovered chord:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic';
-            let recoloredCount = 0;
             allPads.forEach(otherPad => {
                 if (otherPad === this) return; // Skip self
 
                 const otherNotesStr = otherPad.getAttribute('data-notes');
-                if (!otherNotesStr) return; // Safety check
+                if (!otherNotesStr) return;
 
                 const otherNotes = otherNotesStr.split(',').map(Number);
                 const vlAnalysis = analyzeVoiceLeading(referenceNotes, otherNotes);
 
                 // Remove existing voice leading classes
-                const hadClasses = otherPad.classList.contains('vl-smooth') || otherPad.classList.contains('vl-moderate') || otherPad.classList.contains('vl-leap');
                 otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
 
                 if (vlAnalysis && vlAnalysis.smoothness !== undefined) {
@@ -1801,18 +1791,15 @@ function renderProgressions() {
                     if (newClass) {
                         otherPad.classList.add(newClass);
                         otherPad.setAttribute('data-hover-voice-leading', hoverLegend);
-                        recoloredCount++;
-                        console.log(`  Pad recolored: smoothness=${vlAnalysis.smoothness}, class=${newClass}`);
                     }
                 }
             });
-            console.log(`Total pads recolored: ${recoloredCount}/${allPads.length - 1}`);
 
             // Show tooltip for the hovered (reference) chord
             const chordFunction = getChordTooltip(roman, quality) || 'Chord';
 
-            // This card is the reference, so show "Reference chord" instead of the distance legend
-            const referenceText = 'Reference chord - colors show distance from here';
+            // This card is the reference, so explain what the colors mean
+            const referenceText = 'Colors of other cards show distance from this chord';
 
             // Check if this card was given a hover legend by another card being hovered first
             const wasSetByOtherHover = this.getAttribute('data-hover-voice-leading');
@@ -1872,6 +1859,12 @@ function renderProgressions() {
                 setTimeout(() => this.classList.remove('playing'), TIMING.PLAYING_FLASH);
             }
         });
+    });
+
+    // Ensure tooltip is hidden when mouse leaves the progression area
+    container.addEventListener('mouseleave', function() {
+        const tooltip = document.getElementById('chordTooltip');
+        if (tooltip) tooltip.classList.remove('visible');
     });
 
     // Add click handlers for individual download buttons
