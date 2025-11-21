@@ -1753,8 +1753,13 @@ function renderProgressions() {
             const defaultVoiceLeading = this.getAttribute('data-voice-leading');
 
             // Interactive voice leading: recolor all pads based on distance from this pad
-            const referenceNotes = this.getAttribute('data-notes').split(',').map(Number);
+            const referenceNotesStr = this.getAttribute('data-notes');
+            if (!referenceNotesStr) return; // Safety check
+
+            const referenceNotes = referenceNotesStr.split(',').map(Number);
             const card = this.closest('.variant-card');
+            if (!card) return; // Safety check
+
             const allPads = card.querySelectorAll('.chord-pad');
 
             // Add hover-reference class to this pad
@@ -1765,13 +1770,16 @@ function renderProgressions() {
             allPads.forEach(otherPad => {
                 if (otherPad === this) return; // Skip self
 
-                const otherNotes = otherPad.getAttribute('data-notes').split(',').map(Number);
+                const otherNotesStr = otherPad.getAttribute('data-notes');
+                if (!otherNotesStr) return; // Safety check
+
+                const otherNotes = otherNotesStr.split(',').map(Number);
                 const vlAnalysis = analyzeVoiceLeading(referenceNotes, otherNotes);
 
                 // Remove existing voice leading classes
                 otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
 
-                if (vlAnalysis) {
+                if (vlAnalysis && vlAnalysis.smoothness !== undefined) {
                     let newClass = '';
                     if (vlAnalysis.smoothness >= 4) {
                         newClass = 'vl-smooth';
@@ -1780,13 +1788,15 @@ function renderProgressions() {
                     } else {
                         newClass = 'vl-leap';
                     }
-                    otherPad.classList.add(newClass);
-                    otherPad.setAttribute('data-hover-voice-leading', hoverLegend);
+                    if (newClass) {
+                        otherPad.classList.add(newClass);
+                        otherPad.setAttribute('data-hover-voice-leading', hoverLegend);
+                    }
                 }
             });
 
             // Show tooltip for the hovered (reference) chord
-            const chordFunction = getChordTooltip(roman, quality);
+            const chordFunction = getChordTooltip(roman, quality) || 'Chord';
 
             // This card is the reference, so show "Reference chord" instead of the distance legend
             const referenceText = 'Reference chord - colors show distance from here';
@@ -1802,7 +1812,7 @@ function renderProgressions() {
             }
 
             // In other contexts, combine chord function + voice leading
-            const tooltipText = chordFunction + '\n\n' + voiceLeadingText;
+            const tooltipText = `${chordFunction}\n\n${voiceLeadingText}`;
             showTooltip(this, tooltipText);
         });
 
