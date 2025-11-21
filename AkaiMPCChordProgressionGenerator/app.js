@@ -1754,19 +1754,28 @@ function renderProgressions() {
 
             // Interactive voice leading: recolor all pads based on distance from this pad
             const referenceNotesStr = this.getAttribute('data-notes');
-            if (!referenceNotesStr) return; // Safety check
+            if (!referenceNotesStr) {
+                console.warn('Hover: No data-notes attribute');
+                return;
+            }
 
             const referenceNotes = referenceNotesStr.split(',').map(Number);
             const card = this.closest('.variant-card');
-            if (!card) return; // Safety check
+            if (!card) {
+                console.warn('Hover: No variant-card parent');
+                return;
+            }
 
             const allPads = card.querySelectorAll('.chord-pad');
+            console.log(`Hover activated: found ${allPads.length} pads, reference notes:`, referenceNotes);
 
             // Add hover-reference class to this pad
             this.classList.add('vl-hover-reference');
+            console.log('Added vl-hover-reference class to hovered pad');
 
             // Recalculate colors for all other pads
             const hoverLegend = 'Distance from hovered chord:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic';
+            let recoloredCount = 0;
             allPads.forEach(otherPad => {
                 if (otherPad === this) return; // Skip self
 
@@ -1777,6 +1786,7 @@ function renderProgressions() {
                 const vlAnalysis = analyzeVoiceLeading(referenceNotes, otherNotes);
 
                 // Remove existing voice leading classes
+                const hadClasses = otherPad.classList.contains('vl-smooth') || otherPad.classList.contains('vl-moderate') || otherPad.classList.contains('vl-leap');
                 otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
 
                 if (vlAnalysis && vlAnalysis.smoothness !== undefined) {
@@ -1791,9 +1801,12 @@ function renderProgressions() {
                     if (newClass) {
                         otherPad.classList.add(newClass);
                         otherPad.setAttribute('data-hover-voice-leading', hoverLegend);
+                        recoloredCount++;
+                        console.log(`  Pad recolored: smoothness=${vlAnalysis.smoothness}, class=${newClass}`);
                     }
                 }
             });
+            console.log(`Total pads recolored: ${recoloredCount}/${allPads.length - 1}`);
 
             // Show tooltip for the hovered (reference) chord
             const chordFunction = getChordTooltip(roman, quality) || 'Chord';
