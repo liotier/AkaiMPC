@@ -1683,7 +1683,7 @@ function renderProgressions() {
                 return `
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''} ${voiceLeadingClass}"
                     data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replace(/"/g, '&quot;')}"
-                    ${voiceLeadingTitle ? `title="${voiceLeadingTitle}"` : ''}>
+                    ${voiceLeadingTitle ? `data-voice-leading="${voiceLeadingTitle}"` : ''}>
                     <div class="chord-text-column">
                         <div class="chord-pad-content">
                             <div class="chord-info">
@@ -1749,18 +1749,30 @@ function renderProgressions() {
         container.appendChild(card);
     });
 
-    // Add hover handlers for tooltips (skip for keyboard context where role is always visible)
+    // Add hover handlers for tooltips
     container.querySelectorAll('.chord-pad').forEach(pad => {
         pad.addEventListener('mouseenter', function() {
-            if (currentContext === 'keyboard') return; // Skip tooltip in keyboard context
             const roman = this.getAttribute('data-roman');
             const quality = this.getAttribute('data-quality');
-            const tooltipText = getChordTooltip(roman, quality);
+            const voiceLeading = this.getAttribute('data-voice-leading');
+
+            // In keyboard context, show only voice leading (chord function is visible on card)
+            if (currentContext === 'keyboard') {
+                if (voiceLeading) {
+                    showTooltip(this, voiceLeading);
+                }
+                return;
+            }
+
+            // In other contexts, combine chord function + voice leading
+            const chordFunction = getChordTooltip(roman, quality);
+            const tooltipText = voiceLeading
+                ? `${chordFunction}\n\n${voiceLeading}`
+                : chordFunction;
             showTooltip(this, tooltipText);
         });
 
         pad.addEventListener('mouseleave', function() {
-            if (currentContext === 'keyboard') return; // Skip tooltip in keyboard context
             const tooltip = document.getElementById('chordTooltip');
             if (tooltip) tooltip.classList.remove('visible');
         });
