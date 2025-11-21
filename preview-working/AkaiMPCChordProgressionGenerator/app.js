@@ -1561,22 +1561,27 @@ function getChordProgressionSignature(variant) {
 
 // Remove duplicate variants
 function deduplicateVariants(variantList) {
-    const seen = new Map();
+    const seenProgressions = new Map();
     const unique = [];
 
     variantList.forEach(variant => {
         const exactSignature = getVariantSignature(variant);
         const chordSignature = getChordProgressionSignature(variant);
+
         console.log(`Variant ${variant.name}:`);
         console.log(`  Chord progression: ${chordSignature.substring(0, 80)}...`);
         console.log(`  Exact voicing: ${exactSignature.substring(0, 80)}...`);
 
-        if (!seen.has(exactSignature)) {
-            seen.set(exactSignature, true);
+        // Check if we've seen this chord progression before (ignoring voicing)
+        if (!seenProgressions.has(chordSignature)) {
+            // First time seeing this chord progression - keep it
+            seenProgressions.set(chordSignature, variant.name);
             unique.push(variant);
-            console.log(`  ✓ Kept ${variant.name}`);
+            console.log(`  ✓ Kept ${variant.name} (new chord progression)`);
         } else {
-            console.log(`  ✗ Dropped duplicate variant: ${variant.name}`);
+            // We've seen this chord progression before
+            const firstVariant = seenProgressions.get(chordSignature);
+            console.log(`  ✗ Dropped ${variant.name} (duplicate of ${firstVariant} - same chords, different voicing)`);
         }
     });
 
