@@ -1663,7 +1663,7 @@ function activateVoiceLeadingHover(pad) {
         otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
 
         if (vlAnalysis && vlAnalysis.smoothness !== undefined) {
-            let newClass = '';
+            let newClass;
             if (vlAnalysis.smoothness >= 4) {
                 newClass = 'vl-smooth';
             } else if (vlAnalysis.smoothness >= 2) {
@@ -1671,10 +1671,8 @@ function activateVoiceLeadingHover(pad) {
             } else {
                 newClass = 'vl-leap';
             }
-            if (newClass) {
-                otherPad.classList.add(newClass);
-                otherPad.setAttribute('data-hover-voice-leading', hoverLegend);
-            }
+            otherPad.classList.add(newClass);
+            otherPad.setAttribute('data-hover-voice-leading', hoverLegend);
         }
     });
 }
