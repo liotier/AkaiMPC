@@ -1552,21 +1552,31 @@ function getVariantSignature(variant) {
     ).join('||');
 }
 
+// Helper to create a chord-based signature (ignoring voicing)
+function getChordProgressionSignature(variant) {
+    return variant.pads.map(pad =>
+        `${pad.chordName}|${pad.romanNumeral}`
+    ).join('||');
+}
+
 // Remove duplicate variants
 function deduplicateVariants(variantList) {
     const seen = new Map();
     const unique = [];
 
     variantList.forEach(variant => {
-        const signature = getVariantSignature(variant);
-        console.log(`Variant ${variant.name} signature:`, signature.substring(0, 100) + '...');
+        const exactSignature = getVariantSignature(variant);
+        const chordSignature = getChordProgressionSignature(variant);
+        console.log(`Variant ${variant.name}:`);
+        console.log(`  Chord progression: ${chordSignature.substring(0, 80)}...`);
+        console.log(`  Exact voicing: ${exactSignature.substring(0, 80)}...`);
 
-        if (!seen.has(signature)) {
-            seen.set(signature, true);
+        if (!seen.has(exactSignature)) {
+            seen.set(exactSignature, true);
             unique.push(variant);
-            console.log(`✓ Kept ${variant.name}`);
+            console.log(`  ✓ Kept ${variant.name}`);
         } else {
-            console.log(`✗ Dropped duplicate variant: ${variant.name}`);
+            console.log(`  ✗ Dropped duplicate variant: ${variant.name}`);
         }
     });
 
