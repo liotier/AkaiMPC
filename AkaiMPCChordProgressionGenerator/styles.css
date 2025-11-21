@@ -582,9 +582,9 @@ body[data-context="staff"] .download-btn {
 }
 
 /* Thicker borders when in hover mode (showing relative distances from hovered chord) */
-.variant-card:has(.vl-hover-reference) .chord-pad.vl-smooth,
-.variant-card:has(.vl-hover-reference) .chord-pad.vl-moderate,
-.variant-card:has(.vl-hover-reference) .chord-pad.vl-leap {
+.progression-card:has(.vl-hover-reference) .chord-pad.vl-smooth,
+.progression-card:has(.vl-hover-reference) .chord-pad.vl-moderate,
+.progression-card:has(.vl-hover-reference) .chord-pad.vl-leap {
     border-left-width: 4px;
 }
 
