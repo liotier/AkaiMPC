@@ -1654,30 +1654,24 @@ function renderProgressions() {
 
                 // Calculate voice leading distance from tonic (default state)
                 let voiceLeadingClass = '';
-                let voiceLeadingTitle = '';
-                if (pad.isProgressionChord) {
-                    // Find the tonic chord (first progression chord or roman numeral I/i)
-                    const allPads = variant.pads.filter(p => p.isProgressionChord).sort((a, b) => a.id - b.id);
-                    const tonicPad = allPads.find(p => p.romanNumeral.toUpperCase().startsWith('I') && !p.romanNumeral.includes('V')) || allPads[0];
+                let voiceLeadingLegend = 'Relative smoothness:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic';
 
-                    if (tonicPad && pad.id !== tonicPad.id) {
-                        const vlAnalysis = analyzeVoiceLeading(tonicPad.notes, pad.notes);
+                // Find the tonic chord (first chord or roman numeral I/i)
+                const allPads = variant.pads.sort((a, b) => a.id - b.id);
+                const tonicPad = allPads.find(p => p.romanNumeral && p.romanNumeral.toUpperCase().startsWith('I') && !p.romanNumeral.includes('V')) || allPads[0];
 
-                        if (vlAnalysis) {
-                            // Color code based on distance from tonic
-                            if (vlAnalysis.smoothness >= 4) {
-                                voiceLeadingClass = 'vl-smooth';  // Close to tonic
-                                voiceLeadingTitle = `Close to tonic: ${vlAnalysis.commonTones} common tone(s), ${vlAnalysis.stepMotion} step(s)`;
-                            } else if (vlAnalysis.smoothness >= 2) {
-                                voiceLeadingClass = 'vl-moderate';  // Moderate distance
-                                voiceLeadingTitle = `Moderate distance from tonic: ${vlAnalysis.commonTones} common tone(s), ${vlAnalysis.stepMotion} step(s)`;
-                            } else {
-                                voiceLeadingClass = 'vl-leap';  // Far from tonic
-                                voiceLeadingTitle = `Far from tonic: ${vlAnalysis.commonTones} common tone(s), ${vlAnalysis.stepMotion} step(s)`;
-                            }
+                if (tonicPad && pad.id !== tonicPad.id) {
+                    const vlAnalysis = analyzeVoiceLeading(tonicPad.notes, pad.notes);
+
+                    if (vlAnalysis) {
+                        // Color code based on distance from tonic
+                        if (vlAnalysis.smoothness >= 4) {
+                            voiceLeadingClass = 'vl-smooth';  // Close to tonic
+                        } else if (vlAnalysis.smoothness >= 2) {
+                            voiceLeadingClass = 'vl-moderate';  // Moderate distance
+                        } else {
+                            voiceLeadingClass = 'vl-leap';  // Far from tonic
                         }
-                    } else if (pad.id === tonicPad.id) {
-                        voiceLeadingTitle = 'Tonic chord - home base';
                     }
                 }
 
@@ -1685,7 +1679,7 @@ function renderProgressions() {
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''} ${voiceLeadingClass}"
                     data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replace(/"/g, '&quot;')}"
                     data-pad-id="${pad.id}" data-original-vl-class="${voiceLeadingClass}"
-                    ${voiceLeadingTitle ? `data-voice-leading="${voiceLeadingTitle}"` : ''}>
+                    data-voice-leading="${voiceLeadingLegend}">
                     <div class="chord-text-column">
                         <div class="chord-pad-content">
                             <div class="chord-info">
@@ -1759,43 +1753,37 @@ function renderProgressions() {
             let voiceLeading = this.getAttribute('data-voice-leading');
 
             // Interactive voice leading: recolor all pads based on distance from this pad
-            const isProgressionChord = this.classList.contains('progression-chord');
-            if (isProgressionChord) {
-                const referenceNotes = this.getAttribute('data-notes').split(',').map(Number);
-                const card = this.closest('.variant-card');
-                const allProgressionPads = card.querySelectorAll('.chord-pad.progression-chord');
+            const referenceNotes = this.getAttribute('data-notes').split(',').map(Number);
+            const card = this.closest('.variant-card');
+            const allPads = card.querySelectorAll('.chord-pad');
 
-                // Add hover-reference class to this pad
-                this.classList.add('vl-hover-reference');
+            // Add hover-reference class to this pad
+            this.classList.add('vl-hover-reference');
 
-                // Recalculate colors for all other progression pads
-                allProgressionPads.forEach(otherPad => {
-                    if (otherPad === this) return; // Skip self
+            // Recalculate colors for all other pads
+            const hoverLegend = 'Relative smoothness from hovered chord:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic';
+            allPads.forEach(otherPad => {
+                if (otherPad === this) return; // Skip self
 
-                    const otherNotes = otherPad.getAttribute('data-notes').split(',').map(Number);
-                    const vlAnalysis = analyzeVoiceLeading(referenceNotes, otherNotes);
+                const otherNotes = otherPad.getAttribute('data-notes').split(',').map(Number);
+                const vlAnalysis = analyzeVoiceLeading(referenceNotes, otherNotes);
 
-                    // Remove existing voice leading classes
-                    otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
+                // Remove existing voice leading classes
+                otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
 
-                    if (vlAnalysis) {
-                        let newClass = '';
-                        let newTooltip = '';
-                        if (vlAnalysis.smoothness >= 4) {
-                            newClass = 'vl-smooth';
-                            newTooltip = `Smooth from hovered chord: ${vlAnalysis.commonTones} common tone(s), ${vlAnalysis.stepMotion} step(s)`;
-                        } else if (vlAnalysis.smoothness >= 2) {
-                            newClass = 'vl-moderate';
-                            newTooltip = `Moderate from hovered chord: ${vlAnalysis.commonTones} common tone(s), ${vlAnalysis.stepMotion} step(s)`;
-                        } else {
-                            newClass = 'vl-leap';
-                            newTooltip = `Dramatic leap from hovered chord: ${vlAnalysis.commonTones} common tone(s), ${vlAnalysis.stepMotion} step(s)`;
-                        }
-                        otherPad.classList.add(newClass);
-                        otherPad.setAttribute('data-hover-voice-leading', newTooltip);
+                if (vlAnalysis) {
+                    let newClass = '';
+                    if (vlAnalysis.smoothness >= 4) {
+                        newClass = 'vl-smooth';
+                    } else if (vlAnalysis.smoothness >= 2) {
+                        newClass = 'vl-moderate';
+                    } else {
+                        newClass = 'vl-leap';
                     }
-                });
-            }
+                    otherPad.classList.add(newClass);
+                    otherPad.setAttribute('data-hover-voice-leading', hoverLegend);
+                }
+            });
 
             // Show tooltip
             // Prefer hover voice leading if available (when hovering during another pad's hover)
@@ -1823,23 +1811,20 @@ function renderProgressions() {
             if (tooltip) tooltip.classList.remove('visible');
 
             // Restore original voice leading colors
-            const isProgressionChord = this.classList.contains('progression-chord');
-            if (isProgressionChord) {
-                this.classList.remove('vl-hover-reference');
-                const card = this.closest('.variant-card');
-                const allProgressionPads = card.querySelectorAll('.chord-pad.progression-chord');
+            this.classList.remove('vl-hover-reference');
+            const card = this.closest('.variant-card');
+            const allPads = card.querySelectorAll('.chord-pad');
 
-                allProgressionPads.forEach(otherPad => {
-                    // Restore original classes
-                    otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
-                    const originalClass = otherPad.getAttribute('data-original-vl-class');
-                    if (originalClass) {
-                        otherPad.classList.add(originalClass);
-                    }
-                    // Remove hover tooltip
-                    otherPad.removeAttribute('data-hover-voice-leading');
-                });
-            }
+            allPads.forEach(otherPad => {
+                // Restore original classes
+                otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
+                const originalClass = otherPad.getAttribute('data-original-vl-class');
+                if (originalClass) {
+                    otherPad.classList.add(originalClass);
+                }
+                // Remove hover tooltip
+                otherPad.removeAttribute('data-hover-voice-leading');
+            });
         });
     });
 

@@ -557,28 +557,35 @@ body[data-context="staff"] .download-btn {
 
 /* Voice Leading Quality Indicators - Temperature Gradient (pedagogical value) */
 /* Smooth voice leading: green/cool (common tones + step motion) */
-.chord-pad.progression-chord.vl-smooth {
+.chord-pad.vl-smooth {
     border-left: 3px solid #10b981;
     background: linear-gradient(to right, rgba(16, 185, 129, 0.08) 0%, transparent 20%);
 }
 
 /* Moderate voice leading: amber/warming (some smooth movement) */
-.chord-pad.progression-chord.vl-moderate {
+.chord-pad.vl-moderate {
     border-left: 3px solid #f59e0b;
     background: linear-gradient(to right, rgba(245, 158, 11, 0.08) 0%, transparent 20%);
 }
 
 /* Dramatic leaps: orange/hot (large intervals, energetic effect) */
-.chord-pad.progression-chord.vl-leap {
+.chord-pad.vl-leap {
     border-left: 3px solid #f97316;
     background: linear-gradient(to right, rgba(249, 115, 22, 0.08) 0%, transparent 20%);
 }
 
 /* Hover reference: the chord being used as reference point for voice leading */
-.chord-pad.progression-chord.vl-hover-reference {
-    border-left: 3px solid #fbbf24 !important;
-    background: linear-gradient(to right, rgba(251, 191, 36, 0.12) 0%, rgba(251, 191, 36, 0.04) 50%, transparent 100%) !important;
-    box-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
+.chord-pad.vl-hover-reference {
+    border-left: 5px solid #fbbf24 !important;
+    background: linear-gradient(to right, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.06) 50%, transparent 100%) !important;
+    box-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
+}
+
+/* Thicker borders when in hover mode (showing relative distances from hovered chord) */
+.variant-card:has(.vl-hover-reference) .chord-pad.vl-smooth,
+.variant-card:has(.vl-hover-reference) .chord-pad.vl-moderate,
+.variant-card:has(.vl-hover-reference) .chord-pad.vl-leap {
+    border-left-width: 4px;
 }
 
 @keyframes pulse {
