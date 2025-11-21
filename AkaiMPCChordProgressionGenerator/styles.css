@@ -574,6 +574,13 @@ body[data-context="staff"] .download-btn {
     background: linear-gradient(to right, rgba(249, 115, 22, 0.08) 0%, transparent 20%);
 }
 
+/* Hover reference: the chord being used as reference point for voice leading */
+.chord-pad.progression-chord.vl-hover-reference {
+    border-left: 3px solid #fbbf24 !important;
+    background: linear-gradient(to right, rgba(251, 191, 36, 0.12) 0%, rgba(251, 191, 36, 0.04) 50%, transparent 100%) !important;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
+}
+
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
