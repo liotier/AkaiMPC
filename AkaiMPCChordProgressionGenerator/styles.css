@@ -576,9 +576,9 @@ body[data-context="staff"] .download-btn {
 
 /* Hover reference: the chord being used as reference point for voice leading */
 .chord-pad.vl-hover-reference {
-    border-left: 5px solid #fbbf24 !important;
-    background: linear-gradient(to right, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.06) 50%, transparent 100%) !important;
-    box-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
+    border-left: 5px solid #3b82f6 !important;
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.06) 50%, transparent 100%) !important;
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.4);
 }
 
 /* Thicker borders when in hover mode (showing relative distances from hovered chord) */
