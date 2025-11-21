@@ -1038,108 +1038,6 @@ function parseProgression(progressionString) {
     });
 }
 
-/**
- * Adapts a progression template (designed for major mode) to match the selected mode's
- * diatonic chord qualities. For example, converts "I—V—vi—IV" to "i—v—VI—iv" for Minor mode.
- */
-function adaptProgressionToMode(progressionString, selectedMode) {
-    // No adaptation needed for Major mode or unspecified mode
-    if (!selectedMode || selectedMode === 'Major') {
-        return progressionString;
-    }
-
-    // Split progression into individual chords
-    const chords = progressionString.split('—');
-
-    // Adapt each chord
-    const adaptedChords = chords.map(chordStr => {
-        // Map Roman numerals to degree numbers for lookup
-        const romanToNumber = {
-            'i': 0, 'I': 0,
-            'ii': 1, 'II': 1,
-            'iii': 2, 'III': 2,
-            'iv': 3, 'IV': 3,
-            'v': 4, 'V': 4,
-            'vi': 5, 'VI': 5,
-            'vii': 6, 'VII': 6
-        };
-
-        // Extract the base Roman numeral (without alterations or extensions)
-        // Handle alterations (♭, ♯) and extensions (7, M7, m7, °, dim)
-        let alteration = '';
-        let extension = '';
-        let baseNumeral = chordStr;
-
-        // Extract alteration
-        if (chordStr.includes('♭')) {
-            alteration = '♭';
-            baseNumeral = baseNumeral.replace('♭', '');
-        } else if (chordStr.includes('♯')) {
-            alteration = '♯';
-            baseNumeral = baseNumeral.replace('♯', '');
-        }
-
-        // Extract extension (must come after numeral)
-        const extensionMatch = baseNumeral.match(/(M7|m7|7|°|dim|maj|min)$/);
-        if (extensionMatch) {
-            extension = extensionMatch[1];
-            baseNumeral = baseNumeral.replace(extension, '');
-        }
-
-        // Look up degree number
-        const degree = romanToNumber[baseNumeral];
-        if (degree === undefined) {
-            // Unknown numeral, return unchanged
-            return chordStr;
-        }
-
-        // Get expected chord quality from the mode
-        const expectedQuality = getChordQualityForMode(degree, selectedMode);
-
-        // Determine what the current quality is from the Roman numeral case
-        const isCurrentlyMajor = baseNumeral === baseNumeral.toUpperCase();
-        const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-        const baseNumeralUpper = numerals[degree];
-        const baseNumeralLower = baseNumeralUpper.toLowerCase();
-
-        // Decide on the new Roman numeral based on expected quality
-        let newBaseNumeral = baseNumeral;
-
-        if (expectedQuality === 'minor' || expectedQuality === 'minor7') {
-            // Mode expects minor, use lowercase
-            newBaseNumeral = baseNumeralLower;
-            // Preserve m7 extension if present, or use existing extension
-            if (extension === 'M7') {
-                // Major 7 on a minor chord should become minor 7
-                extension = 'm7';
-            } else if (extension === '7' && degree !== 4) {
-                // Generic 7 on minor chord (except V) should be m7
-                extension = 'm7';
-            }
-        } else if (expectedQuality === 'major' || expectedQuality === 'major7') {
-            // Mode expects major, use uppercase
-            newBaseNumeral = baseNumeralUpper;
-            // Preserve M7 extension if present, or adjust m7 to M7
-            if (extension === 'm7') {
-                // Minor 7 on a major chord should become major 7 or dom 7
-                extension = degree === 4 ? '7' : 'M7';  // V7 is dominant, others are major 7
-            }
-        } else if (expectedQuality === 'diminished') {
-            // Mode expects diminished, use lowercase with °
-            newBaseNumeral = baseNumeralLower;
-            if (!extension.includes('°') && !extension.includes('dim')) {
-                extension = '°';
-            }
-        }
-        // For 'dom7', keep as is since it's typically V7
-
-        // Reconstruct the chord with alteration + new numeral + extension
-        return alteration + newBaseNumeral + extension;
-    });
-
-    return adaptedChords.join('—');
-}
-
 export function generateProgressionChords(progressionString, keyOffset, scaleDegrees, selectedMode) {
     let progression = [];
 
@@ -1159,11 +1057,7 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
             });
         });
     } else {
-        // Adapt progression template to match the selected mode's diatonic qualities
-        // This fixes the bug where minor modes would get major tonic chords from major-mode templates
-        const adaptedProgressionString = adaptProgressionToMode(progressionString, selectedMode);
-
-        const parsedChords = parseProgression(adaptedProgressionString);
+        const parsedChords = parseProgression(progressionString);
         progression = parsedChords.map(({ degree, quality, alteration }) => {
             // OPTION A: Pure parallel major analysis (r/MusicTheory approved!)
             // ALL roman numerals reference the parallel major scale, regardless of mode.
