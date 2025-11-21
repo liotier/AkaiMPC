@@ -183,7 +183,7 @@ function switchGenerationMode(mode) {
     if (mode === 'template') {
         // Template Mode: Progression is active, Mode is disabled
         progressionSelect.disabled = false;
-        progressionSelect.title = '';
+        progressionSelect.title = 'Major progressions start with uppercase roman numerals (I, IV, V). Minor progressions start with lowercase (i, iv, v). The roman numeral case determines the chord quality.';
         progressionSelect.style.cursor = '';
         progressionNameInput.disabled = false;
 
