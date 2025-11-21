@@ -1,0 +1,1222 @@
+:root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --pad-bg: #f9fafb;
+    --pad-hover: #f3f4f6;
+    --accent: #3b82f6;
+    --accent-dark: #2563eb;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --radius: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+}
+
+.app {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: var(--muted);
+    margin-bottom: 24px;
+}
+
+.mpc-image {
+    height: 80px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.chord-matcher {
+    background: #f0f9ff;
+    border: 2px dashed var(--accent);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.chord-matcher-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+}
+
+.chord-matcher-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0;
+}
+
+.optional-badge {
+    background: white;
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.expand-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--accent);
+    transition: transform 0.2s ease;
+}
+
+.chord-matcher.expanded .expand-icon {
+    transform: rotate(180deg);
+}
+
+.chord-matcher-content {
+    display: none;
+    margin-top: 16px;
+}
+
+.chord-matcher.expanded .chord-matcher-content {
+    display: block;
+}
+
+.chord-matcher-description {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.chord-input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.chord-input-row select {
+    flex: 0 1 120px;
+}
+
+.chord-input-row button {
+    flex: 0 0 auto;
+}
+
+.selected-chords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    min-height: 32px;
+}
+
+.chord-tag {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 4px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.chord-tag button {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.chord-tag button:hover {
+    background: var(--error);
+    color: white;
+}
+
+.key-mode-suggestions {
+    margin-top: 16px;
+    padding: 12px;
+    background: white;
+    border-radius: var(--radius);
+    font-size: 14px;
+}
+
+.suggestion-label {
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+.suggestion-list {
+    color: var(--fg);
+    line-height: 1.6;
+}
+
+.suggestion-item {
+    padding: 2px 0;
+}
+
+.suggestion-item.compatible {
+    color: var(--success);
+}
+
+.suggestion-item.incompatible {
+    color: var(--muted);
+    text-decoration: line-through;
+}
+
+.generation-mode-toggle {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 24px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    margin-bottom: 8px;
+}
+
+.mode-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color 0.2s ease;
+}
+
+.mode-option input[type="radio"] {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+
+.mode-option input[type="radio"]:checked + span {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.mode-option:hover span {
+    color: var(--text);
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-group label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+}
+
+select, input[type="text"], button {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+select:focus, input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+button {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button:hover {
+    background: var(--pad-hover);
+}
+
+button.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+button.primary:hover {
+    background: var(--accent-dark);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.action-buttons .full-width {
+    width: 100%;
+}
+
+/* Context tabs container */
+.context-tabs-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.context-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.context-tab {
+    padding: 10px 20px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.context-tab:hover {
+    background: var(--pad-hover);
+    border-color: var(--accent);
+}
+
+.context-tab.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.context-tab.active:hover {
+    background: var(--accent-dark);
+}
+
+.left-handed-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    font-size: 14px;
+}
+
+.left-handed-toggle label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    margin: 0;
+    user-select: none;
+}
+
+.left-handed-toggle input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+.midi-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    font-size: 14px;
+}
+
+.midi-selector label {
+    margin: 0;
+    font-weight: 500;
+}
+
+.midi-selector select {
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.progressions {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.progression-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    background: white;
+}
+
+.progression-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 16px;
+    gap: 12px;
+}
+
+.progression-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.progression-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.progression-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 4px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.progression-meta .key {
+    color: var(--success);
+    font-weight: 500;
+}
+
+.progression-meta .pattern {
+    color: var(--warning);
+    font-weight: 500;
+}
+
+.progression-meta .analysis {
+    color: var(--muted);
+    font-size: 12px;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.progression-meta .voice-leading-hint {
+    color: var(--muted);
+    font-size: 12px;
+    font-style: italic;
+    opacity: 0.7;
+    margin-left: auto;
+}
+
+.download-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.download-btn:hover {
+    background: var(--pad-hover);
+    border-color: var(--accent);
+}
+
+.download-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--muted);
+}
+
+.download-btn:hover svg {
+    stroke: var(--accent);
+}
+
+.chord-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    max-width: 600px;
+}
+
+/* Wider grid for keyboard, guitar, and staff contexts */
+body[data-context="keyboard"] .chord-grid,
+body[data-context="guitar"] .chord-grid,
+body[data-context="staff"] .chord-grid {
+    max-width: 100%;
+}
+
+/* Hide download buttons in Keyboard, Guitar, and Staff contexts */
+body[data-context="keyboard"] .download-btn,
+body[data-context="guitar"] .download-btn,
+body[data-context="staff"] .download-btn {
+    display: none;
+}
+
+.chord-pad {
+    background: var(--pad-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.chord-pad:hover {
+    background: var(--pad-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.chord-pad.playing {
+    animation: pulse 0.3s ease;
+    background: #dbeafe;
+    border-color: var(--accent);
+}
+
+.chord-pad.progression-chord {
+    background: #fef3c7;
+    border-color: #f59e0b;
+}
+
+.chord-pad.chord-matcher-chord {
+    background: #dbeafe;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* If a pad is both progression-chord AND chord-matcher-chord, use purple to indicate overlap */
+.chord-pad.progression-chord.chord-matcher-chord {
+    background: #f3e8ff;
+    border-color: #a855f7;
+    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
+}
+
+/* Voice Leading Quality Indicators - Temperature Gradient (pedagogical value) */
+/* Smooth voice leading: green/cool (common tones + step motion) */
+.chord-pad.vl-smooth {
+    border-left: 3px solid #10b981;
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.08) 0%, transparent 20%);
+}
+
+/* Moderate voice leading: amber/warming (some smooth movement) */
+.chord-pad.vl-moderate {
+    border-left: 3px solid #f59e0b;
+    background: linear-gradient(to right, rgba(245, 158, 11, 0.08) 0%, transparent 20%);
+}
+
+/* Dramatic leaps: orange/hot (large intervals, energetic effect) */
+.chord-pad.vl-leap {
+    border-left: 3px solid #f97316;
+    background: linear-gradient(to right, rgba(249, 115, 22, 0.08) 0%, transparent 20%);
+}
+
+/* Hover reference: the chord being used as reference point for voice leading */
+.chord-pad.vl-hover-reference {
+    border-left: 8px solid #3b82f6 !important;
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.06) 50%, transparent 100%) !important;
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.4);
+}
+
+/* Double thickness borders when in hover mode (showing relative distances from hovered chord) */
+.progression-card:has(.vl-hover-reference) .chord-pad.vl-smooth,
+.progression-card:has(.vl-hover-reference) .chord-pad.vl-moderate,
+.progression-card:has(.vl-hover-reference) .chord-pad.vl-leap {
+    border-left-width: 6px;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.chord-pad-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.chord-info {
+    flex: 1;
+}
+
+.pad-number {
+    font-size: 9px;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    opacity: 0.7;
+    white-space: nowrap;
+    margin-left: 4px;
+}
+
+.chord-name {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 1px;
+    color: var(--fg);
+}
+
+.chord-quality {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.chord-roman {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--warning);
+    margin-bottom: 1px;
+}
+
+.chord-notes {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'Monaco', monospace;
+    word-break: break-all;
+}
+
+.chord-role {
+    display: none;
+}
+
+.chord-keyboard {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    width: 100%;
+    height: 35px;
+}
+
+.chord-keyboard svg {
+    width: 100%;
+    height: 100%;
+}
+
+.chord-guitar {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    width: 100%;
+    height: 60px;
+    display: none;
+}
+
+.chord-guitar svg {
+    width: 100%;
+    height: 100%;
+}
+
+.chord-staff {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    width: 100%;
+    height: 60px;
+    display: none;
+}
+
+.chord-staff svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Show/hide notation based on context */
+/* MPC and Keyboard contexts show keyboard diagrams */
+body[data-context="mpc"] .chord-keyboard,
+body[data-context="keyboard"] .chord-keyboard {
+    display: block;
+}
+
+/* Only Guitar context shows guitar diagrams */
+body[data-context="guitar"] .chord-guitar {
+    display: block;
+}
+
+/* Only Staff context shows staff diagrams */
+body[data-context="staff"] .chord-staff {
+    display: block;
+}
+
+/* Hide guitar in MPC/Keyboard/Staff, hide keyboard in Guitar/Staff, hide staff in MPC/Keyboard/Guitar */
+body[data-context="mpc"] .chord-guitar,
+body[data-context="mpc"] .chord-staff,
+body[data-context="keyboard"] .chord-guitar,
+body[data-context="keyboard"] .chord-staff,
+body[data-context="guitar"] .chord-keyboard,
+body[data-context="guitar"] .chord-staff,
+body[data-context="staff"] .chord-keyboard,
+body[data-context="staff"] .chord-guitar {
+    display: none;
+}
+
+/* Hide pad numbers in Keyboard, Guitar, and Staff contexts */
+body[data-context="keyboard"] .pad-number,
+body[data-context="guitar"] .pad-number,
+body[data-context="staff"] .pad-number {
+    display: none;
+}
+
+/* Keyboard context: Display role in top right */
+body[data-context="keyboard"] .chord-pad {
+    position: relative;
+}
+
+body[data-context="keyboard"] .chord-role {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 12px;
+    max-width: 50%;
+    font-size: 10px;
+    line-height: 1.3;
+    color: var(--muted);
+    text-align: right;
+    margin: 0;
+}
+
+body[data-context="keyboard"] .chord-notes {
+    position: absolute;
+    bottom: 40px;
+    right: 12px;
+    max-width: 50%;
+    text-align: right;
+    margin: 0;
+}
+
+/* Two-column layout for Guitar cards */
+body[data-context="guitar"] .chord-pad {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: start;
+    min-height: 150px;
+}
+
+body[data-context="guitar"] .chord-text-column {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+body[data-context="guitar"] .chord-guitar {
+    width: 150px;
+    height: 140px;
+    margin: 0;
+}
+
+/* Wrap notes every 2 notes in Guitar context */
+body[data-context="guitar"] .chord-notes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    max-width: 150px;
+}
+
+body[data-context="guitar"] .note-pair {
+    white-space: nowrap;
+}
+
+/* Two-column layout for Staff cards */
+body[data-context="staff"] .chord-pad {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    gap: 12px;
+    align-items: start;
+    min-height: 130px;
+}
+
+body[data-context="staff"] .chord-text-column {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+body[data-context="staff"] .chord-staff {
+    width: 100%;
+    height: 144px;
+    margin: 0;
+    padding-right: 12px;
+    padding-top: 26px;
+}
+
+/* Wrap notes in Staff context */
+body[data-context="staff"] .chord-notes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    max-width: 200px;
+}
+
+/* Responsive guitar card layout */
+@media (max-width: 768px) {
+    /* Scale down diagram on tablets */
+    body[data-context="guitar"] .chord-guitar {
+        width: 120px;
+        height: 112px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Stack layout on narrow viewports */
+    body[data-context="guitar"] .chord-pad {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    body[data-context="guitar"] .chord-guitar {
+        width: 100%;
+        max-width: 180px;
+        height: auto;
+        aspect-ratio: 150 / 140;
+        margin: 0 auto;
+    }
+
+    /* Notes in single line */
+    body[data-context="guitar"] .chord-notes {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    /* Chord name and quality on same line */
+    body[data-context="guitar"] .chord-text-column {
+        gap: 8px;
+    }
+
+    body[data-context="guitar"] .chord-pad-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 400px) {
+    /* Further scale down on very narrow screens */
+    body[data-context="guitar"] .chord-guitar {
+        max-width: 140px;
+    }
+}
+
+/* Responsive staff card layout */
+@media (max-width: 768px) {
+    /* Scale down diagram on tablets */
+    body[data-context="staff"] .chord-staff {
+        width: 220px;
+        height: 90px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Stack layout on narrow viewports */
+    body[data-context="staff"] .chord-pad {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    body[data-context="staff"] .chord-staff {
+        width: 100%;
+        max-width: 280px;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    /* Notes in single line */
+    body[data-context="staff"] .chord-notes {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    /* Chord name and quality on same line */
+    body[data-context="staff"] .chord-text-column {
+        gap: 8px;
+    }
+
+    body[data-context="staff"] .chord-pad-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 400px) {
+    /* Further scale down on very narrow screens */
+    body[data-context="staff"] .chord-staff {
+        max-width: 240px;
+    }
+}
+
+.tooltip {
+    position: fixed;
+    background: #ffffd0;
+    color: #000;
+    padding: 4px 8px;
+    border: 1px solid #000;
+    border-radius: 0;
+    font-size: 12px;
+    font-family: sans-serif;
+    line-height: 1.3;
+    max-width: 250px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+    z-index: 1000;
+    white-space: pre-line;
+    box-shadow: none;
+}
+
+.tooltip.visible {
+    opacity: 1;
+}
+
+.tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(0, 0, 0, 0.9);
+}
+
+/* Notification Toast */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--accent);
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 2000;
+    max-width: 350px;
+    pointer-events: none;
+}
+
+.notification.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification-info {
+    background: var(--accent);
+}
+
+.notification-success {
+    background: var(--success);
+}
+
+.notification-warning {
+    background: var(--warning);
+    color: var(--fg);
+}
+
+.notification-error {
+    background: var(--error);
+}
+
+.chord-pad {
+    position: relative;
+}
+.hidden {
+    display: none;
+}
+
+footer {
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+footer p {
+    margin: 0.5rem 0;
+}
+
+footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .controls {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .context-tabs-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .chord-grid {
+        max-width: 100%;
+    }
+
+    .chord-pad {
+        min-height: 80px;
+        padding: 8px;
+    }
+}
+
+/* Print styles */
+@media print {
+    /* Hide all controls and headers */
+    .header,
+    .chord-matcher,
+    .controls,
+    .action-buttons,
+    .context-tabs-container,
+    footer,
+    .download-btn {
+        display: none !important;
+    }
+
+    /* Show progressions container */
+    .progressions {
+        display: block !important;
+    }
+
+    /* Each progression on its own page */
+    .progression-card {
+        page-break-after: always;
+        page-break-inside: avoid;
+        border: none;
+        padding: 0;
+        margin: 0;
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    /* Remove margins from first progression */
+    .progression-card:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .progression-header {
+        margin-bottom: 20px;
+    }
+
+    .progression-title {
+        font-size: 20px;
+        font-weight: 700;
+        display: inline;
+        margin-right: 12px;
+    }
+
+    .progression-meta {
+        display: inline;
+        font-size: 14px;
+    }
+
+    .chord-grid {
+        max-width: 100%;
+    }
+
+    .chord-pad {
+        border: 1px solid #000;
+        background: white;
+        page-break-inside: avoid;
+    }
+
+    /* For Guitar, Keyboard, and Staff contexts - show appropriate notation */
+    /* MPC and Keyboard show keyboard diagrams when printing */
+    body[data-context="mpc"] .chord-keyboard,
+    body[data-context="keyboard"] .chord-keyboard {
+        display: block !important;
+    }
+
+    /* Guitar shows guitar diagrams when printing */
+    body[data-context="guitar"] .chord-guitar {
+        display: block !important;
+    }
+
+    /* Staff shows staff diagrams when printing */
+    body[data-context="staff"] .chord-staff {
+        display: block !important;
+    }
+
+    /* Hide other notations in each context when printing */
+    body[data-context="mpc"] .chord-guitar,
+    body[data-context="mpc"] .chord-staff,
+    body[data-context="keyboard"] .chord-guitar,
+    body[data-context="keyboard"] .chord-staff,
+    body[data-context="guitar"] .chord-keyboard,
+    body[data-context="guitar"] .chord-staff,
+    body[data-context="staff"] .chord-keyboard,
+    body[data-context="staff"] .chord-guitar {
+        display: none !important;
+    }
+
+    /* Default page setup */
+    @page {
+        margin: 1cm;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .app {
+        padding: 0;
+        margin: 0;
+    }
+
+    .progressions {
+        margin: 0;
+        padding: 0;
+        gap: 0;
+    }
+}
+
+/* Page orientation for print - must be defined outside @media */
+@page {
+    size: portrait;
+    margin: 1cm;
+}
+
+/* Override for keyboard and staff contexts */
+@media print {
+    /* Guitar and MPC use portrait (default), keyboard and staff need landscape */
+    body[data-context="keyboard"],
+    body[data-context="staff"] {
+        /* Handled via JavaScript @page rule injection in beforeprint event */
+    }
+}
+
+/* Sparkle animation for auto-generation feature */
+@keyframes rainbowScan {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+button.primary.sparkle {
+    position: relative;
+    overflow: hidden;
+}
+
+button.primary.sparkle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 0, 128, 0.7),
+        rgba(255, 0, 255, 0.8),
+        rgba(0, 128, 255, 0.8),
+        rgba(0, 255, 255, 0.8),
+        rgba(0, 255, 0, 0.8),
+        rgba(255, 255, 0, 0.7),
+        transparent
+    );
+    animation: rainbowScan 0.6s ease-out;
+    pointer-events: none;
+}
