@@ -1559,14 +1559,18 @@ function deduplicateVariants(variantList) {
 
     variantList.forEach(variant => {
         const signature = getVariantSignature(variant);
+        console.log(`Variant ${variant.name} signature:`, signature.substring(0, 100) + '...');
+
         if (!seen.has(signature)) {
             seen.set(signature, true);
             unique.push(variant);
+            console.log(`✓ Kept ${variant.name}`);
         } else {
-            console.log(`Dropped duplicate variant: ${variant.name}`);
+            console.log(`✗ Dropped duplicate variant: ${variant.name}`);
         }
     });
 
+    console.log(`Deduplication: ${variantList.length} variants → ${unique.length} unique`);
     return unique;
 }
 
