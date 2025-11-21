@@ -1823,6 +1823,8 @@ function renderProgressions() {
             // Restore original voice leading colors
             this.classList.remove('vl-hover-reference');
             const card = this.closest('.variant-card');
+            if (!card) return; // Safety check
+
             const allPads = card.querySelectorAll('.chord-pad');
 
             allPads.forEach(otherPad => {
