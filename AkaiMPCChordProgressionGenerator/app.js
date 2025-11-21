@@ -183,21 +183,17 @@ function switchGenerationMode(mode) {
     if (mode === 'template') {
         // Template Mode: Progression is active, Mode is disabled
         progressionSelect.disabled = false;
-        progressionSelect.title = 'Major progressions start with uppercase roman numerals (I, IV, V). Minor progressions start with lowercase (i, iv, v). The roman numeral case determines the chord quality.';
         progressionSelect.style.cursor = '';
         progressionNameInput.disabled = false;
 
         modeSelect.disabled = true;
-        modeSelect.title = 'Mode/Scale selector is not used in Template mode. The progression defines its own harmonic structure.';
         modeSelect.style.cursor = 'not-allowed';
     } else {
         // Scale Exploration Mode: Mode is active, Progression is disabled
         modeSelect.disabled = false;
-        modeSelect.title = '';
         modeSelect.style.cursor = '';
 
         progressionSelect.disabled = true;
-        progressionSelect.title = 'Progression templates are not used in Scale Exploration mode. All chords from the selected scale will be generated.';
         progressionSelect.style.cursor = 'not-allowed';
         progressionNameInput.disabled = true;
     }
@@ -1794,9 +1790,10 @@ function renderProgressions() {
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
                         ${progressionAnalysis ? `<span class="analysis">${progressionAnalysis}</span>` : ''}
+                        <span class="voice-leading-hint">Colors of cards show chord distance from selected card</span>
                     </div>
                 </div>
-                <button class="download-btn" title="Download" data-variant-index="${index}">
+                <button class="download-btn" data-variant-index="${index}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
                     </svg>
@@ -1817,25 +1814,14 @@ function renderProgressions() {
             // Activate voice leading hover effect
             activateVoiceLeadingHover(this);
 
-            // Show tooltip for the hovered (reference) chord
-            const chordFunction = getChordTooltip(roman, quality) || 'Chord';
-
-            // This card is the reference, so explain what the colors mean
-            const referenceText = 'Colors of other cards show distance from this chord';
-
-            // Check if this card was given a hover legend by another card being hovered first
-            const wasSetByOtherHover = this.getAttribute('data-hover-voice-leading');
-            const voiceLeadingText = wasSetByOtherHover || referenceText;
-
-            // In keyboard context, show only voice leading (chord function is visible on card)
+            // In keyboard context, no tooltip (chord function is visible on card)
             if (currentContext === 'keyboard') {
-                showTooltip(this, voiceLeadingText);
                 return;
             }
 
-            // In other contexts, combine chord function + voice leading
-            const tooltipText = `${chordFunction}\n\n${voiceLeadingText}`;
-            showTooltip(this, tooltipText);
+            // In other contexts, show only chord function
+            const chordFunction = getChordTooltip(roman, quality) || 'Chord';
+            showTooltip(this, chordFunction);
         });
 
         pad.addEventListener('mouseleave', function() {
@@ -1879,6 +1865,17 @@ function renderProgressions() {
         btn.addEventListener('click', function() {
             const variantIndex = parseInt(this.getAttribute('data-variant-index'));
             downloadSingleProgression(variants[variantIndex], variantIndex);
+        });
+    });
+
+    // Add custom tooltips for download buttons
+    container.querySelectorAll('.download-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', function() {
+            showTooltip(this, 'Download');
+        });
+        btn.addEventListener('mouseleave', function() {
+            const tooltip = document.getElementById('chordTooltip');
+            if (tooltip) tooltip.classList.remove('visible');
         });
     });
 
@@ -2022,6 +2019,62 @@ document.addEventListener('DOMContentLoaded', function() {
             const context = tab.getAttribute('data-context');
             switchContext(context);
         });
+    });
+
+    // Custom tooltips for mode option labels
+    const templateModeLabel = document.getElementById('templateModeLabel');
+    templateModeLabel.addEventListener('mouseenter', function() {
+        showTooltip(this, 'Generate progressions from 135 pre-made templates across 15 genres. Creates 4 voicing variants (Classic, Jazz, Modal, Experimental).');
+    });
+    templateModeLabel.addEventListener('mouseleave', function() {
+        const tooltip = document.getElementById('chordTooltip');
+        if (tooltip) tooltip.classList.remove('visible');
+    });
+
+    const scaleModeLabel = document.getElementById('scaleModeLabel');
+    scaleModeLabel.addEventListener('mouseenter', function() {
+        showTooltip(this, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.');
+    });
+    scaleModeLabel.addEventListener('mouseleave', function() {
+        const tooltip = document.getElementById('chordTooltip');
+        if (tooltip) tooltip.classList.remove('visible');
+    });
+
+    // Custom tooltip for MIDI selector
+    const midiSelector = document.getElementById('midiSelector');
+    midiSelector.addEventListener('mouseenter', function() {
+        showTooltip(this, 'Play with computer keys: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)');
+    });
+    midiSelector.addEventListener('mouseleave', function() {
+        const tooltip = document.getElementById('chordTooltip');
+        if (tooltip) tooltip.classList.remove('visible');
+    });
+
+    // Custom tooltips for progressionSelect (dynamic based on state)
+    const progressionSelect = document.getElementById('progressionSelect');
+    progressionSelect.addEventListener('mouseenter', function() {
+        if (this.disabled) {
+            showTooltip(this, 'Progression templates are not used in Scale Exploration mode. All chords from the selected scale will be generated.');
+        } else {
+            showTooltip(this, 'Major progressions start with uppercase roman numerals (I, IV, V). Minor progressions start with lowercase (i, iv, v). The roman numeral case determines the chord quality.');
+        }
+    });
+    progressionSelect.addEventListener('mouseleave', function() {
+        const tooltip = document.getElementById('chordTooltip');
+        if (tooltip) tooltip.classList.remove('visible');
+    });
+
+    // Custom tooltips for modeSelect (dynamic based on state)
+    const modeSelect = document.getElementById('modeSelect');
+    modeSelect.addEventListener('mouseenter', function() {
+        if (this.disabled) {
+            showTooltip(this, 'Mode/Scale selector is not used in Template mode. The progression defines its own harmonic structure.');
+        }
+        // No tooltip when enabled (empty state)
+    });
+    modeSelect.addEventListener('mouseleave', function() {
+        const tooltip = document.getElementById('chordTooltip');
+        if (tooltip) tooltip.classList.remove('visible');
     });
 
     // Left-handed toggle for guitar
