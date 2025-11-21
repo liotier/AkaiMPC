@@ -1760,9 +1760,9 @@ function renderProgressions() {
             }
 
             const referenceNotes = referenceNotesStr.split(',').map(Number);
-            const card = this.closest('.variant-card');
+            const card = this.closest('.progression-card');
             if (!card) {
-                console.warn('Hover: No variant-card parent');
+                console.warn('Hover: No progression-card parent');
                 return;
             }
 
@@ -1835,7 +1835,7 @@ function renderProgressions() {
 
             // Restore original voice leading colors
             this.classList.remove('vl-hover-reference');
-            const card = this.closest('.variant-card');
+            const card = this.closest('.progression-card');
             if (!card) return; // Safety check
 
             const allPads = card.querySelectorAll('.chord-pad');
