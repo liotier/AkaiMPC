@@ -1634,6 +1634,71 @@ function downloadSingleProgression(variant, index) {
     URL.revokeObjectURL(url);
 }
 
+// Helper: Activate voice leading hover effect for a pad
+function activateVoiceLeadingHover(pad) {
+    const referenceNotesStr = pad.getAttribute('data-notes');
+    if (!referenceNotesStr) return;
+
+    const referenceNotes = referenceNotesStr.split(',').map(Number);
+    const card = pad.closest('.progression-card');
+    if (!card) return;
+
+    const allPads = card.querySelectorAll('.chord-pad');
+
+    // Add hover-reference class to this pad
+    pad.classList.add('vl-hover-reference');
+
+    // Recalculate colors for all other pads
+    const hoverLegend = 'Distance from hovered chord:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic';
+    allPads.forEach(otherPad => {
+        if (otherPad === pad) return; // Skip self
+
+        const otherNotesStr = otherPad.getAttribute('data-notes');
+        if (!otherNotesStr) return;
+
+        const otherNotes = otherNotesStr.split(',').map(Number);
+        const vlAnalysis = analyzeVoiceLeading(referenceNotes, otherNotes);
+
+        // Remove existing voice leading classes
+        otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
+
+        if (vlAnalysis && vlAnalysis.smoothness !== undefined) {
+            let newClass = '';
+            if (vlAnalysis.smoothness >= 4) {
+                newClass = 'vl-smooth';
+            } else if (vlAnalysis.smoothness >= 2) {
+                newClass = 'vl-moderate';
+            } else {
+                newClass = 'vl-leap';
+            }
+            if (newClass) {
+                otherPad.classList.add(newClass);
+                otherPad.setAttribute('data-hover-voice-leading', hoverLegend);
+            }
+        }
+    });
+}
+
+// Helper: Deactivate voice leading hover effect
+function deactivateVoiceLeadingHover(pad) {
+    pad.classList.remove('vl-hover-reference');
+    const card = pad.closest('.progression-card');
+    if (!card) return;
+
+    const allPads = card.querySelectorAll('.chord-pad');
+
+    allPads.forEach(otherPad => {
+        // Restore original classes
+        otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
+        const originalClass = otherPad.getAttribute('data-original-vl-class');
+        if (originalClass) {
+            otherPad.classList.add(originalClass);
+        }
+        // Remove hover tooltip
+        otherPad.removeAttribute('data-hover-voice-leading');
+    });
+}
+
 function renderProgressions() {
     const container = document.getElementById('progressionsContainer');
     container.innerHTML = '';
@@ -1750,50 +1815,9 @@ function renderProgressions() {
         pad.addEventListener('mouseenter', function() {
             const roman = this.getAttribute('data-roman');
             const quality = this.getAttribute('data-quality');
-            const defaultVoiceLeading = this.getAttribute('data-voice-leading');
 
-            // Interactive voice leading: recolor all pads based on distance from this pad
-            const referenceNotesStr = this.getAttribute('data-notes');
-            if (!referenceNotesStr) return;
-
-            const referenceNotes = referenceNotesStr.split(',').map(Number);
-            const card = this.closest('.progression-card');
-            if (!card) return;
-
-            const allPads = card.querySelectorAll('.chord-pad');
-
-            // Add hover-reference class to this pad
-            this.classList.add('vl-hover-reference');
-
-            // Recalculate colors for all other pads
-            const hoverLegend = 'Distance from hovered chord:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic';
-            allPads.forEach(otherPad => {
-                if (otherPad === this) return; // Skip self
-
-                const otherNotesStr = otherPad.getAttribute('data-notes');
-                if (!otherNotesStr) return;
-
-                const otherNotes = otherNotesStr.split(',').map(Number);
-                const vlAnalysis = analyzeVoiceLeading(referenceNotes, otherNotes);
-
-                // Remove existing voice leading classes
-                otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
-
-                if (vlAnalysis && vlAnalysis.smoothness !== undefined) {
-                    let newClass = '';
-                    if (vlAnalysis.smoothness >= 4) {
-                        newClass = 'vl-smooth';
-                    } else if (vlAnalysis.smoothness >= 2) {
-                        newClass = 'vl-moderate';
-                    } else {
-                        newClass = 'vl-leap';
-                    }
-                    if (newClass) {
-                        otherPad.classList.add(newClass);
-                        otherPad.setAttribute('data-hover-voice-leading', hoverLegend);
-                    }
-                }
-            });
+            // Activate voice leading hover effect
+            activateVoiceLeadingHover(this);
 
             // Show tooltip for the hovered (reference) chord
             const chordFunction = getChordTooltip(roman, quality) || 'Chord';
@@ -1820,23 +1844,8 @@ function renderProgressions() {
             const tooltip = document.getElementById('chordTooltip');
             if (tooltip) tooltip.classList.remove('visible');
 
-            // Restore original voice leading colors
-            this.classList.remove('vl-hover-reference');
-            const card = this.closest('.progression-card');
-            if (!card) return; // Safety check
-
-            const allPads = card.querySelectorAll('.chord-pad');
-
-            allPads.forEach(otherPad => {
-                // Restore original classes
-                otherPad.classList.remove('vl-smooth', 'vl-moderate', 'vl-leap');
-                const originalClass = otherPad.getAttribute('data-original-vl-class');
-                if (originalClass) {
-                    otherPad.classList.add(originalClass);
-                }
-                // Remove hover tooltip
-                otherPad.removeAttribute('data-hover-voice-leading');
-            });
+            // Deactivate voice leading hover effect
+            deactivateVoiceLeadingHover(this);
         });
     });
 
@@ -2148,6 +2157,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             startChord(notes);
                             pad.classList.add('playing');
 
+                            // Activate voice leading hover effect
+                            activateVoiceLeadingHover(pad);
+
                             // Store for keyup event
                             pressedKeys.set(key, { notes, padElement: pad });
                         }
@@ -2181,6 +2193,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Remove visual feedback
             if (padElement) {
                 padElement.classList.remove('playing');
+                // Deactivate voice leading hover effect
+                deactivateVoiceLeadingHover(padElement);
             }
 
             // Remove from pressed keys
