@@ -1018,6 +1018,76 @@ export function getChordName(degree, chordType, keyOffset, romanNumeral = '') {
     }
 }
 
+// Detect chord inversion and return slash notation if inverted
+export function getInversionNotation(notes, chordType, chordName, romanNumeral = '') {
+    if (!notes || notes.length < 3) return '';
+
+    const sorted = [...notes].sort((a, b) => a - b);
+    const bassPitchClass = sorted[0] % 12;
+
+    // Build root position chord to identify expected intervals
+    const pitchClasses = notes.map(n => n % 12);
+    const pitchClassSet = new Set(pitchClasses);
+
+    // Define interval structures for different chord types
+    let rootInterval, thirdInterval, fifthInterval, seventhInterval;
+
+    if (chordType.includes('minor')) {
+        thirdInterval = 3; // minor third
+        fifthInterval = 7; // perfect fifth
+        seventhInterval = chordType.includes('7') ? 10 : null; // minor seventh
+    } else if (chordType.includes('diminished')) {
+        thirdInterval = 3; // minor third
+        fifthInterval = 6; // diminished fifth
+        seventhInterval = chordType.includes('7') ? 9 : null; // diminished seventh
+    } else {
+        // major or dominant
+        thirdInterval = 4; // major third
+        fifthInterval = 7; // perfect fifth
+        if (chordType === 'dom7') {
+            seventhInterval = 10; // minor seventh
+        } else if (chordType === 'major7') {
+            seventhInterval = 11; // major seventh
+        } else {
+            seventhInterval = null;
+        }
+    }
+
+    // Try to find the root by checking which note forms the expected intervals
+    let rootPitchClass = null;
+
+    for (const pc of pitchClassSet) {
+        const third = (pc + thirdInterval) % 12;
+        const fifth = (pc + fifthInterval) % 12;
+
+        if (pitchClassSet.has(third) && pitchClassSet.has(fifth)) {
+            rootPitchClass = pc;
+            break;
+        }
+    }
+
+    // If we couldn't find root by intervals, assume lowest note's pitch class
+    if (rootPitchClass === null) {
+        rootPitchClass = bassPitchClass;
+    }
+
+    // Check if bass is root position
+    if (bassPitchClass === rootPitchClass) {
+        return ''; // Root position, no inversion notation needed
+    }
+
+    // Determine which chord tone is in the bass
+    const intervalFromRoot = (bassPitchClass - rootPitchClass + 12) % 12;
+
+    // Get the bass note name for slash notation
+    const bassNote = sorted[0];
+    const useFlats = getEnharmonicContext(bassNote, romanNumeral) === 'flats';
+    const bassNoteName = getNoteNameWithContext(bassNote, useFlats);
+
+    // Return slash notation
+    return '/' + bassNoteName;
+}
+
 export function getRomanNumeral(degree, isMinor = false, isDim = false) {
     const numerals = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii'];
     let numeral = numerals[degree] || 'I';
