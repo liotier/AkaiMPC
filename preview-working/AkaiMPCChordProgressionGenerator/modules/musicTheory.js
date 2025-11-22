@@ -1079,13 +1079,14 @@ export function getInversionNotation(notes, chordType, chordName, romanNumeral =
     // Determine which chord tone is in the bass
     const intervalFromRoot = (bassPitchClass - rootPitchClass + 12) % 12;
 
-    // Get the bass note name for slash notation
+    // Get the bass note name with octave number for slash notation
     const bassNote = sorted[0];
     const useFlats = getEnharmonicContext(bassNote, romanNumeral) === 'flats';
     const bassNoteName = getNoteNameWithContext(bassNote, useFlats);
+    const bassOctave = Math.floor(bassNote / 12) - 2; // Convert MIDI to octave number
 
-    // Return slash notation
-    return '/' + bassNoteName;
+    // Return slash notation with octave (e.g., /Eb3)
+    return '/' + bassNoteName + bassOctave;
 }
 
 export function getRomanNumeral(degree, isMinor = false, isDim = false) {
