@@ -1778,8 +1778,8 @@ function renderProgressions() {
                                 else if (pad.quality === 'Dominant 7') chordType = 'dom7';
                                 else if (pad.quality === 'Diminished') chordType = 'diminished';
 
-                                // Get properly spelled note names
-                                const noteStrings = spellChordNotes(pad.notes[0], chordType, pad.romanNumeral);
+                                // Get properly spelled note names (pass actual voicing)
+                                const noteStrings = spellChordNotes(pad.notes, chordType, pad.romanNumeral);
 
                                 // Group notes in pairs for wrapping
                                 const pairs = [];
@@ -1801,10 +1801,27 @@ function renderProgressions() {
 
         const progressionAnalysis = analyzeProgression(variant.pads);
 
+        // Add voicing style annotation
+        let voicingStyle = '';
+        switch (variant.name) {
+            case 'Classic':
+                voicingStyle = 'Voice Leading';
+                break;
+            case 'Jazz':
+                voicingStyle = 'Close Voicing';
+                break;
+            case 'Modal':
+                voicingStyle = 'Open Voicing';
+                break;
+            case 'Experimental':
+                voicingStyle = 'Spread Voicing';
+                break;
+        }
+
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
-                    <div class="progression-title">${progressionName}_${variant.name}</div>
+                    <div class="progression-title">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
                     <div class="progression-meta">
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
