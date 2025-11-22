@@ -12,7 +12,8 @@ import {
     generateProgressionChords,
     spellChordNotes,
     applyVoicingStyle,
-    optimizeVoiceLeading
+    optimizeVoiceLeading,
+    getInversionNotation
 } from './modules/musicTheory.js';
 
 import {
@@ -1552,21 +1553,40 @@ function getVariantSignature(variant) {
     ).join('||');
 }
 
+// Helper to create a chord-based signature (ignoring voicing)
+function getChordProgressionSignature(variant) {
+    return variant.pads.map(pad =>
+        `${pad.chordName}|${pad.romanNumeral}`
+    ).join('||');
+}
+
 // Remove duplicate variants
 function deduplicateVariants(variantList) {
-    const seen = new Map();
+    const seenProgressions = new Map();
     const unique = [];
 
     variantList.forEach(variant => {
-        const signature = getVariantSignature(variant);
-        if (!seen.has(signature)) {
-            seen.set(signature, true);
+        const exactSignature = getVariantSignature(variant);
+        const chordSignature = getChordProgressionSignature(variant);
+
+        console.log(`Variant ${variant.name}:`);
+        console.log(`  Chord progression: ${chordSignature.substring(0, 80)}...`);
+        console.log(`  Exact voicing: ${exactSignature.substring(0, 80)}...`);
+
+        // Check if we've seen this chord progression before (ignoring voicing)
+        if (!seenProgressions.has(chordSignature)) {
+            // First time seeing this chord progression - keep it
+            seenProgressions.set(chordSignature, variant.name);
             unique.push(variant);
+            console.log(`  ✓ Kept ${variant.name} (new chord progression)`);
         } else {
-            console.log(`Dropped duplicate variant: ${variant.name}`);
+            // We've seen this chord progression before
+            const firstVariant = seenProgressions.get(chordSignature);
+            console.log(`  ✗ Dropped ${variant.name} (duplicate of ${firstVariant} - same chords, different voicing)`);
         }
     });
 
+    console.log(`Deduplication: ${variantList.length} variants → ${unique.length} unique`);
     return unique;
 }
 
@@ -1734,6 +1754,18 @@ function renderProgressions() {
                     }
                 }
 
+                // Map quality to chord type for inversion detection
+                let chordTypeForInversion = 'major';
+                if (pad.quality === 'Minor') chordTypeForInversion = 'minor';
+                else if (pad.quality === 'Minor 7') chordTypeForInversion = 'minor7';
+                else if (pad.quality === 'Major 7') chordTypeForInversion = 'major7';
+                else if (pad.quality === 'Dominant 7') chordTypeForInversion = 'dom7';
+                else if (pad.quality === 'Diminished') chordTypeForInversion = 'diminished';
+
+                // Get inversion notation for this chord
+                const inversionNotation = getInversionNotation(pad.notes, chordTypeForInversion, pad.chordName, pad.romanNumeral);
+                const displayName = pad.chordName + inversionNotation;
+
                 return `
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''} ${voiceLeadingClass}"
                     data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replace(/"/g, '&quot;')}"
@@ -1742,7 +1774,7 @@ function renderProgressions() {
                     <div class="chord-text-column">
                         <div class="chord-pad-content">
                             <div class="chord-info">
-                                <div class="chord-name">${pad.chordName}</div>
+                                <div class="chord-name">${displayName}</div>
                             </div>
                             <div class="pad-number">PAD ${pad.id}</div>
                         </div>
@@ -1759,8 +1791,8 @@ function renderProgressions() {
                                 else if (pad.quality === 'Dominant 7') chordType = 'dom7';
                                 else if (pad.quality === 'Diminished') chordType = 'diminished';
 
-                                // Get properly spelled note names
-                                const noteStrings = spellChordNotes(pad.notes[0], chordType, pad.romanNumeral);
+                                // Get properly spelled note names (pass actual voicing)
+                                const noteStrings = spellChordNotes(pad.notes, chordType, pad.romanNumeral);
 
                                 // Group notes in pairs for wrapping
                                 const pairs = [];
@@ -1782,10 +1814,27 @@ function renderProgressions() {
 
         const progressionAnalysis = analyzeProgression(variant.pads);
 
+        // Add voicing style annotation
+        let voicingStyle = '';
+        switch (variant.name) {
+            case 'Classic':
+                voicingStyle = 'Voice Leading';
+                break;
+            case 'Jazz':
+                voicingStyle = 'Close Voicing';
+                break;
+            case 'Modal':
+                voicingStyle = 'Open Voicing';
+                break;
+            case 'Experimental':
+                voicingStyle = 'Spread Voicing';
+                break;
+        }
+
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
-                    <div class="progression-title">${progressionName}_${variant.name}</div>
+                    <div class="progression-title">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
                     <div class="progression-meta">
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
