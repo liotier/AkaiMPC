@@ -910,7 +910,7 @@ export function spellChordNotes(rootMidiOrNotes, chordType, romanNumeral = '') {
         const bassPitchClass = sorted[0] % 12;
 
         // Try to identify root: for major/minor chords, root is usually present
-        // For inverted chords, we'll use the bass note as root for spelling purposes
+        // Default to bass note as root
         rootMidi = sorted[0];
 
         // Try to find the actual chord root by checking pitch classes
@@ -922,11 +922,11 @@ export function spellChordNotes(rootMidiOrNotes, chordType, romanNumeral = '') {
         const minorInterval = (bassPitchClass + 3) % 12;
         const fifthInterval = (bassPitchClass + 7) % 12;
 
-        if (chordType.includes('minor') && pitchClasses.has(minorInterval) && pitchClasses.has(fifthInterval)) {
-            rootMidi = sorted[0]; // Bass is root
-        } else if (chordType.includes('major') && pitchClasses.has(majorInterval) && pitchClasses.has(fifthInterval)) {
-            rootMidi = sorted[0]; // Bass is root
-        } else {
+        // Check if bass is root (has third and fifth above it)
+        const bassIsRoot = (chordType.includes('minor') && pitchClasses.has(minorInterval) && pitchClasses.has(fifthInterval)) ||
+                          (chordType.includes('major') && pitchClasses.has(majorInterval) && pitchClasses.has(fifthInterval));
+
+        if (!bassIsRoot) {
             // For inversions or complex voicings, find root by checking all notes
             for (const note of sorted) {
                 const pc = note % 12;
@@ -1030,27 +1030,18 @@ export function getInversionNotation(notes, chordType, chordName, romanNumeral =
     const pitchClassSet = new Set(pitchClasses);
 
     // Define interval structures for different chord types
-    let rootInterval, thirdInterval, fifthInterval, seventhInterval;
+    let thirdInterval, fifthInterval;
 
     if (chordType.includes('minor')) {
         thirdInterval = 3; // minor third
         fifthInterval = 7; // perfect fifth
-        seventhInterval = chordType.includes('7') ? 10 : null; // minor seventh
     } else if (chordType.includes('diminished')) {
         thirdInterval = 3; // minor third
         fifthInterval = 6; // diminished fifth
-        seventhInterval = chordType.includes('7') ? 9 : null; // diminished seventh
     } else {
         // major or dominant
         thirdInterval = 4; // major third
         fifthInterval = 7; // perfect fifth
-        if (chordType === 'dom7') {
-            seventhInterval = 10; // minor seventh
-        } else if (chordType === 'major7') {
-            seventhInterval = 11; // major seventh
-        } else {
-            seventhInterval = null;
-        }
     }
 
     // Try to find the root by checking which note forms the expected intervals
@@ -1075,9 +1066,6 @@ export function getInversionNotation(notes, chordType, chordName, romanNumeral =
     if (bassPitchClass === rootPitchClass) {
         return ''; // Root position, no inversion notation needed
     }
-
-    // Determine which chord tone is in the bass
-    const intervalFromRoot = (bassPitchClass - rootPitchClass + 12) % 12;
 
     // Get the bass note name with octave number for slash notation
     const bassNote = sorted[0];
