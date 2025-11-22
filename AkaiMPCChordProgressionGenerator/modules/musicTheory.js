@@ -895,9 +895,55 @@ export function getNoteNameWithContext(midiNote, preferFlats = false) {
     return preferFlats ? flatNames[pitchClass] : sharpNames[pitchClass];
 }
 
-export function spellChordNotes(rootMidi, chordType, romanNumeral = '') {
-    // Get the MIDI notes for the chord
-    const notes = buildChordRaw(rootMidi, chordType);
+export function spellChordNotes(rootMidiOrNotes, chordType, romanNumeral = '') {
+    // If first parameter is an array, use actual voicing notes; otherwise rebuild chord
+    let notes;
+    let rootMidi;
+
+    if (Array.isArray(rootMidiOrNotes)) {
+        // Using actual voicing - find the root note (lowest pitch class that matches chord)
+        notes = rootMidiOrNotes;
+
+        // For proper spelling, we need the theoretical root (not necessarily the bass)
+        // Build the chord in root position to identify pitch classes
+        const sorted = [...notes].sort((a, b) => a - b);
+        const bassPitchClass = sorted[0] % 12;
+
+        // Try to identify root: for major/minor chords, root is usually present
+        // For inverted chords, we'll use the bass note as root for spelling purposes
+        rootMidi = sorted[0];
+
+        // Try to find the actual chord root by checking pitch classes
+        const pitchClasses = new Set(notes.map(n => n % 12));
+
+        // For major chords, root + 4 + 7 semitones
+        // For minor chords, root + 3 + 7 semitones
+        const majorInterval = (bassPitchClass + 4) % 12;
+        const minorInterval = (bassPitchClass + 3) % 12;
+        const fifthInterval = (bassPitchClass + 7) % 12;
+
+        if (chordType.includes('minor') && pitchClasses.has(minorInterval) && pitchClasses.has(fifthInterval)) {
+            rootMidi = sorted[0]; // Bass is root
+        } else if (chordType.includes('major') && pitchClasses.has(majorInterval) && pitchClasses.has(fifthInterval)) {
+            rootMidi = sorted[0]; // Bass is root
+        } else {
+            // For inversions or complex voicings, find root by checking all notes
+            for (const note of sorted) {
+                const pc = note % 12;
+                const thirdUp = (pc + (chordType.includes('minor') ? 3 : 4)) % 12;
+                const fifthUp = (pc + 7) % 12;
+
+                if (pitchClasses.has(thirdUp) && pitchClasses.has(fifthUp)) {
+                    rootMidi = note;
+                    break;
+                }
+            }
+        }
+    } else {
+        // Legacy mode: rebuild chord from root
+        rootMidi = rootMidiOrNotes;
+        notes = buildChordRaw(rootMidi, chordType);
+    }
 
     // Determine spelling preference
     const useFlats = getEnharmonicContext(rootMidi, romanNumeral) === 'flats';
