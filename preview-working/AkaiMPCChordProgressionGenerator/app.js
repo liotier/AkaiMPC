@@ -12,7 +12,8 @@ import {
     generateProgressionChords,
     spellChordNotes,
     applyVoicingStyle,
-    optimizeVoiceLeading
+    optimizeVoiceLeading,
+    getInversionNotation
 } from './modules/musicTheory.js';
 
 import {
@@ -1753,6 +1754,18 @@ function renderProgressions() {
                     }
                 }
 
+                // Map quality to chord type for inversion detection
+                let chordTypeForInversion = 'major';
+                if (pad.quality === 'Minor') chordTypeForInversion = 'minor';
+                else if (pad.quality === 'Minor 7') chordTypeForInversion = 'minor7';
+                else if (pad.quality === 'Major 7') chordTypeForInversion = 'major7';
+                else if (pad.quality === 'Dominant 7') chordTypeForInversion = 'dom7';
+                else if (pad.quality === 'Diminished') chordTypeForInversion = 'diminished';
+
+                // Get inversion notation for this chord
+                const inversionNotation = getInversionNotation(pad.notes, chordTypeForInversion, pad.chordName, pad.romanNumeral);
+                const displayName = pad.chordName + inversionNotation;
+
                 return `
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''} ${voiceLeadingClass}"
                     data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replace(/"/g, '&quot;')}"
@@ -1761,7 +1774,7 @@ function renderProgressions() {
                     <div class="chord-text-column">
                         <div class="chord-pad-content">
                             <div class="chord-info">
-                                <div class="chord-name">${pad.chordName}</div>
+                                <div class="chord-name">${displayName}</div>
                             </div>
                             <div class="pad-number">PAD ${pad.id}</div>
                         </div>
