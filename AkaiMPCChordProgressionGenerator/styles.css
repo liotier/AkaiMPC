@@ -1189,6 +1189,85 @@ footer a:hover {
     .mode-option {
         padding: 12px;
     }
+
+    /* ========================================================================
+       SMALL VIEWPORT OPTIMIZATIONS (Galaxy S9, small phones)
+       Aggressively reduce whitespace and optimize layouts
+       ======================================================================== */
+
+    /* Reduce app padding on very small screens */
+    .app {
+        padding: 8px;
+    }
+
+    /* Tighter spacing for controls */
+    .controls {
+        gap: 8px;
+    }
+
+    /* Reduce chord pad padding */
+    .chord-pad {
+        padding: 6px;
+        min-height: 70px;
+    }
+
+    /* MPC context: MUST maintain 4-column grid (physical MPC layout) */
+    body[data-context="mpc"] .chord-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+    }
+
+    /* Keyboard context: Hide chord role on tablets (move to tooltip) */
+    body[data-context="keyboard"] .chord-role {
+        display: none !important;
+    }
+
+    /* Keyboard context: Fix chord notes positioning to avoid overlap */
+    body[data-context="keyboard"] .chord-notes {
+        bottom: 6px !important;
+        right: 6px !important;
+        font-size: 8px !important;
+        max-width: 60% !important;
+        line-height: 1.2 !important;
+    }
+
+    /* Keyboard/Guitar/Staff: Allow flexible wrapping on small screens */
+    body[data-context="keyboard"] .chord-grid,
+    body[data-context="guitar"] .chord-grid,
+    body[data-context="staff"] .chord-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 8px;
+    }
+
+    /* Scale up keyboard diagrams for better readability */
+    body[data-context="keyboard"] .chord-keyboard,
+    body[data-context="mpc"] .chord-keyboard {
+        width: 100% !important;
+        max-width: none !important;
+        height: auto !important;
+    }
+
+    /* Reduce guitar card whitespace */
+    body[data-context="guitar"] .chord-pad {
+        gap: 3px;
+        padding: 6px;
+        min-height: 100px;
+    }
+
+    body[data-context="guitar"] .chord-text-column {
+        gap: 2px;
+    }
+
+    body[data-context="guitar"] .chord-guitar {
+        width: 120px;
+        height: 112px;
+    }
+
+    /* Compact staff cards */
+    body[data-context="staff"] .chord-pad {
+        padding: 6px;
+        gap: 8px;
+    }
 }
 
 /* Orientation-specific optimizations */
@@ -1213,8 +1292,16 @@ footer a:hover {
 
 @media (orientation: landscape) and (hover: none) {
     /* Landscape: Maximize horizontal space */
-    .chord-grid {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    /* MPC MUST maintain 4-column layout (physical MPC button layout) */
+    body[data-context="mpc"] .chord-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* Keyboard/Guitar/Staff: Allow wrapping at 3 cards for legibility */
+    body[data-context="keyboard"] .chord-grid,
+    body[data-context="guitar"] .chord-grid,
+    body[data-context="staff"] .chord-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 
     body[data-context="guitar"] .chord-pad {
