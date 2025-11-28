@@ -1265,14 +1265,14 @@ footer a:hover {
     /* Keyboard context: Position chord notes above keyboard diagram (not too high) */
     body[data-context="keyboard"] .chord-notes {
         position: absolute !important;
-        top: 48px !important;
+        top: 52px !important;
         bottom: auto !important;
-        left: 4px !important;
+        left: auto !important;
         right: 4px !important;
         font-size: 7px !important;
-        max-width: calc(100% - 8px) !important;
+        max-width: 50% !important;
         line-height: 1.1 !important;
-        text-align: center !important;
+        text-align: right !important;
         margin: 0 !important;
     }
 
