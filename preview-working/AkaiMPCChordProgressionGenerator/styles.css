@@ -436,6 +436,7 @@ button:disabled {
 
 .progression-meta {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 16px;
     margin-top: 4px;
@@ -460,9 +461,17 @@ button:disabled {
     opacity: 0.7;
 }
 
+.progression-meta .progression-explainer {
+    flex-basis: 100%;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.4;
+    margin-top: 4px;
+}
+
 .progression-meta .voice-leading-hint {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 11px;
     font-style: italic;
     opacity: 0.7;
     margin-left: auto;
@@ -1239,9 +1248,14 @@ footer a:hover {
         margin-bottom: 4px;
     }
 
+    /* Hide progression explainer on tablet - shown as tap tooltip instead */
+    .progression-meta .progression-explainer {
+        display: none;
+    }
+
     /* Voice leading hint should be smaller (less important in hierarchy) */
     .progression-meta .voice-leading-hint {
-        font-size: 9px !important;
+        font-size: 8px !important;
         line-height: 1.2 !important;
     }
 

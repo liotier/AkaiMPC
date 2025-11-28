@@ -1852,11 +1852,12 @@ function renderProgressions() {
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
-                    <div class="progression-title" title="${uniquenessTooltip}">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
+                    <div class="progression-title" data-tooltip="${uniquenessTooltip}">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
                     <div class="progression-meta">
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
                         ${progressionAnalysis ? `<span class="analysis">${progressionAnalysis}</span>` : ''}
+                        <span class="progression-explainer">${uniquenessTooltip}</span>
                         <span class="voice-leading-hint">Colors of cards show chord distance from selected card</span>
                     </div>
                 </div>
@@ -1871,6 +1872,39 @@ function renderProgressions() {
 
         container.appendChild(card);
     });
+
+    // Tablet: Setup tap-to-show tooltip for progression titles
+    if (hasTouch && !hasHover) {
+        container.querySelectorAll('.progression-title').forEach(title => {
+            const tooltipText = title.dataset.tooltip;
+            if (tooltipText) {
+                title.addEventListener('click', function(e) {
+                    const currentElement = e.currentTarget;
+                    e.stopPropagation();
+
+                    const tooltip = document.getElementById('chordTooltip');
+                    if (tooltip && tooltip.classList.contains('visible') && activeTooltip === currentElement) {
+                        // Already showing this tooltip, hide it
+                        tooltip.classList.remove('visible');
+                        activeTooltip = null;
+                    } else {
+                        // Show tooltip
+                        showTooltip(currentElement, tooltipText);
+                        activeTooltip = currentElement;
+
+                        // Auto-hide after 5 seconds
+                        setTimeout(() => {
+                            if (activeTooltip === currentElement) {
+                                const tooltip = document.getElementById('chordTooltip');
+                                if (tooltip) tooltip.classList.remove('visible');
+                                activeTooltip = null;
+                            }
+                        }, 5000);
+                    }
+                });
+            }
+        });
+    }
 
     // Add hover handlers for tooltips and interactive voice leading
     // Using pointer events (supports both mouse and touch)
