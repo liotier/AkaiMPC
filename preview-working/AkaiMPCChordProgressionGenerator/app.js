@@ -1870,6 +1870,7 @@ function renderProgressions() {
                 </button>
             </div>
             <div class="chord-grid">${gridHTML}</div>
+            <div class="voice-leading-hint-bottom">Colors of cards show chord distance from selected card</div>
         `;
 
         container.appendChild(card);
