@@ -429,6 +429,13 @@ button:disabled {
     min-width: 0;
 }
 
+.progression-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
 .progression-title {
     font-size: 18px;
     font-weight: 600;
@@ -436,7 +443,6 @@ button:disabled {
 
 .progression-meta {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     gap: 16px;
     margin-top: 4px;
@@ -461,12 +467,12 @@ button:disabled {
     opacity: 0.7;
 }
 
-.progression-meta .progression-explainer {
-    flex-basis: 100%;
+.progression-explainer {
     color: var(--muted);
     font-size: 13px;
     line-height: 1.4;
-    margin-top: 4px;
+    text-align: right;
+    flex-shrink: 0;
 }
 
 .progression-meta .voice-leading-hint {
@@ -1249,7 +1255,7 @@ footer a:hover {
     }
 
     /* Hide progression explainer on tablet - shown as tap tooltip instead */
-    .progression-meta .progression-explainer {
+    .progression-explainer {
         display: none;
     }
 
