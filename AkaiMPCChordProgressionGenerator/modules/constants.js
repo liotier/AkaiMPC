@@ -66,6 +66,7 @@ export const TIMING = {
 export const BREAKPOINTS = {
     MOBILE: 400,                // px - very small screens
     TABLET: 600,                // px - tablets and small laptops
+    TABLET_MAX: 1024,           // px - maximum tablet width
     DESKTOP: 768                // px - desktop and larger
 };
 
@@ -201,4 +202,40 @@ export function midiToFrequency(midiNote) {
  */
 export function calculateInterval(note1, note2) {
     return Math.abs(note2 - note1) % MUSIC.SEMITONES_PER_OCTAVE;
+}
+
+// ============================================================================
+// DEVICE CAPABILITY DETECTION
+// ============================================================================
+
+/**
+ * Detect device capabilities for adaptive UI
+ * These functions use feature detection (not user-agent sniffing)
+ */
+
+/**
+ * Check if device has touch capability
+ * @returns {boolean} True if touch is supported
+ */
+export function hasTouchCapability() {
+    return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+}
+
+/**
+ * Check if device has hover capability (desktop with mouse)
+ * @returns {boolean} True if hover is supported
+ */
+export function hasHoverCapability() {
+    return window.matchMedia('(hover: hover)').matches;
+}
+
+/**
+ * Check if device is likely a tablet (touch + medium screen)
+ * @returns {boolean} True if appears to be a tablet
+ */
+export function isLikelyTablet() {
+    const width = window.innerWidth;
+    return hasTouchCapability() &&
+           width >= BREAKPOINTS.TABLET &&
+           width <= BREAKPOINTS.TABLET_MAX;
 }
