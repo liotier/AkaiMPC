@@ -1829,25 +1829,31 @@ function renderProgressions() {
 
         // Add voicing style annotation
         let voicingStyle = '';
+        let uniquenessTooltip = '';
+
         switch (variant.name) {
             case 'Classic':
                 voicingStyle = 'Voice Leading';
+                uniquenessTooltip = 'Classic variant: Optimized for smooth voice leading between chords. Minimal note movement creates natural, flowing progressions.';
                 break;
             case 'Jazz':
                 voicingStyle = 'Close Voicing';
+                uniquenessTooltip = 'Jazz variant: Uses close voicings with notes within an octave. Creates rich, dense harmonies typical of jazz piano comping.';
                 break;
             case 'Modal':
                 voicingStyle = 'Open Voicing';
+                uniquenessTooltip = 'Modal variant: Features open voicings with wider intervals between notes. Produces spacious, airy textures ideal for modal harmony.';
                 break;
             case 'Experimental':
                 voicingStyle = 'Spread Voicing';
+                uniquenessTooltip = 'Experimental variant: Uses spread voicings across multiple octaves. Creates unique, unconventional harmonic colors and textures.';
                 break;
         }
 
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
-                    <div class="progression-title">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
+                    <div class="progression-title" title="${uniquenessTooltip}">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
                     <div class="progression-meta">
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>

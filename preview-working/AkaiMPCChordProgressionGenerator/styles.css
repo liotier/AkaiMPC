@@ -1195,6 +1195,22 @@ footer a:hover {
        Aggressively reduce whitespace and optimize layouts
        ======================================================================== */
 
+    /* Keep header inline on tablet (title + MPC image) */
+    .header {
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+
+    .header-text {
+        flex: 1;
+    }
+
+    .mpc-image {
+        height: 60px !important;
+        flex-shrink: 0;
+    }
+
     /* Reduce app and page padding */
     .app {
         padding: 4px;
@@ -1212,9 +1228,28 @@ footer a:hover {
         margin-bottom: 4px;
     }
 
+    /* Voice leading hint should be smaller (less important in hierarchy) */
+    .progression-meta .voice-leading-hint {
+        font-size: 9px !important;
+        line-height: 1.2 !important;
+    }
+
     /* Tighter spacing for controls */
     .controls {
         gap: 6px;
+    }
+
+    /* Guitar handedness toggle on same line as action buttons */
+    .guitar-options {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        flex-wrap: wrap !important;
+    }
+
+    .action-buttons {
+        flex: 1 !important;
+        justify-content: flex-start !important;
     }
 
     /* Reduce chord pad padding vertically */
@@ -1262,18 +1297,18 @@ footer a:hover {
         right: 4px !important;
     }
 
-    /* Keyboard context: Position chord notes above keyboard diagram (not too high) */
+    /* Keyboard context: Position chord notes bottom-aligned above keyboard with tiny padding */
     body[data-context="keyboard"] .chord-notes {
         position: absolute !important;
-        top: 52px !important;
-        bottom: auto !important;
+        top: auto !important;
+        bottom: 62px !important;
         left: auto !important;
         right: 4px !important;
         font-size: 7px !important;
         max-width: 50% !important;
         line-height: 1.1 !important;
         text-align: right !important;
-        margin: 0 !important;
+        margin: 0 0 2px 0 !important;
     }
 
     /* Keyboard/Guitar/Staff: 2 columns in portrait for better card size */
@@ -1292,32 +1327,41 @@ footer a:hover {
         height: auto !important;
     }
 
-    /* Reduce guitar card whitespace and horizontal padding for 2-column layout */
+    /* Fix guitar card 2-column layout - reduce all padding */
     body[data-context="guitar"] .chord-pad {
-        gap: 2px;
-        padding: 3px 2px;
+        gap: 1px;
+        padding: 3px 1px;
         min-height: 90px;
         grid-template-columns: 1fr auto;
     }
 
     body[data-context="guitar"] .chord-text-column {
         gap: 1px;
-        padding-right: 2px;
+        padding-right: 1px;
+        padding-left: 2px;
     }
 
     body[data-context="guitar"] .chord-guitar {
-        width: 105px;
-        height: 98px;
+        width: 100px;
+        height: 93px;
+        margin: 0;
+        padding: 0;
     }
 
-    /* Compact staff cards - reduce vertical padding between elements */
+    /* Compact staff cards - reduce all vertical padding */
     body[data-context="staff"] .chord-pad {
-        padding: 2px 4px;
-        gap: 4px;
+        padding: 2px 4px 1px 4px;
+        gap: 2px;
     }
 
     body[data-context="staff"] .chord-text-column {
         gap: 1px;
+        margin-bottom: 2px;
+    }
+
+    body[data-context="staff"] .chord-staff {
+        padding-top: 12px !important;
+        margin-bottom: 0 !important;
     }
 }
 
