@@ -1852,12 +1852,14 @@ function renderProgressions() {
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
-                    <div class="progression-title" data-tooltip="${uniquenessTooltip}">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
+                    <div class="progression-title-row">
+                        <div class="progression-title" data-tooltip="${uniquenessTooltip}">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
+                        <span class="progression-explainer">${uniquenessTooltip}</span>
+                    </div>
                     <div class="progression-meta">
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
                         ${progressionAnalysis ? `<span class="analysis">${progressionAnalysis}</span>` : ''}
-                        <span class="progression-explainer">${uniquenessTooltip}</span>
                         <span class="voice-leading-hint">Colors of cards show chord distance from selected card</span>
                     </div>
                 </div>
