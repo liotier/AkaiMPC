@@ -1057,6 +1057,360 @@ footer a:hover {
     }
 }
 
+/* ============================================================================
+   TABLET-SPECIFIC STYLES (600px - 1024px)
+   Touch-optimized layouts with minimum 48px touch targets
+   ============================================================================ */
+
+/* Tablet Portrait (600px - 768px) */
+@media (min-width: 600px) and (max-width: 768px) {
+    .app {
+        padding: 24px;
+    }
+
+    /* 2-column layout for controls (better than mobile's 1-col) */
+    .controls {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    /* Guitar/Staff contexts: keep side-by-side if space allows */
+    body[data-context="guitar"] .chord-pad,
+    body[data-context="staff"] .chord-pad {
+        grid-template-columns: 40% 60%;
+    }
+}
+
+/* Tablet Landscape (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .controls {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .chord-grid {
+        gap: 16px;
+    }
+}
+
+/* Touch device optimizations (tablets and phones) */
+@media (hover: none) and (pointer: coarse) {
+    /* Minimum touch target sizes (48px x 48px per Material Design / Apple HIG) */
+    button,
+    select,
+    .context-tab,
+    input[type="checkbox"],
+    input[type="text"] {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 12px;
+    }
+
+    .chord-grid {
+        gap: 16px;
+    }
+
+    .context-tabs {
+        gap: 12px;
+    }
+
+    .action-buttons {
+        gap: 16px;
+        flex: 1 !important;
+        justify-content: flex-start !important;
+    }
+
+    /* Immediate visual feedback on touch */
+    .chord-pad:active,
+    button:active,
+    .context-tab:active {
+        transform: scale(0.98);
+        background: var(--pad-hover);
+        transition: transform 0.1s ease, background 0.1s ease;
+    }
+
+    /* Prevent 300ms tap delay on mobile Safari */
+    button,
+    .chord-pad,
+    .context-tab,
+    select,
+    input {
+        touch-action: manipulation;
+    }
+
+    /* Smooth momentum scrolling on iOS */
+    .chord-notes,
+    .progressions,
+    .selected-chords {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+
+    /* Prevent rubber-band effect on body */
+    body {
+        overscroll-behavior-y: none;
+    }
+
+    /* Larger download button hit area */
+    .download-btn {
+        width: 48px;
+        height: 48px;
+        padding: 12px;
+    }
+
+    /* Larger close buttons for chord tags */
+    .chord-tag button {
+        min-width: 32px;
+        min-height: 32px;
+        padding: 4px;
+    }
+
+    /* Make checkboxes and labels easier to tap */
+    .control-group label {
+        padding: 12px 8px;
+        cursor: pointer;
+    }
+
+    /* Ensure mode radio buttons have adequate spacing */
+    .mode-options {
+        gap: 16px;
+    }
+
+    .mode-option {
+        padding: 12px;
+    }
+
+    /* ========================================================================
+       SMALL VIEWPORT OPTIMIZATIONS (Galaxy S9, small phones)
+       Aggressively reduce whitespace and optimize layouts
+       ======================================================================== */
+
+    /* Keep header inline on tablet (title + MPC image) */
+    .header {
+        display: grid !important;
+        grid-template-columns: 1fr auto !important;
+        grid-template-rows: auto auto !important;
+        gap: 8px !important;
+        align-items: start !important;
+    }
+
+    /* Remove wrapper div from layout so h1 can be positioned independently */
+    .header > div {
+        display: contents;
+    }
+
+    /* h1 in grid row 1, col 1 for vertical centering with image */
+    .header h1 {
+        grid-column: 1;
+        grid-row: 1;
+        margin-bottom: 0;
+    }
+
+    /* Subtitle in grid row 2, spanning full width */
+    .header .subtitle {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        width: 100%;
+        margin: 0;
+    }
+
+    /* Image in row 1, col 2, centered vertically with h1 */
+    .mpc-image {
+        grid-column: 2;
+        grid-row: 1;
+        height: 60px !important;
+        align-self: center !important;
+    }
+
+    /* Reduce app and page padding */
+    .app {
+        padding: 4px;
+    }
+
+    .progressions {
+        gap: 4px;
+    }
+
+    .progression-card {
+        padding: 4px;
+    }
+
+    .progression-header {
+        margin-bottom: 4px;
+    }
+
+    /* Voice leading hint should be smaller (less important in hierarchy) */
+    .progression-meta .voice-leading-hint {
+        font-size: 9px !important;
+        line-height: 1.2 !important;
+    }
+
+    /* Tighter spacing for controls */
+    .controls {
+        gap: 6px;
+    }
+
+    /* Guitar handedness toggle on same line as action buttons */
+    .guitar-options {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        flex-wrap: wrap !important;
+    }
+
+    /* Reduce chord pad padding vertically */
+    .chord-pad {
+        padding: 3px 5px;
+        min-height: 65px;
+    }
+
+    /* Reduce chord notes font size to prevent wrapping */
+    .chord-notes {
+        font-size: 7px !important;
+        line-height: 1.1 !important;
+    }
+
+    /* Simplify pad numbers: show only number without "Pad " prefix */
+    .pad-number {
+        font-size: 9px;
+    }
+
+    /* Ensure chord name is always larger than chord quality */
+    .chord-name {
+        font-size: 11px !important;
+        line-height: 1.1 !important;
+        font-weight: 700 !important;
+    }
+
+    .chord-quality {
+        font-size: 9px !important;
+        line-height: 1.1 !important;
+    }
+
+    /* MPC context: MUST maintain 4-column grid (physical MPC layout) */
+    body[data-context="mpc"] .chord-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3px;
+    }
+
+    /* Keyboard context: chord role and notes flow naturally in same column, same font */
+    body[data-context="keyboard"] .chord-role {
+        display: block !important;
+        position: static !important;
+        font-size: 8px !important;
+        line-height: 1.2 !important;
+        max-width: 100% !important;
+        text-align: left !important;
+        margin: 2px 0 !important;
+        color: var(--muted);
+    }
+
+    body[data-context="keyboard"] .chord-notes {
+        position: static !important;
+        font-size: 8px !important;
+        line-height: 1.2 !important;
+        max-width: 100% !important;
+        text-align: left !important;
+        margin: 2px 0 !important;
+    }
+
+    /* Keyboard/Guitar/Staff: 2 columns in portrait for better card size */
+    body[data-context="keyboard"] .chord-grid,
+    body[data-context="guitar"] .chord-grid,
+    body[data-context="staff"] .chord-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3px;
+    }
+
+    /* Scale up keyboard diagrams for better readability */
+    body[data-context="keyboard"] .chord-keyboard,
+    body[data-context="mpc"] .chord-keyboard {
+        width: 100% !important;
+        max-width: none !important;
+        height: auto !important;
+    }
+
+    /* Fix guitar card 2-column layout - reduce all padding */
+    body[data-context="guitar"] .chord-pad {
+        gap: 1px;
+        padding: 3px 1px;
+        min-height: 90px;
+        grid-template-columns: 1fr auto;
+    }
+
+    body[data-context="guitar"] .chord-text-column {
+        gap: 1px;
+        padding-right: 1px;
+        padding-left: 2px;
+    }
+
+    body[data-context="guitar"] .chord-guitar {
+        width: 100px;
+        height: 93px;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Compact staff cards - reduce all vertical padding */
+    body[data-context="staff"] .chord-pad {
+        padding: 2px 4px 1px 4px;
+        gap: 2px;
+    }
+
+    body[data-context="staff"] .chord-text-column {
+        gap: 1px;
+        margin-bottom: 2px;
+    }
+
+    body[data-context="staff"] .chord-staff {
+        padding-top: 12px !important;
+        margin-bottom: 0 !important;
+    }
+}
+
+/* Orientation-specific optimizations */
+@media (orientation: portrait) and (hover: none) {
+    /* Portrait: Stack vertically, optimize for scrolling */
+    body[data-context="guitar"] .chord-pad,
+    body[data-context="staff"] .chord-pad {
+        grid-template-columns: 1fr;
+    }
+
+    .context-tabs {
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+
+    .context-tab {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+@media (orientation: landscape) and (hover: none) {
+    /* Landscape: Maximize horizontal space */
+    /* MPC MUST maintain 4-column layout (physical MPC button layout) */
+    body[data-context="mpc"] .chord-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* Keyboard/Guitar/Staff: Allow wrapping at 3 cards for legibility */
+    body[data-context="keyboard"] .chord-grid,
+    body[data-context="guitar"] .chord-grid,
+    body[data-context="staff"] .chord-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    body[data-context="guitar"] .chord-pad {
+        grid-template-columns: 35% 65%;
+    }
+
+    body[data-context="staff"] .chord-pad {
+        grid-template-columns: 30% 70%;
+    }
+}
+
 /* Print styles */
 @media print {
     /* Hide all controls and headers */

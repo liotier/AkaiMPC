@@ -39,7 +39,10 @@ import {
     TIMING,
     MESSAGES,
     STORAGE_KEYS,
-    LIMITS
+    LIMITS,
+    hasTouchCapability,
+    hasHoverCapability,
+    isLikelyTablet
 } from './modules/constants.js';
 
 import {
@@ -65,6 +68,15 @@ let currentContext = 'mpc'; // Current view context: 'mpc', 'keyboard', 'guitar'
 let isLeftHanded = false;
 let hasGeneratedOnce = false; // Track if user has generated at least once
 let generationMode = 'template'; // 'template' or 'scale'
+
+// Device capability detection (cached at startup)
+const hasTouch = hasTouchCapability();
+const hasHover = hasHoverCapability();
+const isTablet = isLikelyTablet();
+
+// Tablet interaction state
+let voiceLeadingLocked = null; // Track locked voice leading visualization on tablets
+let activeTooltip = null; // Track active tooltip on tablets
 
 // Show user notification (toast message)
 function showNotification(message, type = 'info') {
@@ -1776,7 +1788,7 @@ function renderProgressions() {
                             <div class="chord-info">
                                 <div class="chord-name">${displayName}</div>
                             </div>
-                            <div class="pad-number">PAD ${pad.id}</div>
+                            <div class="pad-number">${hasTouch ? pad.id : 'PAD ' + pad.id}</div>
                         </div>
                         <div class="chord-quality">${pad.quality}</div>
                         <div class="chord-roman">${pad.romanNumeral}</div>
@@ -1816,25 +1828,31 @@ function renderProgressions() {
 
         // Add voicing style annotation
         let voicingStyle = '';
+        let uniquenessTooltip = '';
+
         switch (variant.name) {
             case 'Classic':
                 voicingStyle = 'Voice Leading';
+                uniquenessTooltip = 'Classic variant: Optimized for smooth voice leading between chords. Minimal note movement creates natural, flowing progressions.';
                 break;
             case 'Jazz':
                 voicingStyle = 'Close Voicing';
+                uniquenessTooltip = 'Jazz variant: Uses close voicings with notes within an octave. Creates rich, dense harmonies typical of jazz piano comping.';
                 break;
             case 'Modal':
                 voicingStyle = 'Open Voicing';
+                uniquenessTooltip = 'Modal variant: Features open voicings with wider intervals between notes. Produces spacious, airy textures ideal for modal harmony.';
                 break;
             case 'Experimental':
                 voicingStyle = 'Spread Voicing';
+                uniquenessTooltip = 'Experimental variant: Uses spread voicings across multiple octaves. Creates unique, unconventional harmonic colors and textures.';
                 break;
         }
 
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
-                    <div class="progression-title">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
+                    <div class="progression-title" title="${uniquenessTooltip}">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
                     <div class="progression-meta">
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
@@ -1855,31 +1873,122 @@ function renderProgressions() {
     });
 
     // Add hover handlers for tooltips and interactive voice leading
+    // Using pointer events (supports both mouse and touch)
     container.querySelectorAll('.chord-pad').forEach(pad => {
-        pad.addEventListener('mouseenter', function() {
-            const roman = this.getAttribute('data-roman');
-            const quality = this.getAttribute('data-quality');
+        // Desktop: Hover + Click-to-lock voice leading
+        if (hasHover) {
+            pad.addEventListener('pointerenter', function() {
+                const roman = this.getAttribute('data-roman');
+                const quality = this.getAttribute('data-quality');
 
-            // Activate voice leading hover effect
-            activateVoiceLeadingHover(this);
+                // Activate voice leading hover effect (only if not locked on another pad)
+                if (!voiceLeadingLocked || voiceLeadingLocked === this) {
+                    activateVoiceLeadingHover(this);
+                }
 
-            // In keyboard context, no tooltip (chord function is visible on card)
-            if (currentContext === 'keyboard') {
-                return;
-            }
+                // Always show tooltip on hover (even if voice leading is locked elsewhere)
+                // In keyboard context, no tooltip (chord function is visible on card)
+                if (currentContext !== 'keyboard') {
+                    const chordFunction = getChordTooltip(roman, quality) || 'Chord';
+                    showTooltip(this, chordFunction);
+                }
+            });
 
-            // In other contexts, show only chord function
-            const chordFunction = getChordTooltip(roman, quality) || 'Chord';
-            showTooltip(this, chordFunction);
-        });
+            pad.addEventListener('pointerleave', function() {
+                // Don't clear locked voice leading on leave
+                if (voiceLeadingLocked !== this) {
+                    deactivateVoiceLeadingHover(this);
+                }
 
-        pad.addEventListener('mouseleave', function() {
-            const tooltip = document.getElementById('chordTooltip');
-            if (tooltip) tooltip.classList.remove('visible');
+                // Always hide tooltip on leave
+                const tooltip = document.getElementById('chordTooltip');
+                if (tooltip) tooltip.classList.remove('visible');
+            });
 
-            // Deactivate voice leading hover effect
-            deactivateVoiceLeadingHover(this);
-        });
+            // Click to lock/unlock voice leading (desktop)
+            pad.addEventListener('click', function(e) {
+                // Don't interfere with card click if Shift/Ctrl/Alt pressed
+                if (e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) {
+                    return;
+                }
+
+                const currentPad = e.currentTarget;
+
+                // Clear any previous lock on a DIFFERENT pad
+                if (voiceLeadingLocked && voiceLeadingLocked !== currentPad) {
+                    deactivateVoiceLeadingHover(voiceLeadingLocked);
+                }
+
+                // Lock voice leading to this pad (even if already locked)
+                // This allows playing the same note twice without losing chord distance hints
+                activateVoiceLeadingHover(currentPad);
+                voiceLeadingLocked = currentPad;
+
+                // Don't stop propagation - allow chord to play
+            }, { capture: true }); // Use capture to run before the play handler
+        }
+
+        // Touch device: Long-press for voice leading lock AND tooltip
+        if (hasTouch && !hasHover) {
+            let longPressTimer = null;
+
+            pad.addEventListener('pointerdown', function(e) {
+                const currentPad = e.currentTarget;
+
+                longPressTimer = setTimeout(() => {
+                    // Long press: toggle voice leading visualization (ALL contexts)
+                    if (voiceLeadingLocked === currentPad) {
+                        // Already locked on this pad, unlock it
+                        deactivateVoiceLeadingHover(currentPad);
+                        voiceLeadingLocked = null;
+                    } else {
+                        // Clear any previous lock
+                        if (voiceLeadingLocked) {
+                            deactivateVoiceLeadingHover(voiceLeadingLocked);
+                        }
+                        // Lock voice leading to this pad
+                        activateVoiceLeadingHover(currentPad);
+                        voiceLeadingLocked = currentPad;
+                    }
+
+                    // Also show tooltip with chord function (except keyboard context where it's visible inline)
+                    if (currentContext !== 'keyboard') {
+                        const roman = currentPad.dataset.roman;
+                        const quality = currentPad.dataset.quality;
+                        const roleText = getChordTooltip(roman, quality);
+                        if (roleText) {
+                            showTooltip(currentPad, roleText);
+                            activeTooltip = currentPad;
+                            // Auto-hide after 3 seconds
+                            setTimeout(() => {
+                                if (activeTooltip === currentPad) {
+                                    const tooltip = document.getElementById('chordTooltip');
+                                    if (tooltip) tooltip.classList.remove('visible');
+                                    activeTooltip = null;
+                                }
+                            }, 3000);
+                        }
+                    }
+
+                    // Haptic feedback if available
+                    if (navigator.vibrate) {
+                        navigator.vibrate(50);
+                    }
+                }, 500); // 500ms for long press
+            });
+
+            pad.addEventListener('pointerup', function(e) {
+                if (longPressTimer) {
+                    clearTimeout(longPressTimer);
+                }
+            });
+
+            pad.addEventListener('pointercancel', function(e) {
+                if (longPressTimer) {
+                    clearTimeout(longPressTimer);
+                }
+            });
+        }
     });
 
     // Add click handlers for playing chords
@@ -1903,10 +2012,23 @@ function renderProgressions() {
         });
     });
 
-    // Ensure tooltip is hidden when mouse leaves the progression area
-    container.addEventListener('mouseleave', function() {
-        const tooltip = document.getElementById('chordTooltip');
-        if (tooltip) tooltip.classList.remove('visible');
+    // Ensure tooltip is hidden when pointer leaves the progression area (desktop)
+    if (hasHover) {
+        container.addEventListener('pointerleave', function() {
+            const tooltip = document.getElementById('chordTooltip');
+            if (tooltip) tooltip.classList.remove('visible');
+        });
+    }
+
+    // Click outside any chord pad to reset voice leading colors (both desktop and tablet)
+    container.addEventListener('click', function(e) {
+        // Check if click was on a chord pad or inside one
+        const clickedPad = e.target.closest('.chord-pad');
+        if (!clickedPad && voiceLeadingLocked) {
+            // Clicked outside all pads, reset voice leading
+            deactivateVoiceLeadingHover(voiceLeadingLocked);
+            voiceLeadingLocked = null;
+        }
     });
 
     // Add click handlers for individual download buttons
@@ -1917,16 +2039,18 @@ function renderProgressions() {
         });
     });
 
-    // Add custom tooltips for download buttons
-    container.querySelectorAll('.download-btn').forEach(btn => {
-        btn.addEventListener('mouseenter', function() {
-            showTooltip(this, 'Download');
+    // Add custom tooltips for download buttons (desktop only)
+    if (hasHover) {
+        container.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('pointerenter', function() {
+                showTooltip(this, 'Download');
+            });
+            btn.addEventListener('pointerleave', function() {
+                const tooltip = document.getElementById('chordTooltip');
+                if (tooltip) tooltip.classList.remove('visible');
+            });
         });
-        btn.addEventListener('mouseleave', function() {
-            const tooltip = document.getElementById('chordTooltip');
-            if (tooltip) tooltip.classList.remove('visible');
-        });
-    });
+    }
 
     container.classList.remove('hidden');
     document.getElementById('downloadAllBtn').style.display = 'block';
@@ -2070,61 +2194,146 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Custom tooltips for mode option labels
-    const templateModeLabel = document.getElementById('templateModeLabel');
-    templateModeLabel.addEventListener('mouseenter', function() {
-        showTooltip(this, 'Generate progressions from 135 pre-made templates across 15 genres. Creates 4 voicing variants (Classic, Jazz, Modal, Experimental).');
-    });
-    templateModeLabel.addEventListener('mouseleave', function() {
-        const tooltip = document.getElementById('chordTooltip');
-        if (tooltip) tooltip.classList.remove('visible');
-    });
+    // Custom tooltips for mode option labels (desktop only)
+    if (hasHover) {
+        const templateModeLabel = document.getElementById('templateModeLabel');
+        templateModeLabel.addEventListener('pointerenter', function() {
+            showTooltip(this, 'Generate progressions from 135 pre-made templates across 15 genres. Creates 4 voicing variants (Classic, Jazz, Modal, Experimental).');
+        });
+        templateModeLabel.addEventListener('pointerleave', function() {
+            const tooltip = document.getElementById('chordTooltip');
+            if (tooltip) tooltip.classList.remove('visible');
+        });
 
-    const scaleModeLabel = document.getElementById('scaleModeLabel');
-    scaleModeLabel.addEventListener('mouseenter', function() {
-        showTooltip(this, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.');
-    });
-    scaleModeLabel.addEventListener('mouseleave', function() {
-        const tooltip = document.getElementById('chordTooltip');
-        if (tooltip) tooltip.classList.remove('visible');
-    });
+        const scaleModeLabel = document.getElementById('scaleModeLabel');
+        scaleModeLabel.addEventListener('pointerenter', function() {
+            showTooltip(this, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.');
+        });
+        scaleModeLabel.addEventListener('pointerleave', function() {
+            const tooltip = document.getElementById('chordTooltip');
+            if (tooltip) tooltip.classList.remove('visible');
+        });
 
-    // Custom tooltip for MIDI selector
-    const midiSelector = document.getElementById('midiSelector');
-    midiSelector.addEventListener('mouseenter', function() {
-        showTooltip(this, 'Play with computer keys: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)');
-    });
-    midiSelector.addEventListener('mouseleave', function() {
-        const tooltip = document.getElementById('chordTooltip');
-        if (tooltip) tooltip.classList.remove('visible');
-    });
+        // Custom tooltip for MIDI selector
+        const midiSelector = document.getElementById('midiSelector');
+        midiSelector.addEventListener('pointerenter', function() {
+            showTooltip(this, 'Play with computer keys: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)');
+        });
+        midiSelector.addEventListener('pointerleave', function() {
+            const tooltip = document.getElementById('chordTooltip');
+            if (tooltip) tooltip.classList.remove('visible');
+        });
 
-    // Custom tooltips for progressionSelect (dynamic based on state)
-    const progressionSelect = document.getElementById('progressionSelect');
-    progressionSelect.addEventListener('mouseenter', function() {
-        if (this.disabled) {
-            showTooltip(this, 'Progression templates are not used in Scale Exploration mode. All chords from the selected scale will be generated.');
-        } else {
-            showTooltip(this, 'Major progressions start with uppercase roman numerals (I, IV, V). Minor progressions start with lowercase (i, iv, v). The roman numeral case determines the chord quality.');
+        // Custom tooltips for progressionSelect (dynamic based on state)
+        const progressionSelect = document.getElementById('progressionSelect');
+        progressionSelect.addEventListener('pointerenter', function() {
+            if (this.disabled) {
+                showTooltip(this, 'Progression templates are not used in Scale Exploration mode. All chords from the selected scale will be generated.');
+            } else {
+                showTooltip(this, 'Major progressions start with uppercase roman numerals (I, IV, V). Minor progressions start with lowercase (i, iv, v). The roman numeral case determines the chord quality.');
+            }
+        });
+        progressionSelect.addEventListener('pointerleave', function() {
+            const tooltip = document.getElementById('chordTooltip');
+            if (tooltip) tooltip.classList.remove('visible');
+        });
+
+        // Custom tooltips for modeSelect (dynamic based on state)
+        const modeSelect = document.getElementById('modeSelect');
+        modeSelect.addEventListener('pointerenter', function() {
+            if (this.disabled) {
+                showTooltip(this, 'Mode/Scale selector is not used in Template mode. The progression defines its own harmonic structure.');
+            }
+            // No tooltip when enabled (empty state)
+        });
+        modeSelect.addEventListener('pointerleave', function() {
+            const tooltip = document.getElementById('chordTooltip');
+            if (tooltip) tooltip.classList.remove('visible');
+        });
+    }
+
+    // Tablet/Touch: Tap to show tooltips (with auto-hide)
+    if (hasTouch && !hasHover) {
+        // Helper to toggle tooltip on tap
+        function setupTapTooltip(element, tooltipTextOrCallback) {
+            element.addEventListener('click', function(e) {
+                const currentElement = e.currentTarget;
+
+                // If element is a label, allow the click to propagate (for radio/checkbox)
+                if (element.tagName === 'LABEL') {
+                    // Don't prevent default, let the label work normally
+                } else {
+                    e.stopPropagation();
+                }
+
+                // Get tooltip text (can be string or function)
+                const tooltipText = typeof tooltipTextOrCallback === 'function'
+                    ? tooltipTextOrCallback.call(currentElement)
+                    : tooltipTextOrCallback;
+
+                if (tooltipText) {
+                    const tooltip = document.getElementById('chordTooltip');
+                    if (tooltip && tooltip.classList.contains('visible') && activeTooltip === currentElement) {
+                        // Already showing this tooltip, hide it
+                        tooltip.classList.remove('visible');
+                        activeTooltip = null;
+                    } else {
+                        // Show tooltip
+                        showTooltip(currentElement, tooltipText);
+                        activeTooltip = currentElement;
+
+                        // Auto-hide after 5 seconds
+                        setTimeout(() => {
+                            if (activeTooltip === currentElement) {
+                                const tooltip = document.getElementById('chordTooltip');
+                                if (tooltip) tooltip.classList.remove('visible');
+                                activeTooltip = null;
+                            }
+                        }, 5000);
+                    }
+                }
+            });
         }
-    });
-    progressionSelect.addEventListener('mouseleave', function() {
-        const tooltip = document.getElementById('chordTooltip');
-        if (tooltip) tooltip.classList.remove('visible');
-    });
 
-    // Custom tooltips for modeSelect (dynamic based on state)
-    const modeSelect = document.getElementById('modeSelect');
-    modeSelect.addEventListener('mouseenter', function() {
-        if (this.disabled) {
-            showTooltip(this, 'Mode/Scale selector is not used in Template mode. The progression defines its own harmonic structure.');
-        }
-        // No tooltip when enabled (empty state)
-    });
-    modeSelect.addEventListener('mouseleave', function() {
-        const tooltip = document.getElementById('chordTooltip');
-        if (tooltip) tooltip.classList.remove('visible');
-    });
+        // Hide tooltip when tapping outside
+        document.addEventListener('click', function(e) {
+            const tooltip = document.getElementById('chordTooltip');
+            if (tooltip && activeTooltip && !activeTooltip.contains(e.target)) {
+                tooltip.classList.remove('visible');
+                activeTooltip = null;
+            }
+        });
+
+        // Setup tap tooltips for labels
+        const templateModeLabel = document.getElementById('templateModeLabel');
+        setupTapTooltip(templateModeLabel, 'Generate progressions from 135 pre-made templates across 15 genres. Creates 4 voicing variants (Classic, Jazz, Modal, Experimental).');
+
+        const scaleModeLabel = document.getElementById('scaleModeLabel');
+        setupTapTooltip(scaleModeLabel, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.');
+
+        // MIDI selector (informational only, keyboard doesn't work on tablets)
+        const midiSelector = document.getElementById('midiSelector');
+        setupTapTooltip(midiSelector, 'Keyboard shortcuts are for desktop. On tablets, tap chord pads to play them.');
+
+        // Progression select (dynamic tooltip)
+        const progressionSelect = document.getElementById('progressionSelect');
+        setupTapTooltip(progressionSelect, function() {
+            if (this.disabled) {
+                return 'Progression templates are not used in Scale Exploration mode. All chords from the selected scale will be generated.';
+            } else {
+                return 'Major progressions start with uppercase roman numerals (I, IV, V). Minor progressions start with lowercase (i, iv, v). The roman numeral case determines the chord quality.';
+            }
+        });
+
+        // Mode select (dynamic tooltip)
+        const modeSelect = document.getElementById('modeSelect');
+        setupTapTooltip(modeSelect, function() {
+            if (this.disabled) {
+                return 'Mode/Scale selector is not used in Template mode. The progression defines its own harmonic structure.';
+            }
+            return null; // No tooltip when enabled
+        });
+    }
 
     // Left-handed toggle for guitar
     document.getElementById('leftHandedCheckbox').addEventListener('change', function() {
@@ -2243,8 +2452,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const pads = mostVisibleCard.querySelectorAll('.chord-pad');
                 pads.forEach(pad => {
                     const padText = pad.querySelector('.pad-number');
-                    if (padText && padText.textContent === `PAD ${padNumber}`) {
-                        const notes = pad.getAttribute('data-notes').split(',').map(Number);
+                    const expectedText = hasTouch ? `${padNumber}` : `PAD ${padNumber}`;
+                    if (padText?.textContent === expectedText) {
+                        const notes = pad.dataset.notes.split(',').map(Number);
 
                         // In staff context, play sequentially (click behavior)
                         if (currentContext === 'staff') {
@@ -2315,6 +2525,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         pressedKeys.clear();
     });
+
+    // Tablet: Handle orientation changes smoothly
+    if (hasTouch && isTablet) {
+        let currentOrientation = globalThis.matchMedia("(orientation: portrait)").matches ? 'portrait' : 'landscape';
+
+        // Listen for orientation changes
+        const orientationQuery = globalThis.matchMedia("(orientation: portrait)");
+        orientationQuery.addEventListener('change', (e) => {
+            const newOrientation = e.matches ? 'portrait' : 'landscape';
+
+            if (newOrientation !== currentOrientation) {
+                currentOrientation = newOrientation;
+
+                // Clear any locked voice leading visualization
+                if (voiceLeadingLocked) {
+                    deactivateVoiceLeadingHover(voiceLeadingLocked);
+                    voiceLeadingLocked = null;
+                }
+
+                // Hide any active tooltips
+                if (activeTooltip) {
+                    const tooltip = document.getElementById('chordTooltip');
+                    if (tooltip) tooltip.classList.remove('visible');
+                    activeTooltip = null;
+                }
+
+                // If progressions have been generated, trigger a small delay to let CSS settle
+                // This helps with rendering issues during orientation change
+                if (hasGeneratedOnce) {
+                    setTimeout(() => {
+                        // Force a reflow to ensure CSS media queries take effect
+                        void document.body.offsetHeight;
+                    }, 100);
+                }
+            }
+        });
+    }
 
     // Initialize context (use saved context or default to 'mpc')
     switchContext(currentContext);
