@@ -2453,8 +2453,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 pads.forEach(pad => {
                     const padText = pad.querySelector('.pad-number');
                     const expectedText = hasTouch ? `${padNumber}` : `PAD ${padNumber}`;
-                    if (padText && padText.textContent === expectedText) {
-                        const notes = pad.getAttribute('data-notes').split(',').map(Number);
+                    if (padText?.textContent === expectedText) {
+                        const notes = pad.dataset.notes.split(',').map(Number);
 
                         // In staff context, play sequentially (click behavior)
                         if (currentContext === 'staff') {
@@ -2528,10 +2528,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Tablet: Handle orientation changes smoothly
     if (hasTouch && isTablet) {
-        let currentOrientation = window.matchMedia("(orientation: portrait)").matches ? 'portrait' : 'landscape';
+        let currentOrientation = globalThis.matchMedia("(orientation: portrait)").matches ? 'portrait' : 'landscape';
 
         // Listen for orientation changes
-        const orientationQuery = window.matchMedia("(orientation: portrait)");
+        const orientationQuery = globalThis.matchMedia("(orientation: portrait)");
         orientationQuery.addEventListener('change', (e) => {
             const newOrientation = e.matches ? 'portrait' : 'landscape';
 
@@ -2556,7 +2556,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (hasGeneratedOnce) {
                     setTimeout(() => {
                         // Force a reflow to ensure CSS media queries take effect
-                        document.body.offsetHeight;
+                        void document.body.offsetHeight;
                     }, 100);
                 }
             }

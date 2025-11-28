@@ -218,7 +218,7 @@ export function calculateInterval(note1, note2) {
  * @returns {boolean} True if touch is supported
  */
 export function hasTouchCapability() {
-    return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    return ('ontouchstart' in globalThis) || (navigator.maxTouchPoints > 0);
 }
 
 /**
@@ -226,7 +226,7 @@ export function hasTouchCapability() {
  * @returns {boolean} True if hover is supported
  */
 export function hasHoverCapability() {
-    return window.matchMedia('(hover: hover)').matches;
+    return globalThis.matchMedia('(hover: hover)').matches;
 }
 
 /**
@@ -234,7 +234,7 @@ export function hasHoverCapability() {
  * @returns {boolean} True if appears to be a tablet
  */
 export function isLikelyTablet() {
-    const width = window.innerWidth;
+    const width = globalThis.innerWidth;
     return hasTouchCapability() &&
            width >= BREAKPOINTS.TABLET &&
            width <= BREAKPOINTS.TABLET_MAX;

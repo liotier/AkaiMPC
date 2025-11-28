@@ -1106,18 +1106,6 @@ footer a:hover {
         padding: 12px;
     }
 
-    /* Ensure chord pads are touch-friendly */
-    .chord-pad {
-        min-height: 100px;
-        padding: 12px;
-        cursor: pointer;
-    }
-
-    /* Increase spacing between interactive elements */
-    .controls {
-        gap: 16px;
-    }
-
     .chord-grid {
         gap: 16px;
     }
@@ -1128,6 +1116,8 @@ footer a:hover {
 
     .action-buttons {
         gap: 16px;
+        flex: 1 !important;
+        justify-content: flex-start !important;
     }
 
     /* Immediate visual feedback on touch */
@@ -1266,11 +1256,6 @@ footer a:hover {
         align-items: center !important;
         gap: 12px !important;
         flex-wrap: wrap !important;
-    }
-
-    .action-buttons {
-        flex: 1 !important;
-        justify-content: flex-start !important;
     }
 
     /* Reduce chord pad padding vertically */
