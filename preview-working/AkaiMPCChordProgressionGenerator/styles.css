@@ -1204,18 +1204,19 @@ footer a:hover {
         align-items: start !important;
     }
 
+    /* Make wrapper transparent to grid so h1 and subtitle become direct grid children */
     .header > div {
+        display: contents;
+    }
+
+    /* h1 in row 1, col 1 */
+    .header h1 {
         grid-column: 1;
         grid-row: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 0;
+        margin-bottom: 0;
     }
 
-    .header h1 {
-        margin-bottom: 8px;
-    }
-
+    /* Subtitle in row 2, spanning full width */
     .header .subtitle {
         grid-column: 1 / -1;
         grid-row: 2;
@@ -1223,6 +1224,7 @@ footer a:hover {
         margin: 0;
     }
 
+    /* Image in row 1, col 2, centered vertically with h1 */
     .mpc-image {
         grid-column: 2;
         grid-row: 1;
@@ -1306,28 +1308,25 @@ footer a:hover {
         gap: 3px;
     }
 
-    /* Keyboard context: Show chord role inline with slightly larger font */
+    /* Keyboard context: chord role and notes flow naturally in same column, same font */
     body[data-context="keyboard"] .chord-role {
         display: block !important;
+        position: static !important;
         font-size: 8px !important;
         line-height: 1.2 !important;
-        max-width: 45% !important;
-        top: 4px !important;
-        right: 4px !important;
+        max-width: 100% !important;
+        text-align: left !important;
+        margin: 2px 0 !important;
+        color: var(--muted);
     }
 
-    /* Keyboard context: Position chord notes bottom-aligned above keyboard with tiny padding */
     body[data-context="keyboard"] .chord-notes {
-        position: absolute !important;
-        top: auto !important;
-        bottom: 62px !important;
-        left: auto !important;
-        right: 4px !important;
-        font-size: 7px !important;
-        max-width: 50% !important;
-        line-height: 1.1 !important;
-        text-align: right !important;
-        margin: 0 0 2px 0 !important;
+        position: static !important;
+        font-size: 8px !important;
+        line-height: 1.2 !important;
+        max-width: 100% !important;
+        text-align: left !important;
+        margin: 2px 0 !important;
     }
 
     /* Keyboard/Guitar/Staff: 2 columns in portrait for better card size */
