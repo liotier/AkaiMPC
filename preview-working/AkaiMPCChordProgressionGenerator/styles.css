@@ -1057,6 +1057,175 @@ footer a:hover {
     }
 }
 
+/* ============================================================================
+   TABLET-SPECIFIC STYLES (600px - 1024px)
+   Touch-optimized layouts with minimum 48px touch targets
+   ============================================================================ */
+
+/* Tablet Portrait (600px - 768px) */
+@media (min-width: 600px) and (max-width: 768px) {
+    .app {
+        padding: 24px;
+    }
+
+    /* 2-column layout for controls (better than mobile's 1-col) */
+    .controls {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    /* Guitar/Staff contexts: keep side-by-side if space allows */
+    body[data-context="guitar"] .chord-pad,
+    body[data-context="staff"] .chord-pad {
+        grid-template-columns: 40% 60%;
+    }
+}
+
+/* Tablet Landscape (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .controls {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .chord-grid {
+        gap: 16px;
+    }
+}
+
+/* Touch device optimizations (tablets and phones) */
+@media (hover: none) and (pointer: coarse) {
+    /* Minimum touch target sizes (48px x 48px per Material Design / Apple HIG) */
+    button,
+    select,
+    .context-tab,
+    input[type="checkbox"],
+    input[type="text"] {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 12px;
+    }
+
+    /* Ensure chord pads are touch-friendly */
+    .chord-pad {
+        min-height: 100px;
+        padding: 12px;
+        cursor: pointer;
+    }
+
+    /* Increase spacing between interactive elements */
+    .controls {
+        gap: 16px;
+    }
+
+    .chord-grid {
+        gap: 16px;
+    }
+
+    .context-tabs {
+        gap: 12px;
+    }
+
+    .action-buttons {
+        gap: 16px;
+    }
+
+    /* Immediate visual feedback on touch */
+    .chord-pad:active,
+    button:active,
+    .context-tab:active {
+        transform: scale(0.98);
+        background: var(--pad-hover);
+        transition: transform 0.1s ease, background 0.1s ease;
+    }
+
+    /* Prevent 300ms tap delay on mobile Safari */
+    button,
+    .chord-pad,
+    .context-tab,
+    select,
+    input {
+        touch-action: manipulation;
+    }
+
+    /* Smooth momentum scrolling on iOS */
+    .chord-notes,
+    .progressions,
+    .selected-chords {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+
+    /* Prevent rubber-band effect on body */
+    body {
+        overscroll-behavior-y: none;
+    }
+
+    /* Larger download button hit area */
+    .download-btn {
+        width: 48px;
+        height: 48px;
+        padding: 12px;
+    }
+
+    /* Larger close buttons for chord tags */
+    .chord-tag button {
+        min-width: 32px;
+        min-height: 32px;
+        padding: 4px;
+    }
+
+    /* Make checkboxes and labels easier to tap */
+    .control-group label {
+        padding: 12px 8px;
+        cursor: pointer;
+    }
+
+    /* Ensure mode radio buttons have adequate spacing */
+    .mode-options {
+        gap: 16px;
+    }
+
+    .mode-option {
+        padding: 12px;
+    }
+}
+
+/* Orientation-specific optimizations */
+@media (orientation: portrait) and (hover: none) {
+    /* Portrait: Stack vertically, optimize for scrolling */
+    body[data-context="guitar"] .chord-pad,
+    body[data-context="staff"] .chord-pad {
+        grid-template-columns: 1fr;
+    }
+
+    .context-tabs {
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+
+    .context-tab {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+@media (orientation: landscape) and (hover: none) {
+    /* Landscape: Maximize horizontal space */
+    .chord-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    body[data-context="guitar"] .chord-pad {
+        grid-template-columns: 35% 65%;
+    }
+
+    body[data-context="staff"] .chord-pad {
+        grid-template-columns: 30% 70%;
+    }
+}
+
 /* Print styles */
 @media print {
     /* Hide all controls and headers */
