@@ -1789,7 +1789,7 @@ function renderProgressions() {
                             <div class="chord-info">
                                 <div class="chord-name">${displayName}</div>
                             </div>
-                            <div class="pad-number">PAD ${pad.id}</div>
+                            <div class="pad-number">${hasTouch ? pad.id : 'PAD ' + pad.id}</div>
                         </div>
                         <div class="chord-quality">${pad.quality}</div>
                         <div class="chord-roman">${pad.romanNumeral}</div>
@@ -1873,38 +1873,31 @@ function renderProgressions() {
         // Desktop: Hover + Click-to-lock voice leading
         if (hasHover) {
             pad.addEventListener('pointerenter', function() {
-                // Don't override locked voice leading with hover
-                if (voiceLeadingLocked && voiceLeadingLocked !== this) {
-                    return;
-                }
-
                 const roman = this.getAttribute('data-roman');
                 const quality = this.getAttribute('data-quality');
 
-                // Activate voice leading hover effect
-                activateVoiceLeadingHover(this);
-
-                // In keyboard context, no tooltip (chord function is visible on card)
-                if (currentContext === 'keyboard') {
-                    return;
+                // Activate voice leading hover effect (only if not locked on another pad)
+                if (!voiceLeadingLocked || voiceLeadingLocked === this) {
+                    activateVoiceLeadingHover(this);
                 }
 
-                // In other contexts, show only chord function
-                const chordFunction = getChordTooltip(roman, quality) || 'Chord';
-                showTooltip(this, chordFunction);
+                // Always show tooltip on hover (even if voice leading is locked elsewhere)
+                // In keyboard context, no tooltip (chord function is visible on card)
+                if (currentContext !== 'keyboard') {
+                    const chordFunction = getChordTooltip(roman, quality) || 'Chord';
+                    showTooltip(this, chordFunction);
+                }
             });
 
             pad.addEventListener('pointerleave', function() {
                 // Don't clear locked voice leading on leave
-                if (voiceLeadingLocked === this) {
-                    return;
+                if (voiceLeadingLocked !== this) {
+                    deactivateVoiceLeadingHover(this);
                 }
 
+                // Always hide tooltip on leave
                 const tooltip = document.getElementById('chordTooltip');
                 if (tooltip) tooltip.classList.remove('visible');
-
-                // Deactivate voice leading hover effect
-                deactivateVoiceLeadingHover(this);
             });
 
             // Click to lock/unlock voice leading (desktop)
@@ -1932,7 +1925,7 @@ function renderProgressions() {
             }, { capture: true }); // Use capture to run before the play handler
         }
 
-        // Touch device: Add tap-to-toggle voice leading and long-press for tooltip
+        // Touch device: Long-press for voice leading lock AND tooltip
         if (hasTouch && !hasHover) {
             let longPressTimer = null;
             let isLongPress = false;
@@ -1942,8 +1935,23 @@ function renderProgressions() {
                 longPressTimer = setTimeout(() => {
                     isLongPress = true;
 
-                    // In keyboard context, show chord role tooltip (since it's hidden via CSS)
-                    if (currentContext === 'keyboard') {
+                    // Long press: toggle voice leading visualization (ALL contexts)
+                    if (voiceLeadingLocked === this) {
+                        // Already locked on this pad, unlock it
+                        deactivateVoiceLeadingHover(this);
+                        voiceLeadingLocked = null;
+                    } else {
+                        // Clear any previous lock
+                        if (voiceLeadingLocked) {
+                            deactivateVoiceLeadingHover(voiceLeadingLocked);
+                        }
+                        // Lock voice leading to this pad
+                        activateVoiceLeadingHover(this);
+                        voiceLeadingLocked = this;
+                    }
+
+                    // Also show tooltip with chord function (except keyboard context where it's visible inline)
+                    if (currentContext !== 'keyboard') {
                         const roman = this.getAttribute('data-roman');
                         const quality = this.getAttribute('data-quality');
                         const roleText = getChordTooltip(roman, quality);
@@ -1958,21 +1966,6 @@ function renderProgressions() {
                                     activeTooltip = null;
                                 }
                             }, 3000);
-                        }
-                    } else {
-                        // Long press in other contexts: toggle voice leading visualization
-                        if (voiceLeadingLocked === this) {
-                            // Already locked on this pad, unlock it
-                            deactivateVoiceLeadingHover(this);
-                            voiceLeadingLocked = null;
-                        } else {
-                            // Clear any previous lock
-                            if (voiceLeadingLocked) {
-                                deactivateVoiceLeadingHover(voiceLeadingLocked);
-                            }
-                            // Lock voice leading to this pad
-                            activateVoiceLeadingHover(this);
-                            voiceLeadingLocked = this;
                         }
                     }
 
@@ -2456,7 +2449,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const pads = mostVisibleCard.querySelectorAll('.chord-pad');
                 pads.forEach(pad => {
                     const padText = pad.querySelector('.pad-number');
-                    if (padText && padText.textContent === `PAD ${padNumber}`) {
+                    const expectedText = hasTouch ? `${padNumber}` : `PAD ${padNumber}`;
+                    if (padText && padText.textContent === expectedText) {
                         const notes = pad.getAttribute('data-notes').split(',').map(Number);
 
                         // In staff context, play sequentially (click behavior)

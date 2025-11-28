@@ -1195,48 +1195,70 @@ footer a:hover {
        Aggressively reduce whitespace and optimize layouts
        ======================================================================== */
 
-    /* Reduce app padding on very small screens */
+    /* Reduce app and page padding */
     .app {
+        padding: 4px;
+    }
+
+    .progressions {
+        gap: 8px;
+    }
+
+    .progression-card {
         padding: 8px;
     }
 
     /* Tighter spacing for controls */
     .controls {
-        gap: 8px;
+        gap: 6px;
     }
 
-    /* Reduce chord pad padding */
+    /* Reduce chord pad padding vertically */
     .chord-pad {
-        padding: 6px;
-        min-height: 70px;
+        padding: 4px 6px;
+        min-height: 65px;
+    }
+
+    /* Reduce chord notes font size to prevent wrapping */
+    .chord-notes {
+        font-size: 7px !important;
+        line-height: 1.1 !important;
+    }
+
+    /* Simplify pad numbers: show only number without "Pad " prefix */
+    .pad-number {
+        font-size: 9px;
     }
 
     /* MPC context: MUST maintain 4-column grid (physical MPC layout) */
     body[data-context="mpc"] .chord-grid {
         grid-template-columns: repeat(4, 1fr);
-        gap: 6px;
+        gap: 4px;
     }
 
-    /* Keyboard context: Hide chord role on tablets (move to tooltip) */
+    /* Keyboard context: Show chord role inline with smaller font */
     body[data-context="keyboard"] .chord-role {
-        display: none !important;
+        display: block !important;
+        font-size: 7px !important;
+        line-height: 1.2 !important;
+        max-width: 45% !important;
     }
 
     /* Keyboard context: Fix chord notes positioning to avoid overlap */
     body[data-context="keyboard"] .chord-notes {
-        bottom: 6px !important;
-        right: 6px !important;
-        font-size: 8px !important;
-        max-width: 60% !important;
-        line-height: 1.2 !important;
+        bottom: 4px !important;
+        right: 4px !important;
+        font-size: 7px !important;
+        max-width: 55% !important;
+        line-height: 1.1 !important;
     }
 
-    /* Keyboard/Guitar/Staff: Allow flexible wrapping on small screens */
+    /* Keyboard/Guitar/Staff: 2 columns in portrait for better card size */
     body[data-context="keyboard"] .chord-grid,
     body[data-context="guitar"] .chord-grid,
     body[data-context="staff"] .chord-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 8px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4px;
     }
 
     /* Scale up keyboard diagrams for better readability */
@@ -1249,24 +1271,24 @@ footer a:hover {
 
     /* Reduce guitar card whitespace */
     body[data-context="guitar"] .chord-pad {
-        gap: 3px;
-        padding: 6px;
-        min-height: 100px;
+        gap: 2px;
+        padding: 4px;
+        min-height: 90px;
     }
 
     body[data-context="guitar"] .chord-text-column {
-        gap: 2px;
+        gap: 1px;
     }
 
     body[data-context="guitar"] .chord-guitar {
-        width: 120px;
-        height: 112px;
+        width: 110px;
+        height: 103px;
     }
 
     /* Compact staff cards */
     body[data-context="staff"] .chord-pad {
-        padding: 6px;
-        gap: 8px;
+        padding: 4px;
+        gap: 6px;
     }
 }
 
