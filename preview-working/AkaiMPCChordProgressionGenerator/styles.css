@@ -1197,18 +1197,37 @@ footer a:hover {
 
     /* Keep header inline on tablet (title + MPC image) */
     .header {
-        flex-direction: row !important;
-        align-items: flex-start !important;
+        display: grid !important;
+        grid-template-columns: 1fr auto !important;
+        grid-template-rows: auto auto !important;
         gap: 8px !important;
+        align-items: start !important;
     }
 
-    .header-text {
-        flex: 1;
+    .header > div {
+        grid-column: 1;
+        grid-row: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .header h1 {
+        margin-bottom: 8px;
+    }
+
+    .header .subtitle {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        width: 100%;
+        margin: 0;
     }
 
     .mpc-image {
+        grid-column: 2;
+        grid-row: 1;
         height: 60px !important;
-        flex-shrink: 0;
+        align-self: center !important;
     }
 
     /* Reduce app and page padding */
