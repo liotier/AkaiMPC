@@ -1913,19 +1913,15 @@ function renderProgressions() {
                     return;
                 }
 
-                if (voiceLeadingLocked === this) {
-                    // Already locked on this pad, unlock it
-                    deactivateVoiceLeadingHover(this);
-                    voiceLeadingLocked = null;
-                } else {
-                    // Clear any previous lock
-                    if (voiceLeadingLocked) {
-                        deactivateVoiceLeadingHover(voiceLeadingLocked);
-                    }
-                    // Lock voice leading to this pad
-                    activateVoiceLeadingHover(this);
-                    voiceLeadingLocked = this;
+                // Clear any previous lock on a DIFFERENT pad
+                if (voiceLeadingLocked && voiceLeadingLocked !== this) {
+                    deactivateVoiceLeadingHover(voiceLeadingLocked);
                 }
+
+                // Lock voice leading to this pad (even if already locked)
+                // This allows playing the same note twice without losing chord distance hints
+                activateVoiceLeadingHover(this);
+                voiceLeadingLocked = this;
 
                 // Don't stop propagation - allow chord to play
             }, { capture: true }); // Use capture to run before the play handler
