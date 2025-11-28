@@ -1234,8 +1234,14 @@ footer a:hover {
         font-size: 9px;
     }
 
-    /* MPC context: Reduce chord name font to prevent wrapping (max ~10 chars) */
-    body[data-context="mpc"] .chord-name {
+    /* Ensure chord name is always larger than chord quality */
+    .chord-name {
+        font-size: 11px !important;
+        line-height: 1.1 !important;
+        font-weight: 700 !important;
+    }
+
+    .chord-quality {
         font-size: 9px !important;
         line-height: 1.1 !important;
     }
@@ -1256,10 +1262,10 @@ footer a:hover {
         right: 4px !important;
     }
 
-    /* Keyboard context: Position chord notes ABOVE keyboard diagram */
+    /* Keyboard context: Position chord notes above keyboard diagram (not too high) */
     body[data-context="keyboard"] .chord-notes {
         position: absolute !important;
-        top: 32px !important;
+        top: 48px !important;
         bottom: auto !important;
         left: 4px !important;
         right: 4px !important;
