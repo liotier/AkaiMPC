@@ -40,7 +40,6 @@ import {
     MESSAGES,
     STORAGE_KEYS,
     LIMITS,
-    BREAKPOINTS,
     hasTouchCapability,
     hasHoverCapability,
     isLikelyTablet
