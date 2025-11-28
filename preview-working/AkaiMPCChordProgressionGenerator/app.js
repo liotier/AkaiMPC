@@ -1912,15 +1912,17 @@ function renderProgressions() {
                     return;
                 }
 
+                const currentPad = e.currentTarget;
+
                 // Clear any previous lock on a DIFFERENT pad
-                if (voiceLeadingLocked && voiceLeadingLocked !== this) {
+                if (voiceLeadingLocked && voiceLeadingLocked !== currentPad) {
                     deactivateVoiceLeadingHover(voiceLeadingLocked);
                 }
 
                 // Lock voice leading to this pad (even if already locked)
                 // This allows playing the same note twice without losing chord distance hints
-                activateVoiceLeadingHover(this);
-                voiceLeadingLocked = this;
+                activateVoiceLeadingHover(currentPad);
+                voiceLeadingLocked = currentPad;
 
                 // Don't stop propagation - allow chord to play
             }, { capture: true }); // Use capture to run before the play handler
@@ -1929,17 +1931,15 @@ function renderProgressions() {
         // Touch device: Long-press for voice leading lock AND tooltip
         if (hasTouch && !hasHover) {
             let longPressTimer = null;
-            let isLongPress = false;
 
             pad.addEventListener('pointerdown', function(e) {
-                isLongPress = false;
-                longPressTimer = setTimeout(() => {
-                    isLongPress = true;
+                const currentPad = e.currentTarget;
 
+                longPressTimer = setTimeout(() => {
                     // Long press: toggle voice leading visualization (ALL contexts)
-                    if (voiceLeadingLocked === this) {
+                    if (voiceLeadingLocked === currentPad) {
                         // Already locked on this pad, unlock it
-                        deactivateVoiceLeadingHover(this);
+                        deactivateVoiceLeadingHover(currentPad);
                         voiceLeadingLocked = null;
                     } else {
                         // Clear any previous lock
@@ -1947,21 +1947,21 @@ function renderProgressions() {
                             deactivateVoiceLeadingHover(voiceLeadingLocked);
                         }
                         // Lock voice leading to this pad
-                        activateVoiceLeadingHover(this);
-                        voiceLeadingLocked = this;
+                        activateVoiceLeadingHover(currentPad);
+                        voiceLeadingLocked = currentPad;
                     }
 
                     // Also show tooltip with chord function (except keyboard context where it's visible inline)
                     if (currentContext !== 'keyboard') {
-                        const roman = this.getAttribute('data-roman');
-                        const quality = this.getAttribute('data-quality');
+                        const roman = currentPad.dataset.roman;
+                        const quality = currentPad.dataset.quality;
                         const roleText = getChordTooltip(roman, quality);
                         if (roleText) {
-                            showTooltip(this, roleText);
-                            activeTooltip = this;
+                            showTooltip(currentPad, roleText);
+                            activeTooltip = currentPad;
                             // Auto-hide after 3 seconds
                             setTimeout(() => {
-                                if (activeTooltip === this) {
+                                if (activeTooltip === currentPad) {
                                     const tooltip = document.getElementById('chordTooltip');
                                     if (tooltip) tooltip.classList.remove('visible');
                                     activeTooltip = null;
@@ -2257,6 +2257,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Helper to toggle tooltip on tap
         function setupTapTooltip(element, tooltipTextOrCallback) {
             element.addEventListener('click', function(e) {
+                const currentElement = e.currentTarget;
+
                 // If element is a label, allow the click to propagate (for radio/checkbox)
                 if (element.tagName === 'LABEL') {
                     // Don't prevent default, let the label work normally
@@ -2266,23 +2268,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Get tooltip text (can be string or function)
                 const tooltipText = typeof tooltipTextOrCallback === 'function'
-                    ? tooltipTextOrCallback.call(this)
+                    ? tooltipTextOrCallback.call(currentElement)
                     : tooltipTextOrCallback;
 
                 if (tooltipText) {
                     const tooltip = document.getElementById('chordTooltip');
-                    if (tooltip && tooltip.classList.contains('visible') && activeTooltip === this) {
+                    if (tooltip && tooltip.classList.contains('visible') && activeTooltip === currentElement) {
                         // Already showing this tooltip, hide it
                         tooltip.classList.remove('visible');
                         activeTooltip = null;
                     } else {
                         // Show tooltip
-                        showTooltip(this, tooltipText);
-                        activeTooltip = this;
+                        showTooltip(currentElement, tooltipText);
+                        activeTooltip = currentElement;
 
                         // Auto-hide after 5 seconds
                         setTimeout(() => {
-                            if (activeTooltip === this) {
+                            if (activeTooltip === currentElement) {
                                 const tooltip = document.getElementById('chordTooltip');
                                 if (tooltip) tooltip.classList.remove('visible');
                                 activeTooltip = null;
@@ -2451,8 +2453,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 pads.forEach(pad => {
                     const padText = pad.querySelector('.pad-number');
                     const expectedText = hasTouch ? `${padNumber}` : `PAD ${padNumber}`;
-                    if (padText && padText.textContent === expectedText) {
-                        const notes = pad.getAttribute('data-notes').split(',').map(Number);
+                    if (padText?.textContent === expectedText) {
+                        const notes = pad.dataset.notes.split(',').map(Number);
 
                         // In staff context, play sequentially (click behavior)
                         if (currentContext === 'staff') {
@@ -2526,10 +2528,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Tablet: Handle orientation changes smoothly
     if (hasTouch && isTablet) {
-        let currentOrientation = window.matchMedia("(orientation: portrait)").matches ? 'portrait' : 'landscape';
+        let currentOrientation = globalThis.matchMedia("(orientation: portrait)").matches ? 'portrait' : 'landscape';
 
         // Listen for orientation changes
-        const orientationQuery = window.matchMedia("(orientation: portrait)");
+        const orientationQuery = globalThis.matchMedia("(orientation: portrait)");
         orientationQuery.addEventListener('change', (e) => {
             const newOrientation = e.matches ? 'portrait' : 'landscape';
 
@@ -2554,7 +2556,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (hasGeneratedOnce) {
                     setTimeout(() => {
                         // Force a reflow to ensure CSS media queries take effect
-                        document.body.offsetHeight;
+                        void document.body.offsetHeight;
                     }, 100);
                 }
             }
