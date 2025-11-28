@@ -1870,10 +1870,14 @@ function renderProgressions() {
     // Add hover handlers for tooltips and interactive voice leading
     // Using pointer events (supports both mouse and touch)
     container.querySelectorAll('.chord-pad').forEach(pad => {
-        // Only add hover effects on devices with hover capability (desktop)
-        // Touch devices will use tap-to-toggle (added later in Phase 2)
+        // Desktop: Hover + Click-to-lock voice leading
         if (hasHover) {
             pad.addEventListener('pointerenter', function() {
+                // Don't override locked voice leading with hover
+                if (voiceLeadingLocked && voiceLeadingLocked !== this) {
+                    return;
+                }
+
                 const roman = this.getAttribute('data-roman');
                 const quality = this.getAttribute('data-quality');
 
@@ -1891,12 +1895,41 @@ function renderProgressions() {
             });
 
             pad.addEventListener('pointerleave', function() {
+                // Don't clear locked voice leading on leave
+                if (voiceLeadingLocked === this) {
+                    return;
+                }
+
                 const tooltip = document.getElementById('chordTooltip');
                 if (tooltip) tooltip.classList.remove('visible');
 
                 // Deactivate voice leading hover effect
                 deactivateVoiceLeadingHover(this);
             });
+
+            // Click to lock/unlock voice leading (desktop)
+            pad.addEventListener('click', function(e) {
+                // Don't interfere with card click if Shift/Ctrl/Alt pressed
+                if (e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) {
+                    return;
+                }
+
+                if (voiceLeadingLocked === this) {
+                    // Already locked on this pad, unlock it
+                    deactivateVoiceLeadingHover(this);
+                    voiceLeadingLocked = null;
+                } else {
+                    // Clear any previous lock
+                    if (voiceLeadingLocked) {
+                        deactivateVoiceLeadingHover(voiceLeadingLocked);
+                    }
+                    // Lock voice leading to this pad
+                    activateVoiceLeadingHover(this);
+                    voiceLeadingLocked = this;
+                }
+
+                // Don't stop propagation - allow chord to play
+            }, { capture: true }); // Use capture to run before the play handler
         }
 
         // Touch device: Add tap-to-toggle voice leading and long-press for tooltip
@@ -1908,19 +1941,39 @@ function renderProgressions() {
                 isLongPress = false;
                 longPressTimer = setTimeout(() => {
                     isLongPress = true;
-                    // Long press: toggle voice leading visualization
-                    if (voiceLeadingLocked === this) {
-                        // Already locked on this pad, unlock it
-                        deactivateVoiceLeadingHover(this);
-                        voiceLeadingLocked = null;
-                    } else {
-                        // Clear any previous lock
-                        if (voiceLeadingLocked) {
-                            deactivateVoiceLeadingHover(voiceLeadingLocked);
+
+                    // In keyboard context, show chord role tooltip (since it's hidden via CSS)
+                    if (currentContext === 'keyboard') {
+                        const roman = this.getAttribute('data-roman');
+                        const quality = this.getAttribute('data-quality');
+                        const roleText = getChordTooltip(roman, quality);
+                        if (roleText) {
+                            showTooltip(this, roleText);
+                            activeTooltip = this;
+                            // Auto-hide after 3 seconds
+                            setTimeout(() => {
+                                if (activeTooltip === this) {
+                                    const tooltip = document.getElementById('chordTooltip');
+                                    if (tooltip) tooltip.classList.remove('visible');
+                                    activeTooltip = null;
+                                }
+                            }, 3000);
                         }
-                        // Lock voice leading to this pad
-                        activateVoiceLeadingHover(this);
-                        voiceLeadingLocked = this;
+                    } else {
+                        // Long press in other contexts: toggle voice leading visualization
+                        if (voiceLeadingLocked === this) {
+                            // Already locked on this pad, unlock it
+                            deactivateVoiceLeadingHover(this);
+                            voiceLeadingLocked = null;
+                        } else {
+                            // Clear any previous lock
+                            if (voiceLeadingLocked) {
+                                deactivateVoiceLeadingHover(voiceLeadingLocked);
+                            }
+                            // Lock voice leading to this pad
+                            activateVoiceLeadingHover(this);
+                            voiceLeadingLocked = this;
+                        }
                     }
 
                     // Haptic feedback if available
@@ -1972,6 +2025,17 @@ function renderProgressions() {
             if (tooltip) tooltip.classList.remove('visible');
         });
     }
+
+    // Click outside any chord pad to reset voice leading colors (both desktop and tablet)
+    container.addEventListener('click', function(e) {
+        // Check if click was on a chord pad or inside one
+        const clickedPad = e.target.closest('.chord-pad');
+        if (!clickedPad && voiceLeadingLocked) {
+            // Clicked outside all pads, reset voice leading
+            deactivateVoiceLeadingHover(voiceLeadingLocked);
+            voiceLeadingLocked = null;
+        }
+    });
 
     // Add click handlers for individual download buttons
     container.querySelectorAll('.download-btn').forEach(btn => {
