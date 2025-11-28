@@ -1204,19 +1204,19 @@ footer a:hover {
         align-items: start !important;
     }
 
-    /* Make wrapper transparent to grid so h1 and subtitle become direct grid children */
+    /* Remove wrapper div from layout so h1 can be positioned independently */
     .header > div {
         display: contents;
     }
 
-    /* h1 in row 1, col 1 */
+    /* h1 in grid row 1, col 1 for vertical centering with image */
     .header h1 {
         grid-column: 1;
         grid-row: 1;
         margin-bottom: 0;
     }
 
-    /* Subtitle in row 2, spanning full width */
+    /* Subtitle in grid row 2, spanning full width */
     .header .subtitle {
         grid-column: 1 / -1;
         grid-row: 2;
