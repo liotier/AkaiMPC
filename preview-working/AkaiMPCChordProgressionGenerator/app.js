@@ -1792,6 +1792,8 @@ function renderProgressions() {
                         </div>
                         <div class="chord-quality">${pad.quality}</div>
                         <div class="chord-roman">${pad.romanNumeral}</div>
+                    </div>
+                    <div class="keyboard-info-column">
                         <div class="chord-role">${roleText}</div>
                         <div class="chord-notes">
                             ${(() => {
@@ -1853,7 +1855,10 @@ function renderProgressions() {
             <div class="progression-header">
                 <div class="progression-info">
                     <div class="progression-title-row">
-                        <div class="progression-title" data-tooltip="${uniquenessTooltip}">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
+                        <div class="progression-title" data-tooltip="${uniquenessTooltip}">
+                            <div class="title-line-1">${progressionName}_${variant.name}</div>
+                            ${voicingStyle ? `<div class="title-line-2">${voicingStyle}</div>` : ''}
+                        </div>
                         <span class="progression-explainer">${uniquenessTooltip}</span>
                     </div>
                     <div class="progression-meta">

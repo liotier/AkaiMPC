@@ -432,13 +432,28 @@ button:disabled {
 .progression-title-row {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 16px;
 }
 
 .progression-title {
     font-size: 18px;
     font-weight: 600;
+    flex: 0 1 auto;
+}
+
+.title-line-2 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.progression-explainer {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: right;
+    flex: 0 1 auto;
 }
 
 .progression-meta {
@@ -465,14 +480,6 @@ button:disabled {
     font-size: 12px;
     font-style: italic;
     opacity: 0.7;
-}
-
-.progression-explainer {
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.4;
-    text-align: right;
-    flex-shrink: 0;
 }
 
 .progression-meta .voice-leading-hint {
@@ -750,30 +757,33 @@ body[data-context="staff"] .pad-number {
     display: none;
 }
 
-/* Keyboard context: Display role in top right */
+/* Keyboard context: Info column in top right */
 body[data-context="keyboard"] .chord-pad {
     position: relative;
 }
 
-body[data-context="keyboard"] .chord-role {
-    display: block;
+body[data-context="keyboard"] .keyboard-info-column {
     position: absolute;
     top: 5px;
     right: 12px;
     max-width: 50%;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+body[data-context="keyboard"] .chord-role {
+    display: block;
     font-size: 10px;
     line-height: 1.3;
     color: var(--muted);
-    text-align: right;
     margin: 0;
 }
 
 body[data-context="keyboard"] .chord-notes {
-    position: absolute;
-    bottom: 40px;
-    right: 12px;
-    max-width: 50%;
-    text-align: right;
+    font-size: 9px;
+    line-height: 1.2;
     margin: 0;
 }
 
@@ -1346,28 +1356,21 @@ footer a:hover {
         gap: 3px;
     }
 
-    /* Keyboard context: chord role and notes in right column (like desktop, with tablet sizing) */
-    body[data-context="keyboard"] .chord-role {
-        display: block !important;
-        position: absolute !important;
+    /* Keyboard context: info column in right with newlines (tablet sizing) */
+    body[data-context="keyboard"] .keyboard-info-column {
         top: 4px !important;
         right: 4px !important;
-        max-width: 50% !important;
+        gap: 2px !important;
+    }
+
+    body[data-context="keyboard"] .chord-role {
         font-size: 8px !important;
         line-height: 1.2 !important;
-        text-align: right !important;
-        color: var(--muted);
     }
 
     body[data-context="keyboard"] .chord-notes {
-        position: absolute !important;
-        bottom: 60px !important;
-        right: 4px !important;
-        max-width: 50% !important;
         font-size: 7px !important;
         line-height: 1.1 !important;
-        text-align: right !important;
-        margin: 0 !important;
     }
 
     /* Keyboard/Guitar/Staff: 2 columns in portrait for better card size */
