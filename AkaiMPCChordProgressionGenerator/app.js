@@ -1793,7 +1793,7 @@ function renderProgressions() {
                         <div class="chord-quality">${pad.quality}</div>
                         <div class="chord-roman">${pad.romanNumeral}</div>
                     </div>
-                    <div class="keyboard-info-column">
+                    <div class="chord-info-column">
                         <div class="chord-role">${roleText}</div>
                         <div class="chord-notes">
                             ${(() => {
