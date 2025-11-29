@@ -439,7 +439,7 @@ button:disabled {
 .progression-title {
     font-size: 18px;
     font-weight: 600;
-    flex: 0 1 auto;
+    flex: 1;
 }
 
 .title-line-2 {
@@ -453,7 +453,7 @@ button:disabled {
     font-size: 13px;
     line-height: 1.4;
     text-align: right;
-    flex: 0 1 auto;
+    flex: 1;
 }
 
 .progression-meta {
@@ -762,7 +762,7 @@ body[data-context="keyboard"] .chord-pad {
     position: relative;
 }
 
-body[data-context="keyboard"] .keyboard-info-column {
+body[data-context="keyboard"] .chord-info-column {
     position: absolute;
     top: 5px;
     right: 12px;
@@ -836,34 +836,41 @@ body[data-context="staff"] .chord-text-column {
     gap: 4px;
 }
 
-/* Show chord description in upper right of staff cards */
-body[data-context="staff"] .chord-role {
-    display: block;
+/* Staff context: Info column in top right (like keyboard) */
+body[data-context="staff"] .chord-info-column {
     position: absolute;
     top: 4px;
     right: 12px;
-    max-width: 68%;
+    max-width: 65%;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+body[data-context="staff"] .chord-role {
+    display: block;
     font-size: 9px;
     line-height: 1.3;
     color: var(--muted);
-    text-align: right;
+    margin: 0;
+}
+
+body[data-context="staff"] .chord-notes {
+    font-size: 8px;
+    line-height: 1.2;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
 }
 
 body[data-context="staff"] .chord-staff {
     width: 100%;
-    height: 120px;
+    height: auto;
     margin: 0;
-    padding-right: 12px;
     padding-top: 32px;
     padding-bottom: 4px;
-}
-
-/* Wrap notes in Staff context */
-body[data-context="staff"] .chord-notes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 8px;
-    max-width: 200px;
 }
 
 /* Responsive guitar card layout */
@@ -1357,7 +1364,7 @@ footer a:hover {
     }
 
     /* Keyboard context: info column in right with newlines (tablet sizing) */
-    body[data-context="keyboard"] .keyboard-info-column {
+    body[data-context="keyboard"] .chord-info-column {
         top: 4px !important;
         right: 4px !important;
         gap: 2px !important;
@@ -1370,6 +1377,23 @@ footer a:hover {
 
     body[data-context="keyboard"] .chord-notes {
         font-size: 7px !important;
+        line-height: 1.1 !important;
+    }
+
+    /* Staff context: info column in right (tablet sizing) */
+    body[data-context="staff"] .chord-info-column {
+        top: 2px !important;
+        right: 4px !important;
+        gap: 2px !important;
+    }
+
+    body[data-context="staff"] .chord-role {
+        font-size: 7px !important;
+        line-height: 1.2 !important;
+    }
+
+    body[data-context="staff"] .chord-notes {
+        font-size: 6px !important;
         line-height: 1.1 !important;
     }
 
@@ -1419,15 +1443,6 @@ footer a:hover {
     body[data-context="staff"] .chord-text-column {
         gap: 1px;
         margin-bottom: 2px;
-    }
-
-    /* Show chord description in staff cards on tablet */
-    body[data-context="staff"] .chord-role {
-        font-size: 7px !important;
-        line-height: 1.2 !important;
-        max-width: 65% !important;
-        top: 2px !important;
-        right: 4px !important;
     }
 
     body[data-context="staff"] .chord-staff {
