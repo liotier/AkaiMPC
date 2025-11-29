@@ -1792,6 +1792,8 @@ function renderProgressions() {
                         </div>
                         <div class="chord-quality">${pad.quality}</div>
                         <div class="chord-roman">${pad.romanNumeral}</div>
+                    </div>
+                    <div class="chord-info-column">
                         <div class="chord-role">${roleText}</div>
                         <div class="chord-notes">
                             ${(() => {
@@ -1852,7 +1854,13 @@ function renderProgressions() {
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
-                    <div class="progression-title" title="${uniquenessTooltip}">${progressionName}_${variant.name}${voicingStyle ? ' - ' + voicingStyle : ''}</div>
+                    <div class="progression-title-row">
+                        <div class="progression-title" data-tooltip="${uniquenessTooltip}">
+                            <div class="title-line-1">${progressionName}_${variant.name}</div>
+                            ${voicingStyle ? `<div class="title-line-2">${voicingStyle}</div>` : ''}
+                        </div>
+                        <span class="progression-explainer">${uniquenessTooltip}</span>
+                    </div>
                     <div class="progression-meta">
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
@@ -1867,10 +1875,44 @@ function renderProgressions() {
                 </button>
             </div>
             <div class="chord-grid">${gridHTML}</div>
+            <div class="voice-leading-hint-bottom">Colors of cards show chord distance from selected card</div>
         `;
 
         container.appendChild(card);
     });
+
+    // Tablet: Setup tap-to-show tooltip for progression titles
+    if (hasTouch && !hasHover) {
+        container.querySelectorAll('.progression-title').forEach(title => {
+            const tooltipText = title.dataset.tooltip;
+            if (tooltipText) {
+                title.addEventListener('click', function(e) {
+                    const currentElement = e.currentTarget;
+                    e.stopPropagation();
+
+                    const tooltip = document.getElementById('chordTooltip');
+                    if (tooltip && tooltip.classList.contains('visible') && activeTooltip === currentElement) {
+                        // Already showing this tooltip, hide it
+                        tooltip.classList.remove('visible');
+                        activeTooltip = null;
+                    } else {
+                        // Show tooltip
+                        showTooltip(currentElement, tooltipText);
+                        activeTooltip = currentElement;
+
+                        // Auto-hide after 5 seconds
+                        setTimeout(() => {
+                            if (activeTooltip === currentElement) {
+                                const tooltip = document.getElementById('chordTooltip');
+                                if (tooltip) tooltip.classList.remove('visible');
+                                activeTooltip = null;
+                            }
+                        }, 5000);
+                    }
+                });
+            }
+        });
+    }
 
     // Add hover handlers for tooltips and interactive voice leading
     // Using pointer events (supports both mouse and touch)
