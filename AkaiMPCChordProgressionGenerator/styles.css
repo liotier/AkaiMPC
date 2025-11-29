@@ -839,13 +839,14 @@ body[data-context="staff"] .chord-text-column {
 /* Staff context: Info column in top right (like keyboard) */
 body[data-context="staff"] .chord-info-column {
     position: absolute;
-    top: 4px;
+    top: 0;
     right: 12px;
     max-width: 65%;
     text-align: right;
     display: flex;
     flex-direction: column;
     gap: 3px;
+    padding-top: 4px;
 }
 
 body[data-context="staff"] .chord-role {
@@ -863,13 +864,14 @@ body[data-context="staff"] .chord-notes {
     display: flex;
     flex-wrap: wrap;
     gap: 4px 8px;
+    justify-content: flex-end;
 }
 
 body[data-context="staff"] .chord-staff {
     width: 100%;
     height: auto;
     margin: 0;
-    padding-top: 32px;
+    padding-top: 36px;
     padding-bottom: 4px;
 }
 
@@ -1382,9 +1384,10 @@ footer a:hover {
 
     /* Staff context: info column in right (tablet sizing) */
     body[data-context="staff"] .chord-info-column {
-        top: 2px !important;
+        top: 0 !important;
         right: 4px !important;
         gap: 2px !important;
+        padding-top: 2px !important;
     }
 
     body[data-context="staff"] .chord-role {
