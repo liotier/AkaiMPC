@@ -871,7 +871,7 @@ body[data-context="staff"] .chord-staff {
     width: 100%;
     height: auto;
     margin: 0;
-    padding-top: 36px;
+    padding-top: 70px;
     padding-bottom: 4px;
 }
 
@@ -1449,7 +1449,7 @@ footer a:hover {
     }
 
     body[data-context="staff"] .chord-staff {
-        padding-top: 16px !important;
+        padding-top: 40px !important;
         padding-bottom: 2px !important;
         margin-bottom: 0 !important;
     }
