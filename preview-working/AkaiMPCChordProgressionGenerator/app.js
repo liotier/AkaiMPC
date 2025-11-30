@@ -13,6 +13,7 @@ import {
     spellChordNotes,
     applyVoicingStyle,
     optimizeVoiceLeading,
+    optimizeSmoothVoiceLeading,
     getInversionNotation
 } from './modules/musicTheory.js';
 
@@ -1362,6 +1363,11 @@ function generateVariant(variantType) {
 
     // Apply variant-specific voicing styles for more diversity
     switch (variantType) {
+        case 'Smooth':
+            // Smooth uses comprehensive voice leading optimization
+            // Maximizes common tones, step-wise motion, and contrary motion
+            progressionChords = optimizeSmoothVoiceLeading(progressionChords);
+            break;
         case 'Classic':
             // Classic uses default voice leading (already optimized in generateProgressionChords)
             // Re-optimize for classical strict voice leading rules
@@ -1604,12 +1610,13 @@ function deduplicateVariants(variantList) {
 
 function generateProgressions() {
     if (generationMode === 'template') {
-        // Template Mode: Generate up to 4 variants based on progression
+        // Template Mode: Generate up to 5 variants based on progression
         if (selectedMode === 'Locrian' && selectedProgression.includes('I—IV—V')) {
             console.warn('⚠️ Locrian\'s diminished tonic makes this progression unusual');
         }
 
         const allVariants = [
+            generateVariant('Smooth'),
             generateVariant('Classic'),
             generateVariant('Jazz'),
             generateVariant('Modal'),
@@ -1833,6 +1840,10 @@ function renderProgressions() {
         let uniquenessTooltip = '';
 
         switch (variant.name) {
+            case 'Smooth':
+                voicingStyle = 'Smooth Voice Leading';
+                uniquenessTooltip = 'Smooth variant: Maximizes common tones, step-wise motion, and contrary motion. Evaluates hundreds of voicings to find the smoothest transitions between chords.';
+                break;
             case 'Classic':
                 voicingStyle = 'Voice Leading';
                 uniquenessTooltip = 'Classic variant: Optimized for smooth voice leading between chords. Minimal note movement creates natural, flowing progressions.';
