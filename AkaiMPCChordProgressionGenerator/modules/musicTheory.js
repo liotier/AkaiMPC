@@ -768,6 +768,189 @@ export function optimizeVoiceLeading(chordProgression) {
     return optimized;
 }
 
+// Generate more comprehensive voicings for smooth voice leading
+function generateSmoothVoicings(chordNotes) {
+    const voicings = [];
+    const sorted = [...chordNotes].sort((a, b) => a - b);
+    const pitchClasses = sorted.map(n => n % 12);
+    const uniquePCs = [...new Set(pitchClasses)];
+
+    // Try different bass notes within a reasonable range (C3 to C5)
+    for (let bassNote = 48; bassNote <= 72; bassNote++) {
+        if (uniquePCs.includes(bassNote % 12)) {
+            // Build voicing from this bass note
+            const voicing = [bassNote];
+            let currentNote = bassNote;
+
+            for (let i = 1; i < uniquePCs.length; i++) {
+                const targetPC = uniquePCs[i];
+                // Find next occurrence of this pitch class
+                let nextNote = currentNote + 1;
+                while ((nextNote % 12) !== targetPC && nextNote < bassNote + 24) {
+                    nextNote++;
+                }
+                if (nextNote < bassNote + 24) { // Keep within 2 octaves
+                    voicing.push(nextNote);
+                    currentNote = nextNote;
+                }
+            }
+
+            if (voicing.length === uniquePCs.length) {
+                voicings.push(voicing);
+            }
+        }
+    }
+
+    return voicings;
+}
+
+// Analyze voice leading quality with comprehensive scoring
+function scoreVoiceLeading(currentNotes, previousNotes) {
+    if (!previousNotes || previousNotes.length === 0) {
+        // First chord - score based on range comfort
+        const lowest = Math.min(...currentNotes);
+        const highest = Math.max(...currentNotes);
+        const rangePenalty = (lowest < 48 || highest > 84) ? 20 : 0; // Prefer C3-C6 range
+        return { score: rangePenalty, breakdown: { range: rangePenalty } };
+    }
+
+    let score = 0;
+    const breakdown = {};
+
+    // Pad arrays to same length
+    const maxLen = Math.max(currentNotes.length, previousNotes.length);
+    const curr = [...currentNotes].sort((a, b) => a - b);
+    const prev = [...previousNotes].sort((a, b) => a - b);
+
+    while (curr.length < maxLen) curr.push(curr[curr.length - 1] + 12);
+    while (prev.length < maxLen) prev.push(prev[prev.length - 1] + 12);
+
+    // Match voices using greedy algorithm (simpler than Hungarian)
+    const movements = [];
+    const used = new Set();
+
+    prev.forEach(prevNote => {
+        let minDist = Infinity;
+        let bestIdx = -1;
+
+        curr.forEach((currNote, idx) => {
+            if (!used.has(idx)) {
+                const dist = Math.abs(currNote - prevNote);
+                if (dist < minDist) {
+                    minDist = dist;
+                    bestIdx = idx;
+                }
+            }
+        });
+
+        if (bestIdx >= 0) {
+            movements.push({ from: prevNote, to: curr[bestIdx], distance: minDist });
+            used.add(bestIdx);
+        }
+    });
+
+    // 1. Total voice movement (weight: 1.0) - primary criterion
+    const totalMovement = movements.reduce((sum, m) => sum + m.distance, 0);
+    score += totalMovement;
+    breakdown.totalMovement = totalMovement;
+
+    // 2. Common tones bonus (weight: -5 per common tone)
+    const commonTones = movements.filter(m => m.distance === 0).length;
+    const commonToneBonus = commonTones * -5;
+    score += commonToneBonus;
+    breakdown.commonTones = commonToneBonus;
+
+    // 3. Step-wise motion bonus (weight: -2 per step)
+    const stepwiseMotions = movements.filter(m => m.distance > 0 && m.distance <= 2).length;
+    const stepwiseBonus = stepwiseMotions * -2;
+    score += stepwiseBonus;
+    breakdown.stepwise = stepwiseBonus;
+
+    // 4. Contrary motion bonus (weight: -3 per instance)
+    let contraryMotionCount = 0;
+    for (let i = 0; i < movements.length; i++) {
+        for (let j = i + 1; j < movements.length; j++) {
+            const dir1 = Math.sign(movements[i].to - movements[i].from);
+            const dir2 = Math.sign(movements[j].to - movements[j].from);
+            if (dir1 !== 0 && dir2 !== 0 && dir1 !== dir2) {
+                contraryMotionCount++;
+            }
+        }
+    }
+    const contraryMotionBonus = contraryMotionCount * -3;
+    score += contraryMotionBonus;
+    breakdown.contraryMotion = contraryMotionBonus;
+
+    // 5. Range penalty (weight: +10 per note outside C3-C6)
+    const outOfRange = curr.filter(n => n < 48 || n > 84).length;
+    const rangePenalty = outOfRange * 10;
+    score += rangePenalty;
+    breakdown.range = rangePenalty;
+
+    // 6. Large leap penalty (weight: +2 per semitone beyond a major third)
+    const leapPenalty = movements.reduce((sum, m) => {
+        if (m.distance > 4) {
+            return sum + (m.distance - 4) * 2;
+        }
+        return sum;
+    }, 0);
+    score += leapPenalty;
+    breakdown.leaps = leapPenalty;
+
+    return { score, breakdown };
+}
+
+// Find best voicing using comprehensive smooth voice leading scoring
+function findBestSmoothVoicing(targetChordNotes, previousChordNotes) {
+    if (!previousChordNotes) {
+        // First chord - use comfortable mid-range root position
+        const sorted = [...targetChordNotes].sort((a, b) => a - b);
+        const bass = sorted[0];
+
+        // Transpose to comfortable range (C4 = 60)
+        const targetBass = 60;
+        const offset = targetBass - bass;
+        return sorted.map(n => n + offset);
+    }
+
+    const voicings = generateSmoothVoicings(targetChordNotes);
+    let bestVoicing = targetChordNotes;
+    let bestScore = Infinity;
+    let bestBreakdown = null;
+
+    voicings.forEach(voicing => {
+        const { score, breakdown } = scoreVoiceLeading(voicing, previousChordNotes);
+        if (score < bestScore) {
+            bestScore = score;
+            bestVoicing = voicing;
+            bestBreakdown = breakdown;
+        }
+    });
+
+    return bestVoicing;
+}
+
+// Optimize voice leading with comprehensive smooth scoring
+export function optimizeSmoothVoiceLeading(chordProgression) {
+    if (chordProgression.length === 0) return chordProgression;
+
+    const optimized = [];
+    let previousNotes = null;
+
+    chordProgression.forEach((chord, index) => {
+        const optimizedNotes = findBestSmoothVoicing(chord.notes, previousNotes);
+
+        optimized.push({
+            ...chord,
+            notes: optimizedNotes
+        });
+
+        previousNotes = optimizedNotes;
+    });
+
+    return optimized;
+}
+
 // Create close voicing (all notes within an octave or close together)
 export function applyCloseVoicing(chordNotes) {
     if (chordNotes.length === 0) return chordNotes;
