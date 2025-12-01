@@ -13,6 +13,7 @@ import {
     spellChordNotes,
     applyVoicingStyle,
     optimizeVoiceLeading,
+    optimizeSmoothVoiceLeading,
     getInversionNotation
 } from './modules/musicTheory.js';
 
@@ -1156,6 +1157,10 @@ function generateVariant(variantType) {
     // Generate the actual progression chords - PASS selectedMode as 4th parameter (FIX!)
     let progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees, selectedMode);
 
+    // Store the ORIGINAL progression chords before building palette
+    const originalProgression = [...progressionChords];
+    const originalProgressionLength = progressionChords.length;
+
     // Convert progression sequence to palette ensuring ALL 16 PADS ARE UNIQUE
     // Harmonic gradient: Row 1 (pads 1-4, bottom visual row) = foundation with tonic
     //                    Row 4 (pads 13-16, top visual row) = spicy adventurous chords
@@ -1358,105 +1363,160 @@ function generateVariant(variantType) {
     // Sort by spice level (foundation first, spicy last)
     palette.sort((a, b) => a.spiceLevel - b.spiceLevel);
 
-    progressionChords = palette;
-
-    // Apply variant-specific voicing styles for more diversity
+    // Apply variant-specific voicing styles to ORIGINAL PROGRESSION
+    let voicedProgression = [...originalProgression];
     switch (variantType) {
+        case 'Smooth':
+            voicedProgression = optimizeSmoothVoiceLeading(voicedProgression);
+            break;
         case 'Classic':
-            // Classic uses default voice leading (already optimized in generateProgressionChords)
-            // Re-optimize for classical strict voice leading rules
-            progressionChords = optimizeVoiceLeading(progressionChords);
+            voicedProgression = optimizeVoiceLeading(voicedProgression);
             break;
         case 'Jazz':
-            // Jazz uses close voicings for that tight, sophisticated sound
-            progressionChords = applyVoicingStyle(progressionChords, 'close');
-            // Then optimize voice leading to maximize smoothness (common tones + step motion)
-            progressionChords = optimizeVoiceLeading(progressionChords);
+            voicedProgression = applyVoicingStyle(voicedProgression, 'close');
+            voicedProgression = optimizeVoiceLeading(voicedProgression);
             break;
         case 'Modal':
-            // Modal uses open voicings for a more spacious sound
-            progressionChords = applyVoicingStyle(progressionChords, 'open');
+            voicedProgression = applyVoicingStyle(voicedProgression, 'open');
             break;
         case 'Experimental':
-            // Experimental uses spread voicings for maximum variation
-            progressionChords = applyVoicingStyle(progressionChords, 'spread');
+            voicedProgression = applyVoicingStyle(voicedProgression, 'spread');
             break;
     }
 
-    // Fill first 12 pads (rows 1-3)
+    // Apply same voicing to palette (for pads beyond progression)
+    let voicedPalette = palette;
+    switch (variantType) {
+        case 'Smooth':
+            voicedPalette = optimizeSmoothVoiceLeading(voicedPalette);
+            break;
+        case 'Classic':
+            voicedPalette = optimizeVoiceLeading(voicedPalette);
+            break;
+        case 'Jazz':
+            voicedPalette = applyVoicingStyle(voicedPalette, 'close');
+            voicedPalette = optimizeVoiceLeading(voicedPalette);
+            break;
+        case 'Modal':
+            voicedPalette = applyVoicingStyle(voicedPalette, 'open');
+            break;
+        case 'Experimental':
+            voicedPalette = applyVoicingStyle(voicedPalette, 'spread');
+            break;
+    }
+
+    // Build complete chord queue: progression + palette
+    const allChords = [...voicedProgression, ...voicedPalette];
+    let chordQueueIndex = 0;
+
+    // Helper: Get next chord from queue
+    const getNextChord = () => {
+        if (chordQueueIndex < allChords.length) {
+            return allChords[chordQueueIndex++];
+        }
+        return null;
+    };
+
+    // Fill first 12 pads (rows 1-3) and collapse contiguous duplicates per row
     const rows1to3 = [];
+    const initialPads = []; // Temporary storage before deduplication
+
+    // First pass: fill all 12 slots
     for (let i = 0; i < 12; i++) {
-        let degree, chordType, notes, chordName, romanNumeral, quality;
-        let isProgressionChord = false;
-        let isChordMatcherChord = false;
+        const sourceChord = getNextChord();
+        if (!sourceChord) break;
 
-        // First, place the progression chords
-        if (i < progressionChords.length) {
-            const progChord = progressionChords[i];
-            notes = progChord.notes;
-            chordName = progChord.chordName;
-            romanNumeral = progChord.romanNumeral;
-            chordType = progChord.chordType;
-            isProgressionChord = true;
-            isChordMatcherChord = progChord.isChordMatcherChord || false;
+        initialPads.push({
+            sourceChord,
+            isProgressionChord: i < originalProgressionLength
+        });
+    }
 
-            // Enhance chords based on variant type
-            if (variantType === 'Jazz' && i >= 4) {
-                // Add 7ths to some chords in Jazz variant
-                const scaleDegree = scaleDegrees[progChord.degree % scaleDegrees.length];
-                if (!chordType.includes('7')) {
-                    chordType = chordType === 'minor' ? 'minor7' :
-                               chordType === 'major' ? 'major7' : chordType;
-                    notes = buildChord(scaleDegree, chordType, keyOffset);
-                    chordName = getChordName(scaleDegree, chordType, keyOffset);
-                }
+    // Second pass: collapse contiguous duplicates per row and refill
+    for (let row = 0; row < 3; row++) {
+        const rowStart = row * 4;
+        const rowEnd = rowStart + 4;
+        const rowPads = [];
+
+        // Collapse duplicates in this row
+        for (let i = rowStart; i < rowEnd && i < initialPads.length; i++) {
+            const current = initialPads[i];
+            const previous = rowPads.length > 0 ? rowPads[rowPads.length - 1] : null;
+
+            // Skip if same chord as previous in this row
+            if (previous && previous.sourceChord.romanNumeral === current.sourceChord.romanNumeral) {
+                continue; // Skip duplicate
             }
 
-            quality = chordType === 'minor' ? 'Minor' :
-                     chordType === 'major' ? 'Major' :
-                     chordType === 'diminished' ? 'Diminished' :
-                     chordType === 'major7' ? 'Major 7' :
-                     chordType === 'minor7' ? 'Minor 7' :
-                     chordType === 'dom7' ? 'Dominant 7' : 'Major';
-        } else {
-            // Fill with scale degree chords
-                degree = (i % 7);
-                const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
-
-                // Get proper chord quality based on mode
-                chordType = getChordQualityForMode(degree, selectedMode);
-
-                // Add variations based on variant type
-                if (variantType === 'Jazz' && i >= 8) {
-                    chordType = chordType === 'minor' ? 'minor7' :
-                               chordType === 'major' ? 'major7' : chordType;
-                }
-
-                notes = buildChord(scaleDegree, chordType, keyOffset);
-                chordName = getChordName(scaleDegree, chordType, keyOffset);
-                romanNumeral = getRomanNumeral(degree, chordType.includes('minor'), chordType === 'diminished');
-
-                quality = chordType === 'minor' ? 'Minor' :
-                         chordType === 'major' ? 'Major' :
-                         chordType === 'diminished' ? 'Diminished' :
-                         chordType === 'major7' ? 'Major 7' :
-                         chordType === 'minor7' ? 'Minor 7' : 'Major';
+            rowPads.push(current);
         }
 
-        const pad = {
-            id: i + 1,
-            chordName,
-            romanNumeral,
-            notes,
-            quality,
-            row: Math.floor(i / 4) + 1,
-            col: (i % 4) + 1,
-            isProgressionChord,
-            isChordMatcherChord
-        };
+        // Refill row to 4 pads with next available chords
+        while (rowPads.length < 4) {
+            const nextChord = getNextChord();
+            if (!nextChord) break;
 
-        pads.push(pad);
-        rows1to3.push(pad);
+            rowPads.push({
+                sourceChord: nextChord,
+                isProgressionChord: false // Refilled slots are not progression chords
+            });
+        }
+
+        // Convert to final pad format
+        rowPads.forEach((padData, colIndex) => {
+            const paletteChord = padData.sourceChord;
+            let notes = paletteChord.notes;
+            let chordName = paletteChord.chordName;
+            let romanNumeral = paletteChord.romanNumeral;
+            let chordType = paletteChord.chordType;
+            const isProgressionChord = padData.isProgressionChord;
+            const isChordMatcherChord = paletteChord.isChordMatcherChord || false;
+
+            const padIndex = rowStart + colIndex;
+
+            // Enhance chords based on variant type
+            if (variantType === 'Jazz' && padIndex >= 4 && !chordType.includes('7')) {
+                // Add 7ths to some chords in Jazz variant
+                const scaleDegree = scaleDegrees[paletteChord.degree % scaleDegrees.length];
+                chordType = chordType === 'minor' ? 'minor7' :
+                           chordType === 'major' ? 'major7' : chordType;
+                notes = buildChord(scaleDegree, chordType, keyOffset);
+                chordName = getChordName(scaleDegree, chordType, keyOffset);
+            }
+
+            // Map chord type to quality label
+            let quality;
+            if (chordType === 'minor' || chordType === 'minor7') {
+                quality = 'Minor';
+            } else if (chordType === 'major' || chordType === 'major7') {
+                quality = 'Major';
+            } else if (chordType === 'diminished') {
+                quality = 'Diminished';
+            } else if (chordType === 'major7') {
+                quality = 'Major 7';
+            } else if (chordType === 'minor7') {
+                quality = 'Minor 7';
+            } else if (chordType === 'dom7') {
+                quality = 'Dominant 7';
+            } else {
+                quality = 'Major';
+            }
+
+            const pad = {
+                id: padIndex + 1,
+                chordName,
+                romanNumeral,
+                notes,
+                quality,
+                row: row + 1,
+                col: colIndex + 1,
+                isProgressionChord,
+                isChordMatcherChord
+            };
+
+            pads.push(pad);
+            rows1to3.push(pad);
+        });
     }
 
     // Dynamically generate row 4 based on analysis of rows 1-3
@@ -1604,12 +1664,13 @@ function deduplicateVariants(variantList) {
 
 function generateProgressions() {
     if (generationMode === 'template') {
-        // Template Mode: Generate up to 4 variants based on progression
+        // Template Mode: Generate up to 5 variants based on progression
         if (selectedMode === 'Locrian' && selectedProgression.includes('I—IV—V')) {
             console.warn('⚠️ Locrian\'s diminished tonic makes this progression unusual');
         }
 
         const allVariants = [
+            generateVariant('Smooth'),
             generateVariant('Classic'),
             generateVariant('Jazz'),
             generateVariant('Modal'),
@@ -1828,11 +1889,21 @@ function renderProgressions() {
 
         const progressionAnalysis = analyzeProgression(variant.pads);
 
+        // Calculate progression length for clarification text
+        const progressionChordCount = variant.pads.filter(p => p.isProgressionChord).length;
+        const progressionClarification = progressionChordCount > 0
+            ? `Chords 1-${progressionChordCount} from progression, ${progressionChordCount + 1}-16 extrapolated. `
+            : '';
+
         // Add voicing style annotation
         let voicingStyle = '';
         let uniquenessTooltip = '';
 
         switch (variant.name) {
+            case 'Smooth':
+                voicingStyle = 'Smooth Voice Leading';
+                uniquenessTooltip = 'Smooth variant: Maximizes common tones, step-wise motion, and contrary motion. Evaluates hundreds of voicings to find the smoothest transitions between chords.';
+                break;
             case 'Classic':
                 voicingStyle = 'Voice Leading';
                 uniquenessTooltip = 'Classic variant: Optimized for smooth voice leading between chords. Minimal note movement creates natural, flowing progressions.';
@@ -1865,7 +1936,7 @@ function renderProgressions() {
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
                         ${progressionAnalysis ? `<span class="analysis">${progressionAnalysis}</span>` : ''}
-                        <span class="voice-leading-hint">Colors of cards show chord distance from selected card</span>
+                        <span class="voice-leading-hint">${progressionClarification}Colors of cards show chord distance from selected card</span>
                     </div>
                 </div>
                 <button class="download-btn" data-variant-index="${index}">
@@ -1875,7 +1946,7 @@ function renderProgressions() {
                 </button>
             </div>
             <div class="chord-grid">${gridHTML}</div>
-            <div class="voice-leading-hint-bottom">Colors of cards show chord distance from selected card</div>
+            <div class="voice-leading-hint-bottom">${progressionClarification}Colors of cards show chord distance from selected card</div>
         `;
 
         container.appendChild(card);
