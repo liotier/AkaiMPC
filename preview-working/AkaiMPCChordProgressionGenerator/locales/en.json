@@ -70,5 +70,163 @@
     "loading": "Loading...",
     "generating": "Generating progressions...",
     "complete": "Generation complete"
+  },
+  "modeCategories": {
+    "Common Western Tonal": "Common Western Tonal",
+    "Compact/Popular": "Compact/Popular",
+    "Symmetrical/Jazz": "Symmetrical/Jazz",
+    "Arabic Maqamat": "Arabic Maqamat",
+    "Indian Ragas": "Indian Ragas",
+    "Exotic": "Exotic"
+  },
+  "modes": {
+    "Major": {
+      "name": "Major",
+      "description": "The foundational scale of Western music. Pattern: W-W-H-W-W-W-H (whole and half steps). Creates bright, happy, resolved character. All diatonic triads (I, ii, iii, IV, V, vi, vii°) come from this scale. Foundation of classical, pop, and folk music for optimistic, stable tonality."
+    },
+    "Minor": {
+      "name": "Minor",
+      "description": "Natural minor scale (Aeolian mode). Pattern: W-H-W-W-H-W-W. Creates sad, introspective, darker character than major. The lowered 3rd, 6th, and 7th scale degrees distinguish it from major. Used across all genres for melancholic, emotional, or serious moods. Foundation of minor key harmony."
+    },
+    "Dorian": {
+      "name": "Dorian",
+      "description": "Minor scale with raised 6th degree. Pattern: W-H-W-W-W-H-W. Creates sophisticated minor sound - darker than major but brighter than natural minor. The major IV chord distinguishes it from Aeolian. Used in jazz, funk, folk, and modal music for cool, sophisticated minor tonality without heavy sadness."
+    },
+    "Phrygian": {
+      "name": "Phrygian",
+      "description": "Minor scale with lowered 2nd degree. Pattern: H-W-W-W-H-W-W. Creates Spanish, Middle Eastern, or dark metal character. The semitone between root and 2nd creates distinctive exotic sound. Used in flamenco, metal, and Spanish music for mysterious, ominous, or ethnic atmosphere."
+    },
+    "Lydian": {
+      "name": "Lydian",
+      "description": "Major scale with raised 4th degree. Pattern: W-W-W-H-W-W-H. Creates dreamy, floating, ethereal character - even brighter than major. The raised 4th (#11) creates distinctive \"Lydian\" sound. Used in film scores, jazz, and progressive rock for magical, otherworldly, or floating quality."
+    },
+    "Mixolydian": {
+      "name": "Mixolydian",
+      "description": "Major scale with lowered 7th degree. Pattern: W-W-H-W-W-H-W. Creates bluesy, rock, or folk character. The ♭VII chord is characteristic. Used extensively in rock, blues, folk, and funk for grounded, earthy major sound without leading tone tension. Foundation of rock and roll harmony."
+    },
+    "Locrian": {
+      "name": "Locrian",
+      "description": "Minor scale with lowered 2nd and 5th degrees. Pattern: H-W-W-H-W-W-W. The most unstable mode - diminished tonic triad. Rarely used for full compositions. The ♭5 creates tritone against root. Used for dissonance, tension, or experimental passages in metal, jazz, and avant-garde music."
+    },
+    "Harmonic Minor": {
+      "name": "Harmonic Minor",
+      "description": "Natural minor with raised 7th degree. Pattern: W-H-W-W-H-Aug2-H. The augmented second interval (between 6 and 7) creates exotic tension and drama. Major V chord enables strong V-i cadences. Foundation of classical minor harmony, used in metal, flamenco, and Middle Eastern music for dramatic, classical minor sound."
+    },
+    "Melodic Minor": {
+      "name": "Melodic Minor",
+      "description": "Natural minor with raised 6th and 7th degrees (ascending form). Pattern: W-H-W-W-W-W-H. Smoother than harmonic minor - no augmented second. Used in jazz for modal improvisation and in classical music for melodic ascent. Creates sophisticated minor tonality with major VI and VII enabling smooth voice leading."
+    },
+    "Pentatonic Major": {
+      "name": "Pentatonic Major",
+      "description": "Five-note scale: 1-2-3-5-6 (removes 4 and 7 from major scale). No semitones or tritones creates consonant, open sound. Universal scale found across cultures. Used in rock solos, folk melodies, pop hooks, and world music for singable, accessible melodies that work over any harmony."
+    },
+    "Pentatonic Minor": {
+      "name": "Pentatonic Minor",
+      "description": "Five-note scale: 1-♭3-4-5-♭7 (removes 2 and 6 from natural minor). The foundation of blues, rock, and blues-rock soloing. No semitones creates smooth, flowing character. Universal minor scale used across cultures. Essential for guitar solos, vocal improvisation, and accessible minor melodies."
+    },
+    "Blues": {
+      "name": "Blues",
+      "description": "Six-note scale: 1-♭3-4-♭5-5-♭7. Adds \"blue note\" (♭5) to minor pentatonic. The ♭5 creates characteristic blues \"bend\" and tension. Foundation of blues, rock, jazz, and R&B improvisation. The ambiguous ♭3 over major chords creates bluesy dissonance. Most important scale in American popular music."
+    },
+    "Whole Tone": {
+      "name": "Whole Tone",
+      "description": "Six-note scale built entirely of whole steps: W-W-W-W-W-W. Perfectly symmetrical - no tonic or resolution. Creates dreamy, floating, surreal character. No perfect 5ths or 4ths, only augmented chords. Used by Debussy and in jazz for ambiguous, impressionistic, otherworldly atmosphere. Defines musical surrealism."
+    },
+    "Diminished (W-H)": {
+      "name": "Diminished (W-H)",
+      "description": "Eight-note octatonic scale alternating whole and half steps: W-H-W-H-W-H-W-H. Perfectly symmetrical, divides octave into four equal parts. Used over dominant 7th chords in jazz. Creates tense, unstable, chromatic character. Bebop essential for altered dominant sounds and outside playing."
+    },
+    "Diminished (H-W)": {
+      "name": "Diminished (H-W)",
+      "description": "Eight-note octatonic scale alternating half and whole steps: H-W-H-W-H-W-H-W. Inverted pattern of W-H diminished. Used over diminished 7th chords. Symmetrical structure creates tense, unresolved character. Jazz essential for diminished chord improvisation and chromatic voice leading in composition."
+    },
+    "Augmented": {
+      "name": "Augmented",
+      "description": "Six-note hexatonic scale built from augmented triads with passing tones: 1-♭3-3-5-♯5-7. Symmetrical, divides octave into three equal major thirds. No perfect 5ths. Creates ambiguous, floating, modernist character. Used in 20th century classical and jazz for augmented chord contexts and symmetric harmonic structures."
+    },
+    "Maqam Hijaz": {
+      "name": "Maqam Hijaz",
+      "description": "Arabic maqam approximated in 12-TET as Phrygian Dominant: 1-♭2-3-4-5-♭6-♭7. Augmented second between ♭2 and 3 creates characteristic Middle Eastern sound. Combines Phrygian ♭2 with major 3rd. Used in Arabic, Turkish, and Klezmer music for exotic, spiritual, Eastern character. Evokes prayer and mysticism."
+    },
+    "Maqam Bayati": {
+      "name": "Maqam Bayati",
+      "description": "Arabic maqam approximated as Phrygian: 1-♭2-♭3-4-5-♭6-♭7. Similar to Phrygian mode but with microtonal inflections in traditional performance. Creates melancholic, contemplative Middle Eastern character. One of most common Arabic maqamat. Used across Arab world for emotional, introspective melodies."
+    },
+    "Maqam Rast": {
+      "name": "Maqam Rast",
+      "description": "Arabic maqam approximated as major: 1-2-3-4-5-6-7, but with microtonal quarter-tone variations traditionally. Considered \"neutral\" or \"restful\" maqam. Bright, stable character similar to Western major but with subtle Eastern inflections. Foundation maqam in Arabic music theory. Used for joyful, celebratory, or dignified melodies."
+    },
+    "Maqam Saba": {
+      "name": "Maqam Saba",
+      "description": "Arabic maqam with distinctive sad, longing character. Approximated as 1-♭2-♭3-♭4-♭5-♭6-♭7. Multiple lowered scale degrees create dark, melancholic atmosphere. The ♭4 is particularly characteristic. Used for deeply emotional, sorrowful expressions in Arabic music. Creates profound sadness and yearning."
+    },
+    "Maqam Kurd": {
+      "name": "Maqam Kurd",
+      "description": "Arabic maqam identical to Phrygian mode: 1-♭2-♭3-4-5-♭6-♭7. One of most important minor-type maqamat. Creates melancholic yet dignified character. The Kurdish name reflects historical origins. Used throughout Middle East for serious, contemplative music. Similar emotional quality to Western natural minor but with Phrygian ♭2 color."
+    },
+    "Bhairav": {
+      "name": "Bhairav",
+      "description": "Morning raga, same as Double Harmonic scale: 1-♭2-3-4-5-♭6-7. Two augmented seconds (♭2-3 and ♭6-7) create distinctive dramatic tension. Associated with Shiva. Serious, devotional character. Used in North Indian classical music for morning meditation and spiritual contemplation. Creates exotic, intense, powerful atmosphere."
+    },
+    "Kafi": {
+      "name": "Kafi",
+      "description": "Afternoon/evening raga, same as Dorian mode: 1-2-♭3-4-5-6-♭7. One of ten parent (thaat) scales in Hindustani music. Creates peaceful, romantic character. The major 6th distinguishes it from natural minor. Used in devotional and light classical music for gentle, sweet, contemplative moods. Similar to Western Dorian but with Indian ornamentation."
+    },
+    "Yaman": {
+      "name": "Yaman",
+      "description": "Evening raga, same as Lydian mode: 1-2-3-♯4-5-6-7. One of most popular ragas in Hindustani classical. Creates peaceful, romantic, devotional character. The ♯4 (tivra ma) is characteristic. Associated with creation and spring. Used for serene, beautiful, uplifting expressions. Evokes tranquility and spiritual beauty."
+    },
+    "Bhairavi": {
+      "name": "Bhairavi",
+      "description": "Morning raga but performed anytime, same as Phrygian: 1-♭2-♭3-4-5-♭6-♭7. One of ten parent scales. Creates devotional, serious character with flexibility for ornamentation. Associated with Goddess Parvati. Used for morning prayers and farewell performances. Most flexible raga, allows chromatic variations. Evokes devotion and pathos."
+    },
+    "Todi": {
+      "name": "Todi",
+      "description": "Midday raga with unique scale: 1-♭2-♭3-♯4-5-♭6-7. Combines Phrygian ♭2, raised 4th (Lydian), and major 7th. Creates intense, yearning, passionate character. Considered one of most serious and devotional ragas. Associated with deep emotion and longing. Distinctive augmented intervals create haunting, spiritual atmosphere."
+    },
+    "Double Harmonic": {
+      "name": "Double Harmonic",
+      "description": "Exotic scale with two augmented seconds: 1-♭2-3-4-5-♭6-7 (same as Bhairav). \"Double\" refers to augmented 2nds between ♭2-3 and ♭6-7. Creates dramatic, Middle Eastern/Indian character. Used in metal, progressive rock, and world music fusion for maximum exotic flavor and tension. Extremely distinctive and unmistakable sound."
+    },
+    "Hungarian Minor": {
+      "name": "Hungarian Minor",
+      "description": "Harmonic minor with raised 4th: 1-2-♭3-♯4-5-♭6-7. Three augmented seconds create exotic Gypsy character. More chromatic than harmonic minor. Used in Hungarian folk music, Gypsy jazz, classical music (Liszt), and metal. Creates passionate, dramatic, Eastern European atmosphere. Signature scale of Django Reinhardt-style jazz."
+    },
+    "Neapolitan Major": {
+      "name": "Neapolitan Major",
+      "description": "Major scale with lowered 2nd: 1-♭2-3-4-5-6-7. Creates bright scale with dark, chromatic twist from ♭2. Used in classical music (especially Neapolitan cadence IV6 of ♭II). The ♭2 creates tension against tonic while maintaining major character. Used for sophisticated chromatic color in classical and film music."
+    },
+    "Neapolitan Minor": {
+      "name": "Neapolitan Minor",
+      "description": "Harmonic minor with lowered 2nd: 1-♭2-♭3-4-5-♭6-7. Combines harmonic minor drama with Phrygian ♭2. Two augmented seconds create extreme tension. Very dark, exotic character. Used in classical music for dramatic, ominous passages. More intense and chromatic than harmonic minor. Creates foreboding, sinister atmosphere."
+    },
+    "Enigmatic": {
+      "name": "Enigmatic",
+      "description": "Rare synthetic scale: 1-♭2-3-♯4-♯5-♯6-7. Multiple raised degrees create whole-tone-like ambiguity with chromatic tension. Popularized by Verdi. Extremely unstable - hard to establish tonality. Used for mysterious, surreal, unresolved passages. One of most dissonant and ambiguous traditional scales. Creates genuinely enigmatic character."
+    },
+    "Phrygian Dominant": {
+      "name": "Phrygian Dominant",
+      "description": "Fifth mode of harmonic minor: 1-♭2-3-4-5-♭6-♭7 (same as Maqam Hijaz). Combines Phrygian ♭2 with major third. Augmented second between ♭2 and 3 creates distinctive Spanish/Middle Eastern sound. Foundation of flamenco music. Used in metal, progressive rock, and world music for exotic, dramatic flavor. Instantly recognizable sound."
+    },
+    "Persian": {
+      "name": "Persian",
+      "description": "Exotic scale approximating Persian music: 1-♭2-3-4-♭5-♭6-7. Combines Phrygian ♭2, major 3rd, diminished 5th, and major 7th. Multiple augmented and diminished intervals create complex, tense character. Used for Middle Eastern flavor with additional chromaticism. Creates mysterious, ancient, exotic atmosphere beyond standard Phrygian Dominant."
+    },
+    "Hirajoshi": {
+      "name": "Hirajoshi",
+      "description": "Japanese pentatonic scale: 1-2-♭3-5-♭6. Five-note scale with no perfect 5th. Creates distinctly Japanese character - neither purely major nor minor. Used in traditional Japanese music and modern compositions seeking Japanese flavor. The unique intervals create peaceful, contemplative, exotic atmosphere. Signature sound of koto and shamisen."
+    },
+    "Insen": {
+      "name": "Insen",
+      "description": "Japanese pentatonic scale: 1-♭2-4-5-♭7. Dark, minor character with Phrygian ♭2. Creates melancholic Japanese atmosphere. Used in Japanese traditional music and modern soundtracks. The ♭2 gives exotic edge to minor pentatonic structure. Evokes ancient Japan, meditation, and introspection. Popular in video game and anime music."
+    },
+    "Kumoi": {
+      "name": "Kumoi",
+      "description": "Japanese pentatonic scale: 1-2-♭3-5-6. Minor pentatonic with natural 6th. Brighter than standard minor pentatonic, darker than major pentatonic. Creates gentle Japanese character. Used in traditional music and folk songs. The major 6th provides lift within minor context. Evokes natural beauty and pastoral Japanese landscapes."
+    },
+    "Egyptian Pentatonic": {
+      "name": "Egyptian Pentatonic",
+      "description": "Ancient suspended pentatonic: 1-2-4-5-♭7. No 3rd, creates suspended, ambiguous character. Used in ancient Egyptian music (theoretical reconstruction) and Middle Eastern folk music. Similar to minor pentatonic but with major 2nd instead of ♭3. Creates neutral, ancient, timeless atmosphere. Popular for world music and ethnic fusion."
+    }
   }
 }
