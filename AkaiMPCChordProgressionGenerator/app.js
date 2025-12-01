@@ -1392,65 +1392,36 @@ function generateVariant(variantType) {
             break;
     }
 
-    // Fill first 12 pads (rows 1-3)
+    // Fill first 12 pads (rows 1-3) from palette
+    // Palette is already sorted by spice level: foundation → standard → colorful → spicy
     const rows1to3 = [];
-    for (let i = 0; i < 12; i++) {
-        let degree, chordType, notes, chordName, romanNumeral, quality;
-        let isProgressionChord = false;
-        let isChordMatcherChord = false;
+    for (let i = 0; i < 12 && i < progressionChords.length; i++) {
+        const paletteChord = progressionChords[i];
+        let notes = paletteChord.notes;
+        let chordName = paletteChord.chordName;
+        let romanNumeral = paletteChord.romanNumeral;
+        let chordType = paletteChord.chordType;
 
-        // First, place the progression chords
-        if (i < originalProgressionLength) {
-            const progChord = progressionChords[i];
-            notes = progChord.notes;
-            chordName = progChord.chordName;
-            romanNumeral = progChord.romanNumeral;
-            chordType = progChord.chordType;
-            isProgressionChord = true;
-            isChordMatcherChord = progChord.isChordMatcherChord || false;
+        // Mark as progression chord only if it's part of the original template
+        const isProgressionChord = i < originalProgressionLength;
+        const isChordMatcherChord = paletteChord.isChordMatcherChord || false;
 
-            // Enhance chords based on variant type
-            if (variantType === 'Jazz' && i >= 4) {
-                // Add 7ths to some chords in Jazz variant
-                const scaleDegree = scaleDegrees[progChord.degree % scaleDegrees.length];
-                if (!chordType.includes('7')) {
-                    chordType = chordType === 'minor' ? 'minor7' :
-                               chordType === 'major' ? 'major7' : chordType;
-                    notes = buildChord(scaleDegree, chordType, keyOffset);
-                    chordName = getChordName(scaleDegree, chordType, keyOffset);
-                }
-            }
-
-            quality = chordType === 'minor' ? 'Minor' :
-                     chordType === 'major' ? 'Major' :
-                     chordType === 'diminished' ? 'Diminished' :
-                     chordType === 'major7' ? 'Major 7' :
-                     chordType === 'minor7' ? 'Minor 7' :
-                     chordType === 'dom7' ? 'Dominant 7' : 'Major';
-        } else {
-            // Fill with scale degree chords
-                degree = (i % 7);
-                const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
-
-                // Get proper chord quality based on mode
-                chordType = getChordQualityForMode(degree, selectedMode);
-
-                // Add variations based on variant type
-                if (variantType === 'Jazz' && i >= 8) {
-                    chordType = chordType === 'minor' ? 'minor7' :
-                               chordType === 'major' ? 'major7' : chordType;
-                }
-
-                notes = buildChord(scaleDegree, chordType, keyOffset);
-                chordName = getChordName(scaleDegree, chordType, keyOffset);
-                romanNumeral = getRomanNumeral(degree, chordType.includes('minor'), chordType === 'diminished');
-
-                quality = chordType === 'minor' ? 'Minor' :
-                         chordType === 'major' ? 'Major' :
-                         chordType === 'diminished' ? 'Diminished' :
-                         chordType === 'major7' ? 'Major 7' :
-                         chordType === 'minor7' ? 'Minor 7' : 'Major';
+        // Enhance chords based on variant type
+        if (variantType === 'Jazz' && i >= 4 && !chordType.includes('7')) {
+            // Add 7ths to some chords in Jazz variant
+            const scaleDegree = scaleDegrees[paletteChord.degree % scaleDegrees.length];
+            chordType = chordType === 'minor' ? 'minor7' :
+                       chordType === 'major' ? 'major7' : chordType;
+            notes = buildChord(scaleDegree, chordType, keyOffset);
+            chordName = getChordName(scaleDegree, chordType, keyOffset);
         }
+
+        const quality = chordType === 'minor' || chordType === 'minor7' ? 'Minor' :
+                       chordType === 'major' || chordType === 'major7' ? 'Major' :
+                       chordType === 'diminished' ? 'Diminished' :
+                       chordType === 'major7' ? 'Major 7' :
+                       chordType === 'minor7' ? 'Minor 7' :
+                       chordType === 'dom7' ? 'Dominant 7' : 'Major';
 
         const pad = {
             id: i + 1,
