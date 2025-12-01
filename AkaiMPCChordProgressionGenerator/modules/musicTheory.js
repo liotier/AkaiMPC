@@ -133,16 +133,66 @@ export const progressions = {
         }
     ],
     'Jazz/Functional': [
-        { value: 'ii—V—I', name: 'ii—V—I', nickname: '2-5-1' },
-        { value: 'ii—V—I—vi', name: 'ii—V—I—vi', nickname: 'Jazz Standard' },
-        { value: 'iii—vi—ii—V', name: 'iii—vi—ii—V', nickname: 'Circle Progression' },
-        { value: 'IVM7—V7—iii7—vi', name: 'IVM7—V7—iii7—vi', nickname: 'Fly Me To The Moon' },
-        { value: 'IM7—ii7—iii7—IVM7', name: 'IM7—ii7—iii7—IVM7', nickname: 'Ascending Jazz' },
-        { value: 'vi—ii—V—I', name: 'vi—ii—V—I', nickname: 'Minor Turnaround' },
-        { value: 'I—vi—IV—♯iv°—V', name: 'I—vi—IV—♯iv°—V', nickname: 'Chromatic Turnaround' },
-        { value: 'iv—♭VII—I', name: 'iv—♭VII—I', nickname: 'Backdoor' },
-        { value: 'I—♯I°—ii—♯II°', name: 'I—♯I°—ii—♯II°', nickname: 'Chromatic Walk' },
-        { value: 'IM7—♭IIIM7—♭VIM7—♭II7', name: 'IM7—♭IIIM7—♭VIM7—♭II7', nickname: 'Giant Steps' }
+        {
+            value: 'ii—V—I',
+            name: 'ii—V—I',
+            nickname: '2-5-1',
+            description: 'The most fundamental progression in jazz. The ii (supertonic) prepares the V (dominant), which strongly resolves to I (tonic). This circle-of-fifths movement is the building block of functional harmony and appears in nearly every jazz standard.'
+        },
+        {
+            value: 'ii—V—I—vi',
+            name: 'ii—V—I—vi',
+            nickname: 'Jazz Standard',
+            description: 'Extended ii-V-I cadence with deceptive resolution. After the strong ii-V-I, the vi chord surprises the ear instead of staying on I, creating continued forward momentum. Perfect for looping in jazz improvisations and standards.'
+        },
+        {
+            value: 'iii—vi—ii—V',
+            name: 'iii—vi—ii—V',
+            nickname: 'Circle Progression',
+            description: 'Descending circle of fifths: iii to vi to ii to V. Each chord is a fifth below the previous, creating inevit able gravitational pull toward tonic. Demonstrates pure functional harmony in action - used extensively in bebop and hard bop.'
+        },
+        {
+            value: 'IVM7—V7—iii7—vi',
+            name: 'IVM7—V7—iii7—vi',
+            nickname: 'Fly Me To The Moon',
+            description: 'From Bart Howard\'s jazz standard. IV-V creates strong motion, iii-vi continues descending by thirds (plagal cascade). Rich maj7 and dom7 voicings create sophisticated, romantic jazz sound perfect for ballads.'
+        },
+        {
+            value: 'IM7—ii7—iii7—IVM7',
+            name: 'IM7—ii7—iii7—IVM7',
+            nickname: 'Ascending Jazz',
+            description: 'Stepwise ascending progression through diatonic 7th chords. Creates gentle, uplifting motion. Avoids strong functional resolutions, instead painting with color and texture. Common in modal jazz and contemporary jazz compositions.'
+        },
+        {
+            value: 'vi—ii—V—I',
+            name: 'vi—ii—V—I',
+            nickname: 'Minor Turnaround',
+            description: 'Begins on relative minor (vi) for darker emotional start, then cycles through ii-V-I to resolve to major tonic. The contrast between minor beginning and major resolution creates satisfying emotional arc common in jazz ballads.'
+        },
+        {
+            value: 'I—vi—IV—♯iv°—V',
+            name: 'I—vi—IV—♯iv°—V',
+            nickname: 'Chromatic Turnaround',
+            description: 'Classic turnaround with passing diminished chord. The ♯iv° (raised four diminished) creates chromatic bass line (I-vi-IV-♯iv°-V), adding harmonic sophistication. The diminished chord functions as dominant of dominant, strengthening resolution to V.'
+        },
+        {
+            value: 'iv—♭VII—I',
+            name: 'iv—♭VII—I',
+            nickname: 'Backdoor',
+            description: 'The "backdoor progression" - approaches tonic from ♭VII instead of V. Borrowed iv from parallel minor adds color, ♭VII creates whole-step resolution to I (plagal motion). Provides relief from constant ii-V-I, adds unexpected freshness to jazz harmony.'
+        },
+        {
+            value: 'I—♯I°—ii—♯II°',
+            name: 'I—♯I°—ii—♯II°',
+            nickname: 'Chromatic Walk',
+            description: 'Chromatically ascending bassline using passing diminished chords. Each diminished chord connects diatonic chords a whole step apart. Creates smooth voice leading and sophisticated sound used in jazz intros and interludes.'
+        },
+        {
+            value: 'IM7—♭IIIM7—♭VIM7—♭II7',
+            name: 'IM7—♭IIIM7—♭VIM7—♭II7',
+            nickname: 'Giant Steps',
+            description: 'John Coltrane\'s revolutionary "Giant Steps" changes. Moves through three tonal centers divided into major thirds (I, ♭III, ♭VI). The ♭II7 is tritone substitution. Creates maximum harmonic movement, defining moment in jazz evolution.'
+        }
     ],
     'Classical/Modal': [
         { value: 'I—IV—vii°—iii—vi—ii—V—I', name: 'I—IV—vii°—iii—vi—ii—V—I', nickname: 'Circle of Fifths' },
