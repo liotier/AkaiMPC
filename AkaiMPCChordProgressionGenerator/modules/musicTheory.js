@@ -84,19 +84,22 @@ export const progressions = {
             value: 'i—iv—v',
             name: 'i—iv—v',
             nickname: 'Techno Minimal',
-            paletteFilter: ['minor', 'minor7', 'quartal'] // Sparse, mechanical
+            paletteFilter: ['minor', 'minor7', 'quartal'],
+            description: 'Sparse, mechanical palette. Minor triads and quartal voicings for hypnotic loops.'
         },
         {
             value: 'I—IV—V',
             name: 'I—IV—V',
             nickname: 'Deep House',
-            paletteFilter: ['major7', 'minor7', 'dom7', 'major'] // Warm, jazzy
+            paletteFilter: ['major7', 'minor7', 'dom7', 'major'],
+            description: 'Warm, jazzy palette. Rich 7th chords for soulful, groovy deep house vibes.'
         },
         {
             value: 'IM7—IVM7—VM7',
             name: 'IM7—IVM7—VM7',
             nickname: 'Ambient Wash',
-            paletteFilter: ['major7', 'minor7', 'quartal'] // Open, floating, ethereal
+            paletteFilter: ['major7', 'minor7', 'quartal'],
+            description: 'Open, floating palette. Major/minor 7ths and quartal voicings for ethereal soundscapes.'
         }
     ],
     'R&B/Neo-Soul': [
@@ -128,13 +131,15 @@ export const progressions = {
             value: 'ii7—V7—IM7',
             name: 'ii7—V7—IM7',
             nickname: 'Lofi Jazz',
-            paletteFilter: ['minor7', 'major7', 'dom7'] // Jazzy, nostalgic, dusty
+            paletteFilter: ['minor7', 'major7', 'dom7'],
+            description: 'Jazzy, nostalgic palette. All 7th chords, no plain triads - warm, dusty, vinyl vibes.'
         },
         {
             value: 'i—♭VII—iv',
             name: 'i—♭VII—iv',
             nickname: 'Footwork Juke',
-            paletteFilter: ['minor', 'minor7', 'major'] // Frenetic, sample-based
+            paletteFilter: ['minor', 'minor7', 'major'],
+            description: 'Frenetic Chicago palette. Simple harmony for complex 160bpm chopped rhythms.'
         }
     ],
     'Latin/Bossa': [
@@ -165,7 +170,8 @@ export const progressions = {
             value: 'I—V—vi—IV',
             name: 'I—V—vi—IV',
             nickname: 'Post-Rock Build',
-            paletteFilter: ['major', 'quartal', 'major7'] // Open, evolving, textural
+            paletteFilter: ['major', 'quartal', 'major7'],
+            description: 'Open, evolving palette. Major chords, quartal voicings, maj7s for textural builds.'
         }
     ],
     'Metal/Rock': [
@@ -191,7 +197,8 @@ export const progressions = {
             value: 'i—v—♭VII',
             name: 'i—v—♭VII',
             nickname: 'Minimal Trance',
-            paletteFilter: ['minor', 'minor7', 'major', 'dom7'] // Hypnotic, driving
+            paletteFilter: ['minor', 'minor7', 'major', 'dom7'],
+            description: 'Hypnotic, driving palette. Minor and major triads with 7ths for repetitive loops.'
         }
     ],
     'Jungle/Drum\'n\'Bass': [
@@ -211,7 +218,8 @@ export const progressions = {
             value: 'i—iv',
             name: 'i—iv',
             nickname: 'Minimal House',
-            paletteFilter: ['minor', 'minor7', 'major7'] // Hypnotic, stripped-back
+            paletteFilter: ['minor', 'minor7', 'major7'],
+            description: 'Hypnotic, stripped-back palette. Clean minor chords with subtle 7th extensions.'
         }
     ],
     'Synthwave/Retrowave': [
@@ -226,7 +234,8 @@ export const progressions = {
             value: 'IM7—iii7—vi7—IVM7',
             name: 'IM7—iii7—vi7—IVM7',
             nickname: 'Vaporwave Dream',
-            paletteFilter: ['major7', 'minor7', 'dom7'] // Nostalgic, dreamy, corporate
+            paletteFilter: ['major7', 'minor7', 'dom7'],
+            description: 'Nostalgic, dreamy palette. All 7th chords for slowed-down smooth jazz aesthetic.'
         }
     ],
     'African Dance': [
@@ -240,19 +249,22 @@ export const progressions = {
             value: 'i—VII—♭VI',
             name: 'i—VII—♭VI',
             nickname: 'UK Garage',
-            paletteFilter: ['minor', 'minor7', 'major'] // Soulful, skippy
+            paletteFilter: ['minor', 'minor7', 'major'],
+            description: 'Soulful, skippy palette. Minor and major chords for skippy 2-step grooves.'
         },
         {
             value: 'i—♭VI',
             name: 'i—♭VI',
             nickname: 'Dubstep Wobble',
-            paletteFilter: ['minor', 'diminished', 'dom7'] // Dark, aggressive, menacing
+            paletteFilter: ['minor', 'diminished', 'dom7'],
+            description: 'Dark, aggressive palette. Minor, diminished, dom7 for maximum menace and bass.'
         },
         {
             value: 'i—♭VII—i',
             name: 'i—♭VII—i',
             nickname: 'Breakbeat',
-            paletteFilter: ['minor', 'dom7', 'major'] // Energetic, sampled
+            paletteFilter: ['minor', 'dom7', 'major'],
+            description: 'Energetic Big Beat palette. Minor and dominant 7ths for sample-heavy breaks.'
         }
     ],
     'Reggae/Dub': [
@@ -260,19 +272,22 @@ export const progressions = {
             value: 'I—IV—I—V',
             name: 'I—IV—I—V',
             nickname: 'Roots Dub',
-            paletteFilter: ['major', 'dom7', 'minor'] // Foundation, roots, heavy
+            paletteFilter: ['major', 'dom7', 'minor'],
+            description: 'Foundation roots palette. Major and dominant 7ths for heavy bassline workouts.'
         },
         {
             value: 'I—V—IV',
             name: 'I—V—IV',
             nickname: 'One Drop',
-            paletteFilter: ['major', 'dom7'] // Classic reggae foundation
+            paletteFilter: ['major', 'dom7'],
+            description: 'Classic reggae foundation. Major triads and dom7s, no minor for authentic feel.'
         },
         {
             value: 'i—♭VII—♭VI',
             name: 'i—♭VII—♭VI',
             nickname: 'Steppers Dub',
-            paletteFilter: ['minor', 'major', 'dom7'] // Deep, meditative
+            paletteFilter: ['minor', 'major', 'dom7'],
+            description: 'Deep, meditative palette. Minor and major mix for steppers 4/4 dub sessions.'
         }
     ],
     'Acid/EBM': [
@@ -280,19 +295,22 @@ export const progressions = {
             value: 'i—iv—♭VII—i',
             name: 'i—iv—♭VII—i',
             nickname: 'EBM Classic',
-            paletteFilter: ['minor', 'minor7', 'dom7', 'diminished'] // Dark, tense voicings
+            paletteFilter: ['minor', 'minor7', 'dom7', 'diminished'],
+            description: 'Dark, tense palette. Minor, diminished, dom7 for industrial body music.'
         },
         {
             value: 'i—♭VII—iv',
             name: 'i—♭VII—iv',
             nickname: 'Acid 303',
-            paletteFilter: ['minor', 'minor7', 'dom7', 'quartal'] // Classic acid sound
+            paletteFilter: ['minor', 'minor7', 'dom7', 'quartal'],
+            description: 'Classic acid palette. Minor 7ths and quartal voicings for TB-303 squelch.'
         },
         {
             value: 'i—♭VI—♭VII',
             name: 'i—♭VI—♭VII',
             nickname: 'Dark Minimal',
-            paletteFilter: ['minor', 'diminished', 'dom7'] // Harsh, industrial
+            paletteFilter: ['minor', 'diminished', 'dom7'],
+            description: 'Harsh, industrial palette. Diminished and dom7s for aggressive minimal techno.'
         }
     ]
 };
