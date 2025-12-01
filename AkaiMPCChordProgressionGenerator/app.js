@@ -1616,6 +1616,10 @@ function populateSelects() {
             const option = document.createElement('option');
             option.value = prog.value;
             option.textContent = prog.nickname ? `${prog.name} (${prog.nickname})` : prog.name;
+            // Add tooltip description if available
+            if (prog.description) {
+                option.title = prog.description;
+            }
             optgroup.appendChild(option);
         });
         progressionSelect.appendChild(optgroup);
