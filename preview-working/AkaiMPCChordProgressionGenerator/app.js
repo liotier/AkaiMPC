@@ -1405,70 +1405,118 @@ function generateVariant(variantType) {
             break;
     }
 
-    // Fill first 12 pads (rows 1-3)
-    // Pads 1-N: Original progression (in template order)
-    // Pads N+1 to 12: Palette chords (sorted by spice level)
+    // Build complete chord queue: progression + palette
+    const allChords = [...voicedProgression, ...voicedPalette];
+    let chordQueueIndex = 0;
+
+    // Helper: Get next chord from queue
+    const getNextChord = () => {
+        if (chordQueueIndex < allChords.length) {
+            return allChords[chordQueueIndex++];
+        }
+        return null;
+    };
+
+    // Fill first 12 pads (rows 1-3) and collapse contiguous duplicates per row
     const rows1to3 = [];
+    const initialPads = []; // Temporary storage before deduplication
+
+    // First pass: fill all 12 slots
     for (let i = 0; i < 12; i++) {
-        // Use original progression for first N pads, then palette
-        const sourceChord = i < originalProgressionLength
-            ? voicedProgression[i]
-            : voicedPalette[i - originalProgressionLength];
+        const sourceChord = getNextChord();
+        if (!sourceChord) break;
 
-        if (!sourceChord) break; // No more chords available
+        initialPads.push({
+            sourceChord,
+            isProgressionChord: i < originalProgressionLength
+        });
+    }
 
-        const paletteChord = sourceChord;
-        let notes = paletteChord.notes;
-        let chordName = paletteChord.chordName;
-        let romanNumeral = paletteChord.romanNumeral;
-        let chordType = paletteChord.chordType;
+    // Second pass: collapse contiguous duplicates per row and refill
+    for (let row = 0; row < 3; row++) {
+        const rowStart = row * 4;
+        const rowEnd = rowStart + 4;
+        const rowPads = [];
 
-        // Mark as progression chord only if it's part of the original template
-        const isProgressionChord = i < originalProgressionLength;
-        const isChordMatcherChord = paletteChord.isChordMatcherChord || false;
+        // Collapse duplicates in this row
+        for (let i = rowStart; i < rowEnd && i < initialPads.length; i++) {
+            const current = initialPads[i];
+            const previous = rowPads.length > 0 ? rowPads[rowPads.length - 1] : null;
 
-        // Enhance chords based on variant type
-        if (variantType === 'Jazz' && i >= 4 && !chordType.includes('7')) {
-            // Add 7ths to some chords in Jazz variant
-            const scaleDegree = scaleDegrees[paletteChord.degree % scaleDegrees.length];
-            chordType = chordType === 'minor' ? 'minor7' :
-                       chordType === 'major' ? 'major7' : chordType;
-            notes = buildChord(scaleDegree, chordType, keyOffset);
-            chordName = getChordName(scaleDegree, chordType, keyOffset);
+            // Skip if same chord as previous in this row
+            if (previous && previous.sourceChord.romanNumeral === current.sourceChord.romanNumeral) {
+                continue; // Skip duplicate
+            }
+
+            rowPads.push(current);
         }
 
-        // Map chord type to quality label
-        let quality;
-        if (chordType === 'minor' || chordType === 'minor7') {
-            quality = 'Minor';
-        } else if (chordType === 'major' || chordType === 'major7') {
-            quality = 'Major';
-        } else if (chordType === 'diminished') {
-            quality = 'Diminished';
-        } else if (chordType === 'major7') {
-            quality = 'Major 7';
-        } else if (chordType === 'minor7') {
-            quality = 'Minor 7';
-        } else if (chordType === 'dom7') {
-            quality = 'Dominant 7';
-        } else {
-            quality = 'Major';
+        // Refill row to 4 pads with next available chords
+        while (rowPads.length < 4) {
+            const nextChord = getNextChord();
+            if (!nextChord) break;
+
+            rowPads.push({
+                sourceChord: nextChord,
+                isProgressionChord: false // Refilled slots are not progression chords
+            });
         }
 
-        const pad = {
-            id: i + 1,
-            chordName,
-            romanNumeral,
-            notes,
-            quality,
-            row: Math.floor(i / 4) + 1,
-            col: (i % 4) + 1,
-            isProgressionChord,
-            isChordMatcherChord
-        };
+        // Convert to final pad format
+        rowPads.forEach((padData, colIndex) => {
+            const paletteChord = padData.sourceChord;
+            let notes = paletteChord.notes;
+            let chordName = paletteChord.chordName;
+            let romanNumeral = paletteChord.romanNumeral;
+            let chordType = paletteChord.chordType;
+            const isProgressionChord = padData.isProgressionChord;
+            const isChordMatcherChord = paletteChord.isChordMatcherChord || false;
 
-        pads.push(pad);
-        rows1to3.push(pad);
+            const padIndex = rowStart + colIndex;
+
+            // Enhance chords based on variant type
+            if (variantType === 'Jazz' && padIndex >= 4 && !chordType.includes('7')) {
+                // Add 7ths to some chords in Jazz variant
+                const scaleDegree = scaleDegrees[paletteChord.degree % scaleDegrees.length];
+                chordType = chordType === 'minor' ? 'minor7' :
+                           chordType === 'major' ? 'major7' : chordType;
+                notes = buildChord(scaleDegree, chordType, keyOffset);
+                chordName = getChordName(scaleDegree, chordType, keyOffset);
+            }
+
+            // Map chord type to quality label
+            let quality;
+            if (chordType === 'minor' || chordType === 'minor7') {
+                quality = 'Minor';
+            } else if (chordType === 'major' || chordType === 'major7') {
+                quality = 'Major';
+            } else if (chordType === 'diminished') {
+                quality = 'Diminished';
+            } else if (chordType === 'major7') {
+                quality = 'Major 7';
+            } else if (chordType === 'minor7') {
+                quality = 'Minor 7';
+            } else if (chordType === 'dom7') {
+                quality = 'Dominant 7';
+            } else {
+                quality = 'Major';
+            }
+
+            const pad = {
+                id: padIndex + 1,
+                chordName,
+                romanNumeral,
+                notes,
+                quality,
+                row: row + 1,
+                col: colIndex + 1,
+                isProgressionChord,
+                isChordMatcherChord
+            };
+
+            pads.push(pad);
+            rows1to3.push(pad);
+        });
     }
 
     // Dynamically generate row 4 based on analysis of rows 1-3
