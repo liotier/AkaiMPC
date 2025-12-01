@@ -1,0 +1,74 @@
+{
+  "app": {
+    "title": "MPC Chord Progression Generator",
+    "subtitle": "Create musically intelligent chord progressions optimized for the MPC's 4×4 pad layout",
+    "subtitleLine2": "Generate Akai MPC .progression files - also get keyboard and guitar diagrams, to jam with others"
+  },
+  "chordMatcher": {
+    "title": "Chord Matcher",
+    "optional": "Optional",
+    "description": "Found a sample with great chords ? Enter them here to find compatible keys and modes for your production.",
+    "noteLabel": "Note...",
+    "qualityLabel": "Quality...",
+    "qualities": {
+      "major": "Major",
+      "minor": "Minor",
+      "dim": "Diminished",
+      "aug": "Augmented",
+      "sus2": "Sus2",
+      "sus4": "Sus4",
+      "7": "Dominant 7",
+      "maj7": "Major 7",
+      "m7": "Minor 7"
+    },
+    "addChord": "Add Chord",
+    "clearAll": "Clear All",
+    "compatibleLabel": "Compatible Keys & Modes:"
+  },
+  "controls": {
+    "generationMode": {
+      "template": "Use Progression Palette",
+      "scale": "Explore Scale/Mode"
+    },
+    "labels": {
+      "key": "Key",
+      "mode": "Mode/Scale",
+      "progression": "Progression Palette",
+      "name": "Progression Name"
+    }
+  },
+  "buttons": {
+    "generate": "Generate Progressions",
+    "downloadAll": "Download all .progression files"
+  },
+  "tabs": {
+    "mpc": "MPC Pads",
+    "keyboard": "Keyboard",
+    "guitar": "Guitar",
+    "staff": "Staff",
+    "leftHanded": "Left-handed",
+    "midiOutput": "MIDI Output:",
+    "midiOutputNone": "Browser beep (no MIDI)"
+  },
+  "footer": {
+    "cousin": "Cousin to the",
+    "finderLink": "MPC Chord Progression Finder",
+    "producer": "Produced by Jean-Marc Liotier",
+    "github": "View on GitHub"
+  },
+  "tooltips": {
+    "progressionPaletteDisabled": "Progression palettes are not used in Scale Exploration mode. All chords from the selected scale will be generated.",
+    "progressionPaletteEnabled": "Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors."
+  },
+  "errors": {
+    "selectKey": "Please select a key",
+    "selectMode": "Please select a mode",
+    "selectProgression": "Please select a progression",
+    "generateFailed": "Failed to generate progression"
+  },
+  "messages": {
+    "loading": "Loading...",
+    "generating": "Generating progressions...",
+    "complete": "Generation complete"
+  }
+}
