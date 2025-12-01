@@ -1835,6 +1835,12 @@ function renderProgressions() {
 
         const progressionAnalysis = analyzeProgression(variant.pads);
 
+        // Calculate progression length for clarification text
+        const progressionChordCount = variant.pads.filter(p => p.isProgressionChord).length;
+        const progressionClarification = progressionChordCount > 0
+            ? `Chords 1-${progressionChordCount} from progression, ${progressionChordCount + 1}-16 extrapolated. `
+            : '';
+
         // Add voicing style annotation
         let voicingStyle = '';
         let uniquenessTooltip = '';
@@ -1876,7 +1882,7 @@ function renderProgressions() {
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
                         ${progressionAnalysis ? `<span class="analysis">${progressionAnalysis}</span>` : ''}
-                        <span class="voice-leading-hint">Colors of cards show chord distance from selected card</span>
+                        <span class="voice-leading-hint">${progressionClarification}Colors of cards show chord distance from selected card</span>
                     </div>
                 </div>
                 <button class="download-btn" data-variant-index="${index}">
@@ -1886,7 +1892,7 @@ function renderProgressions() {
                 </button>
             </div>
             <div class="chord-grid">${gridHTML}</div>
-            <div class="voice-leading-hint-bottom">Colors of cards show chord distance from selected card</div>
+            <div class="voice-leading-hint-bottom">${progressionClarification}Colors of cards show chord distance from selected card</div>
         `;
 
         container.appendChild(card);
