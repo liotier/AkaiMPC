@@ -1161,6 +1161,16 @@ function generateVariant(variantType) {
     const originalProgression = [...progressionChords];
     const originalProgressionLength = progressionChords.length;
 
+    // Look up the full progression template object to get paletteFilter
+    let paletteFilter = null;
+    for (const category in progressions) {
+        const template = progressions[category].find(p => p.value === selectedProgression);
+        if (template && template.paletteFilter) {
+            paletteFilter = template.paletteFilter;
+            break;
+        }
+    }
+
     // Convert progression sequence to palette ensuring ALL 16 PADS ARE UNIQUE
     // Harmonic gradient: Row 1 (pads 1-4, bottom visual row) = foundation with tonic
     //                    Row 4 (pads 13-16, top visual row) = spicy adventurous chords
@@ -1181,6 +1191,11 @@ function generateVariant(variantType) {
 
     // Helper to add unique chord
     const addChord = (degree, type, romanBase, suffix, spice, isChordMatcher = false) => {
+        // Apply palette filter if defined
+        if (paletteFilter && !paletteFilter.includes(type)) {
+            return; // Skip chord types not in the filter
+        }
+
         const roman = romanBase + suffix;
         if (usedRomanNumerals.has(roman)) return; // Skip duplicates
         usedRomanNumerals.add(roman);
@@ -1315,40 +1330,46 @@ function generateVariant(variantType) {
     }
 
     // ♭VII - colorful (Mixolydian/blues flavor)
-    const flatSeven = (scaleDegrees[0] + 10) % 12;
-    palette.push({
-        degree: 6,
-        notes: buildChord(flatSeven, 'major', keyOffset),
-        chordType: 'major',
-        chordName: getChordName(flatSeven, 'major', keyOffset, '♭VII'),
-        romanNumeral: '♭VII',
-        spiceLevel: 2
-    });
+    if (!paletteFilter || paletteFilter.includes('major')) {
+        const flatSeven = (scaleDegrees[0] + 10) % 12;
+        palette.push({
+            degree: 6,
+            notes: buildChord(flatSeven, 'major', keyOffset),
+            chordType: 'major',
+            chordName: getChordName(flatSeven, 'major', keyOffset, '♭VII'),
+            romanNumeral: '♭VII',
+            spiceLevel: 2
+        });
+    }
 
     // ♭VI - spicy! (borrowed from minor)
-    const flatSix = (scaleDegrees[0] + 8) % 12;
-    palette.push({
-        degree: 5,
-        notes: buildChord(flatSix, 'major', keyOffset),
-        chordType: 'major',
-        chordName: getChordName(flatSix, 'major', keyOffset, '♭VI'),
-        romanNumeral: '♭VI',
-        spiceLevel: 3
-    });
+    if (!paletteFilter || paletteFilter.includes('major')) {
+        const flatSix = (scaleDegrees[0] + 8) % 12;
+        palette.push({
+            degree: 5,
+            notes: buildChord(flatSix, 'major', keyOffset),
+            chordType: 'major',
+            chordName: getChordName(flatSix, 'major', keyOffset, '♭VI'),
+            romanNumeral: '♭VI',
+            spiceLevel: 3
+        });
+    }
 
     // ♭III - spicy!
-    const flatThree = (scaleDegrees[0] + 3) % 12;
-    palette.push({
-        degree: 2,
-        notes: buildChord(flatThree, 'major', keyOffset),
-        chordType: 'major',
-        chordName: getChordName(flatThree, 'major', keyOffset, '♭III'),
-        romanNumeral: '♭III',
-        spiceLevel: 3
-    });
+    if (!paletteFilter || paletteFilter.includes('major')) {
+        const flatThree = (scaleDegrees[0] + 3) % 12;
+        palette.push({
+            degree: 2,
+            notes: buildChord(flatThree, 'major', keyOffset),
+            chordType: 'major',
+            chordName: getChordName(flatThree, 'major', keyOffset, '♭III'),
+            romanNumeral: '♭III',
+            spiceLevel: 3
+        });
+    }
 
     // iv - colorful (borrowed from parallel minor)
-    if (scaleDegrees.length > 3) {
+    if (scaleDegrees.length > 3 && (!paletteFilter || paletteFilter.includes('minor'))) {
         const fourth = scaleDegrees[3];
         palette.push({
             degree: 3,
@@ -2311,7 +2332,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (hasHover) {
         const templateModeLabel = document.getElementById('templateModeLabel');
         templateModeLabel.addEventListener('pointerenter', function() {
-            showTooltip(this, 'Generate progressions from 135 pre-made templates across 15 genres. Creates 4 voicing variants (Classic, Jazz, Modal, Experimental).');
+            showTooltip(this, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
         });
         templateModeLabel.addEventListener('pointerleave', function() {
             const tooltip = document.getElementById('chordTooltip');
@@ -2341,9 +2362,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const progressionSelect = document.getElementById('progressionSelect');
         progressionSelect.addEventListener('pointerenter', function() {
             if (this.disabled) {
-                showTooltip(this, 'Progression templates are not used in Scale Exploration mode. All chords from the selected scale will be generated.');
+                showTooltip(this, 'Progression palettes are not used in Scale Exploration mode. All chords from the selected scale will be generated.');
             } else {
-                showTooltip(this, 'Major progressions start with uppercase roman numerals (I, IV, V). Minor progressions start with lowercase (i, iv, v). The roman numeral case determines the chord quality.');
+                showTooltip(this, 'Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors.');
             }
         });
         progressionSelect.addEventListener('pointerleave', function() {
@@ -2419,7 +2440,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Setup tap tooltips for labels
         const templateModeLabel = document.getElementById('templateModeLabel');
-        setupTapTooltip(templateModeLabel, 'Generate progressions from 135 pre-made templates across 15 genres. Creates 4 voicing variants (Classic, Jazz, Modal, Experimental).');
+        setupTapTooltip(templateModeLabel, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
 
         const scaleModeLabel = document.getElementById('scaleModeLabel');
         setupTapTooltip(scaleModeLabel, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.');
@@ -2432,9 +2453,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const progressionSelect = document.getElementById('progressionSelect');
         setupTapTooltip(progressionSelect, function() {
             if (this.disabled) {
-                return 'Progression templates are not used in Scale Exploration mode. All chords from the selected scale will be generated.';
+                return 'Progression palettes are not used in Scale Exploration mode. All chords from the selected scale will be generated.';
             } else {
-                return 'Major progressions start with uppercase roman numerals (I, IV, V). Minor progressions start with lowercase (i, iv, v). The roman numeral case determines the chord quality.';
+                return 'Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors.';
             }
         });
 
