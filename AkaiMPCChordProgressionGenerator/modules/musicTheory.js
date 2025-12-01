@@ -91,6 +91,12 @@ export const progressions = {
             name: 'I—IV—V',
             nickname: 'Deep House',
             paletteFilter: ['major7', 'minor7', 'dom7', 'major'] // Warm, jazzy
+        },
+        {
+            value: 'IM7—IVM7—VM7',
+            name: 'IM7—IVM7—VM7',
+            nickname: 'Ambient Wash',
+            paletteFilter: ['major7', 'minor7', 'quartal'] // Open, floating, ethereal
         }
     ],
     'R&B/Neo-Soul': [
@@ -117,7 +123,19 @@ export const progressions = {
         { value: 'i—♭VII—♭VI', name: 'i—♭VII—♭VI', nickname: 'Lofi Hip-Hop' },
         { value: 'i—iv—i—♭VI', name: 'i—iv—i—♭VI', nickname: 'Boom Bap' },
         { value: 'i—♭III—iv—♭VI', name: 'i—♭III—iv—♭VI', nickname: 'Emo Rap' },
-        { value: 'I—♭III—♭VII—IV', name: 'I—♭III—♭VII—IV', nickname: 'West Coast' }
+        { value: 'I—♭III—♭VII—IV', name: 'I—♭III—♭VII—IV', nickname: 'West Coast' },
+        {
+            value: 'ii7—V7—IM7',
+            name: 'ii7—V7—IM7',
+            nickname: 'Lofi Jazz',
+            paletteFilter: ['minor7', 'major7', 'dom7'] // Jazzy, nostalgic, dusty
+        },
+        {
+            value: 'i—♭VII—iv',
+            name: 'i—♭VII—iv',
+            nickname: 'Footwork Juke',
+            paletteFilter: ['minor', 'minor7', 'major'] // Frenetic, sample-based
+        }
     ],
     'Latin/Bossa': [
         { value: 'IM7—VI7—ii7—V7', name: 'IM7—VI7—ii7—V7', nickname: 'Bossa Nova' },
@@ -142,7 +160,13 @@ export const progressions = {
         { value: 'I—V—IV—I', name: 'I—V—IV—I', nickname: 'Country' },
         { value: 'I—iii—IV—V', name: 'I—iii—IV—V', nickname: 'Classic Folk' },
         { value: 'IV—V—I—vi', name: 'IV—V—I—vi', nickname: 'Americana' },
-        { value: 'I—V—vi—iii', name: 'I—V—vi—iii', nickname: 'Irish Folk' }
+        { value: 'I—V—vi—iii', name: 'I—V—vi—iii', nickname: 'Irish Folk' },
+        {
+            value: 'I—V—vi—IV',
+            name: 'I—V—vi—IV',
+            nickname: 'Post-Rock Build',
+            paletteFilter: ['major', 'quartal', 'major7'] // Open, evolving, textural
+        }
     ],
     'Metal/Rock': [
         { value: 'i—♭VI—♭VII—i', name: 'i—♭VI—♭VII—i', nickname: 'Power Metal' },
@@ -182,7 +206,13 @@ export const progressions = {
         { value: 'I—IV—V—iii', name: 'I—IV—V—iii', nickname: 'Italo House' },
         { value: 'vi—IV—I—V', name: 'vi—IV—I—V', nickname: 'Italo Pop' },
         { value: 'I—V—vi—iii—IV—I', name: 'I—V—vi—iii—IV—I', nickname: 'Extended Italo' },
-        { value: 'IM7—vi7—IVM7—V7', name: 'IM7—vi7—IVM7—V7', nickname: 'Smooth Italo' }
+        { value: 'IM7—vi7—IVM7—V7', name: 'IM7—vi7—IVM7—V7', nickname: 'Smooth Italo' },
+        {
+            value: 'i—iv',
+            name: 'i—iv',
+            nickname: 'Minimal House',
+            paletteFilter: ['minor', 'minor7', 'major7'] // Hypnotic, stripped-back
+        }
     ],
     'Synthwave/Retrowave': [
         { value: 'i—♭VII—♭VI—V', name: 'i—♭VII—♭VI—V', nickname: 'Outrun' },
@@ -191,13 +221,59 @@ export const progressions = {
         { value: 'i—v—♭VI—♭VII', name: 'i—v—♭VI—♭VII', nickname: 'Cyberpunk' },
         { value: 'I—♭VII—♭VI—I', name: 'I—♭VII—♭VI—I', nickname: 'Dreamwave' },
         { value: 'vi—IV—I—V', name: 'vi—IV—I—V', nickname: 'Retrowave Pop' },
-        { value: 'i—♭VI—III—♭VII', name: 'i—♭VI—III—♭VII', nickname: 'Dark Synth' }
+        { value: 'i—♭VI—III—♭VII', name: 'i—♭VI—III—♭VII', nickname: 'Dark Synth' },
+        {
+            value: 'IM7—iii7—vi7—IVM7',
+            name: 'IM7—iii7—vi7—IVM7',
+            nickname: 'Vaporwave Dream',
+            paletteFilter: ['major7', 'minor7', 'dom7'] // Nostalgic, dreamy, corporate
+        }
     ],
     'African Dance': [
         { value: 'I—IV—V—IV', name: 'I—IV—V—IV', nickname: 'Soukous Sebene' },
         { value: 'I—IV—I—V', name: 'I—IV—I—V', nickname: 'Soukous Classic' },
         { value: 'I—♭VII—IV—I', name: 'I—♭VII—IV—I', nickname: 'Soukous Modern' },
         { value: 'I—IV—♭VII—I', name: 'I—IV—♭VII—I', nickname: 'Makossa Funk' }
+    ],
+    'UK Bass': [
+        {
+            value: 'i—VII—♭VI',
+            name: 'i—VII—♭VI',
+            nickname: 'UK Garage',
+            paletteFilter: ['minor', 'minor7', 'major'] // Soulful, skippy
+        },
+        {
+            value: 'i—♭VI',
+            name: 'i—♭VI',
+            nickname: 'Dubstep Wobble',
+            paletteFilter: ['minor', 'diminished', 'dom7'] // Dark, aggressive, menacing
+        },
+        {
+            value: 'i—♭VII—i',
+            name: 'i—♭VII—i',
+            nickname: 'Breakbeat',
+            paletteFilter: ['minor', 'dom7', 'major'] // Energetic, sampled
+        }
+    ],
+    'Reggae/Dub': [
+        {
+            value: 'I—IV—I—V',
+            name: 'I—IV—I—V',
+            nickname: 'Roots Dub',
+            paletteFilter: ['major', 'dom7', 'minor'] // Foundation, roots, heavy
+        },
+        {
+            value: 'I—V—IV',
+            name: 'I—V—IV',
+            nickname: 'One Drop',
+            paletteFilter: ['major', 'dom7'] // Classic reggae foundation
+        },
+        {
+            value: 'i—♭VII—♭VI',
+            name: 'i—♭VII—♭VI',
+            nickname: 'Steppers Dub',
+            paletteFilter: ['minor', 'major', 'dom7'] // Deep, meditative
+        }
     ],
     'Acid/EBM': [
         {
