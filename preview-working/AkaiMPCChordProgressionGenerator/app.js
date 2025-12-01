@@ -1157,6 +1157,9 @@ function generateVariant(variantType) {
     // Generate the actual progression chords - PASS selectedMode as 4th parameter (FIX!)
     let progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees, selectedMode);
 
+    // Store the original progression length before it gets replaced with palette
+    const originalProgressionLength = progressionChords.length;
+
     // Convert progression sequence to palette ensuring ALL 16 PADS ARE UNIQUE
     // Harmonic gradient: Row 1 (pads 1-4, bottom visual row) = foundation with tonic
     //                    Row 4 (pads 13-16, top visual row) = spicy adventurous chords
@@ -1397,7 +1400,7 @@ function generateVariant(variantType) {
         let isChordMatcherChord = false;
 
         // First, place the progression chords
-        if (i < progressionChords.length) {
+        if (i < originalProgressionLength) {
             const progChord = progressionChords[i];
             notes = progChord.notes;
             chordName = progChord.chordName;
