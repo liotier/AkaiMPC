@@ -169,7 +169,7 @@ export function generateStaffSVG(notes) {
     // Hardcode width for maximum 4 notes (typical chord voicings)
     const maxNotes = 4;
     const fixedWidth = leftMargin + (maxNotes - 1) * baseNoteSpacing + rightMargin; // 242px
-    const fixedHeight = 192; // Constant height (scaled up 20%)
+    const fixedHeight = 120; // Reduced from 192 to minimize whitespace
 
     const startX = leftMargin;
 
