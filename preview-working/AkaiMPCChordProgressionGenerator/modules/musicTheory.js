@@ -79,7 +79,19 @@ export const progressions = {
         { value: 'vi—IV—I—V', name: 'vi—IV—I—V', nickname: 'Pop Loop' },
         { value: 'I—V—vi—IV—I—V—iii—IV', name: 'I—V—vi—IV—I—V—iii—IV', nickname: 'Extended Pop' },
         { value: 'i—♭III—♭VII—i', name: 'i—♭III—♭VII—i', nickname: 'Modal Interchange' },
-        { value: 'I—♭III—IV—♭VI', name: 'I—♭III—IV—♭VI', nickname: 'Chromatic Mediant' }
+        { value: 'I—♭III—IV—♭VI', name: 'I—♭III—IV—♭VI', nickname: 'Chromatic Mediant' },
+        {
+            value: 'i—iv—v',
+            name: 'i—iv—v',
+            nickname: 'Techno Minimal',
+            paletteFilter: ['minor', 'minor7', 'quartal'] // Sparse, mechanical
+        },
+        {
+            value: 'I—IV—V',
+            name: 'I—IV—V',
+            nickname: 'Deep House',
+            paletteFilter: ['major7', 'minor7', 'dom7', 'major'] // Warm, jazzy
+        }
     ],
     'R&B/Neo-Soul': [
         { value: 'ii—V—IM7—vi', name: 'ii—V—IM7—vi', nickname: 'Neo-Soul Standard' },
@@ -150,7 +162,13 @@ export const progressions = {
         { value: 'i—VII—VI—VII', name: 'i—VII—VI—VII', nickname: 'Full-On' },
         { value: 'i—♭II—VII—V', name: 'i—♭II—VII—V', nickname: 'Goa Classic' },
         { value: 'i—iv—i—VII', name: 'i—iv—i—VII', nickname: 'Forest Psy' },
-        { value: 'i—III—VII—IV', name: 'i—III—VII—IV', nickname: 'Morning Trance' }
+        { value: 'i—III—VII—IV', name: 'i—III—VII—IV', nickname: 'Morning Trance' },
+        {
+            value: 'i—v—♭VII',
+            name: 'i—v—♭VII',
+            nickname: 'Minimal Trance',
+            paletteFilter: ['minor', 'minor7', 'major', 'dom7'] // Hypnotic, driving
+        }
     ],
     'Jungle/Drum\'n\'Bass': [
         { value: 'i—♭VII—♭VI—V', name: 'i—♭VII—♭VI—V', nickname: 'Liquid DnB' },
@@ -182,7 +200,24 @@ export const progressions = {
         { value: 'I—IV—♭VII—I', name: 'I—IV—♭VII—I', nickname: 'Makossa Funk' }
     ],
     'Acid/EBM': [
-        { value: 'i—iv—♭VII—i', name: 'i—iv—♭VII—i', nickname: 'EBM Classic' }
+        {
+            value: 'i—iv—♭VII—i',
+            name: 'i—iv—♭VII—i',
+            nickname: 'EBM Classic',
+            paletteFilter: ['minor', 'minor7', 'dom7', 'diminished'] // Dark, tense voicings
+        },
+        {
+            value: 'i—♭VII—iv',
+            name: 'i—♭VII—iv',
+            nickname: 'Acid 303',
+            paletteFilter: ['minor', 'minor7', 'dom7', 'quartal'] // Classic acid sound
+        },
+        {
+            value: 'i—♭VI—♭VII',
+            name: 'i—♭VI—♭VII',
+            nickname: 'Dark Minimal',
+            paletteFilter: ['minor', 'diminished', 'dom7'] // Harsh, industrial
+        }
     ]
 };
 
