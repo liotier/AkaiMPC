@@ -1157,7 +1157,8 @@ function generateVariant(variantType) {
     // Generate the actual progression chords - PASS selectedMode as 4th parameter (FIX!)
     let progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees, selectedMode);
 
-    // Store the original progression length before it gets replaced with palette
+    // Store the ORIGINAL progression chords before building palette
+    const originalProgression = [...progressionChords];
     const originalProgressionLength = progressionChords.length;
 
     // Convert progression sequence to palette ensuring ALL 16 PADS ARE UNIQUE
@@ -1362,41 +1363,61 @@ function generateVariant(variantType) {
     // Sort by spice level (foundation first, spicy last)
     palette.sort((a, b) => a.spiceLevel - b.spiceLevel);
 
-    progressionChords = palette;
-
-    // Apply variant-specific voicing styles for more diversity
+    // Apply variant-specific voicing styles to ORIGINAL PROGRESSION
+    let voicedProgression = [...originalProgression];
     switch (variantType) {
         case 'Smooth':
-            // Smooth uses comprehensive voice leading optimization
-            // Maximizes common tones, step-wise motion, and contrary motion
-            progressionChords = optimizeSmoothVoiceLeading(progressionChords);
+            voicedProgression = optimizeSmoothVoiceLeading(voicedProgression);
             break;
         case 'Classic':
-            // Classic uses default voice leading (already optimized in generateProgressionChords)
-            // Re-optimize for classical strict voice leading rules
-            progressionChords = optimizeVoiceLeading(progressionChords);
+            voicedProgression = optimizeVoiceLeading(voicedProgression);
             break;
         case 'Jazz':
-            // Jazz uses close voicings for that tight, sophisticated sound
-            progressionChords = applyVoicingStyle(progressionChords, 'close');
-            // Then optimize voice leading to maximize smoothness (common tones + step motion)
-            progressionChords = optimizeVoiceLeading(progressionChords);
+            voicedProgression = applyVoicingStyle(voicedProgression, 'close');
+            voicedProgression = optimizeVoiceLeading(voicedProgression);
             break;
         case 'Modal':
-            // Modal uses open voicings for a more spacious sound
-            progressionChords = applyVoicingStyle(progressionChords, 'open');
+            voicedProgression = applyVoicingStyle(voicedProgression, 'open');
             break;
         case 'Experimental':
-            // Experimental uses spread voicings for maximum variation
-            progressionChords = applyVoicingStyle(progressionChords, 'spread');
+            voicedProgression = applyVoicingStyle(voicedProgression, 'spread');
             break;
     }
 
-    // Fill first 12 pads (rows 1-3) from palette
-    // Palette is already sorted by spice level: foundation → standard → colorful → spicy
+    // Apply same voicing to palette (for pads beyond progression)
+    let voicedPalette = palette;
+    switch (variantType) {
+        case 'Smooth':
+            voicedPalette = optimizeSmoothVoiceLeading(voicedPalette);
+            break;
+        case 'Classic':
+            voicedPalette = optimizeVoiceLeading(voicedPalette);
+            break;
+        case 'Jazz':
+            voicedPalette = applyVoicingStyle(voicedPalette, 'close');
+            voicedPalette = optimizeVoiceLeading(voicedPalette);
+            break;
+        case 'Modal':
+            voicedPalette = applyVoicingStyle(voicedPalette, 'open');
+            break;
+        case 'Experimental':
+            voicedPalette = applyVoicingStyle(voicedPalette, 'spread');
+            break;
+    }
+
+    // Fill first 12 pads (rows 1-3)
+    // Pads 1-N: Original progression (in template order)
+    // Pads N+1 to 12: Palette chords (sorted by spice level)
     const rows1to3 = [];
-    for (let i = 0; i < 12 && i < progressionChords.length; i++) {
-        const paletteChord = progressionChords[i];
+    for (let i = 0; i < 12; i++) {
+        // Use original progression for first N pads, then palette
+        const sourceChord = i < originalProgressionLength
+            ? voicedProgression[i]
+            : voicedPalette[i - originalProgressionLength];
+
+        if (!sourceChord) break; // No more chords available
+
+        const paletteChord = sourceChord;
         let notes = paletteChord.notes;
         let chordName = paletteChord.chordName;
         let romanNumeral = paletteChord.romanNumeral;
