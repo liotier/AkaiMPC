@@ -33,24 +33,104 @@ export const modes = {
 
 export const progressions = {
     'Pop/Rock': [
-        { value: 'I—V—vi—IV', name: 'I—V—vi—IV', nickname: 'Axis of Awesome' },
-        { value: 'I—IV—V—I', name: 'I—IV—V—I', nickname: 'Classic Rock' },
-        { value: 'vi—IV—I—V', name: 'vi—IV—I—V', nickname: 'Pop Punk' },
-        { value: 'I—vi—IV—V', name: 'I—vi—IV—V', nickname: '50s Doo-Wop' },
-        { value: 'I—V—vi—iii—IV', name: 'I—V—vi—iii—IV', nickname: 'Canon Progression' },
-        { value: 'IV—I—V—vi', name: 'IV—I—V—vi', nickname: 'Despacito' },
-        { value: 'vi—V—IV—V', name: 'vi—V—IV—V', nickname: 'Grenade' },
-        { value: 'I—III—IV—iv', name: 'I—III—IV—iv', nickname: 'Creep' },
-        { value: 'I—V—♭VII—IV', name: 'I—V—♭VII—IV', nickname: 'Sweet Home' },
-        { value: 'I—♭VII—IV—I', name: 'I—♭VII—IV—I', nickname: 'Mixolydian Vamp' }
+        {
+            value: 'I—V—vi—IV',
+            name: 'I—V—vi—IV',
+            nickname: 'Axis of Awesome',
+            description: 'The most popular progression in modern pop. Tonic to dominant creates forward motion, deceptive resolution to vi adds emotion, IV provides gentle return. Used in hundreds of hits from "Let It Be" to "Don\'t Stop Believin\'."'
+        },
+        {
+            value: 'I—IV—V—I',
+            name: 'I—IV—V—I',
+            nickname: 'Classic Rock',
+            description: 'The foundation of rock and roll. Moves from tonic through subdominant to dominant, creating satisfying tension and release. The backbone of blues, country, and early rock from Chuck Berry to The Beatles.'
+        },
+        {
+            value: 'vi—IV—I—V',
+            name: 'vi—IV—I—V',
+            nickname: 'Pop Punk',
+            description: 'Starts on the relative minor for immediate emotional impact, then cycles through subdominant, tonic, and dominant. Creates anthemic, singalong feel. Popularized by bands like Blink-182 and Green Day.'
+        },
+        {
+            value: 'I—vi—IV—V',
+            name: 'I—vi—IV—V',
+            nickname: '50s Doo-Wop',
+            description: 'The classic "doo-wop" changes from 1950s vocal groups. Tonic to relative minor creates gentle melancholy, subdominant and dominant complete the circle. Think "Stand By Me" or "Blue Moon."'
+        },
+        {
+            value: 'I—V—vi—iii—IV',
+            name: 'I—V—vi—iii—IV',
+            nickname: 'Canon Progression',
+            description: 'Pachelbel\'s Canon sequence extended. Descends through scale, creating inevitable forward momentum. Used in "Basket Case," "Hook," countless ballads. The iii chord adds romantic complexity.'
+        },
+        {
+            value: 'IV—I—V—vi',
+            name: 'IV—I—V—vi',
+            nickname: 'Despacito',
+            description: 'Starts with subdominant for immediate lift, resolves to tonic, then moves through dominant to relative minor. Creates circular, hypnotic feel perfect for Latin pop and reggaeton grooves.'
+        },
+        {
+            value: 'vi—V—IV—V',
+            name: 'vi—V—IV—V',
+            nickname: 'Grenade',
+            description: 'Minor tonic to dominant creates dramatic tension, subdominant offers brief respite before dominant builds again. Perfect for power ballads and emotional climaxes like Bruno Mars\' "Grenade."'
+        },
+        {
+            value: 'I—III—IV—iv',
+            name: 'I—III—IV—iv',
+            nickname: 'Creep',
+            description: 'Made famous by Radiohead. Major tonic to major III is unexpected, IV is familiar, then iv (borrowed from minor) adds haunting melancholy. The chromatic bass movement creates distinctive descending feeling.'
+        },
+        {
+            value: 'I—V—♭VII—IV',
+            name: 'I—V—♭VII—IV',
+            nickname: 'Sweet Home',
+            description: 'Mixolydian flavor from borrowed ♭VII creates bluesy, Southern rock sound. The major subdominant after flat seven provides satisfying lift. Iconic in "Sweet Home Alabama" and classic rock anthems.'
+        },
+        {
+            value: 'I—♭VII—IV—I',
+            name: 'I—♭VII—IV—I',
+            nickname: 'Mixolydian Vamp',
+            description: 'Circular Mixolydian progression. Borrowed ♭VII from parallel minor adds rock edge, IV to I provides traditional perfect cadence. Creates driving, modal rock feel without dominant V chord.'
+        }
     ],
     'Blues/Soul': [
-        { value: '12-bar-blues', name: 'I—I—I—I—IV—IV—I—I—V—IV—I—V', nickname: '12-Bar Blues' },
-        { value: 'I—vi—ii—V', name: 'I—vi—ii—V', nickname: 'Turnaround' },
-        { value: 'ii—V—I—VI', name: 'ii—V—I—VI', nickname: 'Rhythm Changes A' },
-        { value: 'I—VI—ii—V', name: 'I—VI—ii—V', nickname: 'I Got Rhythm' },
-        { value: 'i—♭III—♭VII—IV', name: 'i—♭III—♭VII—IV', nickname: 'Dorian Vamp' },
-        { value: 'i—IV—i—V', name: 'i—IV—i—V', nickname: 'Minor Blues' }
+        {
+            value: '12-bar-blues',
+            name: 'I—I—I—I—IV—IV—I—I—V—IV—I—V',
+            nickname: '12-Bar Blues',
+            description: 'The foundation of blues, rock, and jazz. Four bars of tonic establish home, IV chord creates tension, return to I provides relief, V-IV creates "turnaround" back to I. The most important progression in American music.'
+        },
+        {
+            value: 'I—vi—ii—V',
+            name: 'I—vi—ii—V',
+            nickname: 'Turnaround',
+            description: 'Classic jazz turnaround. Descends from I through relative minor (vi), then ii-V creates strong pull back to I. Used at the end of 12-bar blues and in countless jazz standards to cycle smoothly back to the beginning.'
+        },
+        {
+            value: 'ii—V—I—VI',
+            name: 'ii—V—I—VI',
+            nickname: 'Rhythm Changes A',
+            description: 'From Gershwin\'s "I Got Rhythm," the most common chord changes in jazz after blues. The ii-V-I is the strongest resolution in functional harmony, VI creates chromatic movement and leads into the next cycle.'
+        },
+        {
+            value: 'I—VI—ii—V',
+            name: 'I—VI—ii—V',
+            nickname: 'I Got Rhythm',
+            description: 'Another variation of rhythm changes. I to VI (major chord on sixth scale degree) creates chromatic bass movement, then ii-V prepares return to I. The VI chord is often played as V7/ii, creating even stronger forward motion.'
+        },
+        {
+            value: 'i—♭III—♭VII—IV',
+            name: 'i—♭III—♭VII—IV',
+            nickname: 'Dorian Vamp',
+            description: 'Modal blues in Dorian mode. Minor tonic to major ♭III creates hopeful lift, ♭VII adds bluesy flavor, IV (major in Dorian) brings brightness. Creates sophisticated minor blues sound popularized by Miles Davis and modal jazz.'
+        },
+        {
+            value: 'i—IV—i—V',
+            name: 'i—IV—i—V',
+            nickname: 'Minor Blues',
+            description: 'The minor blues progression. Minor tonic to major IV creates dramatic shift, return to i establishes minor tonality, major V creates tension begging for resolution. More dramatic and melancholic than standard major blues.'
+        }
     ],
     'Jazz/Functional': [
         { value: 'ii—V—I', name: 'ii—V—I', nickname: '2-5-1' },
