@@ -391,9 +391,10 @@ function analyzeCompatibleKeys() {
 
     // Check each key and mode combination
     keys.forEach(key => {
-        Object.values(modes).flat().forEach(mode => {
-            if (isKeyModeCompatible(key, mode)) {
-                compatibleKeysAndModes.push({ key, mode });
+        Object.values(modes).flat().forEach(modeObj => {
+            const modeName = typeof modeObj === 'string' ? modeObj : modeObj.value;
+            if (isKeyModeCompatible(key, modeName)) {
+                compatibleKeysAndModes.push({ key, mode: modeName });
             }
         });
     });
@@ -1598,10 +1599,20 @@ function populateSelects() {
     Object.entries(modes).forEach(([category, modeList]) => {
         const optgroup = document.createElement('optgroup');
         optgroup.label = category;
-        modeList.forEach(mode => {
+        modeList.forEach(modeObj => {
             const option = document.createElement('option');
-            option.value = mode;
-            option.textContent = mode;
+            // Handle both old string format and new object format
+            if (typeof modeObj === 'string') {
+                option.value = modeObj;
+                option.textContent = modeObj;
+            } else {
+                option.value = modeObj.value;
+                option.textContent = modeObj.name;
+                // Add tooltip description if available
+                if (modeObj.description) {
+                    option.title = modeObj.description;
+                }
+            }
             optgroup.appendChild(option);
         });
         modeSelect.appendChild(optgroup);
