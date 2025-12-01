@@ -1416,12 +1416,23 @@ function generateVariant(variantType) {
             chordName = getChordName(scaleDegree, chordType, keyOffset);
         }
 
-        const quality = chordType === 'minor' || chordType === 'minor7' ? 'Minor' :
-                       chordType === 'major' || chordType === 'major7' ? 'Major' :
-                       chordType === 'diminished' ? 'Diminished' :
-                       chordType === 'major7' ? 'Major 7' :
-                       chordType === 'minor7' ? 'Minor 7' :
-                       chordType === 'dom7' ? 'Dominant 7' : 'Major';
+        // Map chord type to quality label
+        let quality;
+        if (chordType === 'minor' || chordType === 'minor7') {
+            quality = 'Minor';
+        } else if (chordType === 'major' || chordType === 'major7') {
+            quality = 'Major';
+        } else if (chordType === 'diminished') {
+            quality = 'Diminished';
+        } else if (chordType === 'major7') {
+            quality = 'Major 7';
+        } else if (chordType === 'minor7') {
+            quality = 'Minor 7';
+        } else if (chordType === 'dom7') {
+            quality = 'Dominant 7';
+        } else {
+            quality = 'Major';
+        }
 
         const pad = {
             id: i + 1,
