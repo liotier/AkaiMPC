@@ -768,6 +768,27 @@ export function optimizeVoiceLeading(chordProgression) {
     return optimized;
 }
 
+// Helper: Build a voicing from a given bass note and pitch classes
+function buildVoicingFromBass(bassNote, uniquePCs) {
+    const voicing = [bassNote];
+    let currentNote = bassNote;
+
+    for (let i = 1; i < uniquePCs.length; i++) {
+        const targetPC = uniquePCs[i];
+        // Find next occurrence of this pitch class
+        let nextNote = currentNote + 1;
+        while ((nextNote % 12) !== targetPC && nextNote < bassNote + 24) {
+            nextNote++;
+        }
+        if (nextNote < bassNote + 24) { // Keep within 2 octaves
+            voicing.push(nextNote);
+            currentNote = nextNote;
+        }
+    }
+
+    return voicing;
+}
+
 // Generate more comprehensive voicings for smooth voice leading
 function generateSmoothVoicings(chordNotes) {
     const voicings = [];
@@ -778,23 +799,7 @@ function generateSmoothVoicings(chordNotes) {
     // Try different bass notes within a reasonable range (C3 to C5)
     for (let bassNote = 48; bassNote <= 72; bassNote++) {
         if (uniquePCs.includes(bassNote % 12)) {
-            // Build voicing from this bass note
-            const voicing = [bassNote];
-            let currentNote = bassNote;
-
-            for (let i = 1; i < uniquePCs.length; i++) {
-                const targetPC = uniquePCs[i];
-                // Find next occurrence of this pitch class
-                let nextNote = currentNote + 1;
-                while ((nextNote % 12) !== targetPC && nextNote < bassNote + 24) {
-                    nextNote++;
-                }
-                if (nextNote < bassNote + 24) { // Keep within 2 octaves
-                    voicing.push(nextNote);
-                    currentNote = nextNote;
-                }
-            }
-
+            const voicing = buildVoicingFromBass(bassNote, uniquePCs);
             if (voicing.length === uniquePCs.length) {
                 voicings.push(voicing);
             }
@@ -822,8 +827,8 @@ function scoreVoiceLeading(currentNotes, previousNotes) {
     const curr = [...currentNotes].sort((a, b) => a - b);
     const prev = [...previousNotes].sort((a, b) => a - b);
 
-    while (curr.length < maxLen) curr.push(curr[curr.length - 1] + 12);
-    while (prev.length < maxLen) prev.push(prev[prev.length - 1] + 12);
+    while (curr.length < maxLen) curr.push(curr.at(-1) + 12);
+    while (prev.length < maxLen) prev.push(prev.at(-1) + 12);
 
     // Match voices using greedy algorithm (simpler than Hungarian)
     const movements = [];
@@ -916,14 +921,12 @@ function findBestSmoothVoicing(targetChordNotes, previousChordNotes) {
     const voicings = generateSmoothVoicings(targetChordNotes);
     let bestVoicing = targetChordNotes;
     let bestScore = Infinity;
-    let bestBreakdown = null;
 
     voicings.forEach(voicing => {
-        const { score, breakdown } = scoreVoiceLeading(voicing, previousChordNotes);
+        const { score } = scoreVoiceLeading(voicing, previousChordNotes);
         if (score < bestScore) {
             bestScore = score;
             bestVoicing = voicing;
-            bestBreakdown = breakdown;
         }
     });
 
