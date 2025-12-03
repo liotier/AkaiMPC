@@ -58,6 +58,8 @@ import {
     getSequentialDuration
 } from './modules/audio.js';
 
+import { i18n } from './modules/i18n.js';
+
 // State variables
 let selectedKey = 'C';
 let selectedMode = 'Major';
@@ -1583,22 +1585,55 @@ function generateVariant(variantType) {
     };
 }
 
+// Update all text content with current language translations
+function updatePageTranslations() {
+    // Update all elements with data-i18n attributes
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        const translation = i18n.t(key);
+
+        // Update text content, preserving any child elements
+        if (element.children.length === 0) {
+            element.textContent = translation;
+        } else {
+            // For elements with children, only update text nodes
+            Array.from(element.childNodes).forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    node.textContent = translation;
+                }
+            });
+        }
+    });
+
+    // Repopulate dropdowns with translated text
+    populateSelects();
+}
+
 // Populate select elements
 function populateSelects() {
+    // Store current selections
+    const currentKey = document.getElementById('keySelect')?.value;
+    const currentMode = document.getElementById('modeSelect')?.value;
+    const currentProgression = document.getElementById('progressionSelect')?.value;
+
     // Keys
     const keySelect = document.getElementById('keySelect');
+    keySelect.innerHTML = ''; // Clear existing options
     keys.forEach(key => {
         const option = document.createElement('option');
         option.value = key;
         option.textContent = key;
         keySelect.appendChild(option);
     });
+    if (currentKey) keySelect.value = currentKey;
 
     // Modes
     const modeSelect = document.getElementById('modeSelect');
+    modeSelect.innerHTML = ''; // Clear existing options
     Object.entries(modes).forEach(([category, modeList]) => {
         const optgroup = document.createElement('optgroup');
-        optgroup.label = category;
+        // Translate category label
+        optgroup.label = i18n.t(`modeCategories.${category}`);
         modeList.forEach(modeObj => {
             const option = document.createElement('option');
             // Handle both old string format and new object format
@@ -1608,8 +1643,11 @@ function populateSelects() {
             } else {
                 option.value = modeObj.value;
                 option.textContent = modeObj.name;
-                // Add tooltip description if available
-                if (modeObj.description) {
+                // Add tooltip description with translation
+                const modeTranslation = i18n.t(`modes.${modeObj.value}.description`);
+                if (modeTranslation && modeTranslation !== `modes.${modeObj.value}.description`) {
+                    option.title = modeTranslation;
+                } else if (modeObj.description) {
                     option.title = modeObj.description;
                 }
             }
@@ -1617,24 +1655,45 @@ function populateSelects() {
         });
         modeSelect.appendChild(optgroup);
     });
+    if (currentMode) modeSelect.value = currentMode;
 
     // Progressions
     const progressionSelect = document.getElementById('progressionSelect');
+    progressionSelect.innerHTML = ''; // Clear existing options
     Object.entries(progressions).forEach(([category, progList]) => {
         const optgroup = document.createElement('optgroup');
-        optgroup.label = category;
+        // Translate category label
+        optgroup.label = i18n.t(`progressionCategories.${category}`);
         progList.forEach(prog => {
             const option = document.createElement('option');
             option.value = prog.value;
-            option.textContent = prog.nickname ? `${prog.name} (${prog.nickname})` : prog.name;
-            // Add tooltip description if available
-            if (prog.description) {
+            // Get translated nickname and name
+            const progKey = `progressions.${category}.${prog.value}`;
+            const translatedName = i18n.t(`${progKey}.name`);
+            const translatedNickname = i18n.t(`${progKey}.nickname`);
+
+            // Use translation if available, otherwise use original
+            const displayName = (translatedName && translatedName !== `${progKey}.name`)
+                ? translatedName
+                : prog.name;
+            const displayNickname = (translatedNickname && translatedNickname !== `${progKey}.nickname`)
+                ? translatedNickname
+                : prog.nickname;
+
+            option.textContent = displayNickname ? `${displayName} (${displayNickname})` : displayName;
+
+            // Add tooltip description with translation
+            const translatedDescription = i18n.t(`${progKey}.description`);
+            if (translatedDescription && translatedDescription !== `${progKey}.description`) {
+                option.title = translatedDescription;
+            } else if (prog.description) {
                 option.title = prog.description;
             }
             optgroup.appendChild(option);
         });
         progressionSelect.appendChild(optgroup);
     });
+    if (currentProgression) progressionSelect.value = currentProgression;
 }
 
 // Update progression name
@@ -2247,9 +2306,26 @@ function exportProgressions() {
 }
 
 // Event listeners
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Initialize i18n with current language
+    const currentLang = i18n.getCurrentLanguage();
+    const languageSelect = document.getElementById('languageSelect');
+    if (languageSelect) {
+        languageSelect.value = currentLang;
+
+        // Add language change event listener
+        languageSelect.addEventListener('change', async function() {
+            const newLang = this.value;
+            await i18n.setLanguage(newLang);
+            updatePageTranslations();
+        });
+    }
+
     initAudioContext();
     initMIDI();
+
+    // Load language before populating selects
+    await i18n.loadLanguage(currentLang);
     populateSelects();
 
     // Load preferences: URL params take priority over localStorage
