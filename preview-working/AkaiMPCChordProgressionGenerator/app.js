@@ -2326,7 +2326,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Load language before populating selects
     await i18n.loadLanguage(currentLang);
-    populateSelects();
+    updatePageTranslations();
 
     // Load preferences: URL params take priority over localStorage
     const urlPrefs = loadFromURL();
