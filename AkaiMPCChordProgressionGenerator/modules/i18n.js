@@ -144,8 +144,8 @@ class I18n {
      */
     getAvailableLanguages() {
         return [
-            { code: 'en', name: 'English' },
-            { code: 'fr', name: 'Français' }
+            { code: 'en', name: '🇬🇧 English' },
+            { code: 'fr', name: '🇫🇷 Français' }
         ];
     }
 

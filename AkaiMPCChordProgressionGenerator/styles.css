@@ -38,12 +38,15 @@ body {
     justify-content: space-between;
     margin-bottom: 24px;
     position: relative;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
 .language-switcher {
     position: absolute;
-    top: 0;
+    top: -40px;
     right: 0;
+    z-index: 10;
 }
 
 .language-select {
