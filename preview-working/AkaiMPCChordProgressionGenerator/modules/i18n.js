@@ -53,6 +53,18 @@ class I18n {
     }
 
     /**
+     * Set language (load if needed and update current language)
+     * @param {string} lang - Language code
+     * @returns {Promise} - Resolves when language is loaded and set
+     */
+    async setLanguage(lang) {
+        await this.loadLanguage(lang);
+        this.currentLang = lang;
+        this.saveLanguage(lang);
+        return Promise.resolve();
+    }
+
+    /**
      * Translate a key
      * @param {string} key - Translation key (dot-notation, e.g., 'app.title')
      * @param {Object} params - Optional parameters for interpolation
