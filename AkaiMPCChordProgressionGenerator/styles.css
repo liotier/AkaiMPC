@@ -28,8 +28,10 @@ body {
 
 .app {
     padding: 20px;
+    padding-top: 50px;
     max-width: 1400px;
     margin: 0 auto;
+    position: relative;
 }
 
 .header {
@@ -37,7 +39,6 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 24px;
-    margin-top: 40px;
     position: relative;
     flex-wrap: wrap;
     gap: 16px;
@@ -45,8 +46,8 @@ body {
 
 .language-switcher {
     position: absolute;
-    top: -36px;
-    right: 0;
+    top: 20px;
+    right: 20px;
     z-index: 10;
 }
 
