@@ -193,6 +193,7 @@ function switchGenerationMode(mode) {
     const modeSelect = document.getElementById('modeSelect');
     const progressionSelect = document.getElementById('progressionSelect');
     const progressionNameInput = document.getElementById('progressionName');
+    const progressionNameLabel = document.getElementById('progressionNameLabel');
     const paletteModeContainer = document.getElementById('paletteModeContainer');
     const scaleModeContainer = document.getElementById('scaleModeContainer');
 
@@ -208,6 +209,11 @@ function switchGenerationMode(mode) {
         // Toggle container active states
         paletteModeContainer.classList.add('active');
         scaleModeContainer.classList.remove('active');
+
+        // Update label
+        if (progressionNameLabel) {
+            progressionNameLabel.textContent = 'Progression Name';
+        }
     } else {
         // Scale Mode: Mode is active, Progression is disabled
         modeSelect.disabled = false;
@@ -220,6 +226,11 @@ function switchGenerationMode(mode) {
         // Toggle container active states
         paletteModeContainer.classList.remove('active');
         scaleModeContainer.classList.add('active');
+
+        // Update label
+        if (progressionNameLabel) {
+            progressionNameLabel.textContent = 'Output Name';
+        }
     }
 
     // Update progression name to reflect new mode
