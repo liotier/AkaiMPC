@@ -205,14 +205,12 @@ h1 {
 }
 
 .generation-mode-toggle {
-    grid-column: 1 / -1;
     display: flex;
     gap: 24px;
     padding: 12px 16px;
     background: white;
     border-radius: var(--radius);
     border: 2px solid var(--border);
-    margin-bottom: 8px;
 }
 
 .mode-option {
@@ -241,9 +239,25 @@ h1 {
     color: var(--text);
 }
 
-/* Mode containers for visual enclosure */
-.mode-container {
+/* Top row: Toggle + Key (side by side on desktop) */
+.controls-top-row {
     grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 8px;
+}
+
+/* Mode containers for visual enclosure */
+.mode-containers-row {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.mode-container {
     padding: 16px;
     border-radius: var(--radius);
     border: 2px solid var(--border);
@@ -274,11 +288,41 @@ h1 {
     color: var(--muted);
 }
 
+/* Bottom row: Progression Name + Generate button (side by side on desktop) */
+.controls-bottom-row {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: end;
+}
+
 .controls {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
     margin-bottom: 16px;
+}
+
+/* Responsive: Stack on mobile */
+@media (max-width: 900px) {
+    .mode-containers-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .controls-top-row {
+        grid-template-columns: 1fr;
+    }
+
+    .controls-bottom-row {
+        grid-template-columns: 1fr;
+    }
+
+    .controls-bottom-row button {
+        width: 100%;
+    }
 }
 
 .filter-group {
