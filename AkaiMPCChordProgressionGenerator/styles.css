@@ -241,6 +241,39 @@ h1 {
     color: var(--text);
 }
 
+/* Mode containers for visual enclosure */
+.mode-container {
+    grid-column: 1 / -1;
+    padding: 16px;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    background: white;
+    transition: opacity 0.3s ease, background 0.3s ease;
+}
+
+.mode-container.active {
+    background: #f0f9ff;
+    border-color: var(--accent);
+}
+
+.mode-container:not(.active) {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.mode-container-header {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.mode-container:not(.active) .mode-container-header {
+    color: var(--muted);
+}
+
 .controls {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

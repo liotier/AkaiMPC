@@ -81,13 +81,13 @@
 
         <div class="controls">
             <div class="generation-mode-toggle">
-                <label class="mode-option" id="templateModeLabel">
-                    <input type="radio" name="generationMode" value="template" id="templateModeRadio" checked>
-                    <span>Use Progression Palette</span>
+                <label class="mode-option" id="paletteModeLabel">
+                    <input type="radio" name="generationMode" value="template" id="paletteModeRadio" checked>
+                    <span>Progression Palette Mode</span>
                 </label>
                 <label class="mode-option" id="scaleModeLabel">
                     <input type="radio" name="generationMode" value="scale" id="scaleModeRadio">
-                    <span>Explore Scale/Mode</span>
+                    <span>Scale Mode</span>
                 </label>
             </div>
 
@@ -96,14 +96,22 @@
                 <select id="keySelect"></select>
             </div>
 
-            <div class="filter-group">
-                <label>Mode/Scale</label>
-                <select id="modeSelect"></select>
+            <!-- Progression Palette Mode Container -->
+            <div class="mode-container palette-mode-container active" id="paletteModeContainer">
+                <div class="mode-container-header">Progression Palette Mode</div>
+                <div class="filter-group">
+                    <label>Progression Palette</label>
+                    <select id="progressionSelect"></select>
+                </div>
             </div>
 
-            <div class="filter-group">
-                <label>Progression Palette</label>
-                <select id="progressionSelect"></select>
+            <!-- Scale Mode Container -->
+            <div class="mode-container scale-mode-container" id="scaleModeContainer">
+                <div class="mode-container-header">Scale Mode</div>
+                <div class="filter-group">
+                    <label>Mode/Scale</label>
+                    <select id="modeSelect"></select>
+                </div>
             </div>
 
             <div class="filter-group">

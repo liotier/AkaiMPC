@@ -187,29 +187,39 @@ function switchContext(context) {
     saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, context);
 }
 
-// Generation mode switching (Template vs Scale Exploration)
+// Generation mode switching (Progression Palette Mode vs Scale Mode)
 function switchGenerationMode(mode) {
     generationMode = mode;
     const modeSelect = document.getElementById('modeSelect');
     const progressionSelect = document.getElementById('progressionSelect');
     const progressionNameInput = document.getElementById('progressionName');
+    const paletteModeContainer = document.getElementById('paletteModeContainer');
+    const scaleModeContainer = document.getElementById('scaleModeContainer');
 
     if (mode === 'template') {
-        // Template Mode: Progression is active, Mode is disabled
+        // Progression Palette Mode: Progression is active, Mode is disabled
         progressionSelect.disabled = false;
         progressionSelect.style.cursor = '';
         progressionNameInput.disabled = false;
 
         modeSelect.disabled = true;
         modeSelect.style.cursor = 'not-allowed';
+
+        // Toggle container active states
+        paletteModeContainer.classList.add('active');
+        scaleModeContainer.classList.remove('active');
     } else {
-        // Scale Exploration Mode: Mode is active, Progression is disabled
+        // Scale Mode: Mode is active, Progression is disabled
         modeSelect.disabled = false;
         modeSelect.style.cursor = '';
 
         progressionSelect.disabled = true;
         progressionSelect.style.cursor = 'not-allowed';
         progressionNameInput.disabled = true;
+
+        // Toggle container active states
+        paletteModeContainer.classList.remove('active');
+        scaleModeContainer.classList.add('active');
     }
 
     // Update progression name to reflect new mode
@@ -1642,11 +1652,11 @@ function updateProgressionName() {
     const key = selectedKey.split('/')[0];
 
     if (generationMode === 'template') {
-        // Template Mode: Key + Progression
+        // Progression Palette Mode: Key + Progression
         const prog = selectedProgression.replace(/—/g, '-');
         progressionName = `${key}_${prog}`;
     } else {
-        // Scale Exploration Mode: Key + Mode
+        // Scale Mode: Key + Mode
         const modeShort = selectedMode.slice(0, 3);
         progressionName = `${key}_${modeShort}_Scale-Exploration`;
     }
@@ -1700,7 +1710,7 @@ function deduplicateVariants(variantList) {
 
 function generateProgressions() {
     if (generationMode === 'template') {
-        // Template Mode: Generate up to 5 variants based on progression
+        // Progression Palette Mode: Generate up to 5 variants based on progression
         if (selectedMode === 'Locrian' && selectedProgression.includes('I—IV—V')) {
             console.warn('⚠️ Locrian\'s diminished tonic makes this progression unusual');
         }
@@ -1720,7 +1730,7 @@ function generateProgressions() {
             console.log(`Generated ${variants.length} unique variant(s) out of ${allVariants.length}`);
         }
     } else {
-        // Scale Exploration Mode: Generate single variant showing all scale chords
+        // Scale Mode: Generate single variant showing all scale chords
         variants = [
             generateScaleExploration()
         ];
@@ -2276,11 +2286,11 @@ document.addEventListener('DOMContentLoaded', function() {
     updateProgressionName();
     renderChordRequirements(); // Initialize chord requirements display
 
-    // Initialize generation mode (default to template mode)
+    // Initialize generation mode (default to progression palette mode)
     switchGenerationMode('template');
 
     // Add event listeners for generation mode toggle
-    document.getElementById('templateModeRadio').addEventListener('change', function() {
+    document.getElementById('paletteModeRadio').addEventListener('change', function() {
         if (this.checked) switchGenerationMode('template');
     });
     document.getElementById('scaleModeRadio').addEventListener('change', function() {
@@ -2345,11 +2355,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Custom tooltips for mode option labels (desktop only)
     if (hasHover) {
-        const templateModeLabel = document.getElementById('templateModeLabel');
-        templateModeLabel.addEventListener('pointerenter', function() {
+        const paletteModeLabel = document.getElementById('paletteModeLabel');
+        paletteModeLabel.addEventListener('pointerenter', function() {
             showTooltip(this, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
         });
-        templateModeLabel.addEventListener('pointerleave', function() {
+        paletteModeLabel.addEventListener('pointerleave', function() {
             const tooltip = document.getElementById('chordTooltip');
             if (tooltip) tooltip.classList.remove('visible');
         });
@@ -2377,7 +2387,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const progressionSelect = document.getElementById('progressionSelect');
         progressionSelect.addEventListener('pointerenter', function() {
             if (this.disabled) {
-                showTooltip(this, 'Progression palettes are not used in Scale Exploration mode. All chords from the selected scale will be generated.');
+                showTooltip(this, 'Progression palettes are not used in Scale Mode. All chords from the selected scale will be generated.');
             } else {
                 showTooltip(this, 'Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors.');
             }
@@ -2391,7 +2401,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const modeSelect = document.getElementById('modeSelect');
         modeSelect.addEventListener('pointerenter', function() {
             if (this.disabled) {
-                showTooltip(this, 'Mode/Scale selector is not used in Template mode. The progression defines its own harmonic structure.');
+                showTooltip(this, 'Mode/Scale selector is not used in Progression Palette Mode. The progression defines its own harmonic structure.');
             }
             // No tooltip when enabled (empty state)
         });
@@ -2454,8 +2464,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Setup tap tooltips for labels
-        const templateModeLabel = document.getElementById('templateModeLabel');
-        setupTapTooltip(templateModeLabel, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
+        const paletteModeLabel = document.getElementById('paletteModeLabel');
+        setupTapTooltip(paletteModeLabel, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
 
         const scaleModeLabel = document.getElementById('scaleModeLabel');
         setupTapTooltip(scaleModeLabel, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.');
@@ -2468,7 +2478,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const progressionSelect = document.getElementById('progressionSelect');
         setupTapTooltip(progressionSelect, function() {
             if (this.disabled) {
-                return 'Progression palettes are not used in Scale Exploration mode. All chords from the selected scale will be generated.';
+                return 'Progression palettes are not used in Scale Mode. All chords from the selected scale will be generated.';
             } else {
                 return 'Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors.';
             }
@@ -2478,7 +2488,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const modeSelect = document.getElementById('modeSelect');
         setupTapTooltip(modeSelect, function() {
             if (this.disabled) {
-                return 'Mode/Scale selector is not used in Template mode. The progression defines its own harmonic structure.';
+                return 'Mode/Scale selector is not used in Progression Palette Mode. The progression defines its own harmonic structure.';
             }
             return null; // No tooltip when enabled
         });
