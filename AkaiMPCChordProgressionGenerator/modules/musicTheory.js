@@ -290,30 +290,55 @@ export const progressions = {
             value: '12-bar-blues',
             name: 'I—I—I—I—IV—IV—I—I—V—IV—I—V',
             nickname: '12-Bar Blues',
+            palettePriorities: {
+                preferred: ['dom7', 'major'],                // Blues is built on dom7 and major triads
+                allowed: ['minor', 'minor7'],                 // For variety and minor blues
+                avoided: ['major7', 'augmented', 'quartal', 'diminished']  // Too jazzy for traditional blues
+            },
             description: 'The foundation of blues, rock, and jazz. Four bars of tonic establish home, IV chord creates tension, return to I provides relief, V-IV creates "turnaround" back to I. The most important progression in American music.'
         },
         {
             value: 'I—vi—ii—V',
             name: 'I—vi—ii—V',
             nickname: 'Turnaround',
+            palettePriorities: {
+                preferred: ['dom7', 'minor7'],               // Classic jazz turnaround sound
+                allowed: ['major', 'minor', 'major7'],        // Additional colors
+                avoided: ['augmented', 'quartal', 'diminished']
+            },
             description: 'Classic jazz turnaround. Descends from I through relative minor (vi), then ii-V creates strong pull back to I. Used at the end of 12-bar blues and in countless jazz standards to cycle smoothly back to the beginning.'
         },
         {
             value: 'ii—V—I—VI',
             name: 'ii—V—I—VI',
             nickname: 'Rhythm Changes A',
+            palettePriorities: {
+                preferred: ['dom7', 'minor7', 'major7'],     // Rich jazz harmony
+                allowed: ['major', 'minor'],                  // Basic triads
+                avoided: ['augmented', 'quartal']             // Too experimental for swing era
+            },
             description: 'From Gershwin\'s "I Got Rhythm," the most common chord changes in jazz after blues. The ii-V-I is the strongest resolution in functional harmony, VI creates chromatic movement and leads into the next cycle.'
         },
         {
             value: 'I—VI—ii—V',
             name: 'I—VI—ii—V',
             nickname: 'I Got Rhythm',
+            palettePriorities: {
+                preferred: ['dom7', 'minor7', 'major7'],     // Rich jazz harmony
+                allowed: ['major', 'minor'],
+                avoided: ['augmented', 'quartal']
+            },
             description: 'Another variation of rhythm changes. I to VI (major chord on sixth scale degree) creates chromatic bass movement, then ii-V prepares return to I. The VI chord is often played as V7/ii, creating even stronger forward motion.'
         },
         {
             value: 'i—♭III—♭VII—IV',
             name: 'i—♭III—♭VII—IV',
             nickname: 'Dorian Vamp',
+            palettePriorities: {
+                preferred: ['minor', 'major', 'minor7'],      // Modal jazz colors
+                allowed: ['dom7', 'major7'],                   // Extended harmony
+                avoided: ['diminished', 'augmented', 'quartal']
+            },
             description: 'Modal blues in Dorian mode. Minor tonic to major ♭III creates hopeful lift, ♭VII adds bluesy flavor, IV (major in Dorian) brings brightness. Creates sophisticated minor blues sound popularized by Miles Davis and modal jazz.'
         },
         {
@@ -549,24 +574,44 @@ export const progressions = {
             value: 'I—V/ii—ii—V',
             name: 'I—V/ii—ii—V',
             nickname: 'Gospel Turnaround',
+            palettePriorities: {
+                preferred: ['major7', 'dom7', 'minor7'],      // Rich, lush gospel harmony
+                allowed: ['major', 'minor'],                   // Basic triads for support
+                avoided: ['diminished', 'augmented', 'quartal']  // Too dissonant for worship
+            },
             description: 'Classic gospel turnaround with secondary dominant. V/ii (dominant of ii) creates chromatic approach to ii chord, then traditional ii-V cadence back to I. The secondary dominant adds harmonic sophistication and forward momentum characteristic of Black church music and traditional gospel.'
         },
         {
             value: 'IV—V—iii—vi',
             name: 'IV—V—iii—vi',
             nickname: 'Praise Progression',
+            palettePriorities: {
+                preferred: ['major', 'major7', 'minor'],      // Uplifting, bright praise sound
+                allowed: ['dom7', 'minor7'],                   // Extended harmony
+                avoided: ['diminished', 'augmented', 'quartal']
+            },
             description: 'Uplifting praise and worship progression. Starts on IV (subdominant) for immediate lift rather than I, V adds energy, descends through iii to vi creating gentle resolution. Avoids arriving on I, keeping energy moving forward. Common in contemporary worship and praise choruses.'
         },
         {
             value: 'I—IV—V/vi—vi',
             name: 'I—IV—V/vi—vi',
             nickname: 'Contemporary Worship',
+            palettePriorities: {
+                preferred: ['major7', 'minor', 'dom7'],       // Contemporary worship voicings
+                allowed: ['major', 'minor7'],
+                avoided: ['diminished', 'augmented', 'quartal']
+            },
             description: 'Modern worship progression with secondary dominant. Familiar I-IV opening, V/vi (dominant of vi) chromatically approaches relative minor, creating smooth voice leading. The arrival on vi adds introspection and emotion. Defines contemporary Christian music from Hillsong to Bethel.'
         },
         {
             value: 'ii—V—I—IV',
             name: 'ii—V—I—IV',
             nickname: 'Church Cadence',
+            palettePriorities: {
+                preferred: ['dom7', 'minor7', 'major7'],      // Jazz-gospel fusion harmony
+                allowed: ['major', 'minor'],
+                avoided: ['diminished', 'augmented', 'quartal']
+            },
             description: 'Combines jazz and hymn harmony. Opens with strong ii-V-I cadence borrowed from jazz (common in gospel), adds plagal IV-I motion from traditional hymnody. The two cadence types create satisfying double resolution. Fundamental to gospel piano and Hammond organ playing.'
         },
         {
@@ -655,30 +700,55 @@ export const progressions = {
             value: 'IM7—VI7—ii7—V7',
             name: 'IM7—VI7—ii7—V7',
             nickname: 'Bossa Nova',
+            palettePriorities: {
+                preferred: ['major7', 'minor7', 'dom7'],      // All 7ths for sophisticated bossa sound
+                allowed: ['major', 'minor'],                   // Basic triads for variety
+                avoided: ['diminished', 'augmented', 'quartal']
+            },
             description: 'Classic bossa nova changes. IM7 establishes jazzy tonality, VI7 is chromatic secondary dominant (dominant of ii), then traditional ii7-V7. All 7th chords create sophisticated Brazilian sound. The VI7-ii7 creates smooth chromatic voice leading. Foundation of João Gilberto and Antonio Carlos Jobim.'
         },
         {
             value: 'i—iv—V—i',
             name: 'i—iv—V—i',
             nickname: 'Tango',
+            palettePriorities: {
+                preferred: ['minor', 'major', 'dom7'],        // Traditional tango harmony
+                allowed: ['minor7', 'major7'],                 // Modern tango extensions
+                avoided: ['augmented', 'quartal', 'diminished']
+            },
             description: 'Traditional Argentine tango progression. Minor i-iv establishes melancholic character, major V creates tension (harmonic minor flavor), resolves to i. The dramatic minor to major V resolution creates passionate, yearning quality essential to tango. Think Piazzolla and traditional milonga.'
         },
         {
             value: 'I—♭II—I—V',
             name: 'I—♭II—I—V',
             nickname: 'Flamenco',
+            palettePriorities: {
+                preferred: ['major', 'minor'],                 // Modal flamenco uses triads
+                allowed: ['dom7'],                             // Occasional dom7 for tension
+                avoided: ['major7', 'minor7', 'augmented', 'quartal', 'diminished']  // Too jazzy
+            },
             description: 'Flamenco Phrygian cadence. Major I to ♭II creates characteristic semitone clash (Phrygian mode), return to I, then V. The ♭II is most distinctive flamenco sound, creating Spanish/Moorish character. Used in rumba flamenca, bulerías, and Spanish guitar traditions.'
         },
         {
             value: 'i—V—i—VII',
             name: 'i—V—i—VII',
             nickname: 'Samba',
+            palettePriorities: {
+                preferred: ['minor', 'major', 'minor7'],      // Brazilian samba colors
+                allowed: ['dom7', 'major7'],                   // Extended harmony
+                avoided: ['diminished', 'augmented', 'quartal']
+            },
             description: 'Brazilian samba progression. Minor i-V-i establishes home, major VII (from natural minor, not harmonic) adds brightness and forward motion back to i. The natural VII instead of leading tone creates modal, less European sound characteristic of Brazilian popular music and pagode.'
         },
         {
             value: 'I—V/ii—ii—V/V—V',
             name: 'I—V/ii—ii—V/V—V',
             nickname: 'Latin Jazz',
+            palettePriorities: {
+                preferred: ['dom7', 'minor7', 'major7'],      // Maximum jazz extensions
+                allowed: ['major', 'minor'],
+                avoided: ['diminished', 'augmented', 'quartal']
+            },
             description: 'Advanced Latin jazz progression with double secondary dominants. V/ii approaches ii chromatically, V/V (dominant of dominant) intensifies approach to V. Creates maximum harmonic movement through chromatic voice leading. Used in Latin jazz, salsa, and Afro-Cuban jazz for sophisticated color.'
         },
         {
@@ -782,30 +852,55 @@ export const progressions = {
             value: 'i—♭VI—♭VII—i',
             name: 'i—♭VI—♭VII—i',
             nickname: 'Power Metal',
+            palettePriorities: {
+                preferred: ['minor', 'major'],                 // Power chords (ambiguous triads)
+                allowed: ['dom7'],                             // Occasional tension
+                avoided: ['major7', 'minor7', 'augmented', 'quartal', 'diminished']  // Too jazzy/unstable
+            },
             description: 'Classic power metal progression. Natural minor i with borrowed ♭VI and ♭VII, returns to i for cycling. All power chords (no thirds) create ambiguous major/minor quality. Driving, anthemic feel perfect for galloping rhythms. Foundation of Iron Maiden, Helloween, and European power metal.'
         },
         {
             value: 'i—♭III—♭VI—♭VII',
             name: 'i—♭III—♭VI—♭VII',
             nickname: 'Doom Metal',
+            palettePriorities: {
+                preferred: ['minor', 'major', 'diminished'],   // Dark, oppressive doom palette
+                allowed: ['dom7'],
+                avoided: ['major7', 'minor7', 'augmented', 'quartal']  // Too bright/jazzy
+            },
             description: 'Doom metal descending progression. Minor i to major ♭III creates brief hope, descends through ♭VI to ♭VII, avoiding resolution. Slow, crushing tempo emphasizes modal darkness. All borrowed/natural minor chords create oppressive atmosphere. Characteristic of Black Sabbath and doom metal tradition.'
         },
         {
             value: 'i—v—♭VII—iv',
             name: 'i—v—♭VII—iv',
             nickname: 'Prog Metal',
+            palettePriorities: {
+                preferred: ['minor', 'major'],                 // Modal prog palette
+                allowed: ['dom7', 'diminished'],               // For complexity
+                avoided: ['major7', 'minor7', 'augmented', 'quartal']
+            },
             description: 'Progressive metal progression. Minor i and v (natural minor v, not major V) establish modal sound, ♭VII adds color, minor iv creates plagal motion. Avoids traditional V-i resolution for more sophisticated, modal harmony. Used in prog metal and djent for complex, ambiguous tonality.'
         },
         {
             value: 'i—♭II—i',
             name: 'i—♭II—i',
             nickname: 'Thrash',
+            palettePriorities: {
+                preferred: ['minor', 'diminished'],            // Maximum aggression
+                allowed: ['major', 'dom7'],
+                avoided: ['major7', 'minor7', 'augmented', 'quartal']  // Too soft
+            },
             description: 'Aggressive thrash metal progression. Minor i to Neapolitan ♭II creates semitone clash and extreme tension, returns to i. Chromatic, dissonant character perfect for fast tempos and aggressive riffs. The ♭II provides maximum darkness. Characteristic of Slayer, Metallica, and thrash metal intensity.'
         },
         {
             value: 'i—♭VII—♭VI—V',
             name: 'i—♭VII—♭VI—V',
             nickname: 'Melodic Metal',
+            palettePriorities: {
+                preferred: ['minor', 'major', 'diminished'],   // Neoclassical palette
+                allowed: ['dom7', 'minor7'],                   // Harmonic minor flavor
+                avoided: ['major7', 'augmented', 'quartal']
+            },
             description: 'Melodic metal progression with harmonic minor resolution. Descends through borrowed ♭VII and ♭VI, ends on major V (from harmonic minor) creating strong pull to i. Combines modal color with functional cadence. Used in melodic death metal and neoclassical metal for dramatic, European classical-influenced sound.'
         },
         {
