@@ -1172,15 +1172,35 @@ function generateVariant(variantType) {
     const originalProgression = [...progressionChords];
     const originalProgressionLength = progressionChords.length;
 
-    // Look up the full progression template object to get paletteFilter
+    // Look up the full progression template object to get palette preferences
     let paletteFilter = null;
+    let palettePriorities = null;
     for (const category in progressions) {
         const template = progressions[category].find(p => p.value === selectedProgression);
-        if (template && template.paletteFilter) {
-            paletteFilter = template.paletteFilter;
+        if (template) {
+            if (template.paletteFilter) {
+                paletteFilter = template.paletteFilter;
+            }
+            if (template.palettePriorities) {
+                palettePriorities = template.palettePriorities;
+            }
             break;
         }
     }
+
+    // Helper to get chord priority (1=avoided, 2=allowed, 3=preferred)
+    const getChordPriority = (chordType) => {
+        if (!palettePriorities) return 2; // Default: allowed
+
+        if (palettePriorities.preferred && palettePriorities.preferred.includes(chordType)) {
+            return 3; // Preferred - highest priority
+        }
+        if (palettePriorities.avoided && palettePriorities.avoided.includes(chordType)) {
+            return 1; // Avoided - lowest priority
+        }
+        // Default to allowed (or explicitly in allowed list)
+        return 2;
+    };
 
     // Convert progression sequence to palette ensuring ALL 16 PADS ARE UNIQUE
     // Harmonic gradient: Row 1 (pads 1-4, bottom visual row) = foundation with tonic
@@ -1202,7 +1222,7 @@ function generateVariant(variantType) {
 
     // Helper to add unique chord
     const addChord = (degree, type, romanBase, suffix, spice, isChordMatcher = false) => {
-        // Apply palette filter if defined
+        // Apply palette filter if defined (hard filter - backward compatibility)
         if (paletteFilter && !paletteFilter.includes(type)) {
             return; // Skip chord types not in the filter
         }
@@ -1212,6 +1232,8 @@ function generateVariant(variantType) {
         usedRomanNumerals.add(roman);
 
         const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
+        const priority = getChordPriority(type);
+
         palette.push({
             degree,
             notes: buildChord(scaleDegree, type, keyOffset),
@@ -1219,6 +1241,7 @@ function generateVariant(variantType) {
             chordName: getChordName(scaleDegree, type, keyOffset, romanBase),
             romanNumeral: roman,
             spiceLevel: spice, // 0=foundation, 1=standard, 2=colorful, 3=spicy
+            priority: priority, // 1=avoided, 2=allowed, 3=preferred
             isChordMatcherChord: isChordMatcher
         });
     };
@@ -1393,7 +1416,17 @@ function generateVariant(variantType) {
     }
 
     // Sort by spice level (foundation first, spicy last)
-    palette.sort((a, b) => a.spiceLevel - b.spiceLevel);
+    // Sort palette by priority (preferred first), then by spice level within same priority
+    // Priority: 3=preferred, 2=allowed, 1=avoided
+    // Spice: 0=foundation, 1=standard, 2=colorful, 3=spicy
+    palette.sort((a, b) => {
+        // Higher priority first (3 > 2 > 1)
+        if (b.priority !== a.priority) {
+            return b.priority - a.priority;
+        }
+        // Within same priority, lower spice first (foundation before spicy)
+        return a.spiceLevel - b.spiceLevel;
+    });
 
     // Apply variant-specific voicing styles to ORIGINAL PROGRESSION
     let voicedProgression = [...originalProgression];
