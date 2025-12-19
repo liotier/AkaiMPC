@@ -28,8 +28,8 @@ Found a sample with killer chords but don't know the key? The Chord Matcher lets
 - Bridge the gap between sample-based and theory-based production
 
 ### Two Workflows for Every Creative Process
-- **Template Mode** - Choose from 135 progression templates across 15 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). Generate four voicing variants instantly.
-- **Scale Exploration Mode** - Pick from 36 scales/modes and explore all available chords. Perfect for learning exotic scales like Whole Tone, Maqam Hijaz, or Phrygian Dominant.
+- **Progression Palette Mode** - Choose from 135 progression palettes across 15 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). Generate four voicing variants instantly.
+- **Scale Mode** - Pick from 36 scales/modes and explore all available chords. Perfect for learning exotic scales like Whole Tone, Maqam Hijaz, or Phrygian Dominant.
 - Download individual variants or bulk export all four versions at once
 
 ## Musical Intelligence Under the Hood
@@ -70,8 +70,8 @@ The generator seamlessly incorporates:
 - **Neapolitan & Augmented Sixths** - Classical drama when you need it
 - **Tritone Substitutions** - Jazz reharmonization at the click of a button
 
-### Battle-Tested Progression Templates
-135 progressions across 15 genres covering every style:
+### Battle-Tested Progression Palettes
+135 progression palettes across 15 genres covering every style:
 - **Pop/Rock**: I-V-vi-IV (the "four chord song"), vi-IV-I-V (pop-punk anthem), classic rock patterns
 - **Blues/Soul**: 12-bar blues, turnarounds, Dorian vamps, minor blues with substitutions
 - **Jazz/Functional**: ii-V-I, Rhythm Changes, Giant Steps cycle, circle progressions
@@ -131,8 +131,8 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 ## Quick Start Guide
 
 1. **Choose Your Workflow**
-   - **Template Mode** - Select a key and browse 135 progression templates organized by genre. Generate 4 voicing variants instantly.
-   - **Scale Exploration Mode** - Select a key + mode/scale to see all available chords from that scale. Perfect for learning exotic scales.
+   - **Progression Palette Mode** - Select a key and browse 135 progression palettes organized by genre. Generate 4 voicing variants instantly.
+   - **Scale Mode** - Select a key + mode/scale to see all available chords from that scale. Perfect for learning exotic scales.
 
 2. **Export to MPC**
    - Download individual progressions or all variants as a ZIP

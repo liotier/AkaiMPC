@@ -28,10 +28,8 @@ body {
 
 .app {
     padding: 20px;
-    padding-top: 50px;
     max-width: 1400px;
     margin: 0 auto;
-    position: relative;
 }
 
 .header {
@@ -39,37 +37,6 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 24px;
-    position: relative;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-.language-switcher {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 10;
-}
-
-.language-select {
-    padding: 6px 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--bg);
-    color: var(--fg);
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.language-select:hover {
-    border-color: var(--accent);
-}
-
-.language-select:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 h1 {
@@ -272,6 +239,39 @@ h1 {
 
 .mode-option:hover span {
     color: var(--text);
+}
+
+/* Mode containers for visual enclosure */
+.mode-container {
+    grid-column: 1 / -1;
+    padding: 16px;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    background: white;
+    transition: opacity 0.3s ease, background 0.3s ease;
+}
+
+.mode-container.active {
+    background: #f0f9ff;
+    border-color: var(--accent);
+}
+
+.mode-container:not(.active) {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.mode-container-header {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.mode-container:not(.active) .mode-container-header {
+    color: var(--muted);
 }
 
 .controls {

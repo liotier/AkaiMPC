@@ -58,8 +58,6 @@ import {
     getSequentialDuration
 } from './modules/audio.js';
 
-import { i18n } from './modules/i18n.js';
-
 // State variables
 let selectedKey = 'C';
 let selectedMode = 'Major';
@@ -189,29 +187,39 @@ function switchContext(context) {
     saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, context);
 }
 
-// Generation mode switching (Template vs Scale Exploration)
+// Generation mode switching (Progression Palette Mode vs Scale Mode)
 function switchGenerationMode(mode) {
     generationMode = mode;
     const modeSelect = document.getElementById('modeSelect');
     const progressionSelect = document.getElementById('progressionSelect');
     const progressionNameInput = document.getElementById('progressionName');
+    const paletteModeContainer = document.getElementById('paletteModeContainer');
+    const scaleModeContainer = document.getElementById('scaleModeContainer');
 
     if (mode === 'template') {
-        // Template Mode: Progression is active, Mode is disabled
+        // Progression Palette Mode: Progression is active, Mode is disabled
         progressionSelect.disabled = false;
         progressionSelect.style.cursor = '';
         progressionNameInput.disabled = false;
 
         modeSelect.disabled = true;
         modeSelect.style.cursor = 'not-allowed';
+
+        // Toggle container active states
+        paletteModeContainer.classList.add('active');
+        scaleModeContainer.classList.remove('active');
     } else {
-        // Scale Exploration Mode: Mode is active, Progression is disabled
+        // Scale Mode: Mode is active, Progression is disabled
         modeSelect.disabled = false;
         modeSelect.style.cursor = '';
 
         progressionSelect.disabled = true;
         progressionSelect.style.cursor = 'not-allowed';
         progressionNameInput.disabled = true;
+
+        // Toggle container active states
+        paletteModeContainer.classList.remove('active');
+        scaleModeContainer.classList.add('active');
     }
 
     // Update progression name to reflect new mode
@@ -1585,55 +1593,22 @@ function generateVariant(variantType) {
     };
 }
 
-// Update all text content with current language translations
-function updatePageTranslations() {
-    // Update all elements with data-i18n attributes
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-        const key = element.getAttribute('data-i18n');
-        const translation = i18n.t(key);
-
-        // Update text content, preserving any child elements
-        if (element.children.length === 0) {
-            element.textContent = translation;
-        } else {
-            // For elements with children, only update text nodes
-            Array.from(element.childNodes).forEach(node => {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    node.textContent = translation;
-                }
-            });
-        }
-    });
-
-    // Repopulate dropdowns with translated text
-    populateSelects();
-}
-
 // Populate select elements
 function populateSelects() {
-    // Store current selections
-    const currentKey = document.getElementById('keySelect')?.value;
-    const currentMode = document.getElementById('modeSelect')?.value;
-    const currentProgression = document.getElementById('progressionSelect')?.value;
-
     // Keys
     const keySelect = document.getElementById('keySelect');
-    keySelect.innerHTML = ''; // Clear existing options
     keys.forEach(key => {
         const option = document.createElement('option');
         option.value = key;
         option.textContent = key;
         keySelect.appendChild(option);
     });
-    if (currentKey) keySelect.value = currentKey;
 
     // Modes
     const modeSelect = document.getElementById('modeSelect');
-    modeSelect.innerHTML = ''; // Clear existing options
     Object.entries(modes).forEach(([category, modeList]) => {
         const optgroup = document.createElement('optgroup');
-        // Translate category label
-        optgroup.label = i18n.t(`modeCategories.${category}`);
+        optgroup.label = category;
         modeList.forEach(modeObj => {
             const option = document.createElement('option');
             // Handle both old string format and new object format
@@ -1643,11 +1618,8 @@ function populateSelects() {
             } else {
                 option.value = modeObj.value;
                 option.textContent = modeObj.name;
-                // Add tooltip description with translation
-                const modeTranslation = i18n.t(`modes.${modeObj.value}.description`);
-                if (modeTranslation && modeTranslation !== `modes.${modeObj.value}.description`) {
-                    option.title = modeTranslation;
-                } else if (modeObj.description) {
+                // Add tooltip description if available
+                if (modeObj.description) {
                     option.title = modeObj.description;
                 }
             }
@@ -1655,45 +1627,24 @@ function populateSelects() {
         });
         modeSelect.appendChild(optgroup);
     });
-    if (currentMode) modeSelect.value = currentMode;
 
     // Progressions
     const progressionSelect = document.getElementById('progressionSelect');
-    progressionSelect.innerHTML = ''; // Clear existing options
     Object.entries(progressions).forEach(([category, progList]) => {
         const optgroup = document.createElement('optgroup');
-        // Translate category label
-        optgroup.label = i18n.t(`progressionCategories.${category}`);
+        optgroup.label = category;
         progList.forEach(prog => {
             const option = document.createElement('option');
             option.value = prog.value;
-            // Get translated nickname and name
-            const progKey = `progressions.${category}.${prog.value}`;
-            const translatedName = i18n.t(`${progKey}.name`);
-            const translatedNickname = i18n.t(`${progKey}.nickname`);
-
-            // Use translation if available, otherwise use original
-            const displayName = (translatedName && translatedName !== `${progKey}.name`)
-                ? translatedName
-                : prog.name;
-            const displayNickname = (translatedNickname && translatedNickname !== `${progKey}.nickname`)
-                ? translatedNickname
-                : prog.nickname;
-
-            option.textContent = displayNickname ? `${displayName} (${displayNickname})` : displayName;
-
-            // Add tooltip description with translation
-            const translatedDescription = i18n.t(`${progKey}.description`);
-            if (translatedDescription && translatedDescription !== `${progKey}.description`) {
-                option.title = translatedDescription;
-            } else if (prog.description) {
+            option.textContent = prog.nickname ? `${prog.name} (${prog.nickname})` : prog.name;
+            // Add tooltip description if available
+            if (prog.description) {
                 option.title = prog.description;
             }
             optgroup.appendChild(option);
         });
         progressionSelect.appendChild(optgroup);
     });
-    if (currentProgression) progressionSelect.value = currentProgression;
 }
 
 // Update progression name
@@ -1701,11 +1652,11 @@ function updateProgressionName() {
     const key = selectedKey.split('/')[0];
 
     if (generationMode === 'template') {
-        // Template Mode: Key + Progression
+        // Progression Palette Mode: Key + Progression
         const prog = selectedProgression.replace(/—/g, '-');
         progressionName = `${key}_${prog}`;
     } else {
-        // Scale Exploration Mode: Key + Mode
+        // Scale Mode: Key + Mode
         const modeShort = selectedMode.slice(0, 3);
         progressionName = `${key}_${modeShort}_Scale-Exploration`;
     }
@@ -1759,7 +1710,7 @@ function deduplicateVariants(variantList) {
 
 function generateProgressions() {
     if (generationMode === 'template') {
-        // Template Mode: Generate up to 5 variants based on progression
+        // Progression Palette Mode: Generate up to 5 variants based on progression
         if (selectedMode === 'Locrian' && selectedProgression.includes('I—IV—V')) {
             console.warn('⚠️ Locrian\'s diminished tonic makes this progression unusual');
         }
@@ -1779,7 +1730,7 @@ function generateProgressions() {
             console.log(`Generated ${variants.length} unique variant(s) out of ${allVariants.length}`);
         }
     } else {
-        // Scale Exploration Mode: Generate single variant showing all scale chords
+        // Scale Mode: Generate single variant showing all scale chords
         variants = [
             generateScaleExploration()
         ];
@@ -2306,27 +2257,10 @@ function exportProgressions() {
 }
 
 // Event listeners
-document.addEventListener('DOMContentLoaded', async function() {
-    // Initialize i18n with current language
-    const currentLang = i18n.getCurrentLanguage();
-    const languageSelect = document.getElementById('languageSelect');
-    if (languageSelect) {
-        languageSelect.value = currentLang;
-
-        // Add language change event listener
-        languageSelect.addEventListener('change', async function() {
-            const newLang = this.value;
-            await i18n.setLanguage(newLang);
-            updatePageTranslations();
-        });
-    }
-
+document.addEventListener('DOMContentLoaded', function() {
     initAudioContext();
     initMIDI();
-
-    // Load language before populating selects
-    await i18n.loadLanguage(currentLang);
-    updatePageTranslations();
+    populateSelects();
 
     // Load preferences: URL params take priority over localStorage
     const urlPrefs = loadFromURL();
@@ -2352,11 +2286,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     updateProgressionName();
     renderChordRequirements(); // Initialize chord requirements display
 
-    // Initialize generation mode (default to template mode)
+    // Initialize generation mode (default to progression palette mode)
     switchGenerationMode('template');
 
     // Add event listeners for generation mode toggle
-    document.getElementById('templateModeRadio').addEventListener('change', function() {
+    document.getElementById('paletteModeRadio').addEventListener('change', function() {
         if (this.checked) switchGenerationMode('template');
     });
     document.getElementById('scaleModeRadio').addEventListener('change', function() {
@@ -2421,11 +2355,11 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Custom tooltips for mode option labels (desktop only)
     if (hasHover) {
-        const templateModeLabel = document.getElementById('templateModeLabel');
-        templateModeLabel.addEventListener('pointerenter', function() {
+        const paletteModeLabel = document.getElementById('paletteModeLabel');
+        paletteModeLabel.addEventListener('pointerenter', function() {
             showTooltip(this, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
         });
-        templateModeLabel.addEventListener('pointerleave', function() {
+        paletteModeLabel.addEventListener('pointerleave', function() {
             const tooltip = document.getElementById('chordTooltip');
             if (tooltip) tooltip.classList.remove('visible');
         });
@@ -2453,7 +2387,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const progressionSelect = document.getElementById('progressionSelect');
         progressionSelect.addEventListener('pointerenter', function() {
             if (this.disabled) {
-                showTooltip(this, 'Progression palettes are not used in Scale Exploration mode. All chords from the selected scale will be generated.');
+                showTooltip(this, 'Progression palettes are not used in Scale Mode. All chords from the selected scale will be generated.');
             } else {
                 showTooltip(this, 'Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors.');
             }
@@ -2467,7 +2401,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const modeSelect = document.getElementById('modeSelect');
         modeSelect.addEventListener('pointerenter', function() {
             if (this.disabled) {
-                showTooltip(this, 'Mode/Scale selector is not used in Template mode. The progression defines its own harmonic structure.');
+                showTooltip(this, 'Mode/Scale selector is not used in Progression Palette Mode. The progression defines its own harmonic structure.');
             }
             // No tooltip when enabled (empty state)
         });
@@ -2530,8 +2464,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
 
         // Setup tap tooltips for labels
-        const templateModeLabel = document.getElementById('templateModeLabel');
-        setupTapTooltip(templateModeLabel, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
+        const paletteModeLabel = document.getElementById('paletteModeLabel');
+        setupTapTooltip(paletteModeLabel, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
 
         const scaleModeLabel = document.getElementById('scaleModeLabel');
         setupTapTooltip(scaleModeLabel, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.');
@@ -2544,7 +2478,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const progressionSelect = document.getElementById('progressionSelect');
         setupTapTooltip(progressionSelect, function() {
             if (this.disabled) {
-                return 'Progression palettes are not used in Scale Exploration mode. All chords from the selected scale will be generated.';
+                return 'Progression palettes are not used in Scale Mode. All chords from the selected scale will be generated.';
             } else {
                 return 'Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors.';
             }
@@ -2554,7 +2488,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const modeSelect = document.getElementById('modeSelect');
         setupTapTooltip(modeSelect, function() {
             if (this.disabled) {
-                return 'Mode/Scale selector is not used in Template mode. The progression defines its own harmonic structure.';
+                return 'Mode/Scale selector is not used in Progression Palette Mode. The progression defines its own harmonic structure.';
             }
             return null; // No tooltip when enabled
         });

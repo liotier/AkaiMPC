@@ -16,17 +16,11 @@
 <body>
     <div class="app">
         <div class="header">
-            <div class="language-switcher">
-                <select id="languageSelect" class="language-select">
-                    <option value="en">🇬🇧 English</option>
-                    <option value="fr">🇫🇷 Français</option>
-                </select>
-            </div>
             <div>
-                <h1 data-i18n="app.title">MPC Chord Progression Generator</h1>
+                <h1>MPC Chord Progression Generator</h1>
                 <p class="subtitle">
-                    <span data-i18n="app.subtitle">Create musically intelligent chord progressions optimized for the MPC's 4×4 pad layout</span><br>
-                    <span data-i18n="app.subtitleLine2">Generate Akai MPC .progression files - also get keyboard and guitar diagrams, to jam with others</span>
+                    Create musically intelligent chord progressions optimized for the MPC's 4×4 pad layout<br>
+                    Generate Akai MPC .progression files - also get keyboard and guitar diagrams, to jam with others
                 </p>
             </div>
             <img src="https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/20250821%20MPC%20One%20on%20chair%20-%20web%20sized.jpg"
@@ -36,19 +30,19 @@
 
         <div class="chord-matcher" id="chordMatcher">
             <div class="chord-matcher-header" onclick="toggleChordMatcher()">
-                <h3 data-i18n="chordMatcher.title">🎹 Chord Matcher</h3>
-                <span class="optional-badge" data-i18n="chordMatcher.optional">Optional</span>
+                <h3>🎹 Chord Matcher</h3>
+                <span class="optional-badge">Optional</span>
                 <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
             </div>
             <div class="chord-matcher-content">
-                <p class="chord-matcher-description" data-i18n="chordMatcher.description">
+                <p class="chord-matcher-description">
                     Found a sample with great chords ? Enter them here to find compatible keys and modes for your production.
                 </p>
                 <div class="chord-input-row">
                     <select id="chordNote">
-                        <option value="" data-i18n="chordMatcher.noteLabel">Note...</option>
+                        <option value="">Note...</option>
                         <option value="C">C</option>
                         <option value="C#">C#/D♭</option>
                         <option value="D">D</option>
@@ -63,23 +57,23 @@
                         <option value="B">B</option>
                     </select>
                     <select id="chordQuality">
-                        <option value="" data-i18n="chordMatcher.qualityLabel">Quality...</option>
-                        <option value="major" data-i18n="chordMatcher.qualities.major">Major</option>
-                        <option value="minor" data-i18n="chordMatcher.qualities.minor">Minor</option>
-                        <option value="dim" data-i18n="chordMatcher.qualities.dim">Diminished</option>
-                        <option value="aug" data-i18n="chordMatcher.qualities.aug">Augmented</option>
-                        <option value="sus2" data-i18n="chordMatcher.qualities.sus2">Sus2</option>
-                        <option value="sus4" data-i18n="chordMatcher.qualities.sus4">Sus4</option>
-                        <option value="7" data-i18n="chordMatcher.qualities.7">Dominant 7</option>
-                        <option value="maj7" data-i18n="chordMatcher.qualities.maj7">Major 7</option>
-                        <option value="m7" data-i18n="chordMatcher.qualities.m7">Minor 7</option>
+                        <option value="">Quality...</option>
+                        <option value="major">Major</option>
+                        <option value="minor">Minor</option>
+                        <option value="dim">Diminished</option>
+                        <option value="aug">Augmented</option>
+                        <option value="sus2">Sus2</option>
+                        <option value="sus4">Sus4</option>
+                        <option value="7">Dominant 7</option>
+                        <option value="maj7">Major 7</option>
+                        <option value="m7">Minor 7</option>
                     </select>
-                    <button onclick="addChordRequirement()" data-i18n="chordMatcher.addChord">Add Chord</button>
-                    <button onclick="clearChordRequirements()" data-i18n="chordMatcher.clearAll">Clear All</button>
+                    <button onclick="addChordRequirement()">Add Chord</button>
+                    <button onclick="clearChordRequirements()">Clear All</button>
                 </div>
                 <div class="selected-chords" id="selectedChords"></div>
                 <div class="key-mode-suggestions" id="keyModeSuggestions" style="display: none;">
-                    <div class="suggestion-label" data-i18n="chordMatcher.compatibleLabel">Compatible Keys & Modes:</div>
+                    <div class="suggestion-label">Compatible Keys & Modes:</div>
                     <div class="suggestion-list" id="suggestionList"></div>
                 </div>
             </div>
@@ -87,81 +81,87 @@
 
         <div class="controls">
             <div class="generation-mode-toggle">
-                <label class="mode-option" id="templateModeLabel">
-                    <input type="radio" name="generationMode" value="template" id="templateModeRadio" checked>
-                    <span data-i18n="controls.generationMode.template">Use Progression Palette</span>
+                <label class="mode-option" id="paletteModeLabel">
+                    <input type="radio" name="generationMode" value="template" id="paletteModeRadio" checked>
+                    <span>Progression Palette Mode</span>
                 </label>
                 <label class="mode-option" id="scaleModeLabel">
                     <input type="radio" name="generationMode" value="scale" id="scaleModeRadio">
-                    <span data-i18n="controls.generationMode.scale">Explore Scale/Mode</span>
+                    <span>Scale Mode</span>
                 </label>
             </div>
 
             <div class="filter-group">
-                <label data-i18n="controls.labels.key">Key</label>
+                <label>Key</label>
                 <select id="keySelect"></select>
             </div>
 
-            <div class="filter-group">
-                <label data-i18n="controls.labels.mode">Mode/Scale</label>
-                <select id="modeSelect"></select>
+            <!-- Progression Palette Mode Container -->
+            <div class="mode-container palette-mode-container active" id="paletteModeContainer">
+                <div class="mode-container-header">Progression Palette Mode</div>
+                <div class="filter-group">
+                    <label>Progression Palette</label>
+                    <select id="progressionSelect"></select>
+                </div>
+            </div>
+
+            <!-- Scale Mode Container -->
+            <div class="mode-container scale-mode-container" id="scaleModeContainer">
+                <div class="mode-container-header">Scale Mode</div>
+                <div class="filter-group">
+                    <label>Mode/Scale</label>
+                    <select id="modeSelect"></select>
+                </div>
             </div>
 
             <div class="filter-group">
-                <label data-i18n="controls.labels.progression">Progression Palette</label>
-                <select id="progressionSelect"></select>
-            </div>
-
-            <div class="filter-group">
-                <label data-i18n="controls.labels.name">Progression Name</label>
+                <label>Progression Name</label>
                 <input type="text" id="progressionName" maxlength="64">
             </div>
         </div>
 
         <div class="action-buttons">
-            <button class="primary full-width" id="generateBtn" data-i18n="buttons.generate">Generate Progressions</button>
+            <button class="primary full-width" id="generateBtn">Generate Progressions</button>
         </div>
 
         <div class="context-tabs-container">
             <div class="context-tabs">
-                <button class="context-tab active" data-context="mpc" data-i18n="tabs.mpc">MPC Pads</button>
-                <button class="context-tab" data-context="keyboard" data-i18n="tabs.keyboard">Keyboard</button>
-                <button class="context-tab" data-context="guitar" data-i18n="tabs.guitar">Guitar</button>
-                <button class="context-tab" data-context="staff" data-i18n="tabs.staff">Staff</button>
+                <button class="context-tab active" data-context="mpc">MPC Pads</button>
+                <button class="context-tab" data-context="keyboard">Keyboard</button>
+                <button class="context-tab" data-context="guitar">Guitar</button>
+                <button class="context-tab" data-context="staff">Staff</button>
             </div>
             <div class="left-handed-toggle" id="leftHandedToggle" style="display: none;">
                 <label>
                     <input type="checkbox" id="leftHandedCheckbox">
-                    <span data-i18n="tabs.leftHanded">Left-handed</span>
+                    Left-handed
                 </label>
             </div>
             <div class="midi-selector" id="midiSelector" style="display: none;">
-                <label for="midiOutputSelect" data-i18n="tabs.midiOutput">MIDI Output:</label>
+                <label for="midiOutputSelect">MIDI Output:</label>
                 <select id="midiOutputSelect">
-                    <option value="" data-i18n="tabs.midiOutputNone">Browser beep (no MIDI)</option>
+                    <option value="">Browser beep (no MIDI)</option>
                 </select>
             </div>
-            <button class="primary" id="downloadAllBtn" style="display: none;" data-i18n="buttons.downloadAll">Download all .progression files</button>
+            <button class="primary" id="downloadAllBtn" style="display: none;">Download all .progression files</button>
         </div>
 
         <div id="progressionsContainer" class="progressions hidden"></div>
 
         <footer>
             <p>
-                <span data-i18n="footer.cousin">Cousin to the</span>
+                Cousin to the
                 <a href="https://liotier.github.io/AkaiMPC/"
                    target="_blank"
-                   rel="noopener noreferrer"
-                   data-i18n="footer.finderLink">
+                   rel="noopener noreferrer">
                     MPC Chord Progression Finder
                 </a>
             </p>
-            <p data-i18n="footer.producer">Produced by Jean-Marc Liotier</p>
+            <p>Produced by Jean-Marc Liotier</p>
             <p>
                 <a href="https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionGenerator"
                    target="_blank"
-                   rel="noopener noreferrer"
-                   data-i18n="footer.github">
+                   rel="noopener noreferrer">
                     View on GitHub
                 </a>
             </p>
