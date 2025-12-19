@@ -213,18 +213,33 @@ export const progressions = {
             value: 'I—V—vi—IV',
             name: 'I—V—vi—IV',
             nickname: 'Axis of Awesome',
+            palettePriorities: {
+                preferred: ['major', 'minor', 'major7'],     // Warm, accessible pop sound
+                allowed: ['minor7', 'dom7'],                  // Add depth without edge
+                avoided: ['diminished', 'augmented', 'quartal']  // Too tense for pop
+            },
             description: 'The most popular progression in modern pop. Tonic to dominant creates forward motion, deceptive resolution to vi adds emotion, IV provides gentle return. Used in hundreds of hits from "Let It Be" to "Don\'t Stop Believin\'."'
         },
         {
             value: 'I—IV—V—I',
             name: 'I—IV—V—I',
             nickname: 'Classic Rock',
+            palettePriorities: {
+                preferred: ['major', 'dom7'],                // Classic rock foundation
+                allowed: ['minor', 'minor7'],                 // For variation
+                avoided: ['major7', 'diminished', 'augmented', 'quartal']  // Too jazzy/experimental
+            },
             description: 'The foundation of rock and roll. Moves from tonic through subdominant to dominant, creating satisfying tension and release. The backbone of blues, country, and early rock from Chuck Berry to The Beatles.'
         },
         {
             value: 'vi—IV—I—V',
             name: 'vi—IV—I—V',
             nickname: 'Pop Punk',
+            palettePriorities: {
+                preferred: ['major', 'minor'],               // Power chord energy
+                allowed: ['dom7', 'minor7'],                  // Occasional depth
+                avoided: ['major7', 'diminished', 'augmented', 'quartal']
+            },
             description: 'Starts on the relative minor for immediate emotional impact, then cycles through subdominant, tonic, and dominant. Creates anthemic, singalong feel. Popularized by bands like Blink-182 and Green Day.'
         },
         {
@@ -455,21 +470,33 @@ export const progressions = {
             value: 'i—iv—v',
             name: 'i—iv—v',
             nickname: 'Techno Minimal',
-            paletteFilter: ['minor', 'minor7', 'quartal'],
+            palettePriorities: {
+                preferred: ['minor', 'quartal'],       // Sparse, mechanical core
+                allowed: ['minor7'],                    // Subtle depth
+                avoided: ['major', 'major7', 'dom7', 'diminished', 'augmented']
+            },
             description: 'Sparse, mechanical palette. Minor triads and quartal voicings for hypnotic loops.'
         },
         {
             value: 'I—IV—V',
             name: 'I—IV—V',
             nickname: 'Deep House',
-            paletteFilter: ['major7', 'minor7', 'dom7', 'major'],
+            palettePriorities: {
+                preferred: ['major7', 'minor7', 'dom7'],  // Rich 7ths are signature
+                allowed: ['major', 'minor'],               // Basic triads for variety
+                avoided: ['diminished', 'augmented']       // Too tense
+            },
             description: 'Warm, jazzy palette. Rich 7th chords for soulful, groovy deep house vibes.'
         },
         {
             value: 'IM7—IVM7—VM7',
             name: 'IM7—IVM7—VM7',
             nickname: 'Ambient Wash',
-            paletteFilter: ['major7', 'minor7', 'quartal'],
+            palettePriorities: {
+                preferred: ['major7', 'minor7', 'quartal'],  // Floating, ethereal
+                allowed: ['major', 'minor'],                  // Simpler textures
+                avoided: ['dom7', 'diminished', 'augmented'] // Too tense/driving
+            },
             description: 'Open, floating palette. Major/minor 7ths and quartal voicings for ethereal soundscapes.'
         }
     ],
@@ -560,12 +587,22 @@ export const progressions = {
             value: 'i—♭VI—♭VII',
             name: 'i—♭VI—♭VII',
             nickname: 'Trap Minor',
+            palettePriorities: {
+                preferred: ['minor', 'minor7'],              // Dark, moody trap core
+                allowed: ['major', 'dom7'],                   // For borrowed chords, tension
+                avoided: ['major7', 'augmented', 'quartal', 'diminished']  // Too bright/jazzy
+            },
             description: 'Essential modern trap progression. Minor tonic with borrowed ♭VI and ♭VII creates dark, modal atmosphere. Short three-chord loop perfect for 808 basslines and hi-hat rolls. Avoids traditional cadences for hypnotic, menacing trap sound from Metro Boomin to Southside.'
         },
         {
             value: 'i—♭III—♭VI—♭VII',
             name: 'i—♭III—♭VI—♭VII',
             nickname: 'Dark Trap',
+            palettePriorities: {
+                preferred: ['minor', 'minor7'],              // Maximum darkness
+                allowed: ['major'],                           // Only for borrowed chords
+                avoided: ['major7', 'dom7', 'augmented', 'quartal', 'diminished']
+            },
             description: 'Extended dark trap progression. All borrowed chords from natural minor - ♭III adds hopeful moment before descending to ♭VI and ♭VII. Four-chord loop provides more harmonic movement while maintaining menacing atmosphere. Used in melodic trap and dark hip-hop production.'
         },
         {
@@ -1046,21 +1083,33 @@ export const progressions = {
             value: 'i—iv—♭VII—i',
             name: 'i—iv—♭VII—i',
             nickname: 'EBM Classic',
-            paletteFilter: ['minor', 'minor7', 'dom7', 'diminished'],
+            palettePriorities: {
+                preferred: ['minor', 'diminished', 'dom7'],  // Dark, aggressive core
+                allowed: ['minor7'],                          // Additional tension
+                avoided: ['major', 'major7', 'augmented']    // Too bright/unstable
+            },
             description: 'Dark, tense palette. Minor, diminished, dom7 for industrial body music.'
         },
         {
             value: 'i—♭VII—iv',
             name: 'i—♭VII—iv',
             nickname: 'Acid 303',
-            paletteFilter: ['minor', 'minor7', 'dom7', 'quartal'],
+            palettePriorities: {
+                preferred: ['minor7', 'quartal', 'dom7'],  // TB-303 squelch character
+                allowed: ['minor'],                         // Basic minor OK
+                avoided: ['major', 'major7', 'diminished', 'augmented']
+            },
             description: 'Classic acid palette. Minor 7ths and quartal voicings for TB-303 squelch.'
         },
         {
             value: 'i—♭VI—♭VII',
             name: 'i—♭VI—♭VII',
             nickname: 'Dark Minimal',
-            paletteFilter: ['minor', 'diminished', 'dom7'],
+            palettePriorities: {
+                preferred: ['minor', 'diminished', 'dom7'],  // Maximum menace
+                allowed: [],                                  // Nothing else needed
+                avoided: ['major', 'major7', 'minor7', 'quartal', 'augmented']
+            },
             description: 'Harsh, industrial palette. Diminished and dom7s for aggressive minimal techno.'
         }
     ]
