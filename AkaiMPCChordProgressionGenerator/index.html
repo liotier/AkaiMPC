@@ -28,6 +28,7 @@
                  class="mpc-image">
         </div>
 
+        <!-- Chord Matcher: Filters keys for both Progression Palette and Scale modes -->
         <div class="chord-matcher" id="chordMatcher">
             <div class="chord-matcher-header" onclick="toggleChordMatcher()">
                 <h3>🎹 Chord Matcher</h3>
@@ -80,40 +81,54 @@
         </div>
 
         <div class="controls">
-            <div class="generation-mode-toggle">
-                <label class="mode-option" id="templateModeLabel">
-                    <input type="radio" name="generationMode" value="template" id="templateModeRadio" checked>
-                    <span>Use Progression Palette</span>
-                </label>
-                <label class="mode-option" id="scaleModeLabel">
-                    <input type="radio" name="generationMode" value="scale" id="scaleModeRadio">
-                    <span>Explore Scale/Mode</span>
-                </label>
+            <!-- Top Row: Mode Toggle + Key Selector -->
+            <div class="controls-top-row">
+                <div class="generation-mode-toggle">
+                    <label class="mode-option" id="paletteModeLabel">
+                        <input type="radio" name="generationMode" value="template" id="paletteModeRadio" checked>
+                        <span>Progression Palette Mode</span>
+                    </label>
+                    <label class="mode-option" id="scaleModeLabel">
+                        <input type="radio" name="generationMode" value="scale" id="scaleModeRadio">
+                        <span>Scale Mode</span>
+                    </label>
+                </div>
+
+                <div class="filter-group">
+                    <label>Key</label>
+                    <select id="keySelect"></select>
+                </div>
             </div>
 
-            <div class="filter-group">
-                <label>Key</label>
-                <select id="keySelect"></select>
+            <!-- Middle Row: Mode Containers Side by Side -->
+            <div class="mode-containers-row">
+                <!-- Progression Palette Mode Container -->
+                <div class="mode-container palette-mode-container active" id="paletteModeContainer">
+                    <div class="mode-container-header">Progression Palette Mode</div>
+                    <div class="filter-group">
+                        <label>Progression Palette</label>
+                        <select id="progressionSelect"></select>
+                    </div>
+                </div>
+
+                <!-- Scale Mode Container -->
+                <div class="mode-container scale-mode-container" id="scaleModeContainer">
+                    <div class="mode-container-header">Scale Mode</div>
+                    <div class="filter-group">
+                        <label>Mode/Scale</label>
+                        <select id="modeSelect"></select>
+                    </div>
+                </div>
             </div>
 
-            <div class="filter-group">
-                <label>Mode/Scale</label>
-                <select id="modeSelect"></select>
+            <!-- Bottom Row: Progression Name + Generate Button -->
+            <div class="controls-bottom-row">
+                <div class="filter-group">
+                    <label id="progressionNameLabel">Progression Name</label>
+                    <input type="text" id="progressionName" maxlength="64">
+                </div>
+                <button class="primary" id="generateBtn">Generate Progressions</button>
             </div>
-
-            <div class="filter-group">
-                <label>Progression Palette</label>
-                <select id="progressionSelect"></select>
-            </div>
-
-            <div class="filter-group">
-                <label>Progression Name</label>
-                <input type="text" id="progressionName" maxlength="64">
-            </div>
-        </div>
-
-        <div class="action-buttons">
-            <button class="primary full-width" id="generateBtn">Generate Progressions</button>
         </div>
 
         <div class="context-tabs-container">
