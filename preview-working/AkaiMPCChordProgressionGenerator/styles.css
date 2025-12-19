@@ -57,11 +57,16 @@ h1 {
 }
 
 .chord-matcher {
-    background: #f0f9ff;
-    border: 2px dashed var(--accent);
+    background: white;
+    border: 2px dashed #bfdbfe;
     border-radius: var(--radius);
     padding: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
+}
+
+/* When Scale Mode container is active, Chord Matcher border becomes more prominent */
+.mode-container.active .chord-matcher {
+    border-color: var(--accent);
 }
 
 .chord-matcher-header {

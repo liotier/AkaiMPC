@@ -28,57 +28,6 @@
                  class="mpc-image">
         </div>
 
-        <div class="chord-matcher" id="chordMatcher">
-            <div class="chord-matcher-header" onclick="toggleChordMatcher()">
-                <h3>🎹 Chord Matcher</h3>
-                <span class="optional-badge">Optional</span>
-                <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </div>
-            <div class="chord-matcher-content">
-                <p class="chord-matcher-description">
-                    Found a sample with great chords ? Enter them here to find compatible keys and modes for your production.
-                </p>
-                <div class="chord-input-row">
-                    <select id="chordNote">
-                        <option value="">Note...</option>
-                        <option value="C">C</option>
-                        <option value="C#">C#/D♭</option>
-                        <option value="D">D</option>
-                        <option value="D#">D#/E♭</option>
-                        <option value="E">E</option>
-                        <option value="F">F</option>
-                        <option value="F#">F#/G♭</option>
-                        <option value="G">G</option>
-                        <option value="G#">G#/A♭</option>
-                        <option value="A">A</option>
-                        <option value="A#">A#/B♭</option>
-                        <option value="B">B</option>
-                    </select>
-                    <select id="chordQuality">
-                        <option value="">Quality...</option>
-                        <option value="major">Major</option>
-                        <option value="minor">Minor</option>
-                        <option value="dim">Diminished</option>
-                        <option value="aug">Augmented</option>
-                        <option value="sus2">Sus2</option>
-                        <option value="sus4">Sus4</option>
-                        <option value="7">Dominant 7</option>
-                        <option value="maj7">Major 7</option>
-                        <option value="m7">Minor 7</option>
-                    </select>
-                    <button onclick="addChordRequirement()">Add Chord</button>
-                    <button onclick="clearChordRequirements()">Clear All</button>
-                </div>
-                <div class="selected-chords" id="selectedChords"></div>
-                <div class="key-mode-suggestions" id="keyModeSuggestions" style="display: none;">
-                    <div class="suggestion-label">Compatible Keys & Modes:</div>
-                    <div class="suggestion-list" id="suggestionList"></div>
-                </div>
-            </div>
-        </div>
-
         <div class="controls">
             <div class="generation-mode-toggle">
                 <label class="mode-option" id="paletteModeLabel">
@@ -108,6 +57,59 @@
             <!-- Scale Mode Container -->
             <div class="mode-container scale-mode-container" id="scaleModeContainer">
                 <div class="mode-container-header">Scale Mode</div>
+
+                <!-- Chord Matcher (nested within Scale Mode) -->
+                <div class="chord-matcher" id="chordMatcher">
+                    <div class="chord-matcher-header" onclick="toggleChordMatcher()">
+                        <h3>🎹 Chord Matcher</h3>
+                        <span class="optional-badge">Optional</span>
+                        <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="chord-matcher-content">
+                        <p class="chord-matcher-description">
+                            Found a sample with great chords ? Enter them here to find compatible keys and modes for your production.
+                        </p>
+                        <div class="chord-input-row">
+                            <select id="chordNote">
+                                <option value="">Note...</option>
+                                <option value="C">C</option>
+                                <option value="C#">C#/D♭</option>
+                                <option value="D">D</option>
+                                <option value="D#">D#/E♭</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                                <option value="F#">F#/G♭</option>
+                                <option value="G">G</option>
+                                <option value="G#">G#/A♭</option>
+                                <option value="A">A</option>
+                                <option value="A#">A#/B♭</option>
+                                <option value="B">B</option>
+                            </select>
+                            <select id="chordQuality">
+                                <option value="">Quality...</option>
+                                <option value="major">Major</option>
+                                <option value="minor">Minor</option>
+                                <option value="dim">Diminished</option>
+                                <option value="aug">Augmented</option>
+                                <option value="sus2">Sus2</option>
+                                <option value="sus4">Sus4</option>
+                                <option value="7">Dominant 7</option>
+                                <option value="maj7">Major 7</option>
+                                <option value="m7">Minor 7</option>
+                            </select>
+                            <button onclick="addChordRequirement()">Add Chord</button>
+                            <button onclick="clearChordRequirements()">Clear All</button>
+                        </div>
+                        <div class="selected-chords" id="selectedChords"></div>
+                        <div class="key-mode-suggestions" id="keyModeSuggestions" style="display: none;">
+                            <div class="suggestion-label">Compatible Keys & Modes:</div>
+                            <div class="suggestion-list" id="suggestionList"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="filter-group">
                     <label>Mode/Scale</label>
                     <select id="modeSelect"></select>
