@@ -1,18 +1,37 @@
-# Akai MPC Chord Progression Generator - generates smart .progression files for Pad Perform
+# Chord Progression Generator - piano, guitar tabs, Akai MPC
 
-Discover my mind-blowing free MIDI chord packs !
+**Create musically intelligent chord progressions and view them as piano keyboard, guitar tabs, or staff notation.**
 
-Just kidding: MIDI chord packs suck... Let's kill this market on the MPC !
-
-Instead of trawling through thousands of inane progressions, generate musically intelligent custom chord progressions in 4×4 pad layouts for your specific needs, delivered as `.progression` files for Akai MPC Pad Perform.
+Instead of trawling through chord books or generic MIDI packs, generate custom progressions tailored to your needs. Print chord sheets to jam with your band, or export `.progression` files for Akai MPC Pad Perform.
 
 ## Try It Now
 
-**[Access the complete MPC Chord Progression Generator](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/)**
+**[Access the Chord Progression Generator](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/)**
 
-This is the full product, freely available online. No installation, no sign-up, no limitations. Works directly in your browser and runs completely offline once loaded.
+Free, browser-based tool. No installation, no sign-up, no limitations. Works completely offline once loaded.
 
 ![screenshot](MPC%20Chord%20Progression%20Generator%20-%20Screenshot.png)
+
+## For Musicians, Producers & Jammers
+
+### Four Views, One Progression
+**Switch between instrument views instantly:**
+- **Piano keyboard** - Visualize progressions for keys/synths, see intervals clearly
+- **Guitar fretboard** - Get chord diagrams with left-handed support
+- **Staff notation** - Classical view with intelligent octave placement
+- **MPC pads** - 4×4 grid layout optimized for finger drumming
+
+### Print and Jam
+Generate a progression, switch to piano or guitar view, and **print chord sheets** for your band. Everyone gets on the same page - literally. Perfect for:
+- **Worship teams** coordinating progressions across keyboards, guitar, and bass
+- **Singer-songwriters** sharing charts with backing musicians
+- **Music teachers** creating lesson materials
+- **Jam sessions** - pick a progression, print charts, start playing
+
+### Export to Your Workflow
+- **MPC Users**: Download `.progression` files for Pad Perform (MPC One, Live, X, Key 61, Software, Beats)
+- **MIDI Hardware**: Send chords directly via WebMIDI to synths or drum machines
+- **DAW Producers**: Use keyboard shortcuts to audition chords while programming
 
 ## Two Approaches, One Ecosystem
 
@@ -108,26 +127,25 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 - Chord names follow Akai's exact naming conventions
 - Optimized pad layouts for finger drumming
 
-### Real-Time Production Tools
-- **WebMIDI Output Support** - Send chords directly to softsynths or hardware via MIDI (Firefox 108+, Chrome, Edge). Auto-detects available devices with graceful fallback to browser beep.
-- **Computer Keyboard Control** - Trigger pads 1-16 with keys `cvbn` (pads 1-4), `dfgh` (5-8), `erty` (9-12), `3456` (13-16). Layout mirrors the MPC grid. Works with CAPS LOCK on, compatible with AZERTY/QWERTY keyboards. Automatically targets the progression variant most visible in your viewport.
-- **Instant Audio Preview** - Hear any chord with real instrument sounds or browser beep
-- **Visual Feedback** - See the notes on a piano roll, understand the intervals
-- **Roman Numeral Analysis** - Know the function of every chord in your progression
-- **Batch Operations** - Generate and export multiple progressions for your entire project
-
-### Beyond the MPC: Multi-Instrument Visualization
-- **Switch between four views** - MPC pads, piano keyboard, guitar fretboard, or staff notation
+### Multi-Instrument Visualization & Printing
+- **Switch between four views** - Piano keyboard, guitar fretboard, staff notation, or MPC pads
+- **Print chord sheets for jamming** - Generate progressions, switch to any view, and print. Get your whole band on the same page.
 - **Staff notation with intelligent octave placement** - Treble clef with automatic transposition for optimal readability
 - **Sequential playback in staff view** - Notes play as eighth notes at 90 BPM for melodic exploration
-- **Print chord diagrams** - Generate progressions, switch to any view, and print
-- **Jam with friends** - Hand out printed chord sheets for your custom progressions
-- **Left-handed guitar support** - Mirror fretboard diagrams for left-handed players
+- **Guitar fretboard diagrams** - With left-handed support (mirror option)
+- **Piano keyboard view** - See intervals clearly, understand voicings visually
+- **Roman Numeral Analysis** - Know the function of every chord in your progression
+
+### Real-Time Production Tools
+- **WebMIDI Output Support** - Send chords directly to softsynths or hardware via MIDI (Firefox 108+, Chrome, Edge). Auto-detects available devices with graceful fallback to browser beep.
+- **Computer Keyboard Control** - Trigger pads 1-16 with keys `cvbn` (pads 1-4), `dfgh` (5-8), `erty` (9-12), `3456` (13-16). Compatible with AZERTY/QWERTY keyboards. Automatically targets the progression variant most visible in your viewport.
+- **Instant Audio Preview** - Hear any chord with real instrument sounds or browser beep
+- **Batch Operations** - Generate and export multiple progressions for your entire project
 
 ### Zero Friction Workflow
 - **No Installation** - Works in any modern browser
 - **No Server Dependency** - Runs completely offline after first load
-- **Mobile Ready** - Use on your phone or tablet right next to your MPC
+- **Mobile Ready** - Use on your phone or tablet at rehearsal, on stage, or in the studio
 - **Privacy First** - All processing happens in your browser, nothing leaves your device
 
 ## Quick Start Guide
@@ -137,18 +155,18 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
    - **Scale Mode** - Select a key + mode/scale to explore all available chords from that scale. Perfect for learning exotic scales and modal exploration.
    - **Chord Matcher** (optional) - Input chords from your sample to filter compatible keys and modes for both workflows.
 
-2. **Export to MPC**
-   - Download individual progressions or all variants as a ZIP
-   - Drop the `.progression` files into your MPC
-   - Select a progression in the Pad Perform page
-   - Start making beats !
+2. **View & Export**
+   - **Switch views** - Toggle between piano, guitar, staff notation, or MPC pads
+   - **Print for jamming** - Print chord sheets to share with your band or students
+   - **Export to MPC** - Download `.progression` files for Akai MPC Pad Perform
+   - **Play via MIDI** - Send chords to hardware synths or use keyboard shortcuts for auditioning
 
-## Perfect Companion to the MPC Chord Progression Finder
+## Sister Tool: MPC Chord Progression Finder
 
-**Use the Generator when:** Starting fresh, exploring new harmonic territories, or building around an existing sound  
-**Use the [Finder](https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionFinder) when:** Picking progressions from your library
+**Use the Generator when:** Creating new progressions from scratch, learning music theory, or jamming with chord sheets
+**Use the [Finder](https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionFinder) when:** Identifying progressions from existing songs in your library
 
-Together, they provide the complete harmonic toolkit for modern MPC-based Pad Perform .progression management.
+Together, they provide a complete harmonic toolkit for musicians and producers.
 
 ## Under the Hood
 
@@ -189,11 +207,11 @@ This project is open source and available under the Unlicense.
 
 ## 🙏 Acknowledgments
 
-- Built for the Akai MPC community
-- Shout out to the amazing folks at [MPC Forums](https://www.mpc-forums.com/) - where the real MPC magic happens !
+- Built for musicians, producers, and music educators
+- Special thanks to the Akai MPC community and [MPC Forums](https://www.mpc-forums.com/)
 
 ## Credits & Links
 
 **Created by Jean-Marc Liotier**
-**Sister project: [MPC Chord Progression Finder](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/)**
+**Sister project: [Chord Progression Finder](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/)**
 **GitHub: [Source Code](https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionGenerator)**
