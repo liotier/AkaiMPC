@@ -1,7 +1,7 @@
 /**
  * Constants Module
  *
- * Centralized configuration for the Akai MPC Chord Progression Generator.
+ * Centralized configuration for the Chord Progression Generator.
  * All magic numbers are extracted here for easy maintenance and documentation.
  */
 
