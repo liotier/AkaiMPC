@@ -23,12 +23,12 @@ While the [MPC Chord Progression Finder](https://github.com/liotier/AkaiMPC/blob
 ### Chord Matcher: Bridge Your Samples to Theory
 Found a sample with killer chords but don't know the key? The Chord Matcher lets you:
 - Input the chords you've identified from your sample
-- Get instant suggestions for compatible keys and modes
+- Get instant suggestions for compatible keys and modes for **both** Progression Palette and Scale modes
 - Generate complementary progressions that work with your source material
 - Bridge the gap between sample-based and theory-based production
 
 ### Two Workflows for Every Creative Process
-- **Progression Palette Mode** - Choose from 135 progression palettes across 15 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). Generate four voicing variants instantly.
+- **Progression Palette Mode** - Choose from 133 progression palettes across 15 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). 60+ progressions feature **genre-specific palette intelligence** that prioritizes authentic chord voicings for each style. Generate four voicing variants instantly.
 - **Scale Mode** - Pick from 36 scales/modes and explore all available chords. Perfect for learning exotic scales like Whole Tone, Maqam Hijaz, or Phrygian Dominant.
 - Download individual variants or bulk export all four versions at once
 
@@ -48,6 +48,7 @@ Each generation creates four musically distinct versions of your progression wit
 Rather than repeating chords sequentially, each progression provides a **palette of 16 unique chords** - like a painter's color palette for harmonic exploration:
 
 - **All 16 pads are unique** - No duplicate chord types, maximizing your harmonic options
+- **Genre-specific palette intelligence** - 60+ progressions now feature smart priority weighting: preferred chord voicings appear first (Blues loves dom7, Folk prefers simple triads, Gospel embraces major7). Chords are sorted by musical authenticity for each style.
 - **Harmonic gradient from foundation to spice** - Bottom row (pads 1-4) provides bread-and-butter chords with the tonic anchoring pad 1. Top row (pads 13-16) offers adventurous, colorful extensions for when you want to take risks.
 - **Intelligent extensions** - For each chord degree, generates different variations (triads, 7ths, major 7ths, 9ths) plus complementary chords (ii7, vi, ♭VII, ♭VI, ♭III, iv)
 - **Your sequence, your choice** - The generator gives you the colors; you paint the progression
@@ -71,22 +72,23 @@ The generator seamlessly incorporates:
 - **Tritone Substitutions** - Jazz reharmonization at the click of a button
 
 ### Battle-Tested Progression Palettes
-135 progression palettes across 15 genres covering every style:
+133 progression palettes across 15 genres covering every style. **60+ progressions feature genre-specific palette intelligence** that prioritizes musically authentic chord voicings:
 - **Pop/Rock**: I-V-vi-IV (the "four chord song"), vi-IV-I-V (pop-punk anthem), classic rock patterns
-- **Blues/Soul**: 12-bar blues, turnarounds, Dorian vamps, minor blues with substitutions
+- **Blues/Soul**: 12-bar blues, turnarounds, Dorian vamps, minor blues (smart palettes prefer dom7, major; avoid experimental voicings)
 - **Jazz/Functional**: ii-V-I, Rhythm Changes, Giant Steps cycle, circle progressions
 - **Classical/Modal**: Circle of Fifths, Andalusian Cadence, Pachelbel's Canon, Passamezzo patterns
-- **Electronic/Modern**: EDM drops, dark house, modal interchange, chromatic mediant
-- **R&B/Neo-Soul**: Extended harmony, chromatic soul, emotional ballads
-- **Gospel/Worship**: Gospel turnarounds, praise progressions, secondary dominants
-- **Hip-Hop/Trap**: Trap minor, dark trap, lofi hip-hop, boom bap, emo rap
-- **Latin/Bossa**: Bossa nova, tango, samba, flamenco, bolero
+- **Electronic/Modern**: EDM drops, dark house, modal interchange, chromatic mediant (Techno prefers minimal harmony)
+- **R&B/Neo-Soul**: Extended harmony, chromatic soul, emotional ballads (smart palettes embrace major7, minor7, dom7)
+- **Gospel/Worship**: Gospel turnarounds, praise progressions, secondary dominants (loves major7, dom7)
+- **Hip-Hop/Trap**: Trap minor, dark trap, lofi hip-hop, boom bap, emo rap (prefers simple minor/major, minimal complexity)
+- **Latin/Bossa**: Bossa nova, tango, samba, flamenco, bolero (embraces minor7, major7, dom7)
 - **Film/Cinematic**: Epic trailer progressions, dark cinematic, heroic themes
-- **Folk/Singer-Songwriter**: Folk standards, country, Americana, Irish folk
-- **Metal/Rock**: Power metal, doom metal, prog metal, melodic metal
-- **Trance/Psytrance/Goa**: Classic Goa, dark psy, uplifting trance, phrygian trance
+- **Folk/Singer-Songwriter**: Folk standards, country, Americana, Irish folk (simple triads preferred; avoids jazz complexity)
+- **Metal/Rock**: Power metal, doom metal, prog metal, melodic metal (power chords preferred; avoids jazz extensions)
+- **Trance/Psytrance/Goa**: Classic Goa, dark psy, uplifting trance, phrygian trance (modal simplicity with hypnotic character)
 - **Jungle/Drum'n'Bass**: Dark jungle, liquid DnB, neurofunk, jazzstep
-- **Italo-Disco/House, Synthwave/Retrowave, African Dance, Acid/EBM**: Genre-specific progressions for electronic producers
+- **Synthwave/Retrowave**: Outrun, darkwave, cyberpunk (80s-style major/minor with selective 7th usage)
+- **Reggae/Dub, UK Bass, Italo-Disco/House, African Dance, Acid/EBM**: Genre-specific progressions with smart palette priorities
 
 ### Dynamic Row 4: Your Secret Weapon
 The fourth row isn't just filler—it's dynamically calculated based on sophisticated harmonic analysis:
@@ -94,7 +96,7 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 - **Harmonic Function Analysis** - Identifies what your progression needs: missing tonic resolution? Need more tension? The algorithm knows.
 - **Voice Leading Optimization** - Selects chords that create the smoothest transitions with minimal finger movement
 - **Context-Aware Suggestions** - Adds borrowed chords, secondary dominants, and modal interchange based on your selected style
-- **Genre Intelligence** - Hip-hop? Adds that ♭VII. Jazz? Throws in a ii-V. Neo-soul? Extended harmony all day.
+- **Genre Intelligence with Palette Priorities** - 60+ progressions use a sophisticated 3-tier weighting system (preferred, allowed, avoided) to prioritize genre-authentic chord voicings. Blues gets dom7, Folk gets simple triads, Gospel gets extended harmony—automatically.
 
 ## Production-Ready Features
 
@@ -131,8 +133,9 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 ## Quick Start Guide
 
 1. **Choose Your Workflow**
-   - **Progression Palette Mode** - Select a key and browse 135 progression palettes organized by genre. Generate 4 voicing variants instantly.
-   - **Scale Mode** - Select a key + mode/scale to see all available chords from that scale. Perfect for learning exotic scales.
+   - **Progression Palette Mode** - Select a key and browse 133 progression palettes organized by genre. 60+ progressions feature smart palette priorities for genre-authentic voicings. Generate 4 voicing variants instantly.
+   - **Scale Mode** - Select a key + mode/scale to explore all available chords from that scale. Perfect for learning exotic scales and modal exploration.
+   - **Chord Matcher** (optional) - Input chords from your sample to filter compatible keys and modes for both workflows.
 
 2. **Export to MPC**
    - Download individual progressions or all variants as a ZIP
