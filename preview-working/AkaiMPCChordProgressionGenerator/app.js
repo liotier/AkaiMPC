@@ -64,6 +64,8 @@ import {
     getSequentialDuration
 } from './modules/audio.js';
 
+import { i18n } from './modules/i18n.js';
+
 // State variables
 let selectedKey = 'C';
 let selectedMode = 'Major';
@@ -2373,11 +2375,54 @@ async function exportAllMIDI() {
     }
 }
 
+// Update all translatable elements in the page
+function updatePageTranslations() {
+    // Update all elements with data-i18n attributes
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        const translation = i18n.t(key);
+
+        // Update text content, preserving any child elements
+        if (element.children.length === 0) {
+            element.textContent = translation;
+        } else {
+            // For elements with children, only update text nodes
+            Array.from(element.childNodes).forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    node.textContent = translation;
+                }
+            });
+        }
+    });
+
+    // Repopulate dropdowns with translated text
+    populateSelects();
+}
+
 // Event listeners
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Initialize i18n with current language
+    const currentLang = i18n.getCurrentLanguage();
+    const languageSelect = document.getElementById('languageSelect');
+    if (languageSelect) {
+        languageSelect.value = currentLang;
+
+        // Add language change event listener
+        languageSelect.addEventListener('change', async function() {
+            const newLang = this.value;
+            await i18n.setLanguage(newLang);
+            updatePageTranslations();
+        });
+    }
+
+    // Load language before populating selects
+    await i18n.loadLanguage(currentLang);
+
     initAudioContext();
     initMIDI();
-    populateSelects();
+
+    // Update translations and populate selects
+    updatePageTranslations();
 
     // Load preferences: URL params take priority over localStorage
     const urlPrefs = loadFromURL();

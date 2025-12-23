@@ -1,8 +1,8 @@
 {
   "app": {
-    "title": "MPC Chord Progression Generator",
-    "subtitle": "Create musically intelligent chord progressions optimized for the MPC's 4×4 pad layout",
-    "subtitleLine2": "Generate Akai MPC .progression files - also get keyboard and guitar diagrams, to jam with others"
+    "title": "Chord Progression Generator",
+    "subtitle": "Create musically intelligent chord progressions — view as piano, guitar tabs, or staff notation",
+    "subtitleLine2": "Print chord sheets to jam with others, export MIDI files for DAWs, or export .progression files for Akai MPC"
   },
   "chordMatcher": {
     "title": "Chord Matcher",
@@ -27,14 +27,19 @@
   },
   "controls": {
     "generationMode": {
-      "template": "Use Progression Palette",
-      "scale": "Explore Scale/Mode"
+      "palette": "Progression Palette Mode",
+      "scale": "Scale Mode"
+    },
+    "headers": {
+      "palette": "Progression Palette Mode",
+      "scale": "Scale Mode"
     },
     "labels": {
       "key": "Key",
       "mode": "Mode/Scale",
       "progression": "Progression Palette",
-      "name": "Progression Name"
+      "name": "Progression Name",
+      "outputName": "Output Name"
     }
   },
   "buttons": {
@@ -46,6 +51,7 @@
     "keyboard": "Keyboard",
     "guitar": "Guitar",
     "staff": "Staff",
+    "midi": "MIDI",
     "leftHanded": "Left-handed",
     "midiOutput": "MIDI Output:",
     "midiOutputNone": "Browser beep (no MIDI)"

@@ -1,8 +1,8 @@
 {
   "app": {
-    "title": "Générateur de Progressions d'Accords MPC",
-    "subtitle": "Créez des progressions d'accords musicalement intelligentes optimisées pour la disposition 4×4 des pads du MPC",
-    "subtitleLine2": "Générez des fichiers .progression Akai MPC - obtenez également des diagrammes de clavier et de guitare pour jouer avec d'autres"
+    "title": "Générateur de Progressions d'Accords",
+    "subtitle": "Créez des progressions d'accords musicalement intelligentes — visualisez-les en piano, tablatures guitare ou notation classique",
+    "subtitleLine2": "Imprimez des grilles d'accords pour jouer avec d'autres, exportez des fichiers MIDI pour votre DAW, ou exportez des fichiers .progression pour l'Akai MPC"
   },
   "chordMatcher": {
     "title": "Recherche d'Accords",
@@ -27,14 +27,19 @@
   },
   "controls": {
     "generationMode": {
-      "template": "Utiliser une Palette de Progressions",
-      "scale": "Explorer un Mode/Gamme"
+      "palette": "Mode Palette de Progressions",
+      "scale": "Mode Gamme"
+    },
+    "headers": {
+      "palette": "Mode Palette de Progressions",
+      "scale": "Mode Gamme"
     },
     "labels": {
       "key": "Tonalité",
       "mode": "Mode/Gamme",
       "progression": "Palette de Progressions",
-      "name": "Nom de Progression"
+      "name": "Nom de Progression",
+      "outputName": "Nom de Sortie"
     }
   },
   "buttons": {
@@ -46,6 +51,7 @@
     "keyboard": "Clavier",
     "guitar": "Guitare",
     "staff": "Portée",
+    "midi": "MIDI",
     "leftHanded": "Gaucher",
     "midiOutput": "Sortie MIDI :",
     "midiOutputNone": "Bip du navigateur (pas de MIDI)"
