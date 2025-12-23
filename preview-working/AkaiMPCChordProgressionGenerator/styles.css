@@ -844,7 +844,24 @@ body[data-context="keyboard"] .chord-pad {
     position: relative;
 }
 
+/* MIDI context: Info column in top right (identical to Keyboard) */
+body[data-context="midi"] .chord-pad {
+    position: relative;
+}
+
 body[data-context="keyboard"] .chord-info-column {
+    position: absolute;
+    top: 5px;
+    right: 12px;
+    max-width: 50%;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* MIDI context uses identical layout to Keyboard */
+body[data-context="midi"] .chord-info-column {
     position: absolute;
     top: 5px;
     right: 12px;
@@ -1463,6 +1480,13 @@ footer a:hover {
 
     /* Keyboard context: info column in right with newlines (tablet sizing) */
     body[data-context="keyboard"] .chord-info-column {
+        top: 4px !important;
+        right: 4px !important;
+        gap: 2px !important;
+    }
+
+    /* MIDI context: same responsive positioning as Keyboard */
+    body[data-context="midi"] .chord-info-column {
         top: 4px !important;
         right: 4px !important;
         gap: 2px !important;
