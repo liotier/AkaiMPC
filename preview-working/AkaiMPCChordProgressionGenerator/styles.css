@@ -609,14 +609,15 @@ button:disabled {
     max-width: 600px;
 }
 
-/* Wider grid for keyboard, guitar, and staff contexts */
+/* Wider grid for keyboard, guitar, staff, and MIDI contexts */
 body[data-context="keyboard"] .chord-grid,
 body[data-context="guitar"] .chord-grid,
-body[data-context="staff"] .chord-grid {
+body[data-context="staff"] .chord-grid,
+body[data-context="midi"] .chord-grid {
     max-width: 100%;
 }
 
-/* Hide download buttons in Keyboard, Guitar, and Staff contexts */
+/* Hide download buttons in Keyboard, Guitar, and Staff contexts (but keep visible in MPC and MIDI) */
 body[data-context="keyboard"] .download-btn,
 body[data-context="guitar"] .download-btn,
 body[data-context="staff"] .download-btn {
@@ -799,9 +800,10 @@ body[data-context="staff"] .download-btn {
 }
 
 /* Show/hide notation based on context */
-/* MPC and Keyboard contexts show keyboard diagrams */
+/* MPC, Keyboard, and MIDI contexts show keyboard diagrams */
 body[data-context="mpc"] .chord-keyboard,
-body[data-context="keyboard"] .chord-keyboard {
+body[data-context="keyboard"] .chord-keyboard,
+body[data-context="midi"] .chord-keyboard {
     display: block;
 }
 
@@ -815,11 +817,13 @@ body[data-context="staff"] .chord-staff {
     display: block;
 }
 
-/* Hide guitar in MPC/Keyboard/Staff, hide keyboard in Guitar/Staff, hide staff in MPC/Keyboard/Guitar */
+/* Hide guitar in MPC/Keyboard/MIDI/Staff, hide keyboard in Guitar/Staff, hide staff in MPC/Keyboard/MIDI/Guitar */
 body[data-context="mpc"] .chord-guitar,
 body[data-context="mpc"] .chord-staff,
 body[data-context="keyboard"] .chord-guitar,
 body[data-context="keyboard"] .chord-staff,
+body[data-context="midi"] .chord-guitar,
+body[data-context="midi"] .chord-staff,
 body[data-context="guitar"] .chord-keyboard,
 body[data-context="guitar"] .chord-staff,
 body[data-context="staff"] .chord-keyboard,
@@ -827,9 +831,10 @@ body[data-context="staff"] .chord-guitar {
     display: none;
 }
 
-/* Hide pad numbers in Keyboard, Guitar, and Staff contexts */
+/* Hide pad numbers in Keyboard, Guitar, Staff, and MIDI contexts */
 body[data-context="keyboard"] .pad-number,
 body[data-context="guitar"] .pad-number,
+body[data-context="midi"] .pad-number,
 body[data-context="staff"] .pad-number {
     display: none;
 }
