@@ -56,6 +56,30 @@
     "midiOutput": "Sortie MIDI :",
     "midiOutputNone": "Bip du navigateur (pas de MIDI)"
   },
+  "variants": {
+    "Smooth": {
+      "label": "Conduite de Voix Fluide",
+      "tooltip": "Variante fluide : Maximise les notes communes, le mouvement par degrés conjoints et le mouvement contraire. Évalue des centaines de voicings pour trouver les transitions les plus douces entre accords."
+    },
+    "Classic": {
+      "label": "Conduite de Voix",
+      "tooltip": "Variante classique : Optimisée pour une conduite de voix fluide entre accords. Un mouvement minimal des notes crée des progressions naturelles et fluides."
+    },
+    "Jazz": {
+      "label": "Voicing Serré",
+      "tooltip": "Variante jazz : Utilise des voicings serrés avec des notes sur une octave. Crée des harmonies riches et denses typiques du comping jazz au piano."
+    },
+    "Modal": {
+      "label": "Voicing Ouvert",
+      "tooltip": "Variante modale : Présente des voicings ouverts avec des intervalles plus larges entre les notes. Produit des textures spacieuses et aérées, idéales pour l'harmonie modale."
+    },
+    "Experimental": {
+      "label": "Voicing Étendu",
+      "tooltip": "Variante expérimentale : Utilise des voicings étendus sur plusieurs octaves. Crée des couleurs et textures harmoniques uniques et non conventionnelles."
+    },
+    "progressionClarification": "Accords 1-{{count}} de la progression, {{next}}-16 extrapolés. ",
+    "chordDistanceHint": "Les couleurs des cartes montrent la distance d'accords depuis la carte sélectionnée"
+  },
   "footer": {
     "cousin": "Cousin du",
     "finderLink": "MPC Chord Progression Finder",
