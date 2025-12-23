@@ -157,7 +157,8 @@ class I18n {
     getAvailableLanguages() {
         return [
             { code: 'en', name: '🇬🇧 English' },
-            { code: 'fr', name: '🇫🇷 Français' }
+            { code: 'fr', name: '🇫🇷 Français' },
+            { code: 'es', name: '🇪🇸 Español' }
         ];
     }
 

@@ -36,7 +36,7 @@ body {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
     position: relative;
     padding-top: 8px;
 }
