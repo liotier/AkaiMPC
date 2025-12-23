@@ -2,7 +2,7 @@
 
 **Create musically intelligent chord progressions and view them as piano keyboard, guitar tabs, or staff notation.**
 
-Instead of trawling through chord books or generic MIDI packs, generate custom progressions tailored to your needs. Print chord sheets to jam with your band, or export `.progression` files for Akai MPC Pad Perform.
+Instead of trawling through chord books or generic MIDI packs, generate custom progressions tailored to your needs. Print chord sheets to jam with your band, export MIDI files for your DAW, or export `.progression` files for Akai MPC Pad Perform.
 
 ## Try It Now
 
@@ -14,12 +14,13 @@ Free, browser-based tool. No installation, no sign-up, no limitations. Works com
 
 ## For Musicians, Producers & Jammers
 
-### Four Views, One Progression
+### Five Views, One Progression
 **Switch between instrument views instantly:**
 - **Piano keyboard** - Visualize progressions for keys/synths, see intervals clearly
 - **Guitar fretboard** - Get chord diagrams with left-handed support
 - **Staff notation** - Classical view with intelligent octave placement
 - **MPC pads** - 4×4 grid layout optimized for finger drumming
+- **MIDI export** - Download Standard MIDI Files (.mid) for any DAW
 
 ### Print and Jam
 Generate a progression, switch to piano or guitar view, and **print chord sheets** for your band. Everyone gets on the same page - literally. Perfect for:
@@ -29,9 +30,10 @@ Generate a progression, switch to piano or guitar view, and **print chord sheets
 - **Jam sessions** - pick a progression, print charts, start playing
 
 ### Export to Your Workflow
+- **DAW Producers**: Export Standard MIDI Files (.mid) ready to drop into any DAW—progression chords followed by palette chords for exploration
 - **MPC Users**: Download `.progression` files for Pad Perform (MPC One, Live, X, Key 61, Software, Beats)
 - **MIDI Hardware**: Send chords directly via WebMIDI to synths or drum machines
-- **DAW Producers**: Use keyboard shortcuts to audition chords while programming
+- **Live Performance**: Use keyboard shortcuts to audition chords while programming
 
 ## Two Approaches, One Ecosystem
 
@@ -127,9 +129,10 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 - Chord names follow Akai's exact naming conventions
 - Optimized pad layouts for finger drumming
 
-### Multi-Instrument Visualization & Printing
-- **Switch between four views** - Piano keyboard, guitar fretboard, staff notation, or MPC pads
+### Multi-Instrument Visualization & Export
+- **Switch between five views** - Piano keyboard, guitar fretboard, staff notation, MPC pads, or MIDI export
 - **Print chord sheets for jamming** - Generate progressions, switch to any view, and print. Get your whole band on the same page.
+- **MIDI export** - Download Standard MIDI Files (.mid) with progression + palette hybrid format (core progression chords first, then palette chords)
 - **Staff notation with intelligent octave placement** - Treble clef with automatic transposition for optimal readability
 - **Sequential playback in staff view** - Notes play as eighth notes at 90 BPM for melodic exploration
 - **Guitar fretboard diagrams** - With left-handed support (mirror option)
@@ -156,8 +159,9 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
    - **Chord Matcher** (optional) - Input chords from your sample to filter compatible keys and modes for both workflows.
 
 2. **View & Export**
-   - **Switch views** - Toggle between piano, guitar, staff notation, or MPC pads
+   - **Switch views** - Toggle between piano, guitar, staff notation, MPC pads, or MIDI export
    - **Print for jamming** - Print chord sheets to share with your band or students
+   - **Export MIDI** - Download Standard MIDI Files (.mid) for any DAW—progression chords first, then palette chords
    - **Export to MPC** - Download `.progression` files for Akai MPC Pad Perform
    - **Play via MIDI** - Send chords to hardware synths or use keyboard shortcuts for auditioning
 

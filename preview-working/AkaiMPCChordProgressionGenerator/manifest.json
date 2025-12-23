@@ -1,7 +1,7 @@
 {
   "name": "Chord Progression Generator - piano, guitar tabs, Akai MPC",
   "short_name": "Chord Gen",
-  "description": "Create chord progressions and view them as piano keyboard, guitar tabs, or staff notation. Print chord sheets for jamming or export .progression files for Akai MPC.",
+  "description": "Create chord progressions and view them as piano keyboard, guitar tabs, or staff notation. Print chord sheets for jamming, export MIDI files for DAWs, or export .progression files for Akai MPC.",
   "start_url": "AkaiMPCChordProgressionGenerator.html",
   "scope": "./",
   "display": "standalone",
