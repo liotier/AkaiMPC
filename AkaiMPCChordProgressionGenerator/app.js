@@ -2372,6 +2372,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             const newLang = this.value;
             await i18n.setLanguage(newLang);
             updatePageTranslations();
+
+            // Re-render progressions if they've been generated
+            if (hasGeneratedOnce && variants.length > 0) {
+                renderProgressions();
+            }
         });
     }
 
