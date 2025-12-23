@@ -577,185 +577,185 @@
       "I—V/ii—ii—V": {
         "name": "I—V/ii—ii—V",
         "nickname": "Gospel Turnaround",
-        "description": "Retournement gospel classique avec dominante secondaire. V/ii (dominante de ii) crée une approche chromatique de l'accord ii, puis cadence traditionnelle ii-V vers I. La dominante secondaire ajoute sophistication harmonique et momentum vers l'avant caractéristiques de la musique d'église noire et du gospel traditionnel."
+        "description": "Klassischer Gospel-Turnaround mit Sekundärdominante. V/ii (Dominante von ii) erzeugt chromatische Annäherung an ii-Akkord, dann traditionelle ii-V-Kadenz zurück zu I. Die Sekundärdominante fügt harmonische Raffinesse und Vorwärtsmomentum hinzu, charakteristisch für schwarze Kirchenmusik und traditionelles Gospel."
       },
       "IV—V—iii—vi": {
         "name": "IV—V—iii—vi",
         "nickname": "Praise Progression",
-        "description": "Progression de louange et adoration élevante. Commence sur IV (sous-dominante) pour un élan immédiat plutôt que I, V ajoute de l'énergie, descend par iii vers vi créant une résolution douce. Évite d'arriver sur I, gardant l'énergie en mouvement vers l'avant. Courant dans les refrains de louange et adoration contemporains."
+        "description": "Erhebende Lob- und Anbetungs-Progression. Beginnt auf IV (Subdominante) für sofortigen Auftrieb statt I, V fügt Energie hinzu, steigt durch iii zu vi ab und erzeugt sanfte Auflösung. Vermeidet Ankommen auf I und hält die Energie vorwärts fließend. Üblich in zeitgenössischen Lob- und Anbetungsrefrains."
       },
       "I—IV—V/vi—vi": {
         "name": "I—IV—V/vi—vi",
         "nickname": "Contemporary Worship",
-        "description": "Progression d'adoration moderne avec dominante secondaire. Ouverture familière I-IV, V/vi (dominante de vi) approche chromatiquement le mineur relatif, créant une conduite des voix douce. L'arrivée sur vi ajoute introspection et émotion. Définit la musique chrétienne contemporaine de Hillsong à Bethel."
+        "description": "Moderne Anbetungs-Progression mit Sekundärdominante. Vertraute I-IV-Eröffnung, V/vi (Dominante von vi) nähert sich chromatisch dem parallelen Moll und erzeugt geschmeidige Stimmführung. Die Ankunft auf vi fügt Introspektion und Emotion hinzu. Definiert zeitgenössische christliche Musik von Hillsong bis Bethel."
       },
       "ii—V—I—IV": {
         "name": "ii—V—I—IV",
         "nickname": "Church Cadence",
-        "description": "Combine l'harmonie jazz et hymne. S'ouvre avec une forte cadence ii-V-I empruntée au jazz (courant dans le gospel), ajoute le mouvement plagal IV-I de l'hymnodie traditionnelle. Les deux types de cadence créent une double résolution satisfaisante. Fondamental au piano gospel et au jeu d'orgue Hammond."
+        "description": "Kombiniert Jazz- und Hymnen-Harmonik. Öffnet mit starker ii-V-I-Kadenz aus Jazz entliehen (üblich in Gospel), fügt plagale IV-I-Bewegung aus traditioneller Hymnodik hinzu. Beide Kadenztypen erzeugen befriedigende doppelte Auflösung. Fundamental für Gospel-Piano und Hammond-Orgel-Spiel."
       },
       "I—V/V—V—vi—IV": {
         "name": "I—V/V—V—vi—IV",
         "nickname": "Gospel Rock",
-        "description": "Progression fusion gospel-rock. V/V (dominante de la dominante) crée une intensité chromatique approchant V, puis vi trompeur ajoute de l'émotion, IV complète le mouvement plagal. Combine le chromatisme gospel avec l'énergie rock. Utilisé dans le rock chrétien contemporain et la pop influencée par le gospel."
+        "description": "Gospel-Rock-Fusion-Progression. V/V (Dominante der Dominante) erzeugt chromatische Intensität bei Annäherung an V, dann fügt trügerisches vi Emotion hinzu, IV vervollständigt plagale Bewegung. Kombiniert Gospel-Chromatik mit Rock-Energie. Verwendet in zeitgenössischem christlichem Rock und Gospel-beeinflusstem Pop."
       },
       "IV—I—V—vi—IV—♭VII": {
         "name": "IV—I—V—vi—IV—♭VII",
         "nickname": "Extended Worship",
-        "description": "Progression d'adoration étendue de six mesures. S'ouvre sur la sous-dominante pour l'élan, cycle à travers des changements familiers, ajoute ♭VII emprunté à la fin pour couleur modale et saveur mixolydienne. L'extension permet des montées mélodiques et dynamiques plus longues courantes dans la production d'adoration moderne et les contextes live."
+        "description": "Sechstaktige erweiterte Anbetungs-Progression. Öffnet auf Subdominante für Auftrieb, zykliert durch vertraute Changes, fügt entliehenes ♭VII am Ende für modale Farbe und mixolydisches Flair hinzu. Die Erweiterung erlaubt längere melodische und dynamische Builds, üblich in moderner Anbetungsproduktion und Live-Settings."
       }
     },
     "Hip-Hop/Trap": {
       "i—♭VI—♭VII": {
         "name": "i—♭VI—♭VII",
         "nickname": "Trap Minor",
-        "description": "Progression trap moderne essentielle. Tonique mineure avec ♭VI et ♭VII empruntés crée une atmosphère modale sombre. Boucle courte de trois accords parfaite pour les lignes de basse 808 et les roulements de charleston. Évite les cadences traditionnelles pour un son trap hypnotique et menaçant de Metro Boomin à Southside."
+        "description": "Essenzielle moderne Trap-Progression. Moll-Tonika mit entliehenen ♭VI und ♭VII erzeugt dunkle modale Atmosphäre. Kurze Drei-Akkord-Schleife perfekt für 808-Basslines und Hi-Hat-Rolls. Vermeidet traditionelle Kadenzen für hypnotischen, bedrohlichen Trap-Sound von Metro Boomin bis Southside."
       },
       "i—♭III—♭VI—♭VII": {
         "name": "i—♭III—♭VI—♭VII",
         "nickname": "Dark Trap",
-        "description": "Progression trap sombre étendue. Tous les accords empruntés du mineur naturel - ♭III ajoute un moment d'espoir avant de descendre vers ♭VI et ♭VII. Boucle de quatre accords fournit plus de mouvement harmonique tout en maintenant une atmosphère menaçante. Utilisée dans le trap mélodique et la production hip-hop sombre."
+        "description": "Erweiterte dunkle Trap-Progression. Alle Akkorde aus natürlichem Moll entliehen - ♭III fügt hoffnungsvollen Moment hinzu, bevor es zu ♭VI und ♭VII absteigt. Vier-Akkord-Schleife bietet mehr harmonische Bewegung bei gleichzeitiger bedrohlicher Atmosphäre. Verwendet in melodischem Trap und dunkler Hip-Hop-Produktion."
       },
       "vi—IV—I": {
         "name": "vi—IV—I",
         "nickname": "Sad Trap",
-        "description": "Progression \"sad trap\" émotionnelle. Commence sur le mineur relatif pour la mélancolie, IV-I fournit une résolution familière. La simplicité de trois accords permet de se concentrer sur la mélodie et les 808. Définit l'emo-trap et le rap mélodique de Lil Peep à Juice WRLD, combinant production hip-hop avec vulnérabilité émotionnelle."
+        "description": "Emotionale \"Sad Trap\"-Progression. Beginnt auf parallelem Moll für Melancholie, IV-I bietet vertraute Auflösung. Drei-Akkord-Einfachheit erlaubt Fokus auf Melodie und 808s. Definiert Emo-Trap und melodischen Rap von Lil Peep bis Juice WRLD, kombiniert Hip-Hop-Produktion mit emotionaler Verletzlichkeit."
       },
       "i—♭VII—♭VI": {
         "name": "i—♭VII—♭VI",
         "nickname": "Lofi Hip-Hop",
-        "description": "Progression lofi hip-hop quintessentielle. La tonique mineure descend par ♭VII emprunté vers ♭VI, créant une atmosphère mélancolique et nostalgique. L'ambiguïté modale évite la résolution fonctionnelle. Parfait pour les samples jazzy, le craquement de vinyle et les beats chill pour étudier/relaxer. Fondement de l'esthétique lofi YouTube."
+        "description": "Quintessenzielle Lofi-Hip-Hop-Progression. Moll-Tonika steigt durch entliehenes ♭VII zu ♭VI ab und erzeugt melancholische, nostalgische Atmosphäre. Modale Mehrdeutigkeit vermeidet funktionale Auflösung. Perfekt für jazzige Samples, Vinyl-Knistern und Chill-Beats zum Studieren/Entspannen. Grundlage der YouTube-Lofi-Ästhetik."
       },
       "i—iv—i—♭VI": {
         "name": "i—iv—i—♭VI",
         "nickname": "Boom Bap",
-        "description": "Progression hip-hop boom bap classique. Le i-iv mineur établit une humeur sombre, retour à i confirme la tonalité, ♭VI emprunté ajoute de la couleur avant la boucle. Changements simples et cycliques soutiennent la concentration sur les batteries et le sampling. Définit le hip-hop âge d'or de Premier à Pete Rock."
+        "description": "Klassische Boom-Bap-Hip-Hop-Progression. Moll i-iv etabliert düstere Stimmung, Rückkehr zu i bestätigt Tonalität, entliehenes ♭VI fügt Farbe vor der Schleife hinzu. Einfache, zyklische Changes unterstützen Fokus auf Drums und Sampling. Definiert Golden-Age-Hip-Hop von Premier bis Pete Rock."
       },
       "i—♭III—iv—♭VI": {
         "name": "i—♭III—iv—♭VI",
         "nickname": "Emo Rap",
-        "description": "Progression émotionnelle emo rap. Tonique mineure vers ♭III crée un élan optimiste, iv mineur ajoute de la vulnérabilité, ♭VI fournit une couleur mélancolique. Mélange d'accords empruntés et de mineur diatonique crée une atmosphère émotionnellement complexe. Utilisé dans l'emo rap moderne et le hip-hop alternatif pour des paroles introspectives."
+        "description": "Emo-Rap emotionale Progression. Moll-Tonika zu ♭III erzeugt hoffnungsvollen Auftrieb, Moll-iv fügt Verletzlichkeit hinzu, ♭VI liefert melancholische Farbe. Mischung aus entliehenen Akkorden und diatonischem Moll erzeugt emotional komplexe Atmosphäre. Verwendet in modernem Emo-Rap und alternativem Hip-Hop für introspektive Lyrics."
       },
       "I—♭III—♭VII—IV": {
         "name": "I—♭III—♭VII—IV",
         "nickname": "West Coast",
-        "description": "Progression G-funk West Coast. Tonique majeure avec ♭III chromatique (tierce majeure en dessous de la fondamentale), ♭VII ajoute une saveur funk, IV est la sous-dominante traditionnelle. Mélange de tonalité majeure avec emprunt modal crée le son décontracté influencé par Parliament de Dr. Dre, Snoop Dogg et l'ère G-funk."
+        "description": "West-Coast-G-Funk-Progression. Dur-Tonika mit chromatischem ♭III (große Terz unter dem Grundton), ♭VII fügt Funk-Geschmack hinzu, IV ist traditionelle Subdominante. Mischung aus Dur-Tonalität mit modalem Entlehnen erzeugt entspannten, Parliament-beeinflussten Sound von Dr. Dre, Snoop Dogg und der G-Funk-Ära."
       },
       "ii7—V7—IM7": {
         "name": "ii7—V7—IM7",
         "nickname": "Lofi Jazz",
-        "description": "Palette jazzy et nostalgique. Tous accords de 7e, pas de triades simples - vibes chaudes, poussiéreuses et vinyle."
+        "description": "Jazzige, nostalgische Palette. Alle 7-Akkorde, keine einfachen Dreiklänge - warme, staubige Vinyl-Vibes."
       },
       "i—♭VII—iv": {
         "name": "i—♭VII—iv",
         "nickname": "Footwork Juke",
-        "description": "Palette frénétique de Chicago. Harmonie simple pour des rythmes hachés complexes à 160bpm."
+        "description": "Frenetische Chicago-Palette. Einfache Harmonik für komplexe gehackte 160-BPM-Rhythmen."
       }
     },
     "Latin/Bossa": {
       "IM7—VI7—ii7—V7": {
         "name": "IM7—VI7—ii7—V7",
         "nickname": "Bossa Nova",
-        "description": "Changements bossa nova classiques. IM7 établit une tonalité jazzy, VI7 est une dominante secondaire chromatique (dominante de ii), puis ii7-V7 traditionnel. Tous les accords de 7e créent un son brésilien sophistiqué. Le VI7-ii7 crée une conduite des voix chromatique douce. Fondement de João Gilberto et Antonio Carlos Jobim."
+        "description": "Klassische Bossa-Nova-Changes. IM7 etabliert jazzige Tonalität, VI7 ist chromatische Sekundärdominante (Dominante von ii), dann traditionelles ii7-V7. Alle 7-Akkorde erzeugen anspruchsvollen brasilianischen Sound. Das VI7-ii7 erzeugt geschmeidige chromatische Stimmführung. Grundlage von João Gilberto und Antonio Carlos Jobim."
       },
       "i—iv—V—i": {
         "name": "i—iv—V—i",
         "nickname": "Tango",
-        "description": "Progression tango argentin traditionnelle. Le i-iv mineur établit un caractère mélancolique, V majeur crée la tension (saveur de mineur harmonique), résout vers i. La résolution dramatique de mineur vers V majeur crée une qualité passionnée et désirante essentielle au tango. Pensez à Piazzolla et à la milonga traditionnelle."
+        "description": "Traditionelle argentinische Tango-Progression. Moll i-iv etabliert melancholischen Charakter, Dur-V erzeugt Spannung (harmonische Moll-Färbung), löst zu i auf. Die dramatische Moll-zu-Dur-V-Auflösung erzeugt leidenschaftliche, sehnsüchtige Qualität, die für Tango essentiell ist. Denken Sie an Piazzolla und traditionelle Milonga."
       },
       "I—♭II—I—V": {
         "name": "I—♭II—I—V",
         "nickname": "Flamenco",
-        "description": "Cadence phrygienne flamenco. I majeur vers ♭II crée un clash de demi-ton caractéristique (mode Phrygien), retour à I, puis V. Le ♭II est le son flamenco le plus distinctif, créant un caractère espagnol/mauresque. Utilisé dans la rumba flamenca, les bulerías et les traditions de guitare espagnole."
+        "description": "Flamenco-phrygische Kadenz. Dur-I zu ♭II erzeugt charakteristischen Halbton-Clash (phrygischer Modus), Rückkehr zu I, dann V. Das ♭II ist der markanteste Flamenco-Sound und erzeugt spanisch/maurischen Charakter. Verwendet in Rumba Flamenca, Bulerías und spanischen Gitarrentraditionen."
       },
       "i—V—i—VII": {
         "name": "i—V—i—VII",
         "nickname": "Samba",
-        "description": "Progression samba brésilienne. Le i-V-i mineur établit la maison, VII majeur (du mineur naturel, pas harmonique) ajoute luminosité et mouvement vers l'avant vers i. Le VII naturel au lieu de la sensible crée un son modal, moins européen caractéristique de la musique populaire brésilienne et du pagode."
+        "description": "Brasilianische Samba-Progression. Moll i-V-i etabliert Heimat, Dur-VII (aus natürlichem Moll, nicht harmonisch) fügt Helligkeit und Vorwärtsbewegung zu i hinzu. Das natürliche VII anstelle des Leittons erzeugt modalen, weniger europäischen Sound, charakteristisch für brasilianische Populärmusik und Pagode."
       },
       "I—V/ii—ii—V/V—V": {
         "name": "I—V/ii—ii—V/V—V",
         "nickname": "Latin Jazz",
-        "description": "Progression jazz latine avancée avec doubles dominantes secondaires. V/ii approche ii chromatiquement, V/V (dominante de la dominante) intensifie l'approche vers V. Crée un mouvement harmonique maximal à travers la conduite chromatique des voix. Utilisé dans le jazz latin, la salsa et le jazz afro-cubain pour une couleur sophistiquée."
+        "description": "Fortgeschrittene Latin-Jazz-Progression mit doppelten Sekundärdominanten. V/ii nähert sich ii chromatisch, V/V (Dominante der Dominante) intensiviert die Annäherung an V. Erzeugt maximale harmonische Bewegung durch chromatische Stimmführung. Verwendet in Latin Jazz, Salsa und afro-kubanischem Jazz für anspruchsvolle Farbe."
       },
       "i—♭VII—♭VI—V": {
         "name": "i—♭VII—♭VI—V",
         "nickname": "Bolero",
-        "description": "Progression bolero romantique. Le i mineur avec ♭VII et ♭VI empruntés crée une descente mélancolique, puis V majeur fournit une tension dramatique. Les accords modaux empruntés combinés avec le V de mineur harmonique créent un caractère passionné. Fondement de la tradition bolero mexicaine et cubaine de Trio Los Panchos à Luis Miguel."
+        "description": "Romantische Bolero-Progression. Moll-i mit entliehenen ♭VII und ♭VI erzeugt melancholisches Absteigen, dann liefert Dur-V dramatische Spannung. Die entliehenen modalen Akkorde kombiniert mit harmonischem Moll-V erzeugen leidenschaftlichen Charakter. Grundlage der mexikanischen und kubanischen Bolero-Tradition von Trio Los Panchos bis Luis Miguel."
       }
     },
     "Film/Cinematic": {
       "I—♭VI—♭III—♭VII": {
         "name": "I—♭VI—♭III—♭VII",
         "nickname": "Epic Trailer",
-        "description": "Progression trailer épique moderne. Tonique majeure avec tous les accords bémol empruntés crée un son cinématographique massif. Les médiantes chromatiques (♭VI, ♭III) fournissent des changements harmoniques dramatiques, ♭VII ajoute la puissance mixolydienne. Définit Two Steps From Hell, les trailers Hans Zimmer et le marketing de films d'action modernes."
+        "description": "Moderne epische Trailer-Progression. Dur-Tonika mit allen entliehenen verminderten Akkorden erzeugt massiven filmischen Sound. Chromatische Medianten (♭VI, ♭III) liefern dramatische harmonische Wechsel, ♭VII fügt mixolydische Kraft hinzu. Definiert Two Steps From Hell, Hans-Zimmer-Trailer und modernes Action-Film-Marketing."
       },
       "i—♭VI—♭VII—i": {
         "name": "i—♭VI—♭VII—i",
         "nickname": "Dark Cinematic",
-        "description": "Progression de musique de film sombre et sinistre. Tonique mineure avec ♭VI et ♭VII empruntés crée une atmosphère inquiétante, retourne à i pour une tension cyclique. L'ambiguïté modale évite la résolution. Utilisée dans les musiques de thriller, d'horreur et de drame sombre pour une tension psychologique soutenue sans cadences traditionnelles."
+        "description": "Dunkle, unheilvolle Filmmusik-Progression. Moll-Tonika mit entliehenen ♭VI und ♭VII erzeugt bedrohliche Atmosphäre, kehrt zu i für zyklische Spannung zurück. Modale Mehrdeutigkeit vermeidet Auflösung. Verwendet in Thriller-, Horror- und dunklen Drama-Scores für anhaltende psychologische Spannung ohne traditionelle Kadenzen."
       },
       "I—V—vi—♭VI—IV": {
         "name": "I—V—vi—♭VI—IV",
         "nickname": "Emotional Score",
-        "description": "Progression orchestrale émotionnelle. Commence avec des changements pop familiers I-V-vi, puis ♭VI (médiante chromatique) crée un changement émotionnel inattendu avant que IV ne résolve. Le ♭VI est le \"twist\" - moment dramatique dans le récit. Courant dans les apogées émotionnelles, les révélations de personnages et les musiques de film romantiques."
+        "description": "Emotionale Orchester-Progression. Beginnt mit vertrauten Pop-Changes I-V-vi, dann erzeugt ♭VI (chromatische Mediante) unerwarteten emotionalen Wechsel, bevor IV auflöst. Das ♭VI ist der \"Twist\" - dramatischer Moment in der Erzählung. Üblich in emotionalen Höhepunkten, Charakterenthüllungen und romantischen Filmmusiken."
       },
       "i—♭III—♭VII—♭VI—V": {
         "name": "i—♭III—♭VII—♭VI—V",
         "nickname": "Heroic Theme",
-        "description": "Progression d'action montante héroïque. Le i mineur vers ♭III majeur crée un élan optimiste, ♭VII et ♭VI ajoutent de la couleur, V majeur (mineur harmonique) crée une résolution dramatique. Mélange d'emprunt modal et de V-i fonctionnel fournit à la fois portée épique et résolution satisfaisante. Utilisé pour les thèmes de héros et les moments triomphants."
+        "description": "Heroische aufsteigende Action-Progression. Moll-i zu Dur-♭III erzeugt hoffnungsvollen Auftrieb, ♭VII und ♭VI fügen Farbe hinzu, Dur-V (harmonisches Moll) erzeugt dramatische Auflösung. Mischung aus modalem Entlehnen und funktionalem V-i liefert sowohl epischen Umfang als auch befriedigende Auflösung. Verwendet für Heldenthemen und triumphale Momente."
       },
       "I—♭VII—♭VI—♭VII": {
         "name": "I—♭VII—♭VI—♭VII",
         "nickname": "Adventure",
-        "description": "Progression d'aventure et d'exploration. I majeur avec ♭VII mixolydien crée un son optimiste et ouvert. Le ♭VI ajoute une couleur mystérieuse, ♭VII oscille créant un mouvement vers l'avant. Évite les accords mineurs pour une sensation d'aventure pure. Pensez à Indiana Jones, comédies d'aventure et montages d'expédition."
+        "description": "Abenteuer- und Erkundungs-Progression. Dur-I mit mixolydischem ♭VII erzeugt optimistischen, offenen Sound. Das ♭VI fügt mysteriöse Farbe hinzu, ♭VII oszilliert und erzeugt Vorwärtsbewegung. Vermeidet Moll-Akkorde für reines Abenteuergefühl. Denken Sie an Indiana Jones, Abenteuerkomödien und Expeditionsmontagen."
       },
       "i—iv—♭VI—♭III": {
         "name": "i—iv—♭VI—♭III",
         "nickname": "Suspense",
-        "description": "Progression de suspense et de mystère. Le i-iv mineur établit la tension, ♭VI ajoute l'obscurité, ♭III fournit un bref espoir avant de boucler. Tous les accords empruntés/diatoniques mineurs évitent la résolution, maintenant un malaise constant. Parfait pour le travail de détective, les scènes de traque et la musique de fond de thriller psychologique."
+        "description": "Suspense- und Mysterium-Progression. Moll i-iv etabliert Spannung, ♭VI fügt Dunkelheit hinzu, ♭III bietet kurze Hoffnung vor dem Looping. Alle entliehenen/diatonischen Moll-Akkorde vermeiden Auflösung und halten konstantes Unbehagen aufrecht. Perfekt für Detektivarbeit, Verfolgungsszenen und psychologische Thriller-Untermalung."
       },
       "I—♭III—♭VI—♭II": {
         "name": "I—♭III—♭VI—♭II",
         "nickname": "Chromatic Film",
-        "description": "Progression de médiantes chromatiques extrême. Toutes les fondamentales sont des médiantes chromatiques (tierces majeures ou mineures de distance). Crée une instabilité et une surprise harmoniques maximales. Le ♭II (napolitain) est particulièrement frappant. Utilisé pour des scènes surréalistes, des séquences de rêve, des ruptures psychologiques et des musiques de film d'avant-garde."
+        "description": "Extreme chromatische Medianten-Progression. Alle Grundtöne sind chromatische Medianten (große oder kleine Terzen auseinander). Erzeugt maximale harmonische Instabilität und Überraschung. Das ♭II (Neapolitaner) ist besonders auffällig. Verwendet für surreale Szenen, Traumsequenzen, psychologische Brüche und Avantgarde-Filmmusik."
       }
     },
     "Folk/Singer-Songwriter": {
       "I—IV—I—V": {
         "name": "I—IV—I—V",
         "nickname": "Folk Standard",
-        "description": "Progression folk simple et intemporelle. I-IV établit la maison, retour à I confirme la tonalité, V crée la tension pour le cycle suivant. Structure de phrase de deux mesures parfaite pour les chansons couplet-refrain. Fondement du folk américain de Woody Guthrie à Bob Dylan, met l'accent sur les paroles plutôt que la complexité harmonique."
+        "description": "Einfache, zeitlose Folk-Progression. I-IV etabliert Heimat, Rückkehr zu I bestätigt Tonalität, V erzeugt Spannung für nächsten Zyklus. Zwei-Takt-Phrasenstruktur perfekt für Strophe-Refrain-Songs. Grundlage des amerikanischen Folk von Woody Guthrie bis Bob Dylan, betont Texte über harmonische Komplexität."
       },
       "vi—IV—V—I": {
         "name": "vi—IV—V—I",
         "nickname": "Sad Folk",
-        "description": "Progression auteur-compositeur mélancolique. Commence sur le mineur relatif pour une ouverture introspective, IV-V-I crée un arc émotionnel ascendant vers la résolution. Courant dans le folk confessionnel et indie. L'arc de la tristesse (vi) à l'espoir (I) reflète la narration narrative. Pensez à Elliott Smith, Iron & Wine."
+        "description": "Melancholische Singer-Songwriter-Progression. Beginnt auf parallelem Moll für introspektive Eröffnung, IV-V-I erzeugt aufsteigenden emotionalen Bogen zur Auflösung. Üblich in bekenntnishaftem Folk und Indie. Der Bogen von Traurigkeit (vi) zu Hoffnung (I) spiegelt narrative Erzählweise wider. Denken Sie an Elliott Smith, Iron & Wine."
       },
       "I—V—IV—I": {
         "name": "I—V—IV—I",
         "nickname": "Country",
-        "description": "Progression country classique. I-V crée la tension, IV-I fournit une résolution de cadence plagale \"amen\". Le IV-I (sous-dominante-tonique) est plus doux que V-I, créant une sensation country chaleureuse et familière. Fondement de la country traditionnelle, du bluegrass et du honky-tonk de Hank Williams à Nashville moderne."
+        "description": "Klassische Country-Progression. I-V erzeugt Spannung, IV-I liefert plagale \"Amen\"-Kadenz-Auflösung. Das IV-I (Subdominante-Tonika) ist sanfter als V-I und erzeugt warmes, vertrautes Country-Gefühl. Grundlage von traditionellem Country, Bluegrass und Honky-Tonk von Hank Williams bis zum modernen Nashville."
       },
       "I—iii—IV—V": {
         "name": "I—iii—IV—V",
         "nickname": "Classic Folk",
-        "description": "Progression folk ascendante. I vers iii crée un mouvement ascendant doux (relation de médiante), IV-V continue l'ascension vers I. Tous les accords diatoniques créent un son pur et consonant. L'accord iii ajoute de la sophistication au-delà du simple I-IV-V. Utilisé dans les ballades folk traditionnelles et les classiques auteur-compositeur."
+        "description": "Aufsteigende Folk-Progression. I zu iii erzeugt sanfte Aufwärtsbewegung (Mediantenbeziehung), IV-V setzt Aufstieg zu I fort. Alle diatonischen Akkorde erzeugen reinen, konsonanten Sound. Der iii-Akkord fügt Raffinesse jenseits des einfachen I-IV-V hinzu. Verwendet in traditionellen Folk-Balladen und Singer-Songwriter-Klassikern."
       },
       "IV—V—I—vi": {
         "name": "IV—V—I—vi",
         "nickname": "Americana",
-        "description": "Progression roots americana. Commence sur IV (sous-dominante) pour une sensation ouverte et nostalgique, V-I fournit une cadence forte, vi trompeur ajoute de la mélancolie avant la boucle. Mélange d'optimisme (IV-V-I) et de tristesse (vi) capture le caractère americana doux-amer. Courant dans l'alt-country et l'americana de Wilco à Jason Isbell."
+        "description": "Americana-Roots-Progression. Beginnt auf IV (Subdominante) für offenes, sehnsüchtiges Gefühl, V-I liefert starke Kadenz, trügerisches vi fügt Melancholie vor der Schleife hinzu. Mischung aus Optimismus (IV-V-I) und Traurigkeit (vi) fängt bittersüßen Americana-Charakter ein. Üblich in Alt-Country und Americana von Wilco bis Jason Isbell."
       },
       "I—V—vi—iii": {
         "name": "I—V—vi—iii",
         "nickname": "Irish Folk",
-        "description": "Progression folk celtique. Ouverture familière I-V, descend vers vi puis iii. Évite l'accord IV, créant une couleur différente des progressions pop typiques. Le motif de tierces descendantes (V-vi, vi-iii) crée un mouvement mélodique fluide caractéristique des ballades irlandaises et des traditions musicales celtiques."
+        "description": "Keltische Folk-Progression. Vertraute I-V-Eröffnung, steigt zu vi dann iii ab. Vermeidet IV-Akkord und erzeugt andere Färbung als typische Pop-Progressionen. Das absteigende Terzen-Muster (V-vi, vi-iii) erzeugt fließende, melodische Bewegung charakteristisch für irische Balladen und keltische Musiktraditionen."
       },
       "I—V—vi—IV": {
         "name": "I—V—vi—IV",
         "nickname": "Post-Rock Build",
-        "description": "Palette ouverte et évolutive. Accords majeurs, voicings quartaux, maj7 pour des montées texturales."
+        "description": "Offene, sich entwickelnde Palette. Dur-Akkorde, Quartenvoicings, maj7 für texturale Builds."
       }
     },
     "Metal/Rock": {
