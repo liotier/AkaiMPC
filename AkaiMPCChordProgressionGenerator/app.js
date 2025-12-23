@@ -36,6 +36,12 @@ import {
 } from './modules/rendering.js';
 
 import {
+    generateMIDIFile,
+    downloadMIDIFile,
+    downloadAllMIDIFiles
+} from './modules/midiExport.js';
+
+import {
     AUDIO,
     TIMING,
     MESSAGES,
@@ -168,6 +174,8 @@ function switchContext(context) {
     if (downloadBtn) {
         if (context === 'mpc') {
             downloadBtn.textContent = 'Download all .progression files';
+        } else if (context === 'midi') {
+            downloadBtn.textContent = 'Download all MIDI files';
         } else {
             downloadBtn.textContent = 'Print all progressions';
         }
@@ -2300,6 +2308,43 @@ function exportProgressions() {
     });
 }
 
+async function exportAllMIDI() {
+    if (variants.length === 0) {
+        alert('Please generate progressions first!');
+        return;
+    }
+
+    // Prepare progression data for MIDI export
+    const progressionsData = variants.map((variant, index) => {
+        const keyName = selectedKey.split('/')[0];
+        const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}`;
+
+        // Get chord data from pads
+        const chords = variant.pads.map(pad => ({
+            name: pad.chordName,
+            notes: pad.notes
+        }));
+
+        // Get indices of progression chords (chords that are part of the core progression)
+        const progressionChordIndices = variant.pads
+            .map((pad, idx) => pad.isProgressionChord ? idx : null)
+            .filter(idx => idx !== null);
+
+        return {
+            name: fileName,
+            chords: chords,
+            progressionChordIndices: progressionChordIndices
+        };
+    });
+
+    try {
+        await downloadAllMIDIFiles(progressionsData, progressionName);
+    } catch (error) {
+        console.error('Failed to export MIDI files:', error);
+        alert('Failed to export MIDI files. Please try again.');
+    }
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
     initAudioContext();
@@ -2384,6 +2429,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('downloadAllBtn').addEventListener('click', () => {
         if (currentContext === 'mpc') {
             exportProgressions();
+        } else if (currentContext === 'midi') {
+            exportAllMIDI();
         } else {
             printAllProgressions();
         }
