@@ -1,11 +1,11 @@
 {
   "app": {
-    "title": "Générateur de Progressions d'Accords",
+    "title": "Générateur de progressions d'accords",
     "subtitle": "Créez des progressions d'accords musicalement intelligentes — visualisez-les en piano, tablatures guitare ou notation classique",
     "subtitleLine2": "Imprimez des grilles d'accords pour jouer avec d'autres, exportez des fichiers MIDI pour votre DAW, ou exportez des fichiers .progression pour l'Akai MPC"
   },
   "chordMatcher": {
-    "title": "Recherche d'Accords",
+    "title": "Recherche d'accords",
     "optional": "Optionnel",
     "description": "Vous avez trouvé un sample avec de super accords ? Entrez-les ici pour trouver les tonalités et modes compatibles pour votre production.",
     "noteLabel": "Note...",
@@ -21,29 +21,29 @@
       "maj7": "Majeure 7",
       "m7": "Mineure 7"
     },
-    "addChord": "Ajouter un Accord",
-    "clearAll": "Tout Effacer",
-    "compatibleLabel": "Tonalités et Modes Compatibles :"
+    "addChord": "Ajouter un accord",
+    "clearAll": "Tout effacer",
+    "compatibleLabel": "Tonalités et modes compatibles :"
   },
   "controls": {
     "generationMode": {
-      "palette": "Mode Palette de Progressions",
-      "scale": "Mode Gamme"
+      "palette": "Mode palette de progressions",
+      "scale": "Mode gamme"
     },
     "headers": {
-      "palette": "Mode Palette de Progressions",
-      "scale": "Mode Gamme"
+      "palette": "Mode palette de progressions",
+      "scale": "Mode gamme"
     },
     "labels": {
       "key": "Tonalité",
-      "mode": "Mode/Gamme",
-      "progression": "Palette de Progressions",
-      "name": "Nom de Progression",
-      "outputName": "Nom de Sortie"
+      "mode": "Mode/gamme",
+      "progression": "Palette de progressions",
+      "name": "Nom de progression",
+      "outputName": "Nom de sortie"
     }
   },
   "buttons": {
-    "generate": "Générer les Progressions",
+    "generate": "Générer les progressions",
     "downloadAll": "Télécharger tous les fichiers .progression"
   },
   "tabs": {
@@ -58,23 +58,23 @@
   },
   "variants": {
     "Smooth": {
-      "label": "Conduite de Voix Fluide",
+      "label": "Conduite de voix fluide",
       "tooltip": "Variante fluide : Maximise les notes communes, le mouvement par degrés conjoints et le mouvement contraire. Évalue des centaines de voicings pour trouver les transitions les plus douces entre accords."
     },
     "Classic": {
-      "label": "Conduite de Voix",
+      "label": "Conduite de voix",
       "tooltip": "Variante classique : Optimisée pour une conduite de voix fluide entre accords. Un mouvement minimal des notes crée des progressions naturelles et fluides."
     },
     "Jazz": {
-      "label": "Voicing Serré",
+      "label": "Voicing serré",
       "tooltip": "Variante jazz : Utilise des voicings serrés avec des notes sur une octave. Crée des harmonies riches et denses typiques du comping jazz au piano."
     },
     "Modal": {
-      "label": "Voicing Ouvert",
+      "label": "Voicing ouvert",
       "tooltip": "Variante modale : Présente des voicings ouverts avec des intervalles plus larges entre les notes. Produit des textures spacieuses et aérées, idéales pour l'harmonie modale."
     },
     "Experimental": {
-      "label": "Voicing Étendu",
+      "label": "Voicing étendu",
       "tooltip": "Variante expérimentale : Utilise des voicings étendus sur plusieurs octaves. Crée des couleurs et textures harmoniques uniques et non conventionnelles."
     },
     "progressionClarification": "Accords 1-{{count}} de la progression, {{next}}-16 extrapolés. ",
@@ -136,11 +136,11 @@
     "default": "Couleur harmonique - ajoute variété et intérêt à la progression."
   },
   "modeCategories": {
-    "Common Western Tonal": "Modes Tonaux Occidentaux Courants",
-    "Compact/Popular": "Compacts/Populaires",
-    "Symmetrical/Jazz": "Symétriques/Jazz",
-    "Arabic Maqamat": "Maqâmât Arabes",
-    "Indian Ragas": "Râgas Indiens",
+    "Common Western Tonal": "Modes tonaux occidentaux courants",
+    "Compact/Popular": "Compacts/populaires",
+    "Symmetrical/Jazz": "Symétriques/jazz",
+    "Arabic Maqamat": "Maqâmât arabes",
+    "Indian Ragas": "Râgas indiens",
     "Exotic": "Exotiques"
   },
   "modes": {
@@ -310,7 +310,7 @@
     "Jungle/Drum'n'Bass": "Jungle/Drum'n'Bass",
     "Italo-Disco/House": "Italo-Disco/House",
     "Synthwave/Retrowave": "Synthwave/Retrowave",
-    "African Dance": "Danse Africaine",
+    "African Dance": "Danse africaine",
     "UK Bass": "UK Bass",
     "Reggae/Dub": "Reggae/Dub",
     "Acid/EBM": "Acid/EBM"
