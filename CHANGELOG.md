@@ -1,5 +1,35 @@
 # MPC Chord Progression Generator - What's New
 
+## 🎹 Latest: MIDI Export for DAW Users
+
+### ✨ Standard MIDI File Export (NEW!)
+
+Replace expensive MIDI chord packs with custom-generated progressions ready for any DAW!
+
+**Key Features:**
+- **New MIDI Tab** - Fifth view joins Piano, Guitar, Staff, and MPC Pads
+- **Standard MIDI Format** - Download .mid files compatible with all DAWs (Ableton, FL Studio, Logic, etc.)
+- **Progression + Palette Hybrid** - Core progression chords first, followed by palette chords for exploration
+- **Musically Intelligent Timing** - Whole note durations with quarter note gaps (5 beats per chord)
+- **Batch Export** - Download single variants or export all four voicing variants at once as a ZIP
+- **Identical Layout** - MIDI tab mirrors the Keyboard tab layout with download buttons instead of print
+
+**Technical Details:**
+- Format: Standard MIDI File (SMF) Format 0
+- Resolution: 480 ticks per quarter note
+- Tempo: 120 BPM
+- Note duration: Whole note (1920 ticks)
+- Chord spacing: Quarter note (480 ticks)
+- All notes in each chord start and end simultaneously
+
+**Perfect for:**
+- DAW producers replacing commercial MIDI chord packs
+- Quick harmonic sketching in your production workflow
+- Importing progressions into piano rolls for further editing
+- Learning music theory through MIDI analysis
+
+---
+
 ## 🎨 Major Update: Smarter Chord Palettes & Improved Workflow
 
 ### ✨ Genre-Specific Palette Intelligence (NEW!)
