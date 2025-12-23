@@ -33,7 +33,8 @@ function encodeVariableLength(value) {
  */
 export function generateMIDIFile(chords, progressionName, progressionChordIndices = []) {
     const TICKS_PER_QUARTER = 480; // Standard resolution
-    const WHOLE_NOTE_TICKS = TICKS_PER_QUARTER * 4; // 1920 ticks
+    const WHOLE_NOTE_TICKS = TICKS_PER_QUARTER * 4; // 1920 ticks (note duration)
+    const QUARTER_NOTE_TICKS = TICKS_PER_QUARTER; // 480 ticks (gap between chords)
     const TEMPO = 120; // BPM
     const VELOCITY = 100;
 
@@ -75,7 +76,8 @@ export function generateMIDIFile(chords, progressionName, progressionChordIndice
 
         // Note On events (all notes start simultaneously)
         chord.notes.forEach((midiNote, noteIndex) => {
-            const deltaTime = noteIndex === 0 && chordIndex > 0 ? WHOLE_NOTE_TICKS : 0;
+            // First note of each new chord gets the gap delta, rest get 0 (simultaneous starts)
+            const deltaTime = noteIndex === 0 && chordIndex > 0 ? QUARTER_NOTE_TICKS : 0;
             trackEvents.push(
                 ...encodeVariableLength(deltaTime),
                 0x90, // Note On, channel 1
