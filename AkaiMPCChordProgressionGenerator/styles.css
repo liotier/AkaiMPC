@@ -844,7 +844,24 @@ body[data-context="keyboard"] .chord-pad {
     position: relative;
 }
 
+/* MIDI context: Info column in top right (identical to Keyboard) */
+body[data-context="midi"] .chord-pad {
+    position: relative;
+}
+
 body[data-context="keyboard"] .chord-info-column {
+    position: absolute;
+    top: 5px;
+    right: 12px;
+    max-width: 50%;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* MIDI context uses identical layout to Keyboard */
+body[data-context="midi"] .chord-info-column {
     position: absolute;
     top: 5px;
     right: 12px;
@@ -864,6 +881,21 @@ body[data-context="keyboard"] .chord-role {
 }
 
 body[data-context="keyboard"] .chord-notes {
+    font-size: 9px;
+    line-height: 1.2;
+    margin: 0;
+}
+
+/* MIDI context uses same layout as Keyboard */
+body[data-context="midi"] .chord-role {
+    display: block;
+    font-size: 10px;
+    line-height: 1.3;
+    color: var(--muted);
+    margin: 0;
+}
+
+body[data-context="midi"] .chord-notes {
     font-size: 9px;
     line-height: 1.2;
     margin: 0;
@@ -1453,12 +1485,30 @@ footer a:hover {
         gap: 2px !important;
     }
 
+    /* MIDI context: same responsive positioning as Keyboard */
+    body[data-context="midi"] .chord-info-column {
+        top: 4px !important;
+        right: 4px !important;
+        gap: 2px !important;
+    }
+
     body[data-context="keyboard"] .chord-role {
         font-size: 8px !important;
         line-height: 1.2 !important;
     }
 
     body[data-context="keyboard"] .chord-notes {
+        font-size: 7px !important;
+        line-height: 1.1 !important;
+    }
+
+    /* MIDI context: same responsive sizing as Keyboard */
+    body[data-context="midi"] .chord-role {
+        font-size: 8px !important;
+        line-height: 1.2 !important;
+    }
+
+    body[data-context="midi"] .chord-notes {
         font-size: 7px !important;
         line-height: 1.1 !important;
     }
