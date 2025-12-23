@@ -1821,6 +1821,30 @@ function downloadSingleProgression(variant, index) {
     URL.revokeObjectURL(url);
 }
 
+function downloadSingleMIDI(variant, index) {
+    const keyName = selectedKey.split('/')[0];
+    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}`;
+
+    // Get chord data from pads
+    const chords = variant.pads.map(pad => ({
+        name: pad.chordName,
+        notes: pad.notes
+    }));
+
+    // Get indices of progression chords (chords that are part of the core progression)
+    const progressionChordIndices = variant.pads
+        .map((pad, idx) => pad.isProgressionChord ? idx : null)
+        .filter(idx => idx !== null);
+
+    try {
+        const midiData = generateMIDIFile(chords, fileName, progressionChordIndices);
+        downloadMIDIFile(midiData, fileName);
+    } catch (error) {
+        console.error('Failed to export MIDI file:', error);
+        alert('Failed to export MIDI file. Please try again.');
+    }
+}
+
 // Helper: Activate voice leading hover effect for a pad
 function activateVoiceLeadingHover(pad) {
     const referenceNotesStr = pad.getAttribute('data-notes');
@@ -2246,7 +2270,11 @@ function renderProgressions() {
     container.querySelectorAll('.download-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const variantIndex = parseInt(this.getAttribute('data-variant-index'));
-            downloadSingleProgression(variants[variantIndex], variantIndex);
+            if (currentContext === 'midi') {
+                downloadSingleMIDI(variants[variantIndex], variantIndex);
+            } else {
+                downloadSingleProgression(variants[variantIndex], variantIndex);
+            }
         });
     });
 
