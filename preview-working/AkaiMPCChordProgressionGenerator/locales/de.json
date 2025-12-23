@@ -1,0 +1,1020 @@
+{
+  "app": {
+    "title": "Akkordfolgen-Generator",
+    "subtitle": "Erstellen Sie musikalisch intelligente Akkordfolgen — visualisieren Sie sie als Klavier, Gitarren-Tabulatur oder klassische Notation",
+    "subtitleLine2": "Drucken Sie Akkord-Sheets zum Jammen mit anderen, exportieren Sie MIDI-Dateien für Ihre DAW oder exportieren Sie .progression-Dateien für das Akai MPC"
+  },
+  "chordMatcher": {
+    "title": "Akkord-Finder",
+    "optional": "Optional",
+    "description": "Haben Sie ein Sample mit tollen Akkorden gefunden? Geben Sie sie hier ein, um kompatible Tonarten und Modi für Ihre Produktion zu finden.",
+    "noteLabel": "Note...",
+    "qualityLabel": "Qualität...",
+    "qualities": {
+      "major": "Dur",
+      "minor": "Moll",
+      "dim": "Vermindert",
+      "aug": "Übermäßig",
+      "sus2": "Sus2",
+      "sus4": "Sus4",
+      "7": "Dominantsept",
+      "maj7": "Maj7",
+      "m7": "Moll7"
+    },
+    "addChord": "Akkord hinzufügen",
+    "clearAll": "Alle löschen",
+    "compatibleLabel": "Kompatible Tonarten und Modi:"
+  },
+  "controls": {
+    "generationMode": {
+      "palette": "Progressionspalette-Modus",
+      "scale": "Tonleiter-Modus"
+    },
+    "headers": {
+      "palette": "Progressionspalette-Modus",
+      "scale": "Tonleiter-Modus"
+    },
+    "labels": {
+      "key": "Tonart",
+      "mode": "Modus/Tonleiter",
+      "progression": "Progressionspalette",
+      "name": "Progressionsname",
+      "outputName": "Ausgabename"
+    }
+  },
+  "buttons": {
+    "generate": "Progressionen generieren",
+    "downloadAll": "Alle .progression-Dateien herunterladen"
+  },
+  "tabs": {
+    "mpc": "MPC-Pads",
+    "keyboard": "Tastatur",
+    "guitar": "Gitarre",
+    "staff": "Notensystem",
+    "midi": "MIDI",
+    "leftHanded": "Linkshänder",
+    "midiOutput": "MIDI-Ausgang:",
+    "midiOutputNone": "Browser-Piepton (kein MIDI)"
+  },
+  "variants": {
+    "Smooth": {
+      "label": "Fließende Stimmführung",
+      "tooltip": "Fließende Variante: Maximiert gemeinsame Töne, schrittweise Bewegung und Gegenbewegung. Bewertet Hunderte von Voicings, um die sanftesten Übergänge zwischen Akkorden zu finden."
+    },
+    "Classic": {
+      "label": "Stimmführung",
+      "tooltip": "Klassische Variante: Optimiert für fließende Stimmführung zwischen Akkorden. Minimale Tonbewegung erzeugt natürliche, fließende Progressionen."
+    },
+    "Jazz": {
+      "label": "Enge Lage",
+      "tooltip": "Jazz-Variante: Verwendet enge Lagen mit Tönen innerhalb einer Oktave. Erzeugt dichte, satte Harmonien, typisch für Jazz-Piano-Comping."
+    },
+    "Modal": {
+      "label": "Weite Lage",
+      "tooltip": "Modale Variante: Zeigt weite Lagen mit größeren Intervallen zwischen den Tönen. Erzeugt luftige, geräumige Texturen, ideal für modale Harmonik."
+    },
+    "Experimental": {
+      "label": "Erweiterte Lage",
+      "tooltip": "Experimentelle Variante: Verwendet erweiterte Lagen über mehrere Oktaven. Erzeugt einzigartige, unkonventionelle harmonische Farben und Texturen."
+    },
+    "progressionClarification": "Akkorde 1-{{count}} aus der Progression, {{next}}-16 extrapoliert. ",
+    "chordDistanceHint": "Die Farben der Karten zeigen die Akkord-Distanz von der ausgewählten Karte"
+  },
+  "footer": {
+    "cousin": "Verwandt mit dem",
+    "finderLink": "MPC Chord Progression Finder",
+    "producer": "Produziert von Jean-Marc Liotier",
+    "github": "Auf GitHub ansehen"
+  },
+  "tooltips": {
+    "progressionPaletteDisabled": "Progressionspaletten werden im Tonleiter-Erkundungsmodus nicht verwendet. Alle Akkorde der ausgewählten Tonleiter werden generiert.",
+    "progressionPaletteEnabled": "Jede Palette liefert 16 einzigartige Akkorde: die ersten N aus der Progression, die restlichen Pads aus erweiterter Harmonik. Genre-spezifische Filter gewährleisten passende Akkordfarben."
+  },
+  "errors": {
+    "selectKey": "Bitte wählen Sie eine Tonart",
+    "selectMode": "Bitte wählen Sie einen Modus",
+    "selectProgression": "Bitte wählen Sie eine Progression",
+    "generateFailed": "Fehler beim Generieren der Progression"
+  },
+  "messages": {
+    "loading": "Lädt...",
+    "generating": "Generiere Progressionen...",
+    "complete": "Generierung abgeschlossen"
+  },
+  "chordRoles": {
+    "I": "Tonika - der Ruheakkord, bringt Auflösung und Stabilität.",
+    "II": "Supertonika - Subdominant-Akkord, führt oft zu V.",
+    "III": "Mediante - schwache Subdominante oder Farbakkord, verbindet I und IV/vi.",
+    "IV": "Subdominante - Subdominant-Akkord, bereitet Bewegung zu V vor.",
+    "V": "Dominante - erzeugt Spannung, die sich zu I auflöst.",
+    "VI": "Submediante - parallele Moll-Tonart, oft für Trugschlüsse verwendet.",
+    "VII°": "Leitton - verminderter Akkord, zieht stark zu I.",
+    "♭II": "Entliehene Neapolitaner-Sekunde, starke Subdominante, bereitet V vor.",
+    "♭III": "Aus parallelem Moll entliehen, fügt dramatische Farbe hinzu, ersetzt I.",
+    "♭IV": "Entliehene Moll-Subdominante, mildert die Bewegung zu V.",
+    "♭V": "Seltener entliehener Akkord, chromatische Farbe.",
+    "♭VI": "Aus parallelem Moll entliehen, dramatische Subdominante, bewegt sich oft zu V.",
+    "♭VII": "Aus Mixolydisch entliehen, verleiht Rock/Blues-Geschmack, bewegt sich oft zu I oder V.",
+    "V/II": "Sekundärdominante - tonikalisiert ii, erzeugt Bewegung zu ii.",
+    "V/III": "Sekundärdominante - tonikalisiert iii, selten verwendet, aber farbenreich.",
+    "V/IV": "Sekundärdominante - tonikalisiert IV, erhellt die Progression.",
+    "V/V": "Sekundärdominante - tonikalisiert V, sehr üblich zur Verstärkung der Kadenz.",
+    "V/VI": "Sekundärdominante - tonikalisiert vi, für täuschende Wendungen verwendet.",
+    "VII°/II": "Leitton-Akkord von ii, löst sich stark zu ii auf.",
+    "VII°/III": "Leitton-Akkord von iii, löst sich stark zu iii auf.",
+    "VII°/IV": "Leitton-Akkord von IV, löst sich stark zu IV auf.",
+    "VII°/V": "Leitton-Akkord von V, löst sich stark zu V auf.",
+    "VII°/VI": "Leitton-Akkord von vi, löst sich stark zu vi auf.",
+    "SUBV7": "Tritonus-Substitution - Jazz-Ersatz für V7, erzeugt chromatische Stimmführung.",
+    "♯I°": "Durchgangs-verminderter Akkord - chromatischer Verbinder zwischen diatonischen Akkorden.",
+    "♯II°": "Durchgangs-verminderter Akkord - chromatischer Verbinder zwischen diatonischen Akkorden.",
+    "sus": "Vorhaltakkord - ersetzt die Terz durch Sekunde/Quarte, erzeugt Vorhalt vor Auflösung.",
+    "add9": "Fügt Helligkeit hinzu, verträumte Farbe.",
+    "6": "Vintage-Farbe, mildert die Harmonie.",
+    "extended": "Erweiterte Harmonik - Jazz/Pop-Farbe, fügt Tiefe hinzu.",
+    "borrowed": "Entliehener Akkord - fügt ausdrucksstarke Farbe durch Entlehnung aus parallelem Modus hinzu.",
+    "default": "Harmonische Farbe - fügt Vielfalt und Interesse zur Progression hinzu."
+  },
+  "modeCategories": {
+    "Common Western Tonal": "Gängige westliche tonale Modi",
+    "Compact/Popular": "Kompakt/populär",
+    "Symmetrical/Jazz": "Symmetrisch/Jazz",
+    "Arabic Maqamat": "Arabische Maqâmât",
+    "Indian Ragas": "Indische Râgas",
+    "Exotic": "Exotisch"
+  },
+  "modes": {
+    "Major": {
+      "name": "Major",
+      "description": "Die grundlegende Tonleiter der westlichen Musik. Muster: G-G-H-G-G-G-H (Ganz- und Halbtöne). Erzeugt einen hellen, fröhlichen und entschlossenen Charakter. Alle diatonischen Dreiklänge (I, ii, iii, IV, V, vi, vii°) stammen aus dieser Tonleiter. Grundlage der klassischen Musik, Pop und Folk für eine optimistische und stabile Tonalität."
+    },
+    "Minor": {
+      "name": "Minor",
+      "description": "Natürliche Moll-Tonleiter (Äolischer Modus). Muster: G-H-G-G-H-G-G. Erzeugt einen traurigen, introspektiven Charakter, dunkler als Dur. Die abgesenkten 3., 6. und 7. Stufen unterscheiden sie von Dur. Wird in allen Genres für melancholische, emotionale oder ernste Stimmungen verwendet. Grundlage der Harmonik in Moll-Tonalität."
+    },
+    "Dorian": {
+      "name": "Dorian",
+      "description": "Moll-Tonleiter mit erhöhter 6. Stufe. Muster: G-H-G-G-G-H-G. Erzeugt einen anspruchsvollen Moll-Klang - dunkler als Dur, aber heller als natürliches Moll. Der Dur-IV-Akkord unterscheidet ihn vom Äolischen. Verwendet im Jazz, Funk, Folk und modaler Musik für eine coole, anspruchsvolle Moll-Tonalität ohne schwere Traurigkeit."
+    },
+    "Phrygian": {
+      "name": "Phrygian",
+      "description": "Moll-Tonleiter mit abgesenkter 2. Stufe. Muster: H-G-G-G-H-G-G. Erzeugt einen spanischen, nahöstlichen oder düster-metallischen Charakter. Der Halbton zwischen Tonika und 2. Stufe erzeugt einen markanten exotischen Klang. Verwendet im Flamenco, Metal und spanischer Musik für eine mysteriöse, unheilvolle oder ethnische Atmosphäre."
+    },
+    "Lydian": {
+      "name": "Lydian",
+      "description": "Dur-Tonleiter mit erhöhter 4. Stufe. Muster: G-G-G-H-G-G-H. Erzeugt einen träumerischen, schwebenden, ätherischen Charakter - noch heller als Dur. Die erhöhte 4. Stufe (#11) erzeugt den markanten 'Lydischen' Klang. Verwendet in Filmmusik, Jazz und Progressive Rock für eine magische, übernatürliche oder schwebende Qualität."
+    },
+    "Mixolydian": {
+      "name": "Mixolydian",
+      "description": "Dur-Tonleiter mit abgesenkter 7. Stufe. Muster: G-G-H-G-G-H-G. Erzeugt einen bluesigen, rockigen oder folkigen Charakter. Der ♭VII-Akkord ist charakteristisch. Ausgiebig verwendet im Rock, Blues, Folk und Funk für einen geerdeten, erdigen Dur-Klang ohne die Spannung des Leittons. Grundlage der Rock'n'Roll-Harmonik."
+    },
+    "Locrian": {
+      "name": "Locrian",
+      "description": "Moll-Tonleiter mit abgesenkter 2. und 5. Stufe. Muster: H-G-G-H-G-G-G. Der instabilste Modus - verminderter Tonika-Dreiklang. Selten für vollständige Kompositionen verwendet. Die ♭5 erzeugt einen Tritonus gegen den Grundton. Verwendet für Dissonanz, Spannung oder experimentelle Passagen in Metal, Jazz und Avantgarde-Musik."
+    },
+    "Harmonic Minor": {
+      "name": "Harmonic Minor",
+      "description": "Natürliches Moll mit erhöhter 7. Stufe. Muster: G-H-G-G-H-1½G-H. Das übermäßige Sekundintervall (zwischen 6 und 7) erzeugt exotische Spannung und Drama. Der Dur-V-Akkord ermöglicht starke V-i-Kadenzen. Grundlage der klassischen Moll-Harmonik, verwendet in Metal, Flamenco und nahöstlicher Musik für einen dramatischen, klassischen Moll-Klang."
+    },
+    "Melodic Minor": {
+      "name": "Melodic Minor",
+      "description": "Natürliches Moll mit erhöhter 6. und 7. Stufe (aufsteigende Form). Muster: G-H-G-G-G-G-H. Weicher als harmonisches Moll - keine übermäßige Sekunde. Verwendet im Jazz für modale Improvisation und in der klassischen Musik für melodisches Aufsteigen. Erzeugt eine anspruchsvolle Moll-Tonalität mit Dur-VI und VII, die eine fließende Stimmführung ermöglichen."
+    },
+    "Pentatonic Major": {
+      "name": "Pentatonic Major",
+      "description": "Fünf-Noten-Tonleiter: 1-2-3-5-6 (entfernt 4 und 7 aus der Dur-Tonleiter). Fehlen von Halbtönen oder Tritoni erzeugt einen konsonanten, offenen Klang. Universelle Tonleiter, die in vielen Kulturen zu finden ist. Verwendet in Rock-Soli, Folk-Melodien, Pop-Refrains und Weltmusik für eingängige, zugängliche Melodien, die über jede Harmonik funktionieren."
+    },
+    "Pentatonic Minor": {
+      "name": "Pentatonic Minor",
+      "description": "Fünf-Noten-Tonleiter: 1-♭3-4-5-♭7 (entfernt 2 und 6 aus natürlichem Moll). Die Grundlage für Blues-, Rock- und Blues-Rock-Soli. Fehlen von Halbtönen erzeugt einen fließenden, gleitenden Charakter. Universelle Moll-Tonleiter, die in vielen Kulturen verwendet wird. Essentiell für Gitarrensoli, vokale Improvisation und zugängliche Moll-Melodien."
+    },
+    "Blues": {
+      "name": "Blues",
+      "description": "Sechs-Noten-Tonleiter: 1-♭3-4-♭5-5-♭7. Fügt die 'Blue Note' (♭5) zur Moll-Pentatonik hinzu. Die ♭5 erzeugt das charakteristische Blues-'Bending' und Spannung. Grundlage der Blues-, Rock-, Jazz- und R&B-Improvisation. Die ambigue ♭3 über Dur-Akkorden erzeugt die bluesige Dissonanz. Die wichtigste Tonleiter in der amerikanischen Populärmusik."
+    },
+    "Whole Tone": {
+      "name": "Whole Tone",
+      "description": "Sechs-Noten-Tonleiter, die vollständig aus Ganztönen besteht: G-G-G-G-G-G. Perfekt symmetrisch - keine Tonika oder Auflösung. Erzeugt einen träumerischen, schwebenden, surrealen Charakter. Keine reinen Quinten oder Quarten, nur übermäßige Akkorde. Verwendet von Debussy und im Jazz für eine mehrdeutige, impressionistische und übernatürliche Atmosphäre. Definiert musikalischen Surrealismus."
+    },
+    "Diminished (W-H)": {
+      "name": "Diminished (W-H)",
+      "description": "Acht-Noten-Oktatonik, die Ganz- und Halbtöne abwechselt: G-H-G-H-G-H-G-H. Perfekt symmetrisch, teilt die Oktave in vier gleiche Teile. Verwendet über Dominant-7-Akkorden im Jazz. Erzeugt einen spannungsgeladenen, instabilen, chromatischen Charakter. Essentiell im Bebop für alterierte Dominant-Klänge und Outside-Spiel."
+    },
+    "Diminished (H-W)": {
+      "name": "Diminished (H-W)",
+      "description": "Acht-Noten-Oktatonik, die Halb- und Ganztöne abwechselt: H-G-H-G-H-G-H-G. Umgekehrtes Muster des G-H-Verminderten. Verwendet über verminderten 7-Akkorden. Die symmetrische Struktur erzeugt einen spannungsgeladenen, nicht auflösenden Charakter. Essentiell im Jazz für Improvisation über verminderte Akkorde und chromatische Stimmführung in der Komposition."
+    },
+    "Augmented": {
+      "name": "Augmented",
+      "description": "Sechs-Noten-Hexatonik, die aus übermäßigen Dreiklängen mit Durchgangsnoten besteht: 1-♭3-3-5-♯5-7. Symmetrisch, teilt die Oktave in drei gleiche große Terzen. Keine reinen Quinten. Erzeugt einen mehrdeutigen, schwebenden, modernistischen Charakter. Verwendet in klassischer Musik des 20. Jahrhunderts und Jazz für übermäßige Akkordkontexte und symmetrische harmonische Strukturen."
+    },
+    "Maqam Hijaz": {
+      "name": "Maqam Hijaz",
+      "description": "Arabischer Maqam, in gleichstufiger Stimmung als Phrygisch-Dominant angenähert: 1-♭2-3-4-5-♭6-♭7. Die übermäßige Sekunde zwischen ♭2 und 3 erzeugt den charakteristischen nahöstlichen Klang. Kombiniert phrygisches ♭2 mit großer Terz. Verwendet in arabischer, türkischer und Klezmer-Musik für einen exotischen, spirituellen, orientalischen Charakter. Evoziert Gebet und Mystik."
+    },
+    "Maqam Bayati": {
+      "name": "Maqam Bayati",
+      "description": "Arabischer Maqam, angenähert als Phrygisch: 1-♭2-♭3-4-5-♭6-♭7. Ähnlich dem Phrygischen Modus, aber mit mikrotonalen Inflexionen in traditioneller Interpretation. Erzeugt einen melancholischen und kontemplativen nahöstlichen Charakter. Einer der häufigsten arabischen Maqamat. Verwendet in der arabischen Welt für emotionale und introspektive Melodien."
+    },
+    "Maqam Rast": {
+      "name": "Maqam Rast",
+      "description": "Arabischer Maqam, angenähert als Dur: 1-2-3-4-5-6-7, aber traditionell mit mikrotonalen Vierteltonschwankungen. Gilt als 'neutraler' oder 'ruhender' Maqam. Heller und stabiler Charakter ähnlich dem westlichen Dur, aber mit subtilen orientalischen Inflexionen. Grundlegender Maqam in der arabischen Musiktheorie. Verwendet für fröhliche, festliche oder würdevolle Melodien."
+    },
+    "Maqam Saba": {
+      "name": "Maqam Saba",
+      "description": "Arabischer Maqam mit ausgeprägt traurigem und nostalgischem Charakter. Angenähert als 1-♭2-♭3-♭4-♭5-♭6-♭7. Mehrere abgesenkte Stufen erzeugen eine düstere und melancholische Atmosphäre. Die ♭4 ist besonders charakteristisch. Verwendet für tief emotionale und traurige Ausdrucksformen in arabischer Musik. Erzeugt tiefe Traurigkeit und Sehnsucht."
+    },
+    "Maqam Kurd": {
+      "name": "Maqam Kurd",
+      "description": "Arabischer Maqam, identisch mit dem Phrygischen Modus: 1-♭2-♭3-4-5-♭6-♭7. Einer der wichtigsten Moll-artigen Maqamat. Erzeugt einen melancholischen, aber würdevollen Charakter. Der kurdische Name spiegelt historische Ursprünge wider. Verwendet im gesamten Nahen Osten für ernste und kontemplative Musik. Emotionale Qualität ähnlich dem westlichen natürlichen Moll, aber mit phrygischer ♭2-Färbung."
+    },
+    "Bhairav": {
+      "name": "Bhairav",
+      "description": "Morgendliche Raga, identisch mit der Doppel-Harmonischen Tonleiter: 1-♭2-3-4-5-♭6-7. Zwei übermäßige Sekunden (♭2-3 und ♭6-7) erzeugen eine markant dramatische Spannung. Mit Shiva assoziiert. Ernster und andächtiger Charakter. Verwendet in nordindischer klassischer Musik für morgendliche Meditation und spirituelle Kontemplation. Erzeugt eine exotische, intensive und kraftvolle Atmosphäre."
+    },
+    "Kafi": {
+      "name": "Kafi",
+      "description": "Nachmittags-/Abendraga, identisch mit dem Dorischen Modus: 1-2-♭3-4-5-6-♭7. Eine der zehn Muttertonleitern (thaat) in der hindustanischen Musik. Erzeugt einen friedlichen und romantischen Charakter. Die große 6. Stufe unterscheidet ihn vom natürlichen Moll. Verwendet in andächtiger und leichter klassischer Musik für sanfte, süße und kontemplative Stimmungen. Ähnlich dem westlichen Dorisch, aber mit indischer Ornamentik."
+    },
+    "Yaman": {
+      "name": "Yaman",
+      "description": "Abendraga, identisch mit dem Lydischen Modus: 1-2-3-♯4-5-6-7. Eine der beliebtesten Ragas in der hindustanischen klassischen Musik. Erzeugt einen friedlichen, romantischen und andächtigen Charakter. Die ♯4 (tivra ma) ist charakteristisch. Mit Schöpfung und Frühling assoziiert. Verwendet für ruhige, schöne und erhebende Ausdrucksformen. Evoziert Gelassenheit und spirituelle Schönheit."
+    },
+    "Bhairavi": {
+      "name": "Bhairavi",
+      "description": "Morgendliche Raga, aber zu jeder Zeit gespielt, identisch mit Phrygisch: 1-♭2-♭3-4-5-♭6-♭7. Eine der zehn Muttertonleitern. Erzeugt einen andächtigen und ernsten Charakter mit Flexibilität für Ornamentik. Mit der Göttin Parvati assoziiert. Verwendet für Morgengebete und Abschiedsaufführungen. Die flexibelste Raga, erlaubt chromatische Variationen. Evoziert Andacht und Pathos."
+    },
+    "Todi": {
+      "name": "Todi",
+      "description": "Mittags-Raga mit einzigartiger Tonleiter: 1-♭2-♭3-♯4-5-♭6-7. Kombiniert phrygisches ♭2, erhöhte 4. (lydisch) und große 7. Erzeugt einen intensiven, sehnsüchtigen und leidenschaftlichen Charakter. Gilt als eine der ernsthaftesten und andächtigsten Ragas. Mit tiefer Emotion und Verlangen assoziiert. Die markanten übermäßigen Intervalle erzeugen eine gespenstische und spirituelle Atmosphäre."
+    },
+    "Double Harmonic": {
+      "name": "Double Harmonic",
+      "description": "Exotische Tonleiter mit zwei übermäßigen Sekunden: 1-♭2-3-4-5-♭6-7 (identisch mit Bhairav). 'Doppelt' bezieht sich auf die übermäßigen Sekunden zwischen ♭2-3 und ♭6-7. Erzeugt einen dramatischen nahöstlichen/indischen Charakter. Verwendet in Metal, Progressive Rock und World-Fusion für maximale exotische Färbung und Spannung. Extrem markanter und wiedererkennbarer Klang."
+    },
+    "Hungarian Minor": {
+      "name": "Hungarian Minor",
+      "description": "Harmonisches Moll mit erhöhter 4. Stufe: 1-2-♭3-♯4-5-♭6-7. Drei übermäßige Sekunden erzeugen einen exotischen Zigeuner-Charakter. Chromatischer als harmonisches Moll. Verwendet in ungarischer Volksmusik, Gypsy-Jazz, klassischer Musik (Liszt) und Metal. Erzeugt eine leidenschaftliche, dramatische, osteuropäische Atmosphäre. Signatur-Tonleiter des Django-Reinhardt-Jazz-Stils."
+    },
+    "Neapolitan Major": {
+      "name": "Neapolitan Major",
+      "description": "Dur-Tonleiter mit abgesenkter 2. Stufe: 1-♭2-3-4-5-6-7. Erzeugt eine helle Tonleiter mit einer dunklen, chromatischen Wendung durch das ♭2. Verwendet in klassischer Musik (insbesondere der neapolitanischen IV6-Kadenz von ♭II). Das ♭2 erzeugt Spannung gegen die Tonika, während der Dur-Charakter erhalten bleibt. Verwendet für anspruchsvolle chromatische Färbung in klassischer und Filmmusik."
+    },
+    "Neapolitan Minor": {
+      "name": "Neapolitan Minor",
+      "description": "Harmonisches Moll mit abgesenkter 2. Stufe: 1-♭2-♭3-4-5-♭6-7. Kombiniert das Drama des harmonischen Molls mit phrygischem ♭2. Zwei übermäßige Sekunden erzeugen extreme Spannung. Sehr dunkler und exotischer Charakter. Verwendet in klassischer Musik für dramatische und unheilvolle Passagen. Intensiver und chromatischer als harmonisches Moll. Erzeugt eine beunruhigende und bedrohliche Atmosphäre."
+    },
+    "Enigmatic": {
+      "name": "Enigmatic",
+      "description": "Seltene synthetische Tonleiter: 1-♭2-3-♯4-♯5-♯6-7. Mehrere erhöhte Stufen erzeugen eine ganztonleiterartige Mehrdeutigkeit mit chromatischer Spannung. Popularisiert von Verdi. Extrem instabil - schwierig, eine Tonalität zu etablieren. Verwendet für mysteriöse, surreale und nicht auflösende Passagen. Eine der dissonantesten und mehrdeutigsten traditionellen Tonleitern. Erzeugt einen wahrhaft rätselhaften Charakter."
+    },
+    "Phrygian Dominant": {
+      "name": "Phrygian Dominant",
+      "description": "Fünfter Modus des harmonischen Molls: 1-♭2-3-4-5-♭6-♭7 (identisch mit Maqam Hijaz). Kombiniert phrygisches ♭2 mit großer Terz. Die übermäßige Sekunde zwischen ♭2 und 3 erzeugt den markanten spanischen/nahöstlichen Klang. Grundlage der Flamenco-Musik. Verwendet in Metal, Progressive Rock und Weltmusik für exotische und dramatische Färbung. Sofort wiedererkennbarer Klang."
+    },
+    "Persian": {
+      "name": "Persian",
+      "description": "Exotische Tonleiter, die persische Musik annähert: 1-♭2-3-4-♭5-♭6-7. Kombiniert phrygisches ♭2, große Terz, verminderte Quinte und große 7. Mehrere übermäßige und verminderte Intervalle erzeugen einen komplexen und spannungsgeladenen Charakter. Verwendet für nahöstliche Färbung mit zusätzlichem Chromatismus. Erzeugt eine mysteriöse, antike und exotische Atmosphäre jenseits des Standard-Phrygisch-Dominant."
+    },
+    "Hirajoshi": {
+      "name": "Hirajoshi",
+      "description": "Japanische pentatonische Tonleiter: 1-2-♭3-5-♭6. Fünf-Noten-Tonleiter ohne reine Quinte. Erzeugt einen ausgeprägt japanischen Charakter - weder rein Dur noch Moll. Verwendet in traditioneller japanischer Musik und modernen Kompositionen, die japanische Färbung suchen. Die einzigartigen Intervalle erzeugen eine friedliche, kontemplative und exotische Atmosphäre. Signaturklang von Koto und Shamisen."
+    },
+    "Insen": {
+      "name": "Insen",
+      "description": "Japanische pentatonische Tonleiter: 1-♭2-4-5-♭7. Dunkler Moll-Charakter mit phrygischem ♭2. Erzeugt eine melancholische japanische Atmosphäre. Verwendet in traditioneller japanischer Musik und modernen Soundtracks. Das ♭2 verleiht der Moll-Pentatonik-Struktur einen exotischen Rand. Evoziert das alte Japan, Meditation und Introspektion. Beliebt in Videospiel- und Anime-Musik."
+    },
+    "Kumoi": {
+      "name": "Kumoi",
+      "description": "Japanische pentatonische Tonleiter: 1-2-♭3-5-6. Moll-Pentatonik mit natürlicher 6. Heller als die Standard-Moll-Pentatonik, dunkler als die Dur-Pentatonik. Erzeugt einen sanften japanischen Charakter. Verwendet in traditioneller Musik und Volksliedern. Die große 6. Stufe verleiht Auftrieb innerhalb eines Moll-Kontexts. Evoziert natürliche Schönheit und pastorale japanische Landschaften."
+    },
+    "Egyptian Pentatonic": {
+      "name": "Egyptian Pentatonic",
+      "description": "Antike suspendierte Pentatonik: 1-2-4-5-♭7. Keine Terz, erzeugt einen suspendierten und mehrdeutigen Charakter. Verwendet in altägyptischer Musik (theoretische Rekonstruktion) und nahöstlicher Volksmusik. Ähnlich der Moll-Pentatonik, aber mit großer 2. statt ♭3. Erzeugt eine neutrale, antike und zeitlose Atmosphäre. Beliebt für Weltmusik und ethnische Fusion."
+    }
+  },
+  "progressionCategories": {
+    "Pop/Rock": "Pop/Rock",
+    "Blues/Soul": "Blues/Soul",
+    "Jazz/Functional": "Jazz/Funktional",
+    "Classical/Modal": "Klassisch/Modal",
+    "Electronic/Modern": "Elektronisch/Modern",
+    "R&B/Neo-Soul": "R&B/Neo-Soul",
+    "Gospel/Worship": "Gospel/Anbetung",
+    "Hip-Hop/Trap": "Hip-Hop/Trap",
+    "Latin/Bossa": "Latin/Bossa",
+    "Film/Cinematic": "Film/Filmmusik",
+    "Folk/Singer-Songwriter": "Folk/Singer-Songwriter",
+    "Metal/Rock": "Metal/Rock",
+    "Trance/Psytrance/Goa": "Trance/Psytrance/Goa",
+    "Jungle/Drum'n'Bass": "Jungle/Drum'n'Bass",
+    "Italo-Disco/House": "Italo-Disco/House",
+    "Synthwave/Retrowave": "Synthwave/Retrowave",
+    "African Dance": "Afrikanischer Tanz",
+    "UK Bass": "UK Bass",
+    "Reggae/Dub": "Reggae/Dub",
+    "Acid/EBM": "Acid/EBM"
+  },
+  "progressions": {
+    "Pop/Rock": {
+      "I—V—vi—IV": {
+        "name": "I—V—vi—IV",
+        "nickname": "Axis of Awesome",
+        "description": "Die beliebteste Progression in der modernen Popmusik. Tonika zur Dominante erzeugt Vorwärtsbewegung, trügerische Auflösung zu vi fügt Emotion hinzu, IV bietet sanfte Rückkehr. Verwendet in Hunderten von Hits von \"Let It Be\" bis \"Don't Stop Believin'.\""
+      },
+      "I—IV—V—I": {
+        "name": "I—IV—V—I",
+        "nickname": "Classic Rock",
+        "description": "Die Grundlage des Rock'n'Roll. Bewegt sich von der Tonika über die Subdominante zur Dominante und erzeugt befriedigende Spannung und Auflösung. Das Rückgrat von Blues, Country und frühem Rock von Chuck Berry bis zu den Beatles."
+      },
+      "vi—IV—I—V": {
+        "name": "vi—IV—I—V",
+        "nickname": "Pop Punk",
+        "description": "Beginnt auf der parallelen Moll-Tonart für sofortige emotionale Wirkung, zykliert dann durch Subdominante, Tonika und Dominante. Erzeugt ein hymnisches, mitsingbares Gefühl. Popularisiert von Bands wie Blink-182 und Green Day."
+      },
+      "I—vi—IV—V": {
+        "name": "I—vi—IV—V",
+        "nickname": "50s Doo-Wop",
+        "description": "Die klassischen \"Doo-Wop\"-Wechsel der Vokalgruppen der 1950er Jahre. Tonika zur parallelen Moll erzeugt sanfte Melancholie, Subdominante und Dominante vervollständigen den Kreis. Denken Sie an \"Stand By Me\" oder \"Blue Moon.\""
+      },
+      "I—V—vi—iii—IV": {
+        "name": "I—V—vi—iii—IV",
+        "nickname": "Canon Progression",
+        "description": "Erweiterte Pachelbel-Kanon-Sequenz. Steigt durch die Tonleiter ab und erzeugt unvermeidlichen Vorwärtsimpuls. Verwendet in \"Basket Case\", \"Hook\", unzähligen Balladen. Der iii-Akkord fügt romantische Komplexität hinzu."
+      },
+      "IV—I—V—vi": {
+        "name": "IV—I—V—vi",
+        "nickname": "Despacito",
+        "description": "Beginnt mit Subdominante für sofortigen Auftrieb, löst sich zur Tonika auf, bewegt sich dann über Dominante zur parallelen Moll. Erzeugt ein zirkuläres, hypnotisches Gefühl perfekt für Latin-Pop und Reggaeton-Grooves."
+      },
+      "vi—V—IV—V": {
+        "name": "vi—V—IV—V",
+        "nickname": "Grenade",
+        "description": "Moll-Tonika zur Dominante erzeugt dramatische Spannung, Subdominante bietet kurze Atempause, bevor die Dominante wieder aufbaut. Perfekt für Power-Balladen und emotionale Höhepunkte wie Bruno Mars' \"Grenade.\""
+      },
+      "I—III—IV—iv": {
+        "name": "I—III—IV—iv",
+        "nickname": "Creep",
+        "description": "Berühmt gemacht durch Radiohead. Dur-Tonika zu Dur-III ist unerwartet, IV ist vertraut, dann fügt iv (aus Moll entliehen) eine gespenstische Melancholie hinzu. Die chromatische Bassbewegung erzeugt ein markantes absteigendes Gefühl."
+      },
+      "I—V—♭VII—IV": {
+        "name": "I—V—♭VII—IV",
+        "nickname": "Sweet Home",
+        "description": "Mixolydische Färbung vom entliehenen ♭VII erzeugt bluesigen Southern-Rock-Sound. Die Dur-Subdominante nach der verminderten Septime bietet befriedigenden Auftrieb. Ikonisch in \"Sweet Home Alabama\" und klassischen Rock-Hymnen."
+      },
+      "I—♭VII—IV—I": {
+        "name": "I—♭VII—IV—I",
+        "nickname": "Mixolydian Vamp",
+        "description": "Zirkuläre mixolydische Progression. Entliehenes ♭VII aus parallelem Moll fügt Rock-Kante hinzu, IV zu I bietet traditionelle perfekte Kadenz. Erzeugt treibendes, modales Rock-Gefühl ohne Dominant-V-Akkord."
+      }
+    },
+    "Blues/Soul": {
+      "I—I—I—I—IV—IV—I—I—V—IV—I—V": {
+        "name": "I—I—I—I—IV—IV—I—I—V—IV—I—V",
+        "nickname": "12-Bar Blues",
+        "description": "Die Grundlage von Blues, Rock und Jazz. Vier Takte Tonika etablieren das Zuhause, der IV-Akkord erzeugt Spannung, Rückkehr zu I bietet Erleichterung, V-IV erzeugt den \"Turnaround\" zurück zu I. Die wichtigste Progression in der amerikanischen Musik."
+      },
+      "I—vi—ii—V": {
+        "name": "I—vi—ii—V",
+        "nickname": "Turnaround",
+        "description": "Klassischer Jazz-Turnaround. Steigt von I über paralleles Moll (vi) ab, dann erzeugt ii-V starken Zug zurück zu I. Verwendet am Ende des 12-Takt-Blues und in unzähligen Jazz-Standards, um sanft zum Anfang zurückzukehren."
+      },
+      "ii—V—I—VI": {
+        "name": "ii—V—I—VI",
+        "nickname": "Rhythm Changes A",
+        "description": "Aus Gershwins \"I Got Rhythm\", die häufigsten Akkordwechsel im Jazz nach dem Blues. Das ii-V-I ist die stärkste Auflösung in der funktionalen Harmonik, VI erzeugt chromatische Bewegung und führt in den nächsten Zyklus."
+      },
+      "I—VI—ii—V": {
+        "name": "I—VI—ii—V",
+        "nickname": "I Got Rhythm",
+        "description": "Eine weitere Variation der Rhythm Changes. I zu VI (Dur-Akkord auf der sechsten Stufe) erzeugt chromatische Bassbewegung, dann bereitet ii-V die Rückkehr zu I vor. Der VI-Akkord wird oft als V7/ii gespielt und erzeugt so noch stärkere Vorwärtsbewegung."
+      },
+      "i—♭III—♭VII—IV": {
+        "name": "i—♭III—♭VII—IV",
+        "nickname": "Dorian Vamp",
+        "description": "Modaler Blues im dorischen Modus. Moll-Tonika zu Dur-♭III erzeugt hoffnungsvollen Auftrieb, ♭VII fügt bluesige Färbung hinzu, IV (Dur in Dorisch) bringt Helligkeit. Erzeugt anspruchsvollen Moll-Blues-Sound, popularisiert von Miles Davis und modalem Jazz."
+      },
+      "i—IV—i—V": {
+        "name": "i—IV—i—V",
+        "nickname": "Minor Blues",
+        "description": "Die Moll-Blues-Progression. Moll-Tonika zu Dur-IV erzeugt dramatischen Wechsel, Rückkehr zu i etabliert Moll-Tonalität, Dur-V erzeugt Spannung, die nach Auflösung verlangt. Dramatischer und melancholischer als Standard-Dur-Blues."
+      }
+    },
+    "Jazz/Functional": {
+      "ii—V—I": {
+        "name": "ii—V—I",
+        "nickname": "2-5-1",
+        "description": "Die grundlegendste Progression im Jazz. Das ii (Supertonika) bereitet das V (Dominante) vor, das sich stark zu I (Tonika) auflöst. Diese Quintfallsequenz ist der Baustein der funktionalen Harmonik und erscheint in fast jedem Jazz-Standard."
+      },
+      "ii—V—I—vi": {
+        "name": "ii—V—I—vi",
+        "nickname": "Jazz Standard",
+        "description": "Erweiterte ii-V-I-Kadenz mit Trugschluss. Nach dem starken ii-V-I überrascht der vi-Akkord das Ohr, anstatt auf I zu bleiben, und erzeugt kontinuierliche Vorwärtsbewegung. Perfekt zum Loopen in Jazz-Improvisationen und Standards."
+      },
+      "iii—vi—ii—V": {
+        "name": "iii—vi—ii—V",
+        "nickname": "Circle Progression",
+        "description": "Absteigender Quintenzirkel: iii zu vi zu ii zu V. Jeder Akkord liegt eine Quinte unter dem vorherigen und erzeugt unvermeidlichen Gravitationszug zur Tonika. Demonstriert reine funktionale Harmonik in Aktion - ausgiebig verwendet in Bebop und Hard Bop."
+      },
+      "IVM7—V7—iii7—vi": {
+        "name": "IVM7—V7—iii7—vi",
+        "nickname": "Fly Me To The Moon",
+        "description": "Aus Bart Howards Jazz-Standard. IV-V erzeugt starke Bewegung, iii-vi setzt in absteigenden Terzen fort (plagale Kaskade). Satte maj7- und dom7-Voicings erzeugen anspruchsvollen, romantischen Jazz-Sound perfekt für Balladen."
+      },
+      "IM7—ii7—iii7—IVM7": {
+        "name": "IM7—ii7—iii7—IVM7",
+        "nickname": "Ascending Jazz",
+        "description": "Schrittweise aufsteigende Progression durch diatonische 7-Akkorde. Erzeugt sanfte, erhebende Bewegung. Vermeidet starke funktionale Auflösungen und malt stattdessen mit Farbe und Textur. Üblich in modalem Jazz und zeitgenössischen Jazz-Kompositionen."
+      },
+      "vi—ii—V—I": {
+        "name": "vi—ii—V—I",
+        "nickname": "Minor Turnaround",
+        "description": "Beginnt auf parallelem Moll (vi) für dunkleren emotionalen Start, zykliert dann durch ii-V-I zur Auflösung zur Dur-Tonika. Der Kontrast zwischen Moll-Anfang und Dur-Auflösung erzeugt befriedigenden emotionalen Bogen, üblich in Jazz-Balladen."
+      },
+      "I—vi—IV—♯iv°—V": {
+        "name": "I—vi—IV—♯iv°—V",
+        "nickname": "Chromatic Turnaround",
+        "description": "Klassischer Turnaround mit Durchgangs-vermindertem Akkord. Das ♯iv° (erhöhte vierte vermindert) erzeugt chromatische Basslinie (I-vi-IV-♯iv°-V) und fügt harmonische Raffinesse hinzu. Der verminderte Akkord funktioniert als Dominante der Dominante und verstärkt die Auflösung zu V."
+      },
+      "iv—♭VII—I": {
+        "name": "iv—♭VII—I",
+        "nickname": "Backdoor",
+        "description": "Die \"Backdoor-Progression\" - nähert sich der Tonika von ♭VII statt von V. Entliehenes iv aus parallelem Moll fügt Farbe hinzu, ♭VII erzeugt Ganzton-Auflösung zu I (plagale Bewegung). Bietet Abwechslung vom konstanten ii-V-I, fügt unerwartete Frische zur Jazz-Harmonik hinzu."
+      },
+      "I—♯I°—ii—♯II°": {
+        "name": "I—♯I°—ii—♯II°",
+        "nickname": "Chromatic Walk",
+        "description": "Chromatisch aufsteigende Basslinie mit Durchgangs-verminderten Akkorden. Jeder verminderte Akkord verbindet diatonische Akkorde, die einen Ganzton auseinander liegen. Erzeugt geschmeidige Stimmführung und anspruchsvollen Sound, verwendet in Jazz-Intros und Zwischenspielen."
+      },
+      "IM7—♭IIIM7—♭VIM7—♭II7": {
+        "name": "IM7—♭IIIM7—♭VIM7—♭II7",
+        "nickname": "Giant Steps",
+        "description": "John Coltranes revolutionäre \"Giant Steps\"-Changes. Bewegt sich durch drei tonale Zentren, geteilt in große Terzen (I, ♭III, ♭VI). Das ♭II7 ist Tritonus-Substitution. Erzeugt maximale harmonische Bewegung, definierender Moment in der Jazz-Evolution."
+      }
+    },
+    "Classical/Modal": {
+      "I—IV—vii°—iii—vi—ii—V—I": {
+        "name": "I—IV—vii°—iii—vi—ii—V—I",
+        "nickname": "Circle of Fifths",
+        "description": "Progression complète du cercle des quintes. Chaque fondamentale d'accord descend d'une quinte juste (ou monte d'une quarte juste), démontrant l'attraction gravitationnelle de l'harmonie fonctionnelle. Progression pédagogique fondamentale montrant comment tous les accords diatoniques se relient."
+      },
+      "I—V—vi—iii—IV—I—IV—V": {
+        "name": "I—V—vi—iii—IV—I—IV—V",
+        "nickname": "Pachelbel Canon",
+        "description": "La célèbre progression du Canon en Ré de Johann Pachelbel. La ligne de basse descendante par degrés crée une conduite des voix élégante. La séquence est devenue un cliché par surutilisation mais reste pédagogiquement précieuse pour enseigner le contrepoint baroque et la technique de basse obstinée."
+      },
+      "i—♭VII—♭VI—V": {
+        "name": "i—♭VII—♭VI—V",
+        "nickname": "Andalusian",
+        "description": "La \"cadence andalouse\" du mode Phrygien. Le tétracorde descendant (motif de quatre notes) crée un caractère tragique espagnol. Tonique mineure vers ♭VII et ♭VI empruntés, se terminant sur V majeur. Utilisée dans le flamenco, la musique classique et de film pour une saveur méditerranéenne."
+      },
+      "i—♭VII—i—V": {
+        "name": "i—♭VII—i—V",
+        "nickname": "Passamezzo Antico",
+        "description": "Progression de danse Renaissance, \"vieux passamezzo\". La tonique mineure vers ♭VII emprunté crée une ambiguïté modale, le retour à i confirme le mineur, V majeur fournit la tension. Exemple précoce d'harmonie mineure i-V précédant la période de pratique courante."
+      },
+      "I—V—I—IV": {
+        "name": "I—V—I—IV",
+        "nickname": "Passamezzo Moderno",
+        "description": "\"Passamezzo moderne\" de la Renaissance - la version majeure. Assertion tonique-dominante, retour à la tonique, puis sous-dominante. Progression de danse simple mais efficace en mode majeur. Montre l'évolution de la pensée modale vers tonale au début de la période baroque."
+      },
+      "iv—♭VII—♭III—♭VI": {
+        "name": "iv—♭VII—♭III—♭VI",
+        "nickname": "Plagal Cascade",
+        "description": "Mouvement plagal (sous-dominant) descendant à travers des accords empruntés. Pas de dominante présente - toutes résolutions \"douces\". Crée une atmosphère modale sombre évitant les cadences fonctionnelles V-I. Populaire dans les musiques de film et le rock progressif pour une qualité ambiguë et dérivante."
+      },
+      "i—iv—♭VII—♭III": {
+        "name": "i—iv—♭VII—♭III",
+        "nickname": "Natural Minor",
+        "description": "Progression en mineur naturel pur (mode Éolien) utilisant des accords diatoniques. La tonique et sous-dominante mineures établissent la sensation mineure, ♭VII et ♭III sont caractéristiques du mineur naturel versus mineur harmonique. Crée une atmosphère mélancolique et modale sans résolution de sensible."
+      }
+    },
+    "Electronic/Modern": {
+      "i—♭VI—♭III—♭VII": {
+        "name": "i—♭VI—♭III—♭VII",
+        "nickname": "EDM Drop",
+        "description": "La progression du \"drop\" dans l'EDM moderne. La tonique mineure vers ♭VI emprunté crée un élan immédiat, ♭III ajoute une couleur optimiste, ♭VII fournit une énergie mixolydienne entraînante. Évite la dominante V pour une boucle hypnotique non-fonctionnelle. Parfait pour les montées et les bass drops."
+      },
+      "i—♭VII—♭VI—♭VII": {
+        "name": "i—♭VII—♭VI—♭VII",
+        "nickname": "Dark House",
+        "description": "Progression house mineure sombre. Les ♭VII et ♭VI empruntés du parallèle majeur créent une ambiguïté modale, évitant l'harmonie mineure traditionnelle. Le ♭VII oscille, créant tension sans résolution. Utilisée dans la tech house et la progressive house sombre pour une atmosphère menaçante."
+      },
+      "vi—IV—I—V": {
+        "name": "vi—IV—I—V",
+        "nickname": "Pop Loop",
+        "description": "Optimisée pour le bouclage électronique. Commence sur le mineur relatif pour une émotion immédiate, cycle à travers des changements pop familiers mais se termine sur V au lieu de IV, créant une attraction plus forte vers le début. Parfait pour des boucles de 4 mesures sans couture dans la pop électronique et la future bass."
+      },
+      "I—V—vi—IV—I—V—iii—IV": {
+        "name": "I—V—vi—IV—I—V—iii—IV",
+        "nickname": "Extended Pop",
+        "description": "Progression pop étendue de huit mesures. Les quatre premières mesures sont le classique \"Axis of Awesome\" I-V-vi-IV, les quatre secondes substituent iii à vi, créant une variation tout en maintenant la familiarité. Permet des montées plus longues et des arrangements plus complexes dans la production pop électronique."
+      },
+      "i—♭III—♭VII—i": {
+        "name": "i—♭III—♭VII—i",
+        "nickname": "Modal Interchange",
+        "description": "Démontre le concept d'échange modal. Tous les accords empruntés du parallèle majeur (♭III, ♭VII) mélangés avec i mineur naturel. Crée une tonalité moderne et ambiguë évitant la résolution traditionnelle V-i. Pierre angulaire de l'harmonie de la musique électronique contemporaine, du synthwave à la future bass."
+      },
+      "I—♭III—IV—♭VI": {
+        "name": "I—♭III—IV—♭VI",
+        "nickname": "Chromatic Mediant",
+        "description": "Explore les relations de médiantes chromatiques. I vers ♭III est un changement dramatique (fondamentales séparées d'une tierce majeure, pas dans la tonalité), IV est familier, ♭VI est une autre médiante chromatique. Crée un mouvement harmonique cinématographique et inattendu. Utilisée dans la progressive house et le melodic dubstep pour impact émotionnel."
+      },
+      "i—iv—v": {
+        "name": "i—iv—v",
+        "nickname": "Techno Minimal",
+        "description": "Palette mécanique épurée. Triades mineures et voicings quartaux pour des boucles hypnotiques."
+      },
+      "I—IV—V": {
+        "name": "I—IV—V",
+        "nickname": "Deep House",
+        "description": "Palette chaleureuse et jazzy. Riches accords de 7e pour des vibes deep house souful et groovy."
+      },
+      "IM7—IVM7—VM7": {
+        "name": "IM7—IVM7—VM7",
+        "nickname": "Ambient Wash",
+        "description": "Palette ouverte et flottante. 7es majeures/mineures et voicings quartaux pour des paysages sonores éthérés."
+      }
+    },
+    "R&B/Neo-Soul": {
+      "ii—V—IM7—vi": {
+        "name": "ii—V—IM7—vi",
+        "nickname": "Neo-Soul Standard",
+        "description": "Changements neo-soul influencés par le jazz. S'ouvre avec ii-V emprunté au jazz, résout vers IM7 (pas I simple) pour une couleur sophistiquée, l'accord vi trompeur ajoute de la mélancolie. Voicings d'accords de 7e riches essentiels. Définit le son de D'Angelo, Erykah Badu et le R&B moderne."
+      },
+      "IM7—iii7—vi7—ii7": {
+        "name": "IM7—iii7—vi7—ii7",
+        "nickname": "Smooth R&B",
+        "description": "Accords de 7e diatoniques descendants créent un son luxuriant et sophistiqué. Toutes 7es majeures et mineures, pas de tension dominante - qualité douce et flottante. Descend par tierces puis quartes, créant un mouvement vers l'avant doux. Parfait pour les slow jams et les ballades R&B contemporaines."
+      },
+      "I—IV—ii—V": {
+        "name": "I—IV—ii—V",
+        "nickname": "Classic R&B",
+        "description": "Combine la simplicité pop avec la sophistication jazz. I-IV est un mouvement plagal familier, ii-V est une cadence jazz classique. L'accord ii transforme le familier I-IV-V en quelque chose de plus raffiné. Fondement de Motown, Stax et de la soul classique des années 60 et 70."
+      },
+      "vi—ii—iii—IV": {
+        "name": "vi—ii—iii—IV",
+        "nickname": "Emotional Ballad",
+        "description": "Commence sur le mineur relatif pour une vulnérabilité immédiate, monte à travers ii et iii (tension croissante), résout vers IV (sous-dominante). Évite les accords évidents I et V, créant un arc émotionnel sophistiqué. Courant dans les ballades R&B modernes et neo-soul, permet la liberté mélodique."
+      },
+      "IM7—V7/IV—IVM7—iv": {
+        "name": "IM7—V7/IV—IVM7—iv",
+        "nickname": "Chromatic Soul",
+        "description": "Harmonie chromatique avancée. V7/IV est une dominante secondaire (dominante de IV), créant une tonicisation temporaire. IV majeur vers iv mineur est un changement chromatique emprunté du parallèle mineur. Crée une conduite des voix sophistiquée et une couleur harmonique caractéristique de Stevie Wonder et du neo-soul moderne."
+      },
+      "i—iv—♭VII—♭VI": {
+        "name": "i—iv—♭VII—♭VI",
+        "nickname": "Minor Soul",
+        "description": "Progression R&B en mode mineur. Le i-iv mineur naturel établit une fondation sombre, ♭VII et ♭VI empruntés du Dorien/Éolien créent une ambiguïté modale. Le mouvement plagal descendant évite la résolution dominante. Utilisé dans le R&B contemporain pour une atmosphère plus sombre et mélancolique."
+      },
+      "I—♯iv°—ii—V": {
+        "name": "I—♯iv°—ii—V",
+        "nickname": "Gospel Soul",
+        "description": "Accord de passage chromatique influencé par le gospel. Le ♯iv° (quatre augmenté diminué) crée une ligne de basse chromatique douce connectant I à ii, puis cadence classique ii-V. L'accord diminué fonctionne comme dominante de la dominante, ajoutant une sophistication harmonique empruntée à la tradition de l'église noire."
+      }
+    },
+    "Gospel/Worship": {
+      "I—V/ii—ii—V": {
+        "name": "I—V/ii—ii—V",
+        "nickname": "Gospel Turnaround",
+        "description": "Retournement gospel classique avec dominante secondaire. V/ii (dominante de ii) crée une approche chromatique de l'accord ii, puis cadence traditionnelle ii-V vers I. La dominante secondaire ajoute sophistication harmonique et momentum vers l'avant caractéristiques de la musique d'église noire et du gospel traditionnel."
+      },
+      "IV—V—iii—vi": {
+        "name": "IV—V—iii—vi",
+        "nickname": "Praise Progression",
+        "description": "Progression de louange et adoration élevante. Commence sur IV (sous-dominante) pour un élan immédiat plutôt que I, V ajoute de l'énergie, descend par iii vers vi créant une résolution douce. Évite d'arriver sur I, gardant l'énergie en mouvement vers l'avant. Courant dans les refrains de louange et adoration contemporains."
+      },
+      "I—IV—V/vi—vi": {
+        "name": "I—IV—V/vi—vi",
+        "nickname": "Contemporary Worship",
+        "description": "Progression d'adoration moderne avec dominante secondaire. Ouverture familière I-IV, V/vi (dominante de vi) approche chromatiquement le mineur relatif, créant une conduite des voix douce. L'arrivée sur vi ajoute introspection et émotion. Définit la musique chrétienne contemporaine de Hillsong à Bethel."
+      },
+      "ii—V—I—IV": {
+        "name": "ii—V—I—IV",
+        "nickname": "Church Cadence",
+        "description": "Combine l'harmonie jazz et hymne. S'ouvre avec une forte cadence ii-V-I empruntée au jazz (courant dans le gospel), ajoute le mouvement plagal IV-I de l'hymnodie traditionnelle. Les deux types de cadence créent une double résolution satisfaisante. Fondamental au piano gospel et au jeu d'orgue Hammond."
+      },
+      "I—V/V—V—vi—IV": {
+        "name": "I—V/V—V—vi—IV",
+        "nickname": "Gospel Rock",
+        "description": "Progression fusion gospel-rock. V/V (dominante de la dominante) crée une intensité chromatique approchant V, puis vi trompeur ajoute de l'émotion, IV complète le mouvement plagal. Combine le chromatisme gospel avec l'énergie rock. Utilisé dans le rock chrétien contemporain et la pop influencée par le gospel."
+      },
+      "IV—I—V—vi—IV—♭VII": {
+        "name": "IV—I—V—vi—IV—♭VII",
+        "nickname": "Extended Worship",
+        "description": "Progression d'adoration étendue de six mesures. S'ouvre sur la sous-dominante pour l'élan, cycle à travers des changements familiers, ajoute ♭VII emprunté à la fin pour couleur modale et saveur mixolydienne. L'extension permet des montées mélodiques et dynamiques plus longues courantes dans la production d'adoration moderne et les contextes live."
+      }
+    },
+    "Hip-Hop/Trap": {
+      "i—♭VI—♭VII": {
+        "name": "i—♭VI—♭VII",
+        "nickname": "Trap Minor",
+        "description": "Progression trap moderne essentielle. Tonique mineure avec ♭VI et ♭VII empruntés crée une atmosphère modale sombre. Boucle courte de trois accords parfaite pour les lignes de basse 808 et les roulements de charleston. Évite les cadences traditionnelles pour un son trap hypnotique et menaçant de Metro Boomin à Southside."
+      },
+      "i—♭III—♭VI—♭VII": {
+        "name": "i—♭III—♭VI—♭VII",
+        "nickname": "Dark Trap",
+        "description": "Progression trap sombre étendue. Tous les accords empruntés du mineur naturel - ♭III ajoute un moment d'espoir avant de descendre vers ♭VI et ♭VII. Boucle de quatre accords fournit plus de mouvement harmonique tout en maintenant une atmosphère menaçante. Utilisée dans le trap mélodique et la production hip-hop sombre."
+      },
+      "vi—IV—I": {
+        "name": "vi—IV—I",
+        "nickname": "Sad Trap",
+        "description": "Progression \"sad trap\" émotionnelle. Commence sur le mineur relatif pour la mélancolie, IV-I fournit une résolution familière. La simplicité de trois accords permet de se concentrer sur la mélodie et les 808. Définit l'emo-trap et le rap mélodique de Lil Peep à Juice WRLD, combinant production hip-hop avec vulnérabilité émotionnelle."
+      },
+      "i—♭VII—♭VI": {
+        "name": "i—♭VII—♭VI",
+        "nickname": "Lofi Hip-Hop",
+        "description": "Progression lofi hip-hop quintessentielle. La tonique mineure descend par ♭VII emprunté vers ♭VI, créant une atmosphère mélancolique et nostalgique. L'ambiguïté modale évite la résolution fonctionnelle. Parfait pour les samples jazzy, le craquement de vinyle et les beats chill pour étudier/relaxer. Fondement de l'esthétique lofi YouTube."
+      },
+      "i—iv—i—♭VI": {
+        "name": "i—iv—i—♭VI",
+        "nickname": "Boom Bap",
+        "description": "Progression hip-hop boom bap classique. Le i-iv mineur établit une humeur sombre, retour à i confirme la tonalité, ♭VI emprunté ajoute de la couleur avant la boucle. Changements simples et cycliques soutiennent la concentration sur les batteries et le sampling. Définit le hip-hop âge d'or de Premier à Pete Rock."
+      },
+      "i—♭III—iv—♭VI": {
+        "name": "i—♭III—iv—♭VI",
+        "nickname": "Emo Rap",
+        "description": "Progression émotionnelle emo rap. Tonique mineure vers ♭III crée un élan optimiste, iv mineur ajoute de la vulnérabilité, ♭VI fournit une couleur mélancolique. Mélange d'accords empruntés et de mineur diatonique crée une atmosphère émotionnellement complexe. Utilisé dans l'emo rap moderne et le hip-hop alternatif pour des paroles introspectives."
+      },
+      "I—♭III—♭VII—IV": {
+        "name": "I—♭III—♭VII—IV",
+        "nickname": "West Coast",
+        "description": "Progression G-funk West Coast. Tonique majeure avec ♭III chromatique (tierce majeure en dessous de la fondamentale), ♭VII ajoute une saveur funk, IV est la sous-dominante traditionnelle. Mélange de tonalité majeure avec emprunt modal crée le son décontracté influencé par Parliament de Dr. Dre, Snoop Dogg et l'ère G-funk."
+      },
+      "ii7—V7—IM7": {
+        "name": "ii7—V7—IM7",
+        "nickname": "Lofi Jazz",
+        "description": "Palette jazzy et nostalgique. Tous accords de 7e, pas de triades simples - vibes chaudes, poussiéreuses et vinyle."
+      },
+      "i—♭VII—iv": {
+        "name": "i—♭VII—iv",
+        "nickname": "Footwork Juke",
+        "description": "Palette frénétique de Chicago. Harmonie simple pour des rythmes hachés complexes à 160bpm."
+      }
+    },
+    "Latin/Bossa": {
+      "IM7—VI7—ii7—V7": {
+        "name": "IM7—VI7—ii7—V7",
+        "nickname": "Bossa Nova",
+        "description": "Changements bossa nova classiques. IM7 établit une tonalité jazzy, VI7 est une dominante secondaire chromatique (dominante de ii), puis ii7-V7 traditionnel. Tous les accords de 7e créent un son brésilien sophistiqué. Le VI7-ii7 crée une conduite des voix chromatique douce. Fondement de João Gilberto et Antonio Carlos Jobim."
+      },
+      "i—iv—V—i": {
+        "name": "i—iv—V—i",
+        "nickname": "Tango",
+        "description": "Progression tango argentin traditionnelle. Le i-iv mineur établit un caractère mélancolique, V majeur crée la tension (saveur de mineur harmonique), résout vers i. La résolution dramatique de mineur vers V majeur crée une qualité passionnée et désirante essentielle au tango. Pensez à Piazzolla et à la milonga traditionnelle."
+      },
+      "I—♭II—I—V": {
+        "name": "I—♭II—I—V",
+        "nickname": "Flamenco",
+        "description": "Cadence phrygienne flamenco. I majeur vers ♭II crée un clash de demi-ton caractéristique (mode Phrygien), retour à I, puis V. Le ♭II est le son flamenco le plus distinctif, créant un caractère espagnol/mauresque. Utilisé dans la rumba flamenca, les bulerías et les traditions de guitare espagnole."
+      },
+      "i—V—i—VII": {
+        "name": "i—V—i—VII",
+        "nickname": "Samba",
+        "description": "Progression samba brésilienne. Le i-V-i mineur établit la maison, VII majeur (du mineur naturel, pas harmonique) ajoute luminosité et mouvement vers l'avant vers i. Le VII naturel au lieu de la sensible crée un son modal, moins européen caractéristique de la musique populaire brésilienne et du pagode."
+      },
+      "I—V/ii—ii—V/V—V": {
+        "name": "I—V/ii—ii—V/V—V",
+        "nickname": "Latin Jazz",
+        "description": "Progression jazz latine avancée avec doubles dominantes secondaires. V/ii approche ii chromatiquement, V/V (dominante de la dominante) intensifie l'approche vers V. Crée un mouvement harmonique maximal à travers la conduite chromatique des voix. Utilisé dans le jazz latin, la salsa et le jazz afro-cubain pour une couleur sophistiquée."
+      },
+      "i—♭VII—♭VI—V": {
+        "name": "i—♭VII—♭VI—V",
+        "nickname": "Bolero",
+        "description": "Progression bolero romantique. Le i mineur avec ♭VII et ♭VI empruntés crée une descente mélancolique, puis V majeur fournit une tension dramatique. Les accords modaux empruntés combinés avec le V de mineur harmonique créent un caractère passionné. Fondement de la tradition bolero mexicaine et cubaine de Trio Los Panchos à Luis Miguel."
+      }
+    },
+    "Film/Cinematic": {
+      "I—♭VI—♭III—♭VII": {
+        "name": "I—♭VI—♭III—♭VII",
+        "nickname": "Epic Trailer",
+        "description": "Progression trailer épique moderne. Tonique majeure avec tous les accords bémol empruntés crée un son cinématographique massif. Les médiantes chromatiques (♭VI, ♭III) fournissent des changements harmoniques dramatiques, ♭VII ajoute la puissance mixolydienne. Définit Two Steps From Hell, les trailers Hans Zimmer et le marketing de films d'action modernes."
+      },
+      "i—♭VI—♭VII—i": {
+        "name": "i—♭VI—♭VII—i",
+        "nickname": "Dark Cinematic",
+        "description": "Progression de musique de film sombre et sinistre. Tonique mineure avec ♭VI et ♭VII empruntés crée une atmosphère inquiétante, retourne à i pour une tension cyclique. L'ambiguïté modale évite la résolution. Utilisée dans les musiques de thriller, d'horreur et de drame sombre pour une tension psychologique soutenue sans cadences traditionnelles."
+      },
+      "I—V—vi—♭VI—IV": {
+        "name": "I—V—vi—♭VI—IV",
+        "nickname": "Emotional Score",
+        "description": "Progression orchestrale émotionnelle. Commence avec des changements pop familiers I-V-vi, puis ♭VI (médiante chromatique) crée un changement émotionnel inattendu avant que IV ne résolve. Le ♭VI est le \"twist\" - moment dramatique dans le récit. Courant dans les apogées émotionnelles, les révélations de personnages et les musiques de film romantiques."
+      },
+      "i—♭III—♭VII—♭VI—V": {
+        "name": "i—♭III—♭VII—♭VI—V",
+        "nickname": "Heroic Theme",
+        "description": "Progression d'action montante héroïque. Le i mineur vers ♭III majeur crée un élan optimiste, ♭VII et ♭VI ajoutent de la couleur, V majeur (mineur harmonique) crée une résolution dramatique. Mélange d'emprunt modal et de V-i fonctionnel fournit à la fois portée épique et résolution satisfaisante. Utilisé pour les thèmes de héros et les moments triomphants."
+      },
+      "I—♭VII—♭VI—♭VII": {
+        "name": "I—♭VII—♭VI—♭VII",
+        "nickname": "Adventure",
+        "description": "Progression d'aventure et d'exploration. I majeur avec ♭VII mixolydien crée un son optimiste et ouvert. Le ♭VI ajoute une couleur mystérieuse, ♭VII oscille créant un mouvement vers l'avant. Évite les accords mineurs pour une sensation d'aventure pure. Pensez à Indiana Jones, comédies d'aventure et montages d'expédition."
+      },
+      "i—iv—♭VI—♭III": {
+        "name": "i—iv—♭VI—♭III",
+        "nickname": "Suspense",
+        "description": "Progression de suspense et de mystère. Le i-iv mineur établit la tension, ♭VI ajoute l'obscurité, ♭III fournit un bref espoir avant de boucler. Tous les accords empruntés/diatoniques mineurs évitent la résolution, maintenant un malaise constant. Parfait pour le travail de détective, les scènes de traque et la musique de fond de thriller psychologique."
+      },
+      "I—♭III—♭VI—♭II": {
+        "name": "I—♭III—♭VI—♭II",
+        "nickname": "Chromatic Film",
+        "description": "Progression de médiantes chromatiques extrême. Toutes les fondamentales sont des médiantes chromatiques (tierces majeures ou mineures de distance). Crée une instabilité et une surprise harmoniques maximales. Le ♭II (napolitain) est particulièrement frappant. Utilisé pour des scènes surréalistes, des séquences de rêve, des ruptures psychologiques et des musiques de film d'avant-garde."
+      }
+    },
+    "Folk/Singer-Songwriter": {
+      "I—IV—I—V": {
+        "name": "I—IV—I—V",
+        "nickname": "Folk Standard",
+        "description": "Progression folk simple et intemporelle. I-IV établit la maison, retour à I confirme la tonalité, V crée la tension pour le cycle suivant. Structure de phrase de deux mesures parfaite pour les chansons couplet-refrain. Fondement du folk américain de Woody Guthrie à Bob Dylan, met l'accent sur les paroles plutôt que la complexité harmonique."
+      },
+      "vi—IV—V—I": {
+        "name": "vi—IV—V—I",
+        "nickname": "Sad Folk",
+        "description": "Progression auteur-compositeur mélancolique. Commence sur le mineur relatif pour une ouverture introspective, IV-V-I crée un arc émotionnel ascendant vers la résolution. Courant dans le folk confessionnel et indie. L'arc de la tristesse (vi) à l'espoir (I) reflète la narration narrative. Pensez à Elliott Smith, Iron & Wine."
+      },
+      "I—V—IV—I": {
+        "name": "I—V—IV—I",
+        "nickname": "Country",
+        "description": "Progression country classique. I-V crée la tension, IV-I fournit une résolution de cadence plagale \"amen\". Le IV-I (sous-dominante-tonique) est plus doux que V-I, créant une sensation country chaleureuse et familière. Fondement de la country traditionnelle, du bluegrass et du honky-tonk de Hank Williams à Nashville moderne."
+      },
+      "I—iii—IV—V": {
+        "name": "I—iii—IV—V",
+        "nickname": "Classic Folk",
+        "description": "Progression folk ascendante. I vers iii crée un mouvement ascendant doux (relation de médiante), IV-V continue l'ascension vers I. Tous les accords diatoniques créent un son pur et consonant. L'accord iii ajoute de la sophistication au-delà du simple I-IV-V. Utilisé dans les ballades folk traditionnelles et les classiques auteur-compositeur."
+      },
+      "IV—V—I—vi": {
+        "name": "IV—V—I—vi",
+        "nickname": "Americana",
+        "description": "Progression roots americana. Commence sur IV (sous-dominante) pour une sensation ouverte et nostalgique, V-I fournit une cadence forte, vi trompeur ajoute de la mélancolie avant la boucle. Mélange d'optimisme (IV-V-I) et de tristesse (vi) capture le caractère americana doux-amer. Courant dans l'alt-country et l'americana de Wilco à Jason Isbell."
+      },
+      "I—V—vi—iii": {
+        "name": "I—V—vi—iii",
+        "nickname": "Irish Folk",
+        "description": "Progression folk celtique. Ouverture familière I-V, descend vers vi puis iii. Évite l'accord IV, créant une couleur différente des progressions pop typiques. Le motif de tierces descendantes (V-vi, vi-iii) crée un mouvement mélodique fluide caractéristique des ballades irlandaises et des traditions musicales celtiques."
+      },
+      "I—V—vi—IV": {
+        "name": "I—V—vi—IV",
+        "nickname": "Post-Rock Build",
+        "description": "Palette ouverte et évolutive. Accords majeurs, voicings quartaux, maj7 pour des montées texturales."
+      }
+    },
+    "Metal/Rock": {
+      "i—♭VI—♭VII—i": {
+        "name": "i—♭VI—♭VII—i",
+        "nickname": "Power Metal",
+        "description": "Progression power metal classique. Le i mineur naturel avec ♭VI et ♭VII empruntés, retourne à i pour le cycle. Tous power chords (pas de tierces) créent une qualité majeure/mineure ambiguë. Sensation entraînante et anthémique parfaite pour les rythmes galopants. Fondement d'Iron Maiden, Helloween et du power metal européen."
+      },
+      "i—♭III—♭VI—♭VII": {
+        "name": "i—♭III—♭VI—♭VII",
+        "nickname": "Doom Metal",
+        "description": "Progression doom metal descendante. Le i mineur vers ♭III majeur crée un bref espoir, descend par ♭VI vers ♭VII, évitant la résolution. Tempo lent et écrasant met l'accent sur l'obscurité modale. Tous les accords empruntés/mineur naturel créent une atmosphère oppressante. Caractéristique de Black Sabbath et de la tradition doom metal."
+      },
+      "i—v—♭VII—iv": {
+        "name": "i—v—♭VII—iv",
+        "nickname": "Prog Metal",
+        "description": "Progression metal progressif. Le i et v mineurs (v mineur naturel, pas V majeur) établissent un son modal, ♭VII ajoute de la couleur, iv mineur crée un mouvement plagal. Évite la résolution traditionnelle V-i pour une harmonie plus sophistiquée et modale. Utilisé dans le prog metal et le djent pour une tonalité complexe et ambiguë."
+      },
+      "i—♭II—i": {
+        "name": "i—♭II—i",
+        "nickname": "Thrash",
+        "description": "Progression thrash metal agressive. Le i mineur vers ♭II napolitain crée un clash de demi-ton et une tension extrême, retourne à i. Caractère chromatique et dissonant parfait pour des tempos rapides et des riffs agressifs. Le ♭II fournit une obscurité maximale. Caractéristique de Slayer, Metallica et de l'intensité thrash metal."
+      },
+      "i—♭VII—♭VI—V": {
+        "name": "i—♭VII—♭VI—V",
+        "nickname": "Melodic Metal",
+        "description": "Progression metal mélodique avec résolution de mineur harmonique. Descend par ♭VII et ♭VI empruntés, se termine sur V majeur (du mineur harmonique) créant une forte attraction vers i. Combine couleur modale avec cadence fonctionnelle. Utilisé dans le melodic death metal et le metal néoclassique pour un son dramatique influencé par le classique européen."
+      },
+      "i—iv—v—i": {
+        "name": "i—iv—v—i",
+        "nickname": "Minor Rock",
+        "description": "Progression rock en mineur naturel pur. Le i-iv-v mineur (tous mineurs/diminués de la gamme mineure naturelle) évite le V majeur du mineur harmonique. Crée un son plus sombre et plus modal que le mineur classique. Le v mineur naturel au lieu de V réduit la tension, créant une atmosphère plus lourde et moins résolue pour le heavy rock et le metal."
+      }
+    },
+    "Trance/Psytrance/Goa": {
+      "i—♭VII—i—♭VI": {
+        "name": "i—♭VII—i—♭VI",
+        "nickname": "Classic Goa",
+        "description": "Progression Goa trance quintessentielle. Le i mineur oscille avec ♭VII et ♭VI empruntés, créant une atmosphère modale hypnotique. Évite la résolution fonctionnelle, mettant l'accent sur la qualité cyclique et méditative. Les accords empruntés du mineur naturel créent le caractère psychédélique. Fondement de la Goa trance primitive de Goa Gil à Astral Projection."
+      },
+      "i—♭II—♭VII—i": {
+        "name": "i—♭II—♭VII—i",
+        "nickname": "Phrygian Dominant",
+        "description": "Progression de gamme Phrygien Dominant exotique. Le i mineur vers ♭II (napolitain) crée un caractère moyen-oriental/indien, ♭VII ajoute une couleur modale, retourne à i. Le clash de demi-ton ♭II crée une atmosphère mystique et spirituelle parfaite pour la trance psychédélique. Utilisé dans la psytrance pour un son ethnique et transcendant."
+      },
+      "i—V—♭VI—♭VII": {
+        "name": "i—V—♭VI—♭VII",
+        "nickname": "Uplifting Trance",
+        "description": "Arc émotionnel uplifting trance. Le i mineur vers V majeur (mineur harmonique) crée l'espoir, puis ♭VI et ♭VII ajoutent une couleur modale avant de cycler. Mélange de V fonctionnel et d'emprunt modal crée un élan et une libération euphoriques. Définit l'uplifting trance d'Armin van Buuren à Above & Beyond pour les pics émotionnels et les breakdowns."
+      },
+      "i—iv—VII—III": {
+        "name": "i—iv—VII—III",
+        "nickname": "Harmonic Minor Psy",
+        "description": "Progression psytrance en mineur harmonique pur. Utilise exclusivement la gamme mineure harmonique - i, iv, VII majeur, III majeur. La 7e élevée crée un intervalle de seconde augmentée exotique. Caractère dramatique est-européen. Le VII et III majeurs créent un mouvement ascendant lumineux contre la tonique mineure sombre pour un contraste psychédélique."
+      },
+      "i—♭VI—III—VII": {
+        "name": "i—♭VI—III—VII",
+        "nickname": "Dark Psy",
+        "description": "Progression dark psytrance mélangeant les modes. Le i mineur et ♭VI du mineur naturel, III et VII majeurs du mineur harmonique. Crée une ambiguïté et une tension harmoniques maximales. L'ascension de ♭VI par III vers VII construit l'intensité. Utilisé dans la dark psy et la forest trance pour une atmosphère sinistre et alien."
+      },
+      "i—♭III—♭VI—V": {
+        "name": "i—♭III—♭VI—V",
+        "nickname": "Progressive Psy",
+        "description": "Psytrance progressive avec résolution fonctionnelle. Les ♭III et ♭VI empruntés du mineur naturel créent une couleur modale, V majeur (mineur harmonique) fournit une forte attraction vers i. Combine son modal psychédélique avec résolution satisfaisante. Utilisé dans la psytrance progressive pour des montées et des libérations structurées."
+      },
+      "i—VII—VI—VII": {
+        "name": "i—VII—VI—VII",
+        "nickname": "Full-On",
+        "description": "Full-on psytrance avec luminosité de mineur harmonique. Le i mineur contraste avec VII et VI majeurs (du mineur harmonique), VII oscille pour une énergie entraînante. Les accords majeurs créent un caractère énergique et élevant malgré la tonique mineure. Caractéristique du son agressif et euphorique de la full-on psytrance à 140-148 BPM."
+      },
+      "i—♭II—VII—V": {
+        "name": "i—♭II—VII—V",
+        "nickname": "Goa Classic",
+        "description": "Goa trance classique avec gammes exotiques. Le i mineur vers ♭II (couleur phrygienne), VII et V majeurs du mineur harmonique. Mélange de Phrygien et mineur harmonique crée un son complexe influencé par l'Orient. Les intervalles chromatiques et exotiques créent le caractère spirituel et psychédélique de la scène Goa trance originale."
+      },
+      "i—iv—i—VII": {
+        "name": "i—iv—i—VII",
+        "nickname": "Forest Psy",
+        "description": "Progression forest psytrance organique. Le simple i-iv établit le caractère mineur, retour à i, VII majeur (mineur harmonique) ajoute de la luminosité. Changements d'accords minimaux concentrent l'attention sur les textures organiques et les rythmes complexes. Crée une atmosphère terrestre et naturelle caractéristique de la forest psytrance et des styles psy minimaux plus sombres."
+      },
+      "i—III—VII—IV": {
+        "name": "i—III—VII—IV",
+        "nickname": "Morning Trance",
+        "description": "Progression psytrance matinale lumineuse. Le i mineur contraste avec III, VII et IV majeurs (du mélange mineur harmonique/Dorien). Les accords majeurs créent une énergie optimiste de lever de soleil. Mouvement ascendant (i-III-VII) puis résolution vers IV crée un arc élevant. Utilisé dans les sets de psytrance matinaux pour une atmosphère positive et énergique au lever du soleil."
+      },
+      "i—v—♭VII": {
+        "name": "i—v—♭VII",
+        "nickname": "Minimal Trance",
+        "description": "Palette hypnotique et entraînante. Triades mineures et majeures avec 7es pour des boucles répétitives."
+      }
+    },
+    "Jungle/Drum'n'Bass": {
+      "i—♭VII—♭VI—V": {
+        "name": "i—♭VII—♭VI—V",
+        "nickname": "Liquid DnB",
+        "description": "Progression liquid drum and bass. Descend par ♭VII et ♭VI empruntés, résout avec V majeur (mineur harmonique). Crée une atmosphère émotionnelle et mélodique sur des breakbeats rapides. La résolution fonctionnelle V-i fournit une clôture satisfaisante malgré les accords sombres. Définit le liquid funk et le DnB atmosphérique pour un caractère soul et jazzy."
+      },
+      "i—♭III—♭VII—iv": {
+        "name": "i—♭III—♭VII—iv",
+        "nickname": "Neurofunk",
+        "description": "Progression neurofunk sombre. Le i mineur vers ♭III crée un changement chromatique, ♭VII et iv mineur ajoutent une obscurité modale. Évite le V majeur pour une atmosphère non résolue et mécanique. Crée un son sci-fi dystopique sur des lignes de basse reece complexes. Caractéristique du neurofunk et du tech step DnB de Noisia à Phace pour un son agressif et futuriste."
+      },
+      "i—v—♭VII—iv": {
+        "name": "i—v—♭VII—iv",
+        "nickname": "Jump-Up",
+        "description": "Progression jump-up drum and bass. Tous les accords mineurs/diminués du mineur naturel - i, v (pas V majeur), ♭VII, iv. Crée un caractère de ligne de basse rebondissante et roulante. Évite la résolution pour une énergie continue. Harmonie simple et fonctionnelle soutient la concentration sur les wobbles de basse et les samples ragga dans les styles jump-up et roller DnB."
+      },
+      "ii7—V7—IM7—vi7": {
+        "name": "ii7—V7—IM7—vi7",
+        "nickname": "Jazzstep",
+        "description": "Drum and bass intelligent influencé par le jazz. Progression jazz classique ii7-V7-IM7 avec vi7 trompeur. Tous les accords de 7e créent un son sophistiqué et atmosphérique. L'harmonie jazz sur des breakbeats rapides définit le DnB intelligent et le jazzstep. Utilisé par LTJ Bukem, Calibre et les producteurs de jungle atmosphérique pour une approche raffinée et musicale à 170+ BPM."
+      }
+    },
+    "Italo-Disco/House": {
+      "I—vi—IV—V": {
+        "name": "I—vi—IV—V",
+        "nickname": "Classic Italo",
+        "description": "Progression doo-wop des années 1950 réutilisée pour l'Italo disco. I-vi crée une mélancolie douce, IV-V complète le cercle. Changements simples et romantiques parfaits pour les arpèges de synthétiseur et les vocodeurs. Fondement de l'Italo disco des années 1980 de Gazebo à Baltimora, combinant nostalgie avec production futuriste."
+      },
+      "I—iii—vi—IV": {
+        "name": "I—iii—vi—IV",
+        "nickname": "Italo Romantic",
+        "description": "Progression Italo romantique. Descend de I par iii vers vi (tous par tierces), puis IV fournit un élan. Mouvement doux et fluide crée un caractère européen rêveur. L'accord iii ajoute de la sophistication au-delà de la pop typique. Utilisé dans les ballades Italo romantiques et les morceaux house émotionnels pour une atmosphère mélancolique et nostalgique."
+      },
+      "I—IV—V—iii": {
+        "name": "I—IV—V—iii",
+        "nickname": "Italo House",
+        "description": "Progression Italo house. I-IV-V classique avec iii inattendu au lieu de retourner à I. Crée une fin surprise avant la boucle, ajoutant de l'intérêt aux grooves four-on-the-floor. L'accord iii maintient l'énergie tout en variant la résolution I attendue. Pont entre l'Italo des années 80 et la production house italienne des années 90."
+      },
+      "vi—IV—I—V": {
+        "name": "vi—IV—I—V",
+        "nickname": "Italo Pop",
+        "description": "Progression Italo influencée par la pop. Commence sur le mineur relatif pour l'émotion, séquence familière vi-IV-I, se termine sur V pour une forte attraction vers le début. Crée une boucle parfaite pour la piste de danse. Cette progression est devenue omniprésente dans l'Europop des années 2000 et l'EDM, connectant la tradition Italo disco à la pop électronique moderne."
+      },
+      "I—V—vi—iii—IV—I": {
+        "name": "I—V—vi—iii—IV—I",
+        "nickname": "Extended Italo",
+        "description": "Progression Italo étendue de six mesures. Séquence descendante inspirée de Pachelbel I-V-vi-iii, puis IV-I fournit la clôture. La forme plus longue permet un développement mélodique et rythmique plus élaboré. Utilisée dans les morceaux Italo disco étendus et la progressive house pour construire tension et libération sur des périodes plus longues."
+      },
+      "IM7—vi7—IVM7—V7": {
+        "name": "IM7—vi7—IVM7—V7",
+        "nickname": "Smooth Italo",
+        "description": "Italo sophistiquée avec voicings jazz. I-vi-IV-V classique avec tous les accords de 7e crée un son luxuriant et doux. Les 7es majeures et mineures ajoutent une richesse harmonique au-delà des simples triades. Représente l'évolution de l'Italo vers une production plus raffinée. Utilisée dans la smooth house et le nu-disco pour un attrait sophistiqué sur la piste de danse."
+      },
+      "i—iv": {
+        "name": "i—iv",
+        "nickname": "Minimal House",
+        "description": "Palette hypnotique et épurée. Accords mineurs propres avec extensions de 7e subtiles."
+      }
+    },
+    "Synthwave/Retrowave": {
+      "i—♭VII—♭VI—V": {
+        "name": "i—♭VII—♭VI—V",
+        "nickname": "Outrun",
+        "description": "Progression synthwave outrun classique. Descend par ♭VII et ♭VI empruntés du mineur naturel, résout avec V majeur du mineur harmonique. Crée une atmosphère nostalgique des années 80 avec production moderne. La résolution V-i fournit une cadence satisfaisante. Définit le synthwave de Kavinsky à Mitch Murder pour un son rétro-futuriste."
+      },
+      "i—♭III—♭VII—♭VI": {
+        "name": "i—♭III—♭VII—♭VI",
+        "nickname": "Darkwave",
+        "description": "Progression synthwave sombre. Le i mineur avec tous les accords empruntés du mineur naturel crée une atmosphère menaçante. ♭III fournit un bref espoir avant de descendre vers ♭VII et ♭VI. Évite le V majeur pour un caractère plus sombre et non résolu. Utilisé dans le darksynth et le horror synth pour des paysages sonores cyberpunk dystopiques et menaçants."
+      },
+      "I—V—vi—IV": {
+        "name": "I—V—vi—IV",
+        "nickname": "Synthpop",
+        "description": "Progression synthpop moderne. L'omniprésent \"Axis of Awesome\" I-V-vi-IV réimaginé avec des synthétiseurs vintage. La tonalité majeure crée une nostalgie optimiste des années 80. Changements simples et accrocheurs parfaits pour les refrains vocaux et les mélodies de synthé. Connecte la new wave des années 80 au revival synthpop moderne et à l'électronique indie."
+      },
+      "i—v—♭VI—♭VII": {
+        "name": "i—v—♭VI—♭VII",
+        "nickname": "Cyberpunk",
+        "description": "Progression synthwave cyberpunk. Le i-v mineur naturel (v mineur, pas V majeur) établit une fondation modale sombre, ♭VI et ♭VII empruntés ajoutent une couleur dystopique. Évite la résolution fonctionnelle pour une atmosphère mécanique et futuriste. Parfait pour les thèmes sci-fi, les paysages urbains néon et les productions inspirées de Blade Runner."
+      },
+      "I—♭VII—♭VI—I": {
+        "name": "I—♭VII—♭VI—I",
+        "nickname": "Dreamwave",
+        "description": "Progression dreamwave avec saveur mixolydienne. I majeur avec ♭VII et ♭VI empruntés crée une atmosphère brumeuse et nostalgique, retourne à I. La tonique majeure avec accords bémol crée un caractère doux-amer. Qualité circulaire et méditative parfaite pour le synthwave ambiant et la chillwave pour des paysages sonores rétro rêveurs et éthérés."
+      },
+      "vi—IV—I—V": {
+        "name": "vi—IV—I—V",
+        "nickname": "Retrowave Pop",
+        "description": "Progression retrowave influencée par la pop. Commence sur le mineur relatif pour une profondeur émotionnelle, cycle à travers des changements familiers avec production années 80. Qualité accessible à chanter ensemble connecte le synthwave à la pop mainstream. Utilisé dans le retrowave radio-friendly et le synthpop pour un attrait commercial tout en maintenant l'esthétique rétro."
+      },
+      "i—♭VI—III—♭VII": {
+        "name": "i—♭VI—III—♭VII",
+        "nickname": "Dark Synth",
+        "description": "Progression dark synth agressive. Le i mineur et ♭VI emprunté du mineur naturel, III majeur du mineur harmonique crée un élan dramatique, ♭VII ajoute de la puissance. Mélange de modes crée un caractère complexe et menaçant. Utilisé dans le horror synth, la dark electro et les productions cyberpunk agressives pour une intensité et une obscurité maximales."
+      },
+      "IM7—iii7—vi7—IVM7": {
+        "name": "IM7—iii7—vi7—IVM7",
+        "nickname": "Vaporwave Dream",
+        "description": "Palette nostalgique et rêveuse. Tous accords de 7e pour une esthétique smooth jazz ralentie."
+      }
+    },
+    "African Dance": {
+      "I—IV—V—IV": {
+        "name": "I—IV—V—IV",
+        "nickname": "Soukous Sebene",
+        "description": "Progression \"sebene\" (pause instrumentale) soukous. Le I-IV-V majeur avec IV de retour crée une énergie circulaire et entraînante. Funk simple de trois accords parfait pour les lignes de guitare imbriquées complexes. L'oscillation V-IV crée un mouvement perpétuel pour danser. Fondement de la rumba congolaise et du soukous de Franco à Papa Wemba."
+      },
+      "I—IV—I—V": {
+        "name": "I—IV—I—V",
+        "nickname": "Soukous Classic",
+        "description": "Progression soukous classique. I-IV établit la relation tonique-sous-dominante, retour à I confirme la maison, V crée la tension pour le cycle suivant. Changements simples et répétitifs permettent de se concentrer sur les percussions polyrythmiques et l'interaction des guitares. Fondamental à la musique de danse congolaise et est-africaine pour un groove hypnotique et festif."
+      },
+      "I—♭VII—IV—I": {
+        "name": "I—♭VII—IV—I",
+        "nickname": "Soukous Modern",
+        "description": "Soukous moderne avec couleur modale. I majeur vers ♭VII emprunté crée une saveur mixolydienne, IV vers I complète la cadence plagale. Le ♭VII ajoute un côté contemporain tout en maintenant l'accessibilité pour la piste de danse. Représente l'évolution du soukous vers l'Afrobeat et la pop africaine contemporaine avec influences occidentales."
+      },
+      "I—IV—♭VII—I": {
+        "name": "I—IV—♭VII—I",
+        "nickname": "Makossa Funk",
+        "description": "Progression funk makossa camerounaise. I-IV est traditionnel, ♭VII emprunté ajoute une saveur funk avant de retourner à I. Tonalité majeure avec ♭VII modal crée un caractère optimiste et dansant. Le mouvement plagal (IV et ♭VII vers I) évite la dominante, créant une qualité douce et groovy. Fondement du makossa de Manu Dibango à l'Afropop moderne."
+      }
+    },
+    "UK Bass": {
+      "i—VII—♭VI": {
+        "name": "i—VII—♭VI",
+        "nickname": "UK Garage",
+        "description": "Palette soul et sautillante. Accords mineurs et majeurs pour des grooves 2-step sautillants."
+      },
+      "i—♭VI": {
+        "name": "i—♭VI",
+        "nickname": "Dubstep Wobble",
+        "description": "Palette sombre et agressive. Mineur, diminué, dom7 pour menace et basse maximales."
+      },
+      "i—♭VII—i": {
+        "name": "i—♭VII—i",
+        "nickname": "Breakbeat",
+        "description": "Palette Big Beat énergique. Mineurs et 7es dominantes pour des breaks lourds en samples."
+      }
+    },
+    "Reggae/Dub": {
+      "I—IV—I—V": {
+        "name": "I—IV—I—V",
+        "nickname": "Roots Dub",
+        "description": "Palette roots fondamentale. Majeurs et 7es dominantes pour des entraînements de ligne de basse lourds."
+      },
+      "I—V—IV": {
+        "name": "I—V—IV",
+        "nickname": "One Drop",
+        "description": "Fondation reggae classique. Triades majeures et dom7, pas de mineur pour une sensation authentique."
+      },
+      "i—♭VII—♭VI": {
+        "name": "i—♭VII—♭VI",
+        "nickname": "Steppers Dub",
+        "description": "Palette profonde et méditative. Mélange mineur et majeur pour des sessions dub steppers 4/4."
+      }
+    },
+    "Acid/EBM": {
+      "i—iv—♭VII—i": {
+        "name": "i—iv—♭VII—i",
+        "nickname": "EBM Classic",
+        "description": "Palette sombre et tendue. Mineur, diminué, dom7 pour la musique industrielle corporelle."
+      },
+      "i—♭VII—iv": {
+        "name": "i—♭VII—iv",
+        "nickname": "Acid 303",
+        "description": "Palette acid classique. 7es mineures et voicings quartaux pour le squelch TB-303."
+      }
+    }
+  }
+}
