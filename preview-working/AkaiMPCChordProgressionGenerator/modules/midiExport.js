@@ -86,7 +86,8 @@ export function generateMIDIFile(chords, progressionName, progressionChordIndice
 
         // Note Off events (all notes end after whole note duration)
         chord.notes.forEach((midiNote, noteIndex) => {
-            const deltaTime = noteIndex === chord.notes.length - 1 ? WHOLE_NOTE_TICKS : 0;
+            // First Note Off gets the duration delta, rest get 0 (simultaneous offs)
+            const deltaTime = noteIndex === 0 ? WHOLE_NOTE_TICKS : 0;
             trackEvents.push(
                 ...encodeVariableLength(deltaTime),
                 0x80, // Note Off, channel 1
