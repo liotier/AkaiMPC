@@ -56,6 +56,30 @@
     "midiOutput": "MIDI Output:",
     "midiOutputNone": "Browser beep (no MIDI)"
   },
+  "variants": {
+    "Smooth": {
+      "label": "Smooth Voice Leading",
+      "tooltip": "Smooth variant: Maximizes common tones, step-wise motion, and contrary motion. Evaluates hundreds of voicings to find the smoothest transitions between chords."
+    },
+    "Classic": {
+      "label": "Voice Leading",
+      "tooltip": "Classic variant: Optimized for smooth voice leading between chords. Minimal note movement creates natural, flowing progressions."
+    },
+    "Jazz": {
+      "label": "Close Voicing",
+      "tooltip": "Jazz variant: Uses close voicings with notes within an octave. Creates rich, dense harmonies typical of jazz piano comping."
+    },
+    "Modal": {
+      "label": "Open Voicing",
+      "tooltip": "Modal variant: Features open voicings with wider intervals between notes. Produces spacious, airy textures ideal for modal harmony."
+    },
+    "Experimental": {
+      "label": "Spread Voicing",
+      "tooltip": "Experimental variant: Uses spread voicings across multiple octaves. Creates unique, unconventional harmonic colors and textures."
+    },
+    "progressionClarification": "Chords 1-{{count}} from progression, {{next}}-16 extrapolated. ",
+    "chordDistanceHint": "Colors of cards show chord distance from selected card"
+  },
   "footer": {
     "cousin": "Cousin to the",
     "finderLink": "MPC Chord Progression Finder",

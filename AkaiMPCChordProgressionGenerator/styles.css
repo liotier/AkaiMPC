@@ -27,22 +27,23 @@ body {
 }
 
 .app {
-    padding: 20px;
+    padding: 12px 20px 20px 20px;
     max-width: 1400px;
     margin: 0 auto;
 }
 
 .header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 24px;
     position: relative;
+    padding-top: 8px;
 }
 
 .language-switcher {
     position: absolute;
-    top: 0;
+    top: 8px;
     right: 0;
     z-index: 10;
 }
@@ -84,7 +85,7 @@ h1 {
     border: 2px dashed var(--accent);
     border-radius: var(--radius);
     padding: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 }
 
 .chord-matcher-header {

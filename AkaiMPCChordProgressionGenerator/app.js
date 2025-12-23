@@ -1994,34 +1994,16 @@ function renderProgressions() {
         // Calculate progression length for clarification text
         const progressionChordCount = variant.pads.filter(p => p.isProgressionChord).length;
         const progressionClarification = progressionChordCount > 0
-            ? `Chords 1-${progressionChordCount} from progression, ${progressionChordCount + 1}-16 extrapolated. `
+            ? i18n.t('variants.progressionClarification', { count: progressionChordCount, next: progressionChordCount + 1 })
             : '';
 
         // Add voicing style annotation
         let voicingStyle = '';
         let uniquenessTooltip = '';
 
-        switch (variant.name) {
-            case 'Smooth':
-                voicingStyle = 'Smooth Voice Leading';
-                uniquenessTooltip = 'Smooth variant: Maximizes common tones, step-wise motion, and contrary motion. Evaluates hundreds of voicings to find the smoothest transitions between chords.';
-                break;
-            case 'Classic':
-                voicingStyle = 'Voice Leading';
-                uniquenessTooltip = 'Classic variant: Optimized for smooth voice leading between chords. Minimal note movement creates natural, flowing progressions.';
-                break;
-            case 'Jazz':
-                voicingStyle = 'Close Voicing';
-                uniquenessTooltip = 'Jazz variant: Uses close voicings with notes within an octave. Creates rich, dense harmonies typical of jazz piano comping.';
-                break;
-            case 'Modal':
-                voicingStyle = 'Open Voicing';
-                uniquenessTooltip = 'Modal variant: Features open voicings with wider intervals between notes. Produces spacious, airy textures ideal for modal harmony.';
-                break;
-            case 'Experimental':
-                voicingStyle = 'Spread Voicing';
-                uniquenessTooltip = 'Experimental variant: Uses spread voicings across multiple octaves. Creates unique, unconventional harmonic colors and textures.';
-                break;
+        if (variant.name && i18n.t(`variants.${variant.name}.label`)) {
+            voicingStyle = i18n.t(`variants.${variant.name}.label`);
+            uniquenessTooltip = i18n.t(`variants.${variant.name}.tooltip`);
         }
 
         card.innerHTML = `
@@ -2038,7 +2020,7 @@ function renderProgressions() {
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
                         ${progressionAnalysis ? `<span class="analysis">${progressionAnalysis}</span>` : ''}
-                        <span class="voice-leading-hint">${progressionClarification}Colors of cards show chord distance from selected card</span>
+                        <span class="voice-leading-hint">${progressionClarification}${i18n.t('variants.chordDistanceHint')}</span>
                     </div>
                 </div>
                 <button class="download-btn" data-variant-index="${index}">
@@ -2048,7 +2030,7 @@ function renderProgressions() {
                 </button>
             </div>
             <div class="chord-grid">${gridHTML}</div>
-            <div class="voice-leading-hint-bottom">${progressionClarification}Colors of cards show chord distance from selected card</div>
+            <div class="voice-leading-hint-bottom">${progressionClarification}${i18n.t('variants.chordDistanceHint')}</div>
         `;
 
         container.appendChild(card);
