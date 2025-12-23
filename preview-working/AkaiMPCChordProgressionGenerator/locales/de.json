@@ -456,121 +456,121 @@
       "I—IV—vii°—iii—vi—ii—V—I": {
         "name": "I—IV—vii°—iii—vi—ii—V—I",
         "nickname": "Circle of Fifths",
-        "description": "Progression complète du cercle des quintes. Chaque fondamentale d'accord descend d'une quinte juste (ou monte d'une quarte juste), démontrant l'attraction gravitationnelle de l'harmonie fonctionnelle. Progression pédagogique fondamentale montrant comment tous les accords diatoniques se relient."
+        "description": "Vollständige Quintenzirkel-Progression. Jeder Akkordgrundton fällt um eine reine Quinte (oder steigt um eine reine Quarte) und demonstriert den Gravitationszug der funktionalen Harmonik. Fundamentale pädagogische Progression, die zeigt, wie sich alle diatonischen Akkorde zueinander verhalten."
       },
       "I—V—vi—iii—IV—I—IV—V": {
         "name": "I—V—vi—iii—IV—I—IV—V",
         "nickname": "Pachelbel Canon",
-        "description": "La célèbre progression du Canon en Ré de Johann Pachelbel. La ligne de basse descendante par degrés crée une conduite des voix élégante. La séquence est devenue un cliché par surutilisation mais reste pédagogiquement précieuse pour enseigner le contrepoint baroque et la technique de basse obstinée."
+        "description": "Johann Pachelbels berühmte Kanon in D-Progression. Stufenweise absteigende Basslinie erzeugt elegante Stimmführung. Die Sequenz wurde durch Übernutzung zum Klischee, bleibt aber pädagogisch wertvoll für das Unterrichten von barockem Kontrapunkt und Ostinato-Bass-Technik."
       },
       "i—♭VII—♭VI—V": {
         "name": "i—♭VII—♭VI—V",
         "nickname": "Andalusian",
-        "description": "La \"cadence andalouse\" du mode Phrygien. Le tétracorde descendant (motif de quatre notes) crée un caractère tragique espagnol. Tonique mineure vers ♭VII et ♭VI empruntés, se terminant sur V majeur. Utilisée dans le flamenco, la musique classique et de film pour une saveur méditerranéenne."
+        "description": "Die \"andalusische Kadenz\" aus dem phrygischen Modus. Absteigender Tetrachord (Vier-Noten-Muster) erzeugt tragischen spanischen Charakter. Moll-Tonika zu entliehenen ♭VII und ♭VI, endend auf Dur-V. Verwendet in Flamenco, klassischer Musik und Filmmusik für mediterranes Flair."
       },
       "i—♭VII—i—V": {
         "name": "i—♭VII—i—V",
         "nickname": "Passamezzo Antico",
-        "description": "Progression de danse Renaissance, \"vieux passamezzo\". La tonique mineure vers ♭VII emprunté crée une ambiguïté modale, le retour à i confirme le mineur, V majeur fournit la tension. Exemple précoce d'harmonie mineure i-V précédant la période de pratique courante."
+        "description": "Renaissance-Tanz-Progression, \"alter Passamezzo\". Moll-Tonika zu entliehenem ♭VII erzeugt modale Mehrdeutigkeit, Rückkehr zu i bestätigt Moll, Dur-V liefert Spannung. Frühes Beispiel für i-V-Moll-Harmonik vor der Wiener Klassik."
       },
       "I—V—I—IV": {
         "name": "I—V—I—IV",
         "nickname": "Passamezzo Moderno",
-        "description": "\"Passamezzo moderne\" de la Renaissance - la version majeure. Assertion tonique-dominante, retour à la tonique, puis sous-dominante. Progression de danse simple mais efficace en mode majeur. Montre l'évolution de la pensée modale vers tonale au début de la période baroque."
+        "description": "Renaissance \"moderner Passamezzo\" - die Dur-Version. Tonika-Dominante-Assertion, Rückkehr zur Tonika, dann Subdominante. Einfache, aber effektive Dur-Tanz-Progression. Zeigt die Evolution vom modalen zum tonalen Denken im Frühbarock."
       },
       "iv—♭VII—♭III—♭VI": {
         "name": "iv—♭VII—♭III—♭VI",
         "nickname": "Plagal Cascade",
-        "description": "Mouvement plagal (sous-dominant) descendant à travers des accords empruntés. Pas de dominante présente - toutes résolutions \"douces\". Crée une atmosphère modale sombre évitant les cadences fonctionnelles V-I. Populaire dans les musiques de film et le rock progressif pour une qualité ambiguë et dérivante."
+        "description": "Absteigende plagale (subdominantische) Bewegung durch entliehene Akkorde. Keine Dominante vorhanden - alles \"weiche\" Auflösungen. Erzeugt dunkle modale Atmosphäre, die funktionale V-I-Kadenzen vermeidet. Beliebt in Filmmusik und Progressive Rock für mehrdeutige, treibende Qualität."
       },
       "i—iv—♭VII—♭III": {
         "name": "i—iv—♭VII—♭III",
         "nickname": "Natural Minor",
-        "description": "Progression en mineur naturel pur (mode Éolien) utilisant des accords diatoniques. La tonique et sous-dominante mineures établissent la sensation mineure, ♭VII et ♭III sont caractéristiques du mineur naturel versus mineur harmonique. Crée une atmosphère mélancolique et modale sans résolution de sensible."
+        "description": "Reine natürliche Moll-Progression (äolischer Modus) mit diatonischen Akkorden. Moll-Tonika und Subdominante etablieren Moll-Gefühl, ♭VII und ♭III sind charakteristisch für natürliches Moll gegenüber harmonischem Moll. Erzeugt melancholische, modale Atmosphäre ohne Leitton-Auflösung."
       }
     },
     "Electronic/Modern": {
       "i—♭VI—♭III—♭VII": {
         "name": "i—♭VI—♭III—♭VII",
         "nickname": "EDM Drop",
-        "description": "La progression du \"drop\" dans l'EDM moderne. La tonique mineure vers ♭VI emprunté crée un élan immédiat, ♭III ajoute une couleur optimiste, ♭VII fournit une énergie mixolydienne entraînante. Évite la dominante V pour une boucle hypnotique non-fonctionnelle. Parfait pour les montées et les bass drops."
+        "description": "Die \"Drop\"-Progression in modernem EDM. Moll-Tonika zu entliehenem ♭VI erzeugt sofortigen Auftrieb, ♭III fügt hoffnungsvolle Farbe hinzu, ♭VII liefert treibende mixolydische Energie. Vermeidet Dominante V für hypnotische, nicht-funktionale Schleife. Perfekt für Build-ups und Bass-Drops."
       },
       "i—♭VII—♭VI—♭VII": {
         "name": "i—♭VII—♭VI—♭VII",
         "nickname": "Dark House",
-        "description": "Progression house mineure sombre. Les ♭VII et ♭VI empruntés du parallèle majeur créent une ambiguïté modale, évitant l'harmonie mineure traditionnelle. Le ♭VII oscille, créant tension sans résolution. Utilisée dans la tech house et la progressive house sombre pour une atmosphère menaçante."
+        "description": "Dunkle Moll-House-Progression. Entliehene ♭VII und ♭VI aus parallelem Dur erzeugen modale Mehrdeutigkeit und vermeiden traditionelle Moll-Harmonik. Das ♭VII oszilliert und erzeugt Spannung ohne Auflösung. Verwendet in Tech House und dunklem Progressive House für düstere Atmosphäre."
       },
       "vi—IV—I—V": {
         "name": "vi—IV—I—V",
         "nickname": "Pop Loop",
-        "description": "Optimisée pour le bouclage électronique. Commence sur le mineur relatif pour une émotion immédiate, cycle à travers des changements pop familiers mais se termine sur V au lieu de IV, créant une attraction plus forte vers le début. Parfait pour des boucles de 4 mesures sans couture dans la pop électronique et la future bass."
+        "description": "Optimiert für elektronisches Looping. Beginnt auf parallelem Moll für sofortige Emotion, zykliert durch vertraute Pop-Changes, endet aber auf V statt IV und erzeugt stärkeren Zug zum Anfang. Perfekt für nahtlose 4-Takt-Loops in elektronischem Pop und Future Bass."
       },
       "I—V—vi—IV—I—V—iii—IV": {
         "name": "I—V—vi—IV—I—V—iii—IV",
         "nickname": "Extended Pop",
-        "description": "Progression pop étendue de huit mesures. Les quatre premières mesures sont le classique \"Axis of Awesome\" I-V-vi-IV, les quatre secondes substituent iii à vi, créant une variation tout en maintenant la familiarité. Permet des montées plus longues et des arrangements plus complexes dans la production pop électronique."
+        "description": "Achttaktige erweiterte Pop-Progression. Erste vier Takte sind klassisches \"Axis of Awesome\" I-V-vi-IV, zweite vier Takte ersetzen iii für vi und erzeugen Variation bei gleichzeitiger Vertrautheit. Ermöglicht längere Builds und komplexere Arrangements in elektronischer Pop-Produktion."
       },
       "i—♭III—♭VII—i": {
         "name": "i—♭III—♭VII—i",
         "nickname": "Modal Interchange",
-        "description": "Démontre le concept d'échange modal. Tous les accords empruntés du parallèle majeur (♭III, ♭VII) mélangés avec i mineur naturel. Crée une tonalité moderne et ambiguë évitant la résolution traditionnelle V-i. Pierre angulaire de l'harmonie de la musique électronique contemporaine, du synthwave à la future bass."
+        "description": "Demonstriert modalen Austausch-Konzept. Alle Akkorde aus parallelem Dur (♭III, ♭VII) gemischt mit natürlichem Moll i. Erzeugt moderne, mehrdeutige Tonalität, die traditionelle V-i-Auflösung vermeidet. Eckpfeiler zeitgenössischer elektronischer Musikharmonik, von Synthwave bis Future Bass."
       },
       "I—♭III—IV—♭VI": {
         "name": "I—♭III—IV—♭VI",
         "nickname": "Chromatic Mediant",
-        "description": "Explore les relations de médiantes chromatiques. I vers ♭III est un changement dramatique (fondamentales séparées d'une tierce majeure, pas dans la tonalité), IV est familier, ♭VI est une autre médiante chromatique. Crée un mouvement harmonique cinématographique et inattendu. Utilisée dans la progressive house et le melodic dubstep pour impact émotionnel."
+        "description": "Erkundet chromatische Mediant-Beziehungen. I zu ♭III ist dramatischer Wechsel (Grundtöne eine große Terz auseinander, nicht in der Tonart), IV ist vertraut, ♭VI ist eine weitere chromatische Mediante. Erzeugt filmische, unerwartete harmonische Bewegung. Verwendet in Progressive House und Melodic Dubstep für emotionale Wirkung."
       },
       "i—iv—v": {
         "name": "i—iv—v",
         "nickname": "Techno Minimal",
-        "description": "Palette mécanique épurée. Triades mineures et voicings quartaux pour des boucles hypnotiques."
+        "description": "Sparsame, mechanische Palette. Moll-Dreiklänge und Quartenvoicings für hypnotische Loops."
       },
       "I—IV—V": {
         "name": "I—IV—V",
         "nickname": "Deep House",
-        "description": "Palette chaleureuse et jazzy. Riches accords de 7e pour des vibes deep house souful et groovy."
+        "description": "Warme, jazzige Palette. Satte 7-Akkorde für soulful, groovige Deep-House-Vibes."
       },
       "IM7—IVM7—VM7": {
         "name": "IM7—IVM7—VM7",
         "nickname": "Ambient Wash",
-        "description": "Palette ouverte et flottante. 7es majeures/mineures et voicings quartaux pour des paysages sonores éthérés."
+        "description": "Offene, schwebende Palette. Dur/Moll-7en und Quartenvoicings für ätherische Klanglandschaften."
       }
     },
     "R&B/Neo-Soul": {
       "ii—V—IM7—vi": {
         "name": "ii—V—IM7—vi",
         "nickname": "Neo-Soul Standard",
-        "description": "Changements neo-soul influencés par le jazz. S'ouvre avec ii-V emprunté au jazz, résout vers IM7 (pas I simple) pour une couleur sophistiquée, l'accord vi trompeur ajoute de la mélancolie. Voicings d'accords de 7e riches essentiels. Définit le son de D'Angelo, Erykah Badu et le R&B moderne."
+        "description": "Jazz-beeinflusste Neo-Soul-Changes. Öffnet mit ii-V aus Jazz entliehen, löst zu IM7 auf (nicht einfaches I) für anspruchsvolle Farbe, trügerischer vi-Akkord fügt Melancholie hinzu. Satte 7-Akkord-Voicings essentiell. Definiert den Sound von D'Angelo, Erykah Badu und modernem R&B."
       },
       "IM7—iii7—vi7—ii7": {
         "name": "IM7—iii7—vi7—ii7",
         "nickname": "Smooth R&B",
-        "description": "Accords de 7e diatoniques descendants créent un son luxuriant et sophistiqué. Toutes 7es majeures et mineures, pas de tension dominante - qualité douce et flottante. Descend par tierces puis quartes, créant un mouvement vers l'avant doux. Parfait pour les slow jams et les ballades R&B contemporaines."
+        "description": "Absteigende diatonische 7-Akkorde erzeugen üppigen, anspruchsvollen Sound. Alle Dur- und Moll-7en, keine Dominantspannung - geschmeidige, schwebende Qualität. Steigt in Terzen und dann Quarten ab und erzeugt sanfte Vorwärtsbewegung. Perfekt für Slow Jams und zeitgenössische R&B-Balladen."
       },
       "I—IV—ii—V": {
         "name": "I—IV—ii—V",
         "nickname": "Classic R&B",
-        "description": "Combine la simplicité pop avec la sophistication jazz. I-IV est un mouvement plagal familier, ii-V est une cadence jazz classique. L'accord ii transforme le familier I-IV-V en quelque chose de plus raffiné. Fondement de Motown, Stax et de la soul classique des années 60 et 70."
+        "description": "Kombiniert Pop-Einfachheit mit Jazz-Raffinesse. I-IV ist vertraute plagale Bewegung, ii-V ist klassische Jazz-Kadenz. Der ii-Akkord verwandelt das vertraute I-IV-V in etwas Raffinierteres. Grundlage von Motown, Stax und klassischer Soul der 60er und 70er."
       },
       "vi—ii—iii—IV": {
         "name": "vi—ii—iii—IV",
         "nickname": "Emotional Ballad",
-        "description": "Commence sur le mineur relatif pour une vulnérabilité immédiate, monte à travers ii et iii (tension croissante), résout vers IV (sous-dominante). Évite les accords évidents I et V, créant un arc émotionnel sophistiqué. Courant dans les ballades R&B modernes et neo-soul, permet la liberté mélodique."
+        "description": "Beginnt auf parallelem Moll für sofortige Verletzlichkeit, steigt durch ii und iii auf (zunehmende Spannung), löst zu IV (Subdominante) auf. Vermeidet offensichtliche I- und V-Akkorde und erzeugt anspruchsvollen emotionalen Bogen. Üblich in modernen R&B- und Neo-Soul-Balladen, erlaubt melodische Freiheit."
       },
       "IM7—V7/IV—IVM7—iv": {
         "name": "IM7—V7/IV—IVM7—iv",
         "nickname": "Chromatic Soul",
-        "description": "Harmonie chromatique avancée. V7/IV est une dominante secondaire (dominante de IV), créant une tonicisation temporaire. IV majeur vers iv mineur est un changement chromatique emprunté du parallèle mineur. Crée une conduite des voix sophistiquée et une couleur harmonique caractéristique de Stevie Wonder et du neo-soul moderne."
+        "description": "Fortgeschrittene chromatische Harmonik. V7/IV ist Sekundärdominante (Dominante von IV) und erzeugt temporäre Tonikalisierung. Dur-IV zu Moll-iv ist chromatischer Wechsel aus parallelem Moll entliehen. Erzeugt anspruchsvolle Stimmführung und harmonische Farbe charakteristisch für Stevie Wonder und modernen Neo-Soul."
       },
       "i—iv—♭VII—♭VI": {
         "name": "i—iv—♭VII—♭VI",
         "nickname": "Minor Soul",
-        "description": "Progression R&B en mode mineur. Le i-iv mineur naturel établit une fondation sombre, ♭VII et ♭VI empruntés du Dorien/Éolien créent une ambiguïté modale. Le mouvement plagal descendant évite la résolution dominante. Utilisé dans le R&B contemporain pour une atmosphère plus sombre et mélancolique."
+        "description": "R&B-Progression im Moll-Modus. Natürliches Moll i-iv etabliert dunkles Fundament, entliehene ♭VII und ♭VI aus Dorisch/Äolisch erzeugen modale Mehrdeutigkeit. Absteigende plagale Bewegung vermeidet Dominant-Auflösung. Verwendet in zeitgenössischem R&B für dunklere, melancholischere Atmosphäre."
       },
       "I—♯iv°—ii—V": {
         "name": "I—♯iv°—ii—V",
         "nickname": "Gospel Soul",
-        "description": "Accord de passage chromatique influencé par le gospel. Le ♯iv° (quatre augmenté diminué) crée une ligne de basse chromatique douce connectant I à ii, puis cadence classique ii-V. L'accord diminué fonctionne comme dominante de la dominante, ajoutant une sophistication harmonique empruntée à la tradition de l'église noire."
+        "description": "Gospel-beeinflusster chromatischer Durchgangsakkord. Das ♯iv° (erhöhte vierte vermindert) erzeugt geschmeidige chromatische Basslinie, die I mit ii verbindet, dann klassische ii-V-Kadenz. Der verminderte Akkord funktioniert als Dominante der Dominante und fügt harmonische Raffinesse aus schwarzer Kirchentradition hinzu."
       }
     },
     "Gospel/Worship": {
