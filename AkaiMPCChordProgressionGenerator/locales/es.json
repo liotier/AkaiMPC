@@ -609,47 +609,47 @@
       "i—♭VI—♭VII": {
         "name": "i—♭VI—♭VII",
         "nickname": "Trap Minor",
-        "description": "Progression trap moderne essentielle. Tonique mineure avec ♭VI et ♭VII empruntés crée une atmosphère modale sombre. Boucle courte de trois accords parfaite pour les lignes de basse 808 et les roulements de charleston. Évite les cadences traditionnelles pour un son trap hypnotique et menaçant de Metro Boomin à Southside."
+        "description": "Progresión trap moderna esencial. Tónica menor con ♭VI y ♭VII prestados crea atmósfera modal oscura. Bucle corto de tres acordes perfecto para líneas de bajo 808 y rolls de hi-hat. Evita cadencias tradicionales para sonido trap hipnótico y amenazante desde Metro Boomin hasta Southside."
       },
       "i—♭III—♭VI—♭VII": {
         "name": "i—♭III—♭VI—♭VII",
         "nickname": "Dark Trap",
-        "description": "Progression trap sombre étendue. Tous les accords empruntés du mineur naturel - ♭III ajoute un moment d'espoir avant de descendre vers ♭VI et ♭VII. Boucle de quatre accords fournit plus de mouvement harmonique tout en maintenant une atmosphère menaçante. Utilisée dans le trap mélodique et la production hip-hop sombre."
+        "description": "Progresión dark trap extendida. Todos acordes prestados de menor natural - ♭III añade momento esperanzador antes de descender a ♭VI y ♭VII. Bucle de cuatro acordes proporciona más movimiento armónico manteniendo atmósfera amenazante. Usado en trap melódico y producción hip-hop oscura."
       },
       "vi—IV—I": {
         "name": "vi—IV—I",
         "nickname": "Sad Trap",
-        "description": "Progression \"sad trap\" émotionnelle. Commence sur le mineur relatif pour la mélancolie, IV-I fournit une résolution familière. La simplicité de trois accords permet de se concentrer sur la mélodie et les 808. Définit l'emo-trap et le rap mélodique de Lil Peep à Juice WRLD, combinant production hip-hop avec vulnérabilité émotionnelle."
+        "description": "Progresión emocional \"sad trap\". Comienza en menor relativa para melancolía, IV-I proporciona resolución familiar. Simplicidad de tres acordes permite foco en melodía y 808s. Define emo-trap y rap melódico desde Lil Peep hasta Juice WRLD, combinando producción hip-hop con vulnerabilidad emocional."
       },
       "i—♭VII—♭VI": {
         "name": "i—♭VII—♭VI",
         "nickname": "Lofi Hip-Hop",
-        "description": "Progression lofi hip-hop quintessentielle. La tonique mineure descend par ♭VII emprunté vers ♭VI, créant une atmosphère mélancolique et nostalgique. L'ambiguïté modale évite la résolution fonctionnelle. Parfait pour les samples jazzy, le craquement de vinyle et les beats chill pour étudier/relaxer. Fondement de l'esthétique lofi YouTube."
+        "description": "Progresión lofi hip-hop quintesencial. Tónica menor desciende a través de ♭VII prestado a ♭VI, creando atmósfera melancólica y nostálgica. Ambigüedad modal evita resolución funcional. Perfecto para samples jazzísticos, crujido de vinilo y chill beats para estudiar/relajarse. Fundamento de la estética lofi de YouTube."
       },
       "i—iv—i—♭VI": {
         "name": "i—iv—i—♭VI",
         "nickname": "Boom Bap",
-        "description": "Progression hip-hop boom bap classique. Le i-iv mineur établit une humeur sombre, retour à i confirme la tonalité, ♭VI emprunté ajoute de la couleur avant la boucle. Changements simples et cycliques soutiennent la concentration sur les batteries et le sampling. Définit le hip-hop âge d'or de Premier à Pete Rock."
+        "description": "Progresión boom bap hip-hop clásica. i-iv menor establece humor sombrío, retorno a i confirma tonalidad, ♭VI prestado añade color antes del bucle. Cambios simples y cíclicos soportan foco en batería y sampling. Define hip-hop de era dorada desde Premier hasta Pete Rock."
       },
       "i—♭III—iv—♭VI": {
         "name": "i—♭III—iv—♭VI",
         "nickname": "Emo Rap",
-        "description": "Progression émotionnelle emo rap. Tonique mineure vers ♭III crée un élan optimiste, iv mineur ajoute de la vulnérabilité, ♭VI fournit une couleur mélancolique. Mélange d'accords empruntés et de mineur diatonique crée une atmosphère émotionnellement complexe. Utilisé dans l'emo rap moderne et le hip-hop alternatif pour des paroles introspectives."
+        "description": "Progresión emocional emo rap. Tónica menor a ♭III crea elevación esperanzadora, iv menor añade vulnerabilidad, ♭VI proporciona color melancólico. Mix de acordes prestados y menor diatónico crea atmósfera emocionalmente compleja. Usado en emo rap moderno y hip-hop alternativo para letras introspectivas."
       },
       "I—♭III—♭VII—IV": {
         "name": "I—♭III—♭VII—IV",
         "nickname": "West Coast",
-        "description": "Progression G-funk West Coast. Tonique majeure avec ♭III chromatique (tierce majeure en dessous de la fondamentale), ♭VII ajoute une saveur funk, IV est la sous-dominante traditionnelle. Mélange de tonalité majeure avec emprunt modal crée le son décontracté influencé par Parliament de Dr. Dre, Snoop Dogg et l'ère G-funk."
+        "description": "Progresión G-funk West Coast. Tónica mayor con ♭III cromático (tercera mayor debajo de la raíz), ♭VII añade sabor funk, IV es subdominante tradicional. Mix de tonalidad mayor con préstamo modal crea sonido relajado influenciado por Parliament de Dr. Dre, Snoop Dogg y era G-funk."
       },
       "ii7—V7—IM7": {
         "name": "ii7—V7—IM7",
         "nickname": "Lofi Jazz",
-        "description": "Palette jazzy et nostalgique. Tous accords de 7e, pas de triades simples - vibes chaudes, poussiéreuses et vinyle."
+        "description": "Paleta jazzística y nostálgica. Todos acordes de 7ª, sin tríadas simples - vibes cálidas, polvorientas, de vinilo."
       },
       "i—♭VII—iv": {
         "name": "i—♭VII—iv",
         "nickname": "Footwork Juke",
-        "description": "Palette frénétique de Chicago. Harmonie simple pour des rythmes hachés complexes à 160bpm."
+        "description": "Paleta frenética de Chicago. Armonía simple para ritmos complejos picados a 160bpm."
       }
     },
     "Latin/Bossa": {
