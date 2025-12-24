@@ -320,289 +320,289 @@
       "I—V—vi—IV": {
         "name": "I—V—vi—IV",
         "nickname": "Axis of Awesome",
-        "description": "La progression la plus populaire dans la pop moderne. La tonique vers la dominante crée un mouvement vers l'avant, la résolution trompeuse vers vi ajoute de l'émotion, IV fournit un retour doux. Utilisée dans des centaines de tubes de \"Let It Be\" à \"Don't Stop Believin'.\""
+        "description": "La progresión más popular en el pop moderno. Tónica a dominante crea movimiento hacia adelante, resolución deceptiva a vi añade emoción, IV proporciona retorno suave. Usada en cientos de éxitos desde \"Let It Be\" hasta \"Don't Stop Believin'.\""
       },
       "I—IV—V—I": {
         "name": "I—IV—V—I",
         "nickname": "Classic Rock",
-        "description": "Le fondement du rock and roll. Passe de la tonique par la sous-dominante à la dominante, créant tension et résolution satisfaisantes. L'épine dorsale du blues, de la country et du rock primitif de Chuck Berry aux Beatles."
+        "description": "La base del rock and roll. Se mueve de tónica a través de subdominante a dominante, creando tensión y resolución satisfactorias. La columna vertebral del blues, country y rock temprano desde Chuck Berry hasta los Beatles."
       },
       "vi—IV—I—V": {
         "name": "vi—IV—I—V",
         "nickname": "Pop Punk",
-        "description": "Commence sur le mineur relatif pour un impact émotionnel immédiat, puis cycle par sous-dominante, tonique et dominante. Crée une sensation anthémique, à chanter ensemble. Popularisée par des groupes comme Blink-182 et Green Day."
+        "description": "Comienza en menor relativa para impacto emocional inmediato, luego cicla a través de subdominante, tónica y dominante. Crea sensación de himno, para cantar juntos. Popularizada por bandas como Blink-182 y Green Day."
       },
       "I—vi—IV—V": {
         "name": "I—vi—IV—V",
         "nickname": "50s Doo-Wop",
-        "description": "Les changements classiques \"doo-wop\" des groupes vocaux des années 1950. La tonique vers le mineur relatif crée une mélancolie douce, sous-dominante et dominante complètent le cercle. Pensez à \"Stand By Me\" ou \"Blue Moon.\""
+        "description": "Los cambios clásicos \"doo-wop\" de los grupos vocales de los años 1950. Tónica a menor relativa crea melancolía suave, subdominante y dominante completan el círculo. Piensa en \"Stand By Me\" o \"Blue Moon.\""
       },
       "I—V—vi—iii—IV": {
         "name": "I—V—vi—iii—IV",
         "nickname": "Canon Progression",
-        "description": "Séquence du Canon de Pachelbel étendue. Descend à travers la gamme, créant un momentum vers l'avant inévitable. Utilisée dans \"Basket Case,\" \"Hook,\" d'innombrables ballades. L'accord iii ajoute une complexité romantique."
+        "description": "Secuencia del Canon de Pachelbel extendida. Desciende a través de la escala, creando impulso hacia adelante inevitable. Usada en \"Basket Case,\" \"Hook,\" innumerables baladas. El acorde iii añade complejidad romántica."
       },
       "IV—I—V—vi": {
         "name": "IV—I—V—vi",
         "nickname": "Despacito",
-        "description": "Commence avec la sous-dominante pour un élan immédiat, résout à la tonique, puis passe par la dominante au mineur relatif. Crée une sensation circulaire et hypnotique parfaite pour la pop latine et les grooves reggaeton."
+        "description": "Comienza con subdominante para elevación inmediata, resuelve a tónica, luego se mueve a través de dominante a menor relativa. Crea sensación circular, hipnótica perfecta para pop latino y grooves de reggaeton."
       },
       "vi—V—IV—V": {
         "name": "vi—V—IV—V",
         "nickname": "Grenade",
-        "description": "La tonique mineure vers la dominante crée une tension dramatique, la sous-dominante offre un bref répit avant que la dominante ne construise à nouveau. Parfait pour les power ballads et les apogées émotionnelles comme \"Grenade\" de Bruno Mars."
+        "description": "Tónica menor a dominante crea tensión dramática, subdominante ofrece breve respiro antes de que dominante construya de nuevo. Perfecto para power ballads y clímax emocionales como \"Grenade\" de Bruno Mars."
       },
       "I—III—IV—iv": {
         "name": "I—III—IV—iv",
         "nickname": "Creep",
-        "description": "Rendu célèbre par Radiohead. La tonique majeure vers III majeur est inattendu, IV est familier, puis iv (emprunté au mineur) ajoute une mélancolie hantée. Le mouvement chromatique de la basse crée une sensation descendante distinctive."
+        "description": "Hecho famoso por Radiohead. Tónica mayor a III mayor es inesperado, IV es familiar, luego iv (prestado de menor) añade melancolía inquietante. El movimiento cromático del bajo crea sensación descendente distintiva."
       },
       "I—V—♭VII—IV": {
         "name": "I—V—♭VII—IV",
         "nickname": "Sweet Home",
-        "description": "La saveur mixolydienne du ♭VII emprunté crée un son rock sudiste bluesy. La sous-dominante majeure après la septième bémol fournit un élan satisfaisant. Iconique dans \"Sweet Home Alabama\" et les hymnes rock classiques."
+        "description": "El sabor mixolidio del ♭VII prestado crea sonido rock sureño bluesy. La subdominante mayor después de la séptima bemol proporciona elevación satisfactoria. Icónico en \"Sweet Home Alabama\" e himnos del rock clásico."
       },
       "I—♭VII—IV—I": {
         "name": "I—♭VII—IV—I",
         "nickname": "Mixolydian Vamp",
-        "description": "Progression mixolydienne circulaire. Le ♭VII emprunté du parallèle mineur ajoute un côté rock, IV vers I fournit une cadence parfaite traditionnelle. Crée une sensation rock modale entraînante sans accord de dominante V."
+        "description": "Progresión mixolidia circular. El ♭VII prestado del menor paralelo añade borde rock, IV a I proporciona cadencia perfecta tradicional. Crea sensación rock modal impulsora sin el acorde dominante V."
       }
     },
     "Blues/Soul": {
       "I—I—I—I—IV—IV—I—I—V—IV—I—V": {
         "name": "I—I—I—I—IV—IV—I—I—V—IV—I—V",
         "nickname": "12-Bar Blues",
-        "description": "Le fondement du blues, du rock et du jazz. Quatre mesures de tonique établissent la maison, l'accord IV crée la tension, le retour à I fournit le soulagement, V-IV crée le \"retournement\" vers I. La progression la plus importante dans la musique américaine."
+        "description": "La base del blues, rock y jazz. Cuatro compases de tónica establecen el hogar, el acorde IV crea tensión, el retorno a I proporciona alivio, V-IV crea el \"turnaround\" hacia I. La progresión más importante en la música americana."
       },
       "I—vi—ii—V": {
         "name": "I—vi—ii—V",
         "nickname": "Turnaround",
-        "description": "Retournement jazz classique. Descend de I par le mineur relatif (vi), puis ii-V crée une forte attraction vers I. Utilisé à la fin du blues de 12 mesures et dans d'innombrables standards de jazz pour revenir en douceur au début."
+        "description": "Turnaround jazz clásico. Desciende de I a través de menor relativa (vi), luego ii-V crea fuerte atracción hacia I. Usado al final del blues de 12 compases y en innumerables standards de jazz para volver suavemente al principio."
       },
       "ii—V—I—VI": {
         "name": "ii—V—I—VI",
         "nickname": "Rhythm Changes A",
-        "description": "De \"I Got Rhythm\" de Gershwin, les changements d'accords les plus courants dans le jazz après le blues. Le ii-V-I est la résolution la plus forte dans l'harmonie fonctionnelle, VI crée un mouvement chromatique et mène au cycle suivant."
+        "description": "De \"I Got Rhythm\" de Gershwin, los cambios de acordes más comunes en jazz después del blues. El ii-V-I es la resolución más fuerte en armonía funcional, VI crea movimiento cromático y conduce al siguiente ciclo."
       },
       "I—VI—ii—V": {
         "name": "I—VI—ii—V",
         "nickname": "I Got Rhythm",
-        "description": "Une autre variation des rhythm changes. I vers VI (accord majeur sur le sixième degré de la gamme) crée un mouvement chromatique de basse, puis ii-V prépare le retour à I. L'accord VI est souvent joué comme V7/ii, créant un mouvement vers l'avant encore plus fort."
+        "description": "Otra variación de los rhythm changes. I a VI (acorde mayor en el sexto grado de la escala) crea movimiento cromático del bajo, luego ii-V prepara el retorno a I. El acorde VI a menudo se toca como V7/ii, creando movimiento hacia adelante aún más fuerte."
       },
       "i—♭III—♭VII—IV": {
         "name": "i—♭III—♭VII—IV",
         "nickname": "Dorian Vamp",
-        "description": "Blues modal en mode Dorien. La tonique mineure vers ♭III majeur crée un élan optimiste, ♭VII ajoute une saveur bluesy, IV (majeur en Dorien) apporte de la luminosité. Crée un son blues mineur sophistiqué popularisé par Miles Davis et le jazz modal."
+        "description": "Blues modal en modo dórico. Tónica menor a ♭III mayor crea impulso esperanzador, ♭VII añade sabor bluesy, IV (mayor en dórico) aporta brillo. Crea sonido blues menor sofisticado popularizado por Miles Davis y jazz modal."
       },
       "i—IV—i—V": {
         "name": "i—IV—i—V",
         "nickname": "Minor Blues",
-        "description": "La progression blues mineure. La tonique mineure vers IV majeur crée un changement dramatique, le retour à i établit la tonalité mineure, V majeur crée une tension implorant la résolution. Plus dramatique et mélancolique que le blues majeur standard."
+        "description": "La progresión blues menor. Tónica menor a IV mayor crea cambio dramático, retorno a i establece tonalidad menor, V mayor crea tensión que implora resolución. Más dramática y melancólica que el blues mayor estándar."
       }
     },
     "Jazz/Functional": {
       "ii—V—I": {
         "name": "ii—V—I",
         "nickname": "2-5-1",
-        "description": "La progression la plus fondamentale du jazz. Le ii (sus-tonique) prépare le V (dominante), qui résout fortement vers I (tonique). Ce mouvement de cercle des quintes est le bloc de construction de l'harmonie fonctionnelle et apparaît dans presque tous les standards de jazz."
+        "description": "La progresión más fundamental en jazz. El ii (supertónica) prepara el V (dominante), que resuelve fuertemente a I (tónica). Este movimiento de círculo de quintas es el bloque de construcción de la armonía funcional y aparece en casi todos los standards de jazz."
       },
       "ii—V—I—vi": {
         "name": "ii—V—I—vi",
         "nickname": "Jazz Standard",
-        "description": "Cadence ii-V-I étendue avec résolution trompeuse. Après le fort ii-V-I, l'accord vi surprend l'oreille au lieu de rester sur I, créant un momentum continu vers l'avant. Parfait pour les boucles dans les improvisations et standards de jazz."
+        "description": "Cadencia ii-V-I extendida con resolución deceptiva. Después del fuerte ii-V-I, el acorde vi sorprende al oído en lugar de quedarse en I, creando momentum continuo hacia adelante. Perfecto para bucles en improvisaciones y standards de jazz."
       },
       "iii—vi—ii—V": {
         "name": "iii—vi—ii—V",
         "nickname": "Circle Progression",
-        "description": "Cercle de quintes descendant : iii vers vi vers ii vers V. Chaque accord est une quinte en dessous du précédent, créant une attraction gravitationnelle inévitable vers la tonique. Démontre l'harmonie fonctionnelle pure en action - utilisée abondamment dans le bebop et le hard bop."
+        "description": "Círculo de quintas descendente: iii a vi a ii a V. Cada acorde está una quinta por debajo del anterior, creando atracción gravitacional inevitable hacia la tónica. Demuestra armonía funcional pura en acción - usada abundantemente en bebop y hard bop."
       },
       "IVM7—V7—iii7—vi": {
         "name": "IVM7—V7—iii7—vi",
         "nickname": "Fly Me To The Moon",
-        "description": "Du standard de jazz de Bart Howard. IV-V crée un mouvement fort, iii-vi continue en descendant par tierces (cascade plagale). Les riches voicings maj7 et dom7 créent un son jazz sophistiqué et romantique parfait pour les ballades."
+        "description": "Del standard de jazz de Bart Howard. IV-V crea movimiento fuerte, iii-vi continúa descendiendo por terceras (cascada plagal). Los ricos voicings maj7 y dom7 crean sonido jazz sofisticado y romántico perfecto para baladas."
       },
       "IM7—ii7—iii7—IVM7": {
         "name": "IM7—ii7—iii7—IVM7",
         "nickname": "Ascending Jazz",
-        "description": "Progression ascendante par degrés à travers les accords de 7e diatoniques. Crée un mouvement doux et élevant. Évite les résolutions fonctionnelles fortes, peignant plutôt avec couleur et texture. Courant dans le jazz modal et les compositions de jazz contemporain."
+        "description": "Progresión ascendente por grados a través de acordes de 7ª diatónicos. Crea movimiento suave y elevador. Evita resoluciones funcionales fuertes, pintando en su lugar con color y textura. Común en jazz modal y composiciones de jazz contemporáneo."
       },
       "vi—ii—V—I": {
         "name": "vi—ii—V—I",
         "nickname": "Minor Turnaround",
-        "description": "Commence sur le mineur relatif (vi) pour un départ émotionnel plus sombre, puis cycle à travers ii-V-I pour résoudre vers la tonique majeure. Le contraste entre le début mineur et la résolution majeure crée un arc émotionnel satisfaisant courant dans les ballades jazz."
+        "description": "Comienza en menor relativa (vi) para inicio emocional más oscuro, luego cicla a través de ii-V-I para resolver a tónica mayor. El contraste entre inicio menor y resolución mayor crea arco emocional satisfactorio común en baladas de jazz."
       },
       "I—vi—IV—♯iv°—V": {
         "name": "I—vi—IV—♯iv°—V",
         "nickname": "Chromatic Turnaround",
-        "description": "Retournement classique avec accord diminué de passage. Le ♯iv° (quatre augmenté diminué) crée une ligne de basse chromatique (I-vi-IV-♯iv°-V), ajoutant sophistication harmonique. L'accord diminué fonctionne comme dominante de la dominante, renforçant la résolution vers V."
+        "description": "Turnaround clásico con acorde disminuido de paso. El ♯iv° (cuatro aumentado disminuido) crea línea de bajo cromática (I-vi-IV-♯iv°-V), añadiendo sofisticación armónica. El acorde disminuido funciona como dominante de la dominante, fortaleciendo resolución a V."
       },
       "iv—♭VII—I": {
         "name": "iv—♭VII—I",
         "nickname": "Backdoor",
-        "description": "La \"progression backdoor\" - approche la tonique depuis ♭VII au lieu de V. Le iv emprunté du parallèle mineur ajoute de la couleur, ♭VII crée une résolution d'un ton entier vers I (mouvement plagal). Apporte un soulagement du constant ii-V-I, ajoute une fraîcheur inattendue à l'harmonie jazz."
+        "description": "La \"progresión backdoor\" - se acerca a la tónica desde ♭VII en lugar de V. El iv prestado del menor paralelo añade color, ♭VII crea resolución de tono entero a I (movimiento plagal). Proporciona alivio del constante ii-V-I, añade frescura inesperada a la armonía jazz."
       },
       "I—♯I°—ii—♯II°": {
         "name": "I—♯I°—ii—♯II°",
         "nickname": "Chromatic Walk",
-        "description": "Ligne de basse ascendante chromatique utilisant des accords diminués de passage. Chaque accord diminué connecte des accords diatoniques séparés d'un ton entier. Crée une conduite des voix douce et un son sophistiqué utilisé dans les intros et interludes jazz."
+        "description": "Línea de bajo ascendente cromática usando acordes disminuidos de paso. Cada acorde disminuido conecta acordes diatónicos separados por tono entero. Crea conducción de voces suave y sonido sofisticado usado en intros e interludios de jazz."
       },
       "IM7—♭IIIM7—♭VIM7—♭II7": {
         "name": "IM7—♭IIIM7—♭VIM7—♭II7",
         "nickname": "Giant Steps",
-        "description": "Les changements révolutionnaires \"Giant Steps\" de John Coltrane. Se déplace à travers trois centres tonaux divisés en tierces majeures (I, ♭III, ♭VI). Le ♭II7 est une substitution tritonique. Crée un mouvement harmonique maximal, moment déterminant dans l'évolution du jazz."
+        "description": "Los cambios revolucionarios \"Giant Steps\" de John Coltrane. Se mueve a través de tres centros tonales divididos en terceras mayores (I, ♭III, ♭VI). El ♭II7 es sustitución tritónica. Crea movimiento armónico máximo, momento definitorio en la evolución del jazz."
       }
     },
     "Classical/Modal": {
       "I—IV—vii°—iii—vi—ii—V—I": {
         "name": "I—IV—vii°—iii—vi—ii—V—I",
         "nickname": "Circle of Fifths",
-        "description": "Progression complète du cercle des quintes. Chaque fondamentale d'accord descend d'une quinte juste (ou monte d'une quarte juste), démontrant l'attraction gravitationnelle de l'harmonie fonctionnelle. Progression pédagogique fondamentale montrant comment tous les accords diatoniques se relient."
+        "description": "Progresión completa del círculo de quintas. Cada fundamental de acorde desciende por quinta justa (o asciende por cuarta justa), demostrando la atracción gravitacional de la armonía funcional. Progresión pedagógica fundamental mostrando cómo todos los acordes diatónicos se relacionan."
       },
       "I—V—vi—iii—IV—I—IV—V": {
         "name": "I—V—vi—iii—IV—I—IV—V",
         "nickname": "Pachelbel Canon",
-        "description": "La célèbre progression du Canon en Ré de Johann Pachelbel. La ligne de basse descendante par degrés crée une conduite des voix élégante. La séquence est devenue un cliché par surutilisation mais reste pédagogiquement précieuse pour enseigner le contrepoint baroque et la technique de basse obstinée."
+        "description": "La famosa progresión del Canon en Re de Johann Pachelbel. La línea de bajo descendente por grados crea conducción de voces elegante. La secuencia se convirtió en cliché por sobreuso pero permanece pedagógicamente valiosa para enseñar contrapunto barroco y técnica de bajo ostinato."
       },
       "i—♭VII—♭VI—V": {
         "name": "i—♭VII—♭VI—V",
         "nickname": "Andalusian",
-        "description": "La \"cadence andalouse\" du mode Phrygien. Le tétracorde descendant (motif de quatre notes) crée un caractère tragique espagnol. Tonique mineure vers ♭VII et ♭VI empruntés, se terminant sur V majeur. Utilisée dans le flamenco, la musique classique et de film pour une saveur méditerranéenne."
+        "description": "La \"cadencia andaluza\" del modo frigio. El tetracordio descendente (patrón de cuatro notas) crea carácter trágico español. Tónica menor a ♭VII y ♭VI prestados, terminando en V mayor. Usada en flamenco, música clásica y de cine para sabor mediterráneo."
       },
       "i—♭VII—i—V": {
         "name": "i—♭VII—i—V",
         "nickname": "Passamezzo Antico",
-        "description": "Progression de danse Renaissance, \"vieux passamezzo\". La tonique mineure vers ♭VII emprunté crée une ambiguïté modale, le retour à i confirme le mineur, V majeur fournit la tension. Exemple précoce d'harmonie mineure i-V précédant la période de pratique courante."
+        "description": "Progresión de danza renacentista, \"passamezzo antiguo\". Tónica menor a ♭VII prestado crea ambigüedad modal, retorno a i confirma menor, V mayor proporciona tensión. Ejemplo temprano de armonía menor i-V anterior al período de práctica común."
       },
       "I—V—I—IV": {
         "name": "I—V—I—IV",
         "nickname": "Passamezzo Moderno",
-        "description": "\"Passamezzo moderne\" de la Renaissance - la version majeure. Assertion tonique-dominante, retour à la tonique, puis sous-dominante. Progression de danse simple mais efficace en mode majeur. Montre l'évolution de la pensée modale vers tonale au début de la période baroque."
+        "description": "\"Passamezzo moderno\" renacentista - la versión mayor. Aserción tónica-dominante, retorno a tónica, luego subdominante. Progresión de danza en modo mayor simple pero efectiva. Muestra evolución del pensamiento modal a tonal en el período barroco temprano."
       },
       "iv—♭VII—♭III—♭VI": {
         "name": "iv—♭VII—♭III—♭VI",
         "nickname": "Plagal Cascade",
-        "description": "Mouvement plagal (sous-dominant) descendant à travers des accords empruntés. Pas de dominante présente - toutes résolutions \"douces\". Crée une atmosphère modale sombre évitant les cadences fonctionnelles V-I. Populaire dans les musiques de film et le rock progressif pour une qualité ambiguë et dérivante."
+        "description": "Movimiento plagal (subdominante) descendente a través de acordes prestados. Sin dominante presente - todas resoluciones \"suaves\". Crea atmósfera modal oscura evitando cadencias funcionales V-I. Popular en bandas sonoras de cine y rock progresivo para calidad ambigua y flotante."
       },
       "i—iv—♭VII—♭III": {
         "name": "i—iv—♭VII—♭III",
         "nickname": "Natural Minor",
-        "description": "Progression en mineur naturel pur (mode Éolien) utilisant des accords diatoniques. La tonique et sous-dominante mineures établissent la sensation mineure, ♭VII et ♭III sont caractéristiques du mineur naturel versus mineur harmonique. Crée une atmosphère mélancolique et modale sans résolution de sensible."
+        "description": "Progresión menor natural pura (modo eólico) usando acordes diatónicos. Tónica y subdominante menores establecen sensación menor, ♭VII y ♭III son característicos de menor natural versus menor armónica. Crea atmósfera melancólica y modal sin resolución de sensible."
       }
     },
     "Electronic/Modern": {
       "i—♭VI—♭III—♭VII": {
         "name": "i—♭VI—♭III—♭VII",
         "nickname": "EDM Drop",
-        "description": "La progression du \"drop\" dans l'EDM moderne. La tonique mineure vers ♭VI emprunté crée un élan immédiat, ♭III ajoute une couleur optimiste, ♭VII fournit une énergie mixolydienne entraînante. Évite la dominante V pour une boucle hypnotique non-fonctionnelle. Parfait pour les montées et les bass drops."
+        "description": "La progresión del \"drop\" en EDM moderno. Tónica menor a ♭VI prestado crea elevación inmediata, ♭III añade color esperanzador, ♭VII proporciona energía mixolidia impulsora. Evita la dominante V para bucle hipnótico no funcional. Perfecto para build-ups y drops de bajo."
       },
       "i—♭VII—♭VI—♭VII": {
         "name": "i—♭VII—♭VI—♭VII",
         "nickname": "Dark House",
-        "description": "Progression house mineure sombre. Les ♭VII et ♭VI empruntés du parallèle majeur créent une ambiguïté modale, évitant l'harmonie mineure traditionnelle. Le ♭VII oscille, créant tension sans résolution. Utilisée dans la tech house et la progressive house sombre pour une atmosphère menaçante."
+        "description": "Progresión dark minor house. ♭VII y ♭VI prestados del mayor paralelo crean ambigüedad modal, evitando armonía menor tradicional. El ♭VII oscila, creando tensión sin resolución. Usada en tech house y dark progressive house para atmósfera amenazante."
       },
       "vi—IV—I—V": {
         "name": "vi—IV—I—V",
         "nickname": "Pop Loop",
-        "description": "Optimisée pour le bouclage électronique. Commence sur le mineur relatif pour une émotion immédiate, cycle à travers des changements pop familiers mais se termine sur V au lieu de IV, créant une attraction plus forte vers le début. Parfait pour des boucles de 4 mesures sans couture dans la pop électronique et la future bass."
+        "description": "Optimizada para bucle electrónico. Comienza en menor relativa para emoción inmediata, cicla a través de cambios pop familiares pero termina en V en lugar de IV, creando atracción más fuerte de vuelta al principio. Perfecto para bucles de 4 compases sin costura en pop electrónico y future bass."
       },
       "I—V—vi—IV—I—V—iii—IV": {
         "name": "I—V—vi—IV—I—V—iii—IV",
         "nickname": "Extended Pop",
-        "description": "Progression pop étendue de huit mesures. Les quatre premières mesures sont le classique \"Axis of Awesome\" I-V-vi-IV, les quatre secondes substituent iii à vi, créant une variation tout en maintenant la familiarité. Permet des montées plus longues et des arrangements plus complexes dans la production pop électronique."
+        "description": "Progresión pop extendida de ocho compases. Primeros cuatro compases son el clásico \"Axis of Awesome\" I-V-vi-IV, segundos cuatro compases sustituyen iii por vi, creando variación manteniendo familiaridad. Permite builds más largos y arreglos más complejos en producción pop electrónica."
       },
       "i—♭III—♭VII—i": {
         "name": "i—♭III—♭VII—i",
         "nickname": "Modal Interchange",
-        "description": "Démontre le concept d'échange modal. Tous les accords empruntés du parallèle majeur (♭III, ♭VII) mélangés avec i mineur naturel. Crée une tonalité moderne et ambiguë évitant la résolution traditionnelle V-i. Pierre angulaire de l'harmonie de la musique électronique contemporaine, du synthwave à la future bass."
+        "description": "Demuestra concepto de intercambio modal. Todos acordes prestados del mayor paralelo (♭III, ♭VII) mezclados con i menor natural. Crea tonalidad moderna y ambigua evitando resolución V-i tradicional. Piedra angular de la armonía de música electrónica contemporánea, desde synthwave hasta future bass."
       },
       "I—♭III—IV—♭VI": {
         "name": "I—♭III—IV—♭VI",
         "nickname": "Chromatic Mediant",
-        "description": "Explore les relations de médiantes chromatiques. I vers ♭III est un changement dramatique (fondamentales séparées d'une tierce majeure, pas dans la tonalité), IV est familier, ♭VI est une autre médiante chromatique. Crée un mouvement harmonique cinématographique et inattendu. Utilisée dans la progressive house et le melodic dubstep pour impact émotionnel."
+        "description": "Explora relaciones de mediante cromática. I a ♭III es cambio dramático (raíces separadas por tercera mayor, no en tonalidad), IV es familiar, ♭VI es otra mediante cromática. Crea movimiento armónico cinemático e inesperado. Usada en progressive house y melodic dubstep para impacto emocional."
       },
       "i—iv—v": {
         "name": "i—iv—v",
         "nickname": "Techno Minimal",
-        "description": "Palette mécanique épurée. Triades mineures et voicings quartaux pour des boucles hypnotiques."
+        "description": "Paleta escasa y mecánica. Tríadas menores y voicings cuartales para bucles hipnóticos."
       },
       "I—IV—V": {
         "name": "I—IV—V",
         "nickname": "Deep House",
-        "description": "Palette chaleureuse et jazzy. Riches accords de 7e pour des vibes deep house souful et groovy."
+        "description": "Paleta cálida y jazzística. Acordes de 7ª ricos para vibes deep house soulful y groovy."
       },
       "IM7—IVM7—VM7": {
         "name": "IM7—IVM7—VM7",
         "nickname": "Ambient Wash",
-        "description": "Palette ouverte et flottante. 7es majeures/mineures et voicings quartaux pour des paysages sonores éthérés."
+        "description": "Paleta abierta y flotante. 7as mayores/menores y voicings cuartales para paisajes sonoros etéreos."
       }
     },
     "R&B/Neo-Soul": {
       "ii—V—IM7—vi": {
         "name": "ii—V—IM7—vi",
         "nickname": "Neo-Soul Standard",
-        "description": "Changements neo-soul influencés par le jazz. S'ouvre avec ii-V emprunté au jazz, résout vers IM7 (pas I simple) pour une couleur sophistiquée, l'accord vi trompeur ajoute de la mélancolie. Voicings d'accords de 7e riches essentiels. Définit le son de D'Angelo, Erykah Badu et le R&B moderne."
+        "description": "Cambios neo-soul influenciados por jazz. Abre con ii-V prestado del jazz, resuelve a IM7 (no I simple) para color sofisticado, acorde deceptivo vi añade melancolía. Voicings ricos de acordes de 7ª esenciales. Define el sonido de D'Angelo, Erykah Badu y R&B moderno."
       },
       "IM7—iii7—vi7—ii7": {
         "name": "IM7—iii7—vi7—ii7",
         "nickname": "Smooth R&B",
-        "description": "Accords de 7e diatoniques descendants créent un son luxuriant et sophistiqué. Toutes 7es majeures et mineures, pas de tension dominante - qualité douce et flottante. Descend par tierces puis quartes, créant un mouvement vers l'avant doux. Parfait pour les slow jams et les ballades R&B contemporaines."
+        "description": "Acordes de 7ª diatónicos descendentes crean sonido exuberante y sofisticado. Todas 7as mayores y menores, sin tensión dominante - calidad suave y flotante. Desciende por terceras luego cuartas, creando movimiento suave hacia adelante. Perfecto para slow jams y baladas R&B contemporáneas."
       },
       "I—IV—ii—V": {
         "name": "I—IV—ii—V",
         "nickname": "Classic R&B",
-        "description": "Combine la simplicité pop avec la sophistication jazz. I-IV est un mouvement plagal familier, ii-V est une cadence jazz classique. L'accord ii transforme le familier I-IV-V en quelque chose de plus raffiné. Fondement de Motown, Stax et de la soul classique des années 60 et 70."
+        "description": "Combina simplicidad pop con sofisticación jazz. I-IV es movimiento plagal familiar, ii-V es cadencia jazz clásica. El acorde ii transforma el familiar I-IV-V en algo más refinado. Fundamento de Motown, Stax y soul clásico de los 60s y 70s."
       },
       "vi—ii—iii—IV": {
         "name": "vi—ii—iii—IV",
         "nickname": "Emotional Ballad",
-        "description": "Commence sur le mineur relatif pour une vulnérabilité immédiate, monte à travers ii et iii (tension croissante), résout vers IV (sous-dominante). Évite les accords évidents I et V, créant un arc émotionnel sophistiqué. Courant dans les ballades R&B modernes et neo-soul, permet la liberté mélodique."
+        "description": "Comienza en menor relativa para vulnerabilidad inmediata, asciende a través de ii y iii (aumentando tensión), resuelve a IV (subdominante). Evita acordes obvios I y V, creando arco emocional sofisticado. Común en baladas R&B modernas y neo-soul, permite libertad melódica."
       },
       "IM7—V7/IV—IVM7—iv": {
         "name": "IM7—V7/IV—IVM7—iv",
         "nickname": "Chromatic Soul",
-        "description": "Harmonie chromatique avancée. V7/IV est une dominante secondaire (dominante de IV), créant une tonicisation temporaire. IV majeur vers iv mineur est un changement chromatique emprunté du parallèle mineur. Crée une conduite des voix sophistiquée et une couleur harmonique caractéristique de Stevie Wonder et du neo-soul moderne."
+        "description": "Armonía cromática avanzada. V7/IV es dominante secundaria (dominante de IV), creando tonicización temporal. IV mayor a iv menor es cambio cromático prestado del menor paralelo. Crea conducción de voces sofisticada y color armónico característico de Stevie Wonder y neo-soul moderno."
       },
       "i—iv—♭VII—♭VI": {
         "name": "i—iv—♭VII—♭VI",
         "nickname": "Minor Soul",
-        "description": "Progression R&B en mode mineur. Le i-iv mineur naturel établit une fondation sombre, ♭VII et ♭VI empruntés du Dorien/Éolien créent une ambiguïté modale. Le mouvement plagal descendant évite la résolution dominante. Utilisé dans le R&B contemporain pour une atmosphère plus sombre et mélancolique."
+        "description": "Progresión R&B en modo menor. i-iv menor natural establece fundación oscura, ♭VII y ♭VI prestados de dórico/eólico crean ambigüedad modal. Movimiento plagal descendente evita resolución dominante. Usado en R&B contemporáneo para atmósfera más oscura y melancólica."
       },
       "I—♯iv°—ii—V": {
         "name": "I—♯iv°—ii—V",
         "nickname": "Gospel Soul",
-        "description": "Accord de passage chromatique influencé par le gospel. Le ♯iv° (quatre augmenté diminué) crée une ligne de basse chromatique douce connectant I à ii, puis cadence classique ii-V. L'accord diminué fonctionne comme dominante de la dominante, ajoutant une sophistication harmonique empruntée à la tradition de l'église noire."
+        "description": "Acorde cromático de paso influenciado por gospel. El ♯iv° (cuatro aumentado disminuido) crea línea de bajo cromática suave conectando I a ii, luego cadencia clásica ii-V. El acorde disminuido funciona como dominante de la dominante, añadiendo sofisticación armónica prestada de la tradición de iglesia negra."
       }
     },
     "Gospel/Worship": {
       "I—V/ii—ii—V": {
         "name": "I—V/ii—ii—V",
         "nickname": "Gospel Turnaround",
-        "description": "Retournement gospel classique avec dominante secondaire. V/ii (dominante de ii) crée une approche chromatique de l'accord ii, puis cadence traditionnelle ii-V vers I. La dominante secondaire ajoute sophistication harmonique et momentum vers l'avant caractéristiques de la musique d'église noire et du gospel traditionnel."
+        "description": "Turnaround gospel clásico con dominante secundaria. V/ii (dominante de ii) crea aproximación cromática al acorde ii, luego cadencia tradicional ii-V de vuelta a I. La dominante secundaria añade sofisticación armónica y momentum característico de música de iglesia negra y gospel tradicional."
       },
       "IV—V—iii—vi": {
         "name": "IV—V—iii—vi",
         "nickname": "Praise Progression",
-        "description": "Progression de louange et adoration élevante. Commence sur IV (sous-dominante) pour un élan immédiat plutôt que I, V ajoute de l'énergie, descend par iii vers vi créant une résolution douce. Évite d'arriver sur I, gardant l'énergie en mouvement vers l'avant. Courant dans les refrains de louange et adoration contemporains."
+        "description": "Progresión elevadora de alabanza y adoración. Comienza en IV (subdominante) para elevación inmediata en lugar de I, V añade energía, desciende a través de iii a vi creando resolución suave. Evita llegar a I, manteniendo energía en movimiento. Común en adoración contemporánea y estribillos de alabanza."
       },
       "I—IV—V/vi—vi": {
         "name": "I—IV—V/vi—vi",
         "nickname": "Contemporary Worship",
-        "description": "Progression d'adoration moderne avec dominante secondaire. Ouverture familière I-IV, V/vi (dominante de vi) approche chromatiquement le mineur relatif, créant une conduite des voix douce. L'arrivée sur vi ajoute introspection et émotion. Définit la musique chrétienne contemporaine de Hillsong à Bethel."
+        "description": "Progresión de adoración moderna con dominante secundaria. Apertura familiar I-IV, V/vi (dominante de vi) se aproxima cromáticamente a menor relativa, creando conducción de voces suave. La llegada en vi añade introspección y emoción. Define música cristiana contemporánea desde Hillsong hasta Bethel."
       },
       "ii—V—I—IV": {
         "name": "ii—V—I—IV",
         "nickname": "Church Cadence",
-        "description": "Combine l'harmonie jazz et hymne. S'ouvre avec une forte cadence ii-V-I empruntée au jazz (courant dans le gospel), ajoute le mouvement plagal IV-I de l'hymnodie traditionnelle. Les deux types de cadence créent une double résolution satisfaisante. Fondamental au piano gospel et au jeu d'orgue Hammond."
+        "description": "Combina armonía jazz e himno. Abre con fuerte cadencia ii-V-I prestada del jazz (común en gospel), añade movimiento plagal IV-I de himnología tradicional. Los dos tipos de cadencia crean doble resolución satisfactoria. Fundamental para piano gospel y órgano Hammond."
       },
       "I—V/V—V—vi—IV": {
         "name": "I—V/V—V—vi—IV",
         "nickname": "Gospel Rock",
-        "description": "Progression fusion gospel-rock. V/V (dominante de la dominante) crée une intensité chromatique approchant V, puis vi trompeur ajoute de l'émotion, IV complète le mouvement plagal. Combine le chromatisme gospel avec l'énergie rock. Utilisé dans le rock chrétien contemporain et la pop influencée par le gospel."
+        "description": "Progresión fusión gospel-rock. V/V (dominante de la dominante) crea intensidad cromática aproximándose a V, luego vi deceptivo añade emoción, IV completa movimiento plagal. Combina cromatismo gospel con energía rock. Usado en rock cristiano contemporáneo y pop influenciado por gospel."
       },
       "IV—I—V—vi—IV—♭VII": {
         "name": "IV—I—V—vi—IV—♭VII",
         "nickname": "Extended Worship",
-        "description": "Progression d'adoration étendue de six mesures. S'ouvre sur la sous-dominante pour l'élan, cycle à travers des changements familiers, ajoute ♭VII emprunté à la fin pour couleur modale et saveur mixolydienne. L'extension permet des montées mélodiques et dynamiques plus longues courantes dans la production d'adoration moderne et les contextes live."
+        "description": "Progresión de adoración extendida de seis compases. Abre en subdominante para elevación, cicla a través de cambios familiares, añade ♭VII prestado al final para color modal y sabor mixolidio. La extensión permite builds melódicos y dinámicos más largos comunes en producción de adoración moderna y ambientes en vivo."
       }
     },
     "Hip-Hop/Trap": {
