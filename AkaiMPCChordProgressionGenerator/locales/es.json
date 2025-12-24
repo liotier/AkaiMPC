@@ -577,32 +577,32 @@
       "I—V/ii—ii—V": {
         "name": "I—V/ii—ii—V",
         "nickname": "Gospel Turnaround",
-        "description": "Retournement gospel classique avec dominante secondaire. V/ii (dominante de ii) crée une approche chromatique de l'accord ii, puis cadence traditionnelle ii-V vers I. La dominante secondaire ajoute sophistication harmonique et momentum vers l'avant caractéristiques de la musique d'église noire et du gospel traditionnel."
+        "description": "Turnaround gospel clásico con dominante secundaria. V/ii (dominante de ii) crea aproximación cromática al acorde ii, luego cadencia tradicional ii-V de vuelta a I. La dominante secundaria añade sofisticación armónica y momentum característico de música de iglesia negra y gospel tradicional."
       },
       "IV—V—iii—vi": {
         "name": "IV—V—iii—vi",
         "nickname": "Praise Progression",
-        "description": "Progression de louange et adoration élevante. Commence sur IV (sous-dominante) pour un élan immédiat plutôt que I, V ajoute de l'énergie, descend par iii vers vi créant une résolution douce. Évite d'arriver sur I, gardant l'énergie en mouvement vers l'avant. Courant dans les refrains de louange et adoration contemporains."
+        "description": "Progresión elevadora de alabanza y adoración. Comienza en IV (subdominante) para elevación inmediata en lugar de I, V añade energía, desciende a través de iii a vi creando resolución suave. Evita llegar a I, manteniendo energía en movimiento. Común en adoración contemporánea y estribillos de alabanza."
       },
       "I—IV—V/vi—vi": {
         "name": "I—IV—V/vi—vi",
         "nickname": "Contemporary Worship",
-        "description": "Progression d'adoration moderne avec dominante secondaire. Ouverture familière I-IV, V/vi (dominante de vi) approche chromatiquement le mineur relatif, créant une conduite des voix douce. L'arrivée sur vi ajoute introspection et émotion. Définit la musique chrétienne contemporaine de Hillsong à Bethel."
+        "description": "Progresión de adoración moderna con dominante secundaria. Apertura familiar I-IV, V/vi (dominante de vi) se aproxima cromáticamente a menor relativa, creando conducción de voces suave. La llegada en vi añade introspección y emoción. Define música cristiana contemporánea desde Hillsong hasta Bethel."
       },
       "ii—V—I—IV": {
         "name": "ii—V—I—IV",
         "nickname": "Church Cadence",
-        "description": "Combine l'harmonie jazz et hymne. S'ouvre avec une forte cadence ii-V-I empruntée au jazz (courant dans le gospel), ajoute le mouvement plagal IV-I de l'hymnodie traditionnelle. Les deux types de cadence créent une double résolution satisfaisante. Fondamental au piano gospel et au jeu d'orgue Hammond."
+        "description": "Combina armonía jazz e himno. Abre con fuerte cadencia ii-V-I prestada del jazz (común en gospel), añade movimiento plagal IV-I de himnología tradicional. Los dos tipos de cadencia crean doble resolución satisfactoria. Fundamental para piano gospel y órgano Hammond."
       },
       "I—V/V—V—vi—IV": {
         "name": "I—V/V—V—vi—IV",
         "nickname": "Gospel Rock",
-        "description": "Progression fusion gospel-rock. V/V (dominante de la dominante) crée une intensité chromatique approchant V, puis vi trompeur ajoute de l'émotion, IV complète le mouvement plagal. Combine le chromatisme gospel avec l'énergie rock. Utilisé dans le rock chrétien contemporain et la pop influencée par le gospel."
+        "description": "Progresión fusión gospel-rock. V/V (dominante de la dominante) crea intensidad cromática aproximándose a V, luego vi deceptivo añade emoción, IV completa movimiento plagal. Combina cromatismo gospel con energía rock. Usado en rock cristiano contemporáneo y pop influenciado por gospel."
       },
       "IV—I—V—vi—IV—♭VII": {
         "name": "IV—I—V—vi—IV—♭VII",
         "nickname": "Extended Worship",
-        "description": "Progression d'adoration étendue de six mesures. S'ouvre sur la sous-dominante pour l'élan, cycle à travers des changements familiers, ajoute ♭VII emprunté à la fin pour couleur modale et saveur mixolydienne. L'extension permet des montées mélodiques et dynamiques plus longues courantes dans la production d'adoration moderne et les contextes live."
+        "description": "Progresión de adoración extendida de seis compases. Abre en subdominante para elevación, cicla a través de cambios familiares, añade ♭VII prestado al final para color modal y sabor mixolidio. La extensión permite builds melódicos y dinámicos más largos comunes en producción de adoración moderna y ambientes en vivo."
       }
     },
     "Hip-Hop/Trap": {
