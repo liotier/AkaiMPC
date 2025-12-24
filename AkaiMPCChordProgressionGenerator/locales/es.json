@@ -540,37 +540,37 @@
       "ii—V—IM7—vi": {
         "name": "ii—V—IM7—vi",
         "nickname": "Neo-Soul Standard",
-        "description": "Changements neo-soul influencés par le jazz. S'ouvre avec ii-V emprunté au jazz, résout vers IM7 (pas I simple) pour une couleur sophistiquée, l'accord vi trompeur ajoute de la mélancolie. Voicings d'accords de 7e riches essentiels. Définit le son de D'Angelo, Erykah Badu et le R&B moderne."
+        "description": "Cambios neo-soul influenciados por jazz. Abre con ii-V prestado del jazz, resuelve a IM7 (no I simple) para color sofisticado, acorde deceptivo vi añade melancolía. Voicings ricos de acordes de 7ª esenciales. Define el sonido de D'Angelo, Erykah Badu y R&B moderno."
       },
       "IM7—iii7—vi7—ii7": {
         "name": "IM7—iii7—vi7—ii7",
         "nickname": "Smooth R&B",
-        "description": "Accords de 7e diatoniques descendants créent un son luxuriant et sophistiqué. Toutes 7es majeures et mineures, pas de tension dominante - qualité douce et flottante. Descend par tierces puis quartes, créant un mouvement vers l'avant doux. Parfait pour les slow jams et les ballades R&B contemporaines."
+        "description": "Acordes de 7ª diatónicos descendentes crean sonido exuberante y sofisticado. Todas 7as mayores y menores, sin tensión dominante - calidad suave y flotante. Desciende por terceras luego cuartas, creando movimiento suave hacia adelante. Perfecto para slow jams y baladas R&B contemporáneas."
       },
       "I—IV—ii—V": {
         "name": "I—IV—ii—V",
         "nickname": "Classic R&B",
-        "description": "Combine la simplicité pop avec la sophistication jazz. I-IV est un mouvement plagal familier, ii-V est une cadence jazz classique. L'accord ii transforme le familier I-IV-V en quelque chose de plus raffiné. Fondement de Motown, Stax et de la soul classique des années 60 et 70."
+        "description": "Combina simplicidad pop con sofisticación jazz. I-IV es movimiento plagal familiar, ii-V es cadencia jazz clásica. El acorde ii transforma el familiar I-IV-V en algo más refinado. Fundamento de Motown, Stax y soul clásico de los 60s y 70s."
       },
       "vi—ii—iii—IV": {
         "name": "vi—ii—iii—IV",
         "nickname": "Emotional Ballad",
-        "description": "Commence sur le mineur relatif pour une vulnérabilité immédiate, monte à travers ii et iii (tension croissante), résout vers IV (sous-dominante). Évite les accords évidents I et V, créant un arc émotionnel sophistiqué. Courant dans les ballades R&B modernes et neo-soul, permet la liberté mélodique."
+        "description": "Comienza en menor relativa para vulnerabilidad inmediata, asciende a través de ii y iii (aumentando tensión), resuelve a IV (subdominante). Evita acordes obvios I y V, creando arco emocional sofisticado. Común en baladas R&B modernas y neo-soul, permite libertad melódica."
       },
       "IM7—V7/IV—IVM7—iv": {
         "name": "IM7—V7/IV—IVM7—iv",
         "nickname": "Chromatic Soul",
-        "description": "Harmonie chromatique avancée. V7/IV est une dominante secondaire (dominante de IV), créant une tonicisation temporaire. IV majeur vers iv mineur est un changement chromatique emprunté du parallèle mineur. Crée une conduite des voix sophistiquée et une couleur harmonique caractéristique de Stevie Wonder et du neo-soul moderne."
+        "description": "Armonía cromática avanzada. V7/IV es dominante secundaria (dominante de IV), creando tonicización temporal. IV mayor a iv menor es cambio cromático prestado del menor paralelo. Crea conducción de voces sofisticada y color armónico característico de Stevie Wonder y neo-soul moderno."
       },
       "i—iv—♭VII—♭VI": {
         "name": "i—iv—♭VII—♭VI",
         "nickname": "Minor Soul",
-        "description": "Progression R&B en mode mineur. Le i-iv mineur naturel établit une fondation sombre, ♭VII et ♭VI empruntés du Dorien/Éolien créent une ambiguïté modale. Le mouvement plagal descendant évite la résolution dominante. Utilisé dans le R&B contemporain pour une atmosphère plus sombre et mélancolique."
+        "description": "Progresión R&B en modo menor. i-iv menor natural establece fundación oscura, ♭VII y ♭VI prestados de dórico/eólico crean ambigüedad modal. Movimiento plagal descendente evita resolución dominante. Usado en R&B contemporáneo para atmósfera más oscura y melancólica."
       },
       "I—♯iv°—ii—V": {
         "name": "I—♯iv°—ii—V",
         "nickname": "Gospel Soul",
-        "description": "Accord de passage chromatique influencé par le gospel. Le ♯iv° (quatre augmenté diminué) crée une ligne de basse chromatique douce connectant I à ii, puis cadence classique ii-V. L'accord diminué fonctionne comme dominante de la dominante, ajoutant une sophistication harmonique empruntée à la tradition de l'église noire."
+        "description": "Acorde cromático de paso influenciado por gospel. El ♯iv° (cuatro aumentado disminuido) crea línea de bajo cromática suave conectando I a ii, luego cadencia clásica ii-V. El acorde disminuido funciona como dominante de la dominante, añadiendo sofisticación armónica prestada de la tradición de iglesia negra."
       }
     },
     "Gospel/Worship": {
