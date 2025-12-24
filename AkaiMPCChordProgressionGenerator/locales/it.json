@@ -1,0 +1,147 @@
+{
+  "app": {
+    "title": "Generatore di Progressioni di Accordi",
+    "subtitle": "Crea progressioni di accordi musicalmente intelligenti — visualizza come pianoforte, tablature per chitarra o notazione sul pentagramma",
+    "subtitleLine2": "Stampa spartiti di accordi per suonare con altri, esporta file MIDI per DAW o esporta file .progression per Akai MPC"
+  },
+  "chordMatcher": {
+    "title": "Corrispondenza Accordi",
+    "optional": "Opzionale",
+    "description": "Hai trovato un campione con ottimi accordi? Inseriscili qui per trovare tonalità e modi compatibili per la tua produzione.",
+    "noteLabel": "Nota...",
+    "qualityLabel": "Qualità...",
+    "qualities": {
+      "major": "Maggiore",
+      "minor": "Minore",
+      "dim": "Diminuito",
+      "aug": "Aumentato",
+      "sus2": "Sus2",
+      "sus4": "Sus4",
+      "7": "Dominante 7",
+      "maj7": "Maggiore 7",
+      "m7": "Minore 7"
+    },
+    "addChord": "Aggiungi Accordo",
+    "clearAll": "Cancella Tutto",
+    "compatibleLabel": "Tonalità e Modi Compatibili:"
+  },
+  "controls": {
+    "generationMode": {
+      "palette": "Modalità Tavolozza Progressione",
+      "scale": "Modalità Scala"
+    },
+    "headers": {
+      "palette": "Modalità Tavolozza Progressione",
+      "scale": "Modalità Scala"
+    },
+    "labels": {
+      "key": "Tonalità",
+      "mode": "Modo/Scala",
+      "progression": "Tavolozza Progressione",
+      "name": "Nome Progressione",
+      "outputName": "Nome Output"
+    }
+  },
+  "buttons": {
+    "generate": "Genera Progressioni",
+    "downloadAll": "Scarica tutti i file .progression"
+  },
+  "tabs": {
+    "mpc": "Pad MPC",
+    "keyboard": "Tastiera",
+    "guitar": "Chitarra",
+    "staff": "Pentagramma",
+    "midi": "MIDI",
+    "leftHanded": "Mancino",
+    "midiOutput": "Uscita MIDI:",
+    "midiOutputNone": "Beep browser (nessun MIDI)"
+  },
+  "variants": {
+    "Smooth": {
+      "label": "Conduzione Voci Fluida",
+      "tooltip": "Variante fluida: Massimizza note comuni, moto per grado congiunto e moto contrario. Valuta centinaia di voicing per trovare le transizioni più fluide tra accordi."
+    },
+    "Classic": {
+      "label": "Conduzione Voci",
+      "tooltip": "Variante classica: Ottimizzata per conduzione voci fluida tra accordi. Movimento minimo delle note crea progressioni naturali e scorrevoli."
+    },
+    "Jazz": {
+      "label": "Voicing Stretto",
+      "tooltip": "Variante jazz: Utilizza voicing stretti con note entro un'ottava. Crea armonie ricche e dense tipiche del comping pianistico jazz."
+    },
+    "Modal": {
+      "label": "Voicing Aperto",
+      "tooltip": "Variante modale: Presenta voicing aperti con intervalli più ampi tra le note. Produce texture spaziose e ariose ideali per l'armonia modale."
+    },
+    "Experimental": {
+      "label": "Voicing Espanso",
+      "tooltip": "Variante sperimentale: Utilizza voicing espansi su più ottave. Crea colori e texture armoniche uniche e non convenzionali."
+    },
+    "progressionClarification": "Accordi 1-{{count}} dalla progressione, {{next}}-16 estrapolati. ",
+    "chordDistanceHint": "I colori delle carte mostrano la distanza dell'accordo dalla carta selezionata"
+  },
+  "footer": {
+    "cousin": "Cugino del",
+    "finderLink": "Trova Progressioni di Accordi MPC",
+    "producer": "Prodotto da Jean-Marc Liotier",
+    "github": "Vedi su GitHub"
+  },
+  "tooltips": {
+    "progressionPaletteDisabled": "Le tavolozze di progressione non sono utilizzate in modalità Esplorazione Scala. Verranno generati tutti gli accordi della scala selezionata.",
+    "progressionPaletteEnabled": "Ogni tavolozza fornisce 16 accordi unici: primi N dalla progressione, pad rimanenti dall'armonia estesa. Filtri specifici del genere garantiscono colori di accordi appropriati."
+  },
+  "errors": {
+    "selectKey": "Seleziona una tonalità",
+    "selectMode": "Seleziona un modo",
+    "selectProgression": "Seleziona una progressione",
+    "generateFailed": "Generazione progressione fallita"
+  },
+  "messages": {
+    "loading": "Caricamento...",
+    "generating": "Generazione progressioni...",
+    "complete": "Generazione completata",
+    "noCompatibleKeysFound": "Nessuna tonalità compatibile trovata per questi accordi"
+  },
+  "chordRoles": {
+    "I": "Tonica - l'accordo casa, dà risoluzione e stabilità.",
+    "II": "Sopratonica - accordo predominante, spesso porta a V.",
+    "III": "Mediante - predominante più debole o accordo di colore, collega I e IV/vi.",
+    "IV": "Sottodominante - accordo predominante, prepara movimento verso V.",
+    "V": "Dominante - crea tensione che risolve su I.",
+    "VI": "Sopradominante - relativa minore, spesso usato per cadenze d'inganno.",
+    "VII°": "Sensibile - accordo diminuito, attrazione forte verso I.",
+    "♭II": "Preso in prestito dalla seconda bemolle (Napoletana), forte predominante, prepara V.",
+    "♭III": "Preso in prestito da minore parallelo, aggiunge colore drammatico, sostituisce I.",
+    "♭IV": "Sottodominante minore in prestito, ammorbidisce movimento verso V.",
+    "♭V": "Accordo in prestito raro, colore cromatico.",
+    "♭VI": "Preso in prestito da minore parallelo, predominante drammatico, spesso si muove verso V.",
+    "♭VII": "Preso in prestito da Misolidio, dà sapore rock/blues, spesso si muove verso I o V.",
+    "V/II": "Dominante secondaria - tonicizza ii, crea movimento verso ii.",
+    "V/III": "Dominante secondaria - tonicizza iii, usato raramente ma colorato.",
+    "V/IV": "Dominante secondaria - tonicizza IV, illumina progressione.",
+    "V/V": "Dominante secondaria - tonicizza V, molto comune per rafforzare cadenza.",
+    "V/VI": "Dominante secondaria - tonicizza vi, usato per cambiamenti d'inganno.",
+    "VII°/II": "Accordo sensibile di ii, risolve fortemente su ii.",
+    "VII°/III": "Accordo sensibile di iii, risolve fortemente su iii.",
+    "VII°/IV": "Accordo sensibile di IV, risolve fortemente su IV.",
+    "VII°/V": "Accordo sensibile di V, risolve fortemente su V.",
+    "VII°/VI": "Accordo sensibile di vi, risolve fortemente su vi.",
+    "SUBV7": "Sostituzione di tritono - sostituzione jazz per V7, crea conduzione voci cromatica.",
+    "♯I°": "Diminuito di passaggio - connettore cromatico tra accordi diatonici.",
+    "♯II°": "Diminuito di passaggio - connettore cromatico tra accordi diatonici.",
+    "sus": "Accordo sospeso - sostituisce 3ª con 2ª/4ª, crea sospensione prima della risoluzione.",
+    "add9": "Aggiunge brillantezza, colore sognante.",
+    "6": "Colore vintage, ammorbidisce armonia.",
+    "extended": "Armonia estesa - colore jazz/pop, aggiunge profondità.",
+    "borrowed": "Accordo in prestito - aggiunge colore espressivo prendendo in prestito dal modo parallelo.",
+    "default": "Colore armonico - aggiunge varietà e interesse alla progressione."
+  },
+  "modeCategories": {
+    "Common Western Tonal": "Tonalità Occidentale Comune",
+    "Compact/Popular": "Compatta/Popolare",
+    "Symmetrical/Jazz": "Simmetrica/Jazz",
+    "Arabic Maqamat": "Maqamat Arabo",
+    "Indian Ragas": "Raga Indiani",
+    "Exotic": "Esotico"
+  },
+  "modes": {
