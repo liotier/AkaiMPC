@@ -27,16 +27,40 @@ body {
 }
 
 .app {
-    padding: 20px;
+    padding: 12px 20px 20px 20px;
     max-width: 1400px;
     margin: 0 auto;
 }
 
 .header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 24px;
+    margin-bottom: 6px;
+    position: relative;
+    padding-top: 8px;
+}
+
+.language-switcher {
+    position: absolute;
+    top: 8px;
+    right: 0;
+    z-index: 10;
+}
+
+.language-select {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.language-select:hover {
+    border-color: var(--accent);
 }
 
 h1 {
@@ -54,6 +78,7 @@ h1 {
     height: 80px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 38px;
 }
 
 .chord-matcher {
@@ -61,7 +86,7 @@ h1 {
     border: 2px dashed var(--accent);
     border-radius: var(--radius);
     padding: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 }
 
 .chord-matcher-header {
