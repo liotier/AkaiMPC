@@ -203,6 +203,36 @@ export const modes = {
             value: 'Egyptian Pentatonic',
             name: 'Egyptian Pentatonic',
             description: 'Ancient suspended pentatonic: 1-2-4-5-♭7. No 3rd, creates suspended, ambiguous character. Used in ancient Egyptian music (theoretical reconstruction) and Middle Eastern folk music. Similar to minor pentatonic but with major 2nd instead of ♭3. Creates neutral, ancient, timeless atmosphere. Popular for world music and ethnic fusion.'
+        },
+        {
+            value: 'Altered',
+            name: 'Altered (Super Locrian)',
+            description: 'Seventh mode of melodic minor: 1-♭2-♭3-♭4-♭5-♭6-♭7. The ultimate altered dominant scale - every note except root is altered. Used over dominant 7th chords resolving to minor. Creates maximum tension before resolution. Essential jazz vocabulary for altered dominant sounds (7♯9♭13, 7alt). The go-to scale for jazz improvisers on V7 chords.'
+        },
+        {
+            value: 'Lydian Dominant',
+            name: 'Lydian Dominant',
+            description: 'Fourth mode of melodic minor: 1-2-3-♯4-5-6-♭7. Combines Lydian brightness (♯4) with Mixolydian rootedness (♭7). Perfect for dominant 7♯11 chords. Creates floating yet bluesy character. Used in jazz fusion, film scores, and modern jazz. Tritone substitution scale. The "Simpsons theme" sound.'
+        },
+        {
+            value: 'Locrian #2',
+            name: 'Locrian ♯2',
+            description: 'Sixth mode of melodic minor: 1-2-♭3-4-♭5-♭6-♭7. Locrian with natural 2nd. Less dissonant than pure Locrian. Used over half-diminished (m7♭5) chords in jazz. Provides more melodic options than standard Locrian. Common in jazz minor key ii-V-i progressions.'
+        },
+        {
+            value: 'Bebop Major',
+            name: 'Bebop Major',
+            description: 'Eight-note major scale with added ♭6: 1-2-3-4-5-♭6-6-7. The chromatic passing tone keeps chord tones on strong beats during eighth-note lines. Essential bebop vocabulary. Used over major 7th chords. Creates smooth, flowing jazz lines. Invented by bebop pioneers for rhythmic precision.'
+        },
+        {
+            value: 'Bebop Dominant',
+            name: 'Bebop Dominant',
+            description: 'Eight-note Mixolydian with added natural 7: 1-2-3-4-5-6-♭7-7. The most important bebop scale. Chromatic between ♭7 and root keeps chord tones on downbeats. Used over dominant 7th chords. Foundation of bebop improvisation. Creates swinging, rhythmically precise jazz lines.'
+        },
+        {
+            value: 'Bebop Minor',
+            name: 'Bebop Minor',
+            description: 'Eight-note Dorian with added major 3rd: 1-2-♭3-3-4-5-6-♭7. Chromatic passing tone between ♭3 and 4. Used over minor 7th chords in jazz. Allows fluid movement between minor and major sounds. Creates sophisticated minor jazz lines with bebop rhythmic precision.'
         }
     ]
 };
@@ -408,6 +438,118 @@ export const progressions = {
             name: 'IM7—♭IIIM7—♭VIM7—♭II7',
             nickname: 'Giant Steps',
             description: 'John Coltrane\'s revolutionary "Giant Steps" changes. Moves through three tonal centers divided into major thirds (I, ♭III, ♭VI). The ♭II7 is tritone substitution. Creates maximum harmonic movement, defining moment in jazz evolution.'
+        },
+        {
+            value: 'III7—VI7—II7—V7',
+            name: 'III7—VI7—II7—V7',
+            nickname: 'Rhythm Changes Bridge',
+            palettePriorities: {
+                preferred: ['dom7', 'dom9', 'dom13'],
+                allowed: ['major7', 'dom7b9'],
+                avoided: ['minor', 'diminished']
+            },
+            description: 'The iconic bridge from Gershwin\'s "I Got Rhythm" and countless jazz standards. Four secondary dominants descending by fifths, each resolving to the next. Creates intense harmonic motion and is essential jazz vocabulary for bebop improvisation.'
+        },
+        {
+            value: 'V7/ii—ii—V7—I',
+            name: 'V7/ii—ii—V7—I',
+            nickname: 'Secondary Dominant',
+            palettePriorities: {
+                preferred: ['dom7', 'minor7', 'major7'],
+                allowed: ['dom9', 'minor9'],
+                avoided: ['diminished', 'quartal']
+            },
+            description: 'Classic secondary dominant approach. V7/ii (dominant of ii) intensifies arrival at ii, then standard ii-V-I. The added secondary dominant creates stronger pull and chromatic color. Fundamental jazz harmonic technique for tonicization.'
+        },
+        {
+            value: '♭II7—I',
+            name: '♭II7—I',
+            nickname: 'Tritone Sub',
+            palettePriorities: {
+                preferred: ['dom7', 'dom9', 'major7'],
+                allowed: ['dom7b5', 'dom13'],
+                avoided: ['minor', 'diminished']
+            },
+            description: 'The tritone substitution - ♭II7 replaces V7 because they share the same tritone (3rd and 7th swap). Creates chromatic half-step bass resolution to I. Essential jazz tool for sophisticated harmonic color and smooth voice leading.'
+        },
+        {
+            value: 'ii7—♭II7—IM7',
+            name: 'ii7—♭II7—IM7',
+            nickname: 'Tritone Resolution',
+            palettePriorities: {
+                preferred: ['minor7', 'dom7', 'major7'],
+                allowed: ['dom9', 'minor9'],
+                avoided: ['diminished', 'augmented']
+            },
+            description: 'Classic ii-V with tritone substitution on V. Creates chromatic descending bass line (ii-♭II-I). Common jazz ending that sounds fresh and sophisticated. The ♭II7 retains dominant function while adding harmonic surprise.'
+        }
+    ],
+    'Modal Interchange': [
+        {
+            value: '♭VI—♭VII—I',
+            name: '♭VI—♭VII—I',
+            nickname: 'Mario Cadence',
+            palettePriorities: {
+                preferred: ['major', 'major7'],
+                allowed: ['dom7', 'sus4'],
+                avoided: ['diminished', 'minor7']
+            },
+            description: 'Borrowed from parallel minor (Aeolian). The whole-step approach from ♭VII to I creates triumphant, cinematic resolution. Named for its prevalence in video game music (Mario, Zelda). Creates epic, heroic feeling in rock and film scores.'
+        },
+        {
+            value: 'I—♭VII—IV—I',
+            name: 'I—♭VII—IV—I',
+            nickname: 'Rock Mixolydian',
+            palettePriorities: {
+                preferred: ['major', 'dom7'],
+                allowed: ['sus4', 'major7'],
+                avoided: ['diminished', 'minor7']
+            },
+            description: 'Mixolydian modal interchange - ♭VII borrowed from parallel minor/Mixolydian. Creates bluesy, rock sound without dominant function. The ♭VII-IV-I ending is plagal (no leading tone tension). Foundation of classic rock harmony.'
+        },
+        {
+            value: 'I—♭III—♭VII—IV',
+            name: 'I—♭III—♭VII—IV',
+            nickname: 'Double Plagal',
+            palettePriorities: {
+                preferred: ['major', 'dom7'],
+                allowed: ['sus4', 'add9'],
+                avoided: ['diminished', 'minor7']
+            },
+            description: 'Heavy modal borrowing from parallel minor. Both ♭III and ♭VII are borrowed, creating dark rock/metal sound while maintaining major tonic. No dominant-tonic motion - all plagal. Used in Led Zeppelin, Black Sabbath, and modern rock.'
+        },
+        {
+            value: 'i—IV—i—V',
+            name: 'i—IV—i—V',
+            nickname: 'Minor Picardy',
+            palettePriorities: {
+                preferred: ['minor', 'major', 'dom7'],
+                allowed: ['minor7', 'sus4'],
+                avoided: ['diminished', 'augmented']
+            },
+            description: 'Borrowed major IV in minor key context. The IV chord (instead of iv) brightens the minor progression without losing minor identity. Creates hopeful moment in darkness. Used in flamenco, rock, and film scores for emotional contrast.'
+        },
+        {
+            value: 'I—iv—I—V',
+            name: 'I—iv—I—V',
+            nickname: 'Minor Plagal',
+            palettePriorities: {
+                preferred: ['major', 'minor', 'dom7'],
+                allowed: ['major7', 'sus4'],
+                avoided: ['diminished', 'augmented']
+            },
+            description: 'The minor plagal cadence - iv borrowed from parallel minor in major key. Creates bittersweet, nostalgic color. The minor iv over major I is one of the most emotionally evocative borrowed chords. Common in ballads and emotional climaxes.'
+        },
+        {
+            value: '♭VI—iv—I',
+            name: '♭VI—iv—I',
+            nickname: 'Borrowed Plagal',
+            palettePriorities: {
+                preferred: ['major', 'minor'],
+                allowed: ['major7', 'minor7'],
+                avoided: ['dom7', 'diminished']
+            },
+            description: 'Double borrowing from parallel minor. Both ♭VI and iv create dark approach to major tonic. No dominant - pure plagal motion. Creates cinematic, emotional resolution. Common in film scores for moments of triumph after struggle.'
         }
     ],
     'Classical/Modal': [
@@ -1408,7 +1550,15 @@ export function getScaleDegrees(mode) {
         'Hirajoshi': [0, 2, 3, 7, 8],
         'Insen': [0, 1, 5, 7, 10],
         'Kumoi': [0, 2, 3, 7, 9],
-        'Egyptian Pentatonic': [0, 2, 5, 7, 10]
+        'Egyptian Pentatonic': [0, 2, 5, 7, 10],
+        // Melodic Minor Modes
+        'Altered': [0, 1, 3, 4, 6, 8, 10],  // 7th mode of melodic minor (Super Locrian)
+        'Lydian Dominant': [0, 2, 4, 6, 7, 9, 10],  // 4th mode of melodic minor (Lydian b7)
+        'Locrian #2': [0, 2, 3, 5, 6, 8, 10],  // 6th mode of melodic minor
+        // Bebop Scales (8 notes)
+        'Bebop Major': [0, 2, 4, 5, 7, 8, 9, 11],  // Major with added b6
+        'Bebop Dominant': [0, 2, 4, 5, 7, 9, 10, 11],  // Mixolydian with added natural 7
+        'Bebop Minor': [0, 2, 3, 4, 5, 7, 9, 10]  // Dorian with added major 3
     };
 
     // Handle quarter tone approximations
@@ -1486,7 +1636,7 @@ export function getChordQualityForMode(degree, mode) {
         'Harmonic Minor': {
             0: 'minor',   // i
             1: 'diminished',  // ii°
-            2: 'major',   // III+ (augmented, but using major as fallback)
+            2: 'augmented',   // III+ (augmented triad)
             3: 'minor',   // iv
             4: 'major',   // V
             5: 'major',   // VI
@@ -1495,7 +1645,7 @@ export function getChordQualityForMode(degree, mode) {
         'Melodic Minor': {
             0: 'minor',   // i
             1: 'minor',   // ii
-            2: 'major',   // III+ (augmented, but using major as fallback)
+            2: 'augmented',   // III+ (augmented triad)
             3: 'major',   // IV
             4: 'major',   // V
             5: 'diminished',  // vi°
@@ -1742,6 +1892,65 @@ export function getChordQualityForMode(degree, mode) {
             4: 'major',   // V
             5: 'major',   // VI (with b6)
             6: 'diminished'  // vii°
+        },
+        // Melodic Minor Modes
+        'Altered': {
+            0: 'diminished',  // i° (altered tonic)
+            1: 'minor',   // ii
+            2: 'minor',   // iii
+            3: 'minor',   // iv
+            4: 'major',   // V (with b5)
+            5: 'major',   // VI
+            6: 'minor'    // vii
+        },
+        'Lydian Dominant': {
+            0: 'major',   // I (dom7 context)
+            1: 'major',   // II
+            2: 'minor',   // iii
+            3: 'diminished',  // #iv°
+            4: 'major',   // V
+            5: 'minor',   // vi
+            6: 'minor'    // vii
+        },
+        'Locrian #2': {
+            0: 'diminished',  // i° (m7b5 context)
+            1: 'minor',   // ii
+            2: 'minor',   // iii
+            3: 'minor',   // iv
+            4: 'major',   // V (with b5)
+            5: 'major',   // VI
+            6: 'minor'    // vii
+        },
+        // Bebop scales (8 notes - use first 7 for chord qualities)
+        'Bebop Major': {
+            0: 'major',   // I
+            1: 'minor',   // ii
+            2: 'minor',   // iii
+            3: 'major',   // IV
+            4: 'major',   // V
+            5: 'diminished',  // vi° (passing)
+            6: 'minor',   // vi
+            7: 'diminished'  // vii°
+        },
+        'Bebop Dominant': {
+            0: 'major',   // I (dom7 context)
+            1: 'minor',   // ii
+            2: 'minor',   // iii
+            3: 'major',   // IV
+            4: 'minor',   // v
+            5: 'minor',   // vi
+            6: 'diminished',  // vii°
+            7: 'major'    // VII (passing)
+        },
+        'Bebop Minor': {
+            0: 'minor',   // i
+            1: 'minor',   // ii
+            2: 'diminished',  // iii° (passing)
+            3: 'major',   // III
+            4: 'major',   // IV
+            5: 'minor',   // v
+            6: 'minor',   // vi
+            7: 'major'    // VII
         }
     };
 
@@ -1759,20 +1968,90 @@ export function getChordQualityForMode(degree, mode) {
 export function buildChordRaw(baseNote, chordType) {
     // Helper function that just returns MIDI notes without context
     switch (chordType) {
+        // Triads
         case 'major':
             return [baseNote, baseNote + 4, baseNote + 7];
         case 'minor':
             return [baseNote, baseNote + 3, baseNote + 7];
         case 'diminished':
             return [baseNote, baseNote + 3, baseNote + 6];
+        case 'augmented':
+            return [baseNote, baseNote + 4, baseNote + 8];
+        case 'sus2':
+            return [baseNote, baseNote + 2, baseNote + 7];
+        case 'sus4':
+            return [baseNote, baseNote + 5, baseNote + 7];
+
+        // Seventh chords
         case 'major7':
             return [baseNote, baseNote + 4, baseNote + 7, baseNote + 11];
         case 'minor7':
             return [baseNote, baseNote + 3, baseNote + 7, baseNote + 10];
         case 'dom7':
             return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10];
+        case 'dim7':
+            return [baseNote, baseNote + 3, baseNote + 6, baseNote + 9];
+        case 'm7b5': // Half-diminished
+            return [baseNote, baseNote + 3, baseNote + 6, baseNote + 10];
+        case 'minMaj7': // Minor-major 7th
+            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 11];
+        case 'aug7': // Augmented 7th
+            return [baseNote, baseNote + 4, baseNote + 8, baseNote + 10];
+        case 'augMaj7': // Augmented major 7th
+            return [baseNote, baseNote + 4, baseNote + 8, baseNote + 11];
+
+        // Extended chords (9th, 11th, 13th)
+        case 'major9':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 11, baseNote + 14];
+        case 'minor9':
+            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 10, baseNote + 14];
+        case 'dom9':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 14];
+        case 'dom7b9': // Altered dominant
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 13];
+        case 'dom7sharp9': // Hendrix chord
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 15];
+        case 'major11':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 11, baseNote + 14, baseNote + 17];
+        case 'minor11':
+            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 10, baseNote + 14, baseNote + 17];
+        case 'dom11':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 14, baseNote + 17];
+        case 'major13':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 11, baseNote + 14, baseNote + 21];
+        case 'minor13':
+            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 10, baseNote + 14, baseNote + 21];
+        case 'dom13':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 14, baseNote + 21];
+
+        // Altered dominants
+        case 'dom7alt': // 7#9#5 - fully altered
+            return [baseNote, baseNote + 4, baseNote + 8, baseNote + 10, baseNote + 15];
+        case 'dom7b5': // Tritone substitution ready
+            return [baseNote, baseNote + 4, baseNote + 6, baseNote + 10];
+
+        // Quartal/Modern voicings
         case 'quartal':
             return [baseNote, baseNote + 5, baseNote + 10];
+        case 'quartal4':
+            return [baseNote, baseNote + 5, baseNote + 10, baseNote + 15];
+
+        // Add9/Add11 (no 7th)
+        case 'add9':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 14];
+        case 'minAdd9':
+            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 14];
+        case 'add11':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 17];
+
+        // 6th chords
+        case 'major6':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 9];
+        case 'minor6':
+            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 9];
+        case 'maj6/9':
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 9, baseNote + 14];
+
         default:
             return [baseNote, baseNote + 4, baseNote + 7];
     }
@@ -1780,32 +2059,161 @@ export function buildChordRaw(baseNote, chordType) {
 
 export function buildChord(root, chordType, keyOffset) {
     const baseNote = 60 + keyOffset + root;
-
-    switch (chordType) {
-        case 'major':
-            return [baseNote, baseNote + 4, baseNote + 7];
-        case 'minor':
-            return [baseNote, baseNote + 3, baseNote + 7];
-        case 'diminished':
-            return [baseNote, baseNote + 3, baseNote + 6];
-        case 'major7':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 11];
-        case 'minor7':
-            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 10];
-        case 'dom7':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10];
-        case 'quartal':
-            return [baseNote, baseNote + 5, baseNote + 10];
-        default:
-            return [baseNote, baseNote + 4, baseNote + 7];
-    }
+    // Delegate to buildChordRaw for consistency
+    return buildChordRaw(baseNote, chordType);
 }
 
 // ============================================================================
 // Voice Leading Optimization
 // ============================================================================
 
-// Calculate the total voice leading distance between two chords
+/**
+ * Hungarian Algorithm for optimal voice leading assignment
+ * Finds the minimum cost assignment between voices of two chords
+ * Time complexity: O(n³) where n = number of voices
+ */
+function hungarianAlgorithm(costMatrix) {
+    const n = costMatrix.length;
+    if (n === 0) return { cost: 0, assignment: [] };
+
+    // Create working copy with row/column reduction
+    const matrix = costMatrix.map(row => [...row]);
+
+    // Step 1: Row reduction - subtract minimum from each row
+    for (let i = 0; i < n; i++) {
+        const rowMin = Math.min(...matrix[i]);
+        for (let j = 0; j < n; j++) {
+            matrix[i][j] -= rowMin;
+        }
+    }
+
+    // Step 2: Column reduction - subtract minimum from each column
+    for (let j = 0; j < n; j++) {
+        let colMin = Infinity;
+        for (let i = 0; i < n; i++) {
+            colMin = Math.min(colMin, matrix[i][j]);
+        }
+        for (let i = 0; i < n; i++) {
+            matrix[i][j] -= colMin;
+        }
+    }
+
+    // Step 3: Find optimal assignment using augmenting paths
+    const rowAssignment = new Array(n).fill(-1);
+    const colAssignment = new Array(n).fill(-1);
+
+    // Try to find initial assignment with zeros
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if (matrix[i][j] === 0 && colAssignment[j] === -1) {
+                rowAssignment[i] = j;
+                colAssignment[j] = i;
+                break;
+            }
+        }
+    }
+
+    // Augment assignment until optimal
+    for (let iter = 0; iter < n * n; iter++) {
+        // Find unassigned row
+        let unassignedRow = -1;
+        for (let i = 0; i < n; i++) {
+            if (rowAssignment[i] === -1) {
+                unassignedRow = i;
+                break;
+            }
+        }
+
+        if (unassignedRow === -1) break; // All rows assigned
+
+        // BFS to find augmenting path
+        const rowVisited = new Array(n).fill(false);
+        const colVisited = new Array(n).fill(false);
+        const parent = new Array(n).fill(-1);
+        const queue = [unassignedRow];
+        rowVisited[unassignedRow] = true;
+        let foundAugmentingPath = false;
+        let endCol = -1;
+
+        while (queue.length > 0 && !foundAugmentingPath) {
+            const row = queue.shift();
+
+            for (let col = 0; col < n; col++) {
+                if (!colVisited[col] && matrix[row][col] === 0) {
+                    colVisited[col] = true;
+                    parent[col] = row;
+
+                    if (colAssignment[col] === -1) {
+                        // Found augmenting path
+                        foundAugmentingPath = true;
+                        endCol = col;
+                        break;
+                    } else {
+                        // Continue BFS
+                        const nextRow = colAssignment[col];
+                        if (!rowVisited[nextRow]) {
+                            rowVisited[nextRow] = true;
+                            queue.push(nextRow);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (foundAugmentingPath) {
+            // Augment along the path
+            let col = endCol;
+            while (col !== -1) {
+                const row = parent[col];
+                const prevCol = rowAssignment[row];
+                rowAssignment[row] = col;
+                colAssignment[col] = row;
+                col = prevCol;
+            }
+        } else {
+            // No augmenting path found, need to modify matrix
+            // Find minimum uncovered element
+            let minUncovered = Infinity;
+            for (let i = 0; i < n; i++) {
+                if (rowVisited[i]) {
+                    for (let j = 0; j < n; j++) {
+                        if (!colVisited[j]) {
+                            minUncovered = Math.min(minUncovered, matrix[i][j]);
+                        }
+                    }
+                }
+            }
+
+            if (minUncovered === Infinity) break;
+
+            // Subtract from uncovered, add to double-covered
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    if (rowVisited[i] && !colVisited[j]) {
+                        matrix[i][j] -= minUncovered;
+                    } else if (!rowVisited[i] && colVisited[j]) {
+                        matrix[i][j] += minUncovered;
+                    }
+                }
+            }
+        }
+    }
+
+    // Calculate total cost from original matrix
+    let totalCost = 0;
+    const assignment = [];
+    for (let i = 0; i < n; i++) {
+        const j = rowAssignment[i];
+        if (j !== -1) {
+            totalCost += costMatrix[i][j];
+            assignment.push({ from: i, to: j, cost: costMatrix[i][j] });
+        }
+    }
+
+    return { cost: totalCost, assignment };
+}
+
+// Calculate the total voice leading distance between two chords using Hungarian algorithm
 export function calculateVoiceLeadingDistance(chord1Notes, chord2Notes) {
     // For chords with different numbers of notes, pad the shorter one
     const maxLength = Math.max(chord1Notes.length, chord2Notes.length);
@@ -1815,32 +2223,52 @@ export function calculateVoiceLeadingDistance(chord1Notes, chord2Notes) {
     while (notes1.length < maxLength) notes1.push(notes1[notes1.length - 1] + 12);
     while (notes2.length < maxLength) notes2.push(notes2[notes2.length - 1] + 12);
 
-    // Calculate minimum total distance using Hungarian algorithm approximation
-    // For simplicity, we'll use a greedy approach
-    let totalDistance = 0;
-    const used = new Set();
-
-    notes1.forEach(note1 => {
-        let minDist = Infinity;
-        let closestIndex = -1;
-
-        notes2.forEach((note2, idx) => {
-            if (!used.has(idx)) {
-                const dist = Math.abs(note1 - note2);
-                if (dist < minDist) {
-                    minDist = dist;
-                    closestIndex = idx;
-                }
-            }
-        });
-
-        if (closestIndex >= 0) {
-            totalDistance += minDist;
-            used.add(closestIndex);
+    // Build cost matrix for Hungarian algorithm
+    const costMatrix = [];
+    for (let i = 0; i < maxLength; i++) {
+        const row = [];
+        for (let j = 0; j < maxLength; j++) {
+            row.push(Math.abs(notes1[i] - notes2[j]));
         }
-    });
+        costMatrix.push(row);
+    }
 
-    return totalDistance;
+    // Use Hungarian algorithm for optimal assignment
+    const result = hungarianAlgorithm(costMatrix);
+    return result.cost;
+}
+
+// Get detailed voice leading analysis using Hungarian algorithm
+export function getOptimalVoiceAssignment(chord1Notes, chord2Notes) {
+    const maxLength = Math.max(chord1Notes.length, chord2Notes.length);
+    const notes1 = [...chord1Notes];
+    const notes2 = [...chord2Notes];
+
+    while (notes1.length < maxLength) notes1.push(notes1[notes1.length - 1] + 12);
+    while (notes2.length < maxLength) notes2.push(notes2[notes2.length - 1] + 12);
+
+    const costMatrix = [];
+    for (let i = 0; i < maxLength; i++) {
+        const row = [];
+        for (let j = 0; j < maxLength; j++) {
+            row.push(Math.abs(notes1[i] - notes2[j]));
+        }
+        costMatrix.push(row);
+    }
+
+    const result = hungarianAlgorithm(costMatrix);
+
+    // Map back to actual notes
+    return {
+        totalDistance: result.cost,
+        voiceMovements: result.assignment.map(a => ({
+            fromNote: notes1[a.from],
+            toNote: notes2[a.to],
+            semitones: a.cost,
+            direction: notes2[a.to] > notes1[a.from] ? 'up' :
+                       notes2[a.to] < notes1[a.from] ? 'down' : 'static'
+        }))
+    };
 }
 
 // Generate all reasonable inversions of a chord within a comfortable range
