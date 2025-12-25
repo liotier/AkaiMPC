@@ -145,152 +145,152 @@
   },
   "modes": {
     "Major": {
-      "name": "Major",
-      "description": "La gamme fondamentale de la musique occidentale. Schéma : T-T-½T-T-T-T-½T (tons et demi-tons). Crée un caractère lumineux, joyeux et résolu. Toutes les triades diatoniques (I, ii, iii, IV, V, vi, vii°) proviennent de cette gamme. Fondement de la musique classique, pop et folk pour une tonalité optimiste et stable."
+      "name": "Mayor",
+      "description": "La escala fundamental de la música occidental. Patrón: T-T-½T-T-T-T-½T (tonos y semitonos). Crea un carácter brillante, alegre y resuelto. Todas las tríadas diatónicas (I, ii, iii, IV, V, vi, vii°) provienen de esta escala. Base de la música clásica, pop y folk para una tonalidad optimista y estable."
     },
     "Minor": {
-      "name": "Minor",
-      "description": "Gamme mineure naturelle (mode Éolien). Schéma : T-½T-T-T-½T-T-T. Crée un caractère triste, introspectif, plus sombre que le majeur. Les 3e, 6e et 7e degrés abaissés la distinguent du majeur. Utilisée dans tous les genres pour des humeurs mélancoliques, émotionnelles ou sérieuses. Fondement de l'harmonie en tonalité mineure."
+      "name": "Menor",
+      "description": "Escala menor natural (modo Eólico). Patrón: T-½T-T-T-½T-T-T. Crea un carácter triste, introspectivo, más oscuro que el mayor. Los grados 3°, 6° y 7° rebajados la distinguen del mayor. Usada en todos los géneros para estados de ánimo melancólicos, emocionales o serios. Base de la armonía en tonalidad menor."
     },
     "Dorian": {
-      "name": "Dorian",
-      "description": "Gamme mineure avec 6e degré élevé. Schéma : T-½T-T-T-T-½T-T. Crée un son mineur sophistiqué - plus sombre que le majeur mais plus lumineux que le mineur naturel. L'accord de IV majeur le distingue de l'Éolien. Utilisé dans le jazz, le funk, le folk et la musique modale pour une tonalité mineure cool et sophistiquée sans tristesse lourde."
+      "name": "Dórico",
+      "description": "Escala menor con 6° grado elevado. Patrón: T-½T-T-T-T-½T-T. Crea un sonido menor sofisticado - más oscuro que el mayor pero más brillante que el menor natural. El acorde de IV mayor lo distingue del Eólico. Usado en jazz, funk, folk y música modal para una tonalidad menor cool y sofisticada sin tristeza pesada."
     },
     "Phrygian": {
-      "name": "Phrygian",
-      "description": "Gamme mineure avec 2e degré abaissé. Schéma : ½T-T-T-T-½T-T-T. Crée un caractère espagnol, moyen-oriental ou metal sombre. Le demi-ton entre la tonique et la 2e crée un son exotique distinctif. Utilisé dans le flamenco, le metal et la musique espagnole pour une atmosphère mystérieuse, sinistre ou ethnique."
+      "name": "Frigio",
+      "description": "Escala menor con 2° grado rebajado. Patrón: ½T-T-T-T-½T-T-T. Crea un carácter español, oriental medio u oscuro de metal. El semitono entre la tónica y la 2ª crea un sonido exótico distintivo. Usado en flamenco, metal y música española para una atmósfera misteriosa, siniestra o étnica."
     },
     "Lydian": {
-      "name": "Lydian",
-      "description": "Gamme majeure avec 4e degré élevé. Schéma : T-T-T-½T-T-T-½T. Crée un caractère rêveur, flottant, éthéré - encore plus lumineux que le majeur. La 4e élevée (#11) crée le son \"Lydien\" distinctif. Utilisé dans les musiques de film, le jazz et le rock progressif pour une qualité magique, surnaturelle ou flottante."
+      "name": "Lidio",
+      "description": "Escala mayor con 4° grado elevado. Patrón: T-T-T-½T-T-T-½T. Crea un carácter soñador, flotante, etéreo - aún más brillante que el mayor. La 4ª elevada (#11) crea el sonido \"Lidio\" distintivo. Usado en música de cine, jazz y rock progresivo para una cualidad mágica, sobrenatural o flotante."
     },
     "Mixolydian": {
-      "name": "Mixolydian",
-      "description": "Gamme majeure avec 7e degré abaissé. Schéma : T-T-½T-T-T-½T-T. Crée un caractère bluesy, rock ou folk. L'accord de ♭VII est caractéristique. Utilisé abondamment dans le rock, le blues, le folk et le funk pour un son majeur ancré et terreux sans la tension de la sensible. Fondement de l'harmonie rock and roll."
+      "name": "Mixolidio",
+      "description": "Escala mayor con 7° grado rebajado. Patrón: T-T-½T-T-T-½T-T. Crea un carácter blusero, rock o folk. El acorde de ♭VII es característico. Usado abundantemente en rock, blues, folk y funk para un sonido mayor terrenal y arraigado sin la tensión de la sensible. Base de la armonía rock and roll."
     },
     "Locrian": {
-      "name": "Locrian",
-      "description": "Gamme mineure avec 2e et 5e degrés abaissés. Schéma : ½T-T-T-½T-T-T-T. Le mode le plus instable - triade tonique diminuée. Rarement utilisé pour des compositions complètes. La ♭5 crée un triton contre la fondamentale. Utilisé pour la dissonance, la tension ou des passages expérimentaux dans le metal, le jazz et la musique d'avant-garde."
+      "name": "Locrio",
+      "description": "Escala menor con 2° y 5° grados rebajados. Patrón: ½T-T-T-½T-T-T-T. El modo más inestable - tríada tónica disminuida. Raramente usado para composiciones completas. La ♭5 crea un tritono contra la fundamental. Usado para disonancia, tensión o pasajes experimentales en metal, jazz y música de vanguardia."
     },
     "Harmonic Minor": {
-      "name": "Harmonic Minor",
-      "description": "Mineur naturel avec 7e degré élevé. Schéma : T-½T-T-T-½T-2T-½T. L'intervalle de seconde augmentée (entre 6 et 7) crée une tension et un drame exotiques. L'accord de V majeur permet de fortes cadences V-i. Fondement de l'harmonie mineure classique, utilisé dans le metal, le flamenco et la musique moyen-orientale pour un son mineur dramatique et classique."
+      "name": "Menor Armónica",
+      "description": "Menor natural con 7° grado elevado. Patrón: T-½T-T-T-½T-2T-½T. El intervalo de segunda aumentada (entre 6 y 7) crea una tensión y drama exóticos. El acorde de V mayor permite cadencias V-i fuertes. Base de la armonía menor clásica, usado en metal, flamenco y música oriental medio para un sonido menor dramático y clásico."
     },
     "Melodic Minor": {
-      "name": "Melodic Minor",
-      "description": "Mineur naturel avec 6e et 7e degrés élevés (forme ascendante). Schéma : T-½T-T-T-T-T-½T. Plus doux que le mineur harmonique - pas de seconde augmentée. Utilisé dans le jazz pour l'improvisation modale et dans la musique classique pour l'ascension mélodique. Crée une tonalité mineure sophistiquée avec VI et VII majeurs permettant une conduite des voix fluide."
+      "name": "Menor Melódica",
+      "description": "Menor natural con 6° y 7° grados elevados (forma ascendente). Patrón: T-½T-T-T-T-T-½T. Más suave que la menor armónica - sin segunda aumentada. Usado en jazz para improvisación modal y en música clásica para ascenso melódico. Crea una tonalidad menor sofisticada con VI y VII mayores permitiendo conducción de voces fluida."
     },
     "Pentatonic Major": {
-      "name": "Pentatonic Major",
-      "description": "Gamme à cinq notes : 1-2-3-5-6 (supprime 4 et 7 de la gamme majeure). Absence de demi-tons ou tritons crée un son consonant et ouvert. Gamme universelle trouvée à travers les cultures. Utilisée dans les solos rock, les mélodies folk, les refrains pop et la musique du monde pour des mélodies chantables et accessibles qui fonctionnent sur toute harmonie."
+      "name": "Pentatónica Mayor",
+      "description": "Escala de cinco notas: 1-2-3-5-6 (elimina 4 y 7 de la escala mayor). Ausencia de semitonos o tritonos crea un sonido consonante y abierto. Escala universal encontrada en todas las culturas. Usada en solos rock, melodías folk, estribillos pop y música del mundo para melodías cantables y accesibles que funcionan sobre cualquier armonía."
     },
     "Pentatonic Minor": {
-      "name": "Pentatonic Minor",
-      "description": "Gamme à cinq notes : 1-♭3-4-5-♭7 (supprime 2 et 6 du mineur naturel). Le fondement des solos blues, rock et blues-rock. Absence de demi-tons crée un caractère fluide et coulant. Gamme mineure universelle utilisée à travers les cultures. Essentielle pour les solos de guitare, l'improvisation vocale et les mélodies mineures accessibles."
+      "name": "Pentatónica Menor",
+      "description": "Escala de cinco notas: 1-♭3-4-5-♭7 (elimina 2 y 6 del menor natural). La base de los solos blues, rock y blues-rock. Ausencia de semitonos crea un carácter fluido y corriente. Escala menor universal usada en todas las culturas. Esencial para solos de guitarra, improvisación vocal y melodías menores accesibles."
     },
     "Blues": {
       "name": "Blues",
-      "description": "Gamme à six notes : 1-♭3-4-♭5-5-♭7. Ajoute la \"blue note\" (♭5) à la pentatonique mineure. La ♭5 crée le \"bend\" blues caractéristique et la tension. Fondement de l'improvisation blues, rock, jazz et R&B. La ♭3 ambiguë sur des accords majeurs crée la dissonance bluesy. Gamme la plus importante dans la musique populaire américaine."
+      "description": "Escala de seis notas: 1-♭3-4-♭5-5-♭7. Añade la \"nota blue\" (♭5) a la pentatónica menor. La ♭5 crea el \"bend\" blues característico y la tensión. Base de la improvisación blues, rock, jazz y R&B. La ♭3 ambigua sobre acordes mayores crea la disonancia blusera. Escala más importante en la música popular americana."
     },
     "Whole Tone": {
-      "name": "Whole Tone",
-      "description": "Gamme à six notes construite entièrement de tons entiers : T-T-T-T-T-T. Parfaitement symétrique - pas de tonique ni de résolution. Crée un caractère rêveur, flottant, surréaliste. Pas de quintes ou quartes justes, seulement des accords augmentés. Utilisée par Debussy et dans le jazz pour une atmosphère ambiguë, impressionniste et surnaturelle. Définit le surréalisme musical."
+      "name": "Tonos Enteros",
+      "description": "Escala de seis notas construida enteramente de tonos enteros: T-T-T-T-T-T. Perfectamente simétrica - sin tónica ni resolución. Crea un carácter soñador, flotante, surrealista. Sin quintas o cuartas justas, solo acordes aumentados. Usada por Debussy y en jazz para atmósfera ambigua, impresionista y sobrenatural. Define el surrealismo musical."
     },
     "Diminished (W-H)": {
-      "name": "Diminished (W-H)",
-      "description": "Gamme octatonique à huit notes alternant tons et demi-tons : T-½T-T-½T-T-½T-T-½T. Parfaitement symétrique, divise l'octave en quatre parties égales. Utilisée sur les accords de dominante 7 dans le jazz. Crée un caractère tendu, instable et chromatique. Essentielle au bebop pour les sons de dominante altérée et le jeu outside."
+      "name": "Disminuida (T-½T)",
+      "description": "Escala octatónica de ocho notas alternando tonos y semitonos: T-½T-T-½T-T-½T-T-½T. Perfectamente simétrica, divide la octava en cuatro partes iguales. Usada sobre acordes de dominante 7 en jazz. Crea un carácter tenso, inestable y cromático. Esencial al bebop para sonidos de dominante alterada y tocar outside."
     },
     "Diminished (H-W)": {
-      "name": "Diminished (H-W)",
-      "description": "Gamme octatonique à huit notes alternant demi-tons et tons : ½T-T-½T-T-½T-T-½T-T. Schéma inversé du diminué T-½T. Utilisée sur les accords diminués 7. La structure symétrique crée un caractère tendu et non résolu. Essentielle au jazz pour l'improvisation sur accords diminués et la conduite chromatique des voix en composition."
+      "name": "Disminuida (½T-T)",
+      "description": "Escala octatónica de ocho notas alternando semitonos y tonos: ½T-T-½T-T-½T-T-½T-T. Patrón invertido del disminuido T-½T. Usada sobre acordes disminuidos 7. La estructura simétrica crea un carácter tenso y no resuelto. Esencial al jazz para improvisación sobre acordes disminuidos y conducción cromática de voces en composición."
     },
     "Augmented": {
-      "name": "Augmented",
-      "description": "Gamme hexatonique à six notes construite à partir de triades augmentées avec notes de passage : 1-♭3-3-5-♯5-7. Symétrique, divise l'octave en trois tierces majeures égales. Pas de quintes justes. Crée un caractère ambigu, flottant, moderniste. Utilisée dans la musique classique du 20e siècle et le jazz pour des contextes d'accords augmentés et des structures harmoniques symétriques."
+      "name": "Aumentada",
+      "description": "Escala hexatónica de seis notas construida a partir de tríadas aumentadas con notas de paso: 1-♭3-3-5-♯5-7. Simétrica, divide la octava en tres terceras mayores iguales. Sin quintas justas. Crea un carácter ambiguo, flotante, modernista. Usada en música clásica del siglo XX y jazz para contextos de acordes aumentados y estructuras armónicas simétricas."
     },
     "Maqam Hijaz": {
       "name": "Maqam Hijaz",
-      "description": "Maqâm arabe approximé en tempérament égal comme Phrygien Dominant : 1-♭2-3-4-5-♭6-♭7. La seconde augmentée entre ♭2 et 3 crée le son moyen-oriental caractéristique. Combine le ♭2 phrygien avec la tierce majeure. Utilisé dans la musique arabe, turque et klezmer pour un caractère exotique, spirituel et oriental. Évoque la prière et le mysticisme."
+      "description": "Maqām árabe aproximado en temperamento igual como Frigio Dominante: 1-♭2-3-4-5-♭6-♭7. La segunda aumentada entre ♭2 y 3 crea el sonido oriental medio característico. Combina el ♭2 frigio con la tercera mayor. Usado en música árabe, turca y klezmer para un carácter exótico, espiritual y oriental. Evoca oración y misticismo."
     },
     "Maqam Bayati": {
       "name": "Maqam Bayati",
-      "description": "Maqâm arabe approximé comme Phrygien : 1-♭2-♭3-4-5-♭6-♭7. Similaire au mode Phrygien mais avec des inflexions microtonales dans l'interprétation traditionnelle. Crée un caractère mélancolique et contemplatif moyen-oriental. L'un des maqâmât arabes les plus courants. Utilisé dans le monde arabe pour des mélodies émotionnelles et introspectives."
+      "description": "Maqām árabe aproximado como Frigio: 1-♭2-♭3-4-5-♭6-♭7. Similar al modo Frigio pero con inflexiones microtonales en interpretación tradicional. Crea un carácter melancólico y contemplativo oriental medio. Uno de los maqāmāt árabes más comunes. Usado en el mundo árabe para melodías emocionales e introspectivas."
     },
     "Maqam Rast": {
       "name": "Maqam Rast",
-      "description": "Maqâm arabe approximé comme majeur : 1-2-3-4-5-6-7, mais avec des variations microtonales de quart de ton traditionnellement. Considéré comme maqâm \"neutre\" ou \"reposant\". Caractère lumineux et stable similaire au majeur occidental mais avec de subtiles inflexions orientales. Maqâm fondamental dans la théorie musicale arabe. Utilisé pour des mélodies joyeuses, festives ou dignes."
+      "description": "Maqām árabe aproximado como mayor: 1-2-3-4-5-6-7, pero con variaciones microtonales de cuarto de tono tradicionalmente. Considerado maqām \"neutro\" o \"reposado\". Carácter brillante y estable similar al mayor occidental pero con sutiles inflexiones orientales. Maqām fundamental en teoría musical árabe. Usado para melodías alegres, festivas o dignas."
     },
     "Maqam Saba": {
       "name": "Maqam Saba",
-      "description": "Maqâm arabe au caractère distinctivement triste et nostalgique. Approximé comme 1-♭2-♭3-♭4-♭5-♭6-♭7. Plusieurs degrés abaissés créent une atmosphère sombre et mélancolique. La ♭4 est particulièrement caractéristique. Utilisé pour des expressions profondément émotionnelles et tristes dans la musique arabe. Crée une tristesse et un désir profonds."
+      "description": "Maqām árabe con carácter distintivamente triste y nostálgico. Aproximado como 1-♭2-♭3-♭4-♭5-♭6-♭7. Varios grados rebajados crean una atmósfera oscura y melancólica. La ♭4 es particularmente característica. Usado para expresiones profundamente emocionales y tristes en música árabe. Crea una tristeza y anhelo profundos."
     },
     "Maqam Kurd": {
       "name": "Maqam Kurd",
-      "description": "Maqâm arabe identique au mode Phrygien : 1-♭2-♭3-4-5-♭6-♭7. L'un des maqâmât de type mineur les plus importants. Crée un caractère mélancolique mais digne. Le nom kurde reflète les origines historiques. Utilisé dans tout le Moyen-Orient pour une musique sérieuse et contemplative. Qualité émotionnelle similaire au mineur naturel occidental mais avec la couleur phrygienne ♭2."
+      "description": "Maqām árabe idéntico al modo Frigio: 1-♭2-♭3-4-5-♭6-♭7. Uno de los maqāmāt de tipo menor más importantes. Crea un carácter melancólico pero digno. El nombre kurdo refleja los orígenes históricos. Usado en todo el Medio Oriente para música seria y contemplativa. Cualidad emocional similar al menor natural occidental pero con el color frigio ♭2."
     },
     "Bhairav": {
       "name": "Bhairav",
-      "description": "Râga matinal, identique à la gamme Double Harmonique : 1-♭2-3-4-5-♭6-7. Deux secondes augmentées (♭2-3 et ♭6-7) créent une tension dramatique distinctive. Associé à Shiva. Caractère sérieux et dévotionnel. Utilisé dans la musique classique nord-indienne pour la méditation matinale et la contemplation spirituelle. Crée une atmosphère exotique, intense et puissante."
+      "description": "Rāga matutino, idéntico a la escala Doble Armónica: 1-♭2-3-4-5-♭6-7. Dos segundas aumentadas (♭2-3 y ♭6-7) crean una tensión dramática distintiva. Asociado a Shiva. Carácter serio y devocional. Usado en música clásica norte-india para meditación matutina y contemplación espiritual. Crea una atmósfera exótica, intensa y poderosa."
     },
     "Kafi": {
       "name": "Kafi",
-      "description": "Râga d'après-midi/soirée, identique au mode Dorien : 1-2-♭3-4-5-6-♭7. L'une des dix gammes mères (thaat) dans la musique hindoustanie. Crée un caractère paisible et romantique. La 6e majeure le distingue du mineur naturel. Utilisé dans la musique dévotionnelle et classique légère pour des humeurs douces, sucrées et contemplatives. Similaire au Dorien occidental mais avec ornementation indienne."
+      "description": "Rāga de tarde/noche, idéntico al modo Dórico: 1-2-♭3-4-5-6-♭7. Una de las diez escalas madre (thaat) en música hindustani. Crea un carácter tranquilo y romántico. La 6ª mayor lo distingue del menor natural. Usado en música devocional y clásica ligera para estados de ánimo suaves, dulces y contemplativos. Similar al Dórico occidental pero con ornamentación india."
     },
     "Yaman": {
       "name": "Yaman",
-      "description": "Râga du soir, identique au mode Lydien : 1-2-3-♯4-5-6-7. L'un des râgas les plus populaires dans la musique classique hindoustanie. Crée un caractère paisible, romantique et dévotionnel. La ♯4 (tivra ma) est caractéristique. Associé à la création et au printemps. Utilisé pour des expressions sereines, belles et élevantes. Évoque la tranquillité et la beauté spirituelle."
+      "description": "Rāga nocturno, idéntico al modo Lidio: 1-2-3-♯4-5-6-7. Uno de los rāgas más populares en música clásica hindustani. Crea un carácter tranquilo, romántico y devocional. La ♯4 (tivra ma) es característica. Asociado a la creación y la primavera. Usado para expresiones serenas, bellas y elevadoras. Evoca tranquilidad y belleza espiritual."
     },
     "Bhairavi": {
       "name": "Bhairavi",
-      "description": "Râga matinal mais joué à tout moment, identique au Phrygien : 1-♭2-♭3-4-5-♭6-♭7. L'une des dix gammes mères. Crée un caractère dévotionnel et sérieux avec flexibilité pour l'ornementation. Associé à la déesse Parvati. Utilisé pour les prières matinales et les performances d'adieu. Râga le plus flexible, permet des variations chromatiques. Évoque la dévotion et le pathos."
+      "description": "Rāga matutino pero tocado en cualquier momento, idéntico al Frigio: 1-♭2-♭3-4-5-♭6-♭7. Una de las diez escalas madre. Crea un carácter devocional y serio con flexibilidad para ornamentación. Asociado a la diosa Parvati. Usado para oraciones matutinas y actuaciones de despedida. Rāga más flexible, permite variaciones cromáticas. Evoca devoción y pathos."
     },
     "Todi": {
       "name": "Todi",
-      "description": "Râga de midi avec gamme unique : 1-♭2-♭3-♯4-5-♭6-7. Combine le ♭2 phrygien, la 4e élevée (lydienne) et la 7e majeure. Crée un caractère intense, nostalgique et passionné. Considéré comme l'un des râgas les plus sérieux et dévotionnels. Associé à l'émotion profonde et au désir. Les intervalles augmentés distinctifs créent une atmosphère hantée et spirituelle."
+      "description": "Rāga de mediodía con escala única: 1-♭2-♭3-♯4-5-♭6-7. Combina el ♭2 frigio, la 4ª elevada (lidia) y la 7ª mayor. Crea un carácter intenso, nostálgico y apasionado. Considerado uno de los rāgas más serios y devocionales. Asociado a emoción profunda y anhelo. Los intervalos aumentados distintivos crean una atmósfera embrujada y espiritual."
     },
     "Double Harmonic": {
-      "name": "Double Harmonic",
-      "description": "Gamme exotique avec deux secondes augmentées : 1-♭2-3-4-5-♭6-7 (identique à Bhairav). \"Double\" fait référence aux secondes augmentées entre ♭2-3 et ♭6-7. Crée un caractère dramatique moyen-oriental/indien. Utilisée dans le metal, le rock progressif et la fusion world pour une saveur exotique maximale et de la tension. Son extrêmement distinctif et reconnaissable."
+      "name": "Doble Armónica",
+      "description": "Escala exótica con dos segundas aumentadas: 1-♭2-3-4-5-♭6-7 (idéntica a Bhairav). \"Doble\" se refiere a las segundas aumentadas entre ♭2-3 y ♭6-7. Crea un carácter dramático oriental medio/indio. Usada en metal, rock progresivo y fusión world para sabor exótico máximo y tensión. Sonido extremadamente distintivo y reconocible."
     },
     "Hungarian Minor": {
-      "name": "Hungarian Minor",
-      "description": "Mineur harmonique avec 4e élevée : 1-2-♭3-♯4-5-♭6-7. Trois secondes augmentées créent un caractère gitan exotique. Plus chromatique que le mineur harmonique. Utilisée dans la musique folklorique hongroise, le jazz manouche, la musique classique (Liszt) et le metal. Crée une atmosphère passionnée, dramatique et est-européenne. Gamme signature du jazz style Django Reinhardt."
+      "name": "Menor Húngara",
+      "description": "Menor armónica con 4ª elevada: 1-2-♭3-♯4-5-♭6-7. Tres segundas aumentadas crean un carácter gitano exótico. Más cromática que la menor armónica. Usada en música folklórica húngara, jazz manouche, música clásica (Liszt) y metal. Crea una atmósfera apasionada, dramática y del este europeo. Escala firma del jazz estilo Django Reinhardt."
     },
     "Neapolitan Major": {
-      "name": "Neapolitan Major",
-      "description": "Gamme majeure avec 2e abaissée : 1-♭2-3-4-5-6-7. Crée une gamme lumineuse avec une torsion sombre et chromatique du ♭2. Utilisée dans la musique classique (notamment la cadence napolitaine IV6 de ♭II). Le ♭2 crée une tension contre la tonique tout en maintenant le caractère majeur. Utilisée pour une couleur chromatique sophistiquée dans la musique classique et de film."
+      "name": "Napolitana Mayor",
+      "description": "Escala mayor con 2ª rebajada: 1-♭2-3-4-5-6-7. Crea una escala brillante con un giro oscuro y cromático del ♭2. Usada en música clásica (notablemente la cadencia napolitana IV6 de ♭II). El ♭2 crea tensión contra la tónica manteniendo el carácter mayor. Usada para color cromático sofisticado en música clásica y de cine."
     },
     "Neapolitan Minor": {
-      "name": "Neapolitan Minor",
-      "description": "Mineur harmonique avec 2e abaissée : 1-♭2-♭3-4-5-♭6-7. Combine le drame du mineur harmonique avec le ♭2 phrygien. Deux secondes augmentées créent une tension extrême. Caractère très sombre et exotique. Utilisée dans la musique classique pour des passages dramatiques et sinistres. Plus intense et chromatique que le mineur harmonique. Crée une atmosphère inquiétante et menaçante."
+      "name": "Napolitana Menor",
+      "description": "Menor armónica con 2ª rebajada: 1-♭2-♭3-4-5-♭6-7. Combina el drama de la menor armónica con el ♭2 frigio. Dos segundas aumentadas crean tensión extrema. Carácter muy oscuro y exótico. Usada en música clásica para pasajes dramáticos y siniestros. Más intensa y cromática que la menor armónica. Crea una atmósfera inquietante y amenazante."
     },
     "Enigmatic": {
-      "name": "Enigmatic",
-      "description": "Gamme synthétique rare : 1-♭2-3-♯4-♯5-♯6-7. Plusieurs degrés élevés créent une ambiguïté à la manière de la gamme par tons avec tension chromatique. Popularisée par Verdi. Extrêmement instable - difficile d'établir une tonalité. Utilisée pour des passages mystérieux, surréels et non résolus. L'une des gammes traditionnelles les plus dissonantes et ambiguës. Crée un caractère vraiment énigmatique."
+      "name": "Enigmática",
+      "description": "Escala sintética rara: 1-♭2-3-♯4-♯5-♯6-7. Varios grados elevados crean ambigüedad al estilo de la escala de tonos enteros con tensión cromática. Popularizada por Verdi. Extremadamente inestable - difícil establecer una tonalidad. Usada para pasajes misteriosos, surrealistas y no resueltos. Una de las escalas tradicionales más disonantes y ambiguas. Crea un carácter verdaderamente enigmático."
     },
     "Phrygian Dominant": {
-      "name": "Phrygian Dominant",
-      "description": "Cinquième mode du mineur harmonique : 1-♭2-3-4-5-♭6-♭7 (identique à Maqam Hijaz). Combine le ♭2 phrygien avec la tierce majeure. La seconde augmentée entre ♭2 et 3 crée le son espagnol/moyen-oriental distinctif. Fondement de la musique flamenco. Utilisé dans le metal, le rock progressif et la world music pour une saveur exotique et dramatique. Son instantanément reconnaissable."
+      "name": "Frigio Dominante",
+      "description": "Quinto modo de la menor armónica: 1-♭2-3-4-5-♭6-♭7 (idéntico a Maqam Hijaz). Combina el ♭2 frigio con la tercera mayor. La segunda aumentada entre ♭2 y 3 crea el sonido español/oriental medio distintivo. Base de la música flamenca. Usado en metal, rock progresivo y world music para sabor exótico y dramático. Sonido instantáneamente reconocible."
     },
     "Persian": {
-      "name": "Persian",
-      "description": "Gamme exotique approximant la musique persane : 1-♭2-3-4-♭5-♭6-7. Combine le ♭2 phrygien, la tierce majeure, la quinte diminuée et la 7e majeure. Plusieurs intervalles augmentés et diminués créent un caractère complexe et tendu. Utilisée pour une saveur moyen-orientale avec chromatisme supplémentaire. Crée une atmosphère mystérieuse, ancienne et exotique au-delà du Phrygien Dominant standard."
+      "name": "Persa",
+      "description": "Escala exótica aproximando la música persa: 1-♭2-3-4-♭5-♭6-7. Combina el ♭2 frigio, la tercera mayor, la quinta disminuida y la 7ª mayor. Varios intervalos aumentados y disminuidos crean un carácter complejo y tenso. Usada para sabor oriental medio con cromatismo adicional. Crea una atmósfera misteriosa, antigua y exótica más allá del Frigio Dominante estándar."
     },
     "Hirajoshi": {
       "name": "Hirajoshi",
-      "description": "Gamme pentatonique japonaise : 1-2-♭3-5-♭6. Gamme à cinq notes sans quinte juste. Crée un caractère distinctement japonais - ni purement majeur ni mineur. Utilisée dans la musique traditionnelle japonaise et les compositions modernes recherchant une saveur japonaise. Les intervalles uniques créent une atmosphère paisible, contemplative et exotique. Son signature du koto et shamisen."
+      "description": "Escala pentatónica japonesa: 1-2-♭3-5-♭6. Escala de cinco notas sin quinta justa. Crea un carácter distintivamente japonés - ni puramente mayor ni menor. Usada en música tradicional japonesa y composiciones modernas buscando sabor japonés. Los intervalos únicos crean una atmósfera tranquila, contemplativa y exótica. Sonido firma del koto y shamisen."
     },
     "Insen": {
       "name": "Insen",
-      "description": "Gamme pentatonique japonaise : 1-♭2-4-5-♭7. Caractère mineur sombre avec ♭2 phrygien. Crée une atmosphère japonaise mélancolique. Utilisée dans la musique traditionnelle japonaise et les bandes sonores modernes. Le ♭2 donne un côté exotique à la structure pentatonique mineure. Évoque le Japon ancien, la méditation et l'introspection. Populaire dans la musique de jeux vidéo et d'anime."
+      "description": "Escala pentatónica japonesa: 1-♭2-4-5-♭7. Carácter menor oscuro con ♭2 frigio. Crea una atmósfera japonesa melancólica. Usada en música tradicional japonesa y bandas sonoras modernas. El ♭2 da un toque exótico a la estructura pentatónica menor. Evoca el Japón antiguo, meditación e introspección. Popular en música de videojuegos y anime."
     },
     "Kumoi": {
       "name": "Kumoi",
-      "description": "Gamme pentatonique japonaise : 1-2-♭3-5-6. Pentatonique mineure avec 6e naturelle. Plus lumineuse que la pentatonique mineure standard, plus sombre que la pentatonique majeure. Crée un caractère japonais doux. Utilisée dans la musique traditionnelle et les chansons folkloriques. La 6e majeure apporte un éclat dans un contexte mineur. Évoque la beauté naturelle et les paysages japonais pastoraux."
+      "description": "Escala pentatónica japonesa: 1-2-♭3-5-6. Pentatónica menor con 6ª natural. Más brillante que la pentatónica menor estándar, más oscura que la pentatónica mayor. Crea un carácter japonés suave. Usada en música tradicional y canciones folklóricas. La 6ª mayor aporta brillo en un contexto menor. Evoca la belleza natural y paisajes pastorales japoneses."
     },
     "Egyptian Pentatonic": {
-      "name": "Egyptian Pentatonic",
-      "description": "Pentatonique suspendue ancienne : 1-2-4-5-♭7. Pas de tierce, crée un caractère suspendu et ambigu. Utilisée dans la musique égyptienne antique (reconstruction théorique) et la musique folklorique moyen-orientale. Similaire à la pentatonique mineure mais avec une 2e majeure au lieu de ♭3. Crée une atmosphère neutre, ancienne et intemporelle. Populaire pour la world music et la fusion ethnique."
+      "name": "Pentatónica Egipcia",
+      "description": "Pentatónica suspendida antigua: 1-2-4-5-♭7. Sin tercera, crea un carácter suspendido y ambiguo. Usada en música egipcia antigua (reconstrucción teórica) y música folklórica oriental medio. Similar a la pentatónica menor pero con una 2ª mayor en lugar de ♭3. Crea una atmósfera neutra, antigua e intemporal. Popular para world music y fusión étnica."
     }
   },
   "progressionCategories": {

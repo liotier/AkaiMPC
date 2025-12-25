@@ -7,7 +7,7 @@
   "chordMatcher": {
     "title": "Recherche d'accords",
     "optional": "Optionnel",
-    "description": "Vous avez trouvé un sample avec de super accords ? Entrez-les ici pour trouver les tonalités et modes compatibles pour votre production.",
+    "description": "Vous avez trouvé un sample avec de super accords ? Entrez-les ici pour trouver les tonalités et modes compatibles pour votre production.",
     "noteLabel": "Note...",
     "qualityLabel": "Qualité...",
     "qualities": {
