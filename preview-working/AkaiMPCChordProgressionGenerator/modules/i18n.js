@@ -158,7 +158,10 @@ class I18n {
         return [
             { code: 'en', name: '🇬🇧 English' },
             { code: 'fr', name: '🇫🇷 Français' },
-            { code: 'es', name: '🇪🇸 Español' }
+            { code: 'es', name: '🇪🇸 Español' },
+            { code: 'de', name: '🇩🇪 Deutsch' },
+            { code: 'pt', name: '🇧🇷 Português' },
+            { code: 'it', name: '🇮🇹 Italiano' }
         ];
     }
 
