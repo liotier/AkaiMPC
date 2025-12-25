@@ -7,7 +7,7 @@
   "chordMatcher": {
     "title": "Chord Matcher",
     "optional": "Optional",
-    "description": "Found a sample with great chords ? Enter them here to find compatible keys and modes for your production.",
+    "description": "Found a sample with great chords ? Enter them here to find compatible keys and modes for your production.",
     "noteLabel": "Note...",
     "qualityLabel": "Quality...",
     "qualities": {
