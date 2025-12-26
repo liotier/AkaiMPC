@@ -160,12 +160,12 @@ function detectCadence(progression) {
 
     // Get last two chords for cadence detection
     const lastTwo = chords.slice(-2);
-    const penultimate = lastTwo[0].replace(/[0-9]/g, '').toUpperCase();
-    const final = lastTwo[1].replace(/[0-9]/g, '').toUpperCase();
+    const penultimate = lastTwo[0].replaceAll(/\d/g, '').toUpperCase();
+    const final = lastTwo[1].replaceAll(/\d/g, '').toUpperCase();
 
     // Normalize chord symbols
-    const normPenult = penultimate.replace(/M7|7/g, '');
-    const normFinal = final.replace(/M7|7/g, '');
+    const normPenult = penultimate.replaceAll(/M7|7/g, '');
+    const normFinal = final.replaceAll(/M7|7/g, '');
 
     let cadenceKey = null;
     let cadenceEmoji = '';
@@ -1049,7 +1049,7 @@ function getChordTooltip(romanNumeral, chordType) {
     const normalized = romanNumeral ? romanNumeral.toUpperCase() : '';
 
     // Handle lowercase roman numerals (minor chords)
-    const upperNormalized = normalized.replace(/^([IVX]+)/i, (match) => {
+    const upperNormalized = normalized.replaceAll(/^([IVX]+)/gi, (match) => {
         // Check if the original was lowercase
         if (romanNumeral && romanNumeral[0] === romanNumeral[0].toLowerCase() && romanNumeral[0] !== '♭' && romanNumeral[0] !== '♯') {
             // It's a minor chord
@@ -1075,7 +1075,7 @@ function getChordTooltip(romanNumeral, chordType) {
     }
 
     // Try without quality indicators
-    const withoutQuality = upperNormalized.replace(/M7|MAJ7|7|°|Ø7|DIM/g, '');
+    const withoutQuality = upperNormalized.replaceAll(/M7|MAJ7|7|°|Ø7|DIM/g, '');
     translation = i18n.t(`chordRoles.${withoutQuality}`);
     if (translation && translation !== `chordRoles.${withoutQuality}`) {
         return translation;
@@ -1452,7 +1452,7 @@ function generateVariant(variantType) {
 
     // Generate extensions for each unique degree
     uniqueDegrees.forEach(({ degree, original }) => {
-        const romanBase = original.romanNumeral.replace(/7|M7|m7|°/g, '');
+        const romanBase = original.romanNumeral.replaceAll(/7|M7|m7|°/g, '');
         const baseType = original.chordType;
 
         if (baseType.includes('major') || baseType === 'dom7') {
@@ -1832,7 +1832,7 @@ function updateProgressionName() {
 
     if (generationMode === 'template') {
         // Progression Palette Mode: Key + Progression
-        const prog = selectedProgression.replace(/—/g, '-');
+        const prog = selectedProgression.replaceAll(/—/g, '-');
         progressionName = `${key}_${prog}`;
     } else {
         // Scale Mode: Key + Mode
@@ -1921,11 +1921,11 @@ function generateProgressions() {
 
 function downloadSingleProgression(variant, index) {
     const keyName = selectedKey.split('/')[0];
-    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
+    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
 
     const progressionData = {
         progression: {
-            name: fileName.replace('.progression', ''),
+            name: fileName.replaceAll('.progression', ''),
             rootNote: keyName,
             scale: selectedMode,
             recordingOctave: 2,
@@ -1950,7 +1950,7 @@ function downloadSingleProgression(variant, index) {
 
 function downloadSingleMIDI(variant) {
     const keyName = selectedKey.split('/')[0];
-    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}`;
+    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}`;
 
     // Get chord data from pads
     const chords = variant.pads.map(pad => ({
@@ -2090,7 +2090,7 @@ function renderProgressions() {
 
                 return `
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''} ${voiceLeadingClass}"
-                    data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replace(/"/g, '&quot;')}"
+                    data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replaceAll(/"/g, '&quot;')}"
                     data-pad-id="${pad.id}" data-original-vl-class="${voiceLeadingClass}"
                     data-voice-leading="${voiceLeadingLegend}">
                     <div class="chord-text-column">
@@ -2419,11 +2419,11 @@ function exportProgressions() {
     const keyName = selectedKey.split('/')[0];
 
     variants.forEach((variant, index) => {
-        const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
+        const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
 
         const progressionData = {
             progression: {
-                name: fileName.replace('.progression', ''),
+                name: fileName.replaceAll('.progression', ''),
                 rootNote: keyName,
                 scale: selectedMode,
                 recordingOctave: 2,
@@ -2459,7 +2459,7 @@ async function exportAllMIDI() {
     // Prepare progression data for MIDI export
     const progressionsData = variants.map((variant, index) => {
         const keyName = selectedKey.split('/')[0];
-        const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}`;
+        const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}`;
 
         // Get chord data from pads
         const chords = variant.pads.map(pad => ({
