@@ -175,7 +175,7 @@ export function createTooltip() {
 export function getChordTooltip(romanNumeral, chordType) {
     const normalized = romanNumeral ? romanNumeral.toUpperCase() : '';
 
-    const upperNormalized = normalized.replace(/^([IVX]+)/i, (match) => {
+    const upperNormalized = normalized.replaceAll(/^([IVX]+)/gi, (match) => {
         if (romanNumeral && romanNumeral[0] === romanNumeral[0].toLowerCase() && romanNumeral[0] !== '♭' && romanNumeral[0] !== '♯') {
             const base = match.toUpperCase();
             switch(base) {
@@ -197,7 +197,7 @@ export function getChordTooltip(romanNumeral, chordType) {
         return translation;
     }
 
-    const withoutQuality = upperNormalized.replace(/M7|MAJ7|7|°|Ø7|DIM/g, '');
+    const withoutQuality = upperNormalized.replaceAll(/M7|MAJ7|7|°|Ø7|DIM/g, '');
     translation = i18n.t(`chordRoles.${withoutQuality}`);
     if (translation && translation !== `chordRoles.${withoutQuality}`) {
         return translation;
@@ -642,7 +642,7 @@ export function updateProgressionName() {
     let name;
 
     if (getGenerationMode() === 'template') {
-        const prog = getSelectedProgression().replace(/—/g, '-');
+        const prog = getSelectedProgression().replaceAll(/—/g, '-');
         name = `${key}_${prog}`;
     } else {
         const modeShort = getSelectedMode().slice(0, 3);

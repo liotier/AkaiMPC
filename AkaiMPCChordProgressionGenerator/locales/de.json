@@ -90,6 +90,36 @@
     "progressionPaletteDisabled": "Progressionspaletten werden im Tonleiter-Erkundungsmodus nicht verwendet. Alle Akkorde der ausgewählten Tonleiter werden generiert.",
     "progressionPaletteEnabled": "Jede Palette liefert 16 einzigartige Akkorde: die ersten N aus der Progression, die restlichen Pads aus erweiterter Harmonik. Genre-spezifische Filter gewährleisten passende Akkordfarben."
   },
+  "cadences": {
+    "authentic": {
+      "name": "Authentisch (V→I)",
+      "tooltip": "Authentische Kadenz: Die stärkste Auflösung in der tonalen Musik. Die Dominante (V) löst sich zur Tonika (I) auf und erzeugt vollständigen Abschluss."
+    },
+    "authenticMinor": {
+      "name": "Authentisch Moll (V→i)",
+      "tooltip": "Moll-Authentische Kadenz: Die Dominante (V) löst sich zur Moll-Tonika (i) auf. Starke Auflösung mit dunklerem, mollbetontem Charakter."
+    },
+    "plagal": {
+      "name": "Plagal (IV→I)",
+      "tooltip": "Plagale Kadenz: Die „Amen"-Kadenz. Die Subdominante (IV) löst sich zur Tonika (I) auf. Weichere, hymnischere Auflösung als die authentische."
+    },
+    "deceptive": {
+      "name": "Trugschluss (V→vi)",
+      "tooltip": "Trugschluss: Die Dominante (V) „täuscht" das Ohr, indem sie zur vi statt zur I auflöst. Erzeugt Überraschung und verlängert die Phrase."
+    },
+    "half": {
+      "name": "Halbschluss (→V)",
+      "tooltip": "Halbschluss: Endet auf der Dominante (V) und erzeugt Spannung und Erwartung. Wie ein musikalisches Komma — unvollständig, auf Auflösung wartend."
+    },
+    "backdoor": {
+      "name": "Backdoor-Kadenz",
+      "tooltip": "Backdoor-Kadenz: Jazz-Auflösung über ♭VII oder iv zur I, unter Umgehung der Dominante. Erzeugt unerwartete, „heimliche" Ankunft bei der Tonika."
+    },
+    "picardy": {
+      "name": "Picardische Terz",
+      "tooltip": "Picardische Terz: Ein Moll-Stück endet auf einem Dur-I-Akkord. Die erhöhte Terz erzeugt überraschende Helligkeit — üblich in der Barockmusik."
+    }
+  },
   "errors": {
     "selectKey": "Bitte wählen Sie eine Tonart",
     "selectMode": "Bitte wählen Sie einen Modus",

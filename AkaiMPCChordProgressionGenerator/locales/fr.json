@@ -90,6 +90,36 @@
     "progressionPaletteDisabled": "Les palettes de progressions ne sont pas utilisées en mode Exploration de Gamme. Tous les accords de la gamme sélectionnée seront générés.",
     "progressionPaletteEnabled": "Chaque palette fournit 16 accords uniques : les N premiers de la progression, les pads restants issus de l'harmonie étendue. Des filtres spécifiques au genre assurent des couleurs d'accords appropriées."
   },
+  "cadences": {
+    "authentic": {
+      "name": "Authentique (V→I)",
+      "tooltip": "Cadence Authentique : La résolution la plus forte en musique tonale. La dominante (V) résout vers la tonique (I), créant une conclusion complète."
+    },
+    "authenticMinor": {
+      "name": "Authentique mineure (V→i)",
+      "tooltip": "Cadence Authentique Mineure : La dominante (V) résout vers la tonique mineure (i). Résolution forte avec un caractère plus sombre, en mode mineur."
+    },
+    "plagal": {
+      "name": "Plagale (IV→I)",
+      "tooltip": "Cadence Plagale : La cadence « Amen ». La sous-dominante (IV) résout vers la tonique (I). Résolution plus douce, plus hymnique que l'authentique."
+    },
+    "deceptive": {
+      "name": "Rompue (V→vi)",
+      "tooltip": "Cadence Rompue : La dominante (V) « trompe » l'oreille en résolvant vers le vi au lieu du I. Crée la surprise et prolonge la phrase."
+    },
+    "half": {
+      "name": "Demi-cadence (→V)",
+      "tooltip": "Demi-cadence : Se termine sur la dominante (V), créant tension et anticipation. Comme une virgule musicale — incomplète, en attente de résolution."
+    },
+    "backdoor": {
+      "name": "Cadence par la porte de derrière",
+      "tooltip": "Cadence Backdoor : Résolution jazz via ♭VII ou iv vers I, contournant la dominante. Crée une arrivée inattendue, « furtive » vers la tonique."
+    },
+    "picardy": {
+      "name": "Tierce picarde",
+      "tooltip": "Tierce Picarde : Un morceau mineur se termine sur un accord de I majeur. La tierce élevée crée une luminosité surprenante — courant dans la musique baroque."
+    }
+  },
   "errors": {
     "selectKey": "Veuillez sélectionner une tonalité",
     "selectMode": "Veuillez sélectionner un mode",
