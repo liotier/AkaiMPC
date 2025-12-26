@@ -208,6 +208,30 @@
       "name": "Augmented",
       "description": "Six-note hexatonic scale built from augmented triads with passing tones: 1-♭3-3-5-♯5-7. Symmetrical, divides octave into three equal major thirds. No perfect 5ths. Creates ambiguous, floating, modernist character. Used in 20th century classical and jazz for augmented chord contexts and symmetric harmonic structures."
     },
+    "Altered": {
+      "name": "Altered (Super Locrian)",
+      "description": "Seventh mode of melodic minor: 1-♭2-♭3-♭4-♭5-♭6-♭7. The ultimate altered dominant scale - every note except root is altered. Used over dominant 7th chords resolving to minor. Creates maximum tension before resolution. Essential jazz vocabulary for altered dominant sounds (7♯9♭13, 7alt). The go-to scale for jazz improvisers on V7 chords."
+    },
+    "Lydian Dominant": {
+      "name": "Lydian Dominant",
+      "description": "Fourth mode of melodic minor: 1-2-3-♯4-5-6-♭7. Combines Lydian brightness (♯4) with Mixolydian rootedness (♭7). Perfect for dominant 7♯11 chords. Creates floating yet bluesy character. Used in jazz fusion, film scores, and modern jazz. Tritone substitution scale. The \"Simpsons theme\" sound."
+    },
+    "Locrian #2": {
+      "name": "Locrian ♯2",
+      "description": "Sixth mode of melodic minor: 1-2-♭3-4-♭5-♭6-♭7. Locrian with natural 2nd. Less dissonant than pure Locrian. Used over half-diminished (m7♭5) chords in jazz. Provides more melodic options than standard Locrian. Common in jazz minor key ii-V-i progressions."
+    },
+    "Bebop Major": {
+      "name": "Bebop Major",
+      "description": "Eight-note major scale with added ♭6: 1-2-3-4-5-♭6-6-7. The chromatic passing tone keeps chord tones on strong beats during eighth-note lines. Essential bebop vocabulary. Used over major 7th chords. Creates smooth, flowing jazz lines. Invented by bebop pioneers for rhythmic precision."
+    },
+    "Bebop Dominant": {
+      "name": "Bebop Dominant",
+      "description": "Eight-note Mixolydian with added natural 7: 1-2-3-4-5-6-♭7-7. The most important bebop scale. Chromatic between ♭7 and root keeps chord tones on downbeats. Used over dominant 7th chords. Foundation of bebop improvisation. Creates swinging, rhythmically precise jazz lines."
+    },
+    "Bebop Minor": {
+      "name": "Bebop Minor",
+      "description": "Eight-note Dorian with added major 3rd: 1-2-♭3-3-4-5-6-♭7. Chromatic passing tone between ♭3 and 4. Used over minor 7th chords in jazz. Allows fluid movement between minor and major sounds. Creates sophisticated minor jazz lines with bebop rhythmic precision."
+    },
     "Maqam Hijaz": {
       "name": "Maqam Hijaz",
       "description": "Arabic maqam approximated in 12-TET as Phrygian Dominant: 1-♭2-3-4-5-♭6-♭7. Augmented second between ♭2 and 3 creates characteristic Middle Eastern sound. Combines Phrygian ♭2 with major 3rd. Used in Arabic, Turkish, and Klezmer music for exotic, spiritual, Eastern character. Evokes prayer and mysticism."

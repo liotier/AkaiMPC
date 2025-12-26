@@ -209,6 +209,30 @@
       "name": "Aumentada",
       "description": "Escala hexatônica de seis notas construída de tríades aumentadas com notas de passagem: 1-♭3-3-5-♯5-7. Simétrica, divide oitava em três terças maiores iguais. Sem 5as perfeitas. Cria caráter ambíguo, flutuante, modernista. Usada na música clássica do século XX e jazz para contextos de acordes aumentados e estruturas harmônicas simétricas."
     },
+    "Altered": {
+      "name": "Alterada (Super Lócria)",
+      "description": "Sétimo modo da menor melódica: 1-♭2-♭3-♭4-♭5-♭6-♭7. A escala dominante alterada definitiva - todas as notas exceto a fundamental estão alteradas. Usada sobre acordes de 7ª dominante resolvendo para menor. Cria tensão máxima antes da resolução. Vocabulário jazz essencial para sons dominantes alterados (7♯9♭13, 7alt). A escala preferida para improvisadores de jazz em acordes V7."
+    },
+    "Lydian Dominant": {
+      "name": "Lídio Dominante",
+      "description": "Quarto modo da menor melódica: 1-2-3-♯4-5-6-♭7. Combina brilho lídio (♯4) com enraizamento mixolídio (♭7). Perfeito para acordes de 7ª dominante ♯11. Cria caráter flutuante mas bluesy. Usado em jazz fusion, trilhas sonoras e jazz moderno. Escala de substituição tritonal. O som do tema dos \"Simpsons\"."
+    },
+    "Locrian #2": {
+      "name": "Lócrio ♯2",
+      "description": "Sexto modo da menor melódica: 1-2-♭3-4-♭5-♭6-♭7. Lócrio com 2ª natural. Menos dissonante que o lócrio puro. Usado sobre acordes semi-diminutos (m7♭5) no jazz. Fornece mais opções melódicas que o lócrio padrão. Comum em progressões jazz ii-V-i em tonalidade menor."
+    },
+    "Bebop Major": {
+      "name": "Bebop Maior",
+      "description": "Escala maior de oito notas com ♭6 adicionada: 1-2-3-4-5-♭6-6-7. A nota de passagem cromática mantém notas do acorde em tempos fortes durante linhas de colcheias. Vocabulário bebop essencial. Usada sobre acordes maior 7. Cria linhas de jazz fluidas e suaves. Inventada por pioneiros do bebop para precisão rítmica."
+    },
+    "Bebop Dominant": {
+      "name": "Bebop Dominante",
+      "description": "Mixolídio de oito notas com 7 natural adicionada: 1-2-3-4-5-6-♭7-7. A escala bebop mais importante. Cromatismo entre ♭7 e fundamental mantém notas do acorde em tempos fortes. Usada sobre acordes de 7ª dominante. Fundação da improvisação bebop. Cria linhas de jazz swingadas e ritmicamente precisas."
+    },
+    "Bebop Minor": {
+      "name": "Bebop Menor",
+      "description": "Dórico de oito notas com 3ª maior adicionada: 1-2-♭3-3-4-5-6-♭7. Nota de passagem cromática entre ♭3 e 4. Usada sobre acordes menor 7 no jazz. Permite movimento fluido entre sons menor e maior. Cria linhas jazz menores sofisticadas com precisão rítmica bebop."
+    },
     "Maqam Hijaz": {
       "name": "Maqam Hijaz",
       "description": "Maqam árabe aproximado em 12-TET como Frígio Dominante: 1-♭2-3-4-5-♭6-♭7. Segunda aumentada entre ♭2 e 3 cria som característico do Oriente Médio. Combina ♭2 frígio com 3ª maior. Usada em música árabe, turca e klezmer para caráter exótico, espiritual e oriental. Evoca oração e misticismo."
@@ -260,18 +284,6 @@
     "Phrygian Dominant": {
       "name": "Frígio Dominante",
       "description": "Modo do 5º grau da menor harmônica: 1-♭2-3-4-5-♭6-♭7. Combina ♭2 frígio com tríade maior - soa exótico e do Oriente Médio. A segunda aumentada entre ♭2 e 3 é característica. Usada em flamenco, metal, música árabe e klezmer para sabor espanhol/do Oriente Médio/judaico. Evoca paixão e misticismo."
-    },
-    "Lydian Dominant": {
-      "name": "Lídio Dominante",
-      "description": "Modo do 4º grau da menor melódica: 1-2-3-♯4-5-6-♭7. Combina ♯4 lídio com ♭7 dominante. Cria som brilhante mas instável - mais colorido que mixolídio. Usado extensivamente em jazz sobre acordes V7. Aparece na música de Bartók e Debussy. Modo essencial do jazz para sons dominantes alterados e harmonia modal."
-    },
-    "Altered": {
-      "name": "Alterada",
-      "description": "Modo do 7º grau da menor melódica: 1-♭2-♭3-♭4-♭5-♭6-♭7. Quase todo grau alterado - maximiza tensão. Usado sobre acordes V7alt no jazz. Cria som cromático altamente instável perfeito para resoluções dominantes. Modo essencial do jazz bebop e pós-bop para tocar fora e harmonia avançada. Define sons alterados."
-    },
-    "Super Locrian": {
-      "name": "Super Lócrio",
-      "description": "Mesmo que modo Alterado: 1-♭2-♭3-♭4-♭5-♭6-♭7. Lócrio com ♭4 - ainda mais instável que Lócrio regular. Usado sobre acordes dominantes alterados. Cria tensão e dissonância máximas. Essencial do jazz para acordes V7alt e tons guia cromáticos. Modo mais \"fora\" usado em jazz convencional."
     },
     "Neapolitan Minor": {
       "name": "Menor Napolitana",
