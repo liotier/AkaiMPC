@@ -1,7 +1,6 @@
 // Event Listeners Module
 // Contains all event listener setup and keyboard/touch handling
 
-import { TIMING } from './constants.js';
 import { initAudioContext, startChord, stopChord, stopAllNotes, playNotesSequentially, getSequentialDuration } from './audio.js';
 import { saveToLocalStorage, loadFromLocalStorage, updateURL, loadFromURL, applyPreferences } from './storage.js';
 import { i18n } from './i18n.js';
@@ -30,14 +29,12 @@ import {
 } from './stateManager.js';
 
 import {
-    showNotification,
     triggerSparkle,
     switchContext,
     switchGenerationMode,
     showTooltip,
     activateVoiceLeadingHover,
     deactivateVoiceLeadingHover,
-    populateSelects,
     updateProgressionName,
     updatePageTranslations,
     renderChordRequirements,
@@ -197,8 +194,7 @@ export async function setupEventListeners() {
     // Context tab switching
     document.querySelectorAll('.context-tab').forEach(tab => {
         tab.addEventListener('click', () => {
-            const context = tab.getAttribute('data-context');
-            switchContext(context);
+            switchContext(tab.dataset.context);
         });
     });
 
@@ -553,9 +549,10 @@ function setupTabletOrientationHandlers() {
                 setActiveTooltip(null);
             }
 
+            // Force layout recalculation after orientation change
             if (getHasGeneratedOnce()) {
                 setTimeout(() => {
-                    void document.body.offsetHeight;
+                    document.body.offsetHeight; // Force reflow
                 }, 100);
             }
         }
