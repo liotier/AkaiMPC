@@ -42,10 +42,8 @@ import {
 } from './modules/midiExport.js';
 
 import {
-    AUDIO,
     TIMING,
     MESSAGES,
-    STORAGE_KEYS,
     LIMITS,
     hasTouchCapability,
     hasHoverCapability,
@@ -55,7 +53,6 @@ import {
 import {
     initAudioContext,
     setMidiOutput,
-    getMidiOutput,
     startChord,
     stopChord,
     playChord,
@@ -984,7 +981,6 @@ function matchesChordRequirement(scaleDegree, chordType, keyOffset) {
 
     const noteMap = { 'C': 0, 'C#': 1, 'D': 2, 'D#': 3, 'E': 4, 'F': 5, 'F#': 6, 'G': 7, 'G#': 8, 'A': 9, 'A#': 10, 'B': 11 };
     const chordRoot = (scaleDegree + keyOffset) % 12;
-    const chordRootName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][chordRoot];
 
     const typeToQuality = {
         'major': 'major',
@@ -1086,8 +1082,8 @@ function generateScaleExploration() {
         if (chordType.includes('7')) {
             if (!romanNumeral.includes('7')) {
                 romanNumeral = chordType === 'major7' ? romanNumeral + 'M7' :
-                              chordType === 'dom7' ? romanNumeral + '7' :
-                              romanNumeral + '7';
+                              chordType === 'minor7' ? romanNumeral + '7' :
+                              romanNumeral + '7'; // dom7 and others
             }
         }
 
@@ -1224,7 +1220,7 @@ function generateVariant(variantType) {
     };
 
     // Helper to determine spice level based on harmonic function
-    const getSpiceLevelForDegree = (degree, type) => {
+    const getSpiceLevelForDegree = (degree) => {
         // Tonic (I or i) = foundation (0)
         if (degree === 0) return 0;
         // Subdominant/Dominant (IV, V) = standard (1)
@@ -1293,7 +1289,7 @@ function generateVariant(variantType) {
             }
 
             // Determine spice level
-            const spiceLevel = getSpiceLevelForDegree(matchedDegree, chordType);
+            const spiceLevel = getSpiceLevelForDegree(matchedDegree);
 
             // Add to palette with Chord Matcher flag
             addChord(matchedDegree, chordType, romanBase.replace('°', ''), suffix, spiceLevel, true);
@@ -1798,7 +1794,7 @@ function downloadSingleProgression(variant, index) {
     URL.revokeObjectURL(url);
 }
 
-function downloadSingleMIDI(variant, index) {
+function downloadSingleMIDI(variant) {
     const keyName = selectedKey.split('/')[0];
     const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}`;
 
@@ -2230,7 +2226,7 @@ function renderProgressions() {
         btn.addEventListener('click', function() {
             const variantIndex = parseInt(this.getAttribute('data-variant-index'));
             if (currentContext === 'midi') {
-                downloadSingleMIDI(variants[variantIndex], variantIndex);
+                downloadSingleMIDI(variants[variantIndex]);
             } else {
                 downloadSingleProgression(variants[variantIndex], variantIndex);
             }
