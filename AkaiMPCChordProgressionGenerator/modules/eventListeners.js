@@ -82,6 +82,15 @@ export async function setupEventListeners() {
     const currentLang = i18n.getCurrentLanguage();
     const languageSelect = document.getElementById('languageSelect');
     if (languageSelect) {
+        // Populate language selector dynamically from i18n
+        const availableLanguages = i18n.getAvailableLanguages();
+        languageSelect.innerHTML = '';
+        availableLanguages.forEach(lang => {
+            const option = document.createElement('option');
+            option.value = lang.code;
+            option.textContent = lang.name;
+            languageSelect.appendChild(option);
+        });
         languageSelect.value = currentLang;
 
         languageSelect.addEventListener('change', async function() {

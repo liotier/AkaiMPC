@@ -4,16 +4,27 @@ This directory contains translation files for the MPC Chord Progression Generato
 
 ## Available Languages
 
-- `en.json` - English (source language)
+- `en.json` - English (source/fallback language)
 - `fr.json` - French (Français)
+- `es.json` - Spanish (Español)
+- `de.json` - German (Deutsch)
+- `pt.json` - Portuguese (Português)
+- `it.json` - Italian (Italiano)
+
+## Architecture
+
+The application uses a fully i18n-orthodox approach:
+- All user-visible text comes from locale files
+- `musicTheory.js` contains only structural data (chord formulas, scale intervals, etc.)
+- English serves as the fallback language when a translation key is missing
+
+The language selector is populated dynamically from `i18n.getAvailableLanguages()`, which reads the available locales at runtime.
 
 ## Translation Guidelines
 
 ### Musical Terminology
 
-Use standard musical terms in the target language:
-
-**French:**
+Use standard musical terms in the target language. Examples for French:
 ```json
 "Major" → "Majeur"
 "Minor" → "Mineur"
@@ -54,10 +65,9 @@ Each JSON file has the following structure:
     "title": "Application title",
     "subtitle": "Subtitle text"
   },
-  "ui": {
-    "buttons": {
-      "generate": "Button text"
-    }
+  "controls": {
+    "labels": { ... },
+    "generationMode": { ... }
   },
   "modes": {
     "Major": {
@@ -91,13 +101,14 @@ To add a new language:
 
 1. Copy `en.json` to `{language-code}.json`
 2. Translate all values (not keys)
-3. Test the translation in the app
-4. Submit a pull request
+3. Add the language to `i18n.js` in the `languages` array with its code and native name
+4. Test the translation in the app
+5. Submit a pull request
 
 For questions or clarification, open an issue on GitHub.
 
 ## File Sizes
 
-- English: ~50KB
-- French: ~50KB (estimated)
-- Gzipped: ~15KB per language
+Each language file is approximately:
+- Uncompressed: ~55KB
+- Gzipped: ~15KB
