@@ -208,6 +208,30 @@
       "name": "Aumentada",
       "description": "Escala hexatónica de seis notas construida a partir de tríadas aumentadas con notas de paso: 1-♭3-3-5-♯5-7. Simétrica, divide la octava en tres terceras mayores iguales. Sin quintas justas. Crea un carácter ambiguo, flotante, modernista. Usada en música clásica del siglo XX y jazz para contextos de acordes aumentados y estructuras armónicas simétricas."
     },
+    "Altered": {
+      "name": "Alterada (Super Locria)",
+      "description": "Séptimo modo del menor melódico: 1-♭2-♭3-♭4-♭5-♭6-♭7. La escala dominante alterada definitiva - todas las notas excepto la fundamental están alteradas. Usada sobre acordes de dominante 7 resolviendo a menor. Crea la máxima tensión antes de la resolución. Vocabulario jazz esencial para sonidos de dominante alterada (7♯9♭13, 7alt). La escala de referencia para improvisadores de jazz en acordes V7."
+    },
+    "Lydian Dominant": {
+      "name": "Lidio Dominante",
+      "description": "Cuarto modo del menor melódico: 1-2-3-♯4-5-6-♭7. Combina el brillo lidio (♯4) con el arraigo mixolidio (♭7). Perfecto para acordes de dominante 7♯11. Crea un carácter flotante pero bluesy. Usado en jazz fusión, bandas sonoras y jazz moderno. Escala de sustitución tritonal. El sonido del tema de \"Los Simpson\"."
+    },
+    "Locrian #2": {
+      "name": "Locrio ♯2",
+      "description": "Sexto modo del menor melódico: 1-2-♭3-4-♭5-♭6-♭7. Locrio con segunda natural. Menos disonante que el locrio puro. Usado sobre acordes semi-disminuidos (m7♭5) en jazz. Proporciona más opciones melódicas que el locrio estándar. Común en progresiones jazz ii-V-i en tonalidad menor."
+    },
+    "Bebop Major": {
+      "name": "Bebop Mayor",
+      "description": "Escala mayor de ocho notas con ♭6 añadida: 1-2-3-4-5-♭6-6-7. La nota de paso cromática mantiene las notas del acorde en tiempos fuertes durante líneas de corcheas. Vocabulario bebop esencial. Usada sobre acordes mayor 7. Crea líneas de jazz fluidas y fluentes. Inventada por pioneros del bebop para precisión rítmica."
+    },
+    "Bebop Dominant": {
+      "name": "Bebop Dominante",
+      "description": "Mixolidio de ocho notas con 7 natural añadida: 1-2-3-4-5-6-♭7-7. La escala bebop más importante. El cromatismo entre ♭7 y la fundamental mantiene las notas del acorde en tiempos fuertes. Usada sobre acordes de dominante 7. Fundamento de la improvisación bebop. Crea líneas de jazz swingueantes y rítmicamente precisas."
+    },
+    "Bebop Minor": {
+      "name": "Bebop Menor",
+      "description": "Dórico de ocho notas con tercera mayor añadida: 1-2-♭3-3-4-5-6-♭7. Nota de paso cromática entre ♭3 y 4. Usada sobre acordes menor 7 en jazz. Permite movimiento fluido entre sonidos menor y mayor. Crea líneas jazz menores sofisticadas con precisión rítmica bebop."
+    },
     "Maqam Hijaz": {
       "name": "Maqam Hijaz",
       "description": "Maqām árabe aproximado en temperamento igual como Frigio Dominante: 1-♭2-3-4-5-♭6-♭7. La segunda aumentada entre ♭2 y 3 crea el sonido oriental medio característico. Combina el ♭2 frigio con la tercera mayor. Usado en música árabe, turca y klezmer para un carácter exótico, espiritual y oriental. Evoca oración y misticismo."

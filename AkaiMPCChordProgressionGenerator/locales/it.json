@@ -209,6 +209,30 @@
       "name": "Aumentata",
       "description": "Scala esatonica a sei note costruita da triadi aumentate con note di passaggio: 1-♭3-3-5-♯5-7. Simmetrica, divide l'ottava in tre terze maggiori uguali. Nessuna quinta giusta. Crea carattere ambiguo, fluttuante, modernista. Usata in musica classica del XX secolo e jazz per strutture armoniche simmetriche."
     },
+    "Altered": {
+      "name": "Alterata (Super Locria)",
+      "description": "Settimo modo del minore melodico: 1-♭2-♭3-♭4-♭5-♭6-♭7. La scala dominante alterata definitiva - tutte le note tranne la fondamentale sono alterate. Usata su accordi di settima dominante che risolvono al minore. Crea massima tensione prima della risoluzione. Vocabolario jazz essenziale per suoni dominanti alterati (7♯9♭13, 7alt). La scala di riferimento per improvvisatori jazz su accordi V7."
+    },
+    "Lydian Dominant": {
+      "name": "Lidio Dominante",
+      "description": "Quarto modo del minore melodico: 1-2-3-♯4-5-6-♭7. Combina brillantezza lidia (♯4) con radicamento misolidio (♭7). Perfetto per accordi di settima dominante ♯11. Crea carattere fluttuante ma bluesy. Usato nel jazz fusion, colonne sonore e jazz moderno. Scala di sostituzione tritonale. Il suono del tema dei \"Simpson\"."
+    },
+    "Locrian #2": {
+      "name": "Locrio ♯2",
+      "description": "Sesto modo del minore melodico: 1-2-♭3-4-♭5-♭6-♭7. Locrio con seconda naturale. Meno dissonante del locrio puro. Usato su accordi semi-diminuiti (m7♭5) nel jazz. Fornisce più opzioni melodiche del locrio standard. Comune nelle progressioni jazz ii-V-i in tonalità minore."
+    },
+    "Bebop Major": {
+      "name": "Bebop Maggiore",
+      "description": "Scala maggiore a otto note con ♭6 aggiunta: 1-2-3-4-5-♭6-6-7. La nota di passaggio cromatica mantiene le note dell'accordo sui tempi forti durante linee di crome. Vocabolario bebop essenziale. Usata su accordi maggiore 7. Crea linee jazz fluide e scorrevoli. Inventata dai pionieri del bebop per precisione ritmica."
+    },
+    "Bebop Dominant": {
+      "name": "Bebop Dominante",
+      "description": "Misolidio a otto note con 7 naturale aggiunta: 1-2-3-4-5-6-♭7-7. La scala bebop più importante. Cromatismo tra ♭7 e fondamentale mantiene note dell'accordo sui tempi forti. Usata su accordi di settima dominante. Fondazione dell'improvvisazione bebop. Crea linee jazz swinganti e ritmicamente precise."
+    },
+    "Bebop Minor": {
+      "name": "Bebop Minore",
+      "description": "Dorico a otto note con terza maggiore aggiunta: 1-2-♭3-3-4-5-6-♭7. Nota di passaggio cromatica tra ♭3 e 4. Usata su accordi minore 7 nel jazz. Permette movimento fluido tra suoni minore e maggiore. Crea linee jazz minori sofisticate con precisione ritmica bebop."
+    },
     "Maqam Hijaz": {
       "name": "Maqam Hijaz",
       "description": "Maqam arabo approssimato in 12-TET come Frigio Dominante: 1-♭2-3-4-5-♭6-♭7. Seconda aumentata tra ♭2 e 3 crea suono mediorientale caratteristico. Combina ♭2 Frigio con 3ª maggiore. Usato in musica araba, turca e Klezmer per carattere esotico, spirituale, orientale."
@@ -292,26 +316,6 @@
     "Egyptian Pentatonic": {
       "name": "Pentatonica Egiziana",
       "description": "Antica pentatonica sospesa: 1-2-4-5-♭7. Nessuna 3ª, crea carattere sospeso, ambiguo. Usata in musica dell'antico Egitto (ricostruzione teorica) e folk mediorientale. Simile alla pentatonica minore ma con 2ª maggiore invece di ♭3. Crea atmosfera neutra, antica, senza tempo."
-    },
-    "Altered": {
-      "name": "Alterata",
-      "description": "Settimo modo della minore melodica: 1-♭2-♭3-♭4-♭5-♭6-♭7. Tutti i gradi possibili sono alterati. Usata su accordi dominanti alterati nel jazz per massima tensione cromatica. Crea suono \"outside\" che risolve drammaticamente. Scala essenziale per assoli bebop e jazz moderno su accordi V7alt."
-    },
-    "Lydian Dominant": {
-      "name": "Lidio Dominante",
-      "description": "Quarto modo della minore melodica: 1-2-3-♯4-5-6-♭7. Combina ♯4 Lidio con ♭7 Misolidio. Crea carattere dominante brillante, elevato. Usato su accordi 7♯11 nel jazz. Tensione tra ♯4 e ♭7 genera suono sofisticato. Comune in jazz modale e fusion per colore dominante espanso."
-    },
-    "Bebop Major": {
-      "name": "Bebop Maggiore",
-      "description": "Scala maggiore con ♯5 cromatico aggiunto: 1-2-3-4-5-♯5-6-7. Otto note permettono che i toni dell'accordo cadano sui battiti forti durante le crome. Nota cromatica di passaggio crea linee fluide. Essenziale per improvvisazione bebop, permette frasi veloci e fluide mantenendo chiarezza armonica."
-    },
-    "Bebop Dominant": {
-      "name": "Bebop Dominante",
-      "description": "Scala Misolidia con 7ª maggiore cromatica aggiunta: 1-2-3-4-5-6-♭7-7. Otto note allineano toni accordo con accenti metrici. La 7ª cromatica collega ♭7 e fondamentale. Scala più comune nel bebop, usata su accordi dominanti per linee veloci e swinganti che delineano chiaramente l'armonia."
-    },
-    "Bebop Minor": {
-      "name": "Bebop Minore",
-      "description": "Scala Dorica con 3ª maggiore cromatica aggiunta: 1-2-♭3-3-4-5-6-♭7. Otto note per allineamento metrico. La 3ª cromatica aggiunge tensione blues tra ♭3 e 3 naturale. Usata su accordi minori 7 nel bebop. Crea suono blues sofisticato mantenendo propulsione ritmica dello stile bebop."
     }
   },
   "progressionCategories": {

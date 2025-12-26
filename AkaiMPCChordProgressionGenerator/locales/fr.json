@@ -208,6 +208,30 @@
       "name": "Augmented",
       "description": "Gamme hexatonique à six notes construite à partir de triades augmentées avec notes de passage : 1-♭3-3-5-♯5-7. Symétrique, divise l'octave en trois tierces majeures égales. Pas de quintes justes. Crée un caractère ambigu, flottant, moderniste. Utilisée dans la musique classique du 20e siècle et le jazz pour des contextes d'accords augmentés et des structures harmoniques symétriques."
     },
+    "Altered": {
+      "name": "Altérée (Super Locrien)",
+      "description": "Septième mode du mineur mélodique : 1-♭2-♭3-♭4-♭5-♭6-♭7. L'ultime gamme dominante altérée - toutes les notes sauf la fondamentale sont altérées. Utilisée sur les accords de dominante 7 résolvant vers le mineur. Crée une tension maximale avant la résolution. Vocabulaire jazz essentiel pour les sons de dominante altérée (7♯9♭13, 7alt). La gamme de référence pour les improvisateurs de jazz sur les accords V7."
+    },
+    "Lydian Dominant": {
+      "name": "Lydien Dominant",
+      "description": "Quatrième mode du mineur mélodique : 1-2-3-♯4-5-6-♭7. Combine la luminosité lydienne (♯4) avec l'ancrage mixolydien (♭7). Parfait pour les accords de dominante 7♯11. Crée un caractère flottant mais bluesy. Utilisé dans le jazz fusion, les musiques de film et le jazz moderne. Gamme de substitution tritonique. Le son du thème des \"Simpsons\"."
+    },
+    "Locrian #2": {
+      "name": "Locrien ♯2",
+      "description": "Sixième mode du mineur mélodique : 1-2-♭3-4-♭5-♭6-♭7. Locrien avec seconde naturelle. Moins dissonant que le locrien pur. Utilisé sur les accords demi-diminués (m7♭5) dans le jazz. Offre plus d'options mélodiques que le locrien standard. Courant dans les progressions jazz ii-V-i en tonalité mineure."
+    },
+    "Bebop Major": {
+      "name": "Bebop Majeur",
+      "description": "Gamme majeure à huit notes avec ♭6 ajoutée : 1-2-3-4-5-♭6-6-7. La note de passage chromatique maintient les notes de l'accord sur les temps forts pendant les lignes en croches. Vocabulaire bebop essentiel. Utilisée sur les accords majeur 7. Crée des lignes de jazz fluides et coulantes. Inventée par les pionniers du bebop pour la précision rythmique."
+    },
+    "Bebop Dominant": {
+      "name": "Bebop Dominant",
+      "description": "Mixolydien à huit notes avec 7 naturelle ajoutée : 1-2-3-4-5-6-♭7-7. La gamme bebop la plus importante. Le chromatisme entre ♭7 et la fondamentale maintient les notes de l'accord sur les temps. Utilisée sur les accords de dominante 7. Fondation de l'improvisation bebop. Crée des lignes de jazz swinguantes et rythmiquement précises."
+    },
+    "Bebop Minor": {
+      "name": "Bebop Mineur",
+      "description": "Dorien à huit notes avec tierce majeure ajoutée : 1-2-♭3-3-4-5-6-♭7. Note de passage chromatique entre ♭3 et 4. Utilisée sur les accords mineur 7 dans le jazz. Permet un mouvement fluide entre les sons mineur et majeur. Crée des lignes jazz mineures sophistiquées avec la précision rythmique du bebop."
+    },
     "Maqam Hijaz": {
       "name": "Maqam Hijaz",
       "description": "Maqâm arabe approximé en tempérament égal comme Phrygien Dominant : 1-♭2-3-4-5-♭6-♭7. La seconde augmentée entre ♭2 et 3 crée le son moyen-oriental caractéristique. Combine le ♭2 phrygien avec la tierce majeure. Utilisé dans la musique arabe, turque et klezmer pour un caractère exotique, spirituel et oriental. Évoque la prière et le mysticisme."

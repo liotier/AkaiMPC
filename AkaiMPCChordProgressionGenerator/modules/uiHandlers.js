@@ -573,31 +573,32 @@ export function populateSelects() {
         keySelect.appendChild(option);
     });
 
-    // Modes
+    // Modes (now all strings - get display info from i18n)
     Object.entries(modes).forEach(([category, modeList]) => {
         const optgroup = document.createElement('optgroup');
         optgroup.label = i18n.t(`modeCategories.${category}`);
-        modeList.forEach(modeObj => {
+        modeList.forEach(modeValue => {
             const option = document.createElement('option');
-            if (typeof modeObj === 'string') {
-                option.value = modeObj;
-                option.textContent = modeObj;
-            } else {
-                option.value = modeObj.value;
-                option.textContent = modeObj.name;
-                const modeTranslation = i18n.t(`modes.${modeObj.value}.description`);
-                if (modeTranslation && modeTranslation !== `modes.${modeObj.value}.description`) {
-                    option.title = modeTranslation;
-                } else if (modeObj.description) {
-                    option.title = modeObj.description;
-                }
+            option.value = modeValue;
+
+            // Get translated name (fallback to mode value)
+            const translatedName = i18n.t(`modes.${modeValue}.name`);
+            option.textContent = (translatedName && translatedName !== `modes.${modeValue}.name`)
+                ? translatedName
+                : modeValue;
+
+            // Get translated description for tooltip
+            const translatedDescription = i18n.t(`modes.${modeValue}.description`);
+            if (translatedDescription && translatedDescription !== `modes.${modeValue}.description`) {
+                option.title = translatedDescription;
             }
+
             optgroup.appendChild(option);
         });
         modeSelect.appendChild(optgroup);
     });
 
-    // Progressions
+    // Progressions (get display info from i18n)
     Object.entries(progressions).forEach(([category, progList]) => {
         const optgroup = document.createElement('optgroup');
         optgroup.label = i18n.t(`progressionCategories.${category}`);
@@ -605,24 +606,27 @@ export function populateSelects() {
             const option = document.createElement('option');
             option.value = prog.value;
             const progKey = `progressions.${category}.${prog.value}`;
-            const translatedName = i18n.t(`${progKey}.name`);
-            const translatedNickname = i18n.t(`${progKey}.nickname`);
 
+            // Get translated name (fallback to progression value)
+            const translatedName = i18n.t(`${progKey}.name`);
             const displayName = (translatedName && translatedName !== `${progKey}.name`)
                 ? translatedName
-                : prog.name;
+                : prog.value;
+
+            // Get translated nickname
+            const translatedNickname = i18n.t(`${progKey}.nickname`);
             const displayNickname = (translatedNickname && translatedNickname !== `${progKey}.nickname`)
                 ? translatedNickname
-                : prog.nickname;
+                : '';
 
             option.textContent = displayNickname ? `${displayName} (${displayNickname})` : displayName;
 
+            // Get translated description for tooltip
             const translatedDescription = i18n.t(`${progKey}.description`);
             if (translatedDescription && translatedDescription !== `${progKey}.description`) {
                 option.title = translatedDescription;
-            } else if (prog.description) {
-                option.title = prog.description;
             }
+
             optgroup.appendChild(option);
         });
         progressionSelect.appendChild(optgroup);
