@@ -1248,9 +1248,7 @@ function generateScaleExploration() {
         // Add 7 to roman numeral
         if (chordType.includes('7')) {
             if (!romanNumeral.includes('7')) {
-                romanNumeral = chordType === 'major7' ? romanNumeral + 'M7' :
-                              chordType === 'minor7' ? romanNumeral + '7' :
-                              romanNumeral + '7'; // dom7 and others
+                romanNumeral = chordType === 'major7' ? romanNumeral + 'M7' : romanNumeral + '7';
             }
         }
 
