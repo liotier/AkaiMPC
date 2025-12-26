@@ -6,51 +6,26 @@ import {
     modes,
     progressions,
     getKeyOffset,
-    getScaleDegrees,
-    getChordQualityForMode,
-    buildChord,
-    getChordName,
-    getRomanNumeral,
-    generateProgressionChords,
-    spellChordNotes,
-    applyVoicingStyle,
-    optimizeVoiceLeading,
-    optimizeSmoothVoiceLeading,
-    getInversionNotation
+    getScaleDegrees
 } from './musicTheory.js';
 
-import { getGuitarChord } from './guitarChords.js';
-import { saveToLocalStorage, updateURL } from './storage.js';
-import { generateKeyboardSVG, generateGuitarSVG, generateStaffSVG } from './rendering.js';
-import { generateMIDIFile, downloadMIDIFile, downloadAllMIDIFiles } from './midiExport.js';
+import { saveToLocalStorage } from './storage.js';
 import { TIMING, LIMITS, MESSAGES } from './constants.js';
-import { playChord, playNotesSequentially, getSequentialDuration } from './audio.js';
 import { i18n } from './i18n.js';
 
 import {
     getSelectedKey,
     getSelectedMode,
     getSelectedProgression,
-    getProgressionName,
-    getVariants,
     getChordRequirements,
-    getCurrentContext,
     getIsLeftHanded,
     getHasGeneratedOnce,
     getGenerationMode,
-    getHasTouch,
-    getHasHover,
-    getVoiceLeadingLocked,
-    getActiveTooltip,
     setSelectedKey,
     setSelectedMode,
     setProgressionName,
-    setVariants,
     setCurrentContext,
-    setHasGeneratedOnce,
     setGenerationMode,
-    setVoiceLeadingLocked,
-    setActiveTooltip,
     addChordRequirement,
     removeChordRequirementAt,
     clearAllChordRequirements
