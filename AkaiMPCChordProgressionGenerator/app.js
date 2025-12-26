@@ -169,52 +169,62 @@ function detectCadence(progression) {
 
     let cadenceType = null;
     let cadenceEmoji = '';
+    let cadenceTooltip = '';
 
     // Authentic cadence: V → I
     if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'I' || normFinal === 'IM7')) {
         cadenceType = 'Authentic (V→I)';
         cadenceEmoji = '🎯';
+        cadenceTooltip = 'Authentic Cadence: The strongest resolution in tonal music. Dominant (V) resolves to tonic (I), creating complete closure.';
     }
     // Perfect Authentic Cadence: V7 → I
     else if (normPenult.includes('V') && normFinal === 'I') {
         cadenceType = 'Authentic (V→I)';
         cadenceEmoji = '🎯';
+        cadenceTooltip = 'Authentic Cadence: The strongest resolution in tonal music. Dominant (V) resolves to tonic (I), creating complete closure.';
     }
     // Plagal cadence: IV → I
     else if ((normPenult === 'IV' || normPenult === 'IVM7') && (normFinal === 'I' || normFinal === 'IM7')) {
         cadenceType = 'Plagal (IV→I)';
         cadenceEmoji = '🙏';
+        cadenceTooltip = 'Plagal Cadence: The "Amen" cadence. Subdominant (IV) resolves to tonic (I). Softer, more hymn-like resolution than authentic.';
     }
     // Deceptive cadence: V → vi
     else if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'VI' || normFinal === 'vi')) {
         cadenceType = 'Deceptive (V→vi)';
         cadenceEmoji = '😮';
+        cadenceTooltip = 'Deceptive Cadence: Dominant (V) "tricks" the ear by resolving to vi instead of I. Creates surprise and extends the phrase.';
     }
     // Half cadence: ends on V
     else if (normFinal === 'V' || normFinal === 'V7') {
         cadenceType = 'Half (→V)';
         cadenceEmoji = '⏸️';
+        cadenceTooltip = 'Half Cadence: Ends on dominant (V), creating tension and anticipation. Like a musical comma—incomplete, waiting for resolution.';
     }
     // Minor authentic: V → i
     else if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'i' || normFinal === 'i7')) {
         cadenceType = 'Authentic minor (V→i)';
         cadenceEmoji = '🎯';
+        cadenceTooltip = 'Minor Authentic Cadence: Dominant (V) resolves to minor tonic (i). Strong resolution with darker, minor-mode character.';
     }
     // Backdoor: ♭VII → I or iv → I
     else if ((normPenult.includes('♭VII') || normPenult === 'IV' && normPenult.toLowerCase() === 'iv') && normFinal === 'I') {
         cadenceType = 'Backdoor';
         cadenceEmoji = '🚪';
+        cadenceTooltip = 'Backdoor Cadence: Jazz resolution via ♭VII or iv to I, bypassing the dominant. Creates unexpected, "sneaky" arrival at tonic.';
     }
     // Picardy third: ends on I in minor context (detected by lowercase previous chord)
     else if (penultimate.toLowerCase() === penultimate && normFinal === 'I') {
         cadenceType = 'Picardy Third';
         cadenceEmoji = '✨';
+        cadenceTooltip = 'Picardy Third: Minor piece ends on major I chord. The raised third creates surprising brightness—common in Baroque music.';
     }
 
     if (cadenceType) {
         return {
             type: cadenceType,
             emoji: cadenceEmoji,
+            tooltip: cadenceTooltip,
             lastChords: `${penultimate} → ${final}`
         };
     }
@@ -2158,7 +2168,7 @@ function renderProgressions() {
 
         // Detect cadence type
         const cadence = detectCadence(selectedProgression);
-        const cadenceDisplay = cadence ? `<span class="cadence" title="${cadence.lastChords}">${cadence.emoji} ${cadence.type}</span>` : '';
+        const cadenceDisplay = cadence ? `<span class="cadence" title="${cadence.tooltip}">${cadence.emoji} ${cadence.type}</span>` : '';
 
         card.innerHTML = `
             <div class="progression-header">
