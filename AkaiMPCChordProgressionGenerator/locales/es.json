@@ -366,6 +366,11 @@
         "name": "I—♭VII—IV—I",
         "nickname": "Mixolydian Vamp",
         "description": "Progresión mixolidia circular. El ♭VII prestado del menor paralelo añade borde rock, IV a I proporciona cadencia perfecta tradicional. Crea sensación rock modal impulsora sin el acorde dominante V."
+      },
+      "i—V—VII—IV—VI—III—iv—V": {
+        "name": "i—V—VII—IV—VI—III—iv—V",
+        "nickname": "Hotel California",
+        "description": "La progresión icónica de The Eagles con línea de bajo cromática descendente. La tónica menor a través de acordes prestados crea melancolía sofisticada. El descenso cromático (i-VII-VI) seguido de III-iv-V construye tensión dramática. Una de las progresiones rock más analizadas, definiendo el rock californiano de los años 1970."
       }
     },
     "Blues/Soul": {
@@ -450,6 +455,11 @@
         "name": "IM7—♭IIIM7—♭VIM7—♭II7",
         "nickname": "Giant Steps",
         "description": "Los cambios revolucionarios \"Giant Steps\" de John Coltrane. Se mueve a través de tres centros tonales divididos en terceras mayores (I, ♭III, ♭VI). El ♭II7 es sustitución tritónica. Crea movimiento armónico máximo, momento definitorio en la evolución del jazz."
+      },
+      "ii—V—I—IV—vii°—III7—vi": {
+        "name": "ii—V—I—IV—vii°—III7—vi",
+        "nickname": "Autumn Leaves",
+        "description": "La progresión quintaesencial del standard jazz \"Autumn Leaves\" de Joseph Kosma. Abre con ii-V-I en mayor, luego IV-vii°-III7-vi modula al relativo menor. El III7 es dominante secundaria (V/vi). Perfecta para aprender improvisación jazz y conducción de voces. Una de las composiciones jazz más grabadas."
       }
     },
     "Classical/Modal": {
@@ -751,6 +761,16 @@
         "name": "I—V—vi—iii",
         "nickname": "Irish Folk",
         "description": "Progresión folk celta. Apertura familiar I-V, desciende a vi luego iii. Evita acorde IV, creando color diferente de progresiones pop típicas. El patrón de terceras descendentes (V-vi, vi-iii) crea movimiento melódico fluido característico de baladas irlandesas y tradiciones musicales celtas."
+      },
+      "i—III—IV—VI": {
+        "name": "i—III—IV—VI",
+        "nickname": "House of the Rising Sun",
+        "description": "La icónica progresión folk-blues de The Animals. La tónica menor a III mayor crea elevación inmediata, IV continúa ascendiendo, VI mayor proporciona color dramático antes de volver. El patrón arpegiado de guitarra sobre estos acordes definió el folk-rock de los años 1960. Progresión atemporal para baladas narrativas."
+      },
+      "I—IV—I—IV—I—V—I": {
+        "name": "I—IV—I—IV—I—V—I",
+        "nickname": "Hallelujah",
+        "description": "La icónica progresión de Leonard Cohen de \"Hallelujah\". La simple oscilación I-IV crea tensión espiritual, V proporciona liberación antes del I final. El movimiento repetitivo I-IV crea cualidad hipnótica y meditativa. Una de las canciones más versionadas de la historia, demostrando el poder de la simplicidad armónica."
       },
       "I—V—vi—IV": {
         "name": "I—V—vi—IV",

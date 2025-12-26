@@ -313,6 +313,12 @@ export const progressions = {
             name: 'I—♭VII—IV—I',
             nickname: 'Mixolydian Vamp',
             description: 'Circular Mixolydian progression. Borrowed ♭VII from parallel minor adds rock edge, IV to I provides traditional perfect cadence. Creates driving, modal rock feel without dominant V chord.'
+        },
+        {
+            value: 'i—V—VII—IV—VI—III—iv—V',
+            name: 'i—V—VII—IV—VI—III—iv—V',
+            nickname: 'Hotel California',
+            description: 'The Eagles\' iconic progression with descending chromatic bass line. Minor tonic through borrowed chords creates sophisticated melancholy. The chromatic descent (i-VII-VI) followed by III-iv-V builds dramatic tension. One of rock\'s most analyzed progressions, defining 1970s California rock.'
         }
     ],
     'Blues/Soul': [
@@ -482,6 +488,17 @@ export const progressions = {
                 avoided: ['diminished', 'augmented']
             },
             description: 'Classic ii-V with tritone substitution on V. Creates chromatic descending bass line (ii-♭II-I). Common jazz ending that sounds fresh and sophisticated. The ♭II7 retains dominant function while adding harmonic surprise.'
+        },
+        {
+            value: 'ii—V—I—IV—vii°—III7—vi',
+            name: 'ii—V—I—IV—vii°—III7—vi',
+            nickname: 'Autumn Leaves',
+            palettePriorities: {
+                preferred: ['minor7', 'dom7', 'major7'],
+                allowed: ['minor9', 'dom9'],
+                avoided: ['augmented', 'quartal']
+            },
+            description: 'The quintessential jazz standard progression from Joseph Kosma\'s "Autumn Leaves." Opens with ii-V-I in major, then IV-vii°-III7-vi shifts to relative minor. The III7 is secondary dominant (V/vi). Perfect for learning jazz improvisation and voice leading. One of the most recorded jazz compositions.'
         }
     ],
     'Modal Interchange': [
@@ -1035,6 +1052,28 @@ export const progressions = {
                 avoided: ['major7', 'minor7', 'dom7', 'quartal', 'augmented', 'diminished']
             },
             description: 'Celtic folk progression. Familiar I-V opening, descends to vi then iii. Avoids IV chord, creating different color than typical pop progressions. The descending thirds pattern (V-vi, vi-iii) creates flowing, melodic motion characteristic of Irish ballads and Celtic music traditions.'
+        },
+        {
+            value: 'i—III—IV—VI',
+            name: 'i—III—IV—VI',
+            nickname: 'House of the Rising Sun',
+            palettePriorities: {
+                preferred: ['minor', 'major'],
+                allowed: ['minor7', 'dom7'],
+                avoided: ['major7', 'diminished', 'augmented', 'quartal']
+            },
+            description: 'The Animals\' iconic folk-blues progression. Minor tonic to major III creates immediate lift, IV continues ascending, major VI provides dramatic color before return. The arpeggiated guitar pattern over these changes defined 1960s folk-rock. Timeless progression for storytelling ballads.'
+        },
+        {
+            value: 'I—IV—I—IV—I—V—I',
+            name: 'I—IV—I—IV—I—V—I',
+            nickname: 'Hallelujah',
+            palettePriorities: {
+                preferred: ['major', 'minor'],
+                allowed: ['sus4', 'major7'],
+                avoided: ['dom7', 'diminished', 'augmented', 'quartal']
+            },
+            description: 'Leonard Cohen\'s iconic progression from "Hallelujah." Simple I-IV oscillation builds spiritual tension, V provides release before final I. The repetitive I-IV motion creates hypnotic, meditative quality. One of the most covered songs in history, proving the power of harmonic simplicity.'
         },
         {
             value: 'I—V—vi—IV',

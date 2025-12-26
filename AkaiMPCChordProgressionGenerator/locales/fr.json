@@ -366,6 +366,11 @@
         "name": "I—♭VII—IV—I",
         "nickname": "Mixolydian Vamp",
         "description": "Progression mixolydienne circulaire. Le ♭VII emprunté du parallèle mineur ajoute un côté rock, IV vers I fournit une cadence parfaite traditionnelle. Crée une sensation rock modale entraînante sans accord de dominante V."
+      },
+      "i—V—VII—IV—VI—III—iv—V": {
+        "name": "i—V—VII—IV—VI—III—iv—V",
+        "nickname": "Hotel California",
+        "description": "La progression emblématique des Eagles avec ligne de basse chromatique descendante. La tonique mineure à travers les accords empruntés crée une mélancolie sophistiquée. La descente chromatique (i-VII-VI) suivie de III-iv-V construit une tension dramatique. L'une des progressions rock les plus analysées, définissant le rock californien des années 1970."
       }
     },
     "Blues/Soul": {
@@ -450,6 +455,11 @@
         "name": "IM7—♭IIIM7—♭VIM7—♭II7",
         "nickname": "Giant Steps",
         "description": "Les changements révolutionnaires \"Giant Steps\" de John Coltrane. Se déplace à travers trois centres tonaux divisés en tierces majeures (I, ♭III, ♭VI). Le ♭II7 est une substitution tritonique. Crée un mouvement harmonique maximal, moment déterminant dans l'évolution du jazz."
+      },
+      "ii—V—I—IV—vii°—III7—vi": {
+        "name": "ii—V—I—IV—vii°—III7—vi",
+        "nickname": "Autumn Leaves",
+        "description": "La progression quintessientielle du standard jazz \"Les Feuilles Mortes\" de Joseph Kosma. Commence par ii-V-I en majeur, puis IV-vii°-III7-vi module vers le relatif mineur. Le III7 est une dominante secondaire (V/vi). Parfait pour apprendre l'improvisation jazz et la conduite des voix. L'une des compositions jazz les plus enregistrées."
       }
     },
     "Classical/Modal": {
@@ -751,6 +761,16 @@
         "name": "I—V—vi—iii",
         "nickname": "Irish Folk",
         "description": "Progression folk celtique. Ouverture familière I-V, descend vers vi puis iii. Évite l'accord IV, créant une couleur différente des progressions pop typiques. Le motif de tierces descendantes (V-vi, vi-iii) crée un mouvement mélodique fluide caractéristique des ballades irlandaises et des traditions musicales celtiques."
+      },
+      "i—III—IV—VI": {
+        "name": "i—III—IV—VI",
+        "nickname": "House of the Rising Sun",
+        "description": "L'iconique progression folk-blues des Animals. La tonique mineure vers III majeur crée un élan immédiat, IV continue l'ascension, VI majeur fournit une couleur dramatique avant le retour. Le motif arpégé de guitare sur ces accords a défini le folk-rock des années 1960. Progression intemporelle pour les ballades narratives."
+      },
+      "I—IV—I—IV—I—V—I": {
+        "name": "I—IV—I—IV—I—V—I",
+        "nickname": "Hallelujah",
+        "description": "L'iconique progression de Leonard Cohen tirée de \"Hallelujah\". La simple oscillation I-IV crée une tension spirituelle, V apporte la libération avant le I final. Le mouvement répétitif I-IV crée une qualité hypnotique et méditative. L'une des chansons les plus reprises de l'histoire, prouvant le pouvoir de la simplicité harmonique."
       },
       "I—V—vi—IV": {
         "name": "I—V—vi—IV",
