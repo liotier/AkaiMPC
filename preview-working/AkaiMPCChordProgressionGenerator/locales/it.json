@@ -387,6 +387,11 @@
         "name": "I—♭VII—IV—I",
         "nickname": "Mixolydian Vamp",
         "description": "Progressione Misolidia circolare. ♭VII preso in prestito dal parallelo minore aggiunge edge rock, IV a I fornisce cadenza plagale tradizionale. Crea sensazione rock modale, trascinante senza accordo dominante V."
+      },
+      "i—V—VII—IV—VI—III—iv—V": {
+        "name": "i—V—VII—IV—VI—III—iv—V",
+        "nickname": "Hotel California",
+        "description": "L'iconica progressione degli Eagles con linea di basso cromatica discendente. La tonica minore attraverso accordi presi in prestito crea malinconia sofisticata. La discesa cromatica (i-VII-VI) seguita da III-iv-V costruisce tensione drammatica. Una delle progressioni rock più analizzate, che definisce il rock californiano degli anni '70."
       }
     },
     "Blues/Soul": {
@@ -471,6 +476,11 @@
         "name": "IM7—♭IIIM7—♭VIM7—♭II7",
         "nickname": "Giant Steps",
         "description": "I rivoluzionari cambi di \"Giant Steps\" di John Coltrane. Si muove attraverso tre centri tonali divisi in terze maggiori (I, ♭III, ♭VI). Il ♭II7 è sostituzione di tritono. Crea massimo movimento armonico, momento definitivo nell'evoluzione del jazz."
+      },
+      "ii—V—I—IV—vii°—III7—vi": {
+        "name": "ii—V—I—IV—vii°—III7—vi",
+        "nickname": "Autumn Leaves",
+        "description": "La progressione quintessenziale del jazz standard \"Autumn Leaves\" di Joseph Kosma. Apre con ii-V-I in maggiore, poi IV-vii°-III7-vi modula verso la relativa minore. Il III7 è dominante secondaria (V/vi). Perfetta per imparare l'improvvisazione jazz e la conduzione voci. Una delle composizioni jazz più registrate."
       }
     },
     "Classical/Modal": {
@@ -772,6 +782,16 @@
         "name": "I—V—vi—iii",
         "nickname": "Irish Folk",
         "description": "Progressione folk celtica. Familiare apertura I-V, discende a vi poi iii. Evita accordo IV, creando colore diverso dalle tipiche progressioni pop. Il pattern discendente per terze (V-vi, vi-iii) crea movimento fluido, melodico caratteristico delle ballate irlandesi e tradizioni musicali celtiche."
+      },
+      "i—III—IV—VI": {
+        "name": "i—III—IV—VI",
+        "nickname": "House of the Rising Sun",
+        "description": "L'iconica progressione folk-blues degli Animals. La tonica minore a III maggiore crea elevazione immediata, IV continua ascendendo, VI maggiore fornisce colore drammatico prima del ritorno. Il pattern arpeggiato di chitarra su questi accordi definì il folk-rock degli anni '60. Progressione senza tempo per ballate narrative."
+      },
+      "I—IV—I—IV—I—V—I": {
+        "name": "I—IV—I—IV—I—V—I",
+        "nickname": "Hallelujah",
+        "description": "L'iconica progressione di Leonard Cohen da \"Hallelujah\". La semplice oscillazione I-IV costruisce tensione spirituale, V fornisce liberazione prima del I finale. Il movimento ripetitivo I-IV crea qualità ipnotica e meditativa. Una delle canzoni più coverizzate della storia, dimostrando il potere della semplicità armonica."
       },
       "I—V—vi—IV": {
         "name": "I—V—vi—IV",

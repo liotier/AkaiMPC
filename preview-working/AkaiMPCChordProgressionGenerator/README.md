@@ -49,8 +49,8 @@ Found a sample with killer chords but don't know the key? The Chord Matcher lets
 - Bridge the gap between sample-based and theory-based production
 
 ### Two Workflows for Every Creative Process
-- **Progression Palette Mode** - Choose from 133 progression palettes across 15 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). 60+ progressions feature **genre-specific palette intelligence** that prioritizes authentic chord voicings for each style. Generate four voicing variants instantly.
-- **Scale Mode** - Pick from 36 scales/modes and explore all available chords. Perfect for learning exotic scales like Whole Tone, Maqam Hijaz, or Phrygian Dominant.
+- **Progression Palette Mode** - Choose from 137 progression palettes across 15 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). 60+ progressions feature **genre-specific palette intelligence** that prioritizes authentic chord voicings for each style. Generate four voicing variants instantly.
+- **Scale Mode** - Pick from 43 scales/modes and explore all available chords. Perfect for learning exotic scales like Whole Tone, Maqam Hijaz, or Phrygian Dominant.
 - Download individual variants or bulk export all four versions at once
 
 ## Musical Intelligence Under the Hood
@@ -93,7 +93,7 @@ The generator seamlessly incorporates:
 - **Tritone Substitutions** - Jazz reharmonization at the click of a button
 
 ### Battle-Tested Progression Palettes
-133 progression palettes across 15 genres covering every style. **60+ progressions feature genre-specific palette intelligence** that prioritizes musically authentic chord voicings:
+137 progression palettes across 15 genres covering every style. **60+ progressions feature genre-specific palette intelligence** that prioritizes musically authentic chord voicings:
 - **Pop/Rock**: I-V-vi-IV (the "four chord song"), vi-IV-I-V (pop-punk anthem), classic rock patterns
 - **Blues/Soul**: 12-bar blues, turnarounds, Dorian vamps, minor blues (smart palettes prefer dom7, major; avoid experimental voicings)
 - **Jazz/Functional**: ii-V-I, Rhythm Changes, Giant Steps cycle, circle progressions
