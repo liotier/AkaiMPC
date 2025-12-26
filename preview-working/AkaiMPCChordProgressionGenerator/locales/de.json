@@ -208,6 +208,30 @@
       "name": "Augmented",
       "description": "Sechs-Noten-Hexatonik, die aus übermäßigen Dreiklängen mit Durchgangsnoten besteht: 1-♭3-3-5-♯5-7. Symmetrisch, teilt die Oktave in drei gleiche große Terzen. Keine reinen Quinten. Erzeugt einen mehrdeutigen, schwebenden, modernistischen Charakter. Verwendet in klassischer Musik des 20. Jahrhunderts und Jazz für übermäßige Akkordkontexte und symmetrische harmonische Strukturen."
     },
+    "Altered": {
+      "name": "Altered (Super Lokrisch)",
+      "description": "Siebter Modus des melodischen Molls: 1-♭2-♭3-♭4-♭5-♭6-♭7. Die ultimative alterierte Dominanttonleiter - jede Note außer der Grundton ist alteriert. Verwendet über Dominant-7-Akkorden, die nach Moll auflösen. Erzeugt maximale Spannung vor der Auflösung. Essentielles Jazz-Vokabular für alterierte Dominant-Klänge (7♯9♭13, 7alt). Die bevorzugte Tonleiter für Jazz-Improvisatoren über V7-Akkorden."
+    },
+    "Lydian Dominant": {
+      "name": "Lydisch Dominant",
+      "description": "Vierter Modus des melodischen Molls: 1-2-3-♯4-5-6-♭7. Kombiniert lydische Helligkeit (♯4) mit mixolydischer Erdung (♭7). Perfekt für Dominant-7♯11-Akkorde. Erzeugt einen schwebenden, aber bluesigen Charakter. Verwendet in Jazz-Fusion, Filmmusik und modernem Jazz. Tritonus-Substitutionsskala. Der \"Simpsons-Titelmelodie\"-Sound."
+    },
+    "Locrian #2": {
+      "name": "Lokrisch ♯2",
+      "description": "Sechster Modus des melodischen Molls: 1-2-♭3-4-♭5-♭6-♭7. Lokrisch mit natürlicher Sekunde. Weniger dissonant als reines Lokrisch. Verwendet über halbverminderten (m7♭5) Akkorden im Jazz. Bietet mehr melodische Optionen als Standard-Lokrisch. Üblich in Jazz-Moll-ii-V-i-Progressionen."
+    },
+    "Bebop Major": {
+      "name": "Bebop Dur",
+      "description": "Acht-Noten-Durtonleiter mit hinzugefügter ♭6: 1-2-3-4-5-♭6-6-7. Die chromatische Durchgangsnote hält Akkordtöne auf betonten Zählzeiten während Achtelnoten-Linien. Essentielles Bebop-Vokabular. Verwendet über Dur-7-Akkorden. Erzeugt fließende, geschmeidige Jazz-Linien. Von Bebop-Pionieren für rhythmische Präzision erfunden."
+    },
+    "Bebop Dominant": {
+      "name": "Bebop Dominant",
+      "description": "Acht-Noten-Mixolydisch mit hinzugefügter natürlicher 7: 1-2-3-4-5-6-♭7-7. Die wichtigste Bebop-Skala. Chromatik zwischen ♭7 und Grundton hält Akkordtöne auf Zählzeiten. Verwendet über Dominant-7-Akkorden. Grundlage der Bebop-Improvisation. Erzeugt swingende, rhythmisch präzise Jazz-Linien."
+    },
+    "Bebop Minor": {
+      "name": "Bebop Moll",
+      "description": "Acht-Noten-Dorisch mit hinzugefügter großer Terz: 1-2-♭3-3-4-5-6-♭7. Chromatische Durchgangsnote zwischen ♭3 und 4. Verwendet über Moll-7-Akkorden im Jazz. Ermöglicht fließende Bewegung zwischen Moll- und Dur-Klängen. Erzeugt raffinierte Moll-Jazz-Linien mit Bebop-rhythmischer Präzision."
+    },
     "Maqam Hijaz": {
       "name": "Maqam Hijaz",
       "description": "Arabischer Maqam, in gleichstufiger Stimmung als Phrygisch-Dominant angenähert: 1-♭2-3-4-5-♭6-♭7. Die übermäßige Sekunde zwischen ♭2 und 3 erzeugt den charakteristischen nahöstlichen Klang. Kombiniert phrygisches ♭2 mit großer Terz. Verwendet in arabischer, türkischer und Klezmer-Musik für einen exotischen, spirituellen, orientalischen Charakter. Evoziert Gebet und Mystik."
