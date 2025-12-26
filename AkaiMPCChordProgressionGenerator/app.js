@@ -42,10 +42,8 @@ import {
 } from './modules/midiExport.js';
 
 import {
-    AUDIO,
     TIMING,
     MESSAGES,
-    STORAGE_KEYS,
     LIMITS,
     hasTouchCapability,
     hasHoverCapability,
@@ -55,7 +53,6 @@ import {
 import {
     initAudioContext,
     setMidiOutput,
-    getMidiOutput,
     startChord,
     stopChord,
     playChord,
@@ -147,6 +144,81 @@ function analyzeVoiceLeading(notes1, notes2) {
         stepMotion: stepMotion,
         smoothness: commonToneCount + stepMotion // Higher = smoother voice leading
     };
+}
+
+/**
+ * Detects the cadence type from a progression
+ * @param {string} progression - The progression string (e.g., "I—V—vi—IV")
+ * @returns {Object} Cadence analysis with i18n key and emoji
+ */
+function detectCadence(progression) {
+    if (!progression) return null;
+
+    // Split progression into chords
+    const chords = progression.split('—').map(c => c.trim());
+    if (chords.length < 2) return null;
+
+    // Get last two chords for cadence detection
+    const lastTwo = chords.slice(-2);
+    const penultimate = lastTwo[0].replaceAll(/\d/g, '').toUpperCase();
+    const final = lastTwo[1].replaceAll(/\d/g, '').toUpperCase();
+
+    // Normalize chord symbols
+    const normPenult = penultimate.replaceAll(/M7|7/g, '');
+    const normFinal = final.replaceAll(/M7|7/g, '');
+
+    let cadenceKey = null;
+    let cadenceEmoji = '';
+
+    // Authentic cadence: V → I
+    if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'I' || normFinal === 'IM7')) {
+        cadenceKey = 'authentic';
+        cadenceEmoji = '🎯';
+    }
+    // Perfect Authentic Cadence: V7 → I
+    else if (normPenult.includes('V') && normFinal === 'I') {
+        cadenceKey = 'authentic';
+        cadenceEmoji = '🎯';
+    }
+    // Plagal cadence: IV → I
+    else if ((normPenult === 'IV' || normPenult === 'IVM7') && (normFinal === 'I' || normFinal === 'IM7')) {
+        cadenceKey = 'plagal';
+        cadenceEmoji = '🙏';
+    }
+    // Deceptive cadence: V → vi
+    else if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'VI' || normFinal === 'vi')) {
+        cadenceKey = 'deceptive';
+        cadenceEmoji = '😮';
+    }
+    // Half cadence: ends on V
+    else if (normFinal === 'V' || normFinal === 'V7') {
+        cadenceKey = 'half';
+        cadenceEmoji = '⏸️';
+    }
+    // Minor authentic: V → i
+    else if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'i' || normFinal === 'i7')) {
+        cadenceKey = 'authenticMinor';
+        cadenceEmoji = '🎯';
+    }
+    // Backdoor: ♭VII → I or iv → I
+    else if ((normPenult.includes('♭VII') || normPenult === 'IV' && normPenult.toLowerCase() === 'iv') && normFinal === 'I') {
+        cadenceKey = 'backdoor';
+        cadenceEmoji = '🚪';
+    }
+    // Picardy third: ends on I in minor context (detected by lowercase previous chord)
+    else if (penultimate.toLowerCase() === penultimate && normFinal === 'I') {
+        cadenceKey = 'picardy';
+        cadenceEmoji = '✨';
+    }
+
+    if (cadenceKey) {
+        return {
+            key: cadenceKey,
+            emoji: cadenceEmoji
+        };
+    }
+
+    return null;
 }
 
 // Trigger sparkle animation on Generate button
@@ -747,18 +819,99 @@ function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType) 
         });
     }
 
-    // V/V (secondary dominant of V)
-    if (!analysis.hasSecondary && scaleDegrees.length > 1) {
-        const secondaryDom = scaleDegrees[1 % scaleDegrees.length];
+    // Secondary dominants (V7/x chords)
+    if (scaleDegrees.length > 1) {
+        // V7/V (secondary dominant of V) - most common
+        const vOfV = scaleDegrees[1 % scaleDegrees.length];
         candidates.push({
-            root: secondaryDom,
-            notes: buildChord(secondaryDom, 'major', keyOffset),
-            chordType: 'major',
-            chordName: getChordName(secondaryDom, 'major', keyOffset),
-            romanNumeral: 'V/V',
-            quality: 'Major',
+            root: vOfV,
+            notes: buildChord(vOfV, 'dom7', keyOffset),
+            chordType: 'dom7',
+            chordName: getChordName(vOfV, 'dom7', keyOffset),
+            romanNumeral: 'V7/V',
+            quality: 'Dominant 7',
             category: 'secondary',
-            commonUsage: 0.6
+            commonUsage: 0.7
+        });
+
+        // V7/ii (secondary dominant of ii)
+        const vOfii = (scaleDegrees[0] + 9) % 12;  // A fifth above ii (which is 2 semitones above I)
+        candidates.push({
+            root: vOfii,
+            notes: buildChord(vOfii, 'dom7', keyOffset),
+            chordType: 'dom7',
+            chordName: getChordName(vOfii, 'dom7', keyOffset),
+            romanNumeral: 'V7/ii',
+            quality: 'Dominant 7',
+            category: 'secondary',
+            commonUsage: 0.5
+        });
+
+        // V7/vi (secondary dominant of vi) - common in pop/jazz
+        const vOfvi = (scaleDegrees[0] + 4) % 12;  // Major III as V7/vi
+        candidates.push({
+            root: vOfvi,
+            notes: buildChord(vOfvi, 'dom7', keyOffset),
+            chordType: 'dom7',
+            chordName: getChordName(vOfvi, 'dom7', keyOffset),
+            romanNumeral: 'V7/vi',
+            quality: 'Dominant 7',
+            category: 'secondary',
+            commonUsage: 0.5
+        });
+
+        // V7/IV (secondary dominant of IV)
+        const vOfIV = scaleDegrees[0];  // I7 functions as V7/IV
+        candidates.push({
+            root: vOfIV,
+            notes: buildChord(vOfIV, 'dom7', keyOffset),
+            chordType: 'dom7',
+            chordName: getChordName(vOfIV, 'dom7', keyOffset),
+            romanNumeral: 'V7/IV',
+            quality: 'Dominant 7',
+            category: 'secondary',
+            commonUsage: 0.4
+        });
+    }
+
+    // Augmented 6th chords (classical approach to V)
+    if (variantType === 'Classic' || variantType === 'Jazz') {
+        const flatSix = (scaleDegrees[0] + 8) % 12;  // ♭6 scale degree
+
+        // Italian 6th (It+6): ♭VI with raised 4th
+        candidates.push({
+            root: flatSix,
+            notes: buildChord(flatSix, 'It6', keyOffset),
+            chordType: 'It6',
+            chordName: getChordName(flatSix, 'It6', keyOffset, 'It+6'),
+            romanNumeral: 'It+6',
+            quality: 'Italian 6th',
+            category: 'augmented6th',
+            commonUsage: 0.3
+        });
+
+        // German 6th (Ger+6): like It6 but with ♭3
+        candidates.push({
+            root: flatSix,
+            notes: buildChord(flatSix, 'Ger6', keyOffset),
+            chordType: 'Ger6',
+            chordName: getChordName(flatSix, 'Ger6', keyOffset, 'Ger+6'),
+            romanNumeral: 'Ger+6',
+            quality: 'German 6th',
+            category: 'augmented6th',
+            commonUsage: 0.3
+        });
+
+        // French 6th (Fr+6): like It6 but with 2
+        candidates.push({
+            root: flatSix,
+            notes: buildChord(flatSix, 'Fr6', keyOffset),
+            chordType: 'Fr6',
+            chordName: getChordName(flatSix, 'Fr6', keyOffset, 'Fr+6'),
+            romanNumeral: 'Fr+6',
+            quality: 'French 6th',
+            category: 'augmented6th',
+            commonUsage: 0.2
         });
     }
 
@@ -896,7 +1049,7 @@ function getChordTooltip(romanNumeral, chordType) {
     const normalized = romanNumeral ? romanNumeral.toUpperCase() : '';
 
     // Handle lowercase roman numerals (minor chords)
-    const upperNormalized = normalized.replace(/^([IVX]+)/i, (match) => {
+    const upperNormalized = normalized.replaceAll(/^([IVX]+)/gi, (match) => {
         // Check if the original was lowercase
         if (romanNumeral && romanNumeral[0] === romanNumeral[0].toLowerCase() && romanNumeral[0] !== '♭' && romanNumeral[0] !== '♯') {
             // It's a minor chord
@@ -922,7 +1075,7 @@ function getChordTooltip(romanNumeral, chordType) {
     }
 
     // Try without quality indicators
-    const withoutQuality = upperNormalized.replace(/M7|MAJ7|7|°|Ø7|DIM/g, '');
+    const withoutQuality = upperNormalized.replaceAll(/M7|MAJ7|7|°|Ø7|DIM/g, '');
     translation = i18n.t(`chordRoles.${withoutQuality}`);
     if (translation && translation !== `chordRoles.${withoutQuality}`) {
         return translation;
@@ -984,7 +1137,6 @@ function matchesChordRequirement(scaleDegree, chordType, keyOffset) {
 
     const noteMap = { 'C': 0, 'C#': 1, 'D': 2, 'D#': 3, 'E': 4, 'F': 5, 'F#': 6, 'G': 7, 'G#': 8, 'A': 9, 'A#': 10, 'B': 11 };
     const chordRoot = (scaleDegree + keyOffset) % 12;
-    const chordRootName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][chordRoot];
 
     const typeToQuality = {
         'major': 'major',
@@ -1085,9 +1237,7 @@ function generateScaleExploration() {
         // Add 7 to roman numeral
         if (chordType.includes('7')) {
             if (!romanNumeral.includes('7')) {
-                romanNumeral = chordType === 'major7' ? romanNumeral + 'M7' :
-                              chordType === 'dom7' ? romanNumeral + '7' :
-                              romanNumeral + '7';
+                romanNumeral = chordType === 'major7' ? romanNumeral + 'M7' : romanNumeral + '7';
             }
         }
 
@@ -1224,7 +1374,7 @@ function generateVariant(variantType) {
     };
 
     // Helper to determine spice level based on harmonic function
-    const getSpiceLevelForDegree = (degree, type) => {
+    const getSpiceLevelForDegree = (degree) => {
         // Tonic (I or i) = foundation (0)
         if (degree === 0) return 0;
         // Subdominant/Dominant (IV, V) = standard (1)
@@ -1293,7 +1443,7 @@ function generateVariant(variantType) {
             }
 
             // Determine spice level
-            const spiceLevel = getSpiceLevelForDegree(matchedDegree, chordType);
+            const spiceLevel = getSpiceLevelForDegree(matchedDegree);
 
             // Add to palette with Chord Matcher flag
             addChord(matchedDegree, chordType, romanBase.replace('°', ''), suffix, spiceLevel, true);
@@ -1302,7 +1452,7 @@ function generateVariant(variantType) {
 
     // Generate extensions for each unique degree
     uniqueDegrees.forEach(({ degree, original }) => {
-        const romanBase = original.romanNumeral.replace(/7|M7|m7|°/g, '');
+        const romanBase = original.romanNumeral.replaceAll(/7|M7|m7|°/g, '');
         const baseType = original.chordType;
 
         if (baseType.includes('major') || baseType === 'dom7') {
@@ -1682,7 +1832,7 @@ function updateProgressionName() {
 
     if (generationMode === 'template') {
         // Progression Palette Mode: Key + Progression
-        const prog = selectedProgression.replace(/—/g, '-');
+        const prog = selectedProgression.replaceAll(/—/g, '-');
         progressionName = `${key}_${prog}`;
     } else {
         // Scale Mode: Key + Mode
@@ -1771,11 +1921,11 @@ function generateProgressions() {
 
 function downloadSingleProgression(variant, index) {
     const keyName = selectedKey.split('/')[0];
-    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
+    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
 
     const progressionData = {
         progression: {
-            name: fileName.replace('.progression', ''),
+            name: fileName.replaceAll('.progression', ''),
             rootNote: keyName,
             scale: selectedMode,
             recordingOctave: 2,
@@ -1798,9 +1948,9 @@ function downloadSingleProgression(variant, index) {
     URL.revokeObjectURL(url);
 }
 
-function downloadSingleMIDI(variant, index) {
+function downloadSingleMIDI(variant) {
     const keyName = selectedKey.split('/')[0];
-    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}`;
+    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}`;
 
     // Get chord data from pads
     const chords = variant.pads.map(pad => ({
@@ -1940,7 +2090,7 @@ function renderProgressions() {
 
                 return `
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''} ${voiceLeadingClass}"
-                    data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replace(/"/g, '&quot;')}"
+                    data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replaceAll(/"/g, '&quot;')}"
                     data-pad-id="${pad.id}" data-original-vl-class="${voiceLeadingClass}"
                     data-voice-leading="${voiceLeadingLegend}">
                     <div class="chord-text-column">
@@ -2003,6 +2153,10 @@ function renderProgressions() {
             uniquenessTooltip = i18n.t(`variants.${variant.name}.tooltip`);
         }
 
+        // Detect cadence type
+        const cadence = detectCadence(selectedProgression);
+        const cadenceDisplay = cadence ? `<span class="cadence" title="${i18n.t(`cadences.${cadence.key}.tooltip`)}">${cadence.emoji} ${i18n.t(`cadences.${cadence.key}.name`)}</span>` : '';
+
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
@@ -2016,6 +2170,7 @@ function renderProgressions() {
                     <div class="progression-meta">
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
+                        ${cadenceDisplay}
                         ${progressionAnalysis ? `<span class="analysis">${progressionAnalysis}</span>` : ''}
                         <span class="voice-leading-hint">${progressionClarification}${i18n.t('variants.chordDistanceHint')}</span>
                     </div>
@@ -2230,7 +2385,7 @@ function renderProgressions() {
         btn.addEventListener('click', function() {
             const variantIndex = parseInt(this.getAttribute('data-variant-index'));
             if (currentContext === 'midi') {
-                downloadSingleMIDI(variants[variantIndex], variantIndex);
+                downloadSingleMIDI(variants[variantIndex]);
             } else {
                 downloadSingleProgression(variants[variantIndex], variantIndex);
             }
@@ -2264,11 +2419,11 @@ function exportProgressions() {
     const keyName = selectedKey.split('/')[0];
 
     variants.forEach((variant, index) => {
-        const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
+        const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
 
         const progressionData = {
             progression: {
-                name: fileName.replace('.progression', ''),
+                name: fileName.replaceAll('.progression', ''),
                 rootNote: keyName,
                 scale: selectedMode,
                 recordingOctave: 2,
@@ -2304,7 +2459,7 @@ async function exportAllMIDI() {
     // Prepare progression data for MIDI export
     const progressionsData = variants.map((variant, index) => {
         const keyName = selectedKey.split('/')[0];
-        const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replace(/—/g, '-')}_${variant.name}`;
+        const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}`;
 
         // Get chord data from pads
         const chords = variant.pads.map(pad => ({

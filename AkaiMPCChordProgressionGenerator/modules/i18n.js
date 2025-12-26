@@ -113,7 +113,7 @@ class I18n {
      */
     interpolate(str, params) {
         if (typeof str !== 'string') return str;
-        return str.replace(/\{\{(\w+)\}\}/g, (_, key) => params[key] ?? `{{${key}}}`);
+        return str.replaceAll(/\{\{(\w+)\}\}/g, (_, key) => params[key] ?? `{{${key}}}`);
     }
 
     /**
