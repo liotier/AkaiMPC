@@ -1718,10 +1718,6 @@ export function buildChordRaw(baseNote, chordType) {
         case 'Ger6':  // German 6th: ♭6, 1, ♭3, ♯4 (♭6 in bass)
             return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10];
 
-        // Diminished passing chords
-        case 'dim7':  // Already exists above, but common passing chord
-            return [baseNote, baseNote + 3, baseNote + 6, baseNote + 9];
-
         default:
             return [baseNote, baseNote + 4, baseNote + 7];
     }
