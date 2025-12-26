@@ -90,6 +90,36 @@
     "progressionPaletteDisabled": "Las paletas de progresiones no se utilizan en el modo de exploración de escala. Se generarán todos los acordes de la escala seleccionada.",
     "progressionPaletteEnabled": "Cada paleta proporciona 16 acordes únicos: los primeros N de la progresión, los pads restantes de la armonía extendida. Los filtros específicos de género aseguran colores de acordes apropiados."
   },
+  "cadences": {
+    "authentic": {
+      "name": "Auténtica (V→I)",
+      "tooltip": "Cadencia Auténtica: La resolución más fuerte en la música tonal. La dominante (V) resuelve a la tónica (I), creando un cierre completo."
+    },
+    "authenticMinor": {
+      "name": "Auténtica menor (V→i)",
+      "tooltip": "Cadencia Auténtica Menor: La dominante (V) resuelve a la tónica menor (i). Resolución fuerte con carácter más oscuro, en modo menor."
+    },
+    "plagal": {
+      "name": "Plagal (IV→I)",
+      "tooltip": "Cadencia Plagal: La cadencia «Amén». La subdominante (IV) resuelve a la tónica (I). Resolución más suave, más solemne que la auténtica."
+    },
+    "deceptive": {
+      "name": "Rota (V→vi)",
+      "tooltip": "Cadencia Rota: La dominante (V) «engaña» al oído resolviendo al vi en lugar del I. Crea sorpresa y extiende la frase."
+    },
+    "half": {
+      "name": "Semicadencia (→V)",
+      "tooltip": "Semicadencia: Termina en la dominante (V), creando tensión y anticipación. Como una coma musical — incompleta, esperando resolución."
+    },
+    "backdoor": {
+      "name": "Cadencia por la puerta trasera",
+      "tooltip": "Cadencia Backdoor: Resolución de jazz vía ♭VII o iv a I, evitando la dominante. Crea una llegada inesperada, «furtiva» a la tónica."
+    },
+    "picardy": {
+      "name": "Tercera de Picardía",
+      "tooltip": "Tercera de Picardía: Una pieza menor termina en un acorde de I mayor. La tercera elevada crea un brillo sorprendente — común en la música barroca."
+    }
+  },
   "errors": {
     "selectKey": "Por favor selecciona una tonalidad",
     "selectMode": "Por favor selecciona un modo",

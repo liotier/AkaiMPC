@@ -90,6 +90,36 @@
     "progressionPaletteDisabled": "Paletas de progressão não são usadas no modo Exploração de Escala. Todos os acordes da escala selecionada serão gerados.",
     "progressionPaletteEnabled": "Cada paleta fornece 16 acordes únicos: primeiros N da progressão, pads restantes da harmonia estendida. Filtros específicos de gênero garantem cores de acordes apropriadas."
   },
+  "cadences": {
+    "authentic": {
+      "name": "Autêntica (V→I)",
+      "tooltip": "Cadência Autêntica: A resolução mais forte na música tonal. A dominante (V) resolve para a tônica (I), criando fechamento completo."
+    },
+    "authenticMinor": {
+      "name": "Autêntica menor (V→i)",
+      "tooltip": "Cadência Autêntica Menor: A dominante (V) resolve para a tônica menor (i). Resolução forte com caráter mais sombrio, em modo menor."
+    },
+    "plagal": {
+      "name": "Plagal (IV→I)",
+      "tooltip": "Cadência Plagal: A cadência \"Amém\". A subdominante (IV) resolve para a tônica (I). Resolução mais suave, mais solene que a autêntica."
+    },
+    "deceptive": {
+      "name": "Deceptiva (V→vi)",
+      "tooltip": "Cadência Deceptiva: A dominante (V) \"engana\" o ouvido resolvendo para vi em vez de I. Cria surpresa e estende a frase."
+    },
+    "half": {
+      "name": "Semicadência (→V)",
+      "tooltip": "Semicadência: Termina na dominante (V), criando tensão e antecipação. Como uma vírgula musical — incompleta, aguardando resolução."
+    },
+    "backdoor": {
+      "name": "Cadência pela porta dos fundos",
+      "tooltip": "Cadência Backdoor: Resolução de jazz via ♭VII ou iv para I, contornando a dominante. Cria chegada inesperada, \"furtiva\" à tônica."
+    },
+    "picardy": {
+      "name": "Terça de Picardia",
+      "tooltip": "Terça de Picardia: Uma peça menor termina em um acorde de I maior. A terça elevada cria luminosidade surpreendente — comum na música barroca."
+    }
+  },
   "errors": {
     "selectKey": "Por favor, selecione uma tonalidade",
     "selectMode": "Por favor, selecione um modo",
