@@ -64,6 +64,8 @@ import {
     getSequentialDuration
 } from './modules/audio.js';
 
+import { i18n } from './modules/i18n.js';
+
 // State variables
 let selectedKey = 'C';
 let selectedMode = 'Major';
@@ -893,52 +895,6 @@ function getChordTooltip(romanNumeral, chordType) {
     // Normalize roman numeral for matching
     const normalized = romanNumeral ? romanNumeral.toUpperCase() : '';
 
-    // Map of roman numerals to tooltip text
-    const tooltipMap = {
-'I': 'Tonic - the home chord, gives resolution and stability.',
-'IMAJ7': 'Tonic - the home chord, gives resolution and stability.',
-'II': 'Supertonic - predominant chord, often leading to V.',
-'IIM7': 'Supertonic - predominant chord, often leading to V.',
-'III': 'Mediant - weaker predominant or color chord, connects I and IV/vi.',
-'IIIM7': 'Mediant - weaker predominant or color chord, connects I and IV/vi.',
-'IV': 'Subdominant - predominant chord, prepares motion to V.',
-'IVMAJ7': 'Subdominant - predominant chord, prepares motion to V.',
-'V': 'Dominant - creates tension that resolves to I.',
-'V7': 'Dominant - creates tension that resolves to I.',
-'VI': 'Submediant - relative minor, often used for deceptive cadences.',
-'VIM7': 'Submediant - relative minor, often used for deceptive cadences.',
-'VII°': 'Leading-tone - diminished chord, pulls strongly to I.',
-'VIIØ7': 'Leading-tone - diminished chord, pulls strongly to I.',
-
-// Modal mixture / Borrowed chords
-'♭III': 'Borrowed from parallel minor, adds dramatic color, substitutes I.',
-'♭IV': 'Borrowed minor subdominant, softens motion to V.',
-'♭VI': 'Borrowed from parallel minor, dramatic predominant, often moves to V.',
-'♭VII': 'Borrowed from Mixolydian, gives rock/blues flavor, often moves to I or V.',
-'♭II': 'Borrowed flat-II (Neapolitan), strong predominant, prepares V.',
-'♭V': 'Rare borrowed chord, chromatic color.',
-'♭IV°': 'Borrowed diminished passing chord, leads to V.',
-
-// Secondary dominants
-'V/II': 'Secondary dominant - tonicizes ii, creates motion to ii.',
-'V/III': 'Secondary dominant - tonicizes iii, rarely used but colorful.',
-'V/IV': 'Secondary dominant - tonicizes IV, brightens progression.',
-'V/V': 'Secondary dominant - tonicizes V, very common to strengthen cadence.',
-'V/VI': 'Secondary dominant - tonicizes vi, used for deceptive shifts.',
-
-// Secondary leading-tones
-'VII°/II': 'Leading-tone chord of ii, resolves strongly to ii.',
-'VII°/III': 'Leading-tone chord of iii, resolves strongly to iii.',
-'VII°/IV': 'Leading-tone chord of IV, resolves strongly to IV.',
-'VII°/V': 'Leading-tone chord of V, resolves strongly to V.',
-'VII°/VI': 'Leading-tone chord of vi, resolves strongly to vi.',
-
-// Special chords
-'SUBV7': 'Tritone substitution - jazz substitution for V7, creates chromatic voice leading.',
-'♯I°': 'Passing diminished - chromatic connector between diatonic chords.',
-'♯II°': 'Passing diminished - chromatic connector between diatonic chords.'
-    };
-
     // Handle lowercase roman numerals (minor chords)
     const upperNormalized = normalized.replace(/^([IVX]+)/i, (match) => {
         // Check if the original was lowercase
@@ -959,40 +915,42 @@ function getChordTooltip(romanNumeral, chordType) {
         return match.toUpperCase();
     });
 
-    // First try exact match
-    if (tooltipMap[upperNormalized]) {
-        return tooltipMap[upperNormalized];
+    // First try exact match from i18n
+    let translation = i18n.t(`chordRoles.${upperNormalized}`);
+    if (translation && translation !== `chordRoles.${upperNormalized}`) {
+        return translation;
     }
 
     // Try without quality indicators
     const withoutQuality = upperNormalized.replace(/M7|MAJ7|7|°|Ø7|DIM/g, '');
-    if (tooltipMap[withoutQuality]) {
-        return tooltipMap[withoutQuality];
+    translation = i18n.t(`chordRoles.${withoutQuality}`);
+    if (translation && translation !== `chordRoles.${withoutQuality}`) {
+        return translation;
     }
 
     // Handle chord types
     if (chordType) {
         if (chordType.includes('sus')) {
-            return 'Suspended chord - replaces 3rd with 2nd/4th, creates suspension before resolution.';
+            return i18n.t('chordRoles.sus');
         }
         if (chordType.includes('add9')) {
-            return 'Adds brightness, dreamy color.';
+            return i18n.t('chordRoles.add9');
         }
         if (chordType.includes('6')) {
-            return 'Vintage color, softens the harmony.';
+            return i18n.t('chordRoles.6');
         }
         if (chordType.includes('9') || chordType.includes('11') || chordType.includes('13')) {
-            return 'Extended harmony - jazz/pop color, adds depth.';
+            return i18n.t('chordRoles.extended');
         }
     }
 
     // Default based on whether it's borrowed
     if (normalized.includes('♭') || normalized.includes('♯')) {
-        return 'Borrowed chord - adds expressive color by borrowing from parallel mode.';
+        return i18n.t('chordRoles.borrowed');
     }
 
     // Default for unrecognized chords
-    return 'Harmonic color - adds variety and interest to the progression.';
+    return i18n.t('chordRoles.default');
 }
 
 function showTooltip(element, text) {
@@ -1660,7 +1618,8 @@ function populateSelects() {
     const modeSelect = document.getElementById('modeSelect');
     Object.entries(modes).forEach(([category, modeList]) => {
         const optgroup = document.createElement('optgroup');
-        optgroup.label = category;
+        // Translate category label
+        optgroup.label = i18n.t(`modeCategories.${category}`);
         modeList.forEach(modeObj => {
             const option = document.createElement('option');
             // Handle both old string format and new object format
@@ -1670,8 +1629,11 @@ function populateSelects() {
             } else {
                 option.value = modeObj.value;
                 option.textContent = modeObj.name;
-                // Add tooltip description if available
-                if (modeObj.description) {
+                // Add tooltip description with translation
+                const modeTranslation = i18n.t(`modes.${modeObj.value}.description`);
+                if (modeTranslation && modeTranslation !== `modes.${modeObj.value}.description`) {
+                    option.title = modeTranslation;
+                } else if (modeObj.description) {
                     option.title = modeObj.description;
                 }
             }
@@ -1684,13 +1646,31 @@ function populateSelects() {
     const progressionSelect = document.getElementById('progressionSelect');
     Object.entries(progressions).forEach(([category, progList]) => {
         const optgroup = document.createElement('optgroup');
-        optgroup.label = category;
+        // Translate category label
+        optgroup.label = i18n.t(`progressionCategories.${category}`);
         progList.forEach(prog => {
             const option = document.createElement('option');
             option.value = prog.value;
-            option.textContent = prog.nickname ? `${prog.name} (${prog.nickname})` : prog.name;
-            // Add tooltip description if available
-            if (prog.description) {
+            // Get translated nickname and name
+            const progKey = `progressions.${category}.${prog.value}`;
+            const translatedName = i18n.t(`${progKey}.name`);
+            const translatedNickname = i18n.t(`${progKey}.nickname`);
+
+            // Use translation if available, otherwise use original
+            const displayName = (translatedName && translatedName !== `${progKey}.name`)
+                ? translatedName
+                : prog.name;
+            const displayNickname = (translatedNickname && translatedNickname !== `${progKey}.nickname`)
+                ? translatedNickname
+                : prog.nickname;
+
+            option.textContent = displayNickname ? `${displayName} (${displayNickname})` : displayName;
+
+            // Add tooltip description with translation
+            const translatedDescription = i18n.t(`${progKey}.description`);
+            if (translatedDescription && translatedDescription !== `${progKey}.description`) {
+                option.title = translatedDescription;
+            } else if (prog.description) {
                 option.title = prog.description;
             }
             optgroup.appendChild(option);
@@ -2014,34 +1994,16 @@ function renderProgressions() {
         // Calculate progression length for clarification text
         const progressionChordCount = variant.pads.filter(p => p.isProgressionChord).length;
         const progressionClarification = progressionChordCount > 0
-            ? `Chords 1-${progressionChordCount} from progression, ${progressionChordCount + 1}-16 extrapolated. `
+            ? i18n.t('variants.progressionClarification', { count: progressionChordCount, next: progressionChordCount + 1 })
             : '';
 
         // Add voicing style annotation
         let voicingStyle = '';
         let uniquenessTooltip = '';
 
-        switch (variant.name) {
-            case 'Smooth':
-                voicingStyle = 'Smooth Voice Leading';
-                uniquenessTooltip = 'Smooth variant: Maximizes common tones, step-wise motion, and contrary motion. Evaluates hundreds of voicings to find the smoothest transitions between chords.';
-                break;
-            case 'Classic':
-                voicingStyle = 'Voice Leading';
-                uniquenessTooltip = 'Classic variant: Optimized for smooth voice leading between chords. Minimal note movement creates natural, flowing progressions.';
-                break;
-            case 'Jazz':
-                voicingStyle = 'Close Voicing';
-                uniquenessTooltip = 'Jazz variant: Uses close voicings with notes within an octave. Creates rich, dense harmonies typical of jazz piano comping.';
-                break;
-            case 'Modal':
-                voicingStyle = 'Open Voicing';
-                uniquenessTooltip = 'Modal variant: Features open voicings with wider intervals between notes. Produces spacious, airy textures ideal for modal harmony.';
-                break;
-            case 'Experimental':
-                voicingStyle = 'Spread Voicing';
-                uniquenessTooltip = 'Experimental variant: Uses spread voicings across multiple octaves. Creates unique, unconventional harmonic colors and textures.';
-                break;
+        if (variant.name && i18n.t(`variants.${variant.name}.label`)) {
+            voicingStyle = i18n.t(`variants.${variant.name}.label`);
+            uniquenessTooltip = i18n.t(`variants.${variant.name}.tooltip`);
         }
 
         card.innerHTML = `
@@ -2058,7 +2020,7 @@ function renderProgressions() {
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
                         ${progressionAnalysis ? `<span class="analysis">${progressionAnalysis}</span>` : ''}
-                        <span class="voice-leading-hint">${progressionClarification}Colors of cards show chord distance from selected card</span>
+                        <span class="voice-leading-hint">${progressionClarification}${i18n.t('variants.chordDistanceHint')}</span>
                     </div>
                 </div>
                 <button class="download-btn" data-variant-index="${index}">
@@ -2068,7 +2030,7 @@ function renderProgressions() {
                 </button>
             </div>
             <div class="chord-grid">${gridHTML}</div>
-            <div class="voice-leading-hint-bottom">${progressionClarification}Colors of cards show chord distance from selected card</div>
+            <div class="voice-leading-hint-bottom">${progressionClarification}${i18n.t('variants.chordDistanceHint')}</div>
         `;
 
         container.appendChild(card);
@@ -2373,11 +2335,59 @@ async function exportAllMIDI() {
     }
 }
 
+// Update all translatable elements in the page
+function updatePageTranslations() {
+    // Update all elements with data-i18n attributes
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        const translation = i18n.t(key);
+
+        // Update text content, preserving any child elements
+        if (element.children.length === 0) {
+            element.textContent = translation;
+        } else {
+            // For elements with children, only update text nodes
+            Array.from(element.childNodes).forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    node.textContent = translation;
+                }
+            });
+        }
+    });
+
+    // Repopulate dropdowns with translated text
+    populateSelects();
+}
+
 // Event listeners
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Initialize i18n with current language
+    const currentLang = i18n.getCurrentLanguage();
+    const languageSelect = document.getElementById('languageSelect');
+    if (languageSelect) {
+        languageSelect.value = currentLang;
+
+        // Add language change event listener
+        languageSelect.addEventListener('change', async function() {
+            const newLang = this.value;
+            await i18n.setLanguage(newLang);
+            updatePageTranslations();
+
+            // Re-render progressions if they've been generated
+            if (hasGeneratedOnce && variants.length > 0) {
+                renderProgressions();
+            }
+        });
+    }
+
+    // Load language before populating selects
+    await i18n.loadLanguage(currentLang);
+
     initAudioContext();
     initMIDI();
-    populateSelects();
+
+    // Update translations and populate selects
+    updatePageTranslations();
 
     // Load preferences: URL params take priority over localStorage
     const urlPrefs = loadFromURL();
