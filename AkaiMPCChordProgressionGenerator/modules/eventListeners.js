@@ -21,6 +21,7 @@ import {
     setSelectedKey,
     setSelectedMode,
     setSelectedProgression,
+    setProgressionName,
     setIsLeftHanded,
     setVoiceLeadingLocked,
     setActiveTooltip,
@@ -172,8 +173,6 @@ export async function setupEventListeners() {
     });
 
     document.getElementById('progressionName').addEventListener('input', function() {
-        // Update progression name directly via import
-        const { setProgressionName } = await import('./stateManager.js');
         setProgressionName(this.value);
     });
 
