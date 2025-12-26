@@ -2380,7 +2380,7 @@ export function spellChordNotes(rootMidiOrNotes, chordType, romanNumeral = '') {
 
     // Spell notes properly in thirds
     const noteNames = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-    const rootName = getNoteNameWithContext(rootMidi, useFlats).replace(/[#b]/g, '');
+    const rootName = getNoteNameWithContext(rootMidi, useFlats).replaceAll(/[#b]/g, '');
     const rootIndex = noteNames.indexOf(rootName);
 
     const spelled = notes.map((midi, i) => {
@@ -2526,7 +2526,7 @@ function parseProgression(progressionString) {
     const chords = progressionString.split('—');
     return chords.map(chord => {
         // Remove any quality indicators for parsing
-        const cleanChord = chord.replace(/M7|m7|7|°|dim|maj|min/g, '');
+        const cleanChord = chord.replaceAll(/M7|m7|7|°|dim|maj|min/g, '');
 
         // Parse roman numerals
         const romanToNumber = {
@@ -2551,7 +2551,7 @@ function parseProgression(progressionString) {
         if (cleanChord.includes('♯')) alteration = 'sharp';
 
         // Get base numeral
-        const baseChord = cleanChord.replace(/♭|♯/g, '');
+        const baseChord = cleanChord.replaceAll(/♭|♯/g, '');
         const degree = romanToNumber[baseChord] !== undefined ? romanToNumber[baseChord] : 0;
 
         // Determine quality from original chord string
