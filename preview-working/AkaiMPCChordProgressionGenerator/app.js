@@ -146,6 +146,82 @@ function analyzeVoiceLeading(notes1, notes2) {
     };
 }
 
+/**
+ * Detects the cadence type from a progression
+ * @param {string} progression - The progression string (e.g., "I—V—vi—IV")
+ * @returns {Object} Cadence analysis with type and description
+ */
+function detectCadence(progression) {
+    if (!progression) return null;
+
+    // Split progression into chords
+    const chords = progression.split('—').map(c => c.trim());
+    if (chords.length < 2) return null;
+
+    // Get last two chords for cadence detection
+    const lastTwo = chords.slice(-2);
+    const penultimate = lastTwo[0].replace(/[0-9]/g, '').toUpperCase();
+    const final = lastTwo[1].replace(/[0-9]/g, '').toUpperCase();
+
+    // Normalize chord symbols
+    const normPenult = penultimate.replace(/M7|7/g, '');
+    const normFinal = final.replace(/M7|7/g, '');
+
+    let cadenceType = null;
+    let cadenceEmoji = '';
+
+    // Authentic cadence: V → I
+    if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'I' || normFinal === 'IM7')) {
+        cadenceType = 'Authentic (V→I)';
+        cadenceEmoji = '🎯';
+    }
+    // Perfect Authentic Cadence: V7 → I
+    else if (normPenult.includes('V') && normFinal === 'I') {
+        cadenceType = 'Authentic (V→I)';
+        cadenceEmoji = '🎯';
+    }
+    // Plagal cadence: IV → I
+    else if ((normPenult === 'IV' || normPenult === 'IVM7') && (normFinal === 'I' || normFinal === 'IM7')) {
+        cadenceType = 'Plagal (IV→I)';
+        cadenceEmoji = '🙏';
+    }
+    // Deceptive cadence: V → vi
+    else if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'VI' || normFinal === 'vi')) {
+        cadenceType = 'Deceptive (V→vi)';
+        cadenceEmoji = '😮';
+    }
+    // Half cadence: ends on V
+    else if (normFinal === 'V' || normFinal === 'V7') {
+        cadenceType = 'Half (→V)';
+        cadenceEmoji = '⏸️';
+    }
+    // Minor authentic: V → i
+    else if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'i' || normFinal === 'i7')) {
+        cadenceType = 'Authentic minor (V→i)';
+        cadenceEmoji = '🎯';
+    }
+    // Backdoor: ♭VII → I or iv → I
+    else if ((normPenult.includes('♭VII') || normPenult === 'IV' && normPenult.toLowerCase() === 'iv') && normFinal === 'I') {
+        cadenceType = 'Backdoor';
+        cadenceEmoji = '🚪';
+    }
+    // Picardy third: ends on I in minor context (detected by lowercase previous chord)
+    else if (penultimate.toLowerCase() === penultimate && normFinal === 'I') {
+        cadenceType = 'Picardy Third';
+        cadenceEmoji = '✨';
+    }
+
+    if (cadenceType) {
+        return {
+            type: cadenceType,
+            emoji: cadenceEmoji,
+            lastChords: `${penultimate} → ${final}`
+        };
+    }
+
+    return null;
+}
+
 // Trigger sparkle animation on Generate button
 function triggerSparkle() {
     const btn = document.getElementById('generateBtn');
@@ -744,18 +820,99 @@ function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType) 
         });
     }
 
-    // V/V (secondary dominant of V)
-    if (!analysis.hasSecondary && scaleDegrees.length > 1) {
-        const secondaryDom = scaleDegrees[1 % scaleDegrees.length];
+    // Secondary dominants (V7/x chords)
+    if (scaleDegrees.length > 1) {
+        // V7/V (secondary dominant of V) - most common
+        const vOfV = scaleDegrees[1 % scaleDegrees.length];
         candidates.push({
-            root: secondaryDom,
-            notes: buildChord(secondaryDom, 'major', keyOffset),
-            chordType: 'major',
-            chordName: getChordName(secondaryDom, 'major', keyOffset),
-            romanNumeral: 'V/V',
-            quality: 'Major',
+            root: vOfV,
+            notes: buildChord(vOfV, 'dom7', keyOffset),
+            chordType: 'dom7',
+            chordName: getChordName(vOfV, 'dom7', keyOffset),
+            romanNumeral: 'V7/V',
+            quality: 'Dominant 7',
             category: 'secondary',
-            commonUsage: 0.6
+            commonUsage: 0.7
+        });
+
+        // V7/ii (secondary dominant of ii)
+        const vOfii = (scaleDegrees[0] + 9) % 12;  // A fifth above ii (which is 2 semitones above I)
+        candidates.push({
+            root: vOfii,
+            notes: buildChord(vOfii, 'dom7', keyOffset),
+            chordType: 'dom7',
+            chordName: getChordName(vOfii, 'dom7', keyOffset),
+            romanNumeral: 'V7/ii',
+            quality: 'Dominant 7',
+            category: 'secondary',
+            commonUsage: 0.5
+        });
+
+        // V7/vi (secondary dominant of vi) - common in pop/jazz
+        const vOfvi = (scaleDegrees[0] + 4) % 12;  // Major III as V7/vi
+        candidates.push({
+            root: vOfvi,
+            notes: buildChord(vOfvi, 'dom7', keyOffset),
+            chordType: 'dom7',
+            chordName: getChordName(vOfvi, 'dom7', keyOffset),
+            romanNumeral: 'V7/vi',
+            quality: 'Dominant 7',
+            category: 'secondary',
+            commonUsage: 0.5
+        });
+
+        // V7/IV (secondary dominant of IV)
+        const vOfIV = scaleDegrees[0];  // I7 functions as V7/IV
+        candidates.push({
+            root: vOfIV,
+            notes: buildChord(vOfIV, 'dom7', keyOffset),
+            chordType: 'dom7',
+            chordName: getChordName(vOfIV, 'dom7', keyOffset),
+            romanNumeral: 'V7/IV',
+            quality: 'Dominant 7',
+            category: 'secondary',
+            commonUsage: 0.4
+        });
+    }
+
+    // Augmented 6th chords (classical approach to V)
+    if (variantType === 'Classic' || variantType === 'Jazz') {
+        const flatSix = (scaleDegrees[0] + 8) % 12;  // ♭6 scale degree
+
+        // Italian 6th (It+6): ♭VI with raised 4th
+        candidates.push({
+            root: flatSix,
+            notes: buildChord(flatSix, 'It6', keyOffset),
+            chordType: 'It6',
+            chordName: getChordName(flatSix, 'It6', keyOffset, 'It+6'),
+            romanNumeral: 'It+6',
+            quality: 'Italian 6th',
+            category: 'augmented6th',
+            commonUsage: 0.3
+        });
+
+        // German 6th (Ger+6): like It6 but with ♭3
+        candidates.push({
+            root: flatSix,
+            notes: buildChord(flatSix, 'Ger6', keyOffset),
+            chordType: 'Ger6',
+            chordName: getChordName(flatSix, 'Ger6', keyOffset, 'Ger+6'),
+            romanNumeral: 'Ger+6',
+            quality: 'German 6th',
+            category: 'augmented6th',
+            commonUsage: 0.3
+        });
+
+        // French 6th (Fr+6): like It6 but with 2
+        candidates.push({
+            root: flatSix,
+            notes: buildChord(flatSix, 'Fr6', keyOffset),
+            chordType: 'Fr6',
+            chordName: getChordName(flatSix, 'Fr6', keyOffset, 'Fr+6'),
+            romanNumeral: 'Fr+6',
+            quality: 'French 6th',
+            category: 'augmented6th',
+            commonUsage: 0.2
         });
     }
 
@@ -1999,6 +2156,10 @@ function renderProgressions() {
             uniquenessTooltip = i18n.t(`variants.${variant.name}.tooltip`);
         }
 
+        // Detect cadence type
+        const cadence = detectCadence(selectedProgression);
+        const cadenceDisplay = cadence ? `<span class="cadence" title="${cadence.lastChords}">${cadence.emoji} ${cadence.type}</span>` : '';
+
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
@@ -2012,6 +2173,7 @@ function renderProgressions() {
                     <div class="progression-meta">
                         <span class="key">${selectedKey} ${selectedMode}</span>
                         <span class="pattern">${selectedProgression}</span>
+                        ${cadenceDisplay}
                         ${progressionAnalysis ? `<span class="analysis">${progressionAnalysis}</span>` : ''}
                         <span class="voice-leading-hint">${progressionClarification}${i18n.t('variants.chordDistanceHint')}</span>
                     </div>
