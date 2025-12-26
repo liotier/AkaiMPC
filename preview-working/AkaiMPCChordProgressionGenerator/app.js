@@ -149,7 +149,7 @@ function analyzeVoiceLeading(notes1, notes2) {
 /**
  * Detects the cadence type from a progression
  * @param {string} progression - The progression string (e.g., "I—V—vi—IV")
- * @returns {Object} Cadence analysis with type and description
+ * @returns {Object} Cadence analysis with i18n key and emoji
  */
 function detectCadence(progression) {
     if (!progression) return null;
@@ -167,65 +167,54 @@ function detectCadence(progression) {
     const normPenult = penultimate.replace(/M7|7/g, '');
     const normFinal = final.replace(/M7|7/g, '');
 
-    let cadenceType = null;
+    let cadenceKey = null;
     let cadenceEmoji = '';
-    let cadenceTooltip = '';
 
     // Authentic cadence: V → I
     if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'I' || normFinal === 'IM7')) {
-        cadenceType = 'Authentic (V→I)';
+        cadenceKey = 'authentic';
         cadenceEmoji = '🎯';
-        cadenceTooltip = 'Authentic Cadence: The strongest resolution in tonal music. Dominant (V) resolves to tonic (I), creating complete closure.';
     }
     // Perfect Authentic Cadence: V7 → I
     else if (normPenult.includes('V') && normFinal === 'I') {
-        cadenceType = 'Authentic (V→I)';
+        cadenceKey = 'authentic';
         cadenceEmoji = '🎯';
-        cadenceTooltip = 'Authentic Cadence: The strongest resolution in tonal music. Dominant (V) resolves to tonic (I), creating complete closure.';
     }
     // Plagal cadence: IV → I
     else if ((normPenult === 'IV' || normPenult === 'IVM7') && (normFinal === 'I' || normFinal === 'IM7')) {
-        cadenceType = 'Plagal (IV→I)';
+        cadenceKey = 'plagal';
         cadenceEmoji = '🙏';
-        cadenceTooltip = 'Plagal Cadence: The "Amen" cadence. Subdominant (IV) resolves to tonic (I). Softer, more hymn-like resolution than authentic.';
     }
     // Deceptive cadence: V → vi
     else if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'VI' || normFinal === 'vi')) {
-        cadenceType = 'Deceptive (V→vi)';
+        cadenceKey = 'deceptive';
         cadenceEmoji = '😮';
-        cadenceTooltip = 'Deceptive Cadence: Dominant (V) "tricks" the ear by resolving to vi instead of I. Creates surprise and extends the phrase.';
     }
     // Half cadence: ends on V
     else if (normFinal === 'V' || normFinal === 'V7') {
-        cadenceType = 'Half (→V)';
+        cadenceKey = 'half';
         cadenceEmoji = '⏸️';
-        cadenceTooltip = 'Half Cadence: Ends on dominant (V), creating tension and anticipation. Like a musical comma—incomplete, waiting for resolution.';
     }
     // Minor authentic: V → i
     else if ((normPenult === 'V' || normPenult === 'V7') && (normFinal === 'i' || normFinal === 'i7')) {
-        cadenceType = 'Authentic minor (V→i)';
+        cadenceKey = 'authenticMinor';
         cadenceEmoji = '🎯';
-        cadenceTooltip = 'Minor Authentic Cadence: Dominant (V) resolves to minor tonic (i). Strong resolution with darker, minor-mode character.';
     }
     // Backdoor: ♭VII → I or iv → I
     else if ((normPenult.includes('♭VII') || normPenult === 'IV' && normPenult.toLowerCase() === 'iv') && normFinal === 'I') {
-        cadenceType = 'Backdoor';
+        cadenceKey = 'backdoor';
         cadenceEmoji = '🚪';
-        cadenceTooltip = 'Backdoor Cadence: Jazz resolution via ♭VII or iv to I, bypassing the dominant. Creates unexpected, "sneaky" arrival at tonic.';
     }
     // Picardy third: ends on I in minor context (detected by lowercase previous chord)
     else if (penultimate.toLowerCase() === penultimate && normFinal === 'I') {
-        cadenceType = 'Picardy Third';
+        cadenceKey = 'picardy';
         cadenceEmoji = '✨';
-        cadenceTooltip = 'Picardy Third: Minor piece ends on major I chord. The raised third creates surprising brightness—common in Baroque music.';
     }
 
-    if (cadenceType) {
+    if (cadenceKey) {
         return {
-            type: cadenceType,
-            emoji: cadenceEmoji,
-            tooltip: cadenceTooltip,
-            lastChords: `${penultimate} → ${final}`
+            key: cadenceKey,
+            emoji: cadenceEmoji
         };
     }
 
@@ -2166,7 +2155,7 @@ function renderProgressions() {
 
         // Detect cadence type
         const cadence = detectCadence(selectedProgression);
-        const cadenceDisplay = cadence ? `<span class="cadence" title="${cadence.tooltip}">${cadence.emoji} ${cadence.type}</span>` : '';
+        const cadenceDisplay = cadence ? `<span class="cadence" title="${i18n.t(`cadences.${cadence.key}.tooltip`)}">${cadence.emoji} ${i18n.t(`cadences.${cadence.key}.name`)}</span>` : '';
 
         card.innerHTML = `
             <div class="progression-header">

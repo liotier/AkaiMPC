@@ -90,6 +90,36 @@
     "progressionPaletteDisabled": "Progression palettes are not used in Scale Exploration mode. All chords from the selected scale will be generated.",
     "progressionPaletteEnabled": "Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors."
   },
+  "cadences": {
+    "authentic": {
+      "name": "Authentic (V→I)",
+      "tooltip": "Authentic Cadence: The strongest resolution in tonal music. Dominant (V) resolves to tonic (I), creating complete closure."
+    },
+    "authenticMinor": {
+      "name": "Authentic minor (V→i)",
+      "tooltip": "Minor Authentic Cadence: Dominant (V) resolves to minor tonic (i). Strong resolution with darker, minor-mode character."
+    },
+    "plagal": {
+      "name": "Plagal (IV→I)",
+      "tooltip": "Plagal Cadence: The \"Amen\" cadence. Subdominant (IV) resolves to tonic (I). Softer, more hymn-like resolution than authentic."
+    },
+    "deceptive": {
+      "name": "Deceptive (V→vi)",
+      "tooltip": "Deceptive Cadence: Dominant (V) \"tricks\" the ear by resolving to vi instead of I. Creates surprise and extends the phrase."
+    },
+    "half": {
+      "name": "Half (→V)",
+      "tooltip": "Half Cadence: Ends on dominant (V), creating tension and anticipation. Like a musical comma—incomplete, waiting for resolution."
+    },
+    "backdoor": {
+      "name": "Backdoor",
+      "tooltip": "Backdoor Cadence: Jazz resolution via ♭VII or iv to I, bypassing the dominant. Creates unexpected, \"sneaky\" arrival at tonic."
+    },
+    "picardy": {
+      "name": "Picardy Third",
+      "tooltip": "Picardy Third: Minor piece ends on major I chord. The raised third creates surprising brightness—common in Baroque music."
+    }
+  },
   "errors": {
     "selectKey": "Please select a key",
     "selectMode": "Please select a mode",
