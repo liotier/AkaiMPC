@@ -231,6 +231,62 @@ export const progressions = {
                 allowed: ['minor9', 'dom9'],
                 avoided: ['augmented', 'quartal']
             },
+        },
+        {
+            value: 'i—i(maj7)—i7—i6',
+            palettePriorities: {
+                preferred: ['minor', 'minMaj7', 'minor7', 'minor6'],
+                allowed: ['dim7'],
+                avoided: ['major', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'IM7—♭VII7—♭VIM7—V7',
+            palettePriorities: {
+                preferred: ['major7', 'dom7'],
+                allowed: ['dom9', 'major9'],
+                avoided: ['minor', 'diminished', 'quartal']
+            },
+        },
+        {
+            value: 'IM7—♭IIIM7—♭VIM7—♭II7—IM7',
+            palettePriorities: {
+                preferred: ['major7', 'dom7'],
+                allowed: ['dom9', 'major9', 'dom7b5'],
+                avoided: ['minor', 'diminished', 'quartal']
+            },
+        },
+        {
+            value: 'V7/ii—V7/V—V7—I',
+            palettePriorities: {
+                preferred: ['dom7', 'dom9', 'major7'],
+                allowed: ['dom7b9', 'dom13'],
+                avoided: ['minor', 'diminished', 'quartal']
+            },
+        },
+        {
+            value: 'I—V7/vi—vi—V7/V—V7—I',
+            palettePriorities: {
+                preferred: ['major7', 'dom7', 'minor7'],
+                allowed: ['dom9', 'minor9'],
+                avoided: ['diminished', 'quartal']
+            },
+        },
+        {
+            value: 'I—♯I°—ii—♯II°—iii',
+            palettePriorities: {
+                preferred: ['major7', 'dim7', 'minor7'],
+                allowed: ['major', 'minor'],
+                avoided: ['augmented', 'quartal']
+            },
+        },
+        {
+            value: 'I—I°—ii—♯II°—iii—III°—IV',
+            palettePriorities: {
+                preferred: ['major7', 'dim7', 'minor7'],
+                allowed: ['major', 'minor'],
+                avoided: ['augmented', 'quartal']
+            },
         }
     ],
     'Modal Interchange': [
@@ -396,6 +452,72 @@ export const progressions = {
         },
         {
             value: 'I—♯iv°—ii—V',
+        }
+    ],
+    'Funk/Groove': [
+        {
+            value: 'I7',
+            palettePriorities: {
+                preferred: ['dom9', 'dom7', 'dom13'],
+                allowed: ['dom7sharp9', 'dom7b9'],
+                avoided: ['major7', 'minor7', 'diminished', 'augmented']
+            },
+        },
+        {
+            value: 'i7',
+            palettePriorities: {
+                preferred: ['minor7', 'minor9', 'minor11'],
+                allowed: ['minMaj7', 'minor6'],
+                avoided: ['major7', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'I7—IV7',
+            palettePriorities: {
+                preferred: ['dom9', 'dom7', 'dom13'],
+                allowed: ['dom7sharp9'],
+                avoided: ['major7', 'minor7', 'diminished']
+            },
+        },
+        {
+            value: 'i7—IV7',
+            palettePriorities: {
+                preferred: ['minor9', 'dom9', 'dom7'],
+                allowed: ['minor7', 'dom7sharp9'],
+                avoided: ['major7', 'diminished', 'augmented']
+            },
+        },
+        {
+            value: 'I7—♭VII7—I7',
+            palettePriorities: {
+                preferred: ['dom9', 'dom7'],
+                allowed: ['dom13', 'dom7sharp9'],
+                avoided: ['major7', 'minor7', 'diminished']
+            },
+        },
+        {
+            value: 'ii7—V7',
+            palettePriorities: {
+                preferred: ['minor9', 'dom9', 'dom7'],
+                allowed: ['minor7', 'dom13'],
+                avoided: ['diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'I7—ii7—iii7—IV7',
+            palettePriorities: {
+                preferred: ['dom9', 'minor9', 'dom7'],
+                allowed: ['minor7', 'dom13'],
+                avoided: ['major7', 'diminished', 'quartal']
+            },
+        },
+        {
+            value: 'I7—♯IV7—IV7—I7',
+            palettePriorities: {
+                preferred: ['dom9', 'dom7'],
+                allowed: ['dom7sharp9', 'dom13'],
+                avoided: ['major7', 'minor7', 'diminished']
+            },
         }
     ],
     'Gospel/Worship': [
@@ -660,6 +782,54 @@ export const progressions = {
         },
         {
             value: 'i—iv—v—i',
+        },
+        {
+            value: 'i—V—♭VI—♭VII',
+            palettePriorities: {
+                preferred: ['minor', 'major', 'dom7'],
+                allowed: ['diminished'],
+                avoided: ['major7', 'minor7', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'i—iv—♭VII—♭III—♭VI—♭II—V',
+            palettePriorities: {
+                preferred: ['minor', 'major', 'dom7'],
+                allowed: ['diminished', 'm7b5'],
+                avoided: ['major7', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'i—V/iv—iv—V',
+            palettePriorities: {
+                preferred: ['minor', 'dom7', 'major'],
+                allowed: ['diminished'],
+                avoided: ['major7', 'minor7', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'i—♭II—♭VII—i',
+            palettePriorities: {
+                preferred: ['minor', 'major'],
+                allowed: ['dom7', 'diminished'],
+                avoided: ['major7', 'minor7', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'i—iv—V—i—♭VI—♭III—♭VII—V',
+            palettePriorities: {
+                preferred: ['minor', 'major', 'dom7'],
+                allowed: ['diminished'],
+                avoided: ['major7', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'VI—VII—i',
+            palettePriorities: {
+                preferred: ['major', 'minor'],
+                allowed: ['dom7'],
+                avoided: ['major7', 'minor7', 'diminished', 'augmented', 'quartal']
+            },
         }
     ],
     'Trance/Psytrance/Goa': [
@@ -891,6 +1061,46 @@ export const progressions = {
                 preferred: ['minor', 'major', 'dom7'],
                 allowed: ['sus2', 'sus4'],
                 avoided: ['major7', 'minor7', 'quartal', 'augmented', 'diminished']
+            },
+        },
+        {
+            value: 'I—IV',
+            palettePriorities: {
+                preferred: ['major', 'dom7'],
+                allowed: ['sus2', 'sus4'],
+                avoided: ['major7', 'minor7', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'i—♭VI—♭VII—i',
+            palettePriorities: {
+                preferred: ['minor', 'major'],
+                allowed: ['dom7', 'sus4'],
+                avoided: ['major7', 'minor7', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'I—vi—IV—V',
+            palettePriorities: {
+                preferred: ['major', 'minor'],
+                allowed: ['dom7'],
+                avoided: ['major7', 'minor7', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'i—iv—i—V',
+            palettePriorities: {
+                preferred: ['minor', 'dom7'],
+                allowed: ['major'],
+                avoided: ['major7', 'minor7', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'I—V—vi—IV',
+            palettePriorities: {
+                preferred: ['major', 'minor'],
+                allowed: ['dom7', 'sus4'],
+                avoided: ['major7', 'minor7', 'diminished', 'augmented', 'quartal']
             },
         }
     ],
@@ -1477,6 +1687,40 @@ export function buildChordRaw(baseNote, chordType) {
             return [baseNote, baseNote + 3, baseNote + 7, baseNote + 9];
         case 'maj6/9':
             return [baseNote, baseNote + 4, baseNote + 7, baseNote + 9, baseNote + 14];
+
+        // Shell voicings (jazz comping - root, 3rd, 7th only)
+        case 'shell7':  // Major 7 shell
+            return [baseNote, baseNote + 4, baseNote + 11];
+        case 'shellm7':  // Minor 7 shell
+            return [baseNote, baseNote + 3, baseNote + 10];
+        case 'shelldom7':  // Dominant 7 shell
+            return [baseNote, baseNote + 4, baseNote + 10];
+
+        // Rootless voicings (jazz piano - 3rd, 7th, 9th or 7th, 3rd, 13th)
+        case 'rootless7A':  // Type A: 3-5-7-9
+            return [baseNote + 4, baseNote + 7, baseNote + 11, baseNote + 14];
+        case 'rootlessm7A':  // Minor Type A: 3-5-7-9
+            return [baseNote + 3, baseNote + 7, baseNote + 10, baseNote + 14];
+        case 'rootlessdom7A':  // Dom7 Type A: 3-5-7-9
+            return [baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 14];
+        case 'rootless7B':  // Type B: 7-9-3-5
+            return [baseNote + 11, baseNote + 14, baseNote + 16, baseNote + 19];
+        case 'rootlessm7B':  // Minor Type B: 7-9-3-5
+            return [baseNote + 10, baseNote + 14, baseNote + 15, baseNote + 19];
+        case 'rootlessdom7B':  // Dom7 Type B: 7-9-3-5
+            return [baseNote + 10, baseNote + 14, baseNote + 16, baseNote + 19];
+
+        // Augmented 6th chords (resolve to V)
+        case 'It6':  // Italian 6th: ♭6, 1, ♯4 (♭6 in bass)
+            return [baseNote, baseNote + 4, baseNote + 10];
+        case 'Fr6':  // French 6th: ♭6, 1, 2, ♯4 (♭6 in bass)
+            return [baseNote, baseNote + 4, baseNote + 6, baseNote + 10];
+        case 'Ger6':  // German 6th: ♭6, 1, ♭3, ♯4 (♭6 in bass)
+            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10];
+
+        // Diminished passing chords
+        case 'dim7':  // Already exists above, but common passing chord
+            return [baseNote, baseNote + 3, baseNote + 6, baseNote + 9];
 
         default:
             return [baseNote, baseNote + 4, baseNote + 7];

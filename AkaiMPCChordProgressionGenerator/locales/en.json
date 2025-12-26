@@ -324,6 +324,7 @@
     "Classical/Modal": "Classical/Modal",
     "Electronic/Modern": "Electronic/Modern",
     "R&B/Neo-Soul": "R&B/Neo-Soul",
+    "Funk/Groove": "Funk/Groove",
     "Gospel/Worship": "Gospel/Worship",
     "Hip-Hop/Trap": "Hip-Hop/Trap",
     "Latin/Bossa": "Latin/Bossa",
@@ -484,6 +485,41 @@
         "name": "ii—V—I—IV—vii°—III7—vi",
         "nickname": "Autumn Leaves",
         "description": "The quintessential jazz standard progression from Joseph Kosma's \"Autumn Leaves.\" Opens with ii-V-I in major, then IV-vii°-III7-vi shifts to relative minor. The III7 is secondary dominant (V/vi). Perfect for learning jazz improvisation and voice leading. One of the most recorded jazz compositions."
+      },
+      "i—i(maj7)—i7—i6": {
+        "name": "i—i(maj7)—i7—i6",
+        "nickname": "Line Cliché",
+        "description": "Descending chromatic inner voice over static minor chord. The 7th descends: root → major 7th → minor 7th → 6th, creating smooth voice leading. Used in 'My Funny Valentine', 'Stairway to Heaven', countless film scores. One of the most elegant harmonic devices."
+      },
+      "IM7—♭VII7—♭VIM7—V7": {
+        "name": "IM7—♭VII7—♭VIM7—V7",
+        "nickname": "Tadd Dameron Turnaround",
+        "description": "Bebop composer Tadd Dameron's signature turnaround. Chromatic descent through borrowed ♭VII7 and ♭VIM7 creates sophisticated voice leading before resolving to V7. A more colorful alternative to the standard I-vi-ii-V turnaround."
+      },
+      "IM7—♭IIIM7—♭VIM7—♭II7—IM7": {
+        "name": "IM7—♭IIIM7—♭VIM7—♭II7—IM7",
+        "nickname": "Lady Bird",
+        "description": "Tadd Dameron's 'Lady Bird' changes. Moves through three tonal centers a major third apart (I, ♭III, ♭VI), similar to Coltrane changes but predating them. The ♭II7 tritone sub resolves back to I. A bebop masterpiece of harmonic movement."
+      },
+      "V7/ii—V7/V—V7—I": {
+        "name": "V7/ii—V7/V—V7—I",
+        "nickname": "Secondary Dominant Chain",
+        "description": "Chain of secondary dominants cascading down in fifths. Each V7 resolves to the next target, creating irresistible forward momentum. Demonstrates how secondary dominants can extend and enrich basic progressions."
+      },
+      "I—V7/vi—vi—V7/V—V7—I": {
+        "name": "I—V7/vi—vi—V7/V—V7—I",
+        "nickname": "Extended Turnaround",
+        "description": "Standard turnaround enhanced with secondary dominants. V7/vi (III7) targets the vi chord, V7/V (II7) targets V. Creates more harmonic interest than basic I-vi-ii-V while maintaining strong functional movement."
+      },
+      "I—♯I°—ii—♯II°—iii": {
+        "name": "I—♯I°—ii—♯II°—iii",
+        "nickname": "Chromatic Ascent",
+        "description": "Ascending diatonic progression connected by diminished passing chords. Each diminished chord creates smooth chromatic bass line between scale degrees. Classic jazz intro and interlude device for sophisticated voice leading."
+      },
+      "I—I°—ii—♯II°—iii—III°—IV": {
+        "name": "I—I°—ii—♯II°—iii—III°—IV",
+        "nickname": "Full Chromatic Walk",
+        "description": "Extended chromatic walk-up using multiple diminished passing chords. Creates completely chromatic bass line from I to IV. Maximum voice leading smoothness - every chord connects by half step. Jazz arranging staple."
       }
     },
     "Classical/Modal": {
@@ -605,6 +641,48 @@
         "name": "I—♯iv°—ii—V",
         "nickname": "Gospel Soul",
         "description": "Gospel-influenced chromatic passing chord. The ♯iv° (raised four diminished) creates smooth chromatic bass line connecting I to ii, then classic ii-V cadence. The diminished chord functions as dominant of dominant, adding harmonic sophistication borrowed from Black church tradition."
+      }
+    },
+    "Funk/Groove": {
+      "I7": {
+        "name": "I7",
+        "nickname": "One-Chord Funk",
+        "description": "The essence of funk - a single dominant 9th chord vamping indefinitely. James Brown, Parliament-Funkadelic, and countless funk tracks prove you only need one chord with the right rhythm. The dom9 provides the perfect blend of tension and groove."
+      },
+      "i7": {
+        "name": "i7",
+        "nickname": "Minor Funk Vamp",
+        "description": "Minor variation of the one-chord vamp. Minor 9th and 11th chords create a darker, moodier funk feel. Think Herbie Hancock's 'Chameleon' or modern neo-soul grooves."
+      },
+      "I7—IV7": {
+        "name": "I7—IV7",
+        "nickname": "Two-Chord Funk",
+        "description": "Classic funk oscillation between I7 and IV7. Both chords are dominant creating perpetual tension that never resolves. The backbone of funk from James Brown to Bruno Mars."
+      },
+      "i7—IV7": {
+        "name": "i7—IV7",
+        "nickname": "Minor-Major Funk",
+        "description": "Minor tonic with major IV creates modal ambiguity characteristic of Dorian funk. The contrast between minor and major adds harmonic interest while maintaining groove simplicity."
+      },
+      "I7—♭VII7—I7": {
+        "name": "I7—♭VII7—I7",
+        "nickname": "Mixolydian Funk",
+        "description": "Borrowed ♭VII7 from Mixolydian mode adds rock-funk edge. The whole-step drop creates signature funk movement. Used extensively in funk-rock fusion and modern R&B."
+      },
+      "ii7—V7": {
+        "name": "ii7—V7",
+        "nickname": "Jazz-Funk Turnaround",
+        "description": "The ii-V turnaround applied to funk. Creates forward momentum while maintaining groove. Common in jazz-funk fusion from Headhunters to modern producers."
+      },
+      "I7—ii7—iii7—IV7": {
+        "name": "I7—ii7—iii7—IV7",
+        "nickname": "Ascending Funk",
+        "description": "Stepwise ascending progression with all dominant and minor 7th chords. Creates building energy perfect for funk breakdowns and builds. Each chord pushes toward the next."
+      },
+      "I7—♯IV7—IV7—I7": {
+        "name": "I7—♯IV7—IV7—I7",
+        "nickname": "Chromatic Funk",
+        "description": "Chromatic passing chord (♯IV7) creates smooth voice leading between I and IV. The unexpected ♯IV7 adds harmonic sophistication while maintaining funk simplicity. Stevie Wonder signature move."
       }
     },
     "Gospel/Worship": {
@@ -832,6 +910,36 @@
         "name": "i—iv—v—i",
         "nickname": "Minor Rock",
         "description": "Pure natural minor rock progression. Minor i-iv-v (all minor/diminished from natural minor scale) avoids harmonic minor's major V. Creates darker, more modal sound than classical minor. The natural minor v instead of V reduces tension, creating heavier, less resolved atmosphere for heavy rock and metal."
+      },
+      "i—V—♭VI—♭VII": {
+        "name": "i—V—♭VI—♭VII",
+        "nickname": "Epic Metal",
+        "description": "Dramatic progression combining harmonic minor V (major chord creating tension) with borrowed ♭VI and ♭VII. The major V lifts out of natural minor darkness before descending through borrowed chords. Creates epic, cinematic metal sound."
+      },
+      "i—iv—♭VII—♭III—♭VI—♭II—V": {
+        "name": "i—iv—♭VII—♭III—♭VI—♭II—V",
+        "nickname": "Neoclassical Descent",
+        "description": "Yngwie Malmsteen-style progression descending through the harmonic minor scale. Combines classical voice leading with metal power. The ♭II (Neapolitan) adds dramatic tension before resolving to V. Bach meets Marshall amplifiers."
+      },
+      "i—V/iv—iv—V": {
+        "name": "i—V/iv—iv—V",
+        "nickname": "Secondary Metal",
+        "description": "Uses secondary dominant V/iv (major I7) to approach the iv chord, creating classical-influenced voice leading. The return to major V at the end provides authentic cadence. Common in power metal and symphonic metal."
+      },
+      "i—♭II—♭VII—i": {
+        "name": "i—♭II—♭VII—i",
+        "nickname": "Phrygian Crush",
+        "description": "Phrygian-influenced progression with menacing ♭II (Neapolitan). The semitone relationship between i and ♭II creates maximum tension. ♭VII provides modal relief before returning to tonic. Thrash and death metal staple."
+      },
+      "i—iv—V—i—♭VI—♭III—♭VII—V": {
+        "name": "i—iv—V—i—♭VI—♭III—♭VII—V",
+        "nickname": "Extended Shred",
+        "description": "Extended progression combining classical minor cadence (i-iv-V-i) with descending natural minor sequence (♭VI-♭III-♭VII). Returns to V for repeat. Perfect for extended neoclassical shred solos and progressive metal sections."
+      },
+      "VI—VII—i": {
+        "name": "VI—VII—i",
+        "nickname": "Power Cadence",
+        "description": "Ascending approach to minor tonic using major VI and VII. Creates powerful resolution often doubled with parallel fifths in metal. The stepwise ascent builds energy before landing on tonic. Heard in countless metal breakdowns and endings."
       }
     },
     "Trance/Psytrance/Goa": {
@@ -1046,6 +1154,31 @@
         "name": "i—♭VII—♭VI",
         "nickname": "Steppers Dub",
         "description": "Deep, meditative palette. Minor and major mix for steppers 4/4 dub sessions."
+      },
+      "I—IV": {
+        "name": "I—IV",
+        "nickname": "Two-Chord Reggae",
+        "description": "Simplest reggae foundation - just I and IV oscillating. The offbeat 'skank' rhythm makes even two chords groove hard. Bob Marley's 'One Love' territory. Simple triads and dom7s maintain authentic roots sound."
+      },
+      "i—♭VI—♭VII—i": {
+        "name": "i—♭VI—♭VII—i",
+        "nickname": "Lovers Rock",
+        "description": "Minor-key lovers rock progression. The borrowed ♭VI and ♭VII create romantic, melancholic atmosphere. Softer than roots reggae, perfect for lover's rock ballads and conscious reggae."
+      },
+      "I—vi—IV—V": {
+        "name": "I—vi—IV—V",
+        "nickname": "Reggae Pop",
+        "description": "Pop-influenced reggae progression. Classic 50s changes given reggae treatment. Creates more accessible sound for crossover tracks. UB40 and pop-reggae territory."
+      },
+      "i—iv—i—V": {
+        "name": "i—iv—i—V",
+        "nickname": "Rockers Minor",
+        "description": "Minor rockers progression with major V for authentic tension. The oscillation between i and iv creates hypnotic minor groove, V provides release. Classic minor-key dub foundation."
+      },
+      "I—V—vi—IV": {
+        "name": "I—V—vi—IV",
+        "nickname": "Reggae Axis",
+        "description": "The 'Axis of Awesome' progression given reggae treatment. Works beautifully with offbeat rhythm and creates familiar yet fresh sound. Modern reggae-pop crossover staple."
       }
     },
     "Acid/EBM": {
