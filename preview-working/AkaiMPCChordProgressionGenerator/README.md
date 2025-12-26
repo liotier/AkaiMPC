@@ -8,7 +8,7 @@ Instead of trawling through chord books or generic MIDI packs, generate custom p
 
 **[Access the Chord Progression Generator](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/)**
 
-Free, browser-based tool. No installation, no sign-up, no limitations. Works completely offline once loaded.
+Free, browser-based tool. No installation, no sign-up, no limitations. Works completely offline once loaded. Available in **6 languages**: English, Français, Español, Deutsch, Português, Italiano.
 
 ![screenshot](MPC%20Chord%20Progression%20Generator%20-%20Screenshot.png)
 
@@ -77,10 +77,10 @@ Rather than repeating chords sequentially, each progression provides a **palette
 ## Deep Music Theory, Simple Interface
 
 ### Comprehensive Scale Support
-36 scales organized into 6 categories - from the familiar to the exotic:
+43 scales organized into 6 categories - from the familiar to the exotic:
 - **Common Western Tonal**: Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian, Harmonic Minor, Melodic Minor
 - **Compact/Popular**: Pentatonic Major/Minor, Blues scale
-- **Symmetrical/Jazz**: Whole Tone, Diminished scales, Augmented
+- **Symmetrical/Jazz**: Whole Tone, Diminished scales, Augmented, Altered, Lydian Dominant, Bebop (Major, Dominant, Minor)
 - **Arabic Maqamat**: Hijaz, Bayati, Rast, Saba, Kurd
 - **Indian Ragas**: Bhairav, Kafi, Yaman, Bhairavi, Todi
 - **Exotic**: Double Harmonic, Hungarian Minor, Neapolitan Major/Minor, Enigmatic, Phrygian Dominant, Persian, Hirajoshi, Insen, Kumoi, Egyptian Pentatonic
@@ -177,7 +177,7 @@ Together, they provide a complete harmonic toolkit for musicians and producers.
 - Pure HTML5/CSS3/JavaScript ES6 modules - no frameworks, no bloat
 - WebMIDI API (via webmidi.js) for cross-browser MIDI output support
 - Web Audio API for low-latency chord playback fallback
-- Voice leading optimization with greedy algorithm for smooth transitions
+- Voice leading optimization using Hungarian algorithm for optimal note assignment
 - Custom harmonic analysis engine with parallel major Roman numeral analysis
 - Responsive CSS Grid that mirrors the MPC's 4×4 pad layout
 - SVG-based staff notation rendering with intelligent octave transposition
@@ -195,13 +195,18 @@ Note about repository layout
 ---------------------------------
 This project was originally distributed as a single self-contained HTML file for maximum deployment simplicity. It has since been split into modular ES6 files for better maintainability:
 
-- `index.html` (was AkaiMPCChordProgressionGenerator.html) — the entry HTML
+- `index.html` — the entry HTML
 - `styles.css` — extracted stylesheet
-- `app.js` — main application logic
-- `modules/musicTheory.js` — core music theory engine
+- `app.js` — main application orchestration
+- `modules/musicTheory.js` — core music theory engine (scales, chords, voice leading)
+- `modules/stateManager.js` — centralized application state
+- `modules/uiHandlers.js` — UI manipulation and rendering
+- `modules/eventListeners.js` — event handling and user interaction
 - `modules/guitarChords.js` — guitar chord library
 - `modules/storage.js` — localStorage and URL handling
-- `modules/rendering.js` — SVG generation for keyboard, guitar, and staff notation diagrams
+- `modules/rendering.js` — SVG generation for keyboard, guitar, and staff notation
+- `modules/i18n.js` — internationalization system
+- `locales/*.json` — translation files (en, fr, es, de, pt, it)
 
 Deployment remains the same: host these files on any static file host (GitHub Pages, Netlify, etc.). Modular structure improves readability, caching, and makes incremental development and testing easier.
 
