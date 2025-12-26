@@ -366,6 +366,11 @@
         "name": "I—♭VII—IV—I",
         "nickname": "Mixolydian Vamp",
         "description": "Zirkuläre mixolydische Progression. Entliehenes ♭VII aus parallelem Moll fügt Rock-Kante hinzu, IV zu I bietet traditionelle perfekte Kadenz. Erzeugt treibendes, modales Rock-Gefühl ohne Dominant-V-Akkord."
+      },
+      "i—V—VII—IV—VI—III—iv—V": {
+        "name": "i—V—VII—IV—VI—III—iv—V",
+        "nickname": "Hotel California",
+        "description": "Die ikonische Eagles-Progression mit chromatisch absteigender Basslinie. Die Moll-Tonika durch entliehene Akkorde erzeugt raffinierte Melancholie. Der chromatische Abstieg (i-VII-VI) gefolgt von III-iv-V baut dramatische Spannung auf. Eine der meistanalysierten Rock-Progressionen, prägend für den kalifornischen Rock der 1970er Jahre."
       }
     },
     "Blues/Soul": {
@@ -450,6 +455,11 @@
         "name": "IM7—♭IIIM7—♭VIM7—♭II7",
         "nickname": "Giant Steps",
         "description": "John Coltranes revolutionäre \"Giant Steps\"-Changes. Bewegt sich durch drei tonale Zentren, geteilt in große Terzen (I, ♭III, ♭VI). Das ♭II7 ist Tritonus-Substitution. Erzeugt maximale harmonische Bewegung, definierender Moment in der Jazz-Evolution."
+      },
+      "ii—V—I—IV—vii°—III7—vi": {
+        "name": "ii—V—I—IV—vii°—III7—vi",
+        "nickname": "Autumn Leaves",
+        "description": "Die Quintessenz des Jazz-Standard-Progressionen von Joseph Kosmas \"Autumn Leaves\". Öffnet mit ii-V-I in Dur, dann moduliert IV-vii°-III7-vi zur parallelen Moll. Das III7 ist Sekundärdominante (V/vi). Perfekt zum Erlernen von Jazz-Improvisation und Stimmführung. Eine der meistaufgenommenen Jazz-Kompositionen."
       }
     },
     "Classical/Modal": {
@@ -751,6 +761,16 @@
         "name": "I—V—vi—iii",
         "nickname": "Irish Folk",
         "description": "Keltische Folk-Progression. Vertraute I-V-Eröffnung, steigt zu vi dann iii ab. Vermeidet IV-Akkord und erzeugt andere Färbung als typische Pop-Progressionen. Das absteigende Terzen-Muster (V-vi, vi-iii) erzeugt fließende, melodische Bewegung charakteristisch für irische Balladen und keltische Musiktraditionen."
+      },
+      "i—III—IV—VI": {
+        "name": "i—III—IV—VI",
+        "nickname": "House of the Rising Sun",
+        "description": "Die ikonische Folk-Blues-Progression von The Animals. Die Moll-Tonika zu Dur-III erzeugt sofortigen Auftrieb, IV setzt den Aufstieg fort, Dur-VI liefert dramatische Farbe vor der Rückkehr. Das arpeggierte Gitarrenmuster über diesen Akkorden definierte den Folk-Rock der 1960er Jahre. Zeitlose Progression für erzählende Balladen."
+      },
+      "I—IV—I—IV—I—V—I": {
+        "name": "I—IV—I—IV—I—V—I",
+        "nickname": "Hallelujah",
+        "description": "Leonard Cohens ikonische Progression aus \"Hallelujah\". Die einfache I-IV-Oszillation baut spirituelle Spannung auf, V bringt Erlösung vor dem finalen I. Die wiederholende I-IV-Bewegung erzeugt hypnotische, meditative Qualität. Einer der meistgecoverten Songs der Geschichte und beweist die Kraft harmonischer Einfachheit."
       },
       "I—V—vi—IV": {
         "name": "I—V—vi—IV",
