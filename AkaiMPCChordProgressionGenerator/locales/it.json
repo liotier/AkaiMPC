@@ -90,6 +90,36 @@
     "progressionPaletteDisabled": "Le tavolozze di progressione non sono utilizzate in modalità Esplorazione Scala. Verranno generati tutti gli accordi della scala selezionata.",
     "progressionPaletteEnabled": "Ogni tavolozza fornisce 16 accordi unici: primi N dalla progressione, pad rimanenti dall'armonia estesa. Filtri specifici del genere garantiscono colori di accordi appropriati."
   },
+  "cadences": {
+    "authentic": {
+      "name": "Autentica (V→I)",
+      "tooltip": "Cadenza Autentica: La risoluzione più forte nella musica tonale. La dominante (V) risolve alla tonica (I), creando una chiusura completa."
+    },
+    "authenticMinor": {
+      "name": "Autentica minore (V→i)",
+      "tooltip": "Cadenza Autentica Minore: La dominante (V) risolve alla tonica minore (i). Risoluzione forte con carattere più scuro, in modo minore."
+    },
+    "plagal": {
+      "name": "Plagale (IV→I)",
+      "tooltip": "Cadenza Plagale: La cadenza \"Amen\". La sottodominante (IV) risolve alla tonica (I). Risoluzione più morbida, più solenne dell'autentica."
+    },
+    "deceptive": {
+      "name": "Inganno (V→vi)",
+      "tooltip": "Cadenza d'Inganno: La dominante (V) \"inganna\" l'orecchio risolvendo al vi invece che al I. Crea sorpresa e prolunga la frase."
+    },
+    "half": {
+      "name": "Semicadenza (→V)",
+      "tooltip": "Semicadenza: Termina sulla dominante (V), creando tensione e anticipazione. Come una virgola musicale — incompleta, in attesa di risoluzione."
+    },
+    "backdoor": {
+      "name": "Cadenza dalla porta sul retro",
+      "tooltip": "Cadenza Backdoor: Risoluzione jazz via ♭VII o iv verso I, aggirando la dominante. Crea un arrivo inaspettato, \"furtivo\" alla tonica."
+    },
+    "picardy": {
+      "name": "Terza piccarda",
+      "tooltip": "Terza Piccarda: Un brano minore termina su un accordo di I maggiore. La terza alzata crea una luminosità sorprendente — comune nella musica barocca."
+    }
+  },
   "errors": {
     "selectKey": "Seleziona una tonalità",
     "selectMode": "Seleziona un modo",
