@@ -266,11 +266,11 @@ function switchContext(context) {
     }
 
     // Save context preference
-    saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, context);
+    saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, context, generationMode);
 }
 
 // Generation mode switching (Progression Palette Mode vs Scale Mode)
-function switchGenerationMode(mode) {
+function switchGenerationMode(mode, skipSave = false) {
     generationMode = mode;
     const modeSelect = document.getElementById('modeSelect');
     const progressionSelect = document.getElementById('progressionSelect');
@@ -322,6 +322,11 @@ function switchGenerationMode(mode) {
     if (hasGeneratedOnce) {
         triggerSparkle();
         generateProgressions();
+    }
+
+    // Save generation mode preference (unless during initialization)
+    if (!skipSave) {
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
     }
 }
 
@@ -2555,6 +2560,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const storedPrefs = loadFromLocalStorage();
     const prefsToApply = urlPrefs || storedPrefs;
 
+    let savedGenerationMode = 'template'; // Default to template mode
     if (prefsToApply) {
         const applied = applyPreferences(prefsToApply);
         // CRITICAL: Update state variables from applied preferences
@@ -2568,14 +2574,24 @@ document.addEventListener('DOMContentLoaded', async function() {
                 // Don't call switchContext yet, just store it for later
                 currentContext = applied.context;
             }
+            // Restore saved generation mode
+            if (applied.generationMode) {
+                savedGenerationMode = applied.generationMode;
+            }
         }
     }
 
     updateProgressionName();
     renderChordRequirements(); // Initialize chord requirements display
 
-    // Initialize generation mode (default to progression palette mode)
-    switchGenerationMode('template');
+    // Initialize generation mode (restore saved mode or default to template)
+    switchGenerationMode(savedGenerationMode, true); // skipSave=true during initialization
+    // Update radio button to match restored mode
+    if (savedGenerationMode === 'scale') {
+        document.getElementById('scaleModeRadio').checked = true;
+    } else {
+        document.getElementById('paletteModeRadio').checked = true;
+    }
 
     // Add event listeners for generation mode toggle
     document.getElementById('paletteModeRadio').addEventListener('change', function() {
@@ -2588,7 +2604,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('keySelect').addEventListener('change', function() {
         selectedKey = this.value;
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
         updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         if (hasGeneratedOnce) {
             triggerSparkle();
@@ -2599,7 +2615,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('modeSelect').addEventListener('change', function() {
         selectedMode = this.value;
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
         updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         if (hasGeneratedOnce) {
             triggerSparkle();
@@ -2610,7 +2626,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('progressionSelect').addEventListener('change', function() {
         selectedProgression = this.value;
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
         updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         if (hasGeneratedOnce) {
             triggerSparkle();
@@ -2787,7 +2803,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Left-handed toggle for guitar
     document.getElementById('leftHandedCheckbox').addEventListener('change', function() {
         isLeftHanded = this.checked;
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
         updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
         // Regenerate progressions to reflect the change
         const progressionsContainer = document.getElementById('progressionsContainer');

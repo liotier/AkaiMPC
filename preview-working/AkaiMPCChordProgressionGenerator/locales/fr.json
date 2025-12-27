@@ -175,47 +175,47 @@
   },
   "modes": {
     "Major": {
-      "name": "Major",
+      "name": "Majeur",
       "description": "La gamme fondamentale de la musique occidentale. Schéma : T-T-½T-T-T-T-½T (tons et demi-tons). Crée un caractère lumineux, joyeux et résolu. Toutes les triades diatoniques (I, ii, iii, IV, V, vi, vii°) proviennent de cette gamme. Fondement de la musique classique, pop et folk pour une tonalité optimiste et stable."
     },
     "Minor": {
-      "name": "Minor",
+      "name": "Mineur",
       "description": "Gamme mineure naturelle (mode Éolien). Schéma : T-½T-T-T-½T-T-T. Crée un caractère triste, introspectif, plus sombre que le majeur. Les 3e, 6e et 7e degrés abaissés la distinguent du majeur. Utilisée dans tous les genres pour des humeurs mélancoliques, émotionnelles ou sérieuses. Fondement de l'harmonie en tonalité mineure."
     },
     "Dorian": {
-      "name": "Dorian",
+      "name": "Dorien",
       "description": "Gamme mineure avec 6e degré élevé. Schéma : T-½T-T-T-T-½T-T. Crée un son mineur sophistiqué - plus sombre que le majeur mais plus lumineux que le mineur naturel. L'accord de IV majeur le distingue de l'Éolien. Utilisé dans le jazz, le funk, le folk et la musique modale pour une tonalité mineure cool et sophistiquée sans tristesse lourde."
     },
     "Phrygian": {
-      "name": "Phrygian",
+      "name": "Phrygien",
       "description": "Gamme mineure avec 2e degré abaissé. Schéma : ½T-T-T-T-½T-T-T. Crée un caractère espagnol, moyen-oriental ou metal sombre. Le demi-ton entre la tonique et la 2e crée un son exotique distinctif. Utilisé dans le flamenco, le metal et la musique espagnole pour une atmosphère mystérieuse, sinistre ou ethnique."
     },
     "Lydian": {
-      "name": "Lydian",
+      "name": "Lydien",
       "description": "Gamme majeure avec 4e degré élevé. Schéma : T-T-T-½T-T-T-½T. Crée un caractère rêveur, flottant, éthéré - encore plus lumineux que le majeur. La 4e élevée (#11) crée le son \"Lydien\" distinctif. Utilisé dans les musiques de film, le jazz et le rock progressif pour une qualité magique, surnaturelle ou flottante."
     },
     "Mixolydian": {
-      "name": "Mixolydian",
+      "name": "Mixolydien",
       "description": "Gamme majeure avec 7e degré abaissé. Schéma : T-T-½T-T-T-½T-T. Crée un caractère bluesy, rock ou folk. L'accord de ♭VII est caractéristique. Utilisé abondamment dans le rock, le blues, le folk et le funk pour un son majeur ancré et terreux sans la tension de la sensible. Fondement de l'harmonie rock and roll."
     },
     "Locrian": {
-      "name": "Locrian",
+      "name": "Locrien",
       "description": "Gamme mineure avec 2e et 5e degrés abaissés. Schéma : ½T-T-T-½T-T-T-T. Le mode le plus instable - triade tonique diminuée. Rarement utilisé pour des compositions complètes. La ♭5 crée un triton contre la fondamentale. Utilisé pour la dissonance, la tension ou des passages expérimentaux dans le metal, le jazz et la musique d'avant-garde."
     },
     "Harmonic Minor": {
-      "name": "Harmonic Minor",
+      "name": "Mineur harmonique",
       "description": "Mineur naturel avec 7e degré élevé. Schéma : T-½T-T-T-½T-2T-½T. L'intervalle de seconde augmentée (entre 6 et 7) crée une tension et un drame exotiques. L'accord de V majeur permet de fortes cadences V-i. Fondement de l'harmonie mineure classique, utilisé dans le metal, le flamenco et la musique moyen-orientale pour un son mineur dramatique et classique."
     },
     "Melodic Minor": {
-      "name": "Melodic Minor",
+      "name": "Mineur mélodique",
       "description": "Mineur naturel avec 6e et 7e degrés élevés (forme ascendante). Schéma : T-½T-T-T-T-T-½T. Plus doux que le mineur harmonique - pas de seconde augmentée. Utilisé dans le jazz pour l'improvisation modale et dans la musique classique pour l'ascension mélodique. Crée une tonalité mineure sophistiquée avec VI et VII majeurs permettant une conduite des voix fluide."
     },
     "Pentatonic Major": {
-      "name": "Pentatonic Major",
+      "name": "Pentatonique majeur",
       "description": "Gamme à cinq notes : 1-2-3-5-6 (supprime 4 et 7 de la gamme majeure). Absence de demi-tons ou tritons crée un son consonant et ouvert. Gamme universelle trouvée à travers les cultures. Utilisée dans les solos rock, les mélodies folk, les refrains pop et la musique du monde pour des mélodies chantables et accessibles qui fonctionnent sur toute harmonie."
     },
     "Pentatonic Minor": {
-      "name": "Pentatonic Minor",
+      "name": "Pentatonique mineur",
       "description": "Gamme à cinq notes : 1-♭3-4-5-♭7 (supprime 2 et 6 du mineur naturel). Le fondement des solos blues, rock et blues-rock. Absence de demi-tons crée un caractère fluide et coulant. Gamme mineure universelle utilisée à travers les cultures. Essentielle pour les solos de guitare, l'improvisation vocale et les mélodies mineures accessibles."
     },
     "Blues": {
@@ -223,19 +223,19 @@
       "description": "Gamme à six notes : 1-♭3-4-♭5-5-♭7. Ajoute la \"blue note\" (♭5) à la pentatonique mineure. La ♭5 crée le \"bend\" blues caractéristique et la tension. Fondement de l'improvisation blues, rock, jazz et R&B. La ♭3 ambiguë sur des accords majeurs crée la dissonance bluesy. Gamme la plus importante dans la musique populaire américaine."
     },
     "Whole Tone": {
-      "name": "Whole Tone",
+      "name": "Tons entiers",
       "description": "Gamme à six notes construite entièrement de tons entiers : T-T-T-T-T-T. Parfaitement symétrique - pas de tonique ni de résolution. Crée un caractère rêveur, flottant, surréaliste. Pas de quintes ou quartes justes, seulement des accords augmentés. Utilisée par Debussy et dans le jazz pour une atmosphère ambiguë, impressionniste et surnaturelle. Définit le surréalisme musical."
     },
     "Diminished (W-H)": {
-      "name": "Diminished (W-H)",
+      "name": "Diminuée (T-½T)",
       "description": "Gamme octatonique à huit notes alternant tons et demi-tons : T-½T-T-½T-T-½T-T-½T. Parfaitement symétrique, divise l'octave en quatre parties égales. Utilisée sur les accords de dominante 7 dans le jazz. Crée un caractère tendu, instable et chromatique. Essentielle au bebop pour les sons de dominante altérée et le jeu outside."
     },
     "Diminished (H-W)": {
-      "name": "Diminished (H-W)",
+      "name": "Diminuée (½T-T)",
       "description": "Gamme octatonique à huit notes alternant demi-tons et tons : ½T-T-½T-T-½T-T-½T-T. Schéma inversé du diminué T-½T. Utilisée sur les accords diminués 7. La structure symétrique crée un caractère tendu et non résolu. Essentielle au jazz pour l'improvisation sur accords diminués et la conduite chromatique des voix en composition."
     },
     "Augmented": {
-      "name": "Augmented",
+      "name": "Augmentée",
       "description": "Gamme hexatonique à six notes construite à partir de triades augmentées avec notes de passage : 1-♭3-3-5-♯5-7. Symétrique, divise l'octave en trois tierces majeures égales. Pas de quintes justes. Crée un caractère ambigu, flottant, moderniste. Utilisée dans la musique classique du 20e siècle et le jazz pour des contextes d'accords augmentés et des structures harmoniques symétriques."
     },
     "Altered": {
