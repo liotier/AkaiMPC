@@ -18,6 +18,7 @@ import {
     getIsTablet,
     getVoiceLeadingLocked,
     getActiveTooltip,
+    getGenerationMode,
     setSelectedKey,
     setSelectedMode,
     setSelectedProgression,
@@ -122,6 +123,7 @@ export async function setupEventListeners() {
     const storedPrefs = loadFromLocalStorage();
     const prefsToApply = urlPrefs || storedPrefs;
 
+    let savedGenerationMode = 'template'; // Default to template mode
     if (prefsToApply) {
         const applied = applyPreferences(prefsToApply);
         if (applied) {
@@ -130,14 +132,21 @@ export async function setupEventListeners() {
             if (applied.progression) setSelectedProgression(applied.progression);
             if (applied.leftHanded !== undefined) setIsLeftHanded(applied.leftHanded);
             if (applied.context) setCurrentContext(applied.context);
+            if (applied.generationMode) savedGenerationMode = applied.generationMode;
         }
     }
 
     updateProgressionName();
     renderChordRequirements();
 
-    // Initialize generation mode (default to progression palette mode)
-    switchGenerationMode('template');
+    // Initialize generation mode (restore saved mode or default to template)
+    switchGenerationMode(savedGenerationMode, true); // skipSave=true during initialization
+    // Update radio button to match restored mode
+    if (savedGenerationMode === 'scale') {
+        document.getElementById('scaleModeRadio').checked = true;
+    } else {
+        document.getElementById('paletteModeRadio').checked = true;
+    }
 
     // Generation mode toggle
     document.getElementById('paletteModeRadio').addEventListener('change', function() {
@@ -151,7 +160,7 @@ export async function setupEventListeners() {
     document.getElementById('keySelect').addEventListener('change', function() {
         setSelectedKey(this.value);
         updateProgressionName();
-        saveToLocalStorage(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded(), getCurrentContext());
+        saveToLocalStorage(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded(), getCurrentContext(), getGenerationMode());
         updateURL(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded());
         if (getHasGeneratedOnce()) {
             triggerSparkle();
@@ -162,7 +171,7 @@ export async function setupEventListeners() {
     document.getElementById('modeSelect').addEventListener('change', function() {
         setSelectedMode(this.value);
         updateProgressionName();
-        saveToLocalStorage(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded(), getCurrentContext());
+        saveToLocalStorage(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded(), getCurrentContext(), getGenerationMode());
         updateURL(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded());
         if (getHasGeneratedOnce()) {
             triggerSparkle();
@@ -173,7 +182,7 @@ export async function setupEventListeners() {
     document.getElementById('progressionSelect').addEventListener('change', function() {
         setSelectedProgression(this.value);
         updateProgressionName();
-        saveToLocalStorage(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded(), getCurrentContext());
+        saveToLocalStorage(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded(), getCurrentContext(), getGenerationMode());
         updateURL(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded());
         if (getHasGeneratedOnce()) {
             triggerSparkle();
@@ -219,7 +228,7 @@ export async function setupEventListeners() {
     // Left-handed toggle
     document.getElementById('leftHandedCheckbox').addEventListener('change', function() {
         setIsLeftHanded(this.checked);
-        saveToLocalStorage(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded(), getCurrentContext());
+        saveToLocalStorage(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded(), getCurrentContext(), getGenerationMode());
         updateURL(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded());
         const progressionsContainer = document.getElementById('progressionsContainer');
         if (!progressionsContainer.classList.contains('hidden')) {

@@ -21,6 +21,7 @@ import {
     getIsLeftHanded,
     getHasGeneratedOnce,
     getGenerationMode,
+    getCurrentContext,
     setSelectedKey,
     setSelectedMode,
     setProgressionName,
@@ -95,14 +96,14 @@ export function switchContext(context) {
         leftHandedToggle.style.display = context === 'guitar' ? 'flex' : 'none';
     }
 
-    saveToLocalStorage(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded(), context);
+    saveToLocalStorage(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded(), context, getGenerationMode());
 }
 
 // ============================================================================
 // Generation Mode Switching
 // ============================================================================
 
-export function switchGenerationMode(mode) {
+export function switchGenerationMode(mode, skipSave = false) {
     setGenerationMode(mode);
     const modeSelect = document.getElementById('modeSelect');
     const progressionSelect = document.getElementById('progressionSelect');
@@ -140,6 +141,11 @@ export function switchGenerationMode(mode) {
     if (getHasGeneratedOnce()) {
         triggerSparkle();
         generateProgressions();
+    }
+
+    // Save generation mode preference (unless during initialization)
+    if (!skipSave) {
+        saveToLocalStorage(getSelectedKey(), getSelectedMode(), getSelectedProgression(), getIsLeftHanded(), getCurrentContext(), mode);
     }
 }
 
