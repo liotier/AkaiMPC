@@ -10,9 +10,10 @@ const STORAGE_KEY = 'akaiMPCPreferences';
  * @param {string} selectedProgression - Selected progression pattern
  * @param {boolean} isLeftHanded - Left-handed guitar mode
  * @param {string} context - Current view context (optional)
+ * @param {string} generationMode - Generation mode ('template' or 'scale')
  * @returns {boolean} True if save successful, false otherwise
  */
-export function saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, context = null) {
+export function saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, context = null, generationMode = null) {
     const preferences = {
         key: selectedKey,
         mode: selectedMode,
@@ -23,6 +24,11 @@ export function saveToLocalStorage(selectedKey, selectedMode, selectedProgressio
     // Add context if provided
     if (context) {
         preferences.context = context;
+    }
+
+    // Add generation mode if provided
+    if (generationMode) {
+        preferences.generationMode = generationMode;
     }
 
     try {
@@ -143,6 +149,11 @@ export function applyPreferences(preferences) {
         // Context is handled separately in app.js via switchContext()
         if (preferences.context) {
             result.context = preferences.context;
+        }
+
+        // Generation mode is handled separately via switchGenerationMode()
+        if (preferences.generationMode) {
+            result.generationMode = preferences.generationMode;
         }
 
         return result;

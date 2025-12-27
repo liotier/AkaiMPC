@@ -59,7 +59,7 @@
   "variants": {
     "Smooth": {
       "label": "Fließende Stimmführung",
-      "tooltip": "Fließende Variante: Maximiert gemeinsame Töne, schrittweise Bewegung und Gegenbewegung. Bewertet Hunderte von Voicings, um die sanftesten Übergänge zwischen Akkorden zu finden."
+      "tooltip": "Fließende Variante: Maximiert gemeinsame Töne, schrittweise Bewegung und Gegenbewegung. Behält die Voicings mit den sanftesten Übergängen zwischen Akkorden."
     },
     "Classic": {
       "label": "Stimmführung",
@@ -101,11 +101,11 @@
     },
     "plagal": {
       "name": "Plagal (IV→I)",
-      "tooltip": "Plagale Kadenz: Die „Amen"-Kadenz. Die Subdominante (IV) löst sich zur Tonika (I) auf. Weichere, hymnischere Auflösung als die authentische."
+      "tooltip": "Plagale Kadenz: Die „Amen“-Kadenz. Die Subdominante (IV) löst sich zur Tonika (I) auf. Weichere, hymnischere Auflösung als die authentische."
     },
     "deceptive": {
       "name": "Trugschluss (V→vi)",
-      "tooltip": "Trugschluss: Die Dominante (V) „täuscht" das Ohr, indem sie zur vi statt zur I auflöst. Erzeugt Überraschung und verlängert die Phrase."
+      "tooltip": "Trugschluss: Die Dominante (V) „täuscht“ das Ohr, indem sie zur vi statt zur I auflöst. Erzeugt Überraschung und verlängert die Phrase."
     },
     "half": {
       "name": "Halbschluss (→V)",
@@ -113,7 +113,7 @@
     },
     "backdoor": {
       "name": "Backdoor-Kadenz",
-      "tooltip": "Backdoor-Kadenz: Jazz-Auflösung über ♭VII oder iv zur I, unter Umgehung der Dominante. Erzeugt unerwartete, „heimliche" Ankunft bei der Tonika."
+      "tooltip": "Backdoor-Kadenz: Jazz-Auflösung über ♭VII oder iv zur I, unter Umgehung der Dominante. Erzeugt unerwartete, „heimliche“ Ankunft bei der Tonika."
     },
     "picardy": {
       "name": "Picardische Terz",
@@ -175,47 +175,47 @@
   },
   "modes": {
     "Major": {
-      "name": "Major",
+      "name": "Dur",
       "description": "Die grundlegende Tonleiter der westlichen Musik. Muster: G-G-H-G-G-G-H (Ganz- und Halbtöne). Erzeugt einen hellen, fröhlichen und entschlossenen Charakter. Alle diatonischen Dreiklänge (I, ii, iii, IV, V, vi, vii°) stammen aus dieser Tonleiter. Grundlage der klassischen Musik, Pop und Folk für eine optimistische und stabile Tonalität."
     },
     "Minor": {
-      "name": "Minor",
+      "name": "Moll",
       "description": "Natürliche Moll-Tonleiter (Äolischer Modus). Muster: G-H-G-G-H-G-G. Erzeugt einen traurigen, introspektiven Charakter, dunkler als Dur. Die abgesenkten 3., 6. und 7. Stufen unterscheiden sie von Dur. Wird in allen Genres für melancholische, emotionale oder ernste Stimmungen verwendet. Grundlage der Harmonik in Moll-Tonalität."
     },
     "Dorian": {
-      "name": "Dorian",
+      "name": "Dorisch",
       "description": "Moll-Tonleiter mit erhöhter 6. Stufe. Muster: G-H-G-G-G-H-G. Erzeugt einen anspruchsvollen Moll-Klang - dunkler als Dur, aber heller als natürliches Moll. Der Dur-IV-Akkord unterscheidet ihn vom Äolischen. Verwendet im Jazz, Funk, Folk und modaler Musik für eine coole, anspruchsvolle Moll-Tonalität ohne schwere Traurigkeit."
     },
     "Phrygian": {
-      "name": "Phrygian",
+      "name": "Phrygisch",
       "description": "Moll-Tonleiter mit abgesenkter 2. Stufe. Muster: H-G-G-G-H-G-G. Erzeugt einen spanischen, nahöstlichen oder düster-metallischen Charakter. Der Halbton zwischen Tonika und 2. Stufe erzeugt einen markanten exotischen Klang. Verwendet im Flamenco, Metal und spanischer Musik für eine mysteriöse, unheilvolle oder ethnische Atmosphäre."
     },
     "Lydian": {
-      "name": "Lydian",
+      "name": "Lydisch",
       "description": "Dur-Tonleiter mit erhöhter 4. Stufe. Muster: G-G-G-H-G-G-H. Erzeugt einen träumerischen, schwebenden, ätherischen Charakter - noch heller als Dur. Die erhöhte 4. Stufe (#11) erzeugt den markanten 'Lydischen' Klang. Verwendet in Filmmusik, Jazz und Progressive Rock für eine magische, übernatürliche oder schwebende Qualität."
     },
     "Mixolydian": {
-      "name": "Mixolydian",
+      "name": "Mixolydisch",
       "description": "Dur-Tonleiter mit abgesenkter 7. Stufe. Muster: G-G-H-G-G-H-G. Erzeugt einen bluesigen, rockigen oder folkigen Charakter. Der ♭VII-Akkord ist charakteristisch. Ausgiebig verwendet im Rock, Blues, Folk und Funk für einen geerdeten, erdigen Dur-Klang ohne die Spannung des Leittons. Grundlage der Rock'n'Roll-Harmonik."
     },
     "Locrian": {
-      "name": "Locrian",
+      "name": "Lokrisch",
       "description": "Moll-Tonleiter mit abgesenkter 2. und 5. Stufe. Muster: H-G-G-H-G-G-G. Der instabilste Modus - verminderter Tonika-Dreiklang. Selten für vollständige Kompositionen verwendet. Die ♭5 erzeugt einen Tritonus gegen den Grundton. Verwendet für Dissonanz, Spannung oder experimentelle Passagen in Metal, Jazz und Avantgarde-Musik."
     },
     "Harmonic Minor": {
-      "name": "Harmonic Minor",
+      "name": "Harmonisch Moll",
       "description": "Natürliches Moll mit erhöhter 7. Stufe. Muster: G-H-G-G-H-1½G-H. Das übermäßige Sekundintervall (zwischen 6 und 7) erzeugt exotische Spannung und Drama. Der Dur-V-Akkord ermöglicht starke V-i-Kadenzen. Grundlage der klassischen Moll-Harmonik, verwendet in Metal, Flamenco und nahöstlicher Musik für einen dramatischen, klassischen Moll-Klang."
     },
     "Melodic Minor": {
-      "name": "Melodic Minor",
+      "name": "Melodisch Moll",
       "description": "Natürliches Moll mit erhöhter 6. und 7. Stufe (aufsteigende Form). Muster: G-H-G-G-G-G-H. Weicher als harmonisches Moll - keine übermäßige Sekunde. Verwendet im Jazz für modale Improvisation und in der klassischen Musik für melodisches Aufsteigen. Erzeugt eine anspruchsvolle Moll-Tonalität mit Dur-VI und VII, die eine fließende Stimmführung ermöglichen."
     },
     "Pentatonic Major": {
-      "name": "Pentatonic Major",
+      "name": "Dur-Pentatonik",
       "description": "Fünf-Noten-Tonleiter: 1-2-3-5-6 (entfernt 4 und 7 aus der Dur-Tonleiter). Fehlen von Halbtönen oder Tritoni erzeugt einen konsonanten, offenen Klang. Universelle Tonleiter, die in vielen Kulturen zu finden ist. Verwendet in Rock-Soli, Folk-Melodien, Pop-Refrains und Weltmusik für eingängige, zugängliche Melodien, die über jede Harmonik funktionieren."
     },
     "Pentatonic Minor": {
-      "name": "Pentatonic Minor",
+      "name": "Moll-Pentatonik",
       "description": "Fünf-Noten-Tonleiter: 1-♭3-4-5-♭7 (entfernt 2 und 6 aus natürlichem Moll). Die Grundlage für Blues-, Rock- und Blues-Rock-Soli. Fehlen von Halbtönen erzeugt einen fließenden, gleitenden Charakter. Universelle Moll-Tonleiter, die in vielen Kulturen verwendet wird. Essentiell für Gitarrensoli, vokale Improvisation und zugängliche Moll-Melodien."
     },
     "Blues": {
@@ -223,19 +223,19 @@
       "description": "Sechs-Noten-Tonleiter: 1-♭3-4-♭5-5-♭7. Fügt die 'Blue Note' (♭5) zur Moll-Pentatonik hinzu. Die ♭5 erzeugt das charakteristische Blues-'Bending' und Spannung. Grundlage der Blues-, Rock-, Jazz- und R&B-Improvisation. Die ambigue ♭3 über Dur-Akkorden erzeugt die bluesige Dissonanz. Die wichtigste Tonleiter in der amerikanischen Populärmusik."
     },
     "Whole Tone": {
-      "name": "Whole Tone",
+      "name": "Ganztonleiter",
       "description": "Sechs-Noten-Tonleiter, die vollständig aus Ganztönen besteht: G-G-G-G-G-G. Perfekt symmetrisch - keine Tonika oder Auflösung. Erzeugt einen träumerischen, schwebenden, surrealen Charakter. Keine reinen Quinten oder Quarten, nur übermäßige Akkorde. Verwendet von Debussy und im Jazz für eine mehrdeutige, impressionistische und übernatürliche Atmosphäre. Definiert musikalischen Surrealismus."
     },
     "Diminished (W-H)": {
-      "name": "Diminished (W-H)",
+      "name": "Vermindert (G-H)",
       "description": "Acht-Noten-Oktatonik, die Ganz- und Halbtöne abwechselt: G-H-G-H-G-H-G-H. Perfekt symmetrisch, teilt die Oktave in vier gleiche Teile. Verwendet über Dominant-7-Akkorden im Jazz. Erzeugt einen spannungsgeladenen, instabilen, chromatischen Charakter. Essentiell im Bebop für alterierte Dominant-Klänge und Outside-Spiel."
     },
     "Diminished (H-W)": {
-      "name": "Diminished (H-W)",
+      "name": "Vermindert (H-G)",
       "description": "Acht-Noten-Oktatonik, die Halb- und Ganztöne abwechselt: H-G-H-G-H-G-H-G. Umgekehrtes Muster des G-H-Verminderten. Verwendet über verminderten 7-Akkorden. Die symmetrische Struktur erzeugt einen spannungsgeladenen, nicht auflösenden Charakter. Essentiell im Jazz für Improvisation über verminderte Akkorde und chromatische Stimmführung in der Komposition."
     },
     "Augmented": {
-      "name": "Augmented",
+      "name": "Übermäßig",
       "description": "Sechs-Noten-Hexatonik, die aus übermäßigen Dreiklängen mit Durchgangsnoten besteht: 1-♭3-3-5-♯5-7. Symmetrisch, teilt die Oktave in drei gleiche große Terzen. Keine reinen Quinten. Erzeugt einen mehrdeutigen, schwebenden, modernistischen Charakter. Verwendet in klassischer Musik des 20. Jahrhunderts und Jazz für übermäßige Akkordkontexte und symmetrische harmonische Strukturen."
     },
     "Altered": {
