@@ -59,7 +59,7 @@
   "variants": {
     "Smooth": {
       "label": "Condução de Vozes Suave",
-      "tooltip": "Variante suave: Maximiza notas comuns, movimento por graus conjuntos e movimento contrário. Avalia centenas de voicings para encontrar as transições mais suaves entre acordes."
+      "tooltip": "Variante suave: Maximiza notas comuns, movimento por graus conjuntos e movimento contrário. Retém os voicings que têm as transições mais suaves entre acordes."
     },
     "Classic": {
       "label": "Condução de Vozes",

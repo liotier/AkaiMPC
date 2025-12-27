@@ -59,7 +59,7 @@
   "variants": {
     "Smooth": {
       "label": "Conducción de voces fluida",
-      "tooltip": "Variante fluida: Maximiza las notas comunes, el movimiento por grados conjuntos y el movimiento contrario. Evalúa cientos de voicings para encontrar las transiciones más suaves entre acordes."
+      "tooltip": "Variante fluida: Maximiza las notas comunes, el movimiento por grados conjuntos y el movimiento contrario. Retiene los voicings que tienen las transiciones más suaves entre acordes."
     },
     "Classic": {
       "label": "Conducción de voces",

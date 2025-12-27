@@ -59,7 +59,7 @@
   "variants": {
     "Smooth": {
       "label": "Smooth Voice Leading",
-      "tooltip": "Smooth variant: Maximizes common tones, step-wise motion, and contrary motion. Evaluates hundreds of voicings to find the smoothest transitions between chords."
+      "tooltip": "Smooth variant: Maximizes common tones, step-wise motion, and contrary motion. Retains the voicings that have the smoothest transitions between chords."
     },
     "Classic": {
       "label": "Voice Leading",
