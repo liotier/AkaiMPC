@@ -59,7 +59,7 @@
   "variants": {
     "Smooth": {
       "label": "Conduzione Voci Fluida",
-      "tooltip": "Variante fluida: Massimizza note comuni, moto per grado congiunto e moto contrario. Valuta centinaia di voicing per trovare le transizioni più fluide tra accordi."
+      "tooltip": "Variante fluida: Massimizza note comuni, moto per grado congiunto e moto contrario. Mantiene i voicing che hanno le transizioni più fluide tra accordi."
     },
     "Classic": {
       "label": "Conduzione Voci",

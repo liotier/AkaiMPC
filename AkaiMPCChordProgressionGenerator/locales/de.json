@@ -59,7 +59,7 @@
   "variants": {
     "Smooth": {
       "label": "Fließende Stimmführung",
-      "tooltip": "Fließende Variante: Maximiert gemeinsame Töne, schrittweise Bewegung und Gegenbewegung. Bewertet Hunderte von Voicings, um die sanftesten Übergänge zwischen Akkorden zu finden."
+      "tooltip": "Fließende Variante: Maximiert gemeinsame Töne, schrittweise Bewegung und Gegenbewegung. Behält die Voicings mit den sanftesten Übergängen zwischen Akkorden."
     },
     "Classic": {
       "label": "Stimmführung",
