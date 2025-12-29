@@ -2160,7 +2160,7 @@ function renderProgressions() {
 
         // Detect cadence type
         const cadence = detectCadence(selectedProgression);
-        const cadenceDisplay = cadence ? `<span class="cadence" title="${i18n.t(`cadences.${cadence.key}.tooltip`)}">${cadence.emoji} ${i18n.t(`cadences.${cadence.key}.name`)}</span>` : '';
+        const cadenceDisplay = cadence ? `<span class="cadence" data-tooltip="${i18n.t(`cadences.${cadence.key}.tooltip`)}">${cadence.emoji} ${i18n.t(`cadences.${cadence.key}.name`)}</span>` : '';
 
         card.innerHTML = `
             <div class="progression-header">
@@ -2221,6 +2221,50 @@ function renderProgressions() {
                             }
                         }, 5000);
                     }
+                });
+            }
+        });
+
+        // Also handle cadence tooltips on touch devices
+        container.querySelectorAll('.cadence').forEach(cadence => {
+            const tooltipText = cadence.dataset.tooltip;
+            if (tooltipText) {
+                cadence.addEventListener('click', function(e) {
+                    const currentElement = e.currentTarget;
+                    e.stopPropagation();
+
+                    const tooltip = document.getElementById('chordTooltip');
+                    if (tooltip && tooltip.classList.contains('visible') && activeTooltip === currentElement) {
+                        tooltip.classList.remove('visible');
+                        activeTooltip = null;
+                    } else {
+                        showTooltip(currentElement, tooltipText);
+                        activeTooltip = currentElement;
+
+                        setTimeout(() => {
+                            if (activeTooltip === currentElement) {
+                                const tooltip = document.getElementById('chordTooltip');
+                                if (tooltip) tooltip.classList.remove('visible');
+                                activeTooltip = null;
+                            }
+                        }, 5000);
+                    }
+                });
+            }
+        });
+    }
+
+    // Add hover handlers for cadence tooltips (desktop)
+    if (hasHover) {
+        container.querySelectorAll('.cadence').forEach(cadence => {
+            const tooltipText = cadence.dataset.tooltip;
+            if (tooltipText) {
+                cadence.addEventListener('pointerenter', function() {
+                    showTooltip(this, tooltipText);
+                });
+                cadence.addEventListener('pointerleave', function() {
+                    const tooltip = document.getElementById('chordTooltip');
+                    if (tooltip) tooltip.classList.remove('visible');
                 });
             }
         });
