@@ -577,6 +577,10 @@ button:disabled {
     font-weight: 500;
 }
 
+.progression-meta .cadence {
+    cursor: help;
+}
+
 .progression-meta .analysis {
     color: var(--muted);
     font-size: 12px;
