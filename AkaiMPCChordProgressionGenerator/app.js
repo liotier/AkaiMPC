@@ -2170,8 +2170,7 @@ function renderProgressions() {
 
         const progressionAnalysis = analyzeProgression(variant.pads);
 
-        // Calculate progression length for clarification text
-        const progressionChordCount = variant.pads.filter(p => p.isProgressionChord).length;
+        // Calculate progression length for clarification text (already declared above for edge calculation)
         const progressionClarification = progressionChordCount > 0
             ? i18n.t('variants.progressionClarification', { count: progressionChordCount, next: progressionChordCount + 1 })
             : '';
