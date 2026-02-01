@@ -37,7 +37,7 @@
     "labels": {
       "key": "Tonalité",
       "mode": "Mode/gamme",
-      "progression": "Palette de progressions",
+      "progression": "Graine de palette de progressions",
       "name": "Nom de progression",
       "outputName": "Nom de sortie"
     }

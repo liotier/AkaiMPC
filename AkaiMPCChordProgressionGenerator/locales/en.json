@@ -37,7 +37,7 @@
     "labels": {
       "key": "Key",
       "mode": "Mode/Scale",
-      "progression": "Progression Palette",
+      "progression": "Progression Palette Seed",
       "name": "Progression Name",
       "outputName": "Output Name"
     }
