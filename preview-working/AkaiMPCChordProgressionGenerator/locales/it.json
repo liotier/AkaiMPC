@@ -37,7 +37,7 @@
     "labels": {
       "key": "Tonalità",
       "mode": "Modo/Scala",
-      "progression": "Tavolozza Progressione",
+      "progression": "Seme Tavolozza Progressione",
       "name": "Nome Progressione",
       "outputName": "Nome Output"
     }

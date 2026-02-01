@@ -37,7 +37,7 @@
     "labels": {
       "key": "Tonart",
       "mode": "Modus/Tonleiter",
-      "progression": "Progressionspalette",
+      "progression": "Progressionspaletten-Seed",
       "name": "Progressionsname",
       "outputName": "Ausgabename"
     }

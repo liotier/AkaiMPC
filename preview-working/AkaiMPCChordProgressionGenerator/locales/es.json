@@ -37,7 +37,7 @@
     "labels": {
       "key": "Tonalidad",
       "mode": "Modo/escala",
-      "progression": "Paleta de progresiones",
+      "progression": "Semilla de paleta de progresiones",
       "name": "Nombre de progresión",
       "outputName": "Nombre de salida"
     }
