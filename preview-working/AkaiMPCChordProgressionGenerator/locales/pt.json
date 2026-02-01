@@ -1079,6 +1079,38 @@
         "nickname": "Acid 303",
         "description": "Paleta acid clássica. 7ªs menores e voicings quartais para guincho TB-303."
       }
+    },
+    "Modal Interchange": {
+      "♭VI—♭VII—I": {
+        "name": "♭VI—♭VII—I",
+        "nickname": "Ascensão emprestada",
+        "description": "Acordes emprestados ascendentes que resolvem para a tônica maior. ♭VI e ♭VII criam uma construção dramática usando acordes emprestados do modo menor paralelo."
+      },
+      "I—♭VII—IV—I": {
+        "name": "I—♭VII—IV—I",
+        "nickname": "Loop mixolídio",
+        "description": "Tônica maior com ♭VII emprestado criando sabor mixolídio, depois movimento plagal IV-I. O ♭VII do menor paralelo adiciona um toque de rock."
+      },
+      "I—♭III—♭VII—IV": {
+        "name": "I—♭III—♭VII—IV",
+        "nickname": "Mistura modal",
+        "description": "Tônica maior com múltiplos acordes emprestados criando rico intercâmbio modal. ♭III e ♭VII do menor paralelo adicionam escuridão."
+      },
+      "i—IV—i—V": {
+        "name": "i—IV—i—V",
+        "nickname": "Iluminação menor",
+        "description": "Tônica menor com IV maior emprestado criando sabor dórico. A IV maior emprestada do maior paralelo ilumina o modo menor."
+      },
+      "I—iv—I—V": {
+        "name": "I—iv—I—V",
+        "nickname": "Escurecimento maior",
+        "description": "Tônica maior com iv menor emprestado criando contraste dramático. A iv menor do menor paralelo adiciona melancolia."
+      },
+      "♭VI—iv—I": {
+        "name": "♭VI—iv—I",
+        "nickname": "Cadência emprestada",
+        "description": "Dois acordes emprestados resolvendo para a tônica maior. ♭VI e iv do menor paralelo criam uma chegada dramática em I."
+      }
     }
   }
 }
