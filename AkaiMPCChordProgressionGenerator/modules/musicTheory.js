@@ -2564,6 +2564,13 @@ function parseProgression(progressionString) {
             quality = 'minor7';
         } else if (chord.match(/[IV]7/) && !chord.includes('M7')) {
             quality = 'dom7';
+        } else if (chord.includes('7')) {
+            // If the base chord is lowercase (minor) and has a 7, it's a minor7
+            if (baseChord === baseChord.toLowerCase()) {
+                quality = 'minor7';
+            } else {
+                quality = 'dom7';
+            }
         } else if (baseChord === baseChord.toLowerCase() ||
                   (baseChord === 'ii' || baseChord === 'iii' || baseChord === 'vi' || baseChord === 'vii')) {
             quality = 'minor';
