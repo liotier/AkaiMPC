@@ -37,7 +37,7 @@
     "labels": {
       "key": "Tonalità",
       "mode": "Modo/Scala",
-      "progression": "Tavolozza Progressione",
+      "progression": "Seme Tavolozza Progressione",
       "name": "Nome Progressione",
       "outputName": "Nome Output"
     }
@@ -1090,6 +1090,38 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Tavolozza acid classica. Settime minori e voicing quartali per squelch TB-303."
+      }
+    },
+    "Modal Interchange": {
+      "♭VI—♭VII—I": {
+        "name": "♭VI—♭VII—I",
+        "nickname": "Ascesa prestata",
+        "description": "Accordi prestati ascendenti che risolvono alla tonica maggiore. ♭VI e ♭VII creano una costruzione drammatica usando accordi prestati dalla modalità minore parallela."
+      },
+      "I—♭VII—IV—I": {
+        "name": "I—♭VII—IV—I",
+        "nickname": "Loop misolidio",
+        "description": "Tonica maggiore con ♭VII prestato che crea sapore misolidio, poi movimento plagale IV-I. Il ♭VII dal minore parallelo aggiunge un tocco rock."
+      },
+      "I—♭III—♭VII—IV": {
+        "name": "I—♭III—♭VII—IV",
+        "nickname": "Miscela modale",
+        "description": "Tonica maggiore con molteplici accordi prestati che creano ricco interscambio modale. ♭III e ♭VII dal minore parallelo aggiungono oscurità."
+      },
+      "i—IV—i—V": {
+        "name": "i—IV—i—V",
+        "nickname": "Schiarimento minore",
+        "description": "Tonica minore con IV maggiore prestato che crea sapore dorico. La IV maggiore prestata dal maggiore parallelo schiarisce il modo minore."
+      },
+      "I—iv—I—V": {
+        "name": "I—iv—I—V",
+        "nickname": "Oscuramento maggiore",
+        "description": "Tonica maggiore con iv minore prestato che crea contrasto drammatico. La iv minore dal minore parallelo aggiunge malinconia."
+      },
+      "♭VI—iv—I": {
+        "name": "♭VI—iv—I",
+        "nickname": "Cadenza prestata",
+        "description": "Due accordi prestati che risolvono alla tonica maggiore. ♭VI e iv dal minore parallelo creano un arrivo drammatico su I."
       }
     }
   }

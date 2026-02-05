@@ -2054,6 +2054,29 @@ function renderProgressions() {
             rows[pad.row - 1].push(pad);
         });
 
+        // Calculate progression perimeter edges
+        const progressionChordCount = variant.pads.filter(p => p.isProgressionChord).length;
+        const progressionPadEdges = new Map();
+
+        if (progressionChordCount > 0) {
+            // Progression pads fill sequentially: rows from bottom to top (after reversal), left to right
+            // Determine grid boundaries of progression pads
+            const lastRow = Math.ceil(progressionChordCount / 4);
+            const padsInLastRow = progressionChordCount % 4 || 4;
+
+            variant.pads.forEach(pad => {
+                if (pad.isProgressionChord) {
+                    const edges = {
+                        top: pad.id <= 4,  // First 4 pads
+                        bottom: Math.ceil(pad.id / 4) === lastRow,  // Last row of progression
+                        left: (pad.id - 1) % 4 === 0,  // Column 1
+                        right: pad.id % 4 === 0 || (Math.ceil(pad.id / 4) === lastRow && (pad.id - 1) % 4 === padsInLastRow - 1)  // Column 4 or last in incomplete row
+                    };
+                    progressionPadEdges.set(pad.id, edges);
+                }
+            });
+        }
+
         const gridHTML = rows.reverse().map((row, rowIndex) =>
             row.map((pad, padIndexInRow) => {
                 const roleText = getChordTooltip(pad.romanNumeral, pad.quality);
@@ -2093,11 +2116,15 @@ function renderProgressions() {
                 const inversionNotation = getInversionNotation(pad.notes, chordTypeForInversion, pad.chordName, pad.romanNumeral);
                 const displayName = pad.chordName + inversionNotation;
 
+                // Get progression edge attributes
+                const edges = progressionPadEdges.get(pad.id);
+                const edgeAttrs = edges ? `data-prog-edge-top="${edges.top}" data-prog-edge-bottom="${edges.bottom}" data-prog-edge-left="${edges.left}" data-prog-edge-right="${edges.right}"` : '';
+
                 return `
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''} ${voiceLeadingClass}"
                     data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replaceAll(/"/g, '&quot;')}"
                     data-pad-id="${pad.id}" data-original-vl-class="${voiceLeadingClass}"
-                    data-voice-leading="${voiceLeadingLegend}">
+                    data-voice-leading="${voiceLeadingLegend}" ${edgeAttrs}>
                     <div class="chord-text-column">
                         <div class="chord-pad-content">
                             <div class="chord-info">
@@ -2143,8 +2170,7 @@ function renderProgressions() {
 
         const progressionAnalysis = analyzeProgression(variant.pads);
 
-        // Calculate progression length for clarification text
-        const progressionChordCount = variant.pads.filter(p => p.isProgressionChord).length;
+        // Calculate progression length for clarification text (already declared above for edge calculation)
         const progressionClarification = progressionChordCount > 0
             ? i18n.t('variants.progressionClarification', { count: progressionChordCount, next: progressionChordCount + 1 })
             : '';

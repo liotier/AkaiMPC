@@ -37,7 +37,7 @@
     "labels": {
       "key": "Key",
       "mode": "Mode/Scale",
-      "progression": "Progression Palette",
+      "progression": "Progression Palette Seed",
       "name": "Progression Name",
       "outputName": "Output Name"
     }
@@ -1222,6 +1222,38 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Classic acid palette. Minor 7ths and quartal voicings for TB-303 squelch."
+      }
+    },
+    "Modal Interchange": {
+      "♭VI—♭VII—I": {
+        "name": "♭VI—♭VII—I",
+        "nickname": "Borrowed Ascent",
+        "description": "Ascending borrowed chords resolving to major tonic. The ♭VI and ♭VII create a dramatic build using chords borrowed from the parallel minor, creating a powerful arrival on I. Common in rock and pop for pre-chorus builds."
+      },
+      "I—♭VII—IV—I": {
+        "name": "I—♭VII—IV—I",
+        "nickname": "Mixolydian Loop",
+        "description": "Major tonic with borrowed ♭VII creating Mixolydian flavor, then plagal motion IV-I. The ♭VII from the parallel minor adds a rock edge to an otherwise bright progression. Popular in modern rock and indie for accessible modal color."
+      },
+      "I—♭III—♭VII—IV": {
+        "name": "I—♭III—♭VII—IV",
+        "nickname": "Modal Mix",
+        "description": "Major tonic with multiple borrowed chords creating rich modal interchange. ♭III and ♭VII from parallel minor add darkness, IV provides stability. Creates ambiguous, modern tonality common in contemporary pop and electronic music."
+      },
+      "i—IV—i—V": {
+        "name": "i—IV—i—V",
+        "nickname": "Minor Brightening",
+        "description": "Minor tonic with borrowed major IV creates Dorian flavor, traditional V adds pull. The major IV borrowed from parallel major brightens the minor mode. Common in folk, singer-songwriter, and indie for bittersweet character."
+      },
+      "I—iv—I—V": {
+        "name": "I—iv—I—V",
+        "nickname": "Major Darkening",
+        "description": "Major tonic with borrowed minor iv creates dramatic contrast before resolution. The minor iv from parallel minor adds melancholy to bright major, then V-I provides traditional cadence. Popular in soul, R&B, and sophisticated pop."
+      },
+      "♭VI—iv—I": {
+        "name": "♭VI—iv—I",
+        "nickname": "Borrowed Cadence",
+        "description": "Two borrowed chords resolving to major tonic. ♭VI and iv from parallel minor create dramatic, unexpected arrival on I. Avoids traditional V-I for modern, modal resolution. Used in contemporary pop and R&B for sophisticated harmony."
       }
     }
   }

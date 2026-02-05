@@ -37,7 +37,7 @@
     "labels": {
       "key": "Tonalité",
       "mode": "Mode/gamme",
-      "progression": "Palette de progressions",
+      "progression": "Graine de palette de progressions",
       "name": "Nom de progression",
       "outputName": "Nom de sortie"
     }
@@ -1089,6 +1089,38 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Palette acid classique. 7es mineures et voicings quartaux pour le squelch TB-303."
+      }
+    },
+    "Modal Interchange": {
+      "♭VI—♭VII—I": {
+        "name": "♭VI—♭VII—I",
+        "nickname": "Ascension empruntée",
+        "description": "Accords empruntés ascendants se résolvant vers la tonique majeure. ♭VI et ♭VII créent une montée dramatique utilisant des accords empruntés au mode mineur parallèle."
+      },
+      "I—♭VII—IV—I": {
+        "name": "I—♭VII—IV—I",
+        "nickname": "Boucle mixolydienne",
+        "description": "Tonique majeure avec ♭VII emprunté créant une saveur mixolydienne, puis mouvement plagal IV-I. Le ♭VII du mineur parallèle ajoute une touche rock."
+      },
+      "I—♭III—♭VII—IV": {
+        "name": "I—♭III—♭VII—IV",
+        "nickname": "Mélange modal",
+        "description": "Tonique majeure avec plusieurs accords empruntés créant un riche échange modal. ♭III et ♭VII du mineur parallèle ajoutent de l'obscurité."
+      },
+      "i—IV—i—V": {
+        "name": "i—IV—i—V",
+        "nickname": "Éclaircissement mineur",
+        "description": "Tonique mineure avec IV majeure empruntée créant une saveur dorienne. La IV majeure empruntée au majeur parallèle éclaircit le mode mineur."
+      },
+      "I—iv—I—V": {
+        "name": "I—iv—I—V",
+        "nickname": "Assombrissement majeur",
+        "description": "Tonique majeure avec iv mineure empruntée créant un contraste dramatique. La iv mineure du mineur parallèle ajoute de la mélancolie."
+      },
+      "♭VI—iv—I": {
+        "name": "♭VI—iv—I",
+        "nickname": "Cadence empruntée",
+        "description": "Deux accords empruntés se résolvant vers la tonique majeure. ♭VI et iv du mineur parallèle créent une arrivée dramatique sur I."
       }
     }
   }
