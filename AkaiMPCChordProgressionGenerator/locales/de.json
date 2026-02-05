@@ -37,7 +37,7 @@
     "labels": {
       "key": "Tonart",
       "mode": "Modus/Tonleiter",
-      "progression": "Progressionspalette",
+      "progression": "Progressionspaletten-Seed",
       "name": "Progressionsname",
       "outputName": "Ausgabename"
     }
@@ -1088,6 +1088,38 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Klassische Acid-Palette. Moll-Septimen und Quarten-Voicings für TB-303-Squelch."
+      }
+    },
+    "Modal Interchange": {
+      "♭VI—♭VII—I": {
+        "name": "♭VI—♭VII—I",
+        "nickname": "Entlehnte Aufstieg",
+        "description": "Aufsteigende entlehnte Akkorde, die sich zur Dur-Tonika auflösen. ♭VI und ♭VII erzeugen einen dramatischen Aufbau mit Akkorden aus der parallelen Moll-Tonart."
+      },
+      "I—♭VII—IV—I": {
+        "name": "I—♭VII—IV—I",
+        "nickname": "Mixolydische Schleife",
+        "description": "Dur-Tonika mit entlehntem ♭VII erzeugt mixolydischen Charakter, dann plagale Bewegung IV-I. ♭VII aus der parallelen Moll-Tonart fügt Rock-Kante hinzu."
+      },
+      "I—♭III—♭VII—IV": {
+        "name": "I—♭III—♭VII—IV",
+        "nickname": "Modale Mischung",
+        "description": "Dur-Tonika mit mehreren entlehnten Akkorden erzeugt reichen modalen Austausch. ♭III und ♭VII aus paralleler Moll-Tonart fügen Dunkelheit hinzu."
+      },
+      "i—IV—i—V": {
+        "name": "i—IV—i—V",
+        "nickname": "Moll-Aufhellung",
+        "description": "Moll-Tonika mit entlehnter Dur-IV erzeugt dorischen Charakter. Die Dur-IV aus paralleler Dur-Tonart hellt die Moll-Tonart auf."
+      },
+      "I—iv—I—V": {
+        "name": "I—iv—I—V",
+        "nickname": "Dur-Verdunkelung",
+        "description": "Dur-Tonika mit entlehnter Moll-iv erzeugt dramatischen Kontrast. Die Moll-iv aus paralleler Moll-Tonart fügt Melancholie zu hellem Dur hinzu."
+      },
+      "♭VI—iv—I": {
+        "name": "♭VI—iv—I",
+        "nickname": "Entlehnte Kadenz",
+        "description": "Zwei entlehnte Akkorde lösen sich zur Dur-Tonika auf. ♭VI und iv aus paralleler Moll-Tonart erzeugen dramatische Ankunft auf I."
       }
     }
   }

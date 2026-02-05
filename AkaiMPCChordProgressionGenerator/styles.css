@@ -685,6 +685,69 @@ body[data-context="staff"] .download-btn {
     border-color: #f59e0b;
 }
 
+/* Progression perimeter outline - sits in the gap (4px from pad edges) */
+.chord-pad.progression-chord {
+    position: relative;
+}
+
+/* Draw outline segments in the gaps */
+.chord-pad[data-prog-edge-top="true"]::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #f59e0b;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.chord-pad[data-prog-edge-bottom="true"]::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #f59e0b;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.chord-pad[data-prog-edge-left="true"] {
+    box-shadow: -5px 0 0 0 #f59e0b;
+}
+
+.chord-pad[data-prog-edge-right="true"] {
+    box-shadow: 5px 0 0 0 #f59e0b;
+}
+
+.chord-pad[data-prog-edge-left="true"][data-prog-edge-right="true"] {
+    box-shadow: -5px 0 0 0 #f59e0b, 5px 0 0 0 #f59e0b;
+}
+
+/* Extend horizontal lines at corners */
+.chord-pad[data-prog-edge-top="true"][data-prog-edge-left="true"]::before {
+    left: -5px;
+    border-top-left-radius: 6px;
+}
+
+.chord-pad[data-prog-edge-top="true"][data-prog-edge-right="true"]::before {
+    right: -5px;
+    border-top-right-radius: 6px;
+}
+
+.chord-pad[data-prog-edge-bottom="true"][data-prog-edge-left="true"]::after {
+    left: -5px;
+    border-bottom-left-radius: 6px;
+}
+
+.chord-pad[data-prog-edge-bottom="true"][data-prog-edge-right="true"]::after {
+    right: -5px;
+    border-bottom-right-radius: 6px;
+}
+
 .chord-pad.chord-matcher-chord {
     background: #dbeafe;
     border-color: #3b82f6;

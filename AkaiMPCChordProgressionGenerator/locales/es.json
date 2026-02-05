@@ -37,7 +37,7 @@
     "labels": {
       "key": "Tonalidad",
       "mode": "Modo/escala",
-      "progression": "Paleta de progresiones",
+      "progression": "Semilla de paleta de progresiones",
       "name": "Nombre de progresión",
       "outputName": "Nombre de salida"
     }
@@ -1089,6 +1089,38 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Paleta acid clásica. 7as menores y voicings cuartales para squelch TB-303."
+      }
+    },
+    "Modal Interchange": {
+      "♭VI—♭VII—I": {
+        "name": "♭VI—♭VII—I",
+        "nickname": "Ascenso prestado",
+        "description": "Acordes prestados ascendentes que resuelven a la tónica mayor. ♭VI y ♭VII crean una construcción dramática usando acordes prestados del modo menor paralelo."
+      },
+      "I—♭VII—IV—I": {
+        "name": "I—♭VII—IV—I",
+        "nickname": "Bucle mixolidio",
+        "description": "Tónica mayor con ♭VII prestado creando sabor mixolidio, luego movimiento plagal IV-I. El ♭VII del menor paralelo añade un toque de rock."
+      },
+      "I—♭III—♭VII—IV": {
+        "name": "I—♭III—♭VII—IV",
+        "nickname": "Mezcla modal",
+        "description": "Tónica mayor con múltiples acordes prestados creando rico intercambio modal. ♭III y ♭VII del menor paralelo añaden oscuridad."
+      },
+      "i—IV—i—V": {
+        "name": "i—IV—i—V",
+        "nickname": "Iluminación menor",
+        "description": "Tónica menor con IV mayor prestado creando sabor dórico. La IV mayor prestada del mayor paralelo ilumina el modo menor."
+      },
+      "I—iv—I—V": {
+        "name": "I—iv—I—V",
+        "nickname": "Oscurecimiento mayor",
+        "description": "Tónica mayor con iv menor prestado creando contraste dramático. La iv menor del menor paralelo añade melancolía."
+      },
+      "♭VI—iv—I": {
+        "name": "♭VI—iv—I",
+        "nickname": "Cadencia prestada",
+        "description": "Dos acordes prestados resolviendo a la tónica mayor. ♭VI e iv del menor paralelo crean una llegada dramática a I."
       }
     }
   }
