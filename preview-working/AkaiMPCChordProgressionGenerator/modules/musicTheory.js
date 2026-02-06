@@ -1165,9 +1165,9 @@ export function getScaleDegrees(mode) {
         'Augmented': [0, 3, 4, 7, 8, 11],  // Hexatonic scale
         // Arabic Maqamat (12-TET approximations)
         'Maqam Hijaz': [0, 1, 4, 5, 7, 8, 11],  // Like Phrygian Dominant
-        'Maqam Bayati': [0, 1.5, 3, 5, 7, 8, 10],  // Quarter tone approximated to [0, 2, 3, 5, 7, 8, 10]
-        'Maqam Rast': [0, 2, 3.5, 5, 7, 9, 10.5],  // Quarter tone approximated to [0, 2, 4, 5, 7, 9, 11]
-        'Maqam Saba': [0, 1.5, 3, 4, 6, 8, 10],  // Quarter tone approximated to [0, 1, 3, 4, 6, 8, 10]
+        'Maqam Bayati': [0, 1.5, 3, 5, 7, 8, 10],  // Quarter tone on 2nd degree; 12-TET rounds to Phrygian [0, 1, 3, 5, 7, 8, 10]
+        'Maqam Rast': [0, 2, 3.5, 5, 7, 9, 10.5],  // Quarter tones on 3rd and 7th; 12-TET rounds to Mixolydian [0, 2, 4, 5, 7, 9, 10]
+        'Maqam Saba': [0, 1.5, 3, 4, 6, 8, 10],  // Quarter tone on 2nd degree; 12-TET rounds to [0, 2, 3, 4, 6, 8, 10]
         'Maqam Kurd': [0, 1, 3, 5, 7, 8, 10],  // Like Phrygian
         // Indian Ragas (12-TET approximations)
         'Bhairav': [0, 1, 4, 5, 7, 8, 11],  // Double Harmonic
@@ -1338,11 +1338,11 @@ export function getChordQualityForMode(degree, mode) {
         },
         'Neapolitan Minor': {
             0: 'minor',   // i
-            1: 'major',   // II (with b2)
-            2: 'minor',   // iii
+            1: 'major',   // ♭II
+            2: 'augmented',  // III+ (Eb-G-B = augmented triad)
             3: 'minor',   // iv
             4: 'major',   // V
-            5: 'major',   // VI
+            5: 'major',   // ♭VI
             6: 'diminished'  // vii°
         },
         'Enigmatic': {
@@ -1402,12 +1402,12 @@ export function getChordQualityForMode(degree, mode) {
         },
         // Symmetrical/Jazz scales
         'Whole Tone': {
-            0: 'major',   // I (augmented context)
-            1: 'major',   // II
-            2: 'major',   // III
-            3: 'major',   // #IV
-            4: 'major',   // #V
-            5: 'major'    // #VI
+            0: 'augmented',  // I+ (all triads are augmented in whole tone)
+            1: 'augmented',  // II+
+            2: 'augmented',  // III+
+            3: 'augmented',  // #IV+
+            4: 'augmented',  // #V+
+            5: 'augmented'   // #VI+
         },
         'Diminished (W-H)': {
             0: 'diminished',  // i°
@@ -2431,21 +2431,48 @@ export function getChordName(degree, chordType, keyOffset, romanNumeral = '') {
     const useFlats = getEnharmonicContext(midiNote, romanNumeral) === 'flats';
     const rootNote = getNoteNameWithContext(midiNote, useFlats);
 
-    switch (chordType) {
-        case 'minor':
-        case 'minor7':
-            return rootNote + 'm' + (chordType === 'minor7' ? '7' : '');
-        case 'diminished':
-            return rootNote + 'dim';
-        case 'major7':
-            return rootNote + 'maj7';
-        case 'dom7':
-            return rootNote + '7';
-        case 'quartal':
-            return rootNote + 'sus4';
-        default:
-            return rootNote;
-    }
+    const suffixMap = {
+        'major': '',
+        'minor': 'm',
+        'diminished': 'dim',
+        'augmented': 'aug',
+        'sus2': 'sus2',
+        'sus4': 'sus4',
+        'major7': 'maj7',
+        'minor7': 'm7',
+        'dom7': '7',
+        'dim7': 'dim7',
+        'm7b5': 'm7b5',
+        'minMaj7': 'mMaj7',
+        'aug7': 'aug7',
+        'augMaj7': 'augMaj7',
+        'major9': 'maj9',
+        'minor9': 'm9',
+        'dom9': '9',
+        'dom7b9': '7b9',
+        'dom7sharp9': '7#9',
+        'major11': 'maj11',
+        'minor11': 'm11',
+        'dom11': '11',
+        'major13': 'maj13',
+        'minor13': 'm13',
+        'dom13': '13',
+        'dom7alt': '7alt',
+        'dom7b5': '7b5',
+        'quartal': 'sus4',
+        'quartal4': 'sus4(add11)',
+        'add9': 'add9',
+        'minAdd9': 'madd9',
+        'add11': 'add11',
+        'major6': '6',
+        'minor6': 'm6',
+        'maj6/9': '6/9',
+        'It6': 'It+6',
+        'Fr6': 'Fr+6',
+        'Ger6': 'Ger+6'
+    };
+
+    return rootNote + (suffixMap[chordType] || '');
 }
 
 // Detect chord inversion and return slash notation if inverted
@@ -2508,8 +2535,12 @@ export function getInversionNotation(notes, chordType, chordName, romanNumeral =
 }
 
 export function getRomanNumeral(degree, isMinor = false, isDim = false) {
-    const numerals = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii'];
-    let numeral = numerals[degree] || 'I';
+    const upperNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+    let numeral = upperNumerals[degree] || 'I';
+
+    if (isMinor || isDim) {
+        numeral = numeral.toLowerCase();
+    }
 
     if (isDim) {
         numeral += '°';
@@ -2525,6 +2556,65 @@ export function getRomanNumeral(degree, isMinor = false, isDim = false) {
 function parseProgression(progressionString) {
     const chords = progressionString.split('—');
     return chords.map(chord => {
+        // Handle secondary dominants (V7/x, V/x notation) before general parsing
+        // Secondary dominants resolve to their target: V7/ii resolves to ii,
+        // so the root is a P5 above the target degree in the major scale
+        const secondaryMatch = chord.match(/^V7?\/(♭|♯)?(i{1,3}|I{1,3}|iv|IV|v|V|vi|VI|vii|VII)$/);
+        if (secondaryMatch) {
+            const targetAlteration = secondaryMatch[1] || '';
+            const targetNumeral = secondaryMatch[2];
+
+            // Map target numeral to major scale degree
+            const targetMap = {
+                'i': 0, 'I': 0, 'ii': 1, 'II': 1, 'iii': 2, 'III': 2,
+                'iv': 3, 'IV': 3, 'v': 4, 'V': 4, 'vi': 5, 'VI': 5, 'vii': 6, 'VII': 6
+            };
+            const targetDegree = targetMap[targetNumeral] !== undefined ? targetMap[targetNumeral] : 0;
+
+            // The root of a secondary dominant is a P5 above the target
+            // In major scale degrees: V/ii root = vi (degree 5), V/V root = II (degree 1),
+            // V/vi root = III (degree 2), V/IV root = I (degree 0)
+            const majorScale = [0, 2, 4, 5, 7, 9, 11];
+            let targetSemitone = majorScale[targetDegree % majorScale.length];
+            if (targetAlteration === '♭') targetSemitone = (targetSemitone - 1 + 12) % 12;
+            if (targetAlteration === '♯') targetSemitone = (targetSemitone + 1) % 12;
+            // P5 above target = 7 semitones above
+            const rootSemitone = (targetSemitone + 7) % 12;
+
+            // Find which major scale degree is closest (for the degree field)
+            let closestDegree = 0;
+            let closestDist = 12;
+            for (let i = 0; i < majorScale.length; i++) {
+                const dist = Math.min(
+                    Math.abs(majorScale[i] - rootSemitone),
+                    12 - Math.abs(majorScale[i] - rootSemitone)
+                );
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closestDegree = i;
+                }
+            }
+
+            const quality = chord.includes('7') ? 'dom7' : 'major';
+            // Determine if root needs a chromatic alteration relative to major scale
+            let alteration = '';
+            const naturalSemitone = majorScale[closestDegree];
+            if (rootSemitone !== naturalSemitone) {
+                alteration = (rootSemitone - naturalSemitone + 12) % 12 === 1 ? 'sharp' : 'flat';
+            }
+
+            return { degree: closestDegree, quality, alteration, isSecondary: true, secondaryTarget: targetNumeral, originalChord: chord };
+        }
+
+        // Handle chromatic line cliché: i(maj7), i6
+        const clicheMatch = chord.match(/^(i|I)\(maj7\)$/);
+        if (clicheMatch) {
+            return { degree: 0, quality: 'minMaj7', alteration: '' };
+        }
+        if (chord === 'i6') {
+            return { degree: 0, quality: 'minor6', alteration: '' };
+        }
+
         // Remove any quality indicators for parsing
         const cleanChord = chord.replaceAll(/M7|m7|7|°|dim|maj|min/g, '');
 
@@ -2564,6 +2654,13 @@ function parseProgression(progressionString) {
             quality = 'minor7';
         } else if (chord.match(/[IV]7/) && !chord.includes('M7')) {
             quality = 'dom7';
+        } else if (chord.includes('7')) {
+            // If the base chord is lowercase (minor) and has a 7, it's a minor7
+            if (baseChord === baseChord.toLowerCase()) {
+                quality = 'minor7';
+            } else {
+                quality = 'dom7';
+            }
         } else if (baseChord === baseChord.toLowerCase() ||
                   (baseChord === 'ii' || baseChord === 'iii' || baseChord === 'vi' || baseChord === 'vii')) {
             quality = 'minor';
@@ -2578,32 +2675,34 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
 
     // Special handling for 12-bar blues
     if (progressionString === '12-bar-blues') {
-        // 12-bar blues pattern: I-I-I-I-IV-IV-I-I-V-IV-I-V
+        // 12-bar blues pattern: I7-I7-I7-I7-IV7-IV7-I7-I7-V7-IV7-I7-V7
+        // All three primary chords (I, IV, V) are dominant 7ths - the defining
+        // characteristic of blues harmony
         const pattern = [0, 0, 0, 0, 3, 3, 0, 0, 4, 3, 0, 4];
+        const romanNumerals = { 0: 'I7', 3: 'IV7', 4: 'V7' };
         pattern.forEach(degree => {
             const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
-            const chordType = degree === 4 ? 'dom7' : 'major';
+            const chordType = 'dom7';
             progression.push({
                 degree,
                 notes: buildChord(scaleDegree, chordType, keyOffset),
                 chordType,
                 chordName: getChordName(scaleDegree, chordType, keyOffset),
-                romanNumeral: getRomanNumeral(degree, false, false)
+                romanNumeral: romanNumerals[degree] || getRomanNumeral(degree, false, false)
             });
         });
     } else {
         const parsedChords = parseProgression(progressionString);
-        progression = parsedChords.map(({ degree, quality, alteration }) => {
-            // OPTION A: Pure parallel major analysis (r/MusicTheory approved!)
-            // ALL roman numerals reference the parallel major scale, regardless of mode.
-            // The chord quality is determined ONLY by the roman numeral itself:
-            //   - Uppercase (I, V, etc.) = major
-            //   - Lowercase (i, vi, etc.) = minor
-            //   - Symbols (°, 7, etc.) = diminished, dominant 7th, etc.
-            // This is standard Roman numeral analysis convention.
+        progression = parsedChords.map((parsed) => {
+            const { degree, quality, alteration } = parsed;
 
-            // Always use major scale as reference
+            // Pure parallel major analysis: ALL roman numerals reference the
+            // parallel major scale, regardless of mode. Chord quality is
+            // determined ONLY by the roman numeral notation itself.
             const majorScale = [0, 2, 4, 5, 7, 9, 11];
+
+            // Secondary dominants have their root already computed by the parser
+            // as a semitone offset; use the degree + alteration to reconstruct it
             let scaleDegree = majorScale[degree % majorScale.length];
 
             // Apply alterations (♭, ♯) relative to major scale
@@ -2613,29 +2712,38 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
                 scaleDegree = (scaleDegree + 1) % 12;
             }
 
-            // Quality is already determined by parseProgression() based on the numeral itself
-            // No need to override it based on mode
-
             const notes = buildChord(scaleDegree, quality, keyOffset);
             const chordName = getChordName(scaleDegree, quality, keyOffset);
 
-            // Create roman numeral with proper formatting
-            const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-            let romanNumeral = numerals[degree] || 'I';
+            // For secondary dominants, preserve the original slash notation
+            let romanNumeral;
+            if (parsed.isSecondary && parsed.originalChord) {
+                romanNumeral = parsed.originalChord;
+            } else {
+                // Create roman numeral with proper formatting
+                const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+                romanNumeral = numerals[degree] || 'I';
 
-            if (quality === 'minor' || quality === 'minor7') {
-                romanNumeral = romanNumeral.toLowerCase();
-            }
-            if (quality === 'diminished') {
-                romanNumeral += '°';
-            }
-            if (quality === 'dom7' && degree === 4) {
-                romanNumeral = 'V7';
-            }
-            if (alteration === 'flat') {
-                romanNumeral = '♭' + romanNumeral;
-            } else if (alteration === 'sharp') {
-                romanNumeral = '♯' + romanNumeral;
+                if (quality === 'minor' || quality === 'minor7' || quality === 'minMaj7' || quality === 'minor6') {
+                    romanNumeral = romanNumeral.toLowerCase();
+                }
+                if (quality === 'diminished') {
+                    romanNumeral += '°';
+                }
+                if (quality === 'dom7' && degree === 4) {
+                    romanNumeral = 'V7';
+                }
+                if (quality === 'minMaj7') {
+                    romanNumeral = 'i(maj7)';
+                }
+                if (quality === 'minor6') {
+                    romanNumeral = 'i6';
+                }
+                if (alteration === 'flat') {
+                    romanNumeral = '♭' + romanNumeral;
+                } else if (alteration === 'sharp') {
+                    romanNumeral = '♯' + romanNumeral;
+                }
             }
 
             return {
