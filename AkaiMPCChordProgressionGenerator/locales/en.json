@@ -169,7 +169,6 @@
     "Common Western Tonal": "Common Western Tonal",
     "Compact/Popular": "Compact/Popular",
     "Symmetrical/Jazz": "Symmetrical/Jazz",
-    "Arabic Maqamat": "Arabic Maqamat",
     "Indian Ragas": "Indian Ragas",
     "Exotic": "Exotic"
   },
@@ -250,38 +249,6 @@
       "name": "Locrian ♯2",
       "description": "Sixth mode of melodic minor: 1-2-♭3-4-♭5-♭6-♭7. Locrian with natural 2nd. Less dissonant than pure Locrian. Used over half-diminished (m7♭5) chords in jazz. Provides more melodic options than standard Locrian. Common in jazz minor key ii-V-i progressions."
     },
-    "Bebop Major": {
-      "name": "Bebop Major",
-      "description": "Eight-note major scale with added ♭6: 1-2-3-4-5-♭6-6-7. The chromatic passing tone keeps chord tones on strong beats during eighth-note lines. Essential bebop vocabulary. Used over major 7th chords. Creates smooth, flowing jazz lines. Invented by bebop pioneers for rhythmic precision."
-    },
-    "Bebop Dominant": {
-      "name": "Bebop Dominant",
-      "description": "Eight-note Mixolydian with added natural 7: 1-2-3-4-5-6-♭7-7. The most important bebop scale. Chromatic between ♭7 and root keeps chord tones on downbeats. Used over dominant 7th chords. Foundation of bebop improvisation. Creates swinging, rhythmically precise jazz lines."
-    },
-    "Bebop Minor": {
-      "name": "Bebop Minor",
-      "description": "Eight-note Dorian with added major 3rd: 1-2-♭3-3-4-5-6-♭7. Chromatic passing tone between ♭3 and 4. Used over minor 7th chords in jazz. Allows fluid movement between minor and major sounds. Creates sophisticated minor jazz lines with bebop rhythmic precision."
-    },
-    "Maqam Hijaz": {
-      "name": "Maqam Hijaz",
-      "description": "Arabic maqam approximated in 12-TET as Phrygian Dominant: 1-♭2-3-4-5-♭6-♭7. Augmented second between ♭2 and 3 creates characteristic Middle Eastern sound. Combines Phrygian ♭2 with major 3rd. Used in Arabic, Turkish, and Klezmer music for exotic, spiritual, Eastern character. Evokes prayer and mysticism."
-    },
-    "Maqam Bayati": {
-      "name": "Maqam Bayati",
-      "description": "Arabic maqam approximated as Phrygian: 1-♭2-♭3-4-5-♭6-♭7. Similar to Phrygian mode but with microtonal inflections in traditional performance. Creates melancholic, contemplative Middle Eastern character. One of most common Arabic maqamat. Used across Arab world for emotional, introspective melodies."
-    },
-    "Maqam Rast": {
-      "name": "Maqam Rast",
-      "description": "Arabic maqam approximated as major: 1-2-3-4-5-6-7, but with microtonal quarter-tone variations traditionally. Considered \"neutral\" or \"restful\" maqam. Bright, stable character similar to Western major but with subtle Eastern inflections. Foundation maqam in Arabic music theory. Used for joyful, celebratory, or dignified melodies."
-    },
-    "Maqam Saba": {
-      "name": "Maqam Saba",
-      "description": "Arabic maqam with distinctive sad, longing character. Approximated as 1-♭2-♭3-♭4-♭5-♭6-♭7. Multiple lowered scale degrees create dark, melancholic atmosphere. The ♭4 is particularly characteristic. Used for deeply emotional, sorrowful expressions in Arabic music. Creates profound sadness and yearning."
-    },
-    "Maqam Kurd": {
-      "name": "Maqam Kurd",
-      "description": "Arabic maqam identical to Phrygian mode: 1-♭2-♭3-4-5-♭6-♭7. One of most important minor-type maqamat. Creates melancholic yet dignified character. The Kurdish name reflects historical origins. Used throughout Middle East for serious, contemplative music. Similar emotional quality to Western natural minor but with Phrygian ♭2 color."
-    },
     "Bhairav": {
       "name": "Bhairav",
       "description": "Morning raga, same as Double Harmonic scale: 1-♭2-3-4-5-♭6-7. Two augmented seconds (♭2-3 and ♭6-7) create distinctive dramatic tension. Associated with Shiva. Serious, devotional character. Used in North Indian classical music for morning meditation and spiritual contemplation. Creates exotic, intense, powerful atmosphere."
@@ -318,13 +285,9 @@
       "name": "Neapolitan Minor",
       "description": "Harmonic minor with lowered 2nd: 1-♭2-♭3-4-5-♭6-7. Combines harmonic minor drama with Phrygian ♭2. Two augmented seconds create extreme tension. Very dark, exotic character. Used in classical music for dramatic, ominous passages. More intense and chromatic than harmonic minor. Creates foreboding, sinister atmosphere."
     },
-    "Enigmatic": {
-      "name": "Enigmatic",
-      "description": "Rare synthetic scale: 1-♭2-3-♯4-♯5-♯6-7. Multiple raised degrees create whole-tone-like ambiguity with chromatic tension. Popularized by Verdi. Extremely unstable - hard to establish tonality. Used for mysterious, surreal, unresolved passages. One of most dissonant and ambiguous traditional scales. Creates genuinely enigmatic character."
-    },
     "Phrygian Dominant": {
       "name": "Phrygian Dominant",
-      "description": "Fifth mode of harmonic minor: 1-♭2-3-4-5-♭6-♭7 (same as Maqam Hijaz). Combines Phrygian ♭2 with major third. Augmented second between ♭2 and 3 creates distinctive Spanish/Middle Eastern sound. Foundation of flamenco music. Used in metal, progressive rock, and world music for exotic, dramatic flavor. Instantly recognizable sound."
+      "description": "Fifth mode of harmonic minor: 1-♭2-3-4-5-♭6-♭7. Combines Phrygian ♭2 with major third. Augmented second between ♭2 and 3 creates distinctive Spanish/Middle Eastern sound. Foundation of flamenco music. Used in metal, progressive rock, and world music for exotic, dramatic flavor. Instantly recognizable sound."
     },
     "Persian": {
       "name": "Persian",

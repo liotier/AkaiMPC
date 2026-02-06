@@ -1499,9 +1499,15 @@ function generateVariant(variantType) {
         addChord(5, 'minor7', 'vi', '7', 1);
     }
 
-    // ♭VII - colorful (Mixolydian/blues flavor)
-    if (!paletteFilter || paletteFilter.includes('major')) {
-        const flatSeven = (scaleDegrees[0] + 10) % 12;
+    // Add borrowed/modal interchange chords only if they are NOT already
+    // diatonic to the current mode. In minor keys, ♭VII, ♭VI, ♭III are
+    // native - labeling them "borrowed" is incorrect.
+    const diatonicPitchClasses = new Set(scaleDegrees.map(d => d % 12));
+
+    // ♭VII - colorful (Mixolydian/blues flavor) - skip if already diatonic
+    const flatSevenPC = 10; // 10 semitones = minor 7th
+    if ((!paletteFilter || paletteFilter.includes('major')) && !diatonicPitchClasses.has(flatSevenPC)) {
+        const flatSeven = (scaleDegrees[0] + flatSevenPC) % 12;
         palette.push({
             degree: 6,
             notes: buildChord(flatSeven, 'major', keyOffset),
@@ -1512,9 +1518,10 @@ function generateVariant(variantType) {
         });
     }
 
-    // ♭VI - spicy! (borrowed from minor)
-    if (!paletteFilter || paletteFilter.includes('major')) {
-        const flatSix = (scaleDegrees[0] + 8) % 12;
+    // ♭VI - borrowed from parallel minor - skip if already diatonic
+    const flatSixPC = 8; // 8 semitones = minor 6th
+    if ((!paletteFilter || paletteFilter.includes('major')) && !diatonicPitchClasses.has(flatSixPC)) {
+        const flatSix = (scaleDegrees[0] + flatSixPC) % 12;
         palette.push({
             degree: 5,
             notes: buildChord(flatSix, 'major', keyOffset),
@@ -1525,9 +1532,10 @@ function generateVariant(variantType) {
         });
     }
 
-    // ♭III - spicy!
-    if (!paletteFilter || paletteFilter.includes('major')) {
-        const flatThree = (scaleDegrees[0] + 3) % 12;
+    // ♭III - borrowed - skip if already diatonic
+    const flatThreePC = 3; // 3 semitones = minor 3rd
+    if ((!paletteFilter || paletteFilter.includes('major')) && !diatonicPitchClasses.has(flatThreePC)) {
+        const flatThree = (scaleDegrees[0] + flatThreePC) % 12;
         palette.push({
             degree: 2,
             notes: buildChord(flatThree, 'major', keyOffset),
@@ -1538,8 +1546,9 @@ function generateVariant(variantType) {
         });
     }
 
-    // iv - colorful (borrowed from parallel minor)
-    if (scaleDegrees.length > 3 && (!paletteFilter || paletteFilter.includes('minor'))) {
+    // iv - borrowed from parallel minor - skip if IV is already minor in mode
+    const fourthQuality = scaleDegrees.length > 3 ? getChordQualityForMode(3, selectedMode) : null;
+    if (scaleDegrees.length > 3 && fourthQuality !== 'minor' && (!paletteFilter || paletteFilter.includes('minor'))) {
         const fourth = scaleDegrees[3];
         palette.push({
             degree: 3,
@@ -1676,11 +1685,13 @@ function generateVariant(variantType) {
             const padIndex = rowStart + colIndex;
 
             // Enhance chords based on variant type
-            if (variantType === 'Jazz' && padIndex >= 4 && !chordType.includes('7')) {
-                // Add 7ths to some chords in Jazz variant
+            if (variantType === 'Jazz' && padIndex >= 4 && !chordType.includes('7') && !chordType.includes('m7b5')) {
+                // Add 7ths to chords in Jazz variant: triads become 7th chords
                 const scaleDegree = scaleDegrees[paletteChord.degree % scaleDegrees.length];
                 chordType = chordType === 'minor' ? 'minor7' :
-                           chordType === 'major' ? 'major7' : chordType;
+                           chordType === 'major' ? 'major7' :
+                           chordType === 'diminished' ? 'm7b5' :
+                           chordType === 'augmented' ? 'aug7' : chordType;
                 notes = buildChord(scaleDegree, chordType, keyOffset);
                 chordName = getChordName(scaleDegree, chordType, keyOffset);
             }
@@ -2750,7 +2761,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         const scaleModeLabel = document.getElementById('scaleModeLabel');
         scaleModeLabel.addEventListener('pointerenter', function() {
-            showTooltip(this, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.');
+            showTooltip(this, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.');
         });
         scaleModeLabel.addEventListener('pointerleave', function() {
             const tooltip = document.getElementById('chordTooltip');
@@ -2852,7 +2863,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         setupTapTooltip(paletteModeLabel, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
 
         const scaleModeLabel = document.getElementById('scaleModeLabel');
-        setupTapTooltip(scaleModeLabel, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.');
+        setupTapTooltip(scaleModeLabel, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.');
 
         // MIDI selector (informational only, keyboard doesn't work on tablets)
         const midiSelector = document.getElementById('midiSelector');
