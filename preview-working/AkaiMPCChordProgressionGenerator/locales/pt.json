@@ -270,37 +270,45 @@
       "name": "Todi",
       "description": "Raga do meio-dia com escala única: 1-♭2-♭3-♯4-5-♭6-7. Combina ♭2 frígio, 4ª aumentada (lídio) e 7ª maior. Cria caráter intenso, ansioso e apaixonado. Considerada uma das ragas mais sérias e devocionais. Associada à emoção profunda e anseio. Intervalos aumentados distintivos criam atmosfera assombrosa e espiritual."
     },
-    "Marwa": {
-      "name": "Marwa",
-      "description": "Raga noturna com escala única: 1-♭2-3-♯4-♯5-7. Sem 5ª perfeita - a ♯5 aumentada é característica. Cria caráter misterioso, intenso e reflexivo. Associada ao pôr do sol. Intervalos incomuns criam atmosfera tensa e não resolvida. Usada para performances noturnas expressando profunda emoção e contemplação."
-    },
-    "Purvi": {
-      "name": "Purvi",
-      "description": "Raga noturna, mesma que Harmônica Dupla: 1-♭2-3-♯4-5-♭6-7. Duas segundas aumentadas criam som exótico e dramático. Similar a Bhairav mas com ♯4. Associada ao final da tarde. Cria caráter sério, devocional e majestoso. Usada para música espiritual e contemplativa evocando reverência e grandeza."
-    },
-    "Phrygian Dominant": {
-      "name": "Frígio Dominante",
-      "description": "Modo do 5º grau da menor harmônica: 1-♭2-3-4-5-♭6-♭7. Combina ♭2 frígio com tríade maior - soa exótico e do Oriente Médio. A segunda aumentada entre ♭2 e 3 é característica. Usada em flamenco, metal, música árabe e klezmer para sabor espanhol/do Oriente Médio/judaico. Evoca paixão e misticismo."
-    },
-    "Neapolitan Minor": {
-      "name": "Menor Napolitana",
-      "description": "Menor harmônica com ♭2: 1-♭2-♭3-4-5-♭6-7. Combina acorde napolitano (♭II) com menor harmônica. Cria caráter dramático, exótico, operático. A ♭2 adiciona inflexão do Oriente Médio/européia ao menor harmônico. Usada em música clássica romântica e metal progressivo para melodrama e grandeza. Soa erudito e intenso."
-    },
-    "Neapolitan Major": {
-      "name": "Maior Napolitana",
-      "description": "Maior com ♭2 e ♭3: 1-♭2-♭3-4-5-6-7. Modo exótico e raro com ambiguidade maior/menor. A ♭2 cria sabor napolitano, 3ª maior e menor presentes em diferentes acordes. Usada em música clássica romântica para cor harmônica única. Combinação incomum de elementos cria som misterioso e dramático."
+    "Double Harmonic": {
+      "name": "Harmônica Dupla",
+      "description": "Escala com duas segundas aumentadas: 1-♭2-3-4-5-♭6-7. Idêntica à raga Bhairav. Duas segundas aumentadas (♭2-3 e ♭6-7) criam tensão dramática. Usada em música do Oriente Médio, grega e metal para som exótico e intenso. Também chamada de escala Bizantina ou Árabe."
     },
     "Hungarian Minor": {
       "name": "Menor Húngara",
       "description": "Menor harmônica com ♯4: 1-2-♭3-♯4-5-♭6-7. Duas segundas aumentadas (entre 3-♯4 e ♭6-7) criam caráter dramático, cigano. Associada à música húngara e roma. O ♯4 aumenta tensão do menor harmônico. Usada em música clássica romântica, klezmer e metal para sabor do Leste Europeu exótico e intenso."
     },
-    "Hungarian Major": {
-      "name": "Maior Húngara",
-      "description": "Maior com ♭3 e ♭6: 1-2-♭3-♯4-5-♭6-7. Modo exótico com ambiguidade maior/menor. Segunda aumentada entre ♭3 e ♯4 é característica. Associada à música cigana e do Leste Europeu. Combinação de elementos maiores e menores cria sabor húngaro único. Usada para cor folclórica e caráter dramático."
+    "Neapolitan Major": {
+      "name": "Maior Napolitana",
+      "description": "Maior com ♭2 e ♭3: 1-♭2-♭3-4-5-6-7. Modo exótico e raro com ambiguidade maior/menor. A ♭2 cria sabor napolitano, 3ª maior e menor presentes em diferentes acordes. Usada em música clássica romântica para cor harmônica única. Combinação incomum de elementos cria som misterioso e dramático."
     },
-    "Spanish Phrygian": {
-      "name": "Frígio Espanhol",
-      "description": "Frígio com 3ª maior: 1-♭2-3-4-5-♭6-♭7. Mesmo que Frígio Dominante. A segunda aumentada entre ♭2 e 3 cria som flamenco característico. Fundação da harmonia flamenco. Evoca Espanha, paixão e fogo. Usada em flamenco, música espanhola e latina para caráter intenso, apaixonado e exótico."
+    "Neapolitan Minor": {
+      "name": "Menor Napolitana",
+      "description": "Menor harmônica com ♭2: 1-♭2-♭3-4-5-♭6-7. Combina acorde napolitano (♭II) com menor harmônica. Cria caráter dramático, exótico, operático. A ♭2 adiciona inflexão do Oriente Médio/européia ao menor harmônico. Usada em música clássica romântica e metal progressivo para melodrama e grandeza. Soa erudito e intenso."
+    },
+    "Phrygian Dominant": {
+      "name": "Frígio Dominante",
+      "description": "Modo do 5º grau da menor harmônica: 1-♭2-3-4-5-♭6-♭7. Combina ♭2 frígio com tríade maior - soa exótico e do Oriente Médio. A segunda aumentada entre ♭2 e 3 é característica. Usada em flamenco, metal, música árabe e klezmer para sabor espanhol/do Oriente Médio/judaico. Evoca paixão e misticismo."
+    },
+    "Persian": {
+      "name": "Persa",
+      "description": "Escala exótica: 1-♭2-3-4-♭5-♭6-7. Três semitons consecutivos (♭4-4-♭5) criam caráter altamente cromático e tenso. Usada na música persa e do Oriente Médio. O ♭5 e ♭6 criam atmosfera misteriosa e escura. Som distintivo para passagens dramáticas e exóticas."
+    },
+    "Hirajoshi": {
+      "name": "Hirajoshi",
+      "description": "Escala pentatônica japonesa: 1-2-♭3-5-♭6. Cinco notas com caráter menor e oriental. Intervalos de semitons (2-♭3 e 5-♭6) criam som japonês tradicional. Usada em koto e shamisen. Evoca atmosfera contemplativa, misteriosa e elegante do Japão. Muito eficaz para melodias minimalistas e atmosféricas."
+    },
+    "Insen": {
+      "name": "Insen",
+      "description": "Escala pentatônica japonesa: 1-♭2-4-5-♭7. Cinco notas com caráter sombrio. O ♭2 cria som misterioso e instável. Usada na música tradicional japonesa de shakuhachi. Evoca atmosfera meditativa, austera e zen. Eficaz para sons ambientais, sombrios e contemplativos."
+    },
+    "Kumoi": {
+      "name": "Kumoi",
+      "description": "Escala pentatônica japonesa: 1-2-♭3-5-6. Cinco notas com caráter menor suave. Similar a Hirajoshi mas com 6ª natural criando som mais brilhante. Usada na música japonesa tradicional. Evoca paisagens montanhosas, nevoeiro e serenidade. Eficaz para melodias delicadas e atmosféricas."
+    },
+    "Egyptian Pentatonic": {
+      "name": "Pentatônica Egípcia",
+      "description": "Escala pentatônica suspensa: 1-2-4-5-♭7. Cinco notas sem 3ª - caráter neutro, nem maior nem menor. Também chamada de pentatônica suspensa. Usada em música do norte da África e Oriente Médio. Cria atmosfera aberta, antiga e desértica. Eficaz para melodias exóticas e atmosféricas."
     }
   },
   "progressionCategories": {
