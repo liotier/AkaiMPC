@@ -278,7 +278,7 @@ function setupDesktopTooltips() {
 
     const scaleModeLabel = document.getElementById('scaleModeLabel');
     scaleModeLabel.addEventListener('pointerenter', function() {
-        showTooltip(this, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.');
+        showTooltip(this, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.');
     });
     scaleModeLabel.addEventListener('pointerleave', function() {
         const tooltip = document.getElementById('chordTooltip');
@@ -372,7 +372,7 @@ function setupTouchTooltips() {
     setupTapTooltip(paletteModeLabel, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
 
     const scaleModeLabel = document.getElementById('scaleModeLabel');
-    setupTapTooltip(scaleModeLabel, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Maqam Hijaz.');
+    setupTapTooltip(scaleModeLabel, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.');
 
     const midiSelector = document.getElementById('midiSelector');
     setupTapTooltip(midiSelector, 'Keyboard shortcuts are for desktop. On tablets, tap chord pads to play them.');

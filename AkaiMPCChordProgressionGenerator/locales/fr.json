@@ -169,7 +169,6 @@
     "Common Western Tonal": "Modes tonaux occidentaux courants",
     "Compact/Popular": "Compacts/populaires",
     "Symmetrical/Jazz": "Symétriques/jazz",
-    "Arabic Maqamat": "Maqâmât arabes",
     "Indian Ragas": "Râgas indiens",
     "Exotic": "Exotiques"
   },
@@ -250,38 +249,6 @@
       "name": "Locrien ♯2",
       "description": "Sixième mode du mineur mélodique : 1-2-♭3-4-♭5-♭6-♭7. Locrien avec seconde naturelle. Moins dissonant que le locrien pur. Utilisé sur les accords demi-diminués (m7♭5) dans le jazz. Offre plus d'options mélodiques que le locrien standard. Courant dans les progressions jazz ii-V-i en tonalité mineure."
     },
-    "Bebop Major": {
-      "name": "Bebop Majeur",
-      "description": "Gamme majeure à huit notes avec ♭6 ajoutée : 1-2-3-4-5-♭6-6-7. La note de passage chromatique maintient les notes de l'accord sur les temps forts pendant les lignes en croches. Vocabulaire bebop essentiel. Utilisée sur les accords majeur 7. Crée des lignes de jazz fluides et coulantes. Inventée par les pionniers du bebop pour la précision rythmique."
-    },
-    "Bebop Dominant": {
-      "name": "Bebop Dominant",
-      "description": "Mixolydien à huit notes avec 7 naturelle ajoutée : 1-2-3-4-5-6-♭7-7. La gamme bebop la plus importante. Le chromatisme entre ♭7 et la fondamentale maintient les notes de l'accord sur les temps. Utilisée sur les accords de dominante 7. Fondation de l'improvisation bebop. Crée des lignes de jazz swinguantes et rythmiquement précises."
-    },
-    "Bebop Minor": {
-      "name": "Bebop Mineur",
-      "description": "Dorien à huit notes avec tierce majeure ajoutée : 1-2-♭3-3-4-5-6-♭7. Note de passage chromatique entre ♭3 et 4. Utilisée sur les accords mineur 7 dans le jazz. Permet un mouvement fluide entre les sons mineur et majeur. Crée des lignes jazz mineures sophistiquées avec la précision rythmique du bebop."
-    },
-    "Maqam Hijaz": {
-      "name": "Maqam Hijaz",
-      "description": "Maqâm arabe approximé en tempérament égal comme Phrygien Dominant : 1-♭2-3-4-5-♭6-♭7. La seconde augmentée entre ♭2 et 3 crée le son moyen-oriental caractéristique. Combine le ♭2 phrygien avec la tierce majeure. Utilisé dans la musique arabe, turque et klezmer pour un caractère exotique, spirituel et oriental. Évoque la prière et le mysticisme."
-    },
-    "Maqam Bayati": {
-      "name": "Maqam Bayati",
-      "description": "Maqâm arabe approximé comme Phrygien : 1-♭2-♭3-4-5-♭6-♭7. Similaire au mode Phrygien mais avec des inflexions microtonales dans l'interprétation traditionnelle. Crée un caractère mélancolique et contemplatif moyen-oriental. L'un des maqâmât arabes les plus courants. Utilisé dans le monde arabe pour des mélodies émotionnelles et introspectives."
-    },
-    "Maqam Rast": {
-      "name": "Maqam Rast",
-      "description": "Maqâm arabe approximé comme majeur : 1-2-3-4-5-6-7, mais avec des variations microtonales de quart de ton traditionnellement. Considéré comme maqâm \"neutre\" ou \"reposant\". Caractère lumineux et stable similaire au majeur occidental mais avec de subtiles inflexions orientales. Maqâm fondamental dans la théorie musicale arabe. Utilisé pour des mélodies joyeuses, festives ou dignes."
-    },
-    "Maqam Saba": {
-      "name": "Maqam Saba",
-      "description": "Maqâm arabe au caractère distinctivement triste et nostalgique. Approximé comme 1-♭2-♭3-♭4-♭5-♭6-♭7. Plusieurs degrés abaissés créent une atmosphère sombre et mélancolique. La ♭4 est particulièrement caractéristique. Utilisé pour des expressions profondément émotionnelles et tristes dans la musique arabe. Crée une tristesse et un désir profonds."
-    },
-    "Maqam Kurd": {
-      "name": "Maqam Kurd",
-      "description": "Maqâm arabe identique au mode Phrygien : 1-♭2-♭3-4-5-♭6-♭7. L'un des maqâmât de type mineur les plus importants. Crée un caractère mélancolique mais digne. Le nom kurde reflète les origines historiques. Utilisé dans tout le Moyen-Orient pour une musique sérieuse et contemplative. Qualité émotionnelle similaire au mineur naturel occidental mais avec la couleur phrygienne ♭2."
-    },
     "Bhairav": {
       "name": "Bhairav",
       "description": "Râga matinal, identique à la gamme Double Harmonique : 1-♭2-3-4-5-♭6-7. Deux secondes augmentées (♭2-3 et ♭6-7) créent une tension dramatique distinctive. Associé à Shiva. Caractère sérieux et dévotionnel. Utilisé dans la musique classique nord-indienne pour la méditation matinale et la contemplation spirituelle. Crée une atmosphère exotique, intense et puissante."
@@ -318,13 +285,9 @@
       "name": "Neapolitan Minor",
       "description": "Mineur harmonique avec 2e abaissée : 1-♭2-♭3-4-5-♭6-7. Combine le drame du mineur harmonique avec le ♭2 phrygien. Deux secondes augmentées créent une tension extrême. Caractère très sombre et exotique. Utilisée dans la musique classique pour des passages dramatiques et sinistres. Plus intense et chromatique que le mineur harmonique. Crée une atmosphère inquiétante et menaçante."
     },
-    "Enigmatic": {
-      "name": "Enigmatic",
-      "description": "Gamme synthétique rare : 1-♭2-3-♯4-♯5-♯6-7. Plusieurs degrés élevés créent une ambiguïté à la manière de la gamme par tons avec tension chromatique. Popularisée par Verdi. Extrêmement instable - difficile d'établir une tonalité. Utilisée pour des passages mystérieux, surréels et non résolus. L'une des gammes traditionnelles les plus dissonantes et ambiguës. Crée un caractère vraiment énigmatique."
-    },
     "Phrygian Dominant": {
       "name": "Phrygian Dominant",
-      "description": "Cinquième mode du mineur harmonique : 1-♭2-3-4-5-♭6-♭7 (identique à Maqam Hijaz). Combine le ♭2 phrygien avec la tierce majeure. La seconde augmentée entre ♭2 et 3 crée le son espagnol/moyen-oriental distinctif. Fondement de la musique flamenco. Utilisé dans le metal, le rock progressif et la world music pour une saveur exotique et dramatique. Son instantanément reconnaissable."
+      "description": "Cinquième mode du mineur harmonique : 1-♭2-3-4-5-♭6-♭7. Combine le ♭2 phrygien avec la tierce majeure. La seconde augmentée entre ♭2 et 3 crée le son espagnol/moyen-oriental distinctif. Fondement de la musique flamenco. Utilisé dans le metal, le rock progressif et la world music pour une saveur exotique et dramatique. Son instantanément reconnaissable."
     },
     "Persian": {
       "name": "Persian",

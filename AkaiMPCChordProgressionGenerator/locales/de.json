@@ -169,7 +169,6 @@
     "Common Western Tonal": "Gängige westliche tonale Modi",
     "Compact/Popular": "Kompakt/populär",
     "Symmetrical/Jazz": "Symmetrisch/Jazz",
-    "Arabic Maqamat": "Arabische Maqâmât",
     "Indian Ragas": "Indische Râgas",
     "Exotic": "Exotisch"
   },
@@ -250,38 +249,6 @@
       "name": "Lokrisch ♯2",
       "description": "Sechster Modus des melodischen Molls: 1-2-♭3-4-♭5-♭6-♭7. Lokrisch mit natürlicher Sekunde. Weniger dissonant als reines Lokrisch. Verwendet über halbverminderten (m7♭5) Akkorden im Jazz. Bietet mehr melodische Optionen als Standard-Lokrisch. Üblich in Jazz-Moll-ii-V-i-Progressionen."
     },
-    "Bebop Major": {
-      "name": "Bebop Dur",
-      "description": "Acht-Noten-Durtonleiter mit hinzugefügter ♭6: 1-2-3-4-5-♭6-6-7. Die chromatische Durchgangsnote hält Akkordtöne auf betonten Zählzeiten während Achtelnoten-Linien. Essentielles Bebop-Vokabular. Verwendet über Dur-7-Akkorden. Erzeugt fließende, geschmeidige Jazz-Linien. Von Bebop-Pionieren für rhythmische Präzision erfunden."
-    },
-    "Bebop Dominant": {
-      "name": "Bebop Dominant",
-      "description": "Acht-Noten-Mixolydisch mit hinzugefügter natürlicher 7: 1-2-3-4-5-6-♭7-7. Die wichtigste Bebop-Skala. Chromatik zwischen ♭7 und Grundton hält Akkordtöne auf Zählzeiten. Verwendet über Dominant-7-Akkorden. Grundlage der Bebop-Improvisation. Erzeugt swingende, rhythmisch präzise Jazz-Linien."
-    },
-    "Bebop Minor": {
-      "name": "Bebop Moll",
-      "description": "Acht-Noten-Dorisch mit hinzugefügter großer Terz: 1-2-♭3-3-4-5-6-♭7. Chromatische Durchgangsnote zwischen ♭3 und 4. Verwendet über Moll-7-Akkorden im Jazz. Ermöglicht fließende Bewegung zwischen Moll- und Dur-Klängen. Erzeugt raffinierte Moll-Jazz-Linien mit Bebop-rhythmischer Präzision."
-    },
-    "Maqam Hijaz": {
-      "name": "Maqam Hijaz",
-      "description": "Arabischer Maqam, in gleichstufiger Stimmung als Phrygisch-Dominant angenähert: 1-♭2-3-4-5-♭6-♭7. Die übermäßige Sekunde zwischen ♭2 und 3 erzeugt den charakteristischen nahöstlichen Klang. Kombiniert phrygisches ♭2 mit großer Terz. Verwendet in arabischer, türkischer und Klezmer-Musik für einen exotischen, spirituellen, orientalischen Charakter. Evoziert Gebet und Mystik."
-    },
-    "Maqam Bayati": {
-      "name": "Maqam Bayati",
-      "description": "Arabischer Maqam, angenähert als Phrygisch: 1-♭2-♭3-4-5-♭6-♭7. Ähnlich dem Phrygischen Modus, aber mit mikrotonalen Inflexionen in traditioneller Interpretation. Erzeugt einen melancholischen und kontemplativen nahöstlichen Charakter. Einer der häufigsten arabischen Maqamat. Verwendet in der arabischen Welt für emotionale und introspektive Melodien."
-    },
-    "Maqam Rast": {
-      "name": "Maqam Rast",
-      "description": "Arabischer Maqam, angenähert als Dur: 1-2-3-4-5-6-7, aber traditionell mit mikrotonalen Vierteltonschwankungen. Gilt als 'neutraler' oder 'ruhender' Maqam. Heller und stabiler Charakter ähnlich dem westlichen Dur, aber mit subtilen orientalischen Inflexionen. Grundlegender Maqam in der arabischen Musiktheorie. Verwendet für fröhliche, festliche oder würdevolle Melodien."
-    },
-    "Maqam Saba": {
-      "name": "Maqam Saba",
-      "description": "Arabischer Maqam mit ausgeprägt traurigem und nostalgischem Charakter. Angenähert als 1-♭2-♭3-♭4-♭5-♭6-♭7. Mehrere abgesenkte Stufen erzeugen eine düstere und melancholische Atmosphäre. Die ♭4 ist besonders charakteristisch. Verwendet für tief emotionale und traurige Ausdrucksformen in arabischer Musik. Erzeugt tiefe Traurigkeit und Sehnsucht."
-    },
-    "Maqam Kurd": {
-      "name": "Maqam Kurd",
-      "description": "Arabischer Maqam, identisch mit dem Phrygischen Modus: 1-♭2-♭3-4-5-♭6-♭7. Einer der wichtigsten Moll-artigen Maqamat. Erzeugt einen melancholischen, aber würdevollen Charakter. Der kurdische Name spiegelt historische Ursprünge wider. Verwendet im gesamten Nahen Osten für ernste und kontemplative Musik. Emotionale Qualität ähnlich dem westlichen natürlichen Moll, aber mit phrygischer ♭2-Färbung."
-    },
     "Bhairav": {
       "name": "Bhairav",
       "description": "Morgendliche Raga, identisch mit der Doppel-Harmonischen Tonleiter: 1-♭2-3-4-5-♭6-7. Zwei übermäßige Sekunden (♭2-3 und ♭6-7) erzeugen eine markant dramatische Spannung. Mit Shiva assoziiert. Ernster und andächtiger Charakter. Verwendet in nordindischer klassischer Musik für morgendliche Meditation und spirituelle Kontemplation. Erzeugt eine exotische, intensive und kraftvolle Atmosphäre."
@@ -318,13 +285,9 @@
       "name": "Neapolitan Minor",
       "description": "Harmonisches Moll mit abgesenkter 2. Stufe: 1-♭2-♭3-4-5-♭6-7. Kombiniert das Drama des harmonischen Molls mit phrygischem ♭2. Zwei übermäßige Sekunden erzeugen extreme Spannung. Sehr dunkler und exotischer Charakter. Verwendet in klassischer Musik für dramatische und unheilvolle Passagen. Intensiver und chromatischer als harmonisches Moll. Erzeugt eine beunruhigende und bedrohliche Atmosphäre."
     },
-    "Enigmatic": {
-      "name": "Enigmatic",
-      "description": "Seltene synthetische Tonleiter: 1-♭2-3-♯4-♯5-♯6-7. Mehrere erhöhte Stufen erzeugen eine ganztonleiterartige Mehrdeutigkeit mit chromatischer Spannung. Popularisiert von Verdi. Extrem instabil - schwierig, eine Tonalität zu etablieren. Verwendet für mysteriöse, surreale und nicht auflösende Passagen. Eine der dissonantesten und mehrdeutigsten traditionellen Tonleitern. Erzeugt einen wahrhaft rätselhaften Charakter."
-    },
     "Phrygian Dominant": {
       "name": "Phrygian Dominant",
-      "description": "Fünfter Modus des harmonischen Molls: 1-♭2-3-4-5-♭6-♭7 (identisch mit Maqam Hijaz). Kombiniert phrygisches ♭2 mit großer Terz. Die übermäßige Sekunde zwischen ♭2 und 3 erzeugt den markanten spanischen/nahöstlichen Klang. Grundlage der Flamenco-Musik. Verwendet in Metal, Progressive Rock und Weltmusik für exotische und dramatische Färbung. Sofort wiedererkennbarer Klang."
+      "description": "Fünfter Modus des harmonischen Molls: 1-♭2-3-4-5-♭6-♭7. Kombiniert phrygisches ♭2 mit großer Terz. Die übermäßige Sekunde zwischen ♭2 und 3 erzeugt den markanten spanischen/nahöstlichen Klang. Grundlage der Flamenco-Musik. Verwendet in Metal, Progressive Rock und Weltmusik für exotische und dramatische Färbung. Sofort wiedererkennbarer Klang."
     },
     "Persian": {
       "name": "Persian",

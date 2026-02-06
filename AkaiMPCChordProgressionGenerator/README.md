@@ -50,7 +50,7 @@ Found a sample with killer chords but don't know the key? The Chord Matcher lets
 
 ### Two Workflows for Every Creative Process
 - **Progression Palette Mode** - Choose from 137 progression palettes across 15 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). 60+ progressions feature **genre-specific palette intelligence** that prioritizes authentic chord voicings for each style. Generate four voicing variants instantly.
-- **Scale Mode** - Pick from 43 scales/modes and explore all available chords. Perfect for learning exotic scales like Whole Tone, Maqam Hijaz, or Phrygian Dominant.
+- **Scale Mode** - Pick from 34 scales/modes and explore all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.
 - Download individual variants or bulk export all four versions at once
 
 ## Musical Intelligence Under the Hood
@@ -77,13 +77,12 @@ Rather than repeating chords sequentially, each progression provides a **palette
 ## Deep Music Theory, Simple Interface
 
 ### Comprehensive Scale Support
-43 scales organized into 6 categories - from the familiar to the exotic:
+34 scales organized into 5 categories - from the familiar to the exotic:
 - **Common Western Tonal**: Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian, Harmonic Minor, Melodic Minor
 - **Compact/Popular**: Pentatonic Major/Minor, Blues scale
-- **Symmetrical/Jazz**: Whole Tone, Diminished scales, Augmented, Altered, Lydian Dominant, Bebop (Major, Dominant, Minor)
-- **Arabic Maqamat**: Hijaz, Bayati, Rast, Saba, Kurd
+- **Symmetrical/Jazz**: Whole Tone, Diminished scales, Augmented, Altered, Lydian Dominant, Locrian #2
 - **Indian Ragas**: Bhairav, Kafi, Yaman, Bhairavi, Todi
-- **Exotic**: Double Harmonic, Hungarian Minor, Neapolitan Major/Minor, Enigmatic, Phrygian Dominant, Persian, Hirajoshi, Insen, Kumoi, Egyptian Pentatonic
+- **Exotic**: Double Harmonic, Hungarian Minor, Neapolitan Major/Minor, Phrygian Dominant, Persian, Hirajoshi, Insen, Kumoi, Egyptian Pentatonic
 
 ### Advanced Harmonic Concepts Made Easy
 The generator seamlessly incorporates:
