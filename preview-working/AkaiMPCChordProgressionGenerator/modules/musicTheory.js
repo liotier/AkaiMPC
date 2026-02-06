@@ -31,17 +31,7 @@ export const modes = {
         'Augmented',
         'Altered',
         'Lydian Dominant',
-        'Locrian #2',
-        'Bebop Major',
-        'Bebop Dominant',
-        'Bebop Minor'
-    ],
-    'Arabic Maqamat': [
-        'Maqam Hijaz',
-        'Maqam Bayati',
-        'Maqam Rast',
-        'Maqam Saba',
-        'Maqam Kurd'
+        'Locrian #2'
     ],
     'Indian Ragas': [
         'Bhairav',
@@ -55,7 +45,6 @@ export const modes = {
         'Hungarian Minor',
         'Neapolitan Major',
         'Neapolitan Minor',
-        'Enigmatic',
         'Phrygian Dominant',
         'Persian',
         'Hirajoshi',
@@ -1163,12 +1152,9 @@ export function getScaleDegrees(mode) {
         'Diminished (W-H)': [0, 2, 3, 5, 6, 8, 9, 11],  // Whole-Half octatonic
         'Diminished (H-W)': [0, 1, 3, 4, 6, 7, 9, 10],  // Half-Whole octatonic
         'Augmented': [0, 3, 4, 7, 8, 11],  // Hexatonic scale
-        // Arabic Maqamat (12-TET approximations)
-        'Maqam Hijaz': [0, 1, 4, 5, 7, 8, 11],  // Like Phrygian Dominant
-        'Maqam Bayati': [0, 1.5, 3, 5, 7, 8, 10],  // Quarter tone on 2nd degree; 12-TET rounds to Phrygian [0, 1, 3, 5, 7, 8, 10]
-        'Maqam Rast': [0, 2, 3.5, 5, 7, 9, 10.5],  // Quarter tones on 3rd and 7th; 12-TET rounds to Mixolydian [0, 2, 4, 5, 7, 9, 10]
-        'Maqam Saba': [0, 1.5, 3, 4, 6, 8, 10],  // Quarter tone on 2nd degree; 12-TET rounds to [0, 2, 3, 4, 6, 8, 10]
-        'Maqam Kurd': [0, 1, 3, 5, 7, 8, 10],  // Like Phrygian
+        // Arabic Maqamat removed: quarter-tone intervals (Bayati, Rast, Saba)
+        // cannot be meaningfully represented in 12-TET. Use Phrygian Dominant
+        // for Hijaz-like sound, Phrygian for Kurd-like sound.
         // Indian Ragas (12-TET approximations)
         'Bhairav': [0, 1, 4, 5, 7, 8, 11],  // Double Harmonic
         'Kafi': [0, 2, 3, 5, 7, 9, 10],  // Like Dorian
@@ -1180,7 +1166,9 @@ export function getScaleDegrees(mode) {
         'Hungarian Minor': [0, 2, 3, 6, 7, 8, 11],
         'Neapolitan Major': [0, 1, 3, 5, 7, 9, 11],
         'Neapolitan Minor': [0, 1, 3, 5, 7, 8, 11],
-        'Enigmatic': [0, 1, 4, 6, 8, 10, 11],
+        // Enigmatic scale removed: its interval structure does not produce
+        // recognizable tertian triads on most degrees, making chord generation
+        // meaningless for 5 of 7 scale positions.
         'Phrygian Dominant': [0, 1, 4, 5, 7, 8, 10],
         'Persian': [0, 1, 4, 5, 6, 8, 11],
         'Hirajoshi': [0, 2, 3, 7, 8],
@@ -1191,10 +1179,10 @@ export function getScaleDegrees(mode) {
         'Altered': [0, 1, 3, 4, 6, 8, 10],  // 7th mode of melodic minor (Super Locrian)
         'Lydian Dominant': [0, 2, 4, 6, 7, 9, 10],  // 4th mode of melodic minor (Lydian b7)
         'Locrian #2': [0, 2, 3, 5, 6, 8, 10],  // 6th mode of melodic minor
-        // Bebop Scales (8 notes)
-        'Bebop Major': [0, 2, 4, 5, 7, 8, 9, 11],  // Major with added b6
-        'Bebop Dominant': [0, 2, 4, 5, 7, 9, 10, 11],  // Mixolydian with added natural 7
-        'Bebop Minor': [0, 2, 3, 4, 5, 7, 9, 10]  // Dorian with added major 3
+        // Bebop scales removed: 8-note scales with chromatic passing tones
+        // are melodic devices, not harmonic ones. Building chords on passing
+        // tones produces musically meaningless results. Use Major, Mixolydian,
+        // or Dorian for the harmonic foundation of bebop.
     };
 
     // Handle quarter tone approximations
@@ -1345,15 +1333,7 @@ export function getChordQualityForMode(degree, mode) {
             5: 'major',   // ♭VI
             6: 'diminished'  // vii°
         },
-        'Enigmatic': {
-            0: 'major',   // I
-            1: 'major',   // II (with b2)
-            2: 'major',   // III
-            3: 'major',   // #IV
-            4: 'major',   // #V
-            5: 'major',   // #VI
-            6: 'diminished'  // vii°
-        },
+        // Enigmatic scale chord qualities removed (scale removed)
         'Phrygian Dominant': {
             0: 'major',   // I
             1: 'major',   // II (with b2)
@@ -1430,59 +1410,14 @@ export function getChordQualityForMode(degree, mode) {
             7: 'diminished'  // i° (octave)
         },
         'Augmented': {
-            0: 'major',   // I (augmented context)
-            1: 'minor',   // iii
-            2: 'major',   // III
-            3: 'major',   // V
-            4: 'major',   // VI
-            5: 'major'    // VII
+            0: 'augmented',  // I+ (all triads in augmented hexatonic are augmented)
+            1: 'augmented',  // bIII+
+            2: 'augmented',  // III+
+            3: 'augmented',  // V+
+            4: 'augmented',  // bVI+
+            5: 'augmented'   // VII+
         },
-        // Arabic Maqamat
-        'Maqam Hijaz': {
-            0: 'major',   // I
-            1: 'major',   // II (with b2)
-            2: 'diminished',  // iii°
-            3: 'minor',   // iv
-            4: 'minor',   // v
-            5: 'major',   // VI (with b6)
-            6: 'minor'    // vii
-        },
-        'Maqam Bayati': {
-            0: 'minor',   // i
-            1: 'major',   // II
-            2: 'minor',   // iii
-            3: 'minor',   // iv
-            4: 'minor',   // v
-            5: 'major',   // VI
-            6: 'major'    // VII
-        },
-        'Maqam Rast': {
-            0: 'major',   // I
-            1: 'major',   // II
-            2: 'major',   // III
-            3: 'major',   // IV
-            4: 'major',   // V
-            5: 'minor',   // vi
-            6: 'major'    // VII
-        },
-        'Maqam Saba': {
-            0: 'minor',   // i
-            1: 'major',   // II (with b2)
-            2: 'minor',   // iii
-            3: 'diminished',  // iv°
-            4: 'major',   // V (with b5)
-            5: 'major',   // VI (with b6)
-            6: 'major'    // VII
-        },
-        'Maqam Kurd': {
-            0: 'minor',   // i
-            1: 'major',   // II
-            2: 'major',   // III
-            3: 'minor',   // iv
-            4: 'diminished',  // v°
-            5: 'major',   // VI
-            6: 'minor'    // vii
-        },
+        // Arabic Maqamat chord qualities removed (scales removed)
         // Indian Ragas
         'Bhairav': {
             0: 'major',   // I
@@ -1557,37 +1492,7 @@ export function getChordQualityForMode(degree, mode) {
             5: 'major',   // VI
             6: 'minor'    // vii
         },
-        // Bebop scales (8 notes - use first 7 for chord qualities)
-        'Bebop Major': {
-            0: 'major',   // I
-            1: 'minor',   // ii
-            2: 'minor',   // iii
-            3: 'major',   // IV
-            4: 'major',   // V
-            5: 'diminished',  // vi° (passing)
-            6: 'minor',   // vi
-            7: 'diminished'  // vii°
-        },
-        'Bebop Dominant': {
-            0: 'major',   // I (dom7 context)
-            1: 'minor',   // ii
-            2: 'minor',   // iii
-            3: 'major',   // IV
-            4: 'minor',   // v
-            5: 'minor',   // vi
-            6: 'diminished',  // vii°
-            7: 'major'    // VII (passing)
-        },
-        'Bebop Minor': {
-            0: 'minor',   // i
-            1: 'minor',   // ii
-            2: 'diminished',  // iii° (passing)
-            3: 'major',   // III
-            4: 'major',   // IV
-            5: 'minor',   // v
-            6: 'minor',   // vi
-            7: 'major'    // VII
-        }
+        // Bebop scale chord qualities removed (scales removed)
     };
 
     const qualities = modeChordQualities[mode] || modeChordQualities['Major'];
@@ -2233,7 +2138,9 @@ export function applyOpenVoicing(chordNotes) {
     // Drop-2 voicing: move second-highest note down an octave
     const openVoiced = [...sorted];
     if (openVoiced.length >= 3) {
-        openVoiced[openVoiced.length - 2] -= 12;
+        const dropped = openVoiced[openVoiced.length - 2] - 12;
+        // Clamp to musically useful range (C2=36 minimum)
+        openVoiced[openVoiced.length - 2] = dropped < 36 ? dropped + 12 : dropped;
     }
 
     return openVoiced.sort((a, b) => a - b);
