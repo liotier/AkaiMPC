@@ -169,7 +169,6 @@
     "Common Western Tonal": "Modos tonales occidentales comunes",
     "Compact/Popular": "Compactos/populares",
     "Symmetrical/Jazz": "Simétricos/jazz",
-    "Arabic Maqamat": "Maqâmât árabes",
     "Indian Ragas": "Râgas indios",
     "Exotic": "Exóticos"
   },
@@ -250,38 +249,6 @@
       "name": "Locrio ♯2",
       "description": "Sexto modo del menor melódico: 1-2-♭3-4-♭5-♭6-♭7. Locrio con segunda natural. Menos disonante que el locrio puro. Usado sobre acordes semi-disminuidos (m7♭5) en jazz. Proporciona más opciones melódicas que el locrio estándar. Común en progresiones jazz ii-V-i en tonalidad menor."
     },
-    "Bebop Major": {
-      "name": "Bebop Mayor",
-      "description": "Escala mayor de ocho notas con ♭6 añadida: 1-2-3-4-5-♭6-6-7. La nota de paso cromática mantiene las notas del acorde en tiempos fuertes durante líneas de corcheas. Vocabulario bebop esencial. Usada sobre acordes mayor 7. Crea líneas de jazz fluidas y fluentes. Inventada por pioneros del bebop para precisión rítmica."
-    },
-    "Bebop Dominant": {
-      "name": "Bebop Dominante",
-      "description": "Mixolidio de ocho notas con 7 natural añadida: 1-2-3-4-5-6-♭7-7. La escala bebop más importante. El cromatismo entre ♭7 y la fundamental mantiene las notas del acorde en tiempos fuertes. Usada sobre acordes de dominante 7. Fundamento de la improvisación bebop. Crea líneas de jazz swingueantes y rítmicamente precisas."
-    },
-    "Bebop Minor": {
-      "name": "Bebop Menor",
-      "description": "Dórico de ocho notas con tercera mayor añadida: 1-2-♭3-3-4-5-6-♭7. Nota de paso cromática entre ♭3 y 4. Usada sobre acordes menor 7 en jazz. Permite movimiento fluido entre sonidos menor y mayor. Crea líneas jazz menores sofisticadas con precisión rítmica bebop."
-    },
-    "Maqam Hijaz": {
-      "name": "Maqam Hijaz",
-      "description": "Maqām árabe aproximado en temperamento igual como Frigio Dominante: 1-♭2-3-4-5-♭6-♭7. La segunda aumentada entre ♭2 y 3 crea el sonido oriental medio característico. Combina el ♭2 frigio con la tercera mayor. Usado en música árabe, turca y klezmer para un carácter exótico, espiritual y oriental. Evoca oración y misticismo."
-    },
-    "Maqam Bayati": {
-      "name": "Maqam Bayati",
-      "description": "Maqām árabe aproximado como Frigio: 1-♭2-♭3-4-5-♭6-♭7. Similar al modo Frigio pero con inflexiones microtonales en interpretación tradicional. Crea un carácter melancólico y contemplativo oriental medio. Uno de los maqāmāt árabes más comunes. Usado en el mundo árabe para melodías emocionales e introspectivas."
-    },
-    "Maqam Rast": {
-      "name": "Maqam Rast",
-      "description": "Maqām árabe aproximado como mayor: 1-2-3-4-5-6-7, pero con variaciones microtonales de cuarto de tono tradicionalmente. Considerado maqām \"neutro\" o \"reposado\". Carácter brillante y estable similar al mayor occidental pero con sutiles inflexiones orientales. Maqām fundamental en teoría musical árabe. Usado para melodías alegres, festivas o dignas."
-    },
-    "Maqam Saba": {
-      "name": "Maqam Saba",
-      "description": "Maqām árabe con carácter distintivamente triste y nostálgico. Aproximado como 1-♭2-♭3-♭4-♭5-♭6-♭7. Varios grados rebajados crean una atmósfera oscura y melancólica. La ♭4 es particularmente característica. Usado para expresiones profundamente emocionales y tristes en música árabe. Crea una tristeza y anhelo profundos."
-    },
-    "Maqam Kurd": {
-      "name": "Maqam Kurd",
-      "description": "Maqām árabe idéntico al modo Frigio: 1-♭2-♭3-4-5-♭6-♭7. Uno de los maqāmāt de tipo menor más importantes. Crea un carácter melancólico pero digno. El nombre kurdo refleja los orígenes históricos. Usado en todo el Medio Oriente para música seria y contemplativa. Cualidad emocional similar al menor natural occidental pero con el color frigio ♭2."
-    },
     "Bhairav": {
       "name": "Bhairav",
       "description": "Rāga matutino, idéntico a la escala Doble Armónica: 1-♭2-3-4-5-♭6-7. Dos segundas aumentadas (♭2-3 y ♭6-7) crean una tensión dramática distintiva. Asociado a Shiva. Carácter serio y devocional. Usado en música clásica norte-india para meditación matutina y contemplación espiritual. Crea una atmósfera exótica, intensa y poderosa."
@@ -318,13 +285,9 @@
       "name": "Napolitana Menor",
       "description": "Menor armónica con 2ª rebajada: 1-♭2-♭3-4-5-♭6-7. Combina el drama de la menor armónica con el ♭2 frigio. Dos segundas aumentadas crean tensión extrema. Carácter muy oscuro y exótico. Usada en música clásica para pasajes dramáticos y siniestros. Más intensa y cromática que la menor armónica. Crea una atmósfera inquietante y amenazante."
     },
-    "Enigmatic": {
-      "name": "Enigmática",
-      "description": "Escala sintética rara: 1-♭2-3-♯4-♯5-♯6-7. Varios grados elevados crean ambigüedad al estilo de la escala de tonos enteros con tensión cromática. Popularizada por Verdi. Extremadamente inestable - difícil establecer una tonalidad. Usada para pasajes misteriosos, surrealistas y no resueltos. Una de las escalas tradicionales más disonantes y ambiguas. Crea un carácter verdaderamente enigmático."
-    },
     "Phrygian Dominant": {
       "name": "Frigio Dominante",
-      "description": "Quinto modo de la menor armónica: 1-♭2-3-4-5-♭6-♭7 (idéntico a Maqam Hijaz). Combina el ♭2 frigio con la tercera mayor. La segunda aumentada entre ♭2 y 3 crea el sonido español/oriental medio distintivo. Base de la música flamenca. Usado en metal, rock progresivo y world music para sabor exótico y dramático. Sonido instantáneamente reconocible."
+      "description": "Quinto modo de la menor armónica: 1-♭2-3-4-5-♭6-♭7. Combina el ♭2 frigio con la tercera mayor. La segunda aumentada entre ♭2 y 3 crea el sonido español/oriental medio distintivo. Base de la música flamenca. Usado en metal, rock progresivo y world music para sabor exótico y dramático. Sonido instantáneamente reconocible."
     },
     "Persian": {
       "name": "Persa",
