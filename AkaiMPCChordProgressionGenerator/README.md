@@ -43,22 +43,23 @@ While the [MPC Chord Progression Finder](https://github.com/liotier/AkaiMPC/blob
 
 ### Chord Matcher: Bridge Your Samples to Theory
 Found a sample with killer chords but don't know the key? The Chord Matcher lets you:
-- Input the chords you've identified from your sample
+- Input the chords you've identified from your sample - 14 qualities including half-diminished (m7♭5), diminished 7th, minor-major 7th, 6th and minor 6th
 - Get instant suggestions for compatible keys and modes for **both** Progression Palette and Scale modes
 - Generate complementary progressions that work with your source material
 - Bridge the gap between sample-based and theory-based production
 
 ### Two Workflows for Every Creative Process
-- **Progression Palette Mode** - Choose from 137 progression palettes across 15 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). 60+ progressions feature **genre-specific palette intelligence** that prioritizes authentic chord voicings for each style. Generate four voicing variants instantly.
-- **Scale Mode** - Pick from 34 scales/modes and explore all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.
-- Download individual variants or bulk export all four versions at once
+- **Progression Palette Mode** - Choose from 173 progression palettes across 22 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). 100+ progressions feature **genre-specific palette intelligence** that prioritizes authentic chord voicings for each style. Generate up to five voicing variants instantly.
+- **Scale Mode** - Pick from 34 scales/modes and explore all available chords: the triad on each degree in the first two rows, the seventh chord on each degree in the last two. Every chord is derived from the scale itself, so half-diminished (m7♭5), diminished 7th, minor-major 7th, augmented major 7th and 6th chords appear wherever the scale actually calls for them - and nothing on the grid uses a note the scale does not contain. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.
+- Download individual variants or bulk export every version at once
 
 ## Musical Intelligence Under the Hood
 
-### Four Intelligent Variants, Four Different Vibes
+### Five Intelligent Variants, Five Different Vibes
 
-Each generation creates four musically distinct versions of your progression with optimized voice leading:
+Each generation creates up to five musically distinct versions of your progression with optimized voice leading (variants that come out identical are dropped, so you only ever see genuinely different options):
 
+- **Smooth** - Comprehensive voice-leading search maximising common tones, step-wise motion and contrary motion.
 - **Classic** - Default voice leading optimization for smooth transitions with minimal finger movement.
 - **Jazz** - Close voicings for that tight, sophisticated sound. Extended chords (7ths, 9ths) where appropriate.
 - **Modal** - Open voicings (drop-2) for a more spacious, airy sound. Perfect for atmospheric pads.
@@ -69,9 +70,9 @@ Each generation creates four musically distinct versions of your progression wit
 Rather than repeating chords sequentially, each progression provides a **palette of 16 unique chords** - like a painter's color palette for harmonic exploration:
 
 - **All 16 pads are unique** - No duplicate chord types, maximizing your harmonic options
-- **Genre-specific palette intelligence** - 60+ progressions now feature smart priority weighting: preferred chord voicings appear first (Blues loves dom7, Folk prefers simple triads, Gospel embraces major7). Chords are sorted by musical authenticity for each style.
+- **Genre-specific palette intelligence** - 100+ progressions carry priority weighting, and the palette actually builds the chord types they ask for: preferred voicings appear first and in the right colours (Blues loves dom7 and dom9, Folk prefers simple triads and sus chords, Gospel embraces major7). Chords are sorted by musical authenticity for each style.
 - **Harmonic gradient from foundation to spice** - Bottom row (pads 1-4) provides bread-and-butter chords with the tonic anchoring pad 1. Top row (pads 13-16) offers adventurous, colorful extensions for when you want to take risks.
-- **Intelligent extensions** - For each chord degree, generates different variations (triads, 7ths, major 7ths, 9ths) plus complementary chords (ii7, vi, ♭VII, ♭VI, ♭III, iv)
+- **Intelligent extensions** - For each chord degree, generates different variations (triads, 7ths, major 7ths, 9ths, 6ths, sus and quartal voicings, half-diminished) plus complementary chords (ii7, vi, ♭VII, ♭VI, ♭III, iv)
 - **Your sequence, your choice** - The generator gives you the colors; you paint the progression
 
 ## Deep Music Theory, Simple Interface
@@ -84,6 +85,13 @@ Rather than repeating chords sequentially, each progression provides a **palette
 - **Indian Ragas**: Bhairav, Kafi, Yaman, Bhairavi, Todi
 - **Exotic**: Double Harmonic, Hungarian Minor, Neapolitan Major/Minor, Phrygian Dominant, Persian, Hirajoshi, Insen, Kumoi, Egyptian Pentatonic
 
+The ragas and the exotic scales are 12-tone-equal-temperament approximations,
+offered as colour for Western production rather than as faithful renderings of
+the traditions they borrow their names from - those rely on tunings, ornaments
+and melodic rules a 4x4 pad grid cannot express. Treat them as flavour, not as
+authority. Scales whose quarter tones could not be approximated honestly
+(the Arabic maqamat) were removed rather than misrepresented.
+
 ### Advanced Harmonic Concepts Made Easy
 The generator seamlessly incorporates:
 - **Borrowed Chords** - Automatic modal interchange (that ♭VII from Mixolydian, iv from minor)
@@ -92,7 +100,7 @@ The generator seamlessly incorporates:
 - **Tritone Substitutions** - Jazz reharmonization at the click of a button
 
 ### Battle-Tested Progression Palettes
-137 progression palettes across 15 genres covering every style. **60+ progressions feature genre-specific palette intelligence** that prioritizes musically authentic chord voicings:
+173 progression palettes across 22 genres covering every style. **100+ progressions feature genre-specific palette intelligence** that prioritizes musically authentic chord voicings:
 - **Pop/Rock**: I-V-vi-IV (the "four chord song"), vi-IV-I-V (pop-punk anthem), classic rock patterns
 - **Blues/Soul**: 12-bar blues, turnarounds, Dorian vamps, minor blues (smart palettes prefer dom7, major; avoid experimental voicings)
 - **Jazz/Functional**: ii-V-I, Rhythm Changes, Giant Steps cycle, circle progressions
@@ -198,14 +206,15 @@ This project was originally distributed as a single self-contained HTML file for
 - `styles.css` — extracted stylesheet
 - `app.js` — main application orchestration
 - `modules/musicTheory.js` — core music theory engine (scales, chords, voice leading)
-- `modules/stateManager.js` — centralized application state
-- `modules/uiHandlers.js` — UI manipulation and rendering
-- `modules/eventListeners.js` — event handling and user interaction
+- `modules/audio.js` — Web Audio synthesis and WebMIDI output
+- `modules/constants.js` — tuning, timing, layout and validation constants
 - `modules/guitarChords.js` — guitar chord library
-- `modules/storage.js` — localStorage and URL handling
+- `modules/midiExport.js` — Standard MIDI File generation
+- `modules/storage.js` — localStorage and URL handling (with input validation)
 - `modules/rendering.js` — SVG generation for keyboard, guitar, and staff notation
 - `modules/i18n.js` — internationalization system
 - `locales/*.json` — translation files (en, fr, es, de, pt, it)
+- `service-worker.js` — offline caching
 
 Deployment remains the same: host these files on any static file host (GitHub Pages, Netlify, etc.). Modular structure improves readability, caching, and makes incremental development and testing easier.
 

@@ -19,11 +19,17 @@
       "sus4": "Sus4",
       "7": "Dominante 7",
       "maj7": "Maior 7",
-      "m7": "Menor 7"
+      "m7": "Menor 7",
+      "6": "Sexta maior",
+      "m6": "Sexta menor",
+      "m7b5": "Meio-diminuto 7 (m7♭5)",
+      "dim7": "Sétima diminuta",
+      "mMaj7": "Menor-maior 7"
     },
     "addChord": "Adicionar Acorde",
     "clearAll": "Limpar Tudo",
-    "compatibleLabel": "Tonalidades e Modos Compatíveis:"
+    "compatibleLabel": "Tonalidades e Modos Compatíveis:",
+    "noChordsSelected": "Nenhum acorde selecionado"
   },
   "controls": {
     "generationMode": {
@@ -39,12 +45,16 @@
       "mode": "Modo/Escala",
       "progression": "Semente de Paleta de Progressão",
       "name": "Nome da Progressão",
-      "outputName": "Nome de Saída"
+      "outputName": "Nome da saída"
     }
   },
   "buttons": {
     "generate": "Gerar Progressões",
-    "downloadAll": "Baixar todos os arquivos .progression"
+    "downloadAll": "Baixar todos os arquivos .progression",
+    "downloadAllProgression": "Baixar todos os arquivos .progression",
+    "downloadAllMidi": "Baixar todos os arquivos MIDI",
+    "printAll": "Imprimir todas as progressões",
+    "download": "Baixar"
   },
   "tabs": {
     "mpc": "Pads MPC",
@@ -78,7 +88,13 @@
       "tooltip": "Variante experimental: Usa voicings expandidos através de múltiplas oitavas. Cria cores e texturas harmônicas únicas e não convencionais."
     },
     "progressionClarification": "Acordes 1-{{count}} da progressão, {{next}}-16 extrapolados. ",
-    "chordDistanceHint": "As cores dos cartões mostram a distância do acorde do cartão selecionado"
+    "chordDistanceHint": "As cores dos cartões mostram a distância do acorde do cartão selecionado",
+    "scaleExploration": {
+      "label": "Todos os acordes da escala",
+      "tooltip": "Modo Escala: a tríade de cada grau da escala nas duas primeiras linhas e o acorde de sétima de cada grau nas duas últimas. Ambos derivam da própria escala, portanto nenhum pad usa uma nota que a escala não contenha."
+    },
+    "voiceLeadingLegend": "Suavidade relativa:\n🟢 Suave  🟡 Moderada  🟠 Marcada",
+    "voiceLeadingHoverLegend": "Distância do acorde selecionado:\n🟢 Suave  🟡 Moderada  🟠 Marcada"
   },
   "footer": {
     "cousin": "Primo do",
@@ -88,7 +104,12 @@
   },
   "tooltips": {
     "progressionPaletteDisabled": "Paletas de progressão não são usadas no modo Exploração de Escala. Todos os acordes da escala selecionada serão gerados.",
-    "progressionPaletteEnabled": "Cada paleta fornece 16 acordes únicos: primeiros N da progressão, pads restantes da harmonia estendida. Filtros específicos de gênero garantem cores de acordes apropriadas."
+    "progressionPaletteEnabled": "Cada paleta fornece 16 acordes únicos: primeiros N da progressão, pads restantes da harmonia estendida. Filtros específicos de gênero garantem cores de acordes apropriadas.",
+    "paletteMode": "Gera paletas de 16 acordes a partir de progressões selecionadas em 22 gêneros. Produz até cinco variantes de voicing (Smooth, Classic, Jazz, Modal, Experimental). As preferências de cada gênero ajustam a harmonia estendida.",
+    "scaleMode": "Explore uma escala ou modo gerando todos os acordes que ela admite: a tríade de cada grau e depois o acorde de sétima de cada grau. Ideal para conhecer escalas como a de tons inteiros, a frígia dominante ou a menor húngara.",
+    "keyboardShortcuts": "Toque pelo teclado do computador: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
+    "keyboardShortcutsTouch": "Os atalhos de teclado são para desktop. No tablet, toque nos pads para tocá-los.",
+    "modeSelectDisabled": "O seletor de modo/escala não é usado no modo Paleta de progressões. A progressão define a sua própria estrutura harmônica."
   },
   "cadences": {
     "authentic": {
@@ -121,16 +142,15 @@
     }
   },
   "errors": {
-    "selectKey": "Por favor, selecione uma tonalidade",
-    "selectMode": "Por favor, selecione um modo",
-    "selectProgression": "Por favor, selecione uma progressão",
-    "generateFailed": "Falha ao gerar progressão"
+    "generateFirst": "Gere algumas progressões primeiro",
+    "midiExportFailed": "A exportação MIDI falhou. Tente novamente."
   },
   "messages": {
-    "loading": "Carregando...",
-    "generating": "Gerando progressões...",
-    "complete": "Geração concluída",
-    "noCompatibleKeysFound": "Nenhuma tonalidade compatível encontrada para estes acordes"
+    "noCompatibleKeysFound": "Nenhuma tonalidade compatível. Tente menos acordes ou acordes diferentes.",
+    "selectNoteAndQuality": "Selecione uma nota e uma qualidade de acorde",
+    "chordAdded": "{{chord}} adicionado ao Chord Matcher",
+    "maxChords": "O Chord Matcher aceita no máximo {{max}} acordes",
+    "chordAlreadyAdded": "Esse acorde já está no Chord Matcher"
   },
   "chordRoles": {
     "I": "Tônica - o acorde casa, dá resolução e estabilidade.",
@@ -164,7 +184,20 @@
     "6": "Cor vintage, suaviza a harmonia.",
     "extended": "Harmonia estendida - cor jazz/pop, adiciona profundidade.",
     "borrowed": "Acorde emprestado - adiciona cor expressiva ao emprestar do modo paralelo.",
-    "default": "Cor harmônica - adiciona variedade e interesse à progressão."
+    "default": "Cor harmônica - adiciona variedade e interesse à progressão.",
+    "types": {
+      "m7b5": "Meio-diminuto - o ii de uma tonalidade menor e o acorde de sétima natural sobre um grau diminuto; conduz à dominante.",
+      "dim7": "Sétima diminuta - tensão máxima, resolve por semitom em qualquer direção.",
+      "minMaj7": "Menor-maior 7 - acorde de tônica do menor harmônico e melódico; sombrio, cinematográfico.",
+      "augMaj7": "Aumentada maior 7 - mediante do menor harmônico/melódico; instável e luminosa.",
+      "aug7": "Sétima aumentada - dominante com quinta aumentada, empurra com força para a tônica.",
+      "augmented": "Tríade aumentada - simétrica e sem resolução, pode levar a várias tonalidades.",
+      "quartal": "Quartas empilhadas - aberto e modal, não se compromete com maior nem menor.",
+      "dom7sus4": "7sus4 - tensão de dominante com a terça suspensa, comum no modal e no gospel.",
+      "It6": "Sexta aumentada italiana - predominante cromática que aperta as vozes extremas sobre a dominante.",
+      "Fr6": "Sexta aumentada francesa - predominante cromática com segunda adicionada, mais brilhante que a italiana.",
+      "Ger6": "Sexta aumentada alemã - predominante cromática que soa como sétima de dominante e resolve para V."
+    }
   },
   "modeCategories": {
     "Common Western Tonal": "Tonalidade Ocidental Comum",
@@ -332,7 +365,8 @@
     "UK Bass": "UK Bass",
     "Reggae/Dub": "Reggae/Dub",
     "Acid/EBM": "Acid/EBM",
-    "Modal Interchange": "Intercâmbio modal"
+    "Modal Interchange": "Intercâmbio modal",
+    "Funk/Groove": "Funk/Groove"
   },
   "progressions": {
     "Pop/Rock": {
@@ -393,8 +427,8 @@
       }
     },
     "Blues/Soul": {
-      "I—I—I—I—IV—IV—I—I—V—IV—I—V": {
-        "name": "I—I—I—I—IV—IV—I—I—V—IV—I—V",
+      "12-bar-blues": {
+        "name": "12-bar-blues",
         "nickname": "12-Bar Blues",
         "description": "A fundação do blues, rock e jazz. Quatro compassos de tônica estabelecem o lar, acorde IV cria tensão, retorno a I proporciona alívio, V-IV cria \"turnaround\" de volta a I. A progressão mais importante na música americana."
       },
@@ -479,6 +513,61 @@
         "name": "ii—V—I—IV—vii°—III7—vi",
         "nickname": "Autumn Leaves",
         "description": "A progressão quintessencial do standard jazz \"Autumn Leaves\" de Joseph Kosma. Abre com ii-V-I em maior, então IV-vii°-III7-vi modula para o relativo menor. O III7 é dominante secundária (V/vi). Perfeita para aprender improvisação jazz e condução de vozes. Uma das composições jazz mais gravadas."
+      },
+      "III7—VI7—II7—V7": {
+        "name": "III7—VI7—II7—V7",
+        "nickname": "Ragtime Cycle",
+        "description": "Quatro acordes de sétima de dominante encadeados pelo ciclo das quintas, cada um tonicalizando o seguinte. O motor do ragtime e do jazz antigo, e ainda a ponte padrão de inúmeros rhythm changes."
+      },
+      "V7/ii—ii—V7—I": {
+        "name": "V7/ii—ii—V7—I",
+        "nickname": "Extended Turnaround",
+        "description": "Uma dominante secundária anuncia o ii antes do ii-V-I habitual. Começar um passo antes no ciclo das quintas dobra o comprimento e a atração da cadência."
+      },
+      "♭II7—I": {
+        "name": "♭II7—I",
+        "nickname": "Tritone Cadence",
+        "description": "A dominante substituída pelo acorde de sétima a um trítono de distância. As mesmas notas-guia, mas o baixo desce meio tom até a tônica em vez de saltar uma quinta - a rearmonização jazzística por excelência."
+      },
+      "ii7—♭II7—IM7": {
+        "name": "ii7—♭II7—IM7",
+        "nickname": "Tritone ii-V-I",
+        "description": "Um ii-V-I com o V substituído pelo seu trítono, fazendo o baixo descer cromaticamente do ii ao I. Onipresente nos finais de bebop e bossa nova."
+      },
+      "i—i(maj7)—i7—i6": {
+        "name": "i—i(maj7)—i7—i6",
+        "nickname": "Line Cliché",
+        "description": "Voz interior cromática descendente sobre um acorde menor estático. A sétima desce: fundamental → sétima maior → sétima menor → sexta, produzindo uma condução de vozes perfeitamente suave. Usada em \"My Funny Valentine\", \"Stairway to Heaven\" e incontáveis trilhas de cinema. Um dos recursos harmônicos mais elegantes."
+      },
+      "IM7—♭VII7—♭VIM7—V7": {
+        "name": "IM7—♭VII7—♭VIM7—V7",
+        "nickname": "Tadd Dameron Turnaround",
+        "description": "O turnaround característico do compositor bebop Tadd Dameron. A descida cromática pelos empréstimos ♭VII7 e ♭VIM7 produz uma condução de vozes refinada antes de resolver em V7. Uma alternativa mais colorida ao turnaround habitual I-vi-ii-V."
+      },
+      "IM7—♭IIIM7—♭VIM7—♭II7—IM7": {
+        "name": "IM7—♭IIIM7—♭VIM7—♭II7—IM7",
+        "nickname": "Lady Bird",
+        "description": "Os changes de \"Lady Bird\", de Tadd Dameron. Percorrem três centros tonais separados por terças maiores (I, ♭III, ♭VI), à maneira dos Coltrane changes mas anteriores a eles. A substituição de trítono ♭II7 devolve ao I. Uma obra-prima bebop do movimento harmônico."
+      },
+      "V7/ii—V7/V—V7—I": {
+        "name": "V7/ii—V7/V—V7—I",
+        "nickname": "Secondary Dominant Chain",
+        "description": "Cadeia de dominantes secundárias descendo por quintas. Cada V7 resolve no alvo seguinte, criando um impulso irresistível. Demonstra como as dominantes secundárias ampliam e enriquecem uma progressão simples."
+      },
+      "I—V7/vi—vi—V7/V—V7—I": {
+        "name": "I—V7/vi—vi—V7/V—V7—I",
+        "nickname": "Extended Turnaround",
+        "description": "Turnaround clássico enriquecido com dominantes secundárias. V7/vi (III7) mira o acorde de vi e V7/V (II7) mira o V. Mais interesse harmônico que o I-vi-ii-V básico, sem perder força funcional."
+      },
+      "I—♯I°—ii—♯II°—iii": {
+        "name": "I—♯I°—ii—♯II°—iii",
+        "nickname": "Chromatic Ascent",
+        "description": "Progressão diatônica ascendente ligada por acordes diminutos de passagem. Cada diminuto traça uma linha de baixo cromática entre dois graus. Um recurso clássico do jazz para introduções e interlúdios com condução de vozes cuidada."
+      },
+      "I—I°—ii—♯II°—iii—III°—IV": {
+        "name": "I—I°—ii—♯II°—iii—III°—IV",
+        "nickname": "Full Chromatic Walk",
+        "description": "Longa subida cromática articulada por vários acordes diminutos de passagem. Produz uma linha de baixo inteiramente cromática de I a IV. Fluidez máxima: cada acorde encadeia por semitom. Um clássico do arranjo jazzístico."
       }
     },
     "Classical/Modal": {
@@ -827,6 +916,36 @@
         "name": "i—iv—v—i",
         "nickname": "Minor Rock",
         "description": "Progressão rock menor natural pura. i-iv-v menor (todos menores/diminutos da escala menor natural) evita V maior da menor harmônica. Cria som mais sombrio e modal que menor clássico. O v menor natural em vez de V reduz tensão, criando atmosfera mais pesada e menos resolvida para heavy rock e metal."
+      },
+      "i—V—♭VI—♭VII": {
+        "name": "i—V—♭VI—♭VII",
+        "nickname": "Epic Metal",
+        "description": "Progressão dramática que combina o V do menor harmônico (acorde maior gerador de tensão) com os empréstimos ♭VI e ♭VII. O V maior tira a música da escuridão do menor natural antes da descida pelos acordes emprestados. Um som metal épico e cinematográfico."
+      },
+      "i—iv—♭VII—♭III—♭VI—♭II—V": {
+        "name": "i—iv—♭VII—♭III—♭VI—♭II—V",
+        "nickname": "Neoclassical Descent",
+        "description": "Progressão ao estilo de Yngwie Malmsteen que desce pela escala menor harmônica. Combina a condução de vozes clássica com a potência do metal. O ♭II (napolitano) acrescenta tensão dramática antes de resolver em V. Bach encontra os amplificadores Marshall."
+      },
+      "i—V/iv—iv—V": {
+        "name": "i—V/iv—iv—V",
+        "nickname": "Secondary Metal",
+        "description": "Usa a dominante secundária V/iv (um I7 maior) para abordar o acorde de iv, com condução de vozes de inspiração clássica. O retorno ao V maior no fim garante uma cadência autêntica. Comum no power metal e no metal sinfônico."
+      },
+      "i—♭II—♭VII—i": {
+        "name": "i—♭II—♭VII—i",
+        "nickname": "Phrygian Crush",
+        "description": "Progressão de inspiração frígia com um ♭II (napolitano) ameaçador. O semitom entre i e ♭II leva a tensão ao máximo. O ♭VII oferece alívio modal antes do retorno à tônica. Presença obrigatória no thrash e no death metal."
+      },
+      "i—iv—V—i—♭VI—♭III—♭VII—V": {
+        "name": "i—iv—V—i—♭VI—♭III—♭VII—V",
+        "nickname": "Extended Shred",
+        "description": "Progressão longa que une a cadência menor clássica (i-iv-V-i) a uma sequência descendente em menor natural (♭VI-♭III-♭VII). O retorno ao V relança o ciclo. Ideal para solos neoclássicos extensos e seções de metal progressivo."
+      },
+      "VI—VII—i": {
+        "name": "VI—VII—i",
+        "nickname": "Power Cadence",
+        "description": "Aproximação ascendente à tônica menor pelos graus maiores VI e VII. Produz uma resolução potente, muitas vezes dobrada em quintas paralelas no metal. A subida por graus conjuntos acumula energia antes de chegar à tônica. Onipresente em breakdowns e finais de faixas metal."
       }
     },
     "Trance/Psytrance/Goa": {
@@ -1041,6 +1160,31 @@
         "name": "i—♭VII—♭VI",
         "nickname": "Steppers Dub",
         "description": "Paleta profunda e meditativa. Mix de maior e menor para sessões dub steppers 4/4."
+      },
+      "I—IV": {
+        "name": "I—IV",
+        "nickname": "Two-Chord Reggae",
+        "description": "A base reggae mais simples: I e IV alternando. O \"skank\" no contratempo faz até dois acordes groovarem. Território de \"One Love\", de Bob Marley. Tríades simples e dom7 mantêm o som roots autêntico."
+      },
+      "i—♭VI—♭VII—i": {
+        "name": "i—♭VI—♭VII—i",
+        "nickname": "Lovers Rock",
+        "description": "Progressão lovers rock em menor. Os empréstimos ♭VI e ♭VII criam uma atmosfera romântica e melancólica. Mais suave que o reggae roots, perfeita para baladas lovers rock e reggae consciente."
+      },
+      "I—vi—IV—V": {
+        "name": "I—vi—IV—V",
+        "nickname": "Reggae Pop",
+        "description": "Progressão reggae de inspiração pop. Os clássicos changes dos anos 50 com tratamento reggae. O resultado é mais acessível, feito para faixas crossover. Território de UB40 e do pop-reggae."
+      },
+      "i—iv—i—V": {
+        "name": "i—iv—i—V",
+        "nickname": "Rockers Minor",
+        "description": "Progressão rockers em menor com um V maior para dar tensão autêntica. O vaivém entre i e iv instala um groove menor hipnótico que o V vem liberar. A base clássica do dub em tonalidade menor."
+      },
+      "I—V—vi—IV": {
+        "name": "I—V—vi—IV",
+        "nickname": "Reggae Axis",
+        "description": "A progressão do \"Axis of Awesome\" com tratamento reggae. Funciona às mil maravilhas com o ritmo em contratempo e soa ao mesmo tempo familiar e nova. Presença obrigatória no crossover reggae-pop atual."
       }
     },
     "Acid/EBM": {
@@ -1053,6 +1197,11 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Paleta acid clássica. 7ªs menores e voicings quartais para guincho TB-303."
+      },
+      "i—♭VI—♭VII": {
+        "name": "i—♭VI—♭VII",
+        "nickname": "Industrial Climb",
+        "description": "Três acordes menores que sobem por tons inteiros sem nunca voltar ao i. O final aberto mantém o loop girando para sempre, e é por isso que sustenta tanto EBM e techno industrial."
       }
     },
     "Modal Interchange": {
@@ -1086,6 +1235,55 @@
         "nickname": "Cadência emprestada",
         "description": "Dois acordes emprestados resolvendo para a tônica maior. ♭VI e iv do menor paralelo criam uma chegada dramática em I."
       }
+    },
+    "Funk/Groove": {
+      "I7": {
+        "name": "I7",
+        "nickname": "One-Chord Funk",
+        "description": "A essência do funk: um único acorde de nona de dominante em vamp indefinido. James Brown, Parliament-Funkadelic e incontáveis faixas de funk provam que basta um acorde com o ritmo certo. O dom9 oferece a mistura perfeita de tensão e groove."
+      },
+      "i7": {
+        "name": "i7",
+        "nickname": "Minor Funk Vamp",
+        "description": "Variação menor do vamp de um acorde. Acordes de nona e décima primeira menores criam um funk mais escuro e melancólico. Pense em \"Chameleon\" de Herbie Hancock ou nos grooves neo-soul modernos."
+      },
+      "I7—IV7": {
+        "name": "I7—IV7",
+        "nickname": "Two-Chord Funk",
+        "description": "Oscilação funk clássica entre I7 e IV7. Os dois acordes são dominantes, criando uma tensão perpétua que nunca se resolve. A espinha dorsal do funk, de James Brown a Bruno Mars."
+      },
+      "i7—IV7": {
+        "name": "i7—IV7",
+        "nickname": "Minor-Major Funk",
+        "description": "Tônica menor com IV maior cria a ambiguidade modal característica do funk dórico. O contraste entre menor e maior enriquece a harmonia sem perder a simplicidade do groove."
+      },
+      "I7—♭VII7—I7": {
+        "name": "I7—♭VII7—I7",
+        "nickname": "Mixolydian Funk",
+        "description": "O ♭VII7 emprestado do modo mixolídio acrescenta um corte funk-rock. A queda de um tom inteiro cria um movimento funk característico. Muito usado na fusão funk-rock e no R&B moderno."
+      },
+      "ii7—V7": {
+        "name": "ii7—V7",
+        "nickname": "Jazz-Funk Turnaround",
+        "description": "O turnaround ii-V aplicado ao funk. Cria impulso para a frente sem sacrificar o groove. Comum na fusão jazz-funk, dos Headhunters aos produtores atuais."
+      },
+      "I7—ii7—iii7—IV7": {
+        "name": "I7—ii7—iii7—IV7",
+        "nickname": "Ascending Funk",
+        "description": "Progressão ascendente por graus conjuntos, toda em acordes de sétima de dominante e menores. Acumula uma energia ideal para breakdowns e subidas funk. Cada acorde empurra para o seguinte."
+      },
+      "I7—♯IV7—IV7—I7": {
+        "name": "I7—♯IV7—IV7—I7",
+        "nickname": "Chromatic Funk",
+        "description": "O acorde de passagem cromático (♯IV7) suaviza a condução de vozes entre I e IV. Esse ♯IV7 inesperado traz sofisticação harmônica sem quebrar a simplicidade do funk. Uma marca de Stevie Wonder."
+      }
     }
+  },
+  "analysis": {
+    "modalInterchange": "Intercâmbio modal",
+    "secondaryDominants": "Dominantes secundárias",
+    "extendedHarmony": "Harmonia estendida",
+    "chromatic": "Cromatismo",
+    "diatonic": "Progressão diatônica"
   }
 }

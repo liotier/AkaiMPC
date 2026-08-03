@@ -123,28 +123,19 @@ export const MUSIC = {
 // ============================================================================
 
 /**
- * User-facing error and info messages
+ * Diagnostic messages for the developer console.
+ * Anything shown to the user lives in locales/*.json and goes through i18n.
  */
 export const MESSAGES = {
     ERRORS: {
         NO_AUDIO_CONTEXT: 'Web Audio API not supported in this browser',
         MIDI_FAILED: 'MIDI playback failed',
-        STORAGE_QUOTA: 'Unable to save preferences: browser storage is full',
-        INVALID_INPUT: 'Invalid input provided',
         DOM_ELEMENT_NOT_FOUND: 'Required page element not found'
     },
 
     INFO: {
         NO_MIDI_DEVICE: 'No MIDI device selected, using browser audio',
-        MIDI_SUCCESS: 'MIDI device connected successfully',
-        PREFERENCES_SAVED: 'Preferences saved',
-        PREFERENCES_LOADED: 'Preferences loaded from previous session'
-    },
-
-    WARNINGS: {
-        CHORD_ALREADY_EXISTS: 'This chord is already in the matcher',
-        NO_COMPATIBLE_KEYS: 'No keys contain all selected chords',
-        DUPLICATE_SELECTION: 'This option is already selected'
+        MIDI_SUCCESS: 'MIDI device connected successfully'
     }
 };
 

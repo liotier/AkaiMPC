@@ -95,15 +95,16 @@ function sendMidiNoteOn(notes, duration = AUDIO.MIDI_DURATION) {
     if (!selectedMidiOutput) return false;
 
     try {
-        console.log('Sending MIDI notes:', notes, 'to', selectedMidiOutput.name);
         const channel = selectedMidiOutput.channels[1];
 
-        notes.forEach(midiNote => {
-            channel.playNote(midiNote, {
-                duration,
-                velocity: AUDIO.MIDI_VELOCITY
-            });
-        });
+        // duration === null means "hold until note-off", used for key-down
+        // playback. Passing a duration there would have cut sustained chords
+        // off after half a second while the browser synth kept holding them.
+        const options = duration === null
+            ? { velocity: AUDIO.MIDI_VELOCITY }
+            : { duration, velocity: AUDIO.MIDI_VELOCITY };
+
+        notes.forEach(midiNote => channel.playNote(midiNote, options));
 
         return true;
     } catch (error) {
@@ -121,7 +122,6 @@ function sendMidiNoteOff(notes) {
     if (!selectedMidiOutput) return false;
 
     try {
-        console.log('Sending MIDI note-off:', notes, 'to', selectedMidiOutput.name);
         const channel = selectedMidiOutput.channels[1];
 
         notes.forEach(midiNote => {
@@ -142,8 +142,8 @@ function sendMidiNoteOff(notes) {
  * @param {number[]} notes - Array of MIDI note numbers
  */
 export async function startChord(notes) {
-    // Try MIDI first
-    if (sendMidiNoteOn(notes)) {
+    // Try MIDI first - no duration, the matching stopChord() sends note-off
+    if (sendMidiNoteOn(notes, null)) {
         return; // MIDI successful
     }
 
@@ -270,7 +270,6 @@ export async function playNotesSequentially(notes) {
     // Try MIDI first
     if (selectedMidiOutput) {
         try {
-            console.log('Sending MIDI notes sequentially:', notes, 'to', selectedMidiOutput.name);
             const channel = selectedMidiOutput.channels[1];
 
             for (let i = 0; i < notes.length; i++) {
@@ -331,10 +330,26 @@ export async function playNotesSequentially(notes) {
 }
 
 /**
- * Stop all currently playing oscillators
- * Useful for panic/reset or when window loses focus
+ * Stop everything currently sounding, on the browser synth and on any selected
+ * MIDI device. Used for panic/reset and when the window loses focus - without
+ * the MIDI half, alt-tabbing while holding a pad key left notes hanging on the
+ * external instrument with no way to silence them from the page.
  */
 export function stopAllNotes() {
+    if (selectedMidiOutput) {
+        try {
+            // Send All Notes Off (CC 123) and All Sound Off (CC 120) on every
+            // channel: chords may have been started before the user changed
+            // device or channel, so targeting only channel 1 can miss notes
+            for (let channel = 1; channel <= 16; channel++) {
+                selectedMidiOutput.channels[channel].sendAllNotesOff();
+                selectedMidiOutput.channels[channel].sendAllSoundOff();
+            }
+        } catch (error) {
+            console.warn('Could not send MIDI all-notes-off:', error);
+        }
+    }
+
     if (!audioContext) return;
 
     Object.keys(activeOscillators).forEach(midiNote => {
