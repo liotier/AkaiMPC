@@ -1190,8 +1190,22 @@ export function getScaleDegrees(mode) {
     return scale.map(note => Math.round(note));  // Round any quarter tones to nearest semitone
 }
 
-// Get chord quality for a scale degree in a given mode
+/**
+ * Get the triad quality for a scale degree in a given mode.
+ * Delegates to getScaleTriad so the declared colour below is used when it is
+ * playable in the scale and repaired from the scale when it is not.
+ *
+ * @param {number} degree - Scale degree index (0-based)
+ * @param {string} mode - Mode/scale name
+ * @returns {string} Chord type key
+ */
 export function getChordQualityForMode(degree, mode) {
+    return getScaleTriad(degree, mode);
+}
+
+// The intended triad colour of each degree, as authored. Consumed through
+// getScaleTriad(), which discards any entry that would step outside the scale.
+function getDeclaredChordQuality(degree, mode) {
     // Define triads for each mode (0-indexed scale degrees)
     const modeChordQualities = {
         'Major': {
@@ -1506,132 +1520,239 @@ export function getChordQualityForMode(degree, mode) {
 // Chord Building Functions
 // ============================================================================
 
+/**
+ * Interval recipes (in semitones above the root) for every chord type the
+ * generator can build. Single source of truth: chord construction, scale-fit
+ * analysis and chord naming all read from here, so adding a chord quality is
+ * a one-line change instead of four scattered ones.
+ */
+export const CHORD_INTERVALS = {
+    // Triads
+    major: [0, 4, 7],
+    minor: [0, 3, 7],
+    diminished: [0, 3, 6],
+    augmented: [0, 4, 8],
+    sus2: [0, 2, 7],
+    sus4: [0, 5, 7],
+
+    // Seventh chords
+    major7: [0, 4, 7, 11],
+    minor7: [0, 3, 7, 10],
+    dom7: [0, 4, 7, 10],
+    dim7: [0, 3, 6, 9],
+    m7b5: [0, 3, 6, 10],          // Half-diminished (ø7)
+    minMaj7: [0, 3, 7, 11],       // Minor-major 7th
+    aug7: [0, 4, 8, 10],          // Augmented 7th (7♯5)
+    augMaj7: [0, 4, 8, 11],       // Augmented major 7th
+    dom7sus4: [0, 5, 7, 10],      // 7sus4
+
+    // Extended chords (9th, 11th, 13th)
+    major9: [0, 4, 7, 11, 14],
+    minor9: [0, 3, 7, 10, 14],
+    dom9: [0, 4, 7, 10, 14],
+    dom7b9: [0, 4, 7, 10, 13],    // Altered dominant
+    dom7sharp9: [0, 4, 7, 10, 15],// Hendrix chord
+    major11: [0, 4, 7, 11, 14, 17],
+    minor11: [0, 3, 7, 10, 14, 17],
+    dom11: [0, 4, 7, 10, 14, 17],
+    major13: [0, 4, 7, 11, 14, 21],
+    minor13: [0, 3, 7, 10, 14, 21],
+    dom13: [0, 4, 7, 10, 14, 21],
+
+    // Altered dominants
+    dom7alt: [0, 4, 8, 10, 15],   // 7♯9♯5 - fully altered
+    dom7b5: [0, 4, 6, 10],        // Tritone substitution ready
+
+    // Quartal/Modern voicings
+    quartal: [0, 5, 10],
+    quartal4: [0, 5, 10, 15],
+
+    // Add9/Add11 (no 7th)
+    add9: [0, 4, 7, 14],
+    minAdd9: [0, 3, 7, 14],
+    add11: [0, 4, 7, 17],
+
+    // 6th chords
+    major6: [0, 4, 7, 9],
+    minor6: [0, 3, 7, 9],
+    'maj6/9': [0, 4, 7, 9, 14],
+
+    // Shell voicings (jazz comping - root, 3rd, 7th only)
+    shell7: [0, 4, 11],
+    shellm7: [0, 3, 10],
+    shelldom7: [0, 4, 10],
+
+    // Rootless voicings (jazz piano)
+    rootless7A: [4, 7, 11, 14],       // Type A: 3-5-7-9
+    rootlessm7A: [3, 7, 10, 14],
+    rootlessdom7A: [4, 7, 10, 14],
+    rootless7B: [11, 14, 16, 19],     // Type B: 7-9-3-5
+    rootlessm7B: [10, 14, 15, 19],
+    rootlessdom7B: [10, 14, 16, 19],
+
+    // Augmented 6th chords (resolve to V), spelled from ♭6 in the bass
+    It6: [0, 4, 10],   // Italian 6th:  ♭6, 1, ♯4
+    Fr6: [0, 4, 6, 10],// French 6th:   ♭6, 1, 2, ♯4
+    Ger6: [0, 4, 7, 10]// German 6th:   ♭6, 1, ♭3, ♯4
+};
+
 export function buildChordRaw(baseNote, chordType) {
     // Helper function that just returns MIDI notes without context
-    switch (chordType) {
-        // Triads
-        case 'major':
-            return [baseNote, baseNote + 4, baseNote + 7];
-        case 'minor':
-            return [baseNote, baseNote + 3, baseNote + 7];
-        case 'diminished':
-            return [baseNote, baseNote + 3, baseNote + 6];
-        case 'augmented':
-            return [baseNote, baseNote + 4, baseNote + 8];
-        case 'sus2':
-            return [baseNote, baseNote + 2, baseNote + 7];
-        case 'sus4':
-            return [baseNote, baseNote + 5, baseNote + 7];
-
-        // Seventh chords
-        case 'major7':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 11];
-        case 'minor7':
-            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 10];
-        case 'dom7':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10];
-        case 'dim7':
-            return [baseNote, baseNote + 3, baseNote + 6, baseNote + 9];
-        case 'm7b5': // Half-diminished
-            return [baseNote, baseNote + 3, baseNote + 6, baseNote + 10];
-        case 'minMaj7': // Minor-major 7th
-            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 11];
-        case 'aug7': // Augmented 7th
-            return [baseNote, baseNote + 4, baseNote + 8, baseNote + 10];
-        case 'augMaj7': // Augmented major 7th
-            return [baseNote, baseNote + 4, baseNote + 8, baseNote + 11];
-
-        // Extended chords (9th, 11th, 13th)
-        case 'major9':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 11, baseNote + 14];
-        case 'minor9':
-            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 10, baseNote + 14];
-        case 'dom9':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 14];
-        case 'dom7b9': // Altered dominant
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 13];
-        case 'dom7sharp9': // Hendrix chord
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 15];
-        case 'major11':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 11, baseNote + 14, baseNote + 17];
-        case 'minor11':
-            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 10, baseNote + 14, baseNote + 17];
-        case 'dom11':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 14, baseNote + 17];
-        case 'major13':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 11, baseNote + 14, baseNote + 21];
-        case 'minor13':
-            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 10, baseNote + 14, baseNote + 21];
-        case 'dom13':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 14, baseNote + 21];
-
-        // Altered dominants
-        case 'dom7alt': // 7#9#5 - fully altered
-            return [baseNote, baseNote + 4, baseNote + 8, baseNote + 10, baseNote + 15];
-        case 'dom7b5': // Tritone substitution ready
-            return [baseNote, baseNote + 4, baseNote + 6, baseNote + 10];
-
-        // Quartal/Modern voicings
-        case 'quartal':
-            return [baseNote, baseNote + 5, baseNote + 10];
-        case 'quartal4':
-            return [baseNote, baseNote + 5, baseNote + 10, baseNote + 15];
-
-        // Add9/Add11 (no 7th)
-        case 'add9':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 14];
-        case 'minAdd9':
-            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 14];
-        case 'add11':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 17];
-
-        // 6th chords
-        case 'major6':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 9];
-        case 'minor6':
-            return [baseNote, baseNote + 3, baseNote + 7, baseNote + 9];
-        case 'maj6/9':
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 9, baseNote + 14];
-
-        // Shell voicings (jazz comping - root, 3rd, 7th only)
-        case 'shell7':  // Major 7 shell
-            return [baseNote, baseNote + 4, baseNote + 11];
-        case 'shellm7':  // Minor 7 shell
-            return [baseNote, baseNote + 3, baseNote + 10];
-        case 'shelldom7':  // Dominant 7 shell
-            return [baseNote, baseNote + 4, baseNote + 10];
-
-        // Rootless voicings (jazz piano - 3rd, 7th, 9th or 7th, 3rd, 13th)
-        case 'rootless7A':  // Type A: 3-5-7-9
-            return [baseNote + 4, baseNote + 7, baseNote + 11, baseNote + 14];
-        case 'rootlessm7A':  // Minor Type A: 3-5-7-9
-            return [baseNote + 3, baseNote + 7, baseNote + 10, baseNote + 14];
-        case 'rootlessdom7A':  // Dom7 Type A: 3-5-7-9
-            return [baseNote + 4, baseNote + 7, baseNote + 10, baseNote + 14];
-        case 'rootless7B':  // Type B: 7-9-3-5
-            return [baseNote + 11, baseNote + 14, baseNote + 16, baseNote + 19];
-        case 'rootlessm7B':  // Minor Type B: 7-9-3-5
-            return [baseNote + 10, baseNote + 14, baseNote + 15, baseNote + 19];
-        case 'rootlessdom7B':  // Dom7 Type B: 7-9-3-5
-            return [baseNote + 10, baseNote + 14, baseNote + 16, baseNote + 19];
-
-        // Augmented 6th chords (resolve to V)
-        case 'It6':  // Italian 6th: ♭6, 1, ♯4 (♭6 in bass)
-            return [baseNote, baseNote + 4, baseNote + 10];
-        case 'Fr6':  // French 6th: ♭6, 1, 2, ♯4 (♭6 in bass)
-            return [baseNote, baseNote + 4, baseNote + 6, baseNote + 10];
-        case 'Ger6':  // German 6th: ♭6, 1, ♭3, ♯4 (♭6 in bass)
-            return [baseNote, baseNote + 4, baseNote + 7, baseNote + 10];
-
-        default:
-            return [baseNote, baseNote + 4, baseNote + 7];
-    }
+    const intervals = CHORD_INTERVALS[chordType] || CHORD_INTERVALS.major;
+    return intervals.map(interval => baseNote + interval);
 }
 
 export function buildChord(root, chordType, keyOffset) {
     const baseNote = 60 + keyOffset + root;
     // Delegate to buildChordRaw for consistency
     return buildChordRaw(baseNote, chordType);
+}
+
+// ============================================================================
+// Scale-derived Harmony
+// ============================================================================
+
+/**
+ * Abridged scales (fewer than 7 notes) do not contain enough pitches to build
+ * tertian harmony on every degree. Convention for these is to take the chords
+ * from the seven-note scale they are carved out of, which is what players
+ * actually do: a pentatonic-major vamp is harmonised with major-scale chords.
+ * Each parent listed here is a strict superset of its child scale.
+ */
+const SCALE_HARMONY_PARENT = {
+    'Pentatonic Major': 'Major',
+    'Pentatonic Minor': 'Minor',
+    'Blues': 'Dorian',                // gives the blues its IV7 without leaving the scale
+    'Hirajoshi': 'Harmonic Minor',
+    'Insen': 'Phrygian',
+    'Kumoi': 'Dorian',
+    'Egyptian Pentatonic': 'Dorian'
+};
+
+/**
+ * Triad qualities tried when the declared quality would introduce notes that
+ * are not in the scale. Ordered by how idiomatic they are as a chord: tertian
+ * triads first, then symmetrical ones, then suspended/quartal sonorities.
+ */
+const TRIAD_CANDIDATES = ['major', 'minor', 'diminished', 'augmented', 'sus4', 'sus2', 'quartal'];
+
+/**
+ * Seventh chords that can be layered on top of each triad quality, best first.
+ * The first one that stays inside the scale wins, which is how the textbook
+ * seventh of a degree falls out: I→maj7 in Ionian but I→7 in Mixolydian,
+ * vii°→ø7 in major but vii°→°7 in harmonic minor.
+ */
+const SEVENTH_CANDIDATES = {
+    major: ['major7', 'dom7', 'major6'],
+    minor: ['minor7', 'minMaj7', 'minor6'],
+    diminished: ['m7b5', 'dim7'],
+    augmented: ['augMaj7', 'aug7'],
+    sus4: ['dom7sus4'],
+    sus2: [],
+    quartal: ['quartal4']
+};
+
+/**
+ * Pitch classes available for building chords in a mode. For abridged scales
+ * this is the parent scale (see SCALE_HARMONY_PARENT); otherwise the scale itself.
+ *
+ * @param {string} mode - Mode/scale name
+ * @returns {Set<number>} Set of pitch classes (0-11)
+ */
+export function getHarmonyPitchClasses(mode) {
+    const pitchClasses = new Set(getScaleDegrees(mode).map(degree => ((degree % 12) + 12) % 12));
+    const parent = SCALE_HARMONY_PARENT[mode];
+    if (parent) {
+        getScaleDegrees(parent).forEach(degree => pitchClasses.add(((degree % 12) + 12) % 12));
+    }
+    return pitchClasses;
+}
+
+/**
+ * Check whether every note of a chord built on a root is available in a scale.
+ *
+ * @param {number} rootPitchClass - Root pitch class (0-11)
+ * @param {string} chordType - Chord type key from CHORD_INTERVALS
+ * @param {Set<number>} pitchClasses - Available pitch classes
+ * @returns {boolean} True if the chord uses only scale tones
+ */
+export function chordFitsScale(rootPitchClass, chordType, pitchClasses) {
+    return countForeignTones(rootPitchClass, chordType, pitchClasses) === 0;
+}
+
+/**
+ * How many notes of a chord fall outside a scale.
+ *
+ * @param {number} rootPitchClass - Root pitch class (0-11)
+ * @param {string} chordType - Chord type key from CHORD_INTERVALS
+ * @param {Set<number>} pitchClasses - Available pitch classes
+ * @returns {number} Count of chord tones not in the scale (Infinity if unknown type)
+ */
+function countForeignTones(rootPitchClass, chordType, pitchClasses) {
+    const intervals = CHORD_INTERVALS[chordType];
+    if (!intervals) return Infinity;
+    return intervals.filter(interval => !pitchClasses.has((rootPitchClass + interval) % 12)).length;
+}
+
+/**
+ * Best triad for a scale degree.
+ *
+ * The hand-written table in getChordQualityForMode records the intended colour
+ * of each degree and is kept whenever it stays inside the scale. When it does
+ * not - which was the case for most of the exotic scales - the triad is derived
+ * from the scale instead, so Scale Mode never shows a chord containing a note
+ * that is not in the scale the user asked for.
+ *
+ * @param {number} degree - Scale degree index (0-based)
+ * @param {string} mode - Mode/scale name
+ * @returns {string} Chord type key
+ */
+export function getScaleTriad(degree, mode) {
+    const scale = getScaleDegrees(mode);
+    const rootPitchClass = ((scale[degree % scale.length] % 12) + 12) % 12;
+    const pitchClasses = getHarmonyPitchClasses(mode);
+    const declared = getDeclaredChordQuality(degree, mode);
+
+    if (chordFitsScale(rootPitchClass, declared, pitchClasses)) {
+        return declared;
+    }
+
+    const derived = TRIAD_CANDIDATES.find(type => chordFitsScale(rootPitchClass, type, pitchClasses));
+    if (derived) return derived;
+
+    // A few degrees of the most lopsided scales support no triad at all - the
+    // ♭5 of the blues scale, the leading tone of Double Harmonic, the ♯4 of
+    // Hungarian Minor. Take whichever triad borrows the fewest foreign notes,
+    // keeping the declared colour when nothing beats it.
+    let best = declared;
+    let bestForeign = countForeignTones(rootPitchClass, declared, pitchClasses);
+    for (const type of TRIAD_CANDIDATES) {
+        const foreign = countForeignTones(rootPitchClass, type, pitchClasses);
+        if (foreign < bestForeign) {
+            best = type;
+            bestForeign = foreign;
+        }
+    }
+    return best;
+}
+
+/**
+ * Best seventh chord for a scale degree, built on top of that degree's triad.
+ * Falls back to the plain triad when the scale offers no usable seventh.
+ *
+ * @param {number} degree - Scale degree index (0-based)
+ * @param {string} mode - Mode/scale name
+ * @returns {string} Chord type key
+ */
+export function getScaleSeventh(degree, mode) {
+    const scale = getScaleDegrees(mode);
+    const rootPitchClass = ((scale[degree % scale.length] % 12) + 12) % 12;
+    const pitchClasses = getHarmonyPitchClasses(mode);
+    const triad = getScaleTriad(degree, mode);
+
+    const candidates = SEVENTH_CANDIDATES[triad] || [];
+    const seventh = candidates.find(type => chordFitsScale(rootPitchClass, type, pitchClasses));
+    return seventh || triad;
 }
 
 // ============================================================================
@@ -2297,7 +2418,9 @@ export function spellChordNotes(rootMidiOrNotes, chordType, romanNumeral = '') {
 
         // Get actual pitch class
         const pitchClass = midi % 12;
-        const octave = Math.floor(midi / 12) - 2;
+        // Octave follows the letter name, not the raw MIDI octave: B♯ belongs
+        // to the B below the C it sounds as, and C♭ to the C above.
+        let octave = Math.floor(midi / 12) - 2;
 
         // Find the spelling that matches the expected letter
         const sharpName = getNoteNameWithContext(midi, false);
@@ -2327,10 +2450,94 @@ export function spellChordNotes(rootMidiOrNotes, chordType, romanNumeral = '') {
             }
         }
 
+        // Sharpened B and C flat cross an octave boundary in pitch but not in
+        // letter, so 'B#4' should read 'B#3' and 'Cb3' should read 'Cb4'
+        if (noteName.startsWith('B') && noteName.includes('#') && pitchClass <= 1) octave -= 1;
+        if (noteName.startsWith('C') && noteName.includes('b') && pitchClass >= 10) octave += 1;
+
         return noteName + octave;
     });
 
     return spelled;
+}
+
+/**
+ * Chord Matcher dropdown value -> chord type. Single source of truth shared by
+ * the dropdown, the compatibility analysis, the pad highlighting and the
+ * palette injection, so adding a quality to the dropdown is enough to make it
+ * work everywhere.
+ */
+export const MATCHER_QUALITY_TYPES = {
+    'major': 'major',
+    'minor': 'minor',
+    'dim': 'diminished',
+    'aug': 'augmented',
+    'sus2': 'sus2',
+    'sus4': 'sus4',
+    '7': 'dom7',
+    'maj7': 'major7',
+    'm7': 'minor7',
+    'm7b5': 'm7b5',
+    'dim7': 'dim7',
+    'mMaj7': 'minMaj7',
+    '6': 'major6',
+    'm6': 'minor6'
+};
+
+/**
+ * Suffix appended to a root note to name a chord (e.g. 'minor7' -> 'm7').
+ * Kept ASCII so exported .progression chord names stay safe on MPC hardware.
+ */
+export const CHORD_NAME_SUFFIX = {
+    'major': '',
+    'minor': 'm',
+    'diminished': 'dim',
+    'augmented': 'aug',
+    'sus2': 'sus2',
+    'sus4': 'sus4',
+    'major7': 'maj7',
+    'minor7': 'm7',
+    'dom7': '7',
+    'dim7': 'dim7',
+    'dom7sus4': '7sus4',
+    'm7b5': 'm7b5',
+    'minMaj7': 'mMaj7',
+    'aug7': 'aug7',
+    'augMaj7': 'augMaj7',
+    'major9': 'maj9',
+    'minor9': 'm9',
+    'dom9': '9',
+    'dom7b9': '7b9',
+    'dom7sharp9': '7#9',
+    'major11': 'maj11',
+    'minor11': 'm11',
+    'dom11': '11',
+    'major13': 'maj13',
+    'minor13': 'm13',
+    'dom13': '13',
+    'dom7alt': '7alt',
+    'dom7b5': '7b5',
+    'quartal': 'sus4',
+    'quartal4': 'sus4(add11)',
+    'add9': 'add9',
+    'minAdd9': 'madd9',
+    'add11': 'add11',
+    'major6': '6',
+    'minor6': 'm6',
+    'maj6/9': '6/9',
+    'It6': 'It+6',
+    'Fr6': 'Fr+6',
+    'Ger6': 'Ger+6'
+};
+
+/**
+ * Naming suffix for a chord type (e.g. 'm7b5').
+ *
+ * @param {string} chordType - Chord type key
+ * @returns {string} Suffix appended to the root note name
+ */
+export function getChordSuffix(chordType) {
+    return CHORD_NAME_SUFFIX[chordType] || '';
 }
 
 export function getChordName(degree, chordType, keyOffset, romanNumeral = '') {
@@ -2338,49 +2545,9 @@ export function getChordName(degree, chordType, keyOffset, romanNumeral = '') {
     const useFlats = getEnharmonicContext(midiNote, romanNumeral) === 'flats';
     const rootNote = getNoteNameWithContext(midiNote, useFlats);
 
-    const suffixMap = {
-        'major': '',
-        'minor': 'm',
-        'diminished': 'dim',
-        'augmented': 'aug',
-        'sus2': 'sus2',
-        'sus4': 'sus4',
-        'major7': 'maj7',
-        'minor7': 'm7',
-        'dom7': '7',
-        'dim7': 'dim7',
-        'm7b5': 'm7b5',
-        'minMaj7': 'mMaj7',
-        'aug7': 'aug7',
-        'augMaj7': 'augMaj7',
-        'major9': 'maj9',
-        'minor9': 'm9',
-        'dom9': '9',
-        'dom7b9': '7b9',
-        'dom7sharp9': '7#9',
-        'major11': 'maj11',
-        'minor11': 'm11',
-        'dom11': '11',
-        'major13': 'maj13',
-        'minor13': 'm13',
-        'dom13': '13',
-        'dom7alt': '7alt',
-        'dom7b5': '7b5',
-        'quartal': 'sus4',
-        'quartal4': 'sus4(add11)',
-        'add9': 'add9',
-        'minAdd9': 'madd9',
-        'add11': 'add11',
-        'major6': '6',
-        'minor6': 'm6',
-        'maj6/9': '6/9',
-        'It6': 'It+6',
-        'Fr6': 'Fr+6',
-        'Ger6': 'Ger+6'
-    };
-
-    return rootNote + (suffixMap[chordType] || '');
+    return rootNote + getChordSuffix(chordType);
 }
+
 
 // Detect chord inversion and return slash notation if inverted
 export function getInversionNotation(notes, chordType, chordName, romanNumeral = '') {
@@ -2441,19 +2608,128 @@ export function getInversionNotation(notes, chordType, chordName, romanNumeral =
     return '/' + bassNoteName + bassOctave;
 }
 
-export function getRomanNumeral(degree, isMinor = false, isDim = false) {
-    const upperNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-    let numeral = upperNumerals[degree] || 'I';
+/**
+ * How each chord type is displayed and analysed.
+ *   label     - user-facing quality shown on the pad
+ *   lowercase - roman numeral is written in lower case (minor-family chords)
+ *   suffix    - appended to the roman numeral
+ * Anything absent falls back to a plain major reading.
+ */
+const CHORD_TYPE_DISPLAY = {
+    major: { label: 'Major', suffix: '' },
+    minor: { label: 'Minor', lowercase: true, suffix: '' },
+    diminished: { label: 'Diminished', lowercase: true, suffix: '°' },
+    augmented: { label: 'Augmented', suffix: '+' },
+    sus2: { label: 'Suspended', suffix: 'sus2' },
+    sus4: { label: 'Suspended', suffix: 'sus4' },
+    quartal: { label: 'Suspended', suffix: 'sus4' },
+    quartal4: { label: 'Suspended', suffix: 'sus4' },
+    major7: { label: 'Major 7', suffix: 'M7' },
+    minor7: { label: 'Minor 7', lowercase: true, suffix: '7' },
+    dom7: { label: 'Dominant 7', suffix: '7' },
+    dom7sus4: { label: 'Suspended', suffix: '7sus4' },
+    dim7: { label: 'Diminished 7', lowercase: true, suffix: '°7' },
+    m7b5: { label: 'Half-Diminished', lowercase: true, suffix: 'ø7' },
+    minMaj7: { label: 'Minor-Major 7', lowercase: true, suffix: '(maj7)' },
+    aug7: { label: 'Augmented 7', suffix: '+7' },
+    augMaj7: { label: 'Augmented Major 7', suffix: '+M7' },
+    major6: { label: 'Major 6', suffix: '6' },
+    minor6: { label: 'Minor 6', lowercase: true, suffix: '6' },
+    'maj6/9': { label: 'Major 6/9', suffix: '6/9' },
+    major9: { label: 'Major 9', suffix: 'M9' },
+    minor9: { label: 'Minor 9', lowercase: true, suffix: '9' },
+    dom9: { label: 'Dominant 9', suffix: '9' },
+    dom7b9: { label: 'Dominant 7♭9', suffix: '7♭9' },
+    dom7sharp9: { label: 'Dominant 7♯9', suffix: '7♯9' },
+    dom7b5: { label: 'Dominant 7♭5', suffix: '7♭5' },
+    dom7alt: { label: 'Altered Dominant', suffix: '7alt' },
+    major11: { label: 'Major 11', suffix: 'M11' },
+    minor11: { label: 'Minor 11', lowercase: true, suffix: '11' },
+    dom11: { label: 'Dominant 11', suffix: '11' },
+    major13: { label: 'Major 13', suffix: 'M13' },
+    minor13: { label: 'Minor 13', lowercase: true, suffix: '13' },
+    dom13: { label: 'Dominant 13', suffix: '13' },
+    add9: { label: 'Add 9', suffix: 'add9' },
+    minAdd9: { label: 'Minor Add 9', lowercase: true, suffix: 'add9' },
+    add11: { label: 'Add 11', suffix: 'add11' },
+    It6: { label: 'Italian 6th', suffix: '' },
+    Fr6: { label: 'French 6th', suffix: '' },
+    Ger6: { label: 'German 6th', suffix: '' }
+};
 
-    if (isMinor || isDim) {
-        numeral = numeral.toLowerCase();
-    }
+const DEFAULT_CHORD_DISPLAY = { label: 'Major', suffix: '' };
 
-    if (isDim) {
-        numeral += '°';
-    }
+/**
+ * User-facing quality label for a chord type (e.g. 'm7b5' -> 'Half-Diminished').
+ *
+ * @param {string} chordType - Chord type key
+ * @returns {string} Display label
+ */
+export function getQualityLabel(chordType) {
+    return (CHORD_TYPE_DISPLAY[chordType] || DEFAULT_CHORD_DISPLAY).label;
+}
 
-    return numeral;
+/**
+ * Roman numeral for a scale degree, cased and suffixed to match the chord type.
+ * e.g. (6, 'm7b5') -> 'viiø7', (0, 'minMaj7') -> 'i(maj7)'.
+ *
+ * @param {number} degree - Scale degree index (0-based)
+ * @param {string} chordType - Chord type key
+ * @returns {string} Roman numeral
+ */
+export function getRomanNumeralForChord(degree, chordType) {
+    const display = CHORD_TYPE_DISPLAY[chordType] || DEFAULT_CHORD_DISPLAY;
+    const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+    const base = numerals[degree % numerals.length] || 'I';
+    return (display.lowercase ? base.toLowerCase() : base) + display.suffix;
+}
+
+/**
+ * Roman numeral suffix for a chord type (e.g. 'm7b5' -> 'ø7'). Used when the
+ * numeral stem already exists, such as a borrowed '♭VII'.
+ *
+ * @param {string} chordType - Chord type key
+ * @returns {string} Suffix
+ */
+export function getRomanSuffix(chordType) {
+    return (CHORD_TYPE_DISPLAY[chordType] || DEFAULT_CHORD_DISPLAY).suffix;
+}
+
+/**
+ * Which triad a chord type is built on, so extensions can be offered only on
+ * degrees where they make sense: a dom13 belongs on a major degree, a minor11
+ * on a minor one, and suspended sonorities fit either.
+ *
+ * @param {string} chordType - Chord type key
+ * @returns {string} 'major' | 'minor' | 'diminished' | 'augmented' | 'suspended'
+ */
+export function getChordFamily(chordType) {
+    const intervals = CHORD_INTERVALS[chordType];
+    if (!intervals) return 'major';
+
+    const degrees = new Set(intervals.map(interval => interval % 12));
+    if (degrees.has(3) && degrees.has(6)) return 'diminished';
+    if (degrees.has(4) && degrees.has(8) && !degrees.has(7)) return 'augmented';
+    if (degrees.has(3) && degrees.has(7)) return 'minor';
+    if (degrees.has(4) && degrees.has(7)) return 'major';
+    if (degrees.has(4)) return 'major';
+    if (degrees.has(3)) return 'minor';
+    return 'suspended';
+}
+
+/**
+ * Rough "how much colour does this chord add" score, used to order the palette
+ * from foundation chords to spicy ones. Triads are plain, sevenths add colour,
+ * anything larger is an extension.
+ *
+ * @param {string} chordType - Chord type key
+ * @returns {number} 1 (triad) to 3 (extended)
+ */
+export function getChordComplexity(chordType) {
+    const size = (CHORD_INTERVALS[chordType] || []).length;
+    if (size <= 3) return 1;
+    if (size === 4) return 2;
+    return 3;
 }
 
 // ============================================================================
@@ -2586,7 +2862,6 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
         // All three primary chords (I, IV, V) are dominant 7ths - the defining
         // characteristic of blues harmony
         const pattern = [0, 0, 0, 0, 3, 3, 0, 0, 4, 3, 0, 4];
-        const romanNumerals = { 0: 'I7', 3: 'IV7', 4: 'V7' };
         pattern.forEach(degree => {
             const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
             const chordType = 'dom7';
@@ -2595,7 +2870,7 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
                 notes: buildChord(scaleDegree, chordType, keyOffset),
                 chordType,
                 chordName: getChordName(scaleDegree, chordType, keyOffset),
-                romanNumeral: romanNumerals[degree] || getRomanNumeral(degree, false, false)
+                romanNumeral: getRomanNumeralForChord(degree, chordType)
             });
         });
     } else {

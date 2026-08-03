@@ -19,7 +19,12 @@
       "sus4": "Sus4",
       "7": "Dominante 7",
       "maj7": "Majeure 7",
-      "m7": "Mineure 7"
+      "m7": "Mineure 7",
+      "6": "Sixte majeure",
+      "m6": "Sixte mineure",
+      "m7b5": "Demi-diminué 7 (m7♭5)",
+      "dim7": "Septième diminuée",
+      "mMaj7": "Mineure majeure 7"
     },
     "addChord": "Ajouter un accord",
     "clearAll": "Tout effacer",
@@ -44,7 +49,10 @@
   },
   "buttons": {
     "generate": "Générer les progressions",
-    "downloadAll": "Télécharger tous les fichiers .progression"
+    "downloadAll": "Télécharger tous les fichiers .progression",
+    "downloadAllProgression": "Télécharger tous les fichiers .progression",
+    "downloadAllMidi": "Télécharger tous les fichiers MIDI",
+    "printAll": "Imprimer toutes les progressions"
   },
   "tabs": {
     "mpc": "Pads MPC",
@@ -78,7 +86,11 @@
       "tooltip": "Variante expérimentale : Utilise des voicings étendus sur plusieurs octaves. Crée des couleurs et textures harmoniques uniques et non conventionnelles."
     },
     "progressionClarification": "Accords 1-{{count}} de la progression, {{next}}-16 extrapolés. ",
-    "chordDistanceHint": "Les couleurs des cartes montrent la distance d'accords depuis la carte sélectionnée"
+    "chordDistanceHint": "Les couleurs des cartes montrent la distance d'accords depuis la carte sélectionnée",
+    "scaleExploration": {
+      "label": "Tous les accords de la gamme",
+      "tooltip": "Mode Gamme : la triade de chaque degré de la gamme sur les deux premières rangées, et l’accord de septième de chaque degré sur les deux dernières. Les deux sont déduits de la gamme elle-même : aucun pad n’utilise une note absente de la gamme."
+    }
   },
   "footer": {
     "cousin": "Cousin du",
@@ -163,7 +175,20 @@
     "6": "Couleur vintage, adoucit l'harmonie.",
     "extended": "Harmonie étendue - couleur jazz/pop, ajoute de la profondeur.",
     "borrowed": "Accord emprunté - ajoute une couleur expressive en empruntant au mode parallèle.",
-    "default": "Couleur harmonique - ajoute variété et intérêt à la progression."
+    "default": "Couleur harmonique - ajoute variété et intérêt à la progression.",
+    "types": {
+      "m7b5": "Demi-diminué - le ii d’une tonalité mineure, accord de septième naturel sur un degré diminué ; mène à la dominante.",
+      "dim7": "Septième diminuée - tension maximale, se résout par demi-ton dans toutes les directions.",
+      "minMaj7": "Mineure majeure 7 - accord de tonique du mineur harmonique et mélodique ; sombre, cinématographique.",
+      "augMaj7": "Augmentée majeure 7 - médiante du mineur harmonique/mélodique ; instable et lumineuse.",
+      "aug7": "Septième augmentée - dominante à quinte augmentée, pousse fortement vers la tonique.",
+      "augmented": "Triade augmentée - symétrique et non résolue, peut mener vers plusieurs tonalités.",
+      "quartal": "Empilement de quartes - ouvert et modal, ne choisit ni majeur ni mineur.",
+      "dom7sus4": "7sus4 - tension de dominante avec la tierce suspendue, courant en modal et en gospel.",
+      "It6": "Sixte augmentée italienne - prédominante chromatique qui resserre les voix extrêmes sur la dominante.",
+      "Fr6": "Sixte augmentée française - prédominante chromatique avec seconde ajoutée, plus claire que l’italienne.",
+      "Ger6": "Sixte augmentée allemande - prédominante chromatique sonnant comme une septième de dominante, résout sur V."
+    }
   },
   "modeCategories": {
     "Common Western Tonal": "Modes tonaux occidentaux courants",
@@ -392,8 +417,8 @@
       }
     },
     "Blues/Soul": {
-      "I—I—I—I—IV—IV—I—I—V—IV—I—V": {
-        "name": "I—I—I—I—IV—IV—I—I—V—IV—I—V",
+      "12-bar-blues": {
+        "name": "12-bar-blues",
         "nickname": "12-Bar Blues",
         "description": "Le fondement du blues, du rock et du jazz. Quatre mesures de tonique établissent la maison, l'accord IV crée la tension, le retour à I fournit le soulagement, V-IV crée le \"retournement\" vers I. La progression la plus importante dans la musique américaine."
       },
@@ -478,6 +503,26 @@
         "name": "ii—V—I—IV—vii°—III7—vi",
         "nickname": "Autumn Leaves",
         "description": "La progression quintessientielle du standard jazz \"Les Feuilles Mortes\" de Joseph Kosma. Commence par ii-V-I en majeur, puis IV-vii°-III7-vi module vers le relatif mineur. Le III7 est une dominante secondaire (V/vi). Parfait pour apprendre l'improvisation jazz et la conduite des voix. L'une des compositions jazz les plus enregistrées."
+      },
+      "III7—VI7—II7—V7": {
+        "name": "III7—VI7—II7—V7",
+        "nickname": "Cycle ragtime",
+        "description": "Quatre septièmes de dominante enchaînées sur le cycle des quintes, chacune tonicisant la suivante. Le moteur du ragtime et du jazz ancien, encore le pont classique des rhythm changes."
+      },
+      "V7/ii—ii—V7—I": {
+        "name": "V7/ii—ii—V7—I",
+        "nickname": "Turnaround étendu",
+        "description": "Une dominante secondaire annonce le ii avant le ii-V-I habituel. Partir un cran plus loin sur le cycle des quintes double la longueur et l’attraction de la cadence."
+      },
+      "♭II7—I": {
+        "name": "♭II7—I",
+        "nickname": "Cadence tritonique",
+        "description": "La dominante remplacée par l’accord de septième situé à un triton. Mêmes notes directrices, mais la basse descend d’un demi-ton vers la tonique au lieu de sauter d’une quinte : la réharmonisation jazz par excellence."
+      },
+      "ii7—♭II7—IM7": {
+        "name": "ii7—♭II7—IM7",
+        "nickname": "ii-V-I tritonique",
+        "description": "Un ii-V-I dont le V est remplacé par sa substitution tritonique, la basse descendant chromatiquement du ii au I. Omniprésent dans les fins de morceaux bebop et bossa nova."
       }
     },
     "Classical/Modal": {
@@ -1052,6 +1097,11 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Palette acid classique. 7es mineures et voicings quartaux pour le squelch TB-303."
+      },
+      "i—♭VI—♭VII": {
+        "name": "i—♭VI—♭VII",
+        "nickname": "Montée industrielle",
+        "description": "Trois accords mineurs qui montent par tons entiers sans jamais revenir au i. Cette fin ouverte fait tourner la boucle indéfiniment, d’où son omniprésence dans l’EBM et la techno industrielle."
       }
     },
     "Modal Interchange": {
