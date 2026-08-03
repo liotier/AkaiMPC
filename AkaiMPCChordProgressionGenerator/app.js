@@ -337,7 +337,7 @@ function switchGenerationMode(mode, skipSave = false) {
 
         // Update label
         if (progressionNameLabel) {
-            progressionNameLabel.textContent = 'Progression Name';
+            progressionNameLabel.textContent = i18n.t('controls.labels.name');
         }
     } else {
         // Scale Mode: Mode is active, Progression is disabled
@@ -354,7 +354,7 @@ function switchGenerationMode(mode, skipSave = false) {
 
         // Update label
         if (progressionNameLabel) {
-            progressionNameLabel.textContent = 'Output Name';
+            progressionNameLabel.textContent = i18n.t('controls.labels.outputName');
         }
     }
 
@@ -446,19 +446,19 @@ function addChordRequirement() {
     }
 
     if (!noteSelect.value || !qualitySelect.value) {
-        showNotification('Please select both a note and chord quality', 'warning');
+        showNotification(i18n.t('messages.selectNoteAndQuality'), 'warning');
         return;
     }
 
     // Check maximum limit
     if (chordRequirements.length >= LIMITS.MAX_CHORD_REQUIREMENTS) {
-        showNotification(`Maximum ${LIMITS.MAX_CHORD_REQUIREMENTS} chords allowed in matcher`, 'warning');
+        showNotification(i18n.t('messages.maxChords', { max: LIMITS.MAX_CHORD_REQUIREMENTS }), 'warning');
         return;
     }
 
     const chordType = MATCHER_QUALITY_TYPES[qualitySelect.value];
     if (!chordType) {
-        showNotification(MESSAGES.ERRORS.INVALID_INPUT, 'warning');
+        showNotification(i18n.t('messages.selectNoteAndQuality'), 'warning');
         return;
     }
 
@@ -470,7 +470,7 @@ function addChordRequirement() {
 
     // Check if chord already exists
     if (chordRequirements.find(c => c.display === chord.display)) {
-        showNotification(MESSAGES.WARNINGS.CHORD_ALREADY_EXISTS, 'warning');
+        showNotification(i18n.t('messages.chordAlreadyAdded'), 'warning');
         // Reset selectors even if duplicate
         noteSelect.value = '';
         qualitySelect.value = '';
@@ -487,7 +487,7 @@ function addChordRequirement() {
     qualitySelect.value = '';
 
     // Success feedback
-    showNotification(`Added ${chord.display} to chord matcher`, 'info');
+    showNotification(i18n.t('messages.chordAdded', { chord: chord.display }), 'info');
 }
 
 function removeChordRequirement(index) {
@@ -517,7 +517,7 @@ function renderChordRequirements() {
     const container = document.getElementById('selectedChords');
 
     if (chordRequirements.length === 0) {
-        container.innerHTML = '<span style="color: var(--muted); font-size: 14px;">No chords selected</span>';
+        container.innerHTML = `<span style="color: var(--muted); font-size: 14px;">${escapeHtml(i18n.t('chordMatcher.noChordsSelected'))}</span>`;
     } else {
         container.innerHTML = chordRequirements.map((chord, index) => `
             <div class="chord-tag">
@@ -586,7 +586,7 @@ function displayCompatibilityResults(compatibleList) {
     const listDiv = document.getElementById('suggestionList');
 
     if (compatibleList.length === 0) {
-        listDiv.innerHTML = '<div class="suggestion-item incompatible">No compatible keys found. Try fewer or different chords.</div>';
+        listDiv.innerHTML = `<div class="suggestion-item incompatible">${escapeHtml(i18n.t('messages.noCompatibleKeysFound'))}</div>`;
     } else {
         // Group by key
         const byKey = {};
@@ -746,13 +746,13 @@ function analyzeProgression(pads) {
     const hasDiminished = progressionPads.some(p => p.quality === 'Diminished');
 
     const characteristics = [];
-    if (hasBorrowed) characteristics.push('Modal Interchange');
-    if (hasSecondary) characteristics.push('Secondary Dominants');
-    if (has7ths) characteristics.push('Extended Harmony');
-    if (hasDiminished) characteristics.push('Chromatic');
+    if (hasBorrowed) characteristics.push(i18n.t('analysis.modalInterchange'));
+    if (hasSecondary) characteristics.push(i18n.t('analysis.secondaryDominants'));
+    if (has7ths) characteristics.push(i18n.t('analysis.extendedHarmony'));
+    if (hasDiminished) characteristics.push(i18n.t('analysis.chromatic'));
 
     if (characteristics.length === 0) {
-        return 'Diatonic progression';
+        return i18n.t('analysis.diatonic');
     }
     return characteristics.join(' • ');
 }
@@ -1904,7 +1904,7 @@ function downloadSingleMIDI(variant) {
         downloadMIDIFile(midiData, fileName);
     } catch (error) {
         console.error('Failed to export MIDI file:', error);
-        alert('Failed to export MIDI file. Please try again.');
+        showNotification(i18n.t('errors.midiExportFailed'), 'error');
     }
 }
 
@@ -1923,7 +1923,7 @@ function activateVoiceLeadingHover(pad) {
     pad.classList.add('vl-hover-reference');
 
     // Recalculate colors for all other pads
-    const hoverLegend = 'Distance from hovered chord:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic';
+    const hoverLegend = i18n.t('variants.voiceLeadingHoverLegend');
     allPads.forEach(otherPad => {
         if (otherPad === pad) return; // Skip self
 
@@ -2014,7 +2014,7 @@ function renderProgressions() {
 
                 // Calculate voice leading distance from tonic (default state)
                 let voiceLeadingClass = '';
-                let voiceLeadingLegend = 'Relative smoothness:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic';
+                const voiceLeadingLegend = i18n.t('variants.voiceLeadingLegend');
 
                 // Find the tonic chord (first chord or roman numeral I/i)
                 const allPads = variant.pads.sort((a, b) => a.id - b.id);
@@ -2386,7 +2386,7 @@ function renderProgressions() {
     if (hasHover) {
         container.querySelectorAll('.download-btn').forEach(btn => {
             btn.addEventListener('pointerenter', function() {
-                showTooltip(this, 'Download');
+                showTooltip(this, i18n.t('buttons.download'));
             });
             btn.addEventListener('pointerleave', function() {
                 const tooltip = document.getElementById('chordTooltip');
@@ -2401,7 +2401,7 @@ function renderProgressions() {
 
 function exportProgressions() {
     if (variants.length === 0) {
-        alert('Please generate progressions first!');
+        showNotification(i18n.t('errors.generateFirst'), 'warning');
         return;
     }
 
@@ -2442,7 +2442,7 @@ function exportProgressions() {
 
 async function exportAllMIDI() {
     if (variants.length === 0) {
-        alert('Please generate progressions first!');
+        showNotification(i18n.t('errors.generateFirst'), 'warning');
         return;
     }
 
@@ -2472,7 +2472,7 @@ async function exportAllMIDI() {
         await downloadAllMIDIFiles(progressionsData, progressionName);
     } catch (error) {
         console.error('Failed to export MIDI files:', error);
-        alert('Failed to export MIDI files. Please try again.');
+        showNotification(i18n.t('errors.midiExportFailed'), 'error');
     }
 }
 
@@ -2522,6 +2522,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             const newLang = this.value;
             await i18n.setLanguage(newLang);
             updatePageTranslations();
+
+            // These two labels are written from JS, so the data-i18n sweep
+            // above cannot reach them
+            switchContext(currentContext);
+            switchGenerationMode(generationMode, true);
 
             // Re-render progressions if they've been generated
             if (hasGeneratedOnce && variants.length > 0) {
@@ -2648,7 +2653,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (hasHover) {
         const paletteModeLabel = document.getElementById('paletteModeLabel');
         paletteModeLabel.addEventListener('pointerenter', function() {
-            showTooltip(this, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
+            showTooltip(this, i18n.t('tooltips.paletteMode'));
         });
         paletteModeLabel.addEventListener('pointerleave', function() {
             const tooltip = document.getElementById('chordTooltip');
@@ -2657,7 +2662,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         const scaleModeLabel = document.getElementById('scaleModeLabel');
         scaleModeLabel.addEventListener('pointerenter', function() {
-            showTooltip(this, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.');
+            showTooltip(this, i18n.t('tooltips.scaleMode'));
         });
         scaleModeLabel.addEventListener('pointerleave', function() {
             const tooltip = document.getElementById('chordTooltip');
@@ -2667,7 +2672,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Custom tooltip for MIDI selector
         const midiSelector = document.getElementById('midiSelector');
         midiSelector.addEventListener('pointerenter', function() {
-            showTooltip(this, 'Play with computer keys: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)');
+            showTooltip(this, i18n.t('tooltips.keyboardShortcuts'));
         });
         midiSelector.addEventListener('pointerleave', function() {
             const tooltip = document.getElementById('chordTooltip');
@@ -2678,9 +2683,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         const progressionSelect = document.getElementById('progressionSelect');
         progressionSelect.addEventListener('pointerenter', function() {
             if (this.disabled) {
-                showTooltip(this, 'Progression palettes are not used in Scale Mode. All chords from the selected scale will be generated.');
+                showTooltip(this, i18n.t('tooltips.progressionPaletteDisabled'));
             } else {
-                showTooltip(this, 'Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors.');
+                showTooltip(this, i18n.t('tooltips.progressionPaletteEnabled'));
             }
         });
         progressionSelect.addEventListener('pointerleave', function() {
@@ -2692,7 +2697,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const modeSelect = document.getElementById('modeSelect');
         modeSelect.addEventListener('pointerenter', function() {
             if (this.disabled) {
-                showTooltip(this, 'Mode/Scale selector is not used in Progression Palette Mode. The progression defines its own harmonic structure.');
+                showTooltip(this, i18n.t('tooltips.modeSelectDisabled'));
             }
             // No tooltip when enabled (empty state)
         });
@@ -2756,30 +2761,26 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         // Setup tap tooltips for labels
         const paletteModeLabel = document.getElementById('paletteModeLabel');
-        setupTapTooltip(paletteModeLabel, 'Generate 16-pad chord palettes from curated progressions across 15 genres. Creates 5 voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific filters tailor the extended harmony.');
+        setupTapTooltip(paletteModeLabel, () => i18n.t('tooltips.paletteMode'));
 
         const scaleModeLabel = document.getElementById('scaleModeLabel');
-        setupTapTooltip(scaleModeLabel, 'Explore a scale/mode by generating all available chords. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.');
+        setupTapTooltip(scaleModeLabel, () => i18n.t('tooltips.scaleMode'));
 
         // MIDI selector (informational only, keyboard doesn't work on tablets)
         const midiSelector = document.getElementById('midiSelector');
-        setupTapTooltip(midiSelector, 'Keyboard shortcuts are for desktop. On tablets, tap chord pads to play them.');
+        setupTapTooltip(midiSelector, () => i18n.t('tooltips.keyboardShortcutsTouch'));
 
         // Progression select (dynamic tooltip)
         const progressionSelect = document.getElementById('progressionSelect');
         setupTapTooltip(progressionSelect, function() {
-            if (this.disabled) {
-                return 'Progression palettes are not used in Scale Mode. All chords from the selected scale will be generated.';
-            } else {
-                return 'Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors.';
-            }
+            return i18n.t(this.disabled ? 'tooltips.progressionPaletteDisabled' : 'tooltips.progressionPaletteEnabled');
         });
 
         // Mode select (dynamic tooltip)
         const modeSelect = document.getElementById('modeSelect');
         setupTapTooltip(modeSelect, function() {
             if (this.disabled) {
-                return 'Mode/Scale selector is not used in Progression Palette Mode. The progression defines its own harmonic structure.';
+                return i18n.t('tooltips.modeSelectDisabled');
             }
             return null; // No tooltip when enabled
         });

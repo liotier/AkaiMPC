@@ -28,7 +28,8 @@
     },
     "addChord": "Akkord hinzufügen",
     "clearAll": "Alle löschen",
-    "compatibleLabel": "Kompatible Tonarten und Modi:"
+    "compatibleLabel": "Kompatible Tonarten und Modi:",
+    "noChordsSelected": "Keine Akkorde ausgewählt"
   },
   "controls": {
     "generationMode": {
@@ -44,7 +45,7 @@
       "mode": "Modus/Tonleiter",
       "progression": "Progressionspaletten-Seed",
       "name": "Progressionsname",
-      "outputName": "Ausgabename"
+      "outputName": "Name der Ausgabe"
     }
   },
   "buttons": {
@@ -52,7 +53,8 @@
     "downloadAll": "Alle .progression-Dateien herunterladen",
     "downloadAllProgression": "Alle .progression-Dateien herunterladen",
     "downloadAllMidi": "Alle MIDI-Dateien herunterladen",
-    "printAll": "Alle Progressionen drucken"
+    "printAll": "Alle Progressionen drucken",
+    "download": "Herunterladen"
   },
   "tabs": {
     "mpc": "MPC-Pads",
@@ -90,7 +92,9 @@
     "scaleExploration": {
       "label": "Alle Akkorde der Tonleiter",
       "tooltip": "Tonleiter-Modus: in den ersten beiden Reihen der Dreiklang jeder Stufe, in den letzten beiden der Septakkord jeder Stufe. Beide werden aus der Tonleiter selbst abgeleitet, sodass kein Pad einen Ton verwendet, den die Tonleiter nicht enthält."
-    }
+    },
+    "voiceLeadingLegend": "Relative Geschmeidigkeit:\n🟢 Fließend  🟡 Mittel  🟠 Sprunghaft",
+    "voiceLeadingHoverLegend": "Abstand zum ausgewählten Akkord:\n🟢 Fließend  🟡 Mittel  🟠 Sprunghaft"
   },
   "footer": {
     "cousin": "Verwandt mit dem",
@@ -100,7 +104,12 @@
   },
   "tooltips": {
     "progressionPaletteDisabled": "Progressionspaletten werden im Tonleiter-Erkundungsmodus nicht verwendet. Alle Akkorde der ausgewählten Tonleiter werden generiert.",
-    "progressionPaletteEnabled": "Jede Palette liefert 16 einzigartige Akkorde: die ersten N aus der Progression, die restlichen Pads aus erweiterter Harmonik. Genre-spezifische Filter gewährleisten passende Akkordfarben."
+    "progressionPaletteEnabled": "Jede Palette liefert 16 einzigartige Akkorde: die ersten N aus der Progression, die restlichen Pads aus erweiterter Harmonik. Genre-spezifische Filter gewährleisten passende Akkordfarben.",
+    "paletteMode": "Erzeugt 16-Pad-Akkordpaletten aus kuratierten Progressionen aus 22 Genres. Liefert bis zu fünf Voicing-Varianten (Smooth, Classic, Jazz, Modal, Experimental). Genretypische Vorgaben stimmen die erweiterte Harmonik ab.",
+    "scaleMode": "Erkunden Sie eine Tonleiter oder einen Modus, indem alle darin möglichen Akkorde erzeugt werden: der Dreiklang jeder Stufe und anschließend der Septakkord jeder Stufe. Ideal, um Tonleitern wie Ganzton, Phrygisch-Dominant oder Ungarisch Moll kennenzulernen.",
+    "keyboardShortcuts": "Mit der Computertastatur spielen: cvbn (Pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
+    "keyboardShortcutsTouch": "Tastaturkürzel gelten für den Desktop. Auf dem Tablet tippen Sie die Pads an, um sie zu spielen.",
+    "modeSelectDisabled": "Die Modus-/Tonleiterauswahl wird im Progressions-Paletten-Modus nicht verwendet. Die Progression bestimmt ihre eigene harmonische Struktur."
   },
   "cadences": {
     "authentic": {
@@ -136,12 +145,19 @@
     "selectKey": "Bitte wählen Sie eine Tonart",
     "selectMode": "Bitte wählen Sie einen Modus",
     "selectProgression": "Bitte wählen Sie eine Progression",
-    "generateFailed": "Fehler beim Generieren der Progression"
+    "generateFailed": "Fehler beim Generieren der Progression",
+    "generateFirst": "Erzeugen Sie zuerst einige Progressionen",
+    "midiExportFailed": "Der MIDI-Export ist fehlgeschlagen. Bitte erneut versuchen."
   },
   "messages": {
     "loading": "Lädt...",
     "generating": "Generiere Progressionen...",
-    "complete": "Generierung abgeschlossen"
+    "complete": "Generierung abgeschlossen",
+    "selectNoteAndQuality": "Bitte einen Grundton und eine Akkordart auswählen",
+    "chordAdded": "{{chord}} zum Chord Matcher hinzugefügt",
+    "maxChords": "Der Chord Matcher nimmt höchstens {{max}} Akkorde auf",
+    "chordAlreadyAdded": "Dieser Akkord ist bereits im Chord Matcher",
+    "noCompatibleKeysFound": "Keine passende Tonart gefunden. Versuchen Sie es mit weniger oder anderen Akkorden."
   },
   "chordRoles": {
     "I": "Tonika - der Ruheakkord, bringt Auflösung und Stabilität.",
@@ -356,7 +372,8 @@
     "UK Bass": "UK Bass",
     "Reggae/Dub": "Reggae/Dub",
     "Acid/EBM": "Acid/EBM",
-    "Modal Interchange": "Modaler Austausch"
+    "Modal Interchange": "Modaler Austausch",
+    "Funk/Groove": "Funk/Groove"
   },
   "progressions": {
     "Pop/Rock": {
@@ -506,23 +523,58 @@
       },
       "III7—VI7—II7—V7": {
         "name": "III7—VI7—II7—V7",
-        "nickname": "Ragtime-Zyklus",
+        "nickname": "Ragtime Cycle",
         "description": "Vier Dominantseptakkorde im Quintenzirkel, von denen jeder den nächsten tonikalisiert. Der Motor des Ragtime und des frühen Jazz und bis heute die Standard-Bridge unzähliger Rhythm-Changes-Stücke."
       },
       "V7/ii—ii—V7—I": {
         "name": "V7/ii—ii—V7—I",
-        "nickname": "Erweitertes Turnaround",
+        "nickname": "Extended Turnaround",
         "description": "Eine Zwischendominante kündigt die ii-Stufe vor dem üblichen ii-V-I an. Ein Schritt weiter im Quintenzirkel verdoppelt Länge und Sogwirkung der Kadenz."
       },
       "♭II7—I": {
         "name": "♭II7—I",
-        "nickname": "Tritonus-Kadenz",
+        "nickname": "Tritone Cadence",
         "description": "Die Dominante wird durch den Septakkord im Tritonusabstand ersetzt. Gleiche Leittöne, aber der Bass rutscht einen Halbton in die Tonika statt eine Quinte zu springen - die klassische Jazz-Reharmonisierung."
       },
       "ii7—♭II7—IM7": {
         "name": "ii7—♭II7—IM7",
-        "nickname": "Tritonus-ii-V-I",
+        "nickname": "Tritone ii-V-I",
         "description": "Ein ii-V-I, dessen V durch seinen Tritonus-Partner ersetzt wird, sodass der Bass chromatisch von ii nach I absteigt. Allgegenwärtig in Bebop- und Bossa-Nova-Schlüssen."
+      },
+      "i—i(maj7)—i7—i6": {
+        "name": "i—i(maj7)—i7—i6",
+        "nickname": "Line Cliché",
+        "description": "Chromatisch absteigende Mittelstimme über einem stehenden Mollakkord. Die Septime sinkt: Grundton → große Septime → kleine Septime → Sexte und ergibt eine völlig glatte Stimmführung. Zu hören in „My Funny Valentine\", „Stairway to Heaven\" und unzähligen Filmmusiken. Eines der elegantesten harmonischen Mittel überhaupt."
+      },
+      "IM7—♭VII7—♭VIM7—V7": {
+        "name": "IM7—♭VII7—♭VIM7—V7",
+        "nickname": "Tadd Dameron Turnaround",
+        "description": "Das charakteristische Turnaround des Bebop-Komponisten Tadd Dameron. Der chromatische Abstieg über die entlehnten ♭VII7 und ♭VIM7 ergibt eine raffinierte Stimmführung, bevor er sich nach V7 auflöst. Eine farbigere Alternative zum üblichen I-vi-ii-V-Turnaround."
+      },
+      "IM7—♭IIIM7—♭VIM7—♭II7—IM7": {
+        "name": "IM7—♭IIIM7—♭VIM7—♭II7—IM7",
+        "nickname": "Lady Bird",
+        "description": "Die Changes von Tadd Damerons „Lady Bird\". Sie durchlaufen drei tonale Zentren im Abstand großer Terzen (I, ♭III, ♭VI), ähnlich den Coltrane Changes, aber älter als diese. Die Tritonussubstitution ♭II7 führt zurück zum I. Ein Bebop-Meisterstück harmonischer Bewegung."
+      },
+      "V7/ii—V7/V—V7—I": {
+        "name": "V7/ii—V7/V—V7—I",
+        "nickname": "Secondary Dominant Chain",
+        "description": "Kette von Zwischendominanten, die in Quinten abwärts fällt. Jede V7 löst sich zum nächsten Ziel auf und erzeugt unwiderstehlichen Vorwärtsdrang. Zeigt, wie Zwischendominanten eine einfache Progression verlängern und bereichern."
+      },
+      "I—V7/vi—vi—V7/V—V7—I": {
+        "name": "I—V7/vi—vi—V7/V—V7—I",
+        "nickname": "Extended Turnaround",
+        "description": "Klassisches Turnaround, angereichert mit Zwischendominanten. V7/vi (III7) zielt auf den vi-Akkord, V7/V (II7) auf die V. Harmonisch reizvoller als das einfache I-vi-ii-V, ohne an funktionaler Kraft zu verlieren."
+      },
+      "I—♯I°—ii—♯II°—iii": {
+        "name": "I—♯I°—ii—♯II°—iii",
+        "nickname": "Chromatic Ascent",
+        "description": "Aufsteigende diatonische Progression, verbunden durch verminderte Durchgangsakkorde. Jeder verminderte Akkord zieht eine chromatische Basslinie zwischen zwei Stufen. Ein klassisches Jazz-Mittel für Intros und Zwischenspiele mit gepflegter Stimmführung."
+      },
+      "I—I°—ii—♯II°—iii—III°—IV": {
+        "name": "I—I°—ii—♯II°—iii—III°—IV",
+        "nickname": "Full Chromatic Walk",
+        "description": "Langer chromatischer Aufstieg, gegliedert durch mehrere verminderte Durchgangsakkorde. Er ergibt eine durchgehend chromatische Basslinie von I nach IV. Maximale Geschmeidigkeit: Jeder Akkord schließt im Halbtonschritt an. Ein Standard des Jazz-Arrangements."
       }
     },
     "Classical/Modal": {
@@ -871,6 +923,36 @@
         "name": "i—iv—v—i",
         "nickname": "Minor Rock",
         "description": "Reine natürliche Moll-Rock-Progression. Moll i-iv-v (alle Moll/vermindert aus natürlicher Moll-Tonleiter) vermeidet das Dur-V des harmonischen Molls. Erzeugt dunkleren, modaleren Sound als klassisches Moll. Das natürliche Moll-v statt V reduziert Spannung und erzeugt schwerere, weniger aufgelöste Atmosphäre für Heavy Rock und Metal."
+      },
+      "i—V—♭VI—♭VII": {
+        "name": "i—V—♭VI—♭VII",
+        "nickname": "Epic Metal",
+        "description": "Dramatische Progression, die die V des harmonischen Molls (ein Durakkord voller Spannung) mit den entlehnten ♭VI und ♭VII verbindet. Die Dur-V hebt die Musik aus der Dunkelheit des natürlichen Molls, bevor sie über die entlehnten Akkorde absteigt. Ein epischer, filmischer Metal-Sound."
+      },
+      "i—iv—♭VII—♭III—♭VI—♭II—V": {
+        "name": "i—iv—♭VII—♭III—♭VI—♭II—V",
+        "nickname": "Neoclassical Descent",
+        "description": "Progression im Stil von Yngwie Malmsteen, die die harmonische Molltonleiter hinabsteigt. Sie verbindet klassische Stimmführung mit der Wucht des Metal. Das ♭II (Neapolitaner) bringt dramatische Spannung, bevor sie sich nach V auflöst. Bach trifft auf Marshall-Verstärker."
+      },
+      "i—V/iv—iv—V": {
+        "name": "i—V/iv—iv—V",
+        "nickname": "Secondary Metal",
+        "description": "Nutzt die Zwischendominante V/iv (ein Dur-I7), um den iv-Akkord anzusteuern, mit klassisch geprägter Stimmführung. Die Rückkehr zur Dur-V am Ende liefert eine authentische Kadenz. Verbreitet im Power Metal und im Symphonic Metal."
+      },
+      "i—♭II—♭VII—i": {
+        "name": "i—♭II—♭VII—i",
+        "nickname": "Phrygian Crush",
+        "description": "Phrygisch geprägte Progression mit einem bedrohlichen ♭II (Neapolitaner). Der Halbtonschritt zwischen i und ♭II treibt die Spannung auf die Spitze. Das ♭VII verschafft modale Entlastung, bevor es zur Tonika zurückgeht. Ein Standard im Thrash und Death Metal."
+      },
+      "i—iv—V—i—♭VI—♭III—♭VII—V": {
+        "name": "i—iv—V—i—♭VI—♭III—♭VII—V",
+        "nickname": "Extended Shred",
+        "description": "Ausgedehnte Progression, die die klassische Mollkadenz (i-iv-V-i) mit einer absteigenden Sequenz in natürlichem Moll (♭VI-♭III-♭VII) verbindet. Die Rückkehr zur V startet die Schleife neu. Ideal für lange neoklassische Soli und Progressive-Metal-Passagen."
+      },
+      "VI—VII—i": {
+        "name": "VI—VII—i",
+        "nickname": "Power Cadence",
+        "description": "Aufsteigende Annäherung an die Molltonika über die Durstufen VI und VII. Sie erzeugt eine kraftvolle Auflösung, im Metal oft in Quintparallelen verdoppelt. Der schrittweise Aufstieg staut Energie, bevor die Tonika erreicht wird. Allgegenwärtig in Metal-Breakdowns und -Schlüssen."
       }
     },
     "Trance/Psytrance/Goa": {
@@ -921,6 +1003,7 @@
       },
       "i—III—VII—IV": {
         "name": "i—III—VII—IV",
+        "nickname": "Morning Trance",
         "description": "Helle Morning-Psytrance-Progression. Moll-i kontrastiert mit Dur-III, VII und IV (aus harmonischem Moll/Dorisch-Mix). Die Dur-Akkorde erzeugen optimistische Sonnenaufgangs-Energie. Aufsteigende Bewegung (i-III-VII) dann Auflösung zu IV erzeugt aufhebendem Bogen. Verwendet in Morning-Psytrance-Sets für positive, energetische Atmosphäre beim Sonnenaufgang."
       },
       "i—v—♭VII": {
@@ -1084,6 +1167,31 @@
         "name": "i—♭VII—♭VI",
         "nickname": "Steppers Dub",
         "description": "Tiefe, meditative Palette. Moll- und Dur-Mix für 4/4-Steppers-Dub-Sessions."
+      },
+      "I—IV": {
+        "name": "I—IV",
+        "nickname": "Two-Chord Reggae",
+        "description": "Das schlichteste Reggae-Fundament: I und IV im Wechsel. Der „Skank\" auf den Offbeats bringt selbst zwei Akkorde zum Grooven. Ganz im Revier von Bob Marleys „One Love\". Einfache Dreiklänge und Dom7-Akkorde bewahren den authentischen Roots-Sound."
+      },
+      "i—♭VI—♭VII—i": {
+        "name": "i—♭VI—♭VII—i",
+        "nickname": "Lovers Rock",
+        "description": "Lovers-Rock-Progression in Moll. Die entlehnten ♭VI und ♭VII schaffen eine romantische, melancholische Atmosphäre. Sanfter als Roots-Reggae und ideal für Lovers-Rock-Balladen und Conscious Reggae."
+      },
+      "I—vi—IV—V": {
+        "name": "I—vi—IV—V",
+        "nickname": "Reggae Pop",
+        "description": "Pop-geprägte Reggae-Progression. Die klassischen Changes der Fünfzigerjahre in Reggae-Aufmachung. Das Ergebnis klingt zugänglicher und ist auf Crossover-Tracks zugeschnitten. Ganz im Revier von UB40 und Pop-Reggae."
+      },
+      "i—iv—i—V": {
+        "name": "i—iv—i—V",
+        "nickname": "Rockers Minor",
+        "description": "Rockers-Progression in Moll mit einer Dur-V für authentische Spannung. Das Pendeln zwischen i und iv erzeugt einen hypnotischen Moll-Groove, den die V wieder löst. Das klassische Fundament des Dub in Moll."
+      },
+      "I—V—vi—IV": {
+        "name": "I—V—vi—IV",
+        "nickname": "Reggae Axis",
+        "description": "Die „Axis of Awesome\"-Progression in Reggae-Aufmachung. Sie funktioniert hervorragend mit dem Offbeat-Rhythmus und klingt zugleich vertraut und frisch. Ein Standard des heutigen Reggae-Pop-Crossover."
       }
     },
     "Acid/EBM": {
@@ -1099,7 +1207,7 @@
       },
       "i—♭VI—♭VII": {
         "name": "i—♭VI—♭VII",
-        "nickname": "Industrieller Aufstieg",
+        "nickname": "Industrial Climb",
         "description": "Drei Moll-Akkorde, die in Ganztonschritten aufsteigen und nie zum i zurückkehren. Das offene Ende hält den Loop endlos in Bewegung - der Grund, warum es EBM und Industrial-Techno trägt."
       }
     },
@@ -1134,6 +1242,55 @@
         "nickname": "Entlehnte Kadenz",
         "description": "Zwei entlehnte Akkorde lösen sich zur Dur-Tonika auf. ♭VI und iv aus paralleler Moll-Tonart erzeugen dramatische Ankunft auf I."
       }
+    },
+    "Funk/Groove": {
+      "I7": {
+        "name": "I7",
+        "nickname": "One-Chord Funk",
+        "description": "Die Essenz des Funk: ein einziger Dominantnonakkord, der endlos gevampt wird. James Brown, Parliament-Funkadelic und unzählige Funk-Tracks beweisen, dass ein Akkord genügt, wenn der Rhythmus stimmt. Der Dom9 liefert die perfekte Mischung aus Spannung und Groove."
+      },
+      "i7": {
+        "name": "i7",
+        "nickname": "Minor Funk Vamp",
+        "description": "Moll-Variante des Ein-Akkord-Vamps. Moll-None und Moll-Undezime erzeugen ein dunkleres, melancholischeres Funk-Gefühl. Man denke an Herbie Hancocks „Chameleon\" oder moderne Neo-Soul-Grooves."
+      },
+      "I7—IV7": {
+        "name": "I7—IV7",
+        "nickname": "Two-Chord Funk",
+        "description": "Klassisches Funk-Pendeln zwischen I7 und IV7. Beide Akkorde sind Dominanten und erzeugen eine dauerhafte Spannung, die sich nie auflöst. Das Rückgrat des Funk, von James Brown bis Bruno Mars."
+      },
+      "i7—IV7": {
+        "name": "i7—IV7",
+        "nickname": "Minor-Major Funk",
+        "description": "Moll-Tonika mit Dur-IV erzeugt die modale Mehrdeutigkeit des dorischen Funk. Der Kontrast zwischen Moll und Dur bereichert die Harmonik, ohne die Schlichtheit des Grooves aufzugeben."
+      },
+      "I7—♭VII7—I7": {
+        "name": "I7—♭VII7—I7",
+        "nickname": "Mixolydian Funk",
+        "description": "Das aus Mixolydisch entlehnte ♭VII7 gibt der Progression eine Funk-Rock-Kante. Der Ganztonschritt abwärts erzeugt eine typische Funk-Bewegung. Verbreitet in Funk-Rock-Fusion und modernem R&B."
+      },
+      "ii7—V7": {
+        "name": "ii7—V7",
+        "nickname": "Jazz-Funk Turnaround",
+        "description": "Das ii-V-Turnaround auf Funk übertragen. Es erzeugt Vorwärtsdrang, ohne den Groove aufzugeben. Verbreitet in der Jazz-Funk-Fusion, von den Headhunters bis zu heutigen Produzenten."
+      },
+      "I7—ii7—iii7—IV7": {
+        "name": "I7—ii7—iii7—IV7",
+        "nickname": "Ascending Funk",
+        "description": "Schrittweise aufsteigende Progression, durchweg aus Dominantsept- und Mollseptakkorden. Sie baut Energie auf, wie geschaffen für Funk-Breakdowns und Steigerungen. Jeder Akkord drängt zum nächsten."
+      },
+      "I7—♯IV7—IV7—I7": {
+        "name": "I7—♯IV7—IV7—I7",
+        "nickname": "Chromatic Funk",
+        "description": "Der chromatische Durchgangsakkord (♯IV7) sorgt für eine geschmeidige Stimmführung zwischen I und IV. Das unerwartete ♯IV7 bringt harmonische Raffinesse, ohne die Funk-Schlichtheit zu stören. Ein Markenzeichen von Stevie Wonder."
+      }
     }
+  },
+  "analysis": {
+    "modalInterchange": "Modale Rückung",
+    "secondaryDominants": "Zwischendominanten",
+    "extendedHarmony": "Erweiterte Harmonik",
+    "chromatic": "Chromatik",
+    "diatonic": "Diatonische Progression"
   }
 }

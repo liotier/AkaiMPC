@@ -28,7 +28,8 @@
     },
     "addChord": "Add Chord",
     "clearAll": "Clear All",
-    "compatibleLabel": "Compatible Keys & Modes:"
+    "compatibleLabel": "Compatible Keys & Modes:",
+    "noChordsSelected": "No chords selected"
   },
   "controls": {
     "generationMode": {
@@ -52,7 +53,8 @@
     "downloadAll": "Download all .progression files",
     "downloadAllProgression": "Download all .progression files",
     "downloadAllMidi": "Download all MIDI files",
-    "printAll": "Print all progressions"
+    "printAll": "Print all progressions",
+    "download": "Download"
   },
   "tabs": {
     "mpc": "MPC Pads",
@@ -90,7 +92,9 @@
     "scaleExploration": {
       "label": "Every chord in the scale",
       "tooltip": "Scale Mode: the triad on each degree of the scale in the first two rows, and the seventh chord on each degree in the last two. Both are derived from the scale itself, so nothing on the grid uses a note the scale does not contain."
-    }
+    },
+    "voiceLeadingLegend": "Relative smoothness:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic",
+    "voiceLeadingHoverLegend": "Distance from the hovered chord:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic"
   },
   "footer": {
     "cousin": "Cousin to the",
@@ -100,7 +104,12 @@
   },
   "tooltips": {
     "progressionPaletteDisabled": "Progression palettes are not used in Scale Exploration mode. All chords from the selected scale will be generated.",
-    "progressionPaletteEnabled": "Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors."
+    "progressionPaletteEnabled": "Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors.",
+    "paletteMode": "Generate 16-pad chord palettes from curated progressions across 22 genres. Creates up to five voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific preferences tailor the extended harmony.",
+    "scaleMode": "Explore a scale or mode by generating every chord it supports: the triad on each degree, then the seventh chord on each degree. Ideal for learning scales like Whole Tone, Phrygian Dominant or Hungarian Minor.",
+    "keyboardShortcuts": "Play with computer keys: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
+    "keyboardShortcutsTouch": "Keyboard shortcuts are for desktop. On a tablet, tap the chord pads to play them.",
+    "modeSelectDisabled": "The Mode/Scale selector is not used in Progression Palette Mode. The progression defines its own harmonic structure."
   },
   "cadences": {
     "authentic": {
@@ -136,12 +145,19 @@
     "selectKey": "Please select a key",
     "selectMode": "Please select a mode",
     "selectProgression": "Please select a progression",
-    "generateFailed": "Failed to generate progression"
+    "generateFailed": "Failed to generate progression",
+    "generateFirst": "Generate some progressions first",
+    "midiExportFailed": "MIDI export failed. Please try again."
   },
   "messages": {
     "loading": "Loading...",
     "generating": "Generating progressions...",
-    "complete": "Generation complete"
+    "complete": "Generation complete",
+    "selectNoteAndQuality": "Please select both a note and a chord quality",
+    "chordAdded": "Added {{chord}} to the Chord Matcher",
+    "maxChords": "At most {{max}} chords can be added to the Chord Matcher",
+    "chordAlreadyAdded": "That chord is already in the Chord Matcher",
+    "noCompatibleKeysFound": "No compatible keys found. Try fewer or different chords."
   },
   "chordRoles": {
     "I": "Tonic - the home chord, gives resolution and stability.",
@@ -1269,5 +1285,12 @@
         "description": "Two borrowed chords resolving to major tonic. ♭VI and iv from parallel minor create dramatic, unexpected arrival on I. Avoids traditional V-I for modern, modal resolution. Used in contemporary pop and R&B for sophisticated harmony."
       }
     }
+  },
+  "analysis": {
+    "modalInterchange": "Modal Interchange",
+    "secondaryDominants": "Secondary Dominants",
+    "extendedHarmony": "Extended Harmony",
+    "chromatic": "Chromatic",
+    "diatonic": "Diatonic progression"
   }
 }

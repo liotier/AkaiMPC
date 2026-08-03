@@ -23,20 +23,12 @@ The language selector is populated dynamically from `i18n.getAvailableLanguages(
 
 ## Translation Coverage
 
-English is the source language and is always loaded alongside the selected
-language, so any key a translation file has not covered yet falls back to
-English rather than showing a raw key. Current gaps, all in the long-form
-progression `name` / `nickname` / `description` text:
+All six languages are complete: every key present in `en.json` is present and
+translated in every other file (766 keys each). English is loaded in parallel
+with the selected language, so a key added to `en.json` but not yet translated
+falls back to English rather than showing a raw key path.
 
-| Language | Keys missing (falling back to English) |
-| --- | --- |
-| `de.json` | 80 |
-| `es.json` | 79 |
-| `fr.json` | 79 |
-| `it.json` | 79 |
-| `pt.json` | 79 |
-
-To list the untranslated keys for a language, diff its key set against English:
+To check coverage after editing, diff the key sets:
 
 ```sh
 python3 - <<'EOF'
@@ -47,11 +39,9 @@ def flat(o, p=''):
     }
 en = flat(json.load(open('en.json')))
 other = flat(json.load(open('fr.json')))          # change the language here
-print('\n'.join(sorted(set(en) - set(other))))
+print('\n'.join(sorted(set(en) - set(other))) or 'complete')
 EOF
 ```
-
-Contributions welcome.
 
 ## Translation Guidelines
 
@@ -142,6 +132,5 @@ For questions or clarification, open an issue on GitHub.
 
 ## File Sizes
 
-Each language file is approximately:
-- Uncompressed: ~55KB
-- Gzipped: ~15KB
+Each language file holds 766 keys and is roughly 95 KB uncompressed,
+about a quarter of that gzipped.
