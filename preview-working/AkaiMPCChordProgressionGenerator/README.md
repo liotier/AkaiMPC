@@ -85,6 +85,13 @@ Rather than repeating chords sequentially, each progression provides a **palette
 - **Indian Ragas**: Bhairav, Kafi, Yaman, Bhairavi, Todi
 - **Exotic**: Double Harmonic, Hungarian Minor, Neapolitan Major/Minor, Phrygian Dominant, Persian, Hirajoshi, Insen, Kumoi, Egyptian Pentatonic
 
+The ragas and the exotic scales are 12-tone-equal-temperament approximations,
+offered as colour for Western production rather than as faithful renderings of
+the traditions they borrow their names from - those rely on tunings, ornaments
+and melodic rules a 4x4 pad grid cannot express. Treat them as flavour, not as
+authority. Scales whose quarter tones could not be approximated honestly
+(the Arabic maqamat) were removed rather than misrepresented.
+
 ### Advanced Harmonic Concepts Made Easy
 The generator seamlessly incorporates:
 - **Borrowed Chords** - Automatic modal interchange (that ♭VII from Mixolydian, iv from minor)
