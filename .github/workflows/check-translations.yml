@@ -1,0 +1,38 @@
+name: Check translations
+
+# The generator's locale files have drifted twice: once when 79 keys existed in
+# English and no other language, and once when musicTheory.js and the locale
+# files disagreed about which progressions exist. Both shipped unnoticed
+# because nothing checked. This job checks.
+
+on:
+  push:
+    paths:
+      - 'AkaiMPCChordProgressionGenerator/locales/**'
+      - 'AkaiMPCChordProgressionGenerator/modules/musicTheory.js'
+      - 'AkaiMPCChordProgressionGenerator/index.html'
+      - 'AkaiMPCChordProgressionGenerator/app.js'
+      - 'AkaiMPCChordProgressionGenerator/tools/check-translations.mjs'
+      - '.github/workflows/check-translations.yml'
+  pull_request:
+    paths:
+      - 'AkaiMPCChordProgressionGenerator/**'
+      - '.github/workflows/check-translations.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check translation completeness and consistency
+        working-directory: AkaiMPCChordProgressionGenerator
+        run: node tools/check-translations.mjs

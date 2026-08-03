@@ -9,8 +9,8 @@ export const guitarChords = {
         'dom7': {frets: 'x32310', fingers: 'x32410'},
         'major7': {frets: 'x32000', fingers: 'x32000'},
         'minor7': {frets: 'x35343', fingers: 'x13141', barre: {fret: 3, from: 1, to: 6}},
-        'sus2': {frets: 'x30010', fingers: 'x30010'},
-        'sus4': {frets: 'x33010', fingers: 'x34010'}
+        'sus2': {frets: 'x30013', fingers: 'x30014'},
+        'sus4': {frets: 'x33011', fingers: 'x34011'}
     },
     'D': {
         'major': {frets: 'xx0232', fingers: 'xx0132'},
@@ -99,7 +99,7 @@ export const guitarChords = {
         'dom7': {frets: '242322', fingers: '131211', barre: {fret: 2, from: 1, to: 6}},
         'major7': {frets: 'xx4321', fingers: 'xx4321'},
         'minor7': {frets: '242222', fingers: '131111', barre: {fret: 2, from: 1, to: 6}},
-        'sus2': {frets: 'xx4422', fingers: 'xx3411'},
+        'sus2': {frets: 'xx4122', fingers: 'xx4123'},
         'sus4': {frets: 'xx4422', fingers: 'xx3411'}
     },
     'G♯/A♭': {
@@ -109,8 +109,8 @@ export const guitarChords = {
         'dom7': {frets: '464544', fingers: '131211', barre: {fret: 4, from: 1, to: 6}},
         'major7': {frets: '465544', fingers: '132411', barre: {fret: 4, from: 1, to: 6}},
         'minor7': {frets: '464444', fingers: '131111', barre: {fret: 4, from: 1, to: 6}},
-        'sus2': {frets: '466644', fingers: '134411'},
-        'sus4': {frets: '466674', fingers: '134411'}
+        'sus2': {frets: 'xx6344', fingers: 'xx4123'},
+        'sus4': {frets: '466644', fingers: '134411'}
     },
     'A♯/B♭': {
         'major': {frets: 'x13331', fingers: 'x13331', barre: {fret: 1, from: 1, to: 5}},
@@ -124,48 +124,78 @@ export const guitarChords = {
     }
 };
 
-// Guitar chord helper functions
+// Pitch class of every note name that can start a chord name, including
+// the flat spellings getChordName produces for borrowed chords.
+const ROOT_PITCH_CLASSES = {
+    'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3, 'E': 4, 'Fb': 4,
+    'E#': 5, 'F': 5, 'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8,
+    'A': 9, 'A#': 10, 'Bb': 10, 'B': 11, 'Cb': 11
+};
+
+// Database keys, indexed by pitch class
+const LOOKUP_KEYS = ['C', 'C♯/D♭', 'D', 'D♯/E♭', 'E', 'F', 'F♯/G♭', 'G', 'G♯/A♭', 'A', 'A♯/B♭', 'B'];
+
+// Nearest shape when the exact quality has no entry. Every fallback keeps the
+// root and the third, so the diagram is still recognisably the same chord.
+const SHAPE_FALLBACKS = {
+    'major7': 'major',
+    'dom7': 'major',
+    'major6': 'major',
+    'add9': 'major',
+    'augmented': 'major',
+    'sus2': 'major',
+    'sus4': 'major',
+    'quartal': 'sus4',
+    'minor7': 'minor',
+    'minMaj7': 'minor',
+    'minor6': 'minor',
+    'm7b5': 'diminished',
+    'dim7': 'diminished',
+    'diminished': 'minor'
+};
+
+/**
+ * Find the guitar shape for a pad.
+ *
+ * The root comes from the chord name rather than the lowest note: voice leading
+ * inverts chords, so notes[0] is the bass, and reading the root off it drew an
+ * E major diagram for a C major chord in first inversion.
+ *
+ * @param {Object} pad - Pad with chordName, and optionally chordType/notes
+ * @returns {Object} Shape with frets/fingers, marked `simplified` when approximate
+ */
 export function getGuitarChord(pad) {
-    // Map pad quality to guitar chord type
-    let chordType = 'major';
-    if (pad.quality === 'Minor') chordType = 'minor';
-    else if (pad.quality === 'Diminished') chordType = 'diminished';
-    else if (pad.quality === 'Dominant 7') chordType = 'dom7';
-    else if (pad.quality === 'Major 7') chordType = 'major7';
-    else if (pad.quality === 'Minor 7') chordType = 'minor7';
-    else if (pad.quality === 'sus2') chordType = 'sus2';
-    else if (pad.quality === 'sus4') chordType = 'sus4';
+    const chordType = pad.chordType || 'major';
 
-    // Get root note name
-    const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-    const rootNote = noteNames[pad.notes[0] % 12];
-
-    // Look up chord in database
-    let lookupKey = rootNote;
-    // Handle enharmonic equivalents
-    if (rootNote === 'C#') lookupKey = 'C♯/D♭';
-    if (rootNote === 'D#') lookupKey = 'D♯/E♭';
-    if (rootNote === 'F#') lookupKey = 'F♯/G♭';
-    if (rootNote === 'G#') lookupKey = 'G♯/A♭';
-    if (rootNote === 'A#') lookupKey = 'A♯/B♭';
-
-    if (guitarChords[lookupKey] && guitarChords[lookupKey][chordType]) {
-        return guitarChords[lookupKey][chordType];
+    // Leading note letter plus any accidental, e.g. 'Bb' from 'Bbm7b5'
+    const rootMatch = (pad.chordName || '').match(/^[A-G][#b]?/);
+    let rootPitchClass = rootMatch ? ROOT_PITCH_CLASSES[rootMatch[0]] : undefined;
+    if (rootPitchClass === undefined) {
+        // No usable name: fall back to the lowest sounding note
+        rootPitchClass = pad.notes && pad.notes.length ? ((pad.notes[0] % 12) + 12) % 12 : 0;
     }
 
-    // Fallback for missing chords - try simpler version
-    const fallbacks = {
-        'major7': 'major',
-        'minor7': 'minor',
-        'dom7': 'major',
-        'diminished': 'minor'
-    };
+    const lookupKey = LOOKUP_KEYS[rootPitchClass];
+    const shapes = guitarChords[lookupKey];
+    if (!shapes) return { frets: 'xxxxxx', fingers: 'xxxxxx', simplified: true };
 
-    const fallbackType = fallbacks[chordType] || 'major';
-    if (guitarChords[lookupKey] && guitarChords[lookupKey][fallbackType]) {
-        return {...guitarChords[lookupKey][fallbackType], simplified: true};
+    if (shapes[chordType]) {
+        return shapes[chordType];
+    }
+
+    // Walk the fallback chain (e.g. dim7 -> diminished -> minor)
+    let fallbackType = SHAPE_FALLBACKS[chordType];
+    for (let hops = 0; fallbackType && hops < 4; hops++) {
+        if (shapes[fallbackType]) {
+            return { ...shapes[fallbackType], simplified: true };
+        }
+        fallbackType = SHAPE_FALLBACKS[fallbackType];
+    }
+
+    if (shapes.major) {
+        return { ...shapes.major, simplified: true };
     }
 
     // Ultimate fallback - just mute all strings
-    return {frets: 'xxxxxx', fingers: 'xxxxxx', simplified: true};
+    return { frets: 'xxxxxx', fingers: 'xxxxxx', simplified: true };
 }
