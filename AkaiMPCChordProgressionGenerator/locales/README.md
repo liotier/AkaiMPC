@@ -24,24 +24,41 @@ The language selector is populated dynamically from `i18n.getAvailableLanguages(
 ## Translation Coverage
 
 All six languages are complete: every key present in `en.json` is present and
-translated in every other file (766 keys each). English is loaded in parallel
-with the selected language, so a key added to `en.json` but not yet translated
-falls back to English rather than showing a raw key path.
+translated in every other file. English is loaded in parallel with the selected
+language, so a key added to `en.json` but not yet translated falls back to
+English rather than showing a raw key path.
 
-To check coverage after editing, diff the key sets:
+### Checking
 
 ```sh
-python3 - <<'EOF'
-import json
-def flat(o, p=''):
-    return {p: o} if not isinstance(o, dict) else {
-        k2: v2 for k, v in o.items() for k2, v2 in flat(v, f'{p}.{k}' if p else k).items()
-    }
-en = flat(json.load(open('en.json')))
-other = flat(json.load(open('fr.json')))          # change the language here
-print('\n'.join(sorted(set(en) - set(other))) or 'complete')
-EOF
+node tools/check-translations.mjs
 ```
+
+Run from the generator directory. It exits non-zero on any problem, and
+`.github/workflows/check-translations.yml` runs it on every push and pull
+request that touches the app.
+
+It checks seven things, because the two gaps this project has actually shipped
+had different causes and only one of them was a key-count mismatch:
+
+| Check | Catches |
+| --- | --- |
+| Key sets match `en.json` | A language falling behind |
+| No extra keys | A key added to one language only |
+| No blank values | An entry emptied while editing |
+| Every scale and progression in `musicTheory.js` has locale entries | A new template or scale added with no text |
+| No locale entries for scales or progressions that no longer exist | A renamed template leaving its old text behind |
+| Every `i18n.t('...')` in the JS resolves | Code asking for a key nobody wrote |
+| Every `data-i18n="..."` in the HTML resolves | A typo in a markup binding |
+
+Nothing is hand-listed: the expected keys are derived from `musicTheory.js` and
+from the source files themselves, so the check cannot go stale as scales and
+progressions are added.
+
+Keys that no literal lookup references are reported as a note rather than a
+failure, since several families are reached only through computed paths
+(`chordRoles` by roman numeral, `cadences` by type). The baseline is zero, so
+the note means something when it appears.
 
 ## Translation Guidelines
 
@@ -124,13 +141,14 @@ To add a new language:
 
 1. Copy `en.json` to `{language-code}.json`
 2. Translate all values (not keys)
-3. Add the language to `i18n.js` in the `languages` array with its code and native name
-4. Test the translation in the app
-5. Submit a pull request
+3. Add the language to `getAvailableLanguages()` in `modules/i18n.js` with its code and native name
+4. Run `node tools/check-translations.mjs` until it passes
+5. Test the translation in the app
+6. Submit a pull request
 
 For questions or clarification, open an issue on GitHub.
 
 ## File Sizes
 
-Each language file holds 766 keys and is roughly 95 KB uncompressed,
+Each language file holds 759 keys and is roughly 95 KB uncompressed,
 about a quarter of that gzipped.

@@ -142,17 +142,10 @@
     }
   },
   "errors": {
-    "selectKey": "Por favor selecciona una tonalidad",
-    "selectMode": "Por favor selecciona un modo",
-    "selectProgression": "Por favor selecciona una progresión",
-    "generateFailed": "Error al generar la progresión",
     "generateFirst": "Genera primero algunas progresiones",
     "midiExportFailed": "La exportación MIDI falló. Inténtalo de nuevo."
   },
   "messages": {
-    "loading": "Cargando...",
-    "generating": "Generando progresiones...",
-    "complete": "Generación completada",
     "selectNoteAndQuality": "Selecciona una nota y una cualidad de acorde",
     "chordAdded": "{{chord}} añadido al Chord Matcher",
     "maxChords": "El Chord Matcher admite como máximo {{max}} acordes",
