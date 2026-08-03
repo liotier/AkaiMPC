@@ -1,7 +1,41 @@
 // Storage Module
 // Handles localStorage and URL parameter persistence
 
+import { keys, modes, progressions } from './musicTheory.js';
+
 const STORAGE_KEY = 'akaiMPCPreferences';
+
+// Preferences arrive from the query string and from localStorage, i.e. from
+// anyone who can hand the user a link. They end up in the rendered page and in
+// exported file names, so only values the app actually offers are accepted -
+// anything else is dropped and the default kept.
+const VALID_KEYS = new Set(keys);
+const VALID_MODES = new Set(Object.values(modes).flat());
+const VALID_PROGRESSIONS = new Set(
+    Object.values(progressions).flat().map(progression => progression.value)
+);
+const VALID_CONTEXTS = new Set(['mpc', 'keyboard', 'guitar', 'staff', 'midi']);
+const VALID_GENERATION_MODES = new Set(['template', 'scale']);
+
+/**
+ * Keep only preference fields whose values the app recognises.
+ *
+ * @param {Object|null} preferences - Untrusted preferences
+ * @returns {Object|null} Preferences containing only valid fields, or null if none survive
+ */
+function sanitizePreferences(preferences) {
+    if (!preferences || typeof preferences !== 'object') return null;
+
+    const clean = {};
+    if (VALID_KEYS.has(preferences.key)) clean.key = preferences.key;
+    if (VALID_MODES.has(preferences.mode)) clean.mode = preferences.mode;
+    if (VALID_PROGRESSIONS.has(preferences.progression)) clean.progression = preferences.progression;
+    if (typeof preferences.leftHanded === 'boolean') clean.leftHanded = preferences.leftHanded;
+    if (VALID_CONTEXTS.has(preferences.context)) clean.context = preferences.context;
+    if (VALID_GENERATION_MODES.has(preferences.generationMode)) clean.generationMode = preferences.generationMode;
+
+    return Object.keys(clean).length > 0 ? clean : null;
+}
 
 /**
  * Save user preferences to localStorage
@@ -53,7 +87,7 @@ export function loadFromLocalStorage() {
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
-            return JSON.parse(stored);
+            return sanitizePreferences(JSON.parse(stored));
         }
     } catch (error) {
         console.warn('Could not load from localStorage:', error);
@@ -104,7 +138,7 @@ export function loadFromURL() {
         if (params.has('progression')) urlPreferences.progression = params.get('progression');
         if (params.has('leftHanded')) urlPreferences.leftHanded = params.get('leftHanded') === 'true';
 
-        return Object.keys(urlPreferences).length > 0 ? urlPreferences : null;
+        return sanitizePreferences(urlPreferences);
     } catch (error) {
         console.warn('Could not load from URL:', error);
         return null;

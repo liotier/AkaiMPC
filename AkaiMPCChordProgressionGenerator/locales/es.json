@@ -19,7 +19,12 @@
       "sus4": "Sus4",
       "7": "Dominante 7",
       "maj7": "Mayor 7",
-      "m7": "Menor 7"
+      "m7": "Menor 7",
+      "6": "Sexta mayor",
+      "m6": "Sexta menor",
+      "m7b5": "Semidisminuido 7 (m7♭5)",
+      "dim7": "Séptima disminuida",
+      "mMaj7": "Menor-mayor 7"
     },
     "addChord": "Añadir acorde",
     "clearAll": "Borrar todo",
@@ -44,7 +49,10 @@
   },
   "buttons": {
     "generate": "Generar progresiones",
-    "downloadAll": "Descargar todos los archivos .progression"
+    "downloadAll": "Descargar todos los archivos .progression",
+    "downloadAllProgression": "Descargar todos los archivos .progression",
+    "downloadAllMidi": "Descargar todos los archivos MIDI",
+    "printAll": "Imprimir todas las progresiones"
   },
   "tabs": {
     "mpc": "Pads MPC",
@@ -78,7 +86,11 @@
       "tooltip": "Variante experimental: Utiliza voicings extendidos a través de múltiples octavas. Crea colores y texturas armónicas únicas y no convencionales."
     },
     "progressionClarification": "Acordes 1-{{count}} de la progresión, {{next}}-16 extrapolados. ",
-    "chordDistanceHint": "Los colores de las tarjetas muestran la distancia de acordes desde la tarjeta seleccionada"
+    "chordDistanceHint": "Los colores de las tarjetas muestran la distancia de acordes desde la tarjeta seleccionada",
+    "scaleExploration": {
+      "label": "Todos los acordes de la escala",
+      "tooltip": "Modo Escala: la tríada de cada grado de la escala en las dos primeras filas y el acorde de séptima de cada grado en las dos últimas. Ambos se derivan de la propia escala, así que ningún pad usa una nota que la escala no contenga."
+    }
   },
   "footer": {
     "cousin": "Primo del",
@@ -163,7 +175,20 @@
     "6": "Color vintage, suaviza la armonía.",
     "extended": "Armonía extendida - color jazz/pop, añade profundidad.",
     "borrowed": "Acorde prestado - añade un color expresivo tomándolo del modo paralelo.",
-    "default": "Color armónico - añade variedad e interés a la progresión."
+    "default": "Color armónico - añade variedad e interés a la progresión.",
+    "types": {
+      "m7b5": "Semidisminuido - el ii de una tonalidad menor y el acorde de séptima natural sobre un grado disminuido; lleva a la dominante.",
+      "dim7": "Séptima disminuida - tensión máxima, resuelve por semitono en cualquier dirección.",
+      "minMaj7": "Menor-mayor 7 - acorde de tónica del menor armónico y melódico; sombrío, cinematográfico.",
+      "augMaj7": "Aumentada mayor 7 - mediante del menor armónico/melódico; inestable y luminosa.",
+      "aug7": "Séptima aumentada - dominante con quinta aumentada, empuja con fuerza hacia la tónica.",
+      "augmented": "Tríada aumentada - simétrica y sin resolver, puede conducir a varias tonalidades.",
+      "quartal": "Cuartas superpuestas - abierto y modal, no se compromete con mayor ni menor.",
+      "dom7sus4": "7sus4 - tensión de dominante con la tercera suspendida, común en modal y gospel.",
+      "It6": "Sexta aumentada italiana - predominante cromática que estrecha las voces extremas hacia la dominante.",
+      "Fr6": "Sexta aumentada francesa - predominante cromática con segunda añadida, más brillante que la italiana.",
+      "Ger6": "Sexta aumentada alemana - predominante cromática que suena como séptima de dominante y resuelve a V."
+    }
   },
   "modeCategories": {
     "Common Western Tonal": "Modos tonales occidentales comunes",
@@ -392,8 +417,8 @@
       }
     },
     "Blues/Soul": {
-      "I—I—I—I—IV—IV—I—I—V—IV—I—V": {
-        "name": "I—I—I—I—IV—IV—I—I—V—IV—I—V",
+      "12-bar-blues": {
+        "name": "12-bar-blues",
         "nickname": "12-Bar Blues",
         "description": "La base del blues, rock y jazz. Cuatro compases de tónica establecen el hogar, el acorde IV crea tensión, el retorno a I proporciona alivio, V-IV crea el \"turnaround\" hacia I. La progresión más importante en la música americana."
       },
@@ -478,6 +503,26 @@
         "name": "ii—V—I—IV—vii°—III7—vi",
         "nickname": "Autumn Leaves",
         "description": "La progresión quintaesencial del standard jazz \"Autumn Leaves\" de Joseph Kosma. Abre con ii-V-I en mayor, luego IV-vii°-III7-vi modula al relativo menor. El III7 es dominante secundaria (V/vi). Perfecta para aprender improvisación jazz y conducción de voces. Una de las composiciones jazz más grabadas."
+      },
+      "III7—VI7—II7—V7": {
+        "name": "III7—VI7—II7—V7",
+        "nickname": "Ciclo ragtime",
+        "description": "Cuatro séptimas de dominante encadenadas por el círculo de quintas, cada una tonicalizando la siguiente. El motor del ragtime y del jazz temprano, y todavía el puente estándar de los rhythm changes."
+      },
+      "V7/ii—ii—V7—I": {
+        "name": "V7/ii—ii—V7—I",
+        "nickname": "Turnaround extendido",
+        "description": "Una dominante secundaria anuncia el ii antes del ii-V-I habitual. Empezar un paso más atrás en el círculo de quintas duplica la longitud y la fuerza de la cadencia."
+      },
+      "♭II7—I": {
+        "name": "♭II7—I",
+        "nickname": "Cadencia de tritono",
+        "description": "La dominante sustituida por el acorde de séptima a distancia de tritono. Mismas notas guía, pero el bajo desciende un semitono hasta la tónica en vez de saltar una quinta: la rearmonización jazzística por excelencia."
+      },
+      "ii7—♭II7—IM7": {
+        "name": "ii7—♭II7—IM7",
+        "nickname": "ii-V-I con tritono",
+        "description": "Un ii-V-I con el V sustituido por su tritono, de modo que el bajo baja cromáticamente del ii al I. Omnipresente en los finales de bebop y bossa nova."
       }
     },
     "Classical/Modal": {
@@ -1052,6 +1097,11 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Paleta acid clásica. 7as menores y voicings cuartales para squelch TB-303."
+      },
+      "i—♭VI—♭VII": {
+        "name": "i—♭VI—♭VII",
+        "nickname": "Ascenso industrial",
+        "description": "Tres acordes en menor que suben por tonos enteros sin volver nunca al i. El final abierto mantiene el loop girando sin fin, y por eso sostiene tanto EBM y techno industrial."
       }
     },
     "Modal Interchange": {

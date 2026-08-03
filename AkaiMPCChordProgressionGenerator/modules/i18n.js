@@ -9,6 +9,30 @@ class I18n {
         this.translations = {};
         this.fallbackLang = 'en';
         this.loadingPromises = {};
+        this.reportedMissing = new Set();
+    }
+
+    /**
+     * Load a language plus the English fallback.
+     * t() falls back to English for any key a translation file is missing, but
+     * that only works if English is in memory - otherwise the untranslated keys
+     * rendered as raw dotted paths ('progressionCategories.Funk/Groove').
+     *
+     * @param {string} lang - Language code
+     * @returns {Promise} Resolves once the language is usable
+     */
+    async loadLanguageWithFallback(lang) {
+        const loads = [this.loadLanguage(lang)];
+        if (lang !== this.fallbackLang && !this.translations[this.fallbackLang]) {
+            loads.push(
+                this.loadLanguage(this.fallbackLang)
+                    .catch(error => console.warn('Could not preload fallback language:', error))
+            );
+        }
+        const [primary] = await Promise.allSettled(loads);
+        // Keep the language the caller asked for, not whichever load finished last
+        this.currentLang = lang;
+        if (primary.status === 'rejected') throw primary.reason;
     }
 
     /**
@@ -58,7 +82,7 @@ class I18n {
      * @returns {Promise} - Resolves when language is loaded and set
      */
     async setLanguage(lang) {
-        await this.loadLanguage(lang);
+        await this.loadLanguageWithFallback(lang);
         this.currentLang = lang;
         this.saveLanguage(lang);
         return Promise.resolve();
@@ -81,7 +105,10 @@ class I18n {
 
         // Return key if no translation found
         if (translation === undefined) {
-            console.warn(`Translation missing for key: ${key}`);
+            if (!this.reportedMissing.has(key)) {
+                this.reportedMissing.add(key);
+                console.warn(`Translation missing for key: ${key}`);
+            }
             return key;
         }
 
@@ -92,6 +119,19 @@ class I18n {
 
         // Interpolate parameters
         return this.interpolate(translation, params);
+    }
+
+    /**
+     * Does a key resolve, in the current language or in English?
+     * Lets callers probe several candidate keys without logging a miss for each
+     * speculative attempt.
+     *
+     * @param {string} key - Translation key (dot-notation)
+     * @returns {boolean} True if the key resolves
+     */
+    has(key) {
+        return this.getNestedValue(this.translations[this.currentLang], key) !== undefined ||
+               this.getNestedValue(this.translations[this.fallbackLang], key) !== undefined;
     }
 
     /**
@@ -184,7 +224,7 @@ const savedLang = i18n.getSavedLanguage();
 const initialLang = savedLang || (i18n.getAvailableLanguages().find(l => l.code === browserLang) ? browserLang : 'en');
 
 // Load initial language (don't await - will load in background)
-i18n.loadLanguage(initialLang).catch(error => {
+i18n.loadLanguageWithFallback(initialLang).catch(error => {
     console.error('Failed to load initial language:', error);
     // Fallback to English if initial load fails
     if (initialLang !== 'en') {

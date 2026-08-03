@@ -6,11 +6,22 @@ import {
     getKeyOffset,
     getScaleDegrees,
     getChordQualityForMode,
+    getScaleTriad,
+    getScaleSeventh,
+    getQualityLabel,
+    getRomanNumeralForChord,
+    getHarmonyPitchClasses,
+    chordFitsScale,
+    getChordSuffix,
+    getRomanSuffix,
+    getChordFamily,
+    getChordComplexity,
+    MATCHER_QUALITY_TYPES,
     buildChord,
     getChordName,
-    getRomanNumeral,
     generateProgressionChords,
     spellChordNotes,
+    getEnharmonicContext,
     applyVoicingStyle,
     optimizeVoiceLeading,
     optimizeSmoothVoiceLeading,
@@ -83,6 +94,39 @@ const isTablet = isLikelyTablet();
 // Tablet interaction state
 let voiceLeadingLocked = null; // Track locked voice leading visualization on tablets
 let activeTooltip = null; // Track active tooltip on tablets
+
+/**
+ * Escape text destined for an innerHTML template.
+ * The progression name is a free-text field and the key/mode/progression can
+ * arrive from a shared link, so nothing that reaches the card markup is trusted.
+ *
+ * @param {*} value - Value to escape
+ * @returns {string} HTML- and attribute-safe text
+ */
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+}
+
+/**
+ * Make a string safe to use as a download file name. The progression name is
+ * user-editable, so strip path separators and characters that break downloads
+ * on Windows, macOS and Linux alike.
+ *
+ * @param {string} name - Proposed file name
+ * @returns {string} Sanitised file name
+ */
+function sanitizeFileName(name) {
+    const cleaned = String(name ?? '')
+        .replaceAll(/[\\/:*?"<>|\u0000-\u001F]/g, '_')
+        .replace(/^\.+/, '')
+        .trim();
+    return cleaned.slice(0, 120) || 'progression';
+}
 
 // Show user notification (toast message)
 function showNotification(message, type = 'info') {
@@ -243,16 +287,15 @@ function switchContext(context) {
         }
     });
 
-    // Update button label
+    // Update button label. Uses i18n keys - the previous hardcoded English
+    // here silently overwrote the translated label on every context switch.
     const downloadBtn = document.getElementById('downloadAllBtn');
     if (downloadBtn) {
-        if (context === 'mpc') {
-            downloadBtn.textContent = 'Download all .progression files';
-        } else if (context === 'midi') {
-            downloadBtn.textContent = 'Download all MIDI files';
-        } else {
-            downloadBtn.textContent = 'Print all progressions';
-        }
+        const labelKey = context === 'mpc' ? 'buttons.downloadAllProgression'
+                       : context === 'midi' ? 'buttons.downloadAllMidi'
+                       : 'buttons.printAll';
+        downloadBtn.textContent = i18n.t(labelKey);
+        downloadBtn.removeAttribute('data-i18n');
     }
 
     // Show/hide left-handed toggle for guitar context
@@ -413,18 +456,16 @@ function addChordRequirement() {
         return;
     }
 
+    const chordType = MATCHER_QUALITY_TYPES[qualitySelect.value];
+    if (!chordType) {
+        showNotification(MESSAGES.ERRORS.INVALID_INPUT, 'warning');
+        return;
+    }
+
     const chord = {
         note: noteSelect.value,
         quality: qualitySelect.value,
-        display: noteSelect.value + (qualitySelect.value === 'major' ? '' :
-                 qualitySelect.value === 'minor' ? 'm' :
-                 qualitySelect.value === 'dim' ? '°' :
-                 qualitySelect.value === 'aug' ? '+' :
-                 qualitySelect.value === 'sus2' ? 'sus2' :
-                 qualitySelect.value === 'sus4' ? 'sus4' :
-                 qualitySelect.value === '7' ? '7' :
-                 qualitySelect.value === 'maj7' ? 'maj7' :
-                 qualitySelect.value === 'm7' ? 'm7' : '')
+        display: noteSelect.value + getChordSuffix(chordType)
     };
 
     // Check if chord already exists
@@ -480,7 +521,7 @@ function renderChordRequirements() {
     } else {
         container.innerHTML = chordRequirements.map((chord, index) => `
             <div class="chord-tag">
-                ${chord.display}
+                ${escapeHtml(chord.display)}
                 <button onclick="removeChordRequirement(${index})">×</button>
             </div>
         `).join('');
@@ -512,48 +553,32 @@ function analyzeCompatibleKeys() {
     filterKeyModeDropdowns(compatibleKeysAndModes);
 }
 
+// Pitch class of each note name offered by the Chord Matcher
+const NOTE_PITCH_CLASSES = { 'C': 0, 'C#': 1, 'D': 2, 'D#': 3, 'E': 4, 'F': 5, 'F#': 6, 'G': 7, 'G#': 8, 'A': 9, 'A#': 10, 'B': 11 };
+
+/**
+ * A key/mode is compatible when every requested chord can be played inside it:
+ * its root must be a degree of the scale and all of its notes must be scale
+ * tones. Tested on pitch classes so enharmonics resolve correctly, and driven
+ * by the scale itself so it holds for all modes, not just major and minor.
+ */
 function isKeyModeCompatible(key, mode) {
     const keyOffset = getKeyOffset(key);
     const scaleDegrees = getScaleDegrees(mode);
+    const harmonyPitchClasses = getHarmonyPitchClasses(mode);
+    const rootsInKey = new Set(scaleDegrees.map(degree => (degree + keyOffset) % 12));
 
-    // Get all triads in this key/mode
-    const availableChords = [];
-    for (let i = 0; i < scaleDegrees.length; i++) {
-        const degree = scaleDegrees[i];
+    return chordRequirements.every(req => {
+        const requestedRoot = NOTE_PITCH_CLASSES[req.note];
+        if (requestedRoot === undefined || !rootsInKey.has(requestedRoot)) return false;
 
-        // Determine chord quality based on scale degree
-        let quality;
-        if (mode === 'Major') {
-            quality = [0, 3, 4].includes(i) ? 'major' : [1, 2, 5].includes(i) ? 'minor' : 'diminished';
-        } else if (mode === 'Minor') {
-            quality = [0, 3, 4].includes(i) ? 'minor' : [2, 5, 6].includes(i) ? 'major' : 'diminished';
-        } else {
-            // Simplified for other modes - would need full implementation
-            quality = i === 0 ? 'major' : 'minor';
-        }
+        const chordType = MATCHER_QUALITY_TYPES[req.quality];
+        if (!chordType) return false;
 
-        const noteName = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'][(degree + keyOffset) % 12];
-        availableChords.push({ note: noteName, quality });
-
-        // Also add 7th chords if base triad exists
-        if (quality === 'major') {
-            availableChords.push({ note: noteName, quality: 'maj7' });
-            availableChords.push({ note: noteName, quality: '7' });
-        } else if (quality === 'minor') {
-            availableChords.push({ note: noteName, quality: 'm7' });
-        }
-    }
-
-    // Check if all required chords are available
-    return chordRequirements.every(req =>
-        availableChords.some(chord =>
-            chord.note.replace('#', '').replace('♭', '') === req.note.replace('#', '').replace('♭', '') &&
-            (chord.quality === req.quality ||
-             (req.quality === '7' && chord.quality === 'major') ||
-             (req.quality === 'm7' && chord.quality === 'minor') ||
-             (req.quality === 'maj7' && chord.quality === 'major'))
-        )
-    );
+        // getHarmonyPitchClasses is relative to the tonic, so is the root
+        const rootRelativeToTonic = ((requestedRoot - keyOffset) % 12 + 12) % 12;
+        return chordFitsScale(rootRelativeToTonic, chordType, harmonyPitchClasses);
+    });
 }
 
 function displayCompatibilityResults(compatibleList) {
@@ -573,7 +598,7 @@ function displayCompatibilityResults(compatibleList) {
         let html = '';
         Object.entries(byKey).forEach(([key, modes]) => {
             if (modes.length > 0) {
-                html += `<div class="suggestion-item compatible"><strong>${key}:</strong> ${modes.join(', ')}</div>`;
+                html += `<div class="suggestion-item compatible"><strong>${escapeHtml(key)}:</strong> ${escapeHtml(modes.join(', '))}</div>`;
             }
         });
         listDiv.innerHTML = html;
@@ -1013,8 +1038,14 @@ function scoreCandidate(candidate, analysis, existingRoots) {
 
 function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType) {
     const analysis = analyzeExistingChords(existingChords);
-    const candidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType);
+    const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType);
     const existingRoots = existingChords.map(c => c.notes && c.notes[0] ? c.notes[0] % 12 : 0);
+
+    // Rows 1-3 are already on the grid; a candidate that repeats one of them
+    // wastes a pad. Fall back to the full list only if filtering leaves too few.
+    const usedRomanNumerals = new Set(existingChords.map(c => c.romanNumeral));
+    const fresh = allCandidates.filter(c => !usedRomanNumerals.has(c.romanNumeral));
+    const candidates = fresh.length >= 4 ? fresh : allCandidates;
 
     // Score and sort candidates
     const scoredCandidates = candidates.map(candidate => ({
@@ -1053,57 +1084,38 @@ function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, varian
 }
 
 // Tooltip functions
+/**
+ * Explain what a chord does in the progression.
+ * Looks for the most specific description available: the exact roman numeral,
+ * then the numeral without its quality markings, then the chord type itself.
+ *
+ * @param {string} romanNumeral - e.g. 'viiø7', '♭VII', 'V7/V'
+ * @param {string} chordType - Chord type key, e.g. 'm7b5'
+ * @returns {string} Description
+ */
 function getChordTooltip(romanNumeral, chordType) {
-    // Normalize roman numeral for matching
+    // Roman numerals are keyed in upper case; case only encodes major/minor,
+    // which the description does not depend on
     const normalized = romanNumeral ? romanNumeral.toUpperCase() : '';
 
-    // Handle lowercase roman numerals (minor chords)
-    const upperNormalized = normalized.replaceAll(/^([IVX]+)/gi, (match) => {
-        // Check if the original was lowercase
-        if (romanNumeral && romanNumeral[0] === romanNumeral[0].toLowerCase() && romanNumeral[0] !== '♭' && romanNumeral[0] !== '♯') {
-            // It's a minor chord
-            const base = match.toUpperCase();
-            switch(base) {
-                case 'I': return 'I';
-                case 'II': return 'II';
-                case 'III': return 'III';
-                case 'IV': return 'IV';
-                case 'V': return 'V';
-                case 'VI': return 'VI';
-                case 'VII': return 'VII';
-                default: return match;
-            }
-        }
-        return match.toUpperCase();
-    });
+    const candidates = [
+        `chordRoles.${normalized}`,
+        // Same numeral without its quality markings: 'VIIØ7' -> 'VII'
+        `chordRoles.${normalized.replaceAll(/M7|MAJ7|\(MAJ7\)|7|°|Ø|\+|DIM|SUS[24]|ADD9|6|9|11|13/g, '')}`,
+        // Chord-type specific descriptions ('chordRoles.types.m7b5')
+        chordType ? `chordRoles.types.${chordType}` : null
+    ].filter(Boolean);
 
-    // First try exact match from i18n
-    let translation = i18n.t(`chordRoles.${upperNormalized}`);
-    if (translation && translation !== `chordRoles.${upperNormalized}`) {
-        return translation;
+    for (const candidate of candidates) {
+        if (i18n.has(candidate)) return i18n.t(candidate);
     }
 
-    // Try without quality indicators
-    const withoutQuality = upperNormalized.replaceAll(/M7|MAJ7|7|°|Ø7|DIM/g, '');
-    translation = i18n.t(`chordRoles.${withoutQuality}`);
-    if (translation && translation !== `chordRoles.${withoutQuality}`) {
-        return translation;
-    }
-
-    // Handle chord types
+    // Generic descriptions by chord family
     if (chordType) {
-        if (chordType.includes('sus')) {
-            return i18n.t('chordRoles.sus');
-        }
-        if (chordType.includes('add9')) {
-            return i18n.t('chordRoles.add9');
-        }
-        if (chordType.includes('6')) {
-            return i18n.t('chordRoles.6');
-        }
-        if (chordType.includes('9') || chordType.includes('11') || chordType.includes('13')) {
-            return i18n.t('chordRoles.extended');
-        }
+        if (chordType.includes('sus') || chordType.startsWith('quartal')) return i18n.t('chordRoles.sus');
+        if (chordType.includes('add9') || chordType === 'minAdd9') return i18n.t('chordRoles.add9');
+        if (chordType === 'major6' || chordType === 'minor6' || chordType === 'maj6/9') return i18n.t('chordRoles.6');
+        if (/9|11|13/.test(chordType)) return i18n.t('chordRoles.extended');
     }
 
     // Default based on whether it's borrowed
@@ -1144,164 +1156,95 @@ function createTooltip() {
 function matchesChordRequirement(scaleDegree, chordType, keyOffset) {
     if (chordRequirements.length === 0) return false;
 
-    const noteMap = { 'C': 0, 'C#': 1, 'D': 2, 'D#': 3, 'E': 4, 'F': 5, 'F#': 6, 'G': 7, 'G#': 8, 'A': 9, 'A#': 10, 'B': 11 };
-    const chordRoot = (scaleDegree + keyOffset) % 12;
-
-    const typeToQuality = {
-        'major': 'major',
-        'minor': 'minor',
-        'diminished': 'dim',
-        'augmented': 'aug',
-        'dom7': '7',
-        'major7': 'maj7',
-        'minor7': 'm7'
-    };
-    const quality = typeToQuality[chordType];
+    const chordRoot = ((scaleDegree + keyOffset) % 12 + 12) % 12;
 
     return chordRequirements.some(req =>
-        noteMap[req.note] === chordRoot && req.quality === quality
+        NOTE_PITCH_CLASSES[req.note] === chordRoot &&
+        MATCHER_QUALITY_TYPES[req.quality] === chordType
     );
 }
 
 // Generate scale exploration (all chords from a scale/mode)
+// Rows 1-2 hold the triad on every scale degree, rows 3-4 the seventh chord on
+// every scale degree. Both are derived from the scale itself (see getScaleTriad
+// / getScaleSeventh), so nothing on the grid contains a note the scale does not
+// have - which is how half-diminished, diminished 7th, minor-major 7th and 6th
+// chords turn up wherever the scale actually calls for them.
 function generateScaleExploration() {
     const keyOffset = getKeyOffset(selectedKey);
     const scaleDegrees = getScaleDegrees(selectedMode);
+    const scaleLength = scaleDegrees.length;
     const pads = [];
 
-    const scaleLength = scaleDegrees.length;
+    const used = new Set();
 
-    // Generate triads for each scale degree
-    for (let i = 0; i < scaleLength && i < 8; i++) {
-        const degree = i;
+    const addPad = (degree, chordType) => {
         const scaleDegree = scaleDegrees[degree % scaleLength];
-        const chordType = getChordQualityForMode(degree, selectedMode);
-        const notes = buildChord(scaleDegree, chordType, keyOffset);
-        const chordName = getChordName(scaleDegree, chordType, keyOffset);
-        const romanNumeral = getRomanNumeral(degree, chordType.includes('minor'), chordType === 'diminished');
-
-        const quality = chordType === 'minor' ? 'Minor' :
-                       chordType === 'major' ? 'Major' :
-                       chordType === 'diminished' ? 'Diminished' : 'Major';
-
-        pads.push({
-            id: i + 1,
-            chordName,
-            romanNumeral,
-            notes,
-            quality,
-            row: Math.floor(i / 4) + 1,
-            col: (i % 4) + 1,
-            isProgressionChord: false,
-            isChordMatcherChord: matchesChordRequirement(scaleDegree, chordType, keyOffset)
-        });
-    }
-
-    // Fill remaining spots in first two rows with tonic chord if needed
-    while (pads.length < 8) {
-        const scaleDegree = scaleDegrees[0];
-        const chordType = getChordQualityForMode(0, selectedMode);
-        const notes = buildChord(scaleDegree, chordType, keyOffset);
-        const chordName = getChordName(scaleDegree, chordType, keyOffset);
-        const romanNumeral = getRomanNumeral(0, chordType.includes('minor'), false);
-        const quality = chordType === 'minor' ? 'Minor' : 'Major';
-
+        const romanNumeral = getRomanNumeralForChord(degree, chordType);
+        used.add(romanNumeral);
         pads.push({
             id: pads.length + 1,
-            chordName,
+            chordName: getChordName(scaleDegree, chordType, keyOffset),
             romanNumeral,
-            notes,
-            quality,
+            notes: buildChord(scaleDegree, chordType, keyOffset),
+            chordType,
+            quality: getQualityLabel(chordType),
             row: Math.floor(pads.length / 4) + 1,
             col: (pads.length % 4) + 1,
             isProgressionChord: false,
             isChordMatcherChord: matchesChordRequirement(scaleDegree, chordType, keyOffset)
         });
-    }
+    };
 
-    // Generate 7th chords for each scale degree (pads 9-16)
+    // Scales with fewer than 8 degrees leave gaps in each half of the grid.
+    // Fill them with further colours the scale supports rather than repeating
+    // the tonic, which wasted two of the sixteen pads on every 7-note scale.
+    const harmonyPitchClasses = getHarmonyPitchClasses(selectedMode);
+    const fillGaps = (limit, extras, fallbackType) => {
+        const candidates = extras.filter(type =>
+            chordFitsScale(((scaleDegrees[0] % 12) + 12) % 12, type, harmonyPitchClasses) &&
+            !used.has(getRomanNumeralForChord(0, type))
+        );
+        while (pads.length < limit) {
+            addPad(0, candidates.shift() || fallbackType);
+        }
+    };
+
+    // Suspended colours first in the triad half, extensions first in the
+    // seventh half; each list then falls through to the other's so short
+    // scales still get distinct chords rather than a repeated tonic.
+    const SUSPENDED_COLOURS = ['sus4', 'sus2', 'quartal'];
+    const EXTENDED_COLOURS = ['major6', 'minor6', 'dom7sus4', 'add9', 'minAdd9', 'major9', 'minor9', 'dom9', 'quartal4'];
+
+    // Triads, one per scale degree (pads 1-8)
+    for (let i = 0; i < scaleLength && pads.length < 8; i++) {
+        addPad(i, getScaleTriad(i, selectedMode));
+    }
+    fillGaps(8, [...SUSPENDED_COLOURS, ...EXTENDED_COLOURS], getScaleTriad(0, selectedMode));
+
+    // Seventh chords, one per scale degree (pads 9-16)
     for (let i = 0; i < scaleLength && pads.length < 16; i++) {
-        const degree = i;
-        const scaleDegree = scaleDegrees[degree % scaleLength];
-        let chordType = getChordQualityForMode(degree, selectedMode);
-
-        // Convert to 7th chord
-        if (chordType === 'minor') {
-            chordType = 'minor7';
-        } else if (chordType === 'major') {
-            chordType = 'major7';
-        } else if (chordType === 'diminished') {
-            chordType = 'diminished'; // Keep diminished as is
-        }
-
-        // Special case: V chord becomes dominant 7th
-        if (degree === 4 && scaleLength === 7) {
-            chordType = 'dom7';
-        }
-
-        const notes = buildChord(scaleDegree, chordType, keyOffset);
-        const chordName = getChordName(scaleDegree, chordType, keyOffset);
-        let romanNumeral = getRomanNumeral(degree, chordType.includes('minor'), chordType === 'diminished');
-
-        // Add 7 to roman numeral
-        if (chordType.includes('7')) {
-            if (!romanNumeral.includes('7')) {
-                romanNumeral = chordType === 'major7' ? romanNumeral + 'M7' : romanNumeral + '7';
-            }
-        }
-
-        const quality = chordType === 'minor7' ? 'Minor 7' :
-                       chordType === 'major7' ? 'Major 7' :
-                       chordType === 'dom7' ? 'Dominant 7' :
-                       chordType === 'diminished' ? 'Diminished' : 'Major';
-
-        pads.push({
-            id: pads.length + 1,
-            chordName,
-            romanNumeral,
-            notes,
-            quality,
-            row: Math.floor(pads.length / 4) + 1,
-            col: (pads.length % 4) + 1,
-            isProgressionChord: false,
-            isChordMatcherChord: matchesChordRequirement(scaleDegree, chordType, keyOffset)
-        });
+        addPad(i, getScaleSeventh(i, selectedMode));
     }
-
-    // Fill any remaining pads with tonic 7th chord
-    while (pads.length < 16) {
-        const scaleDegree = scaleDegrees[0];
-        const chordType = getChordQualityForMode(0, selectedMode) === 'minor' ? 'minor7' : 'major7';
-        const notes = buildChord(scaleDegree, chordType, keyOffset);
-        const chordName = getChordName(scaleDegree, chordType, keyOffset);
-        const romanNumeral = getRomanNumeral(0, chordType.includes('minor'), false) + (chordType === 'major7' ? 'M7' : '7');
-        const quality = chordType === 'minor7' ? 'Minor 7' : 'Major 7';
-
-        pads.push({
-            id: pads.length + 1,
-            chordName,
-            romanNumeral,
-            notes,
-            quality,
-            row: Math.floor(pads.length / 4) + 1,
-            col: (pads.length % 4) + 1,
-            isProgressionChord: false,
-            isChordMatcherChord: matchesChordRequirement(scaleDegree, chordType, keyOffset)
-        });
-    }
+    fillGaps(16, [...EXTENDED_COLOURS, ...SUSPENDED_COLOURS], getScaleSeventh(0, selectedMode));
 
     return {
-        name: `${selectedKey} ${selectedMode} - Scale Exploration`,
+        name: selectedMode,
+        titleKey: 'scaleExploration',
         pads: pads
     };
 }
 
 function generateVariant(variantType) {
     const keyOffset = getKeyOffset(selectedKey);
-    const scaleDegrees = getScaleDegrees(selectedMode);
+    // Progression Palette Mode reads every roman numeral against the parallel
+    // major scale (see generateProgressionChords), and the Mode/Scale selector
+    // is disabled here. Build the palette on the same reference so a mode left
+    // over from Scale Mode cannot silently transpose the palette away from the
+    // progression it is supposed to extend.
+    const scaleDegrees = getScaleDegrees('Major');
     const pads = [];
 
-    // Generate the actual progression chords - PASS selectedMode as 4th parameter (FIX!)
     let progressionChords = generateProgressionChords(selectedProgression, keyOffset, scaleDegrees, selectedMode);
 
     // Store the ORIGINAL progression chords before building palette
@@ -1352,14 +1295,20 @@ function generateVariant(variantType) {
         }
     });
 
-    // Build comprehensive palette with DIFFERENT extensions for each degree
+    // Build comprehensive palette with DIFFERENT extensions for each degree.
+    // The progression chords are claimed up front: the palette is appended
+    // after them, so without this the palette re-emitted the progression's own
+    // chords as its cheapest entries and rows 1 and 2 came out identical.
     const palette = [];
-    const usedRomanNumerals = new Set();
+    const usedRomanNumerals = new Set(progressionChords.map(chord => chord.romanNumeral));
+
+    // Set false by the top-up pass below when the filter has starved the palette
+    let filterActive = true;
 
     // Helper to add unique chord
-    const addChord = (degree, type, romanBase, suffix, spice, isChordMatcher = false) => {
+    const addChord = (degree, type, romanBase, suffix, spice, isChordMatcher = false, rootOverride = null) => {
         // Apply palette filter if defined (hard filter - backward compatibility)
-        if (paletteFilter && !paletteFilter.includes(type)) {
+        if (filterActive && paletteFilter && !paletteFilter.includes(type)) {
             return; // Skip chord types not in the filter
         }
 
@@ -1367,7 +1316,7 @@ function generateVariant(variantType) {
         if (usedRomanNumerals.has(roman)) return; // Skip duplicates
         usedRomanNumerals.add(roman);
 
-        const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
+        const scaleDegree = rootOverride === null ? scaleDegrees[degree % scaleDegrees.length] : rootOverride;
         const priority = getChordPriority(type);
 
         palette.push({
@@ -1401,19 +1350,12 @@ function generateVariant(variantType) {
     // Inject Chord Matcher requirements into palette
     if (chordRequirements.length > 0) {
         chordRequirements.forEach(req => {
-            // Convert chord requirement note to MIDI offset
-            const noteMap = { 'C': 0, 'C#': 1, 'D': 2, 'D#': 3, 'E': 4, 'F': 5, 'F#': 6, 'G': 7, 'G#': 8, 'A': 9, 'A#': 10, 'B': 11 };
-            const reqNoteOffset = noteMap[req.note];
+            const reqNoteOffset = NOTE_PITCH_CLASSES[req.note];
 
             // Find which scale degree this chord corresponds to
-            let matchedDegree = -1;
-            for (let i = 0; i < scaleDegrees.length; i++) {
-                const scaleDegreeNote = (scaleDegrees[i] + keyOffset) % 12;
-                if (scaleDegreeNote === reqNoteOffset) {
-                    matchedDegree = i;
-                    break;
-                }
-            }
+            const matchedDegree = scaleDegrees.findIndex(
+                degree => ((degree + keyOffset) % 12 + 12) % 12 === reqNoteOffset
+            );
 
             if (matchedDegree === -1) {
                 // Chord not in scale - skip it (shouldn't happen if Chord Matcher filtering works)
@@ -1421,41 +1363,18 @@ function generateVariant(variantType) {
                 return;
             }
 
-            // Map quality to chord type
-            const qualityToType = {
-                'major': 'major',
-                'minor': 'minor',
-                'dim': 'diminished',
-                'aug': 'augmented',
-                '7': 'dom7',
-                'maj7': 'major7',
-                'm7': 'minor7'
-            };
-            const chordType = qualityToType[req.quality] || 'major';
+            const chordType = MATCHER_QUALITY_TYPES[req.quality] || 'major';
 
-            // Determine roman numeral base
-            const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-            let romanBase = romanNumerals[matchedDegree];
-            if (chordType.includes('minor') || chordType.includes('diminished')) {
-                romanBase = romanBase.toLowerCase();
-            }
-            if (chordType === 'diminished') {
-                romanBase = romanBase + '°';
-            }
-
-            // Determine suffix
-            let suffix = '';
-            if (chordType === 'dom7' || chordType === 'minor7') {
-                suffix = '7';
-            } else if (chordType === 'major7') {
-                suffix = 'M7';
-            }
-
-            // Determine spice level
-            const spiceLevel = getSpiceLevelForDegree(matchedDegree);
-
-            // Add to palette with Chord Matcher flag
-            addChord(matchedDegree, chordType, romanBase.replace('°', ''), suffix, spiceLevel, true);
+            // Add to palette with Chord Matcher flag. The roman numeral already
+            // carries the quality (viiø7, i(maj7)...), so no extra suffix.
+            addChord(
+                matchedDegree,
+                chordType,
+                getRomanNumeralForChord(matchedDegree, chordType),
+                '',
+                getSpiceLevelForDegree(matchedDegree),
+                true
+            );
         });
     }
 
@@ -1463,27 +1382,42 @@ function generateVariant(variantType) {
     uniqueDegrees.forEach(({ degree, original }) => {
         const romanBase = original.romanNumeral.replaceAll(/7|M7|m7|°/g, '');
         const baseType = original.chordType;
+        const baseFamily = getChordFamily(baseType);
 
-        if (baseType.includes('major') || baseType === 'dom7') {
+        if (baseFamily === 'major') {
             // Major/dominant chords: generate varied extensions
             addChord(degree, 'major', romanBase, '', degree === 0 ? 0 : 1);
             addChord(degree, 'dom7', romanBase, '7', 1);
             addChord(degree, 'major7', romanBase, 'M7', 2);
             if (variantType === 'Jazz' || variantType === 'Experimental') {
-                // Add 9th implied (use dom7 as placeholder)
-                addChord(degree, 'dom7', romanBase, '9', 2);
+                addChord(degree, 'dom9', romanBase, '9', 2);
             }
-        } else if (baseType.includes('minor')) {
+        } else if (baseFamily === 'minor') {
             // Minor chords
             addChord(degree, 'minor', romanBase, '', 1);
             addChord(degree, 'minor7', romanBase, '7', 1);
             if (variantType === 'Jazz') {
-                addChord(degree, 'minor7', romanBase, '9', 2);
+                addChord(degree, 'minor9', romanBase, '9', 2);
             }
         } else {
-            // Diminished, etc.
+            // Diminished, augmented, suspended
             addChord(degree, baseType, romanBase, '', 1);
         }
+
+        // Offer the colours this genre actually asks for. Without this the
+        // palette only ever emitted plain triads and 7ths, so the dom9 / sus4 /
+        // quartal / m7b5 preferences declared by the progression templates had
+        // no way to reach a pad. Only chords built on the same triad as the
+        // degree are offered (plus suspensions, which fit either).
+        const declaredTypes = [
+            ...(palettePriorities?.preferred || []),
+            ...(palettePriorities?.allowed || [])
+        ];
+        declaredTypes.forEach(type => {
+            const family = getChordFamily(type);
+            if (family !== baseFamily && family !== 'suspended') return;
+            addChord(degree, type, romanBase, getRomanSuffix(type), getChordComplexity(type));
+        });
     });
 
     // Add complementary chords (foundation and spicy)
@@ -1502,62 +1436,50 @@ function generateVariant(variantType) {
     // Add borrowed/modal interchange chords only if they are NOT already
     // diatonic to the current mode. In minor keys, ♭VII, ♭VI, ♭III are
     // native - labeling them "borrowed" is incorrect.
-    const diatonicPitchClasses = new Set(scaleDegrees.map(d => d % 12));
+    // Routed through addChord so they take part in the same de-duplication and
+    // priority handling as everything else: pushing them straight onto the
+    // palette meant a progression containing ♭VII got a second ♭VII pad, and
+    // left them without a priority so the palette sort compared against
+    // undefined.
+    const diatonicPitchClasses = new Set(scaleDegrees.map(d => ((d % 12) + 12) % 12));
 
-    // ♭VII - colorful (Mixolydian/blues flavor) - skip if already diatonic
-    const flatSevenPC = 10; // 10 semitones = minor 7th
-    if ((!paletteFilter || paletteFilter.includes('major')) && !diatonicPitchClasses.has(flatSevenPC)) {
-        const flatSeven = (scaleDegrees[0] + flatSevenPC) % 12;
-        palette.push({
-            degree: 6,
-            notes: buildChord(flatSeven, 'major', keyOffset),
-            chordType: 'major',
-            chordName: getChordName(flatSeven, 'major', keyOffset, '♭VII'),
-            romanNumeral: '♭VII',
-            spiceLevel: 2
-        });
-    }
-
-    // ♭VI - borrowed from parallel minor - skip if already diatonic
-    const flatSixPC = 8; // 8 semitones = minor 6th
-    if ((!paletteFilter || paletteFilter.includes('major')) && !diatonicPitchClasses.has(flatSixPC)) {
-        const flatSix = (scaleDegrees[0] + flatSixPC) % 12;
-        palette.push({
-            degree: 5,
-            notes: buildChord(flatSix, 'major', keyOffset),
-            chordType: 'major',
-            chordName: getChordName(flatSix, 'major', keyOffset, '♭VI'),
-            romanNumeral: '♭VI',
-            spiceLevel: 3
-        });
-    }
-
-    // ♭III - borrowed - skip if already diatonic
-    const flatThreePC = 3; // 3 semitones = minor 3rd
-    if ((!paletteFilter || paletteFilter.includes('major')) && !diatonicPitchClasses.has(flatThreePC)) {
-        const flatThree = (scaleDegrees[0] + flatThreePC) % 12;
-        palette.push({
-            degree: 2,
-            notes: buildChord(flatThree, 'major', keyOffset),
-            chordType: 'major',
-            chordName: getChordName(flatThree, 'major', keyOffset, '♭III'),
-            romanNumeral: '♭III',
-            spiceLevel: 3
-        });
-    }
+    // [semitones above tonic, degree, roman numeral, chord type, spice]
+    const borrowedChords = [
+        [10, 6, '♭VII', 'major', 2],  // colorful (Mixolydian/blues flavor)
+        [8, 5, '♭VI', 'major', 3],    // borrowed from parallel minor
+        [3, 2, '♭III', 'major', 3]    // borrowed from parallel minor
+    ];
+    borrowedChords.forEach(([semitones, degree, roman, type, spice]) => {
+        if (diatonicPitchClasses.has(semitones)) return;
+        addChord(degree, type, roman, '', spice, false, (scaleDegrees[0] + semitones) % 12);
+    });
 
     // iv - borrowed from parallel minor - skip if IV is already minor in mode
-    const fourthQuality = scaleDegrees.length > 3 ? getChordQualityForMode(3, selectedMode) : null;
-    if (scaleDegrees.length > 3 && fourthQuality !== 'minor' && (!paletteFilter || paletteFilter.includes('minor'))) {
-        const fourth = scaleDegrees[3];
-        palette.push({
-            degree: 3,
-            notes: buildChord(fourth, 'minor', keyOffset),
-            chordType: 'minor',
-            chordName: getChordName(fourth, 'minor', keyOffset),
-            romanNumeral: 'iv',
-            spiceLevel: 2
-        });
+    const fourthQuality = scaleDegrees.length > 3 ? getChordQualityForMode(3, 'Major') : null;
+    if (scaleDegrees.length > 3 && fourthQuality !== 'minor') {
+        addChord(3, 'minor', 'iv', '', 2);
+    }
+
+    // A narrow paletteFilter can leave fewer chords than the grid needs. The MPC
+    // layout is always 4x4, and a short grid exports a .progression file with
+    // fewer than 16 chords, so top up with diatonic chords ignoring the filter.
+    // These land last: they are all priority 2 or lower and spicier than the
+    // filtered chords that earned their place.
+    const PADS_BEFORE_DYNAMIC_ROW = 12;
+    if (originalProgressionLength + palette.length < PADS_BEFORE_DYNAMIC_ROW) {
+        filterActive = false;
+        const topUp = [
+            [0, 'major'], [0, 'major7'], [1, 'minor'], [1, 'minor7'],
+            [2, 'minor'], [2, 'minor7'], [3, 'major'], [3, 'major7'],
+            [4, 'major'], [4, 'dom7'], [5, 'minor'], [5, 'minor7']
+        ];
+        for (const [degree, type] of topUp) {
+            if (originalProgressionLength + palette.length >= PADS_BEFORE_DYNAMIC_ROW) break;
+            if (degree >= scaleDegrees.length) continue;
+            const romanBase = getRomanNumeralForChord(degree, type === 'major7' ? 'major' : type === 'minor7' ? 'minor' : type);
+            addChord(degree, type, romanBase, getRomanSuffix(type), 3);
+        }
+        filterActive = true;
     }
 
     // Sort by spice level (foundation first, spicy last)
@@ -1696,34 +1618,13 @@ function generateVariant(variantType) {
                 chordName = getChordName(scaleDegree, chordType, keyOffset);
             }
 
-            // Map chord type to quality label
-            let quality;
-            if (chordType === 'major7') {
-                quality = 'Major 7';
-            } else if (chordType === 'minor7') {
-                quality = 'Minor 7';
-            } else if (chordType === 'minor' || chordType === 'minMaj7' || chordType === 'minor6') {
-                quality = 'Minor';
-            } else if (chordType === 'major') {
-                quality = 'Major';
-            } else if (chordType === 'diminished' || chordType === 'dim7' || chordType === 'm7b5') {
-                quality = 'Diminished';
-            } else if (chordType === 'augmented') {
-                quality = 'Augmented';
-            } else if (chordType === 'dom7' || chordType === 'dom9' || chordType === 'dom13') {
-                quality = 'Dominant 7';
-            } else if (chordType === 'sus2' || chordType === 'sus4' || chordType === 'quartal') {
-                quality = 'Suspended';
-            } else {
-                quality = 'Major';
-            }
-
             const pad = {
                 id: padIndex + 1,
                 chordName,
                 romanNumeral,
                 notes,
-                quality,
+                chordType,
+                quality: getQualityLabel(chordType),
                 row: row + 1,
                 col: colIndex + 1,
                 isProgressionChord,
@@ -1747,6 +1648,7 @@ function generateVariant(variantType) {
                 chordName: chord.chordName,
                 romanNumeral: chord.romanNumeral,
                 notes: chord.notes,
+                chordType: chord.chordType,
                 quality: chord.quality,
                 row: 4,
                 col: i + 1,
@@ -1762,6 +1664,7 @@ function generateVariant(variantType) {
                 chordName: getChordName(degree, 'major', keyOffset),
                 romanNumeral: 'I',
                 notes: notes,
+                chordType: 'major',
                 quality: 'Major',
                 row: 4,
                 col: i + 1,
@@ -1777,10 +1680,19 @@ function generateVariant(variantType) {
     };
 }
 
-// Populate select elements
+// Populate select elements.
+// Called again on every language change, so each list is emptied first and the
+// current selection restored - otherwise switching language stacks a second
+// copy of every key, mode and progression onto the dropdowns.
 function populateSelects() {
-    // Keys
     const keySelect = document.getElementById('keySelect');
+    const modeSelect = document.getElementById('modeSelect');
+    const progressionSelect = document.getElementById('progressionSelect');
+    keySelect.replaceChildren();
+    modeSelect.replaceChildren();
+    progressionSelect.replaceChildren();
+
+    // Keys
     keys.forEach(key => {
         const option = document.createElement('option');
         option.value = key;
@@ -1789,7 +1701,6 @@ function populateSelects() {
     });
 
     // Modes (now all strings - get display info from i18n)
-    const modeSelect = document.getElementById('modeSelect');
     Object.entries(modes).forEach(([category, modeList]) => {
         const optgroup = document.createElement('optgroup');
         optgroup.label = i18n.t(`modeCategories.${category}`);
@@ -1815,7 +1726,6 @@ function populateSelects() {
     });
 
     // Progressions (get display info from i18n)
-    const progressionSelect = document.getElementById('progressionSelect');
     Object.entries(progressions).forEach(([category, progList]) => {
         const optgroup = document.createElement('optgroup');
         optgroup.label = i18n.t(`progressionCategories.${category}`);
@@ -1848,6 +1758,11 @@ function populateSelects() {
         });
         progressionSelect.appendChild(optgroup);
     });
+
+    // Restore the current selection - repopulating cleared it
+    keySelect.value = selectedKey;
+    modeSelect.value = selectedMode;
+    progressionSelect.value = selectedProgression;
 }
 
 // Update progression name
@@ -1867,13 +1782,6 @@ function updateProgressionName() {
     document.getElementById('progressionName').value = progressionName;
 }
 
-// Helper to create a signature for a variant for duplicate detection
-function getVariantSignature(variant) {
-    return variant.pads.map(pad =>
-        `${pad.chordName}|${pad.notes.join(',')}`
-    ).join('||');
-}
-
 // Helper to create a chord-based signature (ignoring voicing)
 function getChordProgressionSignature(variant) {
     return variant.pads.map(pad =>
@@ -1887,27 +1795,16 @@ function deduplicateVariants(variantList) {
     const unique = [];
 
     variantList.forEach(variant => {
-        const exactSignature = getVariantSignature(variant);
         const chordSignature = getChordProgressionSignature(variant);
 
-        console.log(`Variant ${variant.name}:`);
-        console.log(`  Chord progression: ${chordSignature.substring(0, 80)}...`);
-        console.log(`  Exact voicing: ${exactSignature.substring(0, 80)}...`);
-
-        // Check if we've seen this chord progression before (ignoring voicing)
+        // Keep the first variant with a given set of chords; later variants that
+        // differ only in voicing are dropped
         if (!seenProgressions.has(chordSignature)) {
-            // First time seeing this chord progression - keep it
             seenProgressions.set(chordSignature, variant.name);
             unique.push(variant);
-            console.log(`  ✓ Kept ${variant.name} (new chord progression)`);
-        } else {
-            // We've seen this chord progression before
-            const firstVariant = seenProgressions.get(chordSignature);
-            console.log(`  ✗ Dropped ${variant.name} (duplicate of ${firstVariant} - same chords, different voicing)`);
         }
     });
 
-    console.log(`Deduplication: ${variantList.length} variants → ${unique.length} unique`);
     return unique;
 }
 
@@ -1943,15 +1840,31 @@ function generateProgressions() {
     hasGeneratedOnce = true;
 }
 
+// The scale a generated set is actually built from. Scale Mode uses the chosen
+// mode; Progression Palette Mode analyses everything against the parallel major
+// and leaves the Mode/Scale selector disabled, so reporting a stale mode there
+// would mislabel both the card and the exported files.
+function getReferenceScaleName() {
+    return generationMode === 'scale' ? selectedMode : 'Major';
+}
+
+// Base name shared by .progression, MIDI and ZIP exports
+function getVariantFileName(variant) {
+    const keyName = selectedKey.split('/')[0];
+    return generationMode === 'scale'
+        ? `${keyName}_${selectedMode.replaceAll(/[\s/]+/g, '-')}_Scale-Exploration`
+        : `${keyName}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}`;
+}
+
 function downloadSingleProgression(variant, index) {
     const keyName = selectedKey.split('/')[0];
-    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
+    const fileName = sanitizeFileName(`${getVariantFileName(variant)}-${index + 1}`) + '.progression';
 
     const progressionData = {
         progression: {
             name: fileName.replaceAll('.progression', ''),
             rootNote: keyName,
-            scale: selectedMode,
+            scale: getReferenceScaleName(),
             recordingOctave: 2,
             chords: variant.pads.map((pad, idx) => ({
                 name: pad.chordName,
@@ -1973,8 +1886,7 @@ function downloadSingleProgression(variant, index) {
 }
 
 function downloadSingleMIDI(variant) {
-    const keyName = selectedKey.split('/')[0];
-    const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}`;
+    const fileName = sanitizeFileName(getVariantFileName(variant));
 
     // Get chord data from pads
     const chords = variant.pads.map(pad => ({
@@ -2098,7 +2010,7 @@ function renderProgressions() {
 
         const gridHTML = rows.reverse().map((row, rowIndex) =>
             row.map((pad, padIndexInRow) => {
-                const roleText = getChordTooltip(pad.romanNumeral, pad.quality);
+                const roleText = getChordTooltip(pad.romanNumeral, pad.chordType);
 
                 // Calculate voice leading distance from tonic (default state)
                 let voiceLeadingClass = '';
@@ -2123,16 +2035,8 @@ function renderProgressions() {
                     }
                 }
 
-                // Map quality to chord type for inversion detection
-                let chordTypeForInversion = 'major';
-                if (pad.quality === 'Minor') chordTypeForInversion = 'minor';
-                else if (pad.quality === 'Minor 7') chordTypeForInversion = 'minor7';
-                else if (pad.quality === 'Major 7') chordTypeForInversion = 'major7';
-                else if (pad.quality === 'Dominant 7') chordTypeForInversion = 'dom7';
-                else if (pad.quality === 'Diminished') chordTypeForInversion = 'diminished';
-
                 // Get inversion notation for this chord
-                const inversionNotation = getInversionNotation(pad.notes, chordTypeForInversion, pad.chordName, pad.romanNumeral);
+                const inversionNotation = getInversionNotation(pad.notes, pad.chordType || 'major', pad.chordName, pad.romanNumeral);
                 const displayName = pad.chordName + inversionNotation;
 
                 // Get progression edge attributes
@@ -2141,39 +2045,31 @@ function renderProgressions() {
 
                 return `
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''} ${voiceLeadingClass}"
-                    data-notes="${pad.notes.join(',')}" data-roman="${pad.romanNumeral}" data-quality="${pad.quality}" data-role="${roleText.replaceAll(/"/g, '&quot;')}"
+                    data-notes="${pad.notes.join(',')}" data-roman="${escapeHtml(pad.romanNumeral)}" data-quality="${escapeHtml(pad.quality)}" data-chord-type="${escapeHtml(pad.chordType || '')}" data-role="${escapeHtml(roleText)}"
                     data-pad-id="${pad.id}" data-original-vl-class="${voiceLeadingClass}"
-                    data-voice-leading="${voiceLeadingLegend}" ${edgeAttrs}>
+                    data-voice-leading="${escapeHtml(voiceLeadingLegend)}" ${edgeAttrs}>
                     <div class="chord-text-column">
                         <div class="chord-pad-content">
                             <div class="chord-info">
-                                <div class="chord-name">${displayName}</div>
+                                <div class="chord-name">${escapeHtml(displayName)}</div>
                             </div>
                             <div class="pad-number">${hasTouch ? pad.id : 'PAD ' + pad.id}</div>
                         </div>
-                        <div class="chord-quality">${pad.quality}</div>
-                        <div class="chord-roman">${pad.romanNumeral}</div>
+                        <div class="chord-quality">${escapeHtml(pad.quality)}</div>
+                        <div class="chord-roman">${escapeHtml(pad.romanNumeral)}</div>
                     </div>
                     <div class="chord-info-column">
-                        <div class="chord-role">${roleText}</div>
+                        <div class="chord-role">${escapeHtml(roleText)}</div>
                         <div class="chord-notes">
                             ${(() => {
-                                // Map quality to chord type for proper spelling
-                                let chordType = 'major';
-                                if (pad.quality === 'Minor') chordType = 'minor';
-                                else if (pad.quality === 'Minor 7') chordType = 'minor7';
-                                else if (pad.quality === 'Major 7') chordType = 'major7';
-                                else if (pad.quality === 'Dominant 7') chordType = 'dom7';
-                                else if (pad.quality === 'Diminished') chordType = 'diminished';
-
                                 // Get properly spelled note names (pass actual voicing)
-                                const noteStrings = spellChordNotes(pad.notes, chordType, pad.romanNumeral);
+                                const noteStrings = spellChordNotes(pad.notes, pad.chordType || 'major', pad.romanNumeral);
 
                                 // Group notes in pairs for wrapping
                                 const pairs = [];
                                 for (let i = 0; i < noteStrings.length; i += 2) {
                                     const pair = noteStrings.slice(i, i + 2).join(' ');
-                                    pairs.push(`<span class="note-pair">${pair}</span>`);
+                                    pairs.push(`<span class="note-pair">${escapeHtml(pair)}</span>`);
                                 }
                                 return pairs.join(' ');
                             })()}
@@ -2181,7 +2077,7 @@ function renderProgressions() {
                     </div>
                     <div class="chord-keyboard">${generateKeyboardSVG(pad.notes)}</div>
                     <div class="chord-guitar">${generateGuitarSVG(getGuitarChord(pad), pad, isLeftHanded)}</div>
-                    <div class="chord-staff">${generateStaffSVG(pad.notes)}</div>
+                    <div class="chord-staff">${generateStaffSVG(pad.notes, getEnharmonicContext(pad.notes[0], pad.romanNumeral) === 'flats')}</div>
                 </div>
             `;
             }).join('')
@@ -2198,31 +2094,32 @@ function renderProgressions() {
         let voicingStyle = '';
         let uniquenessTooltip = '';
 
-        if (variant.name && i18n.t(`variants.${variant.name}.label`)) {
-            voicingStyle = i18n.t(`variants.${variant.name}.label`);
-            uniquenessTooltip = i18n.t(`variants.${variant.name}.tooltip`);
+        const variantKey = variant.titleKey || variant.name;
+        if (variantKey && i18n.has(`variants.${variantKey}.label`)) {
+            voicingStyle = i18n.t(`variants.${variantKey}.label`);
+            uniquenessTooltip = i18n.t(`variants.${variantKey}.tooltip`);
         }
 
         // Detect cadence type
         const cadence = detectCadence(selectedProgression);
-        const cadenceDisplay = cadence ? `<span class="cadence" data-tooltip="${i18n.t(`cadences.${cadence.key}.tooltip`)}">${cadence.emoji} ${i18n.t(`cadences.${cadence.key}.name`)}</span>` : '';
+        const cadenceDisplay = cadence ? `<span class="cadence" data-tooltip="${escapeHtml(i18n.t(`cadences.${cadence.key}.tooltip`))}">${cadence.emoji} ${escapeHtml(i18n.t(`cadences.${cadence.key}.name`))}</span>` : '';
 
         card.innerHTML = `
             <div class="progression-header">
                 <div class="progression-info">
                     <div class="progression-title-row">
-                        <div class="progression-title" data-tooltip="${uniquenessTooltip}">
-                            <div class="title-line-1">${progressionName}_${variant.name}</div>
-                            ${voicingStyle ? `<div class="title-line-2">${voicingStyle}</div>` : ''}
+                        <div class="progression-title" data-tooltip="${escapeHtml(uniquenessTooltip)}">
+                            <div class="title-line-1">${escapeHtml(generationMode === 'scale' ? progressionName : `${progressionName}_${variant.name}`)}</div>
+                            ${voicingStyle ? `<div class="title-line-2">${escapeHtml(voicingStyle)}</div>` : ''}
                         </div>
-                        <span class="progression-explainer">${uniquenessTooltip}</span>
+                        <span class="progression-explainer">${escapeHtml(uniquenessTooltip)}</span>
                     </div>
                     <div class="progression-meta">
-                        <span class="key">${selectedKey} ${selectedMode}</span>
-                        <span class="pattern">${selectedProgression}</span>
+                        <span class="key">${escapeHtml(selectedKey)}</span>
+                        <span class="pattern">${escapeHtml(generationMode === 'scale' ? selectedMode : selectedProgression)}</span>
                         ${cadenceDisplay}
-                        ${progressionAnalysis ? `<span class="analysis">${progressionAnalysis}</span>` : ''}
-                        <span class="voice-leading-hint">${progressionClarification}${i18n.t('variants.chordDistanceHint')}</span>
+                        ${progressionAnalysis ? `<span class="analysis">${escapeHtml(progressionAnalysis)}</span>` : ''}
+                        <span class="voice-leading-hint">${escapeHtml(progressionClarification)}${escapeHtml(i18n.t('variants.chordDistanceHint'))}</span>
                     </div>
                 </div>
                 <button class="download-btn" data-variant-index="${index}">
@@ -2232,7 +2129,7 @@ function renderProgressions() {
                 </button>
             </div>
             <div class="chord-grid">${gridHTML}</div>
-            <div class="voice-leading-hint-bottom">${progressionClarification}${i18n.t('variants.chordDistanceHint')}</div>
+            <div class="voice-leading-hint-bottom">${escapeHtml(progressionClarification)}${escapeHtml(i18n.t('variants.chordDistanceHint'))}</div>
         `;
 
         container.appendChild(card);
@@ -2322,7 +2219,7 @@ function renderProgressions() {
         if (hasHover) {
             pad.addEventListener('pointerenter', function() {
                 const roman = this.getAttribute('data-roman');
-                const quality = this.getAttribute('data-quality');
+                const chordType = this.getAttribute('data-chord-type');
 
                 // Activate voice leading hover effect (only if not locked on another pad)
                 if (!voiceLeadingLocked || voiceLeadingLocked === this) {
@@ -2332,7 +2229,7 @@ function renderProgressions() {
                 // Always show tooltip on hover (even if voice leading is locked elsewhere)
                 // In keyboard context, no tooltip (chord function is visible on card)
                 if (currentContext !== 'keyboard') {
-                    const chordFunction = getChordTooltip(roman, quality) || 'Chord';
+                    const chordFunction = getChordTooltip(roman, chordType) || 'Chord';
                     showTooltip(this, chordFunction);
                 }
             });
@@ -2397,8 +2294,7 @@ function renderProgressions() {
                     // Also show tooltip with chord function (except keyboard context where it's visible inline)
                     if (currentContext !== 'keyboard') {
                         const roman = currentPad.dataset.roman;
-                        const quality = currentPad.dataset.quality;
-                        const roleText = getChordTooltip(roman, quality);
+                        const roleText = getChordTooltip(roman, currentPad.dataset.chordType);
                         if (roleText) {
                             showTooltip(currentPad, roleText);
                             activeTooltip = currentPad;
@@ -2513,13 +2409,13 @@ function exportProgressions() {
     const keyName = selectedKey.split('/')[0];
 
     variants.forEach((variant, index) => {
-        const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}-${index + 1}.progression`;
+        const fileName = sanitizeFileName(`${getVariantFileName(variant)}-${index + 1}`) + '.progression';
 
         const progressionData = {
             progression: {
                 name: fileName.replaceAll('.progression', ''),
                 rootNote: keyName,
-                scale: selectedMode,
+                scale: getReferenceScaleName(),
                 recordingOctave: 2,
                 chords: variant.pads.map((pad, idx) => ({
                     name: pad.chordName,
@@ -2536,7 +2432,7 @@ function exportProgressions() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${progressionName}_All-Variants.zip`;
+        a.download = sanitizeFileName(`${progressionName}_All-Variants`) + '.zip';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -2552,8 +2448,7 @@ async function exportAllMIDI() {
 
     // Prepare progression data for MIDI export
     const progressionsData = variants.map((variant, index) => {
-        const keyName = selectedKey.split('/')[0];
-        const fileName = `${keyName}${selectedMode.slice(0,3)}_${selectedProgression.replaceAll(/—/g, '-')}_${variant.name}`;
+        const fileName = sanitizeFileName(getVariantFileName(variant));
 
         // Get chord data from pads
         const chords = variant.pads.map(pad => ({
@@ -2635,8 +2530,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
-    // Load language before populating selects
-    await i18n.loadLanguage(currentLang);
+    // Load language before populating selects (with English kept in memory as
+    // the fallback for any key the chosen language has not translated yet)
+    await i18n.loadLanguageWithFallback(currentLang);
 
     initAudioContext();
     initMIDI();
@@ -3066,9 +2962,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
 
-    // Release all notes when window loses focus (prevent stuck notes)
-    globalThis.addEventListener('blur', () => {
-        // Stop all audio
+    // Release all notes when the page loses focus or is hidden. 'blur' alone is
+    // unreliable on mobile and on tab switches, which left notes hanging on an
+    // external MIDI instrument with no way to silence them from the page.
+    const releaseAllNotes = () => {
         stopAllNotes();
 
         // Clear visual feedback
@@ -3078,6 +2975,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         });
         pressedKeys.clear();
+    };
+
+    globalThis.addEventListener('blur', releaseAllNotes);
+    globalThis.addEventListener('pagehide', releaseAllNotes);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') releaseAllNotes();
     });
 
     // Tablet: Handle orientation changes smoothly
@@ -3119,4 +3022,23 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Initialize context (use saved context or default to 'mpc')
     switchContext(currentContext);
+
+    registerServiceWorker();
 });
+
+/**
+ * Register the service worker that makes the app work offline.
+ * It shipped with the project but nothing ever registered it, so the offline
+ * support the README promises was never actually switched on.
+ */
+function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) return;
+    // file:// pages have an opaque origin and cannot host a service worker
+    if (globalThis.location.protocol !== 'https:' && globalThis.location.hostname !== 'localhost' && globalThis.location.hostname !== '127.0.0.1') {
+        return;
+    }
+
+    navigator.serviceWorker.register('./service-worker.js')
+        .then(registration => console.log('Offline support ready:', registration.scope))
+        .catch(error => console.warn('Service worker registration failed:', error));
+}

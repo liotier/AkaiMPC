@@ -19,7 +19,12 @@
       "sus4": "Sus4",
       "7": "Dominantsept",
       "maj7": "Maj7",
-      "m7": "Moll7"
+      "m7": "Moll7",
+      "6": "Große Sexte",
+      "m6": "Kleine Sexte",
+      "m7b5": "Halbvermindert 7 (m7♭5)",
+      "dim7": "Verminderter Septakkord",
+      "mMaj7": "Moll-Dur-Septakkord"
     },
     "addChord": "Akkord hinzufügen",
     "clearAll": "Alle löschen",
@@ -44,7 +49,10 @@
   },
   "buttons": {
     "generate": "Progressionen generieren",
-    "downloadAll": "Alle .progression-Dateien herunterladen"
+    "downloadAll": "Alle .progression-Dateien herunterladen",
+    "downloadAllProgression": "Alle .progression-Dateien herunterladen",
+    "downloadAllMidi": "Alle MIDI-Dateien herunterladen",
+    "printAll": "Alle Progressionen drucken"
   },
   "tabs": {
     "mpc": "MPC-Pads",
@@ -78,7 +86,11 @@
       "tooltip": "Experimentelle Variante: Verwendet erweiterte Lagen über mehrere Oktaven. Erzeugt einzigartige, unkonventionelle harmonische Farben und Texturen."
     },
     "progressionClarification": "Akkorde 1-{{count}} aus der Progression, {{next}}-16 extrapoliert. ",
-    "chordDistanceHint": "Die Farben der Karten zeigen die Akkord-Distanz von der ausgewählten Karte"
+    "chordDistanceHint": "Die Farben der Karten zeigen die Akkord-Distanz von der ausgewählten Karte",
+    "scaleExploration": {
+      "label": "Alle Akkorde der Tonleiter",
+      "tooltip": "Tonleiter-Modus: in den ersten beiden Reihen der Dreiklang jeder Stufe, in den letzten beiden der Septakkord jeder Stufe. Beide werden aus der Tonleiter selbst abgeleitet, sodass kein Pad einen Ton verwendet, den die Tonleiter nicht enthält."
+    }
   },
   "footer": {
     "cousin": "Verwandt mit dem",
@@ -163,7 +175,20 @@
     "6": "Vintage-Farbe, mildert die Harmonie.",
     "extended": "Erweiterte Harmonik - Jazz/Pop-Farbe, fügt Tiefe hinzu.",
     "borrowed": "Entliehener Akkord - fügt ausdrucksstarke Farbe durch Entlehnung aus parallelem Modus hinzu.",
-    "default": "Harmonische Farbe - fügt Vielfalt und Interesse zur Progression hinzu."
+    "default": "Harmonische Farbe - fügt Vielfalt und Interesse zur Progression hinzu.",
+    "types": {
+      "m7b5": "Halbverminderter Septakkord - die ii-Stufe in Moll und der natürliche Septakkord auf einer verminderten Stufe; führt zur Dominante.",
+      "dim7": "Verminderter Septakkord - maximale Spannung, löst sich in jede Richtung im Halbtonschritt auf.",
+      "minMaj7": "Moll-Dur-Septakkord - Tonika-Septakkord in harmonisch und melodisch Moll; düster, filmisch.",
+      "augMaj7": "Übermäßiger Durseptakkord - Mediante in harmonisch/melodisch Moll; instabil und leuchtend.",
+      "aug7": "Übermäßiger Septakkord - Dominante mit erhöhter Quinte, drängt stark zur Tonika.",
+      "augmented": "Übermäßiger Dreiklang - symmetrisch und ungelöst, kann in mehrere Tonarten führen.",
+      "quartal": "Quartenschichtung - offen und modal, legt sich weder auf Dur noch auf Moll fest.",
+      "dom7sus4": "7sus4 - Dominantspannung mit vorgehaltener Terz, häufig in modaler Musik und im Gospel.",
+      "It6": "Italienischer übermäßiger Sextakkord - chromatische Subdominantfunktion, die Außenstimmen ziehen zur Dominante.",
+      "Fr6": "Französischer übermäßiger Sextakkord - chromatische Subdominantfunktion mit zusätzlicher Sekunde, heller als der italienische.",
+      "Ger6": "Deutscher übermäßiger Sextakkord - chromatische Subdominantfunktion, klingt wie ein Dominantseptakkord und löst sich nach V auf."
+    }
   },
   "modeCategories": {
     "Common Western Tonal": "Gängige westliche tonale Modi",
@@ -392,8 +417,8 @@
       }
     },
     "Blues/Soul": {
-      "I—I—I—I—IV—IV—I—I—V—IV—I—V": {
-        "name": "I—I—I—I—IV—IV—I—I—V—IV—I—V",
+      "12-bar-blues": {
+        "name": "12-bar-blues",
         "nickname": "12-Bar Blues",
         "description": "Die Grundlage von Blues, Rock und Jazz. Vier Takte Tonika etablieren das Zuhause, der IV-Akkord erzeugt Spannung, Rückkehr zu I bietet Erleichterung, V-IV erzeugt den \"Turnaround\" zurück zu I. Die wichtigste Progression in der amerikanischen Musik."
       },
@@ -478,6 +503,26 @@
         "name": "ii—V—I—IV—vii°—III7—vi",
         "nickname": "Autumn Leaves",
         "description": "Die Quintessenz des Jazz-Standard-Progressionen von Joseph Kosmas \"Autumn Leaves\". Öffnet mit ii-V-I in Dur, dann moduliert IV-vii°-III7-vi zur parallelen Moll. Das III7 ist Sekundärdominante (V/vi). Perfekt zum Erlernen von Jazz-Improvisation und Stimmführung. Eine der meistaufgenommenen Jazz-Kompositionen."
+      },
+      "III7—VI7—II7—V7": {
+        "name": "III7—VI7—II7—V7",
+        "nickname": "Ragtime-Zyklus",
+        "description": "Vier Dominantseptakkorde im Quintenzirkel, von denen jeder den nächsten tonikalisiert. Der Motor des Ragtime und des frühen Jazz und bis heute die Standard-Bridge unzähliger Rhythm-Changes-Stücke."
+      },
+      "V7/ii—ii—V7—I": {
+        "name": "V7/ii—ii—V7—I",
+        "nickname": "Erweitertes Turnaround",
+        "description": "Eine Zwischendominante kündigt die ii-Stufe vor dem üblichen ii-V-I an. Ein Schritt weiter im Quintenzirkel verdoppelt Länge und Sogwirkung der Kadenz."
+      },
+      "♭II7—I": {
+        "name": "♭II7—I",
+        "nickname": "Tritonus-Kadenz",
+        "description": "Die Dominante wird durch den Septakkord im Tritonusabstand ersetzt. Gleiche Leittöne, aber der Bass rutscht einen Halbton in die Tonika statt eine Quinte zu springen - die klassische Jazz-Reharmonisierung."
+      },
+      "ii7—♭II7—IM7": {
+        "name": "ii7—♭II7—IM7",
+        "nickname": "Tritonus-ii-V-I",
+        "description": "Ein ii-V-I, dessen V durch seinen Tritonus-Partner ersetzt wird, sodass der Bass chromatisch von ii nach I absteigt. Allgegenwärtig in Bebop- und Bossa-Nova-Schlüssen."
       }
     },
     "Classical/Modal": {
@@ -1051,6 +1096,11 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Klassische Acid-Palette. Moll-Septimen und Quarten-Voicings für TB-303-Squelch."
+      },
+      "i—♭VI—♭VII": {
+        "name": "i—♭VI—♭VII",
+        "nickname": "Industrieller Aufstieg",
+        "description": "Drei Moll-Akkorde, die in Ganztonschritten aufsteigen und nie zum i zurückkehren. Das offene Ende hält den Loop endlos in Bewegung - der Grund, warum es EBM und Industrial-Techno trägt."
       }
     },
     "Modal Interchange": {

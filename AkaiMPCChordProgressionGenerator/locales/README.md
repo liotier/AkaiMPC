@@ -16,9 +16,42 @@ This directory contains translation files for the MPC Chord Progression Generato
 The application uses a fully i18n-orthodox approach:
 - All user-visible text comes from locale files
 - `musicTheory.js` contains only structural data (chord formulas, scale intervals, etc.)
-- English serves as the fallback language when a translation key is missing
+- English serves as the fallback language when a translation key is missing, and
+  is loaded in parallel with the selected language so the fallback always works
 
 The language selector is populated dynamically from `i18n.getAvailableLanguages()`, which reads the available locales at runtime.
+
+## Translation Coverage
+
+English is the source language and is always loaded alongside the selected
+language, so any key a translation file has not covered yet falls back to
+English rather than showing a raw key. Current gaps, all in the long-form
+progression `name` / `nickname` / `description` text:
+
+| Language | Keys missing (falling back to English) |
+| --- | --- |
+| `de.json` | 80 |
+| `es.json` | 79 |
+| `fr.json` | 79 |
+| `it.json` | 79 |
+| `pt.json` | 79 |
+
+To list the untranslated keys for a language, diff its key set against English:
+
+```sh
+python3 - <<'EOF'
+import json
+def flat(o, p=''):
+    return {p: o} if not isinstance(o, dict) else {
+        k2: v2 for k, v in o.items() for k2, v2 in flat(v, f'{p}.{k}' if p else k).items()
+    }
+en = flat(json.load(open('en.json')))
+other = flat(json.load(open('fr.json')))          # change the language here
+print('\n'.join(sorted(set(en) - set(other))))
+EOF
+```
+
+Contributions welcome.
 
 ## Translation Guidelines
 

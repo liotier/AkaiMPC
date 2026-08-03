@@ -46,9 +46,13 @@ export function generateKeyboardSVG(notes) {
     return svg;
 }
 
+// Frets drawn below the nut on a chord diagram
+const FRET_COUNT = 4;
+const STRING_COUNT = 6;
+
 export function generateGuitarSVG(guitarChord, pad, isLeftHanded) {
     const width = 150;
-    const height = 140;
+    const height = 152;  // room under the grid for the "approx." marker
     const stringSpacing = 20;
     const fretSpacing = 28;
     const leftMargin = 25;
@@ -60,12 +64,15 @@ export function generateGuitarSVG(guitarChord, pad, isLeftHanded) {
     const frets = guitarChord.frets.split('');
     const fingers = guitarChord.fingers ? guitarChord.fingers.split('') : frets;
 
-    // Calculate minimum fret position (excluding open strings and muted strings)
+    // Position the 4-fret window so every fretted note lands inside it.
+    // Anchoring on the lowest fret alone pushed the higher notes of shapes like
+    // Cm (x35543) and Gm (355333) off the bottom of the diagram.
     const fretNumbers = frets
         .filter(f => f !== 'x' && f !== '0')
         .map(f => parseInt(f));
     const minFret = fretNumbers.length > 0 ? Math.min(...fretNumbers) : 1;
-    const startFret = minFret > 3 ? minFret : 1;
+    const maxFret = fretNumbers.length > 0 ? Math.max(...fretNumbers) : 1;
+    const startFret = maxFret <= FRET_COUNT ? 1 : minFret;
     const isOpenPosition = startFret === 1;
 
     // Flip for left-handed
@@ -130,17 +137,37 @@ export function generateGuitarSVG(guitarChord, pad, isLeftHanded) {
     if (guitarChord.barre) {
         const displayBarreFret = guitarChord.barre.fret - startFret + 1;
         const y = topMargin + (displayBarreFret - 0.5) * fretSpacing;
-        const fromX = leftMargin + (guitarChord.barre.from - 1) * stringSpacing;
-        const toX = leftMargin + Math.min(5, guitarChord.barre.to - 1) * stringSpacing;
+
+        // Mirror the barre with the strings, otherwise a partial barre stays on
+        // the right-handed strings while the dots move to the left-handed ones
+        const from = isLeftHanded ? STRING_COUNT + 1 - guitarChord.barre.to : guitarChord.barre.from;
+        const to = isLeftHanded ? STRING_COUNT + 1 - guitarChord.barre.from : guitarChord.barre.to;
+
+        const fromX = leftMargin + Math.max(0, from - 1) * stringSpacing;
+        const toX = leftMargin + Math.min(STRING_COUNT - 1, to - 1) * stringSpacing;
         svg += `<rect x="${fromX - 8}" y="${y - 8}" width="${toX - fromX + 16}" height="16"
             rx="8" fill="black" opacity="0.3"/>`;
+    }
+
+    // Flag shapes that stand in for a quality the chord library has no entry
+    // for. Drawn under the grid, clear of the muted-string crosses on top.
+    if (guitarChord.simplified) {
+        svg += `<text x="${leftMargin + 2.5 * stringSpacing}" y="${height - 4}"
+            text-anchor="middle" font-size="9" fill="#888">approx.</text>`;
     }
 
     svg += '</svg>';
     return svg;
 }
 
-export function generateStaffSVG(notes) {
+/**
+ * Render a chord as note heads on a treble staff.
+ *
+ * @param {number[]} notes - MIDI note numbers
+ * @param {boolean} preferFlats - Spell black keys as flats rather than sharps
+ * @returns {string} SVG markup
+ */
+export function generateStaffSVG(notes, preferFlats = false) {
     if (!notes || notes.length === 0) return '';
 
     // Sort notes from low to high
@@ -166,9 +193,10 @@ export function generateStaffSVG(notes) {
     const leftMargin = 60;
     const rightMargin = 20;
 
-    // Hardcode width for maximum 4 notes (typical chord voicings)
-    const maxNotes = 4;
-    const fixedWidth = leftMargin + (maxNotes - 1) * baseNoteSpacing + rightMargin; // 242px
+    // Width follows the chord: 4 notes is the common case and keeps every card
+    // the same size, but extended chords need room rather than being clipped
+    const maxNotes = Math.max(4, transposedNotes.length);
+    const fixedWidth = leftMargin + (maxNotes - 1) * baseNoteSpacing + rightMargin;
     const fixedHeight = 120; // Reduced from 192 to minimize whitespace
 
     const startX = leftMargin;
@@ -176,15 +204,18 @@ export function generateStaffSVG(notes) {
     // MIDI note to staff position mapping - based on treble clef
     // Staff lines (from bottom): E4(64)=8, G4(67)=6, B4(71)=4, D5(74)=2, F5(77)=0
     // Spaces (from bottom): F4(65)=7, A4(69)=5, C5(72)=3, E5(76)=1
-    const noteToStaffPosition = (midi) => {
+    const noteToStaffPosition = (midi, useFlats = false) => {
         // Using modulo 12 to get note within octave, then octave offset
-        const noteInOctave = midi % 12; // 0=C, 1=C#, 2=D, etc.
+        const noteInOctave = ((midi % 12) + 12) % 12; // 0=C, 1=C#, 2=D, etc.
         const octave = Math.floor(midi / 12);
 
-        // Map each note in octave to its position offset within an octave
-        // C=0, C#=0, D=1, D#=1, E=2, F=3, F#=3, G=4, G#=4, A=5, A#=5, B=6
-        const noteOffsets = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
-        const offsetInOctave = noteOffsets[noteInOctave];
+        // Staff degree of each pitch class. A black key sits on the degree
+        // below when spelled with a sharp (C#) and the one above when spelled
+        // with a flat (Db), so the accidental and the head agree.
+        // C=0, D=1, E=2, F=3, G=4, A=5, B=6
+        const sharpOffsets = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
+        const flatOffsets = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6];
+        const offsetInOctave = (useFlats ? flatOffsets : sharpOffsets)[noteInOctave];
 
         // C4 (MIDI 60) is at position 10 (ledger line below staff)
         // Each octave up decreases position by 7, down increases by 7
@@ -209,10 +240,17 @@ export function generateStaffSVG(notes) {
         fill="black" stroke="black" stroke-width="0.5"/>
     </g>`;
 
+    // Black keys need an accidental drawn in front of the note head. Without
+    // one, C and C sharp landed on the same line and the staff view showed the
+    // wrong chord for every key with black notes in it.
+    const SHARP_PITCH_CLASSES = new Set([1, 3, 6, 8, 10]);
+    const accidentalFor = (midi) =>
+        SHARP_PITCH_CLASSES.has(((midi % 12) + 12) % 12) ? (preferFlats ? '\u266D' : '\u266F') : '';
+
     // Draw each note as an eighth note
     transposedNotes.forEach((midiNote, index) => {
         const x = startX + index * baseNoteSpacing;
-        const staffPosition = noteToStaffPosition(midiNote);
+        const staffPosition = noteToStaffPosition(midiNote, preferFlats);
         const y = staffY + staffPosition * (lineSpacing / 2);
 
         // Draw ledger lines if needed
@@ -228,6 +266,13 @@ export function generateStaffSVG(notes) {
                 const ledgerY = staffY + line * (lineSpacing / 2);
                 svg += `<line x1="${x - 10}" y1="${ledgerY}" x2="${x + 10}" y2="${ledgerY}" stroke="black" stroke-width="1.2"/>`;
             }
+        }
+
+        // Draw accidental to the left of the note head
+        const accidental = accidentalFor(midiNote);
+        if (accidental) {
+            svg += `<text x="${x - 11}" y="${y + 5}" text-anchor="middle" font-size="17"
+                font-family="serif" fill="black">${accidental}</text>`;
         }
 
         // Draw note head (filled oval for eighth notes)

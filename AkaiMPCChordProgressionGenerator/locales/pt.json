@@ -19,7 +19,12 @@
       "sus4": "Sus4",
       "7": "Dominante 7",
       "maj7": "Maior 7",
-      "m7": "Menor 7"
+      "m7": "Menor 7",
+      "6": "Sexta maior",
+      "m6": "Sexta menor",
+      "m7b5": "Meio-diminuto 7 (m7♭5)",
+      "dim7": "Sétima diminuta",
+      "mMaj7": "Menor-maior 7"
     },
     "addChord": "Adicionar Acorde",
     "clearAll": "Limpar Tudo",
@@ -44,7 +49,10 @@
   },
   "buttons": {
     "generate": "Gerar Progressões",
-    "downloadAll": "Baixar todos os arquivos .progression"
+    "downloadAll": "Baixar todos os arquivos .progression",
+    "downloadAllProgression": "Baixar todos os arquivos .progression",
+    "downloadAllMidi": "Baixar todos os arquivos MIDI",
+    "printAll": "Imprimir todas as progressões"
   },
   "tabs": {
     "mpc": "Pads MPC",
@@ -78,7 +86,11 @@
       "tooltip": "Variante experimental: Usa voicings expandidos através de múltiplas oitavas. Cria cores e texturas harmônicas únicas e não convencionais."
     },
     "progressionClarification": "Acordes 1-{{count}} da progressão, {{next}}-16 extrapolados. ",
-    "chordDistanceHint": "As cores dos cartões mostram a distância do acorde do cartão selecionado"
+    "chordDistanceHint": "As cores dos cartões mostram a distância do acorde do cartão selecionado",
+    "scaleExploration": {
+      "label": "Todos os acordes da escala",
+      "tooltip": "Modo Escala: a tríade de cada grau da escala nas duas primeiras linhas e o acorde de sétima de cada grau nas duas últimas. Ambos derivam da própria escala, portanto nenhum pad usa uma nota que a escala não contenha."
+    }
   },
   "footer": {
     "cousin": "Primo do",
@@ -164,7 +176,20 @@
     "6": "Cor vintage, suaviza a harmonia.",
     "extended": "Harmonia estendida - cor jazz/pop, adiciona profundidade.",
     "borrowed": "Acorde emprestado - adiciona cor expressiva ao emprestar do modo paralelo.",
-    "default": "Cor harmônica - adiciona variedade e interesse à progressão."
+    "default": "Cor harmônica - adiciona variedade e interesse à progressão.",
+    "types": {
+      "m7b5": "Meio-diminuto - o ii de uma tonalidade menor e o acorde de sétima natural sobre um grau diminuto; conduz à dominante.",
+      "dim7": "Sétima diminuta - tensão máxima, resolve por semitom em qualquer direção.",
+      "minMaj7": "Menor-maior 7 - acorde de tônica do menor harmônico e melódico; sombrio, cinematográfico.",
+      "augMaj7": "Aumentada maior 7 - mediante do menor harmônico/melódico; instável e luminosa.",
+      "aug7": "Sétima aumentada - dominante com quinta aumentada, empurra com força para a tônica.",
+      "augmented": "Tríade aumentada - simétrica e sem resolução, pode levar a várias tonalidades.",
+      "quartal": "Quartas empilhadas - aberto e modal, não se compromete com maior nem menor.",
+      "dom7sus4": "7sus4 - tensão de dominante com a terça suspensa, comum no modal e no gospel.",
+      "It6": "Sexta aumentada italiana - predominante cromática que aperta as vozes extremas sobre a dominante.",
+      "Fr6": "Sexta aumentada francesa - predominante cromática com segunda adicionada, mais brilhante que a italiana.",
+      "Ger6": "Sexta aumentada alemã - predominante cromática que soa como sétima de dominante e resolve para V."
+    }
   },
   "modeCategories": {
     "Common Western Tonal": "Tonalidade Ocidental Comum",
@@ -393,8 +418,8 @@
       }
     },
     "Blues/Soul": {
-      "I—I—I—I—IV—IV—I—I—V—IV—I—V": {
-        "name": "I—I—I—I—IV—IV—I—I—V—IV—I—V",
+      "12-bar-blues": {
+        "name": "12-bar-blues",
         "nickname": "12-Bar Blues",
         "description": "A fundação do blues, rock e jazz. Quatro compassos de tônica estabelecem o lar, acorde IV cria tensão, retorno a I proporciona alívio, V-IV cria \"turnaround\" de volta a I. A progressão mais importante na música americana."
       },
@@ -479,6 +504,26 @@
         "name": "ii—V—I—IV—vii°—III7—vi",
         "nickname": "Autumn Leaves",
         "description": "A progressão quintessencial do standard jazz \"Autumn Leaves\" de Joseph Kosma. Abre com ii-V-I em maior, então IV-vii°-III7-vi modula para o relativo menor. O III7 é dominante secundária (V/vi). Perfeita para aprender improvisação jazz e condução de vozes. Uma das composições jazz mais gravadas."
+      },
+      "III7—VI7—II7—V7": {
+        "name": "III7—VI7—II7—V7",
+        "nickname": "Ciclo ragtime",
+        "description": "Quatro acordes de sétima de dominante encadeados pelo ciclo das quintas, cada um tonicalizando o seguinte. O motor do ragtime e do jazz antigo, e ainda a ponte padrão de inúmeros rhythm changes."
+      },
+      "V7/ii—ii—V7—I": {
+        "name": "V7/ii—ii—V7—I",
+        "nickname": "Turnaround estendido",
+        "description": "Uma dominante secundária anuncia o ii antes do ii-V-I habitual. Começar um passo antes no ciclo das quintas dobra o comprimento e a atração da cadência."
+      },
+      "♭II7—I": {
+        "name": "♭II7—I",
+        "nickname": "Cadência de trítono",
+        "description": "A dominante substituída pelo acorde de sétima a um trítono de distância. As mesmas notas-guia, mas o baixo desce meio tom até a tônica em vez de saltar uma quinta - a rearmonização jazzística por excelência."
+      },
+      "ii7—♭II7—IM7": {
+        "name": "ii7—♭II7—IM7",
+        "nickname": "ii-V-I com trítono",
+        "description": "Um ii-V-I com o V substituído pelo seu trítono, fazendo o baixo descer cromaticamente do ii ao I. Onipresente nos finais de bebop e bossa nova."
       }
     },
     "Classical/Modal": {
@@ -1053,6 +1098,11 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Paleta acid clássica. 7ªs menores e voicings quartais para guincho TB-303."
+      },
+      "i—♭VI—♭VII": {
+        "name": "i—♭VI—♭VII",
+        "nickname": "Subida industrial",
+        "description": "Três acordes menores que sobem por tons inteiros sem nunca voltar ao i. O final aberto mantém o loop girando para sempre, e é por isso que sustenta tanto EBM e techno industrial."
       }
     },
     "Modal Interchange": {

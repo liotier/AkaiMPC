@@ -19,7 +19,12 @@
       "sus4": "Sus4",
       "7": "Dominante 7",
       "maj7": "Maggiore 7",
-      "m7": "Minore 7"
+      "m7": "Minore 7",
+      "6": "Sesta maggiore",
+      "m6": "Sesta minore",
+      "m7b5": "Semidiminuito 7 (m7♭5)",
+      "dim7": "Settima diminuita",
+      "mMaj7": "Minore-maggiore 7"
     },
     "addChord": "Aggiungi Accordo",
     "clearAll": "Cancella Tutto",
@@ -44,7 +49,10 @@
   },
   "buttons": {
     "generate": "Genera Progressioni",
-    "downloadAll": "Scarica tutti i file .progression"
+    "downloadAll": "Scarica tutti i file .progression",
+    "downloadAllProgression": "Scarica tutti i file .progression",
+    "downloadAllMidi": "Scarica tutti i file MIDI",
+    "printAll": "Stampa tutte le progressioni"
   },
   "tabs": {
     "mpc": "Pad MPC",
@@ -78,7 +86,11 @@
       "tooltip": "Variante sperimentale: Utilizza voicing espansi su più ottave. Crea colori e texture armoniche uniche e non convenzionali."
     },
     "progressionClarification": "Accordi 1-{{count}} dalla progressione, {{next}}-16 estrapolati. ",
-    "chordDistanceHint": "I colori delle carte mostrano la distanza dell'accordo dalla carta selezionata"
+    "chordDistanceHint": "I colori delle carte mostrano la distanza dell'accordo dalla carta selezionata",
+    "scaleExploration": {
+      "label": "Tutti gli accordi della scala",
+      "tooltip": "Modalità Scala: la triade di ogni grado della scala nelle prime due righe e l’accordo di settima di ogni grado nelle ultime due. Entrambi sono ricavati dalla scala stessa, quindi nessun pad usa una nota che la scala non contiene."
+    }
   },
   "footer": {
     "cousin": "Cugino del",
@@ -164,7 +176,20 @@
     "6": "Colore vintage, ammorbidisce armonia.",
     "extended": "Armonia estesa - colore jazz/pop, aggiunge profondità.",
     "borrowed": "Accordo in prestito - aggiunge colore espressivo prendendo in prestito dal modo parallelo.",
-    "default": "Colore armonico - aggiunge varietà e interesse alla progressione."
+    "default": "Colore armonico - aggiunge varietà e interesse alla progressione.",
+    "types": {
+      "m7b5": "Semidiminuito - il ii di una tonalità minore e l’accordo di settima naturale su un grado diminuito; porta alla dominante.",
+      "dim7": "Settima diminuita - tensione massima, risolve per semitono in ogni direzione.",
+      "minMaj7": "Minore-maggiore 7 - accordo di tonica del minore armonico e melodico; cupo, cinematografico.",
+      "augMaj7": "Aumentata maggiore 7 - mediante del minore armonico/melodico; instabile e luminosa.",
+      "aug7": "Settima aumentata - dominante con quinta aumentata, spinge con forza verso la tonica.",
+      "augmented": "Triade aumentata - simmetrica e irrisolta, può condurre a più tonalità.",
+      "quartal": "Quarte sovrapposte - aperto e modale, non sceglie né maggiore né minore.",
+      "dom7sus4": "7sus4 - tensione di dominante con la terza sospesa, comune nel modale e nel gospel.",
+      "It6": "Sesta aumentata italiana - predominante cromatica che stringe le voci esterne sulla dominante.",
+      "Fr6": "Sesta aumentata francese - predominante cromatica con seconda aggiunta, più brillante di quella italiana.",
+      "Ger6": "Sesta aumentata tedesca - predominante cromatica che suona come una settima di dominante e risolve su V."
+    }
   },
   "modeCategories": {
     "Common Western Tonal": "Tonalità Occidentale Comune",
@@ -393,8 +418,8 @@
       }
     },
     "Blues/Soul": {
-      "I—I—I—I—IV—IV—I—I—V—IV—I—V": {
-        "name": "I—I—I—I—IV—IV—I—I—V—IV—I—V",
+      "12-bar-blues": {
+        "name": "12-bar-blues",
         "nickname": "12-Bar Blues",
         "description": "Il fondamento di blues, rock e jazz. Quattro battute di tonica stabiliscono casa, accordo IV crea tensione, ritorno a I dà sollievo, V-IV crea \"turnaround\" verso I. La progressione più importante nella musica americana."
       },
@@ -479,6 +504,26 @@
         "name": "ii—V—I—IV—vii°—III7—vi",
         "nickname": "Autumn Leaves",
         "description": "La progressione quintessenziale del jazz standard \"Autumn Leaves\" di Joseph Kosma. Apre con ii-V-I in maggiore, poi IV-vii°-III7-vi modula verso la relativa minore. Il III7 è dominante secondaria (V/vi). Perfetta per imparare l'improvvisazione jazz e la conduzione voci. Una delle composizioni jazz più registrate."
+      },
+      "III7—VI7—II7—V7": {
+        "name": "III7—VI7—II7—V7",
+        "nickname": "Ciclo ragtime",
+        "description": "Quattro settime di dominante concatenate sul circolo delle quinte, ciascuna che tonicizza la successiva. Il motore del ragtime e del primo jazz, e ancora il bridge standard di innumerevoli rhythm changes."
+      },
+      "V7/ii—ii—V7—I": {
+        "name": "V7/ii—ii—V7—I",
+        "nickname": "Turnaround esteso",
+        "description": "Una dominante secondaria annuncia il ii prima del consueto ii-V-I. Partire un passo più indietro nel circolo delle quinte raddoppia lunghezza e attrazione della cadenza."
+      },
+      "♭II7—I": {
+        "name": "♭II7—I",
+        "nickname": "Cadenza di tritono",
+        "description": "La dominante sostituita dall’accordo di settima a distanza di tritono. Stesse note guida, ma il basso scende di un semitono sulla tonica invece di saltare di quinta: la riarmonizzazione jazz per eccellenza."
+      },
+      "ii7—♭II7—IM7": {
+        "name": "ii7—♭II7—IM7",
+        "nickname": "ii-V-I con tritono",
+        "description": "Un ii-V-I con il V sostituito dal suo tritono, così il basso scende cromaticamente dal ii al I. Onnipresente nei finali bebop e bossa nova."
       }
     },
     "Classical/Modal": {
@@ -1053,6 +1098,11 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Tavolozza acid classica. Settime minori e voicing quartali per squelch TB-303."
+      },
+      "i—♭VI—♭VII": {
+        "name": "i—♭VI—♭VII",
+        "nickname": "Salita industriale",
+        "description": "Tre accordi minori che salgono per toni interi senza mai tornare al i. Il finale aperto tiene il loop in movimento all’infinito, ed è per questo che regge tanta EBM e techno industriale."
       }
     },
     "Modal Interchange": {

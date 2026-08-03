@@ -50,12 +50,13 @@ export function generateMIDIFile(chords, progressionName, progressionChordIndice
     // Build track events
     const trackEvents = [];
 
-    // Track name meta event
+    // Track name meta event. The length is a variable-length quantity, not a
+    // single byte: a name of 128 bytes or more produced a corrupt file.
     const trackNameBytes = Array.from(new TextEncoder().encode(progressionName));
     trackEvents.push(
         0x00, // Delta time = 0
         0xFF, 0x03, // Meta event: Track name
-        trackNameBytes.length,
+        ...encodeVariableLength(trackNameBytes.length),
         ...trackNameBytes
     );
 
@@ -70,9 +71,13 @@ export function generateMIDIFile(chords, progressionName, progressionChordIndice
     );
 
     // Add chords sequentially
-    let currentTick = 0;
     orderedChords.forEach((chord, chordIndex) => {
         if (!chord || !chord.notes || chord.notes.length === 0) return;
+
+        // MIDI note numbers are 7-bit; anything else would corrupt the stream
+        const notes = chord.notes.filter(n => Number.isInteger(n) && n >= 0 && n <= 127);
+        if (notes.length === 0) return;
+        chord = { ...chord, notes };
 
         // Note On events (all notes start simultaneously)
         chord.notes.forEach((midiNote, noteIndex) => {

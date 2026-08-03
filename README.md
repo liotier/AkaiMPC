@@ -12,9 +12,9 @@ This repository contains two complementary web applications for working with cho
 Generate musically intelligent custom chord progressions in 4×4 pad layouts for Akai MPC Pad Perform.
 
 **Key Features:**
-- 135 progression templates across 15 genres
-- 36 scales and modes from common to exotic
-- Four intelligent voicing variants (Classic, Jazz, Modal, Experimental)
+- 173 progression templates across 22 genres
+- 34 scales and modes from common to exotic, with chords derived from each scale
+- Five intelligent voicing variants (Smooth, Classic, Jazz, Modal, Experimental)
 - Voice leading optimization for smooth transitions
 - Chord Matcher for finding keys from specific chords
 - Multi-view support: MPC pads, keyboard, guitar, and staff notation

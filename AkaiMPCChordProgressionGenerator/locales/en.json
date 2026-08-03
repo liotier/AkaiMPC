@@ -19,7 +19,12 @@
       "sus4": "Sus4",
       "7": "Dominant 7",
       "maj7": "Major 7",
-      "m7": "Minor 7"
+      "m7": "Minor 7",
+      "6": "Major 6",
+      "m6": "Minor 6",
+      "m7b5": "Half-Diminished 7 (m7♭5)",
+      "dim7": "Diminished 7",
+      "mMaj7": "Minor-Major 7"
     },
     "addChord": "Add Chord",
     "clearAll": "Clear All",
@@ -44,7 +49,10 @@
   },
   "buttons": {
     "generate": "Generate Progressions",
-    "downloadAll": "Download all .progression files"
+    "downloadAll": "Download all .progression files",
+    "downloadAllProgression": "Download all .progression files",
+    "downloadAllMidi": "Download all MIDI files",
+    "printAll": "Print all progressions"
   },
   "tabs": {
     "mpc": "MPC Pads",
@@ -78,7 +86,11 @@
       "tooltip": "Experimental variant: Uses spread voicings across multiple octaves. Creates unique, unconventional harmonic colors and textures."
     },
     "progressionClarification": "Chords 1-{{count}} from progression, {{next}}-16 extrapolated. ",
-    "chordDistanceHint": "Colors of cards show chord distance from selected card"
+    "chordDistanceHint": "Colors of cards show chord distance from selected card",
+    "scaleExploration": {
+      "label": "Every chord in the scale",
+      "tooltip": "Scale Mode: the triad on each degree of the scale in the first two rows, and the seventh chord on each degree in the last two. Both are derived from the scale itself, so nothing on the grid uses a note the scale does not contain."
+    }
   },
   "footer": {
     "cousin": "Cousin to the",
@@ -163,7 +175,20 @@
     "6": "Vintage color, softens the harmony.",
     "extended": "Extended harmony - jazz/pop color, adds depth.",
     "borrowed": "Borrowed chord - adds expressive color by borrowing from parallel mode.",
-    "default": "Harmonic color - adds variety and interest to the progression."
+    "default": "Harmonic color - adds variety and interest to the progression.",
+    "types": {
+      "m7b5": "Half-diminished 7th - the ii of a minor key and the natural 7th chord on a diminished degree; leads to a dominant.",
+      "dim7": "Fully diminished 7th - maximum tension, resolves by half step in any direction.",
+      "minMaj7": "Minor-major 7th - the tonic 7th chord of harmonic and melodic minor; brooding, cinematic.",
+      "augMaj7": "Augmented major 7th - the mediant of harmonic/melodic minor; unstable and luminous.",
+      "aug7": "Augmented 7th - a dominant with a raised 5th, pushes hard to the tonic.",
+      "augmented": "Augmented triad - symmetrical and unresolved, can move to several keys.",
+      "quartal": "Stacked fourths - open and modal, avoids committing to major or minor.",
+      "dom7sus4": "7sus4 - dominant tension with the 3rd suspended, common in modal and gospel writing.",
+      "It6": "Italian augmented 6th - chromatic predominant, both outer voices squeeze onto the dominant.",
+      "Fr6": "French augmented 6th - chromatic predominant with an added 2nd, brighter than the Italian.",
+      "Ger6": "German augmented 6th - chromatic predominant, sounds like a dominant 7th and resolves to V."
+    }
   },
   "modeCategories": {
     "Common Western Tonal": "Common Western Tonal",
@@ -393,8 +418,8 @@
       }
     },
     "Blues/Soul": {
-      "I—I—I—I—IV—IV—I—I—V—IV—I—V": {
-        "name": "I—I—I—I—IV—IV—I—I—V—IV—I—V",
+      "12-bar-blues": {
+        "name": "12-bar-blues",
         "nickname": "12-Bar Blues",
         "description": "The foundation of blues, rock, and jazz. Four bars of tonic establish home, IV chord creates tension, return to I provides relief, V-IV creates \"turnaround\" back to I. The most important progression in American music."
       },
@@ -514,6 +539,26 @@
         "name": "I—I°—ii—♯II°—iii—III°—IV",
         "nickname": "Full Chromatic Walk",
         "description": "Extended chromatic walk-up using multiple diminished passing chords. Creates completely chromatic bass line from I to IV. Maximum voice leading smoothness - every chord connects by half step. Jazz arranging staple."
+      },
+      "III7—VI7—II7—V7": {
+        "name": "III7—VI7—II7—V7",
+        "nickname": "Ragtime Cycle",
+        "description": "Four dominant 7ths chained around the circle of fifths, each one tonicising the next. The engine of ragtime and early jazz, and still the standard bridge of countless rhythm-changes tunes."
+      },
+      "V7/ii—ii—V7—I": {
+        "name": "V7/ii—ii—V7—I",
+        "nickname": "Extended Turnaround",
+        "description": "A secondary dominant announces the ii before the usual ii-V-I. Starting one step further around the circle of fifths gives a cadence twice the length and twice the pull."
+      },
+      "♭II7—I": {
+        "name": "♭II7—I",
+        "nickname": "Tritone Cadence",
+        "description": "The dominant replaced by the 7th chord a tritone away. Same guide tones, but the root slides down a half step into the tonic instead of leaping a fifth - the signature jazz reharmonisation."
+      },
+      "ii7—♭II7—IM7": {
+        "name": "ii7—♭II7—IM7",
+        "nickname": "Tritone ii-V-I",
+        "description": "A ii-V-I with the V substituted by its tritone partner, so the bass walks down chromatically from ii to I. Ubiquitous in bebop and bossa nova endings."
       }
     },
     "Classical/Modal": {
@@ -1185,6 +1230,11 @@
         "name": "i—♭VII—iv",
         "nickname": "Acid 303",
         "description": "Classic acid palette. Minor 7ths and quartal voicings for TB-303 squelch."
+      },
+      "i—♭VI—♭VII": {
+        "name": "i—♭VI—♭VII",
+        "nickname": "Industrial Climb",
+        "description": "Three minor-key chords rising by whole steps with no resolution back to i. The open ending keeps a loop turning forever, which is why it underpins so much EBM and industrial techno."
       }
     },
     "Modal Interchange": {
