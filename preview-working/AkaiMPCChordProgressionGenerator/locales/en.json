@@ -142,17 +142,10 @@
     }
   },
   "errors": {
-    "selectKey": "Please select a key",
-    "selectMode": "Please select a mode",
-    "selectProgression": "Please select a progression",
-    "generateFailed": "Failed to generate progression",
     "generateFirst": "Generate some progressions first",
     "midiExportFailed": "MIDI export failed. Please try again."
   },
   "messages": {
-    "loading": "Loading...",
-    "generating": "Generating progressions...",
-    "complete": "Generation complete",
     "selectNoteAndQuality": "Please select both a note and a chord quality",
     "chordAdded": "Added {{chord}} to the Chord Matcher",
     "maxChords": "At most {{max}} chords can be added to the Chord Matcher",

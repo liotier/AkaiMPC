@@ -142,17 +142,10 @@
     }
   },
   "errors": {
-    "selectKey": "Bitte wählen Sie eine Tonart",
-    "selectMode": "Bitte wählen Sie einen Modus",
-    "selectProgression": "Bitte wählen Sie eine Progression",
-    "generateFailed": "Fehler beim Generieren der Progression",
     "generateFirst": "Erzeugen Sie zuerst einige Progressionen",
     "midiExportFailed": "Der MIDI-Export ist fehlgeschlagen. Bitte erneut versuchen."
   },
   "messages": {
-    "loading": "Lädt...",
-    "generating": "Generiere Progressionen...",
-    "complete": "Generierung abgeschlossen",
     "selectNoteAndQuality": "Bitte einen Grundton und eine Akkordart auswählen",
     "chordAdded": "{{chord}} zum Chord Matcher hinzugefügt",
     "maxChords": "Der Chord Matcher nimmt höchstens {{max}} Akkorde auf",
