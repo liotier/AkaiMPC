@@ -628,7 +628,9 @@
     </div>
   </div>
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <!-- Vendored rather than loaded from a CDN with no integrity check - see
+       vendor/NOTICE.md for provenance and update instructions. -->
+  <script src="vendor/jszip.min.js"></script>
   
   <div class="progressions" id="progressions"></div>
   
@@ -742,6 +744,23 @@ function noteToMidi(note, octave = 4) {
   return index + (octave + 2) * 12;
 }
 
+// Escapes text pulled from a dropped .progression file before it goes into
+// innerHTML - progression names are arbitrary strings from JSON a visitor
+// drags in, not app-controlled data.
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function debounce(fn, delayMs) {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn(...args), delayMs);
+  };
+}
+
 // Pure interval-based chord analysis
 function analyzeChord(midiNotes) {
   if (!midiNotes || midiNotes.length === 0) {
@@ -811,44 +830,68 @@ function analyzeChord(midiNotes) {
 }
 
 function identifyChordQuality(intervals, bassPC) {
-  const hasInterval = (i) => intervals.includes(i);
-  const pattern = intervals.join(',');
-  
-  const patterns = {
-    '0,4,7': { quality: 'Major', root: 0 },
-    '0,3,7': { quality: 'Minor', root: 0 },
-    '0,3,6': { quality: 'Diminished', root: 0 },
-    '0,4,8': { quality: 'Augmented', root: 0 },
-    '0,2,7': { quality: 'Sus2', root: 0 },
-    '0,5,7': { quality: 'Sus4', root: 0 },
-    '0,4,7,10': { quality: 'Dominant 7', root: 0 },
-    '0,4,7,11': { quality: 'Major 7', root: 0 },
-    '0,3,7,10': { quality: 'Minor 7', root: 0 },
-    '0,3,6,10': { quality: 'Half-Diminished 7', root: 0 },
-    '0,3,6,9': { quality: 'Diminished 7', root: 0 },
-    '0,4,7,9': { quality: 'Major 6', root: 0 },
-    '0,3,7,9': { quality: 'Minor 6', root: 0 },
-    '0,4,7,10,14': { quality: '9th', root: 0 },
-    '0,4,7,11,14': { quality: 'Major 9', root: 0 },
-    '0,3,7,10,14': { quality: 'Minor 9', root: 0 },
-    '0,4,7,14': { quality: 'Add9', root: 0 },
-    '0,3,8': { quality: 'Major', root: 8 },
-    '0,4,9': { quality: 'Minor', root: 9 },
-    '0,5,9': { quality: 'Major', root: 5 },
-    '0,5,8': { quality: 'Minor', root: 5 },
+  // Root-position shapes only. Matched below by rotating the chord's actual
+  // notes to every candidate root in turn, rather than looked up bass-
+  // relative - the previous table only had hand-added bass-relative entries
+  // for triad inversions (e.g. '0,3,8' for a major triad's 1st inversion);
+  // any 4+-note chord not already in root position had no matching entry
+  // and fell through to the fuzzy hasInterval() guesses below, which name
+  // the chord after its bass instead of its actual root (Cmaj7/E came out
+  // "Em", C7/E came out "Edim", Dm7/F came out "F6").
+  const ROOT_POSITION_PATTERNS = {
+    '0,4,7': 'Major',
+    '0,3,7': 'Minor',
+    '0,3,6': 'Diminished',
+    '0,4,8': 'Augmented',
+    '0,2,7': 'Sus2',
+    '0,5,7': 'Sus4',
+    '0,4,7,10': 'Dominant 7',
+    '0,4,7,11': 'Major 7',
+    '0,3,7,10': 'Minor 7',
+    '0,3,6,10': 'Half-Diminished 7',
+    '0,3,6,9': 'Diminished 7',
   };
-  
-  if (patterns[pattern]) {
-    const result = patterns[pattern];
-    return {
-      quality: result.quality,
-      root: (bassPC + result.root) % 12
-    };
-  }
 
+  // A stack of major/minor thirds (each consecutive gap 3 or 4 semitones) is
+  // the reading preferred whenever a chord's notes admit more than one
+  // root-position match. F-A-C-D, for instance, is spellable as either "F6"
+  // (root position, non-tertian added 6th) or "Dm7" (tertian, 1st inversion)
+  // - the same four notes either way. Every added-6th chord has such a
+  // tertian alternative rooted on its 6th (that's what makes it the relative
+  // ii7/vi7 of the triad), so preferring tertian reads a root-position 6th
+  // chord as its relative 7th instead (F6 -> "Dm7/F"). That trade-off is
+  // deliberate: it's what makes inversions of 7th chords - the far more
+  // common case - resolve to their actual root instead of their bass note.
+  const isTertian = (sortedPcs) =>
+    sortedPcs.slice(1).every((pc, i) => {
+      const gap = pc - sortedPcs[i];
+      return gap === 3 || gap === 4;
+    });
+
+  const pcSet = intervals.map(i => (bassPC + i) % 12);
+
+  let fallbackMatch = null;
+  for (const candidateRoot of pcSet) {
+    const rotated = pcSet
+      .map(pc => (pc - candidateRoot + 12) % 12)
+      .sort((a, b) => a - b);
+    const quality = ROOT_POSITION_PATTERNS[rotated.join(',')];
+    if (!quality) continue;
+    if (isTertian(rotated)) {
+      return { quality, root: candidateRoot };
+    }
+    if (!fallbackMatch) {
+      fallbackMatch = { quality, root: candidateRoot };
+    }
+  }
+  if (fallbackMatch) return fallbackMatch;
+
+  // No candidate root produces a known shape: guess quality from bass-
+  // relative intervals alone, root left as the bass note.
+  const hasInterval = (i) => intervals.includes(i);
   let quality = 'Unknown';
   let root = bassPC;
-  
+
   if (hasInterval(3) && hasInterval(7)) {
     quality = 'Minor';
     if (hasInterval(10)) quality = 'Minor 7';
@@ -893,10 +936,11 @@ function generateRomanNumerals(progression) {
     const interval = (chordRootIndex - rootIndex + 12) % 12;
     
     const degree = scale.indexOf(interval);
+    let roman;
     if (degree === -1) {
       let closestDegree = 0;
       let closestDistance = 12;
-      
+
       scale.forEach((scaleInterval, idx) => {
         const distance = Math.abs(interval - scaleInterval);
         if (distance < closestDistance) {
@@ -904,35 +948,35 @@ function generateRomanNumerals(progression) {
           closestDegree = idx;
         }
       });
-      
+
       const scaleInterval = scale[closestDegree];
       const diff = interval - scaleInterval;
-      let roman = romanBase[closestDegree];
-      
+      roman = romanBase[closestDegree];
+
       if (diff === 1 || diff === -11) {
         roman = '#' + roman;
       } else if (diff === -1 || diff === 11) {
         roman = 'b' + roman;
       }
-      
-      romans.push(roman);
-      return;
+    } else {
+      roman = romanBase[degree];
     }
-    
-    let roman = romanBase[degree];
-    
-    const isMinorChord = chord.analysis.quality.includes('Minor') || 
+
+    // Applies to both diatonic and borrowed/chromatic degrees above - a
+    // borrowed chord's quality still determines its casing (e.g. a minor
+    // bVI stays lowercase, matching the diatonic case below it).
+    const isMinorChord = chord.analysis.quality.includes('Minor') ||
                          chord.analysis.quality.includes('Diminished') ||
                          chord.analysis.quality === 'Half-Diminished 7';
-    
+
     if (isMinorChord) {
       roman = roman.toLowerCase();
     }
-    
+
     if (chord.analysis.quality.includes('Diminished')) {
       roman += '°';
     }
-    
+
     romans.push(roman);
   });
   
@@ -1708,7 +1752,7 @@ function createProgressionCard(progression) {
   const infoSection = document.createElement('div');
   infoSection.className = 'progression-info';
   infoSection.innerHTML = `
-    <div class="progression-title">${progression.name}</div>
+    <div class="progression-title">${escapeHtml(progression.name)}</div>
     <div class="progression-meta">
       <span class="key">${progression.key.root} ${progression.key.scale}</span>
     </div>
@@ -1904,10 +1948,10 @@ document.addEventListener('DOMContentLoaded', () => {
     render();
     updateActiveFiltersCount();
   });
-  document.getElementById('filterName').addEventListener('input', () => {
+  document.getElementById('filterName').addEventListener('input', debounce(() => {
     render();
     updateActiveFiltersCount();
-  });
+  }, 200));
   document.getElementById('groupByKey').addEventListener('change', render);
   document.getElementById('showIntervals').addEventListener('change', render);
   

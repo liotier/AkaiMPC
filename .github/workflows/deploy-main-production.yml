@@ -14,6 +14,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Generates AkaiMPCChordProgressionGenerator/pack/*.zip at deploy time -
+      # the pack is never committed (see docs/mpc-export-specification.md D7).
+      # The script itself exits non-zero on a naming-invariant failure, which
+      # fails this job before anything broken is published.
+      - name: Build the chord-progression pack
+        working-directory: AkaiMPCChordProgressionGenerator
+        run: node tools/build-pack.mjs
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:

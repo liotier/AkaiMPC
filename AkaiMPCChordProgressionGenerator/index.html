@@ -9,15 +9,12 @@
     <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
     <link rel="stylesheet" href="styles.css">
-    <!-- Pinned and integrity-checked: webmidi@latest silently shipped whatever
-         the CDN published that day, so a breaking release could take the app
-         down without a commit here. -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
-            integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG"
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/webmidi@3.1.16/dist/iife/webmidi.iife.js"
-            integrity="sha384-L6fKzIUX8dzbu1VNk2zXgoNLytrUuUMMOGQT1VTM3egAccHNssjkF7O/zOt9bMlX"
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Vendored rather than loaded from a CDN: a first-time visitor whose
+         network could not reach that CDN got no export capability at all,
+         with nothing to retry. See vendor/NOTICE.md for provenance, license
+         and update instructions for both files. -->
+    <script src="vendor/jszip.min.js"></script>
+    <script src="vendor/webmidi.iife.js"></script>
     <script src="app.js" type="module"></script>
 </head>
 <body>
@@ -172,6 +169,12 @@
         </div>
 
         <div id="progressionsContainer" class="progressions hidden"></div>
+
+        <div class="bulk-export" id="bulkExport">
+            <p class="bulk-export-hint" data-i18n="buttons.bulkCatalogHint">Managing hundreds of files by hand? Every progression this generator can make, pre-built - and always named in English, whatever language you're reading this in.</p>
+            <a class="secondary-link" id="bulkExportProgressions" data-context="mpc" href="pack/AkaiMPC-Chord-Progressions.zip" download data-i18n="buttons.bulkCatalogProgressions">Download the whole catalogue as .progression files (key of C - Pad Perform transposes on import)</a>
+            <a class="secondary-link hidden" id="bulkExportMidi" data-context="midi" href="pack/AkaiMPC-Chord-MIDI.zip" download data-i18n="buttons.bulkCatalogMidi">Download the whole catalogue as MIDI files (all twelve keys)</a>
+        </div>
 
         <footer>
             <p>

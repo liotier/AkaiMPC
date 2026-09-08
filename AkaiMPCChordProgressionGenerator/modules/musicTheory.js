@@ -1121,6 +1121,37 @@ export const progressions = {
     ]
 };
 
+/**
+ * The genre category a progression template belongs to, e.g. 'Jungle/Drum\'n\'Bass'
+ * for 'i—♭VII—♭VI—V'. Used both by the palette builder (to find a template's
+ * paletteFilter/palettePriorities) and by modules/mpcNaming.js (the category is
+ * half of the MPC display name).
+ *
+ * @param {string} value - A progression template value
+ * @returns {string|null} The category key, or null if value matches nothing
+ */
+export function findProgressionCategory(value) {
+    for (const category in progressions) {
+        if (progressions[category].some(p => p.value === value)) return category;
+    }
+    return null;
+}
+
+/**
+ * The category a mode/scale belongs to in the `modes` object, e.g. 'Exotic'
+ * for 'Hirajoshi'. Scale Mode has no genre, so modules/mpcNaming.js uses this
+ * as the MPC display name's heading instead (see docs/mpc-export-specification.md §5.5).
+ *
+ * @param {string} mode - A mode/scale name
+ * @returns {string|null} The category key, or null if mode matches nothing
+ */
+export function findModeCategory(mode) {
+    for (const category in modes) {
+        if (modes[category].includes(mode)) return category;
+    }
+    return null;
+}
+
 // ============================================================================
 // Core Music Theory Functions
 // ============================================================================
@@ -1130,7 +1161,15 @@ export function getKeyOffset(key) {
         'C': 0, 'C♯/D♭': 1, 'D': 2, 'D♯/E♭': 3, 'E': 4, 'F': 5,
         'F♯/G♭': 6, 'G': 7, 'G♯/A♭': 8, 'A': 9, 'A♯/B♭': 10, 'B': 11
     };
-    return keyMap[key] || 0;
+    // Not `|| 0`: an unrecognised key used to fall back to C silently, which
+    // fabricates plausible output instead of failing. An audit that passed
+    // ASCII 'C#/Db' instead of 'C♯/D♭' measured C five times over before this
+    // was noticed.
+    if (!(key in keyMap)) {
+        console.warn(`getKeyOffset: unknown key ${JSON.stringify(key)}, falling back to C`);
+        return 0;
+    }
+    return keyMap[key];
 }
 
 export function getScaleDegrees(mode) {
@@ -2040,11 +2079,16 @@ export function optimizeVoiceLeading(chordProgression) {
 
 // Helper: Build a voicing from a given bass note and pitch classes
 function buildVoicingFromBass(bassNote, uniquePCs) {
+    const bassPC = ((bassNote % 12) + 12) % 12;
+    const bassIndex = uniquePCs.indexOf(bassPC);
+    if (bassIndex === -1) return [];
+    const remaining = [...uniquePCs.slice(bassIndex + 1), ...uniquePCs.slice(0, bassIndex)];
+
     const voicing = [bassNote];
     let currentNote = bassNote;
 
-    for (let i = 1; i < uniquePCs.length; i++) {
-        const targetPC = uniquePCs[i];
+    for (let i = 0; i < remaining.length; i++) {
+        const targetPC = remaining[i];
         // Find next occurrence of this pitch class
         let nextNote = currentNote + 1;
         while ((nextNote % 12) !== targetPC && nextNote < bassNote + 24) {
@@ -2070,7 +2114,7 @@ function generateSmoothVoicings(chordNotes) {
     for (let bassNote = 48; bassNote <= 72; bassNote++) {
         if (uniquePCs.includes(bassNote % 12)) {
             const voicing = buildVoicingFromBass(bassNote, uniquePCs);
-            if (voicing.length === uniquePCs.length) {
+            if (new Set(voicing.map(n => ((n % 12) + 12) % 12)).size === uniquePCs.length) {
                 voicings.push(voicing);
             }
         }
@@ -2182,9 +2226,11 @@ function findBestSmoothVoicing(targetChordNotes, previousChordNotes) {
         const sorted = [...targetChordNotes].sort((a, b) => a - b);
         const bass = sorted[0];
 
-        // Transpose to comfortable range (C4 = 60)
+        // Move into a comfortable range (C4 = 60) by whole octaves. Offsetting
+        // by an arbitrary number of semitones transposed the chord itself: an
+        // Am first chord came out as Cm.
         const targetBass = 60;
-        const offset = targetBass - bass;
+        const offset = Math.round((targetBass - bass) / 12) * 12;
         return sorted.map(n => n + offset);
     }
 
@@ -2525,9 +2571,15 @@ export const CHORD_NAME_SUFFIX = {
     'major6': '6',
     'minor6': 'm6',
     'maj6/9': '6/9',
-    'It6': 'It+6',
-    'Fr6': 'Fr+6',
-    'Ger6': 'Ger+6'
+    // An augmented sixth is heard and played as a dominant-family sonority -
+    // It6 [0,4,10] and Ger6 [0,4,7,10] are literally a dom7 (Ger6 complete,
+    // It6 without the 5th), Fr6 [0,4,6,10] a dom7b5. 'AbGer+6' is not a chord
+    // symbol any musician reads; the augmented-sixth function is already
+    // carried by the roman numeral (It+6/Fr+6/Ger+6 in CHORD_TYPE_DISPLAY,
+    // below), which this suffix does not touch.
+    'It6': '7',
+    'Fr6': '7b5',
+    'Ger6': '7'
 };
 
 /**
@@ -2867,6 +2919,7 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
             const chordType = 'dom7';
             progression.push({
                 degree,
+                scaleDegree,
                 notes: buildChord(scaleDegree, chordType, keyOffset),
                 chordType,
                 chordName: getChordName(scaleDegree, chordType, keyOffset),
@@ -2895,32 +2948,24 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
             }
 
             const notes = buildChord(scaleDegree, quality, keyOffset);
-            const chordName = getChordName(scaleDegree, quality, keyOffset);
+            // Pass the numeral so the accidental follows it: without this a ♯iv°
+            // was spelled Gbdim while the palette's copy of the same chord was
+            // spelled F#dim, on the same card.
+            const chordName = getChordName(scaleDegree, quality, keyOffset,
+                (alteration === 'flat' ? '♭' : alteration === 'sharp' ? '♯' : '') +
+                ['I','II','III','IV','V','VI','VII'][degree]);
 
             // For secondary dominants, preserve the original slash notation
             let romanNumeral;
             if (parsed.isSecondary && parsed.originalChord) {
                 romanNumeral = parsed.originalChord;
             } else {
-                // Create roman numeral with proper formatting
-                const numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-                romanNumeral = numerals[degree] || 'I';
+                // Case and suffix both come from CHORD_TYPE_DISPLAY. The
+                // hand-rolled version this replaces dropped the seventh, so a
+                // iii7 in the template was labelled iii and the palette then
+                // re-added the identical chord under the correct numeral.
+                romanNumeral = getRomanNumeralForChord(degree, quality);
 
-                if (quality === 'minor' || quality === 'minor7' || quality === 'minMaj7' || quality === 'minor6') {
-                    romanNumeral = romanNumeral.toLowerCase();
-                }
-                if (quality === 'diminished') {
-                    romanNumeral += '°';
-                }
-                if (quality === 'dom7' && degree === 4) {
-                    romanNumeral = 'V7';
-                }
-                if (quality === 'minMaj7') {
-                    romanNumeral = 'i(maj7)';
-                }
-                if (quality === 'minor6') {
-                    romanNumeral = 'i6';
-                }
                 if (alteration === 'flat') {
                     romanNumeral = '♭' + romanNumeral;
                 } else if (alteration === 'sharp') {
@@ -2930,6 +2975,7 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
 
             return {
                 degree,
+                scaleDegree,
                 notes,
                 chordType: quality,
                 chordName,

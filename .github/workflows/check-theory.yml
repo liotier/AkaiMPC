@@ -1,0 +1,44 @@
+name: Check theory and pack build
+
+# Nine theory defects shipped in the chord catalogue unnoticed - see
+# docs/mpc-export-specification.md §7. They shipped for the same reason two
+# locale drifts shipped before check-translations.mjs existed: nothing
+# checked. This job checks the theory layer, and also builds the published
+# pack so a naming-invariant failure (docs/mpc-export-specification.md §5.8)
+# is caught before merge rather than discovered at deploy time.
+
+on:
+  push:
+    paths:
+      - 'AkaiMPCChordProgressionGenerator/modules/**'
+      - 'AkaiMPCChordProgressionGenerator/tools/audit-theory.mjs'
+      - 'AkaiMPCChordProgressionGenerator/tools/build-pack.mjs'
+      - 'AkaiMPCChordProgressionGenerator/tools/lib/**'
+      - 'AkaiMPCChordProgressionGenerator/locales/**'
+      - '.github/workflows/check-theory.yml'
+  pull_request:
+    paths:
+      - 'AkaiMPCChordProgressionGenerator/**'
+      - '.github/workflows/check-theory.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Audit the chord catalogue
+        working-directory: AkaiMPCChordProgressionGenerator
+        run: node tools/audit-theory.mjs
+
+      - name: Build the pack (naming-invariant check + smoke test)
+        working-directory: AkaiMPCChordProgressionGenerator
+        run: node tools/build-pack.mjs
