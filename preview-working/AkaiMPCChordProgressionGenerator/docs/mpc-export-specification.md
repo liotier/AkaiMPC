@@ -75,7 +75,8 @@ each is cheap for an MPC owner to settle and would let us relax a constraint.
 | Assumption | Consequence if false | Test |
 |---|---|---|
 | The **first** hyphen splits heading from item, and later hyphens are preserved verbatim in the submenu label. | If the MPC splits on *every* hyphen, our one-hyphen invariant (§5.1) already protects us. If it splits on the *last*, likewise. The invariant is safe under all three readings. | Install one file named `Test-Doo-Wop 1 Smooth (I vi IV V)`. If the submenu shows `Doo-Wop 1 Smooth (I vi IV V)`, we may relax the sanitiser to the category only and restore hyphens in nicknames. |
-| U+266D renders on MPC One / Live / X, not only on the XL. | Fall back to ASCII `b` in `MPC_NUMERAL_MAP` (§5.4), a one-line change. | Install one file with `♭` in the name on an older device. |
+| U+266D renders on MPC One / Live / X, not only on the XL. | Fall back to ASCII `b` in `mpcSafe` (§5.4), a one-line change. | Install one file with `♭` in the name on an older device. |
+| The MPC's reported auto-spacing quirk is cosmetic only. Elektrobolt: "the MPC seem to have some form of auto spacing... only seem to happen for capital letters after non-letters", so `♭VII` may render as `♭ VII`. Every numeral we emit with a flat hits this. | Cosmetic. It is, however, a mild argument against D4: ASCII `bVII` is letter-after-letter and would not trigger it. | Look at any exported label containing `♭`. |
 | The MPC does not truncate long menu labels. | Our longest generated label is 73 characters. If truncation bites, drop the parenthesised numerals from the label. | Install `Jazz/Functional-Secondary Dominant Chain 5 Experimental (V7/ii V7/V V7 I)` and look at it. |
 | The MPC parses 690 files at startup without material delay or a hard limit. | Document a warning in the pack README and advise pruning. | Install the full pack and time the boot. |
 | The MPC accepts arbitrary strings in the `scale` field (e.g. `Hirajoshi`, `Bhairav`, `Diminished (W-H)`). | Scale Mode exports (§5.5) may need `scale` pinned to a value the MPC knows. Progression Palette exports already emit `Major` and are unaffected. | Install one Scale Mode export of an exotic mode. |
@@ -107,6 +108,42 @@ Solidus (`/`) is retained in the `name` field - it appears in category keys and
 in secondary-dominant numerals such as `V7/ii`, and there is no evidence the MPC
 treats it specially. It must still be removed from file names.
 
+### 5.1.1 Substitution or CamelCase ? (open)
+
+Deleting the hyphen and capitalising the next word - `Neo-Soul` to `NeoSoul` -
+is the alternative to substituting a space. Both relegate the hyphen to a single
+purpose, so the choice is legibility, not correctness. Applied to the real data:
+
+| | Space | CamelCase |
+|---|---|---|
+| `R&B/Neo-Soul` | R&B/Neo Soul | R&B/NeoSoul |
+| `Hip-Hop/Trap` | Hip Hop/Trap | HipHop/Trap |
+| `Italo-Disco/House` | Italo Disco/House | ItaloDisco/House |
+| `Folk/Singer-Songwriter` | Folk/Singer Songwriter | Folk/SingerSongwriter |
+| `50s Doo-Wop` | 50s Doo Wop | 50s DooWop |
+| `2-5-1` | 2 5 1 | **251** |
+| `Tritone ii-V-I` | Tritone ii V I | **Tritone iiVI** |
+| `12-bar-blues` | 12 bar blues | **12barblues** |
+
+CamelCase works on all four **categories** and on eleven of fourteen nicknames.
+It fails on the three that matter musically: a numeric or roman-numeral hyphen is
+a boundary between symbols, and deleting it destroys the reading. `251` is not a
+chord progression.
+
+So CamelCase cannot be the uniform rule. Two viable positions:
+
+- **Space everywhere** (recommended). One rule, no special cases, never destroys
+  a meaning-bearing boundary, and `Folk/Singer Songwriter` is how a musician
+  would write it.
+- **CamelCase categories, space elsewhere.** Defensible on the grounds that a
+  category is an identifier while a nickname is prose, and the category is the
+  heading a user reads on every screen. Costs one special case in `mpcNaming.js`
+  and a hand-maintained map, since `R&B/NeoSoul` cannot be derived mechanically
+  from `R&B/Neo-Soul` without also producing `12barblues` elsewhere.
+
+The saving is one character per compound on labels already running to 73
+characters, so this is aesthetics. Either is a two-line change in one module.
+
 ### 5.2 Style rank
 
 ```
@@ -115,28 +152,49 @@ Smooth = 1,  Classic = 2,  Jazz = 3,  Modal = 4,  Experimental = 5
 
 Elektrobolt numbered his files positionally (`1 Smooth`, `2 Classic`, `3 Jazz`,
 `4 Modal`). Positional numbering is unstable here, because
-`deduplicateVariants()` (`app.js:1793`) drops variants whose chords collapse onto
-an earlier variant's. Measured over the full catalogue in C: **865 variants
-generated, 690 survive**, and the surviving set differs per progression:
+`deduplicateVariants()` (`app.js:1793`) drops variants that collapse onto an
+earlier one, and which styles survive differs per progression. Fixed rank makes
+the number stable across exports and forces the app's intended complexity
+gradient rather than the alphabetical order the MPC would otherwise impose
+(Classic, Experimental, Jazz, Modal, Smooth).
 
-| Surviving styles | Progressions |
-|---|---|
-| Smooth, Classic, Jazz, Modal, Experimental | 55 |
-| Smooth, Classic, Jazz, Modal | 50 |
-| Smooth, Classic, Jazz | 49 |
-| Smooth, Classic, Jazz, Experimental | 13 |
-| Smooth, Classic, Modal | 4 |
-| Smooth, Jazz | 1 |
-| Smooth, Classic | 1 |
+**Fix the de-duplication key first.** `getChordProgressionSignature()`
+(`app.js:1786`) keys on `chordName|romanNumeral` and ignores `notes`, so it
+discards any variant whose *chords* match an earlier one even when its
+*voicings* differ - which is the entire reason the five styles exist. Measured
+over the catalogue in C before the theory fixes of §7: 175 variants dropped, of
+which only **5** were genuinely redundant and **170 (97%)** carried distinct
+voicings. Modal alone was dropped 64 times, with different voicings every time.
 
-Under positional numbering, Experimental is `4` in thirteen progressions and `5`
-in fifty-five. Fixed rank makes the number stable across exports and forces the
-app's intended ordering rather than the alphabetical one the MPC would otherwise
-impose (Classic, Experimental, Jazz, Modal, Smooth).
+Add `notes` to the signature. Then a variant is dropped only when it is
+byte-identical to one already kept.
 
-Gaps in the numbering are acceptable and informative: `1 Smooth, 2 Classic,
-3 Jazz, 5 Experimental` correctly signals that Modal collapsed onto another
-variant.
+### 5.2.1 Numbering gaps
+
+Even with the signature corrected, styles genuinely coincide: in C, 147 of 173
+progressions keep all five, and 26 have a gap such as `1 Smooth, 2 Classic,
+3 Jazz, 5 Experimental`. The theory fixes in §7 *increase* convergence rather
+than reduce it, because correcting the roots makes Modal and Smooth coincide
+more often.
+
+A gap means the missing style produced a file byte-identical to one already
+present. Nothing is withheld from a user who wants Modal - the pad set they
+would have got is the one numbered 1. But nothing says so either, and a menu
+that jumps from 3 to 5 reads as an error rather than as information. Three ways
+to close that:
+
+1. **Keep the number, explain the gap** (recommended). One line in the pack
+   README, and a line in the app when a style is folded away - the app currently
+   drops it with nothing but a `console.log`. Preserves the complexity gradient
+   and stays honest about why the number is missing.
+2. **Drop the number**, label by style alone (`Liquid DnB Smooth (...)`). No
+   gaps, no instability, but the MPC then orders alphabetically and the gradient
+   is lost.
+3. **Emit all five regardless**, accepting 26 pairs of identical files under
+   different names. Answers the question by brute force, at the cost of 26
+   sound-alike entries in a menu already carrying several hundred.
+
+Option 1 unless you say otherwise.
 
 ### 5.3 Display name grammar (Progression Palette Mode)
 
@@ -239,8 +297,9 @@ C_Jazz_Functional_Extended Turnaround_1Smooth_V7-ii-ii-V7-I.progression
 
 ### 5.8 Verified properties
 
-Generated over the whole catalogue in C (690 files), by running the real
-generation functions rather than by inspection:
+Generated over the whole catalogue in C (839 files, after the de-duplication and
+theory fixes of §5.2 and §7), by running the real generation functions rather
+than by inspection:
 
 - 0 duplicate display names
 - 0 duplicate file names
@@ -368,13 +427,16 @@ New `tools/build-pack.mjs`, importing `modules/generation.js`,
 It writes:
 
 ```
-pack/AkaiMPC-Chord-Progressions.zip   690 .progression files, key of C, flat
-pack/AkaiMPC-Chord-MIDI.zip           8280 .mid files, twelve folders, one per key
+pack/AkaiMPC-Chord-Progressions.zip   839 .progression files, key of C, flat
+pack/AkaiMPC-Chord-MIDI.zip           10069 .mid files, twelve folders, one per key
 pack/README.txt                       install instructions, provenance, credit
 ```
 
-Measured: 690 `.progression` files are 2.5 MB uncompressed, 328 KB zipped; the
-twelve-key MIDI set is 8280 files and 4.1 MB uncompressed.
+Measured after the fixes: 839 `.progression` files are 3.0 MB uncompressed; the
+twelve-key MIDI set is 10 069 files and 4.9 MB uncompressed. Both zip to well
+under a megabyte.
+
+The README must also explain the numbering gaps (§5.2.1).
 
 The `.progression` zip is flat because the MPC reads a flat `Progressions`
 folder. The MIDI zip is foldered by key because a filesystem is not a menu and
@@ -403,37 +465,60 @@ notification. Consider also a one-line note explaining that exported names are
 in English regardless of interface language (D2), which will otherwise look like
 a bug to a French or German user.
 
-## 7. Bug to fix in the same change
+## 7. Theory defects: full audit and fixes
 
-### 7.1 Smooth voicings drop a chord tone
+The catalogue was audited exhaustively before the pack work, because a published
+pack is far harder to correct than a web app. Method: run the real generation
+functions over every progression (173) in every key (12) in every style (5) -
+**10 380 variants, 166 080 pads** - and assert machine-checkable invariants
+against each pad.
 
-`buildVoicingFromBass()` (`modules/musicTheory.js:2041`) places pitch classes
-above the bass by iterating `uniquePCs` **from index 1**, regardless of where the
-bass's own pitch class sits in that array. When the chosen bass is not the
-chord's lowest pitch class, its pitch class is never placed and another is
-doubled instead.
+Nine defects were found. All nine are fixed and the fixes are verified by
+re-running the same audit. Every count below is measured, not estimated.
 
-Concretely, `I—V—vi—IV` in C, Smooth variant, as currently shipped:
+### 7.0 Audit results
+
+| Check | Before | After |
+|---|---|---|
+| A. Structure: 16 pads, non-empty notes, MIDI 0-127, known chord type | clean | clean |
+| B. Sounding chord contains every pitch class its type requires | **16 982** | **0** |
+| C. Printed chord name agrees with the pad's chord type | clean | clean |
+| D. Roman numeral root matches the chord root | **15 775** | **163**, all `It+6` (see 7.10) |
+| E. Roman numeral quality matches the chord quality | **4 078** | **3 975**, all `Ger+6`/`It+6` (7.10) |
+| F. Two pads holding byte-identical notes | **2 378** | **768** (7.9, by design) |
+| G. Duplicate roman numeral within one variant | present | **0** |
+
+Generation is **deterministic** - no `Math.random` anywhere in the path - so
+byte-identical CI rebuilds are achievable (D7).
+
+A methodological note, since it nearly produced a false report: `getKeyOffset()`
+(`musicTheory.js:1133`) ends `return keyMap[key] || 0`, so an unrecognised key
+silently yields C rather than failing. An audit that passed ASCII `C#/Db` instead
+of the real `C♯/D♭` therefore measured C five times over while appearing to cover
+twelve keys. **Fix this too**: throw, or at minimum `console.warn`, on an
+unknown key. A silent fallback that fabricates plausible output is worse than a
+crash.
+
+### 7.1 Smooth voicings drop a chord tone (16 982 pads)
+
+`buildVoicingFromBass()` (`musicTheory.js:2041`) places pitch classes above the
+bass by iterating `uniquePCs` **from index 1**, whatever position the bass's own
+pitch class occupies. When the chosen bass is not the chord's lowest pitch class,
+its pitch class is never placed and another is doubled instead.
+
+`I—V—vi—IV` in C, Smooth, as shipped:
 
 ```
 pad 1  C     60,64,67    C E G     correct
 pad 2  G     59,67,71    B G B     no D
 pad 3  Am    57,69,72    A A C     no E
-pad 4  F     57,69,72    A A C     no F - and identical to pad 3
+pad 4  F     57,69,72    A A C     no F, and identical to pad 3
 ```
 
-An F major chord containing no F, and two adjacent pads that sound the same.
-
-The guard `if (voicing.length === uniquePCs.length)` in `generateSmoothVoicings`
+An F major chord containing no F. The guard
+`if (voicing.length === uniquePCs.length)` in `generateSmoothVoicings`
 (`musicTheory.js:2074`) counts notes rather than distinct pitch classes, so it
 passes.
-
-Scope: **1059 pads in the key of C alone**, confined entirely to the Smooth
-variant. `optimizeVoiceLeading` and the Jazz, Modal and Experimental paths are
-unaffected. Smooth is the first variant shown for every progression in the
-catalogue.
-
-Fix, verified over 137 264 pads across all twelve keys (0 remaining):
 
 ```js
 function buildVoicingFromBass(bassNote, uniquePCs) {
@@ -451,20 +536,15 @@ function buildVoicingFromBass(bassNote, uniquePCs) {
 
     for (const targetPC of remaining) {
         let nextNote = currentNote + 1;
-        while ((nextNote % 12) !== targetPC && nextNote < bassNote + 24) {
-            nextNote++;
-        }
-        if (nextNote < bassNote + 24) {
-            voicing.push(nextNote);
-            currentNote = nextNote;
-        }
+        while ((nextNote % 12) !== targetPC && nextNote < bassNote + 24) nextNote++;
+        if (nextNote < bassNote + 24) { voicing.push(nextNote); currentNote = nextNote; }
     }
 
     return voicing;
 }
 ```
 
-and in `generateSmoothVoicings`, replace the length check with
+and in `generateSmoothVoicings`:
 
 ```js
 // Count distinct pitch classes, not notes: a voicing that doubled one pitch
@@ -472,79 +552,208 @@ and in `generateSmoothVoicings`, replace the length check with
 if (new Set(voicing.map(n => ((n % 12) + 12) % 12)).size === uniquePCs.length) {
 ```
 
-Rejecting more candidates is safe: `findBestSmoothVoicing()`
-(`musicTheory.js:2179`) falls back to the unvoiced chord, which is musically
-correct if less smooth.
+Rejecting more candidates is safe - `findBestSmoothVoicing()`
+(`musicTheory.js:2179`) falls back to the unvoiced chord.
 
-Same progression after the fix - genuine voice leading, C held as a common tone:
+### 7.2 The first chord of a Smooth variant is transposed to C
 
+`findBestSmoothVoicing()` moves the first chord into a comfortable range by
+subtracting an arbitrary number of **semitones** so its bass lands on middle C:
+
+```js
+const offset = targetBass - bass;
 ```
-pad 1  C     60,64,67    C E G
-pad 2  G     59,62,67    B D G
-pad 3  Am    60,64,69    C E A
-pad 4  F     60,65,69    C F A
+
+That does not reposition the chord, it transposes it. An `Am` first chord comes
+out as `60,63,67` - C, E♭, G. **C minor.** The defect is invisible whenever the
+progression starts on the tonic and the key is C, which is the default view, so
+it survived unnoticed.
+
+```js
+// Move into a comfortable range (C4 = 60) by whole octaves. Offsetting by an
+// arbitrary number of semitones transposed the chord itself: an Am first chord
+// came out as Cm.
+const offset = Math.round((targetBass - bass) / 12) * 12;
 ```
 
-This belongs in this change rather than a later one because it corrupts the
-files we are about to publish several hundred of.
+### 7.3 `VI` is built a semitone too high (4 759 pads)
 
-## 8. Bugs found and deliberately deferred
+`generateRow4Candidates()` in `app.js`:
 
-A partial audit turned up a family of roman-numeral labelling errors. They are
-**out of scope** here: they touch the UI, the tooltips and the palette-building
-logic, and folding them into an export change would make review impossible. None
-of them reaches the exported files - a `.progression` carries only `chordName`,
-`role` and `notes`, and the numerals in the display name come from the authored
-template string, which is correct.
+```js
+const sixth = scaleDegrees[5 % scaleDegrees.length];   // 9 = A in C major
+// Raise it by a semitone to make it major VI instead of minor vi
+const majorSixth = (sixth + 1) % 12;                   // 10 = B♭
+romanNumeral: 'VI'
+```
 
-They should get their own pass, and one of them should probably get it before the
-pack is published, since a published pack is harder to correct than a web app.
+The `vi` chord is minor because of its **third**, not its root. Raising the root
+produces ♭VII - a different chord - and labels it `VI`. In C the palette then
+carries B♭ twice, once as `♭VII` and once as `VI`.
 
-1. **Chromatic degrees mislabelled.** `getRomanNumeralForChord()`
-   (`musicTheory.js:2680`) maps a scale-step index onto `['I','II','III','IV',
-   'V','VI','VII']` with no notion of chromatic alteration. In C major this
-   yields `VI → Bb` (312 occurrences), and secondary dominants come out as
-   `♭VII7 → B7` (205), `♭VI7 → A7` (149), `♭III7 → E7` (81), `♭II7 → D7` (43) -
-   B7 is `V7/iii`, A7 is `V7/ii`, E7 is `V7/vi`, D7 is `V7/V`. Total 1127
-   root-mismatched labels out of 10 637 pads checked in C.
+Build the major triad on the submediant itself: `root: sixth`.
 
-2. **Duplicate harmony under different numerals.** The palette's uniqueness check
-   is on the roman numeral, so `Bb` can appear as both `♭VII` (row 3) and `VI`
-   (row 4) in the same card. Two of sixteen pads then sound identical, which
-   defeats the stated purpose of the palette. This one also perturbs
-   `getChordProgressionSignature()`, which keys on the chord name, and so lets
-   near-duplicate variants survive `deduplicateVariants()`. The effect is
-   measurable: the same catalogue yields 690 surviving variants in C, 700 in G
-   and 728 in B. The harmony is identical in all three; only the spelling
-   differs. A correct implementation would produce the same count in every key.
+### 7.4 Palette extensions lose the accidental (≈ 8 000 pads)
 
-3. **Non-diatonic sevenths on the dominant.** Row 2 appends `M7` uniformly, so
-   `V` becomes `VM7 → Gmaj7` in C major, introducing an F♯ into a row of
-   otherwise diatonic seventh chords. The diatonic seventh on V is `V7 → G7`,
-   which the same card also contains, at pad 13.
+`generateProgressionChords()` (`musicTheory.js:2854`) computes the sounding root
+into a local `scaleDegree` - correctly applying ♭ and ♯ - but returns only the
+unaltered `degree` index. `generateVariant()` then expands each progression chord
+into extensions with `addChord(degree, ...)`, which reindexes
+`scaleDegrees[degree]` and so rebuilds on the **diatonic** degree while keeping
+the flat in the label. A `♭VII` in a progression grows its seventh on the natural
+VII: `B7` labelled `♭VII7`, `A7` labelled `♭VI7`, `E7` labelled `♭III7`,
+`D7` labelled `♭II7`.
 
-4. **Numeral not updated after a chord is upgraded.** In the Jazz variant, pad 10
-   is labelled `ii` while carrying `Dm7`.
+Fix in two parts. Return the real root:
 
-The audit was not exhaustive. It checked pad count, MIDI range, empty note
-arrays, non-ASCII chord names and pitch-class completeness across all twelve keys
-(8319 variants, 137 264 pads) - all clean apart from §7.1 - and roman-numeral
-root consistency in C only.
+```js
+return { degree, scaleDegree, notes, chordType: quality, chordName, romanNumeral };
+```
+
+and pass it through as `rootOverride`, which `addChord` already honours:
+
+```js
+const rootPc = original.scaleDegree ?? null;
+addChord(degree, 'dom7', romanBase, '7', 1, false, rootPc);   // and the other seven call sites
+```
+
+### 7.5 `uniqueDegrees` keys on the degree index
+
+Same block, same cause:
+
+```js
+if (!seenDegrees.has(chord.degree)) { ... }
+```
+
+`♭VII` and `VII` share degree 6, so a progression containing both expands only
+one of them. Key on the sounding root instead:
+
+```js
+const rootKey = chord.scaleDegree ?? chord.degree;
+```
+
+### 7.6 The Jazz seventh-upgrade rebuilds on the wrong root and keeps the old label
+
+`app.js:1608` upgrades triads to sevenths for the Jazz variant:
+
+```js
+const scaleDegree = scaleDegrees[paletteChord.degree % scaleDegrees.length];
+chordType = chordType === 'minor' ? 'minor7' : ...;
+notes = buildChord(scaleDegree, chordType, keyOffset);
+chordName = getChordName(scaleDegree, chordType, keyOffset);
+// romanNumeral is never touched
+```
+
+Three faults at once: it reindexes by degree (7.4 again), it leaves the numeral
+describing a triad while the chord is now a seventh (`ii` labelling a `Dm7`), and
+it runs *after* palette de-duplication so it can recreate a chord the palette
+already holds.
+
+Store the root on the palette chord (`root: scaleDegree` in `addChord`'s push),
+build from it, carry the numeral along with `getRomanSuffix()`, and skip the
+upgrade when the resulting numeral is already taken.
+
+### 7.7 Progression numerals omit the seventh (≈ 1 500 duplicate pads)
+
+`generateProgressionChords()` hand-rolls its roman numeral and never appends the
+chord-type suffix, so a template `iii7` is labelled `iii` and `IVM7` is labelled
+`IV`. The palette then finds `iii7` unused, adds it, and produces a pad
+byte-identical to the progression chord.
+
+`getRomanNumeralForChord()` (`musicTheory.js:2680`) already derives case and
+suffix from `CHORD_TYPE_DISPLAY`, including `V7`, `i(maj7)` and `i6`. Use it:
+
+```js
+romanNumeral = getRomanNumeralForChord(degree, quality);
+```
+
+then apply the ♭/♯ prefix as before.
+
+### 7.8 Diminished palette chords lose their `°`, and one chord gets two spellings
+
+`romanBase` is built by stripping `7|M7|m7|°` off the original numeral, and the
+diminished branch then passes an empty suffix, so `♯iv°` comes back as `♯iv`.
+Pass `getRomanSuffix(baseType)` instead.
+
+Separately, `generateProgressionChords()` calls `getChordName()` without the
+numeral argument, so the accidental does not follow the label: the same chord was
+spelled `Gbdim` as a progression chord and `F#dim` as its palette copy, on the
+same card. Pass the numeral.
+
+### 7.9 What remains, and why it is not a defect
+
+768 byte-identical pad pairs survive. They are all one sonority under two
+functional labels:
+
+| Pair | Count | Verdict |
+|---|---|---|
+| `Ger+6` + `♭VI7` | 425 | Correct. A German sixth *is* an A♭7 in C. |
+| `V/ii7` + `V7/ii` | 120 | **Notation inconsistency** - two spellings of one chord. |
+| `V/V7` + `V7/V` | 75 | Same. |
+| `SubV7` + `♭II7` | 47 | Correct. A tritone substitute *is* ♭II7. |
+| `II7` + `V7/V`, `I7` + `V7/IV` | 53 | Correct - functional twins. |
+| `isus4` + `ivsus2`, `IVsus2` + `Isus4` | 48 | Correct - suspended chords are inversions of each other. |
+
+The ~195 `V/x7` versus `V7/x` cases are a real inconsistency worth settling on
+one notation. The rest are a design question - whether a 16-pad grid should spend
+two pads on one sonority to show two functions - not a bug, and out of scope here.
+
+`It+6` and `Ger+6` account for every remaining D and E finding. Those are audit
+artefacts: a checker that parses `It+6` as `I` + `t+6`, and one that reads the
+`+` as "augmented triad" when an augmented sixth is conventionally spelled as a
+dominant-seventh sonority. The audit tool should whitelist them.
+
+### 7.10 Effect on the catalogue
+
+| | Before | After |
+|---|---|---|
+| Variants surviving de-duplication, key of C | 690 | **839** |
+| Spread across the twelve keys | 690 to 728 | 835 to 845 |
+| Progressions keeping all five styles (in C) | 168 / 173 | 147 / 173 |
+
+The tighter cross-key spread is the point: variant survival used to depend partly
+on enharmonic spelling, so the catalogue's *contents* varied by key. Note that
+the fixes make styles converge **more** often, not less - correcting the roots
+means Modal and Smooth genuinely coincide more frequently. See §5.2 on what to do
+about the resulting numbering gaps.
+
+### 7.11 Ship an audit tool
+
+Add `tools/audit-theory.mjs`, importing `modules/generation.js` (§6.1), running
+checks A to G above over all keys, progressions and styles, and exiting non-zero
+on any finding outside the whitelist in 7.9. Wire it into CI beside
+`check-translations.mjs`.
+
+The project already learned this lesson once: the header of
+`tools/check-translations.mjs` records two locale drifts that shipped unnoticed
+"because nothing checked". Nine theory defects shipped for the same reason.
+
+## 8. Deferred
+
+- The `V/x7` versus `V7/x` notation inconsistency (§7.9). Cosmetic, but it
+  should be settled before a pack fixes either spelling in several hundred files.
+- Whether the palette should spend two of sixteen pads on `Ger+6` and `♭VI7`.
+  A deliberate design question, not a defect.
+- `AbGer+6` as a chord *name*. It is not a chord symbol any musician reads, and
+  it goes into the `.progression` file where the MPC prints it on a pad. `Ab7`
+  would be legible; the function belongs in the roman numeral, which already
+  carries it.
 
 ## 9. Acceptance criteria
 
-1. `node tools/build-pack.mjs` emits 690 `.progression` files in C and 8280
+1. `node tools/build-pack.mjs` emits 839 `.progression` files in C and 10 069
    `.mid` files across twelve keys, with **zero** duplicate display names,
    **zero** duplicate file names within any one key, and **zero** display names
    containing other than exactly one hyphen.
-2. No pad in any variant, in any of the twelve keys, has fewer distinct pitch
-   classes than its chord type requires. (Currently 1059 failures in C.)
-3. `node tools/check-translations.mjs` passes.
-4. A single-progression export taken from the running app carries a `name`
+2. `node tools/audit-theory.mjs` (§7.11) reports zero findings outside the
+   whitelist of §7.9, over all 10 380 variants and 166 080 pads.
+3. Two consecutive builds are byte-identical.
+4. `node tools/check-translations.mjs` passes.
+5. A single-progression export taken from the running app carries a `name`
    field identical to the corresponding file in the pack. Assert it in a test
    that drives `modules/mpcNaming.js` from both call sites - this is the
    drift that actually matters (§3, note on D8).
-5. A generated file loads in MPC Pad Perform and appears under the expected
+6. A generated file loads in MPC Pad Perform and appears under the expected
    heading. Only an MPC owner can confirm this; it gates the release, not the
    merge.
 
@@ -557,7 +766,7 @@ root consistency in C only.
 - Client-side bulk generation (D8), and with it any progress bar, worker or
   chunking scheme.
 - Offline bulk export: the links point at static files (D8).
-- Fixing the roman-numeral family (§8).
+- Settling the `V/x7` versus `V7/x` notation (§8).
 - Printable chord charts in the pack: `modules/rendering.js` builds SVG through
   the DOM and would need a headless browser, which the rest of this design
   avoids.
