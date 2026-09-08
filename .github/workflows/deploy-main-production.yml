@@ -32,3 +32,11 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
           keep_files: true
+          # keep_files copies the whole working tree - including .gitignore -
+          # onto the gh-pages checkout before this action's own `git add --all`
+          # runs there. Left in place, .gitignore's pack/ exclusion (meant only
+          # to keep the CI-built pack out of the *source* branch) silently kept
+          # it out of every gh-pages publish commit too: the build step logged
+          # success and the ZIPs existed on disk, but "git commit" never staged
+          # them, so the site kept 404ing on pack/*.zip after every deploy.
+          exclude_assets: .github,.gitignore
