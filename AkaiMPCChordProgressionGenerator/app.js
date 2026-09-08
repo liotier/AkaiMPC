@@ -835,13 +835,14 @@ function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType) 
     // VI (major sixth - raised submediant, common in pop/rock)
     if (scaleDegrees.length > 5) {
         const sixth = scaleDegrees[5 % scaleDegrees.length];
-        // Raise it by a semitone to make it major VI instead of minor vi
-        const majorSixth = (sixth + 1) % 12;
+        // A major VI is a major triad on the submediant - the quality changes,
+        // not the root. Raising the root built the chord on the flat seventh
+        // and still labelled it VI.
         candidates.push({
-            root: majorSixth,
-            notes: buildChord(majorSixth, 'major', keyOffset),
+            root: sixth,
+            notes: buildChord(sixth, 'major', keyOffset),
             chordType: 'major',
-            chordName: getChordName(majorSixth, 'major', keyOffset),
+            chordName: getChordName(sixth, 'major', keyOffset),
             romanNumeral: 'VI',
             quality: 'Major',
             category: 'borrowed',
@@ -1289,8 +1290,11 @@ function generateVariant(variantType) {
     const uniqueDegrees = [];
     const seenDegrees = new Set();
     progressionChords.forEach(chord => {
-        if (!seenDegrees.has(chord.degree)) {
-            seenDegrees.add(chord.degree);
+        // Key on the sounding root, not the degree index: ♭VII and VII share a
+        // degree, so keying on the index silently dropped one of them.
+        const rootKey = chord.scaleDegree ?? chord.degree;
+        if (!seenDegrees.has(rootKey)) {
+            seenDegrees.add(rootKey);
             uniqueDegrees.push({ degree: chord.degree, original: chord });
         }
     });
@@ -1321,6 +1325,7 @@ function generateVariant(variantType) {
 
         palette.push({
             degree,
+            root: scaleDegree,
             notes: buildChord(scaleDegree, type, keyOffset),
             chordType: type,
             chordName: getChordName(scaleDegree, type, keyOffset, romanBase),
@@ -1383,25 +1388,32 @@ function generateVariant(variantType) {
         const romanBase = original.romanNumeral.replaceAll(/7|M7|m7|°/g, '');
         const baseType = original.chordType;
         const baseFamily = getChordFamily(baseType);
+        // Rebuild extensions on the chord's own root. Indexing back into
+        // scaleDegrees discarded any ♭ or ♯, so a ♭VII in the progression grew
+        // its extensions on the natural VII while keeping the flat in its label.
+        const rootPc = original.scaleDegree ?? null;
 
         if (baseFamily === 'major') {
             // Major/dominant chords: generate varied extensions
-            addChord(degree, 'major', romanBase, '', degree === 0 ? 0 : 1);
-            addChord(degree, 'dom7', romanBase, '7', 1);
-            addChord(degree, 'major7', romanBase, 'M7', 2);
+            addChord(degree, 'major', romanBase, '', degree === 0 ? 0 : 1, false, rootPc);
+            addChord(degree, 'dom7', romanBase, '7', 1, false, rootPc);
+            addChord(degree, 'major7', romanBase, 'M7', 2, false, rootPc);
             if (variantType === 'Jazz' || variantType === 'Experimental') {
-                addChord(degree, 'dom9', romanBase, '9', 2);
+                addChord(degree, 'dom9', romanBase, '9', 2, false, rootPc);
             }
         } else if (baseFamily === 'minor') {
             // Minor chords
-            addChord(degree, 'minor', romanBase, '', 1);
-            addChord(degree, 'minor7', romanBase, '7', 1);
+            addChord(degree, 'minor', romanBase, '', 1, false, rootPc);
+            addChord(degree, 'minor7', romanBase, '7', 1, false, rootPc);
             if (variantType === 'Jazz') {
-                addChord(degree, 'minor9', romanBase, '9', 2);
+                addChord(degree, 'minor9', romanBase, '9', 2, false, rootPc);
             }
         } else {
-            // Diminished, augmented, suspended
-            addChord(degree, baseType, romanBase, '', 1);
+            // Diminished, augmented, suspended. The suffix has to be restored:
+            // romanBase has had the ° stripped off it, so passing '' relabelled
+            // a diminished chord as a plain numeral and let the palette re-add
+            // the chord the progression already had.
+            addChord(degree, baseType, romanBase, getRomanSuffix(baseType), 1, false, rootPc);
         }
 
         // Offer the colours this genre actually asks for. Without this the
@@ -1416,7 +1428,7 @@ function generateVariant(variantType) {
         declaredTypes.forEach(type => {
             const family = getChordFamily(type);
             if (family !== baseFamily && family !== 'suspended') return;
-            addChord(degree, type, romanBase, getRomanSuffix(type), getChordComplexity(type));
+            addChord(degree, type, romanBase, getRomanSuffix(type), getChordComplexity(type), false, rootPc);
         });
     });
 
@@ -1608,14 +1620,26 @@ function generateVariant(variantType) {
 
             // Enhance chords based on variant type
             if (variantType === 'Jazz' && padIndex >= 4 && !chordType.includes('7') && !chordType.includes('m7b5')) {
-                // Add 7ths to chords in Jazz variant: triads become 7th chords
-                const scaleDegree = scaleDegrees[paletteChord.degree % scaleDegrees.length];
-                chordType = chordType === 'minor' ? 'minor7' :
+                // Add 7ths to chords in Jazz variant: triads become 7th chords.
+                // Build on the root the chord was actually made from - indexing
+                // back into scaleDegrees turned a ♭VII pad into a maj7 on the
+                // natural VII while it kept its flat label.
+                const scaleDegree = paletteChord.root ?? scaleDegrees[paletteChord.degree % scaleDegrees.length];
+                const upgraded = chordType === 'minor' ? 'minor7' :
                            chordType === 'major' ? 'major7' :
                            chordType === 'diminished' ? 'm7b5' :
                            chordType === 'augmented' ? 'aug7' : chordType;
-                notes = buildChord(scaleDegree, chordType, keyOffset);
-                chordName = getChordName(scaleDegree, chordType, keyOffset);
+                // The numeral has to follow the chord, and the upgrade must not
+                // recreate a chord the palette already carries.
+                const upgradedRoman = romanNumeral + getRomanSuffix(upgraded);
+                if (!usedRomanNumerals.has(upgradedRoman)) {
+                    usedRomanNumerals.delete(romanNumeral);
+                    usedRomanNumerals.add(upgradedRoman);
+                    chordType = upgraded;
+                    romanNumeral = upgradedRoman;
+                    notes = buildChord(scaleDegree, chordType, keyOffset);
+                    chordName = getChordName(scaleDegree, chordType, keyOffset);
+                }
             }
 
             const pad = {
@@ -1784,8 +1808,13 @@ function updateProgressionName() {
 
 // Helper to create a chord-based signature (ignoring voicing)
 function getChordProgressionSignature(variant) {
+    // Notes belong in the signature. Without them this dropped any variant whose
+    // chords matched an earlier one even when its voicings differed - which is
+    // the entire reason the five styles exist. Of 175 variants discarded over
+    // the catalogue in C, only 5 were genuinely redundant; Modal alone was
+    // dropped 64 times, with distinct voicings every time.
     return variant.pads.map(pad =>
-        `${pad.chordName}|${pad.romanNumeral}`
+        `${pad.chordName}|${pad.romanNumeral}|${pad.notes.join(',')}`
     ).join('||');
 }
 
