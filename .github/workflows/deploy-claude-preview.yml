@@ -31,3 +31,7 @@ jobs:
           publish_dir: .
           destination_dir: preview-working
           keep_files: true
+          # See the same line in deploy-main-production.yml: without this,
+          # .gitignore rides along onto the gh-pages checkout and its pack/
+          # exclusion silently drops the built ZIPs from the publish commit.
+          exclude_assets: .github,.gitignore
