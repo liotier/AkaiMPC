@@ -1,114 +1,54 @@
-# MPC Chord Progression Generator - What's New
+# Changelog
 
-## 🎹 Latest: MIDI Export for DAW Users
+What changed, and why it's worth updating for.
 
-### ✨ Standard MIDI File Export (NEW!)
+## 2026-09-08
 
-Replace expensive MIDI chord packs with custom-generated progressions ready for any DAW!
+### Chord Progression Generator
 
-**Key Features:**
-- **New MIDI Tab** - Fifth view joins Piano, Guitar, Staff, and MPC Pads
-- **Standard MIDI Format** - Download .mid files compatible with all DAWs (Ableton, FL Studio, Logic, etc.)
-- **Progression + Palette Hybrid** - Core progression chords first, followed by palette chords for exploration
-- **Musically Intelligent Timing** - Whole note durations with quarter note gaps (5 beats per chord)
-- **Batch Export** - Download single variants or export all four voicing variants at once as a ZIP
-- **Identical Layout** - MIDI tab mirrors the Keyboard tab layout with download buttons instead of print
+**Your exported files finally show up right on the MPC.** Progressions
+exported from here used to break Pad Perform's menu - a name like
+"Blues - 12 Bar" made the MPC misread where the heading ended and the entry
+began, scrambling navigation. Every export now follows a naming scheme
+built on what a community member had already worked out by hand-fixing
+over 300 files (thank you, Elektrobolt): clean menu headings, clean
+submenu entries, every time.
 
-**Technical Details:**
-- Format: Standard MIDI File (SMF) Format 0
-- Resolution: 480 ticks per quarter note
-- Tempo: 120 BPM
-- Note duration: Whole note (1920 ticks)
-- Chord spacing: Quarter note (480 ticks)
-- All notes in each chord start and end simultaneously
+**The whole catalogue, pre-built.** Prefer a file library over generating
+on demand? Fair enough - grab the entire catalogue as ready-made files:
+every progression this generator can produce, as `.progression` files
+(key of C - Pad Perform transposes to any key on import) or as MIDI files
+in all twelve keys already. No more clicking through the generator by
+hand, hundreds of times.
 
-**Perfect for:**
-- DAW producers replacing commercial MIDI chord packs
-- Quick harmonic sketching in your production workflow
-- Importing progressions into piano rolls for further editing
-- Learning music theory through MIDI analysis
+**Eleven music-theory bugs fixed**, caught by auditing the full generated
+catalogue instead of spot-checking it: mislabeled secondary dominants,
+wrong intervals on augmented sixth chords, a handful of borrowed and
+chromatic chords resolving to the wrong notes. If a progression ever
+sounded subtly off, this is likely why.
 
----
+**Works even where CDNs don't.** The export libraries used to load from a
+CDN on first visit; if that connection was blocked - corporate proxy,
+ad-blocker, restrictive network - export silently never worked, with
+nothing to retry. They now ship with the app, so export works from the
+very first load.
 
-## 🎨 Major Update: Smarter Chord Palettes & Improved Workflow
+### Chord Progression Finder
 
-### ✨ Genre-Specific Palette Intelligence (NEW!)
+**Chord names are right again, including inversions.** Drop a
+`.progression` file in for analysis, and any chord voiced with something
+other than its root in the bass had a good chance of coming back
+mislabeled entirely - a first-inversion Cmaj7 read as "Em". Every
+inversion of every chord now resolves to its real name.
 
-Your chord palettes now understand musical style! We've added intelligent palette priority weighting to **60+ progressions** across major genres:
+**Borrowed chords display correctly.** Roman-numeral analysis now cases
+and marks borrowed and chromatic chords the same way it already did
+diatonic ones, instead of always showing them uppercase regardless of
+quality.
 
-**How It Works:**
-- Each progression now knows which chord voicings sound most authentic for its genre
-- **Preferred chords** appear first in your palette (highest priority)
-- **Allowed chords** provide harmonic variety (medium priority)
-- **Avoided chords** are filtered out when they clash with the genre's character (lowest priority)
+**Hardened against malicious files.** A dropped file's progression name
+is untrusted the moment it enters the browser; it's now escaped before
+display instead of trusted outright.
 
-**Genres with Smart Palettes:**
-- **Blues/Soul** - Prefers dom7, major; avoids major7, experimental voicings
-- **Gospel/Worship** - Loves major7, dom7; avoids diminished, quartal
-- **Latin/Bossa** - Embraces minor7, major7, dom7 for that authentic sound
-- **Metal/Rock** - Power chords (major, minor); avoids jazz extensions
-- **Techno** - Prioritizes minimal harmony; avoids complex voicings
-- **Folk/Singer-Songwriter** - Simple triads (major, minor); avoids jazz complexity
-- **Reggae/Dub** - Major and dom7 for bassline-driven tracks
-- **Synthwave/Retrowave** - 80s-style major/minor with selective 7th usage
-- **Trance/Psytrance/Goa** - Modal simplicity with hypnotic character
-- **UK Bass** - Genre-specific (UK Garage loves minor7, Dubstep prefers diminished/dom7)
-- **R&B/Neo-Soul** - Extended harmony (major7, minor7, dom7)
-- **Hip-Hop/Trap** - Minor, major; minimal complexity
-- **And more!**
-
-### 🎹 Chord Matcher Enhanced
-
-The Chord Matcher now clearly shows it works with **both modes**:
-- Input chords from your sample
-- Get compatible keys and modes for **both** Progression Palette and Scale modes
-- Filters are applied intelligently across your entire workflow
-
-### 🎯 Clearer Mode Selection
-
-We've restructured the interface to make the two workflows crystal clear:
-
-**Progression Palette Mode:**
-- Choose from 135+ progression palettes across 15 genres
-- Get 4 voicing variants instantly with genre-appropriate chord priorities
-- Perfect for quick inspiration and authentic-sounding progressions
-
-**Scale Mode:**
-- Pick from 36 scales/modes and explore all available chords
-- Perfect for learning exotic scales or building progressions from scratch
-- Great for modal exploration and music theory study
-
-### 📐 Smarter Layout
-
-**Responsive Horizontal Design:**
-- Mode containers now sit side-by-side on desktop (stacks on mobile)
-- Toggle + Key selector share a row
-- Progression Name + Generate button on the same line
-- Reclaims precious vertical space for a cleaner workflow
-- Everything still stacks beautifully on smaller screens
-
-**Better Visual Hierarchy:**
-- Active/inactive mode containers with clear visual feedback
-- Blue border highlights your active mode
-- Grayed-out inactive mode reduces visual clutter
-- Context-aware labeling: "Progression Name" in Palette Mode, "Output Name" in Scale Mode
-
-### 🎼 Under the Hood
-
-- Backward compatible with existing `paletteFilter` system
-- New `palettePriorities` provides sophisticated 3-tier weighting (preferred=3, allowed=2, avoided=1)
-- Progressions are sorted by priority first, then spice level for optimal palette organization
-- Conservative approach to avoid "hallucinating" harmonic characteristics
-
-### 📝 Terminology Refinement
-
-"Progression Template" → "Progression Palette"
-- Better metaphor: chords are colors you pick from a palette, not played sequentially
-- More accurate representation of how the tool works
-- Clearer distinction from Scale Mode
-
----
-
-**Total Impact:** 60 progressions now have musically intelligent palette weighting across 12+ genres, with a cleaner, more responsive interface that makes the two workflows obvious at a glance.
-
-**Try it now:** Generate a Blues progression and notice how dom7 chords appear at the top of your palette. Switch to Folk and see simple major/minor triads prioritized. The generator now speaks the language of each musical style!
+**Snappier with large collections.** The name filter no longer re-renders
+your whole list on every keystroke.
