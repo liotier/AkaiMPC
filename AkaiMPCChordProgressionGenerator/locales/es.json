@@ -55,7 +55,7 @@
     "downloadAllMidi": "Descargar todos los archivos MIDI",
     "printAll": "Imprimir todas las progresiones",
     "download": "Descargar",
-    "bulkCatalogHint": "¿Gestionando cientos de archivos a mano? Cada progresión que este generador puede crear, ya preparada - y siempre nombrada en inglés, sea cual sea el idioma de lectura.",
+    "bulkCatalogHint": "¿Las progresiones personalizadas al vuelo no son lo tuyo? ¿Prefieres bucear entre cientos de archivos? Aquí las tienes - todas las progresiones que este generador puede crear, ya preparadas:",
     "bulkCatalogProgressions": "Descargar todo el catálogo como archivos .progression (tonalidad de Do - Pad Perform transpone al importar)",
     "bulkCatalogMidi": "Descargar todo el catálogo como archivos MIDI (las doce tonalidades)"
   },
