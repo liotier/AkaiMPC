@@ -119,39 +119,43 @@ so losing them first loses the least.
 
 **Keep the numerals.** They are free under truncation and informative without it.
 
-### 4.2 Wait, or choose and amend ?
+### 4.2 Ship, then amend
 
-Choose and amend. The reasoning:
+Do not gate anything on these answers.
 
-**Amending is nearly free before publication.** The pack is CI-built at deploy
-time (D7), so a naming change is one constant plus a push; the next deploy
-rebuilds every file. `.progression` files are self-contained - no migration, no
-compatibility break, nothing to version.
+An earlier draft of this section argued for holding the announcement until the
+probes returned, on the grounds that changing the scheme after publication
+fragments the namespace - a user with old and new files getting two headings per
+genre. That argument does not survive contact with this project's actual
+situation.
 
-**Amending is not free after publication.** Once the community holds
-collections, changing the scheme fragments the namespace: a user with old and new
-files gets two headings per genre. That is the same argument that decided D2.
+Fragmentation only bites a user who **mixes** old and new files, and only when
+the **naming** changed. Corrections to the music logic change the note content,
+not the labels - the nine fixes in §7 altered every Smooth variant and added 149
+variants to the catalogue - and nobody merges collections across a change like
+that. They delete and re-copy. With a user base of this size, the expected cost
+of amending after publication is negligible.
 
-So the gate belongs on the **announcement**, not on the implementation. Build
-now, probe in parallel, publish once the probes return. Implementation takes
-days; a probe takes one boot, so the wait is absorbed rather than paid.
+So the sequencing is simply: build it, publish it, amend if a report comes back.
 
-Choosing blind, every answer is what this document already specifies: strip
-hyphens (D10, safe under all readings), keep ♭ (D4, only evidence is positive),
-keep the numerals (§4.1), keep the solidus (A5 has direct positive evidence),
-ship one zip with a warning (D6). The current specification *is* the low-risk
-choice.
+There is a better reason to publish early than mere convenience. **The pack is a
+more thorough probe than the probe files.** Real installation exercises all seven
+assumptions at once, including the one five files cannot reach - whether 839
+files parse at startup without delay or a limit. `docs/mpc-probe/` stays useful
+as the fast path if someone offers a device before the pack is ready, but it is
+no longer on the critical path.
 
-One piece of cheap insurance, though. A2 is the only assumption with wide
-exposure and no fallback evidence, so make the accidental style a build-time
-constant in `mpcNaming.js` from the outset:
+What follows from this is not less care but cheaper amendment. Since a naming
+change is now expected rather than avoided, make each one a constant rather than
+logic to be hunted down. A2 is the case in point - the flat sign has wide
+exposure and no fallback evidence - so `modules/mpcNaming.js` should carry:
 
 ```js
 export const USE_UNICODE_ACCIDENTALS = true;   // false -> 'bVII' instead of '♭VII'
 ```
 
-Then a negative probe result is a one-character change and a rebuild, testable
-before it ships, rather than an edit hunted through the naming logic.
+A negative report then becomes one character and a rebuild, testable before it
+ships. Apply the same treatment to any other choice §4 leaves open.
 
 ## 5. Naming specification (normative)
 
