@@ -62,9 +62,10 @@ differently, one genre acquires two headings. `modules/mpcNaming.js` (§6.2) is
 therefore the shared module that matters; the generation core is extracted for a
 narrower reason, given in §6.1.
 
-One consequence to accept knowingly: a link to a static file does not work
-offline, so bulk export is unavailable to an installed PWA with no network. The
-single-progression and current-selection exports are unaffected.
+One consequence, raised and **accepted**: a link to a static file does not work
+offline, so bulk export is unavailable to an installed PWA with no network.
+Judged too niche to design around. The single-progression and current-selection
+exports are unaffected, so the offline app still exports - just not in bulk.
 
 ## 4. Unverified assumptions
 
