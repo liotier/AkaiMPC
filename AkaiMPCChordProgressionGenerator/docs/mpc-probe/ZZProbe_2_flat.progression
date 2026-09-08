@@ -1,0 +1,159 @@
+{
+    "progression": {
+        "name": "ZZProbe-Flat Sign ♭VII ♭VI ♭III Smooth (i ♭VII ♭VI V)",
+        "rootNote": "C",
+        "scale": "Major",
+        "recordingOctave": 2,
+        "chords": [
+            {
+                "name": "C",
+                "role": "Root",
+                "notes": [
+                    60,
+                    64,
+                    67
+                ]
+            },
+            {
+                "name": "G",
+                "role": "Normal",
+                "notes": [
+                    59,
+                    62,
+                    67
+                ]
+            },
+            {
+                "name": "Am",
+                "role": "Normal",
+                "notes": [
+                    60,
+                    64,
+                    69
+                ]
+            },
+            {
+                "name": "F",
+                "role": "Normal",
+                "notes": [
+                    60,
+                    65,
+                    69
+                ]
+            },
+            {
+                "name": "Dm",
+                "role": "Normal",
+                "notes": [
+                    62,
+                    65,
+                    69
+                ]
+            },
+            {
+                "name": "Cmaj7",
+                "role": "Normal",
+                "notes": [
+                    64,
+                    67,
+                    71,
+                    72
+                ]
+            },
+            {
+                "name": "Gmaj7",
+                "role": "Normal",
+                "notes": [
+                    66,
+                    67,
+                    71,
+                    74
+                ]
+            },
+            {
+                "name": "Fmaj7",
+                "role": "Normal",
+                "notes": [
+                    65,
+                    69,
+                    72,
+                    76
+                ]
+            },
+            {
+                "name": "Bb",
+                "role": "Normal",
+                "notes": [
+                    62,
+                    65,
+                    70
+                ]
+            },
+            {
+                "name": "Fm",
+                "role": "Normal",
+                "notes": [
+                    60,
+                    65,
+                    68
+                ]
+            },
+            {
+                "name": "Ab",
+                "role": "Normal",
+                "notes": [
+                    60,
+                    63,
+                    68
+                ]
+            },
+            {
+                "name": "Eb",
+                "role": "Normal",
+                "notes": [
+                    58,
+                    63,
+                    67
+                ]
+            },
+            {
+                "name": "G7",
+                "role": "Normal",
+                "notes": [
+                    67,
+                    71,
+                    74,
+                    77
+                ]
+            },
+            {
+                "name": "A",
+                "role": "Normal",
+                "notes": [
+                    69,
+                    73,
+                    76
+                ]
+            },
+            {
+                "name": "D7",
+                "role": "Normal",
+                "notes": [
+                    62,
+                    66,
+                    69,
+                    72
+                ]
+            },
+            {
+                "name": "Db",
+                "role": "Normal",
+                "notes": [
+                    61,
+                    65,
+                    68
+                ]
+            }
+        ]
+    }
+}

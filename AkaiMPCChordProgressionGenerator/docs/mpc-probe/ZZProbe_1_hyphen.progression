@@ -1,0 +1,162 @@
+{
+    "progression": {
+        "name": "ZZProbe-Doo-Wop Smooth (I vi IV V)",
+        "rootNote": "C",
+        "scale": "Major",
+        "recordingOctave": 2,
+        "chords": [
+            {
+                "name": "C",
+                "role": "Root",
+                "notes": [
+                    60,
+                    64,
+                    67
+                ]
+            },
+            {
+                "name": "Am",
+                "role": "Normal",
+                "notes": [
+                    60,
+                    64,
+                    69
+                ]
+            },
+            {
+                "name": "F",
+                "role": "Normal",
+                "notes": [
+                    60,
+                    65,
+                    69
+                ]
+            },
+            {
+                "name": "G",
+                "role": "Normal",
+                "notes": [
+                    62,
+                    67,
+                    71
+                ]
+            },
+            {
+                "name": "Dm7",
+                "role": "Normal",
+                "notes": [
+                    62,
+                    65,
+                    69,
+                    72
+                ]
+            },
+            {
+                "name": "C7",
+                "role": "Normal",
+                "notes": [
+                    64,
+                    67,
+                    70,
+                    72
+                ]
+            },
+            {
+                "name": "Am7",
+                "role": "Normal",
+                "notes": [
+                    64,
+                    67,
+                    69,
+                    72
+                ]
+            },
+            {
+                "name": "F7",
+                "role": "Normal",
+                "notes": [
+                    63,
+                    65,
+                    69,
+                    72
+                ]
+            },
+            {
+                "name": "G7",
+                "role": "Normal",
+                "notes": [
+                    62,
+                    65,
+                    67,
+                    71
+                ]
+            },
+            {
+                "name": "Dm",
+                "role": "Normal",
+                "notes": [
+                    62,
+                    65,
+                    69
+                ]
+            },
+            {
+                "name": "Cmaj7",
+                "role": "Normal",
+                "notes": [
+                    64,
+                    67,
+                    71,
+                    72
+                ]
+            },
+            {
+                "name": "Fmaj7",
+                "role": "Normal",
+                "notes": [
+                    64,
+                    65,
+                    69,
+                    72
+                ]
+            },
+            {
+                "name": "Bb",
+                "role": "Normal",
+                "notes": [
+                    70,
+                    74,
+                    77
+                ]
+            },
+            {
+                "name": "Fm",
+                "role": "Normal",
+                "notes": [
+                    65,
+                    68,
+                    72
+                ]
+            },
+            {
+                "name": "D7",
+                "role": "Normal",
+                "notes": [
+                    62,
+                    66,
+                    69,
+                    72
+                ]
+            },
+            {
+                "name": "Db",
+                "role": "Normal",
+                "notes": [
+                    61,
+                    65,
+                    68
+                ]
+            }
+        ]
+    }
+}

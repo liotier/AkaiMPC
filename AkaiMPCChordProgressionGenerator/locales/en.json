@@ -54,7 +54,10 @@
     "downloadAllProgression": "Download all .progression files",
     "downloadAllMidi": "Download all MIDI files",
     "printAll": "Print all progressions",
-    "download": "Download"
+    "download": "Download",
+    "bulkCatalogHint": "Managing hundreds of files by hand? Every progression this generator can make, pre-built - and always named in English, whatever language you're reading this in.",
+    "bulkCatalogProgressions": "Download the whole catalogue as .progression files (key of C - Pad Perform transposes on import)",
+    "bulkCatalogMidi": "Download the whole catalogue as MIDI files (all twelve keys)"
   },
   "tabs": {
     "mpc": "MPC Pads",

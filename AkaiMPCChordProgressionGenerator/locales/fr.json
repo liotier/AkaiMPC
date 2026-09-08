@@ -54,7 +54,10 @@
     "downloadAllProgression": "Télécharger tous les fichiers .progression",
     "downloadAllMidi": "Télécharger tous les fichiers MIDI",
     "printAll": "Imprimer toutes les progressions",
-    "download": "Télécharger"
+    "download": "Télécharger",
+    "bulkCatalogHint": "Envie de gérer des centaines de fichiers à la main ? Toutes les progressions que ce générateur peut produire, prêtes à l'emploi - et toujours nommées en anglais, quelle que soit la langue de lecture.",
+    "bulkCatalogProgressions": "Télécharger tout le catalogue en fichiers .progression (tonalité de Do - Pad Perform transpose à l'import)",
+    "bulkCatalogMidi": "Télécharger tout le catalogue en fichiers MIDI (les douze tonalités)"
   },
   "tabs": {
     "mpc": "Pads MPC",
