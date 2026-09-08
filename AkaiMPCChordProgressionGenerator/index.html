@@ -170,11 +170,13 @@
 
         <div id="progressionsContainer" class="progressions hidden"></div>
 
-        <div class="bulk-export" id="bulkExport">
-            <p class="bulk-export-hint" data-i18n="buttons.bulkCatalogHint">Custom progressions on-demand isn't your cup of tea? Prefer to wade through hundreds of files? There you go - every progression this generator can make, pre-built:</p>
-            <a class="secondary-link" id="bulkExportProgressions" data-context="mpc" href="pack/AkaiMPC-Chord-Progressions.zip" download data-i18n="buttons.bulkCatalogProgressions">Download the whole catalogue as .progression files (key of C - Pad Perform transposes on import)</a>
-            <a class="secondary-link hidden" id="bulkExportMidi" data-context="midi" href="pack/AkaiMPC-Chord-MIDI.zip" download data-i18n="buttons.bulkCatalogMidi">Download the whole catalogue as MIDI files (all twelve keys)</a>
-        </div>
+        <p class="bulk-export-hint" id="bulkExport">
+            <span data-i18n="buttons.bulkCatalogHint">Custom progressions on-demand isn't your cup of tea? Prefer to wade through hundreds of files? There you go -</span>
+            <a id="bulkExportProgressions" data-context="mpc" href="pack/AkaiMPC-Chord-Progressions.zip" download data-i18n="buttons.bulkCatalogDownloadLink">download every progression this generator can make, pre-built</a>
+            <a class="hidden" id="bulkExportMidi" data-context="midi" href="pack/AkaiMPC-Chord-MIDI.zip" download data-i18n="buttons.bulkCatalogDownloadLink">download every progression this generator can make, pre-built</a>
+            <span data-context="mpc" data-i18n="buttons.bulkCatalogProgressionsDetail">(key of C - Pad Perform transposes on import).</span>
+            <span class="hidden" data-context="midi" data-i18n="buttons.bulkCatalogMidiDetail">(all twelve keys).</span>
+        </p>
 
         <footer>
             <p>
