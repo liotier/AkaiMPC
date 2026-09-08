@@ -1,6 +1,7 @@
 # MPC export: naming scheme, bulk export, published pack
 
-Specification for implementation. Status: agreed, not yet implemented.
+Specification for implementation. Status: implemented on `claude/admiring-davinci-ntx7cy`,
+pending merge and hardware verification (§4).
 
 ## 1. Provenance
 
@@ -390,13 +391,13 @@ identifiable once dragged out of its folder and into a DAW.
 
 Truncate to 120 characters as `sanitizeFileName()` (`app.js:123`) already does,
 but truncate **before** appending the extension, not after. The longest name the
-catalogue currently produces is 84 characters.
+catalogue currently produces is 87 characters.
 
 ### 5.7 Worked examples
 
 ```
 Jungle/Drum'n'Bass-Liquid DnB Smooth (i ♭VII ♭VI V)
-Italo Disco/House-Classic Italo 2 Classic (I vi IV V)
+Italo Disco/House-Classic Italo Classic (I vi IV V)
 Blues/Soul-12 Bar Blues Jazz (12 bar blues)
 Pop/Rock-Canon Progression Classic+Jazz (I V vi iii IV)
 Jazz/Functional-Extended Turnaround Smooth (V7/ii ii V7 I)
@@ -408,7 +409,7 @@ with file names such as
 
 ```
 C_Blues_Soul_12-Bar Blues_Jazz_12-bar-blues.progression
-C_Jazz_Functional_Extended Turnaround_Smooth_V7-ii-ii-V7-I.progression
+C_Jazz_Functional_Extended Turnaround_Smooth_V7_ii-ii-V7-I.progression
 ```
 
 ### 5.8 Verified properties
@@ -421,7 +422,7 @@ than by inspection:
 - 0 duplicate file names
 - 0 display names containing other than exactly one hyphen
 - longest display name 75 characters, median 50
-- longest file name 84 characters
+- longest file name 87 characters
 
 These four counts are the acceptance test in §9.
 
@@ -464,14 +465,18 @@ export function generateVariants({ key, mode, progression, generationMode, chord
 returning the deduplicated variant array, so callers stop repeating the
 `['Smooth', 'Classic', 'Jazz', 'Modal', 'Experimental']` list.
 
-Measured cost of the full catalogue through this path under Node: **278 ms for
-690 variants**, and 9 ms for all 34 scale explorations. Building all twelve keys
-of MIDI is therefore a few seconds of CI time.
+Measured cost of the full catalogue through this path under Node: **316 ms for
+839 variants** (key of C), and 9 ms for all 34 scale explorations. Building all
+twelve keys of MIDI (§6.5) is therefore a few seconds of CI time - confirmed:
+`tools/build-pack.mjs` runs in about 6.5 seconds end to end, including writing
+both zips.
 
-One measurement worth carrying into §8: the surviving variant count is **not**
-constant across keys - 690 in C, 700 in G, 728 in B, 690 in A♭. Identical
-harmony, different enharmonic spelling, and `getChordProgressionSignature()`
-keys on the chord name, so dedup outcomes diverge by key.
+The surviving variant count is still not perfectly constant across keys after
+the theory fixes of §7 - 839 in C, 844 in E, 835 in A♭ - though the fixes in
+§7.9 tightened the spread considerably (835-844, against 690-728 before any
+fix). `getChordProgressionSignature()` keys on the chord name, and enharmonic
+spelling still differs by key, so a residual spread is expected; see §7.12 for
+the full before/after.
 
 ### 6.2 New module: `modules/mpcNaming.js`
 
@@ -544,13 +549,14 @@ It writes:
 
 ```
 pack/AkaiMPC-Chord-Progressions.zip   839 .progression files, key of C, flat
-pack/AkaiMPC-Chord-MIDI.zip           10069 .mid files, twelve folders, one per key
+pack/AkaiMPC-Chord-MIDI.zip           10065 .mid files, twelve folders, one per key
 pack/README.txt                       install instructions, provenance, credit
 ```
 
-Measured after the fixes: 839 `.progression` files are 3.0 MB uncompressed; the
-twelve-key MIDI set is 10 069 files and 4.9 MB uncompressed. Both zip to well
-under a megabyte.
+Measured after the fixes: 839 `.progression` files are 463 KB zipped; the
+twelve-key MIDI set is 10 065 files, 4.5 MB zipped. `tools/build-pack.mjs`
+verifies the naming invariants of §5.8 itself and exits non-zero if they fail,
+and two consecutive builds are byte-identical (§9).
 
 No gap explanation is needed in the README: there are no numbers to leave gaps,
 and a fused label states its own collapse (§5.2.1).
@@ -590,20 +596,26 @@ functions over every progression (173) in every key (12) in every style (5) -
 **10 380 variants, 166 080 pads** - and assert machine-checkable invariants
 against each pad.
 
-Nine defects were found. All nine are fixed and the fixes are verified by
+Eleven defects were found. All eleven are fixed and the fixes are verified by
 re-running the same audit. Every count below is measured, not estimated.
 
 ### 7.0 Audit results
 
-| Check | Before | After |
+| Check | Before any fix | After |
 |---|---|---|
 | A. Structure: 16 pads, non-empty notes, MIDI 0-127, known chord type | clean | clean |
 | B. Sounding chord contains every pitch class its type requires | **16 982** | **0** |
 | C. Printed chord name agrees with the pad's chord type | clean | clean |
-| D. Roman numeral root matches the chord root | **15 775** | **163**, all `It+6` (see 7.10) |
-| E. Roman numeral quality matches the chord quality | **4 078** | **3 975**, all `Ger+6`/`It+6` (7.10) |
-| F. Two pads holding byte-identical notes | **2 378** | **768** (7.9, by design) |
+| D. Roman numeral root matches the chord root | **15 775** | **0** (§7.9, §7.11) |
+| E. Roman numeral quality matches the chord quality | **4 078** | **0** (§7.9, §7.11) |
+| F. Two pads holding byte-identical notes | **2 378** | **1227**, all in the whitelist (§7.11) |
 | G. Duplicate roman numeral within one variant | present | **0** |
+
+D and E read 0 rather than a residual because `tools/audit-theory.mjs` (§7.13)
+recognises `It+6`/`Fr+6`/`Ger+6` as a distinct, non-degree-based numeral family
+instead of misparsing them (§7.11) - not because every progression-generated
+numeral is degree-correct by construction; the check still runs on everything
+else.
 
 Generation is **deterministic** - no `Math.random` anywhere in the path - so
 byte-identical CI rebuilds are achievable (D7).
@@ -797,73 +809,140 @@ numeral argument, so the accidental does not follow the label: the same chord wa
 spelled `Gbdim` as a progression chord and `F#dim` as its palette copy, on the
 same card. Pass the numeral.
 
-### 7.9 What remains, and why it is not a defect
+### 7.9 Secondary-dominant extensions get a malformed numeral (~195 duplicate pads)
 
-768 byte-identical pad pairs survive. They are all one sonority under two
-functional labels:
+An earlier draft of this document classified `V/ii7` versus `V7/ii` as a
+notation *preference* to settle later. It is not one - it is the same
+suffix-concatenation defect as §7.4/§7.6, in two more places, and it produces a
+numeral nobody would write on purpose.
+
+`addChord()`'s extension builder (`modules/generation.js`) forms a numeral as
+`romanBase + suffix`. For a plain numeral that is correct (`'ii' + '7'` =
+`'ii7'`). For a secondary dominant the slash sits in the middle of the string
+(`'V/ii'`), so appending the suffix at the end produces `'V/ii7'` - the digit
+lands after the target instead of after the `V`. `generateRow4Candidates()`
+meanwhile hardcodes the conventional form, `'V7/ii'`, for the same chord. Two
+different strings for one sonority, so both survive as separate pads instead of
+one being recognised as a duplicate of the other.
+
+The Jazz-variant seventh-upgrade (§7.6) builds its numeral the same wrong way,
+independently: `romanNumeral + getRomanSuffix(upgraded)`. A card was found with
+`VM7/ii` on one pad (correctly formed) and `V/iiM7` on another (the same chord,
+malformed) side by side.
+
+Fix in both places: insert the suffix before the slash when the numeral being
+extended is a secondary dominant, instead of appending it at the end.
+
+```js
+const roman = romanBase.includes('/')
+    ? romanBase.replace('/', suffix + '/')
+    : romanBase + suffix;
+```
+
+Verified over the full catalogue: duplicate pad pairs of the `V/x7`-versus-`V7/x`
+shape drop from 195 to **0**.
+
+### 7.10 Augmented-sixth chords get an illegible chord name
+
+Separately from its roman numeral, an augmented sixth's *chord name* - the
+string that actually goes into the exported `.progression` file's `name` field
+and prints on the MPC pad - came out as `AbGer+6`, `AbIt+6`, `AbFr+6`. Not a
+chord symbol any musician reads.
+
+`CHORD_NAME_SUFFIX` (`modules/musicTheory.js`) reused the roman-numeral suffix
+(`'It+6'`, `'Fr+6'`, `'Ger+6'`) for the chord name too. But the augmented-sixth
+*function* is already fully carried by the roman numeral, which this fix does
+not touch; the *chord* is a plain dominant-family sonority by its own
+intervals - `It6` `[0,4,10]` and `Ger6` `[0,4,7,10]` are a dom7 (`Ger6`
+complete, `It6` without the 5th), `Fr6` `[0,4,6,10]` a dom7♭5:
+
+```js
+'It6': '7',
+'Fr6': '7b5',
+'Ger6': '7',
+```
+
+`AbGer+6` becomes `Ab7`. The roman numeral is unaffected, so the pad still
+reads unambiguously as an augmented sixth in the app's own displays; only the
+chord name printed on the MPC pad becomes legible. This does not change which
+pads are byte-identical duplicates (§7.11) - that check is on `notes`, which
+this fix does not touch - only what the duplicate pads are labelled.
+
+### 7.11 What remains, and why it is not a defect
+
+1227 byte-identical pad pairs survive across the full catalogue (105 in the key
+of C alone). Every one is now the same sonority under two functionally correct
+labels - the two genuine notation defects above are fixed, not merely
+catalogued:
 
 | Pair | Count | Verdict |
 |---|---|---|
-| `Ger+6` + `♭VI7` | 425 | Correct. A German sixth *is* an A♭7 in C. |
-| `V/ii7` + `V7/ii` | 120 | **Notation inconsistency** - two spellings of one chord. |
-| `V/V7` + `V7/V` | 75 | Same. |
-| `SubV7` + `♭II7` | 47 | Correct. A tritone substitute *is* ♭II7. |
-| `II7` + `V7/V`, `I7` + `V7/IV` | 53 | Correct - functional twins. |
-| `isus4` + `ivsus2`, `IVsus2` + `Isus4` | 48 | Correct - suspended chords are inversions of each other. |
+| `Ger+6` + `♭VI7` | 808 | Correct. A German sixth *is* a ♭VI7 sonority. |
+| `SubV7` + `♭II7` | 119 | Correct. A tritone substitute *is* ♭II7. |
+| `I7` + `V7/IV` | 69 | Correct - I7 functions as the dominant of IV. |
+| `II7` + `V7/V` | 60 | Correct - the major-II seventh is the dominant of V. |
+| `V7/ii` + `VI7` | 48 | Correct - both are A7 in a major key, reached two ways. |
+| `isus4` + `ivsus2`, `IVsus2` + `Isus4` | 96 | Correct - suspended chords are inversions of each other. |
+| `isus4sus4` + `ivsus2sus2`, `IVsus2sus2` + `Isus4sus4` | 24 | Same pair with a doubled extension applied by the palette. |
+| `V/ii` + `VI`, `II` + `V/V` | 3 | Correct - a major triad reached by two functions. |
 
-The ~195 `V/x7` versus `V7/x` cases are a real inconsistency worth settling on
-one notation. The rest are a design question - whether a 16-pad grid should spend
-two pads on one sonority to show two functions - not a bug, and out of scope here.
+All of it is now a design question - whether a 16-pad grid should spend two
+pads on one sonority to show two functions - not a bug, and out of scope here.
 
-`It+6` and `Ger+6` account for every remaining D and E finding. Those are audit
-artefacts: a checker that parses `It+6` as `I` + `t+6`, and one that reads the
-`+` as "augmented triad" when an augmented sixth is conventionally spelled as a
-dominant-seventh sonority. The audit tool should whitelist them.
+`It+6`/`Fr+6`/`Ger+6` no longer produce false D or E findings either:
+`tools/audit-theory.mjs` (§7.13) recognises these three numerals as a distinct,
+non-degree-based family instead of misreading the `+` as an augmented triad or
+the digit as a scale degree.
 
-### 7.10 Effect on the catalogue
+### 7.12 Effect on the catalogue
 
-| | Before | After |
+| | Before any fix | After |
 |---|---|---|
 | Variants surviving de-duplication, key of C | 690 | **839** |
-| Spread across the twelve keys | 690 to 728 | 835 to 845 |
-| Progressions keeping all five styles (in C) | 168 / 173 | 147 / 173 |
+| Spread across the twelve keys | 690 to 728 | 835 to 844 |
+| MIDI files across twelve keys | - | **10 065** |
+| Duplicate pad pairs, full catalogue | 2378 | **1227**, all in the whitelist above |
 
 The tighter cross-key spread is the point: variant survival used to depend partly
 on enharmonic spelling, so the catalogue's *contents* varied by key. Note that
 the fixes make styles converge **more** often, not less - correcting the roots
 means Modal and Smooth genuinely coincide more frequently. See §5.2 on what to do
-about the resulting numbering gaps.
+about the resulting numbering gaps (fused, per D5 - there are no gaps left).
 
-### 7.11 Ship an audit tool
+### 7.13 Ship an audit tool
 
-Add `tools/audit-theory.mjs`, importing `modules/generation.js` (§6.1), running
+Added `tools/audit-theory.mjs`, importing `modules/generation.js` (§6.1), running
 checks A to G above over all keys, progressions and styles, and exiting non-zero
-on any finding outside the whitelist in 7.9. Wire it into CI beside
-`check-translations.mjs`.
+on any finding outside the whitelist in §7.11. Wired into CI beside
+`check-translations.mjs`, in `.github/workflows/check-theory.yml`.
+
+Verified the tool actually catches a regression, not just passes vacuously: the
+§7.3 fix (`VI` a semitone too high) was reintroduced temporarily and the tool
+failed with 4036 D findings and 3987 F findings, both correctly attributing the
+new duplicate pair to the reintroduced `VI + ♭VII` collision - a pair not on the
+whitelist, so a genuinely new kind of duplicate still fails CI even though the
+whitelist mechanism exists.
 
 The project already learned this lesson once: the header of
 `tools/check-translations.mjs` records two locale drifts that shipped unnoticed
-"because nothing checked". Nine theory defects shipped for the same reason.
+"because nothing checked". Eleven theory defects shipped for the same reason.
 
 ## 8. Deferred
 
-- The `V/x7` versus `V7/x` notation inconsistency (§7.9). Cosmetic, but it
-  should be settled before a pack fixes either spelling in several hundred files.
-- Whether the palette should spend two of sixteen pads on `Ger+6` and `♭VI7`.
-  A deliberate design question, not a defect.
-- `AbGer+6` as a chord *name*. It is not a chord symbol any musician reads, and
-  it goes into the `.progression` file where the MPC prints it on a pad. `Ab7`
-  would be legible; the function belongs in the roman numeral, which already
-  carries it.
+- Whether the palette should spend two of sixteen pads on functional twins such
+  as `Ger+6` and `♭VI7` (§7.11). A deliberate design question, not a defect:
+  fixing it would change which chords appear on the grid for many progressions,
+  a larger and more subjective change than anything else in this document.
 
 ## 9. Acceptance criteria
 
-1. `node tools/build-pack.mjs` emits 839 `.progression` files in C and 10 069
+1. `node tools/build-pack.mjs` emits 839 `.progression` files in C and 10 065
    `.mid` files across twelve keys, with **zero** duplicate display names,
    **zero** duplicate file names within any one key, and **zero** display names
-   containing other than exactly one hyphen.
-2. `node tools/audit-theory.mjs` (§7.11) reports zero findings outside the
-   whitelist of §7.9, over all 10 380 variants and 166 080 pads.
+   containing other than exactly one hyphen. Verified.
+2. `node tools/audit-theory.mjs` (§7.13) reports zero findings outside the
+   whitelist of §7.11, over all 10 380 variants and 166 080 pads. Verified,
+   including that the tool catches a reintroduced regression (§7.13).
 3. Two consecutive builds are byte-identical.
 4. `node tools/check-translations.mjs` passes.
 5. A single-progression export taken from the running app carries a `name`
@@ -883,7 +962,6 @@ The project already learned this lesson once: the header of
 - Client-side bulk generation (D8), and with it any progress bar, worker or
   chunking scheme.
 - Offline bulk export: the links point at static files (D8).
-- Settling the `V/x7` versus `V7/x` notation (§8).
 - Printable chord charts in the pack: `modules/rendering.js` builds SVG through
   the DOM and would need a headless browser, which the rest of this design
   avoids.

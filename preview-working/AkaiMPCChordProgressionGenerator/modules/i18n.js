@@ -122,6 +122,21 @@ class I18n {
     }
 
     /**
+     * Read a key from English specifically, regardless of the active language.
+     * The MPC export name (modules/mpcNaming.js) is canonical English always
+     * (see docs/mpc-export-specification.md D2) - a mixed-language collection
+     * would split one genre into two menu headings on the device. English is
+     * always resident: loadLanguageWithFallback() preloads it as the fallback
+     * for every other language, and it is the constructor's own default.
+     *
+     * @param {string} key - Translation key (dot-notation)
+     * @returns {string|undefined} The English value, or undefined if absent
+     */
+    tEnglish(key) {
+        return this.getNestedValue(this.translations[this.fallbackLang], key);
+    }
+
+    /**
      * Does a key resolve, in the current language or in English?
      * Lets callers probe several candidate keys without logging a miss for each
      * speculative attempt.

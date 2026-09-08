@@ -1268,6 +1268,46 @@ body[data-context="staff"] .chord-staff {
     display: none;
 }
 
+/* Bulk catalogue export links - not the happy path, just an affordance for
+   users who want to manage hundreds of files by hand, so they sit quietly
+   below the generated cards rather than competing with Generate/Download. */
+.bulk-export {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.bulk-export-hint {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.secondary-link {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--pad-bg);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.secondary-link:hover {
+    background: var(--pad-hover);
+    color: var(--fg);
+}
+
+/* .hidden and .secondary-link both set `display` at equal specificity, so
+   whichever rule comes later in the file would otherwise win regardless of
+   which one the markup actually needs - pin it explicitly instead. */
+.secondary-link.hidden {
+    display: none;
+}
+
 footer {
     margin-top: 40px;
     padding: 20px 0;
