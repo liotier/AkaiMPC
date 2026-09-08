@@ -70,17 +70,88 @@ exports are unaffected, so the offline app still exports - just not in bulk.
 
 ## 4. Unverified assumptions
 
-None of these block implementation. The design is safe under every answer, but
-each is cheap for an MPC owner to settle and would let us relax a constraint.
+Six things depend on hardware nobody here has. None blocks implementation. Each
+is quantified below by how much of the catalogue it touches, so the exposure is a
+number rather than a worry.
 
-| Assumption | Consequence if false | Test |
+`docs/mpc-probe/` holds five `.progression` files that settle the first five in a
+single boot. Its README says what to look at.
+
+| # | Assumption | Exposure | Evidence | If wrong |
+|---|---|---|---|---|
+| A1 | The **first** hyphen splits heading from item; later hyphens survive in the submenu label. | 14 nicknames | none | Nothing breaks - the one-hyphen invariant (§5.1) is safe whether the MPC splits on the first, the last, or every hyphen. A permissive answer merely lets us restore `Doo-Wop` and thirteen others. |
+| A2 | **♭ (U+266D)** renders on One / Live / X, not only on the XL. | **47%** of labels (398 of 839) | positive on XL (Elektrobolt) | Broad but shallow: mojibake in half the menu. Fixed by one constant (§5.4) and a rebuild. **The only assumption with material exposure and no fallback evidence** - see the flag recommended below. |
+| A3 | The reported auto-spacing quirk is cosmetic. `♭VII` may render as `♭ VII`. | same 47% | positive - observed, and cosmetic | Nothing. A mild argument against D4, since ASCII `bVII` is letter-after-letter and would not trigger it. |
+| A4 | Long submenu labels are not truncated destructively. | see below | none | Mild. Modelled in §4.1. |
+| A5 | The **solidus** is not treated as a separator the way the hyphen is. | **92%** of labels, 19 of 22 categories | positive - Elektrobolt's own `Jungle/DnB` heading works | Would be severe if wrong, but his working setup is direct evidence against that. |
+| A6 | The MPC accepts arbitrary strings in the `scale` field (`Hirajoshi`, `Bhairav`, `Diminished (W H)`). | Scale Mode exports only - **none of the pack** | none | Confined to the app's single-file export. The pack emits `Major` throughout. |
+
+A seventh needs the pack rather than the probes: whether **839 files** parse at
+startup without material delay or a hard limit. Mitigation is a README warning
+and pruning; per-genre zips remain available as a fallback if it proves heavy.
+
+### 4.1 Truncation, modelled
+
+The question that matters is not "does it truncate" but "at what width do two
+entries become indistinguishable". Measured over all 839 labels in C:
+
+| Cut to N characters | Full `name` string | Submenu text only |
 |---|---|---|
-| The **first** hyphen splits heading from item, and later hyphens are preserved verbatim in the submenu label. | If the MPC splits on *every* hyphen, our one-hyphen invariant (§5.1) already protects us. If it splits on the *last*, likewise. The invariant is safe under all three readings. | Install one file named `Test-Doo-Wop Smooth (I vi IV V)`. If the submenu shows `Doo-Wop Smooth (I vi IV V)`, we may relax the sanitiser to the category only and restore hyphens in nicknames. |
-| U+266D renders on MPC One / Live / X, not only on the XL. | Fall back to ASCII `b` in `mpcSafe` (§5.4), a one-line change. | Install one file with `♭` in the name on an older device. |
-| The MPC's reported auto-spacing quirk is cosmetic only. Elektrobolt: "the MPC seem to have some form of auto spacing... only seem to happen for capital letters after non-letters", so `♭VII` may render as `♭ VII`. Every numeral we emit with a flat hits this. | Cosmetic. It is, however, a mild argument against D4: ASCII `bVII` is letter-after-letter and would not trigger it. | Look at any exported label containing `♭`. |
-| The MPC does not truncate long menu labels. | Our longest generated label is 73 characters. If truncation bites, drop the parenthesised numerals from the label. | Install `Jazz/Functional-Full Chromatic Walk Experimental (I I° ii ♯II° iii III° IV)`, the longest label at 75 characters, and look at it. |
-| The MPC parses 690 files at startup without material delay or a hard limit. | Document a warning in the pack README and advise pruning. | Install the full pack and time the boot. |
-| The MPC accepts arbitrary strings in the `scale` field (e.g. `Hirajoshi`, `Bhairav`, `Diminished (W-H)`). | Scale Mode exports (§5.5) may need `scale` pinned to a value the MPC knows. Progression Palette exports already emit `Major` and are unaffected. | Install one Scale Mode export of an exotic mode. |
+| 20 | 661 | 38 |
+| 24 | 529 | 16 |
+| 28 | 375 | **4** |
+| 32 | 199 | 4 |
+| 40 | 20 | 4 |
+
+The two columns differ because the MPC strips the category prefix when it splits
+on the hyphen: what a user reads inside a genre is `Nickname Styles (numerals)`,
+not the whole string. Median submenu text is 20 characters, 90th percentile 27,
+maximum 37. So the realistic exposure is the right-hand column - **four
+collisions at 28 characters** - not the alarming left-hand one.
+
+Two further findings from the same model. Truncating with and without the
+parenthesised numerals gives identical collision counts at every width up to 40,
+which confirms the numerals are the first casualty and therefore cost nothing
+under truncation; at 48 they actively help (2 collisions against 4). And the
+segment order is already optimal for graceful degradation: the numerals are the
+most redundant element, being identical across every variant of one progression,
+so losing them first loses the least.
+
+**Keep the numerals.** They are free under truncation and informative without it.
+
+### 4.2 Wait, or choose and amend ?
+
+Choose and amend. The reasoning:
+
+**Amending is nearly free before publication.** The pack is CI-built at deploy
+time (D7), so a naming change is one constant plus a push; the next deploy
+rebuilds every file. `.progression` files are self-contained - no migration, no
+compatibility break, nothing to version.
+
+**Amending is not free after publication.** Once the community holds
+collections, changing the scheme fragments the namespace: a user with old and new
+files gets two headings per genre. That is the same argument that decided D2.
+
+So the gate belongs on the **announcement**, not on the implementation. Build
+now, probe in parallel, publish once the probes return. Implementation takes
+days; a probe takes one boot, so the wait is absorbed rather than paid.
+
+Choosing blind, every answer is what this document already specifies: strip
+hyphens (D10, safe under all readings), keep ♭ (D4, only evidence is positive),
+keep the numerals (§4.1), keep the solidus (A5 has direct positive evidence),
+ship one zip with a warning (D6). The current specification *is* the low-risk
+choice.
+
+One piece of cheap insurance, though. A2 is the only assumption with wide
+exposure and no fallback evidence, so make the accidental style a build-time
+constant in `mpcNaming.js` from the outset:
+
+```js
+export const USE_UNICODE_ACCIDENTALS = true;   // false -> 'bVII' instead of '♭VII'
+```
+
+Then a negative probe result is a one-character change and a rebuild, testable
+before it ships, rather than an edit hunted through the naming logic.
 
 ## 5. Naming specification (normative)
 
