@@ -1,0 +1,164 @@
+{
+    "progression": {
+        "name": "ZZProbe-Slash V7/ii and Genre/Subgenre Smooth (V7/ii ii V7 I)",
+        "rootNote": "C",
+        "scale": "Major",
+        "recordingOctave": 2,
+        "chords": [
+            {
+                "name": "A7",
+                "role": "Root",
+                "notes": [
+                    57,
+                    61,
+                    64,
+                    67
+                ]
+            },
+            {
+                "name": "Dm",
+                "role": "Normal",
+                "notes": [
+                    57,
+                    62,
+                    65
+                ]
+            },
+            {
+                "name": "G7",
+                "role": "Normal",
+                "notes": [
+                    59,
+                    62,
+                    65,
+                    67
+                ]
+            },
+            {
+                "name": "C",
+                "role": "Normal",
+                "notes": [
+                    60,
+                    64,
+                    67
+                ]
+            },
+            {
+                "name": "A7",
+                "role": "Normal",
+                "notes": [
+                    57,
+                    61,
+                    64,
+                    67
+                ]
+            },
+            {
+                "name": "Dm7",
+                "role": "Normal",
+                "notes": [
+                    57,
+                    60,
+                    62,
+                    65
+                ]
+            },
+            {
+                "name": "C7",
+                "role": "Normal",
+                "notes": [
+                    58,
+                    60,
+                    64,
+                    67
+                ]
+            },
+            {
+                "name": "Am7",
+                "role": "Normal",
+                "notes": [
+                    57,
+                    60,
+                    64,
+                    67
+                ]
+            },
+            {
+                "name": "Amaj7",
+                "role": "Normal",
+                "notes": [
+                    57,
+                    61,
+                    64,
+                    68
+                ]
+            },
+            {
+                "name": "Gmaj7",
+                "role": "Normal",
+                "notes": [
+                    59,
+                    62,
+                    66,
+                    67
+                ]
+            },
+            {
+                "name": "Cmaj7",
+                "role": "Normal",
+                "notes": [
+                    59,
+                    60,
+                    64,
+                    67
+                ]
+            },
+            {
+                "name": "A",
+                "role": "Normal",
+                "notes": [
+                    57,
+                    61,
+                    64
+                ]
+            },
+            {
+                "name": "Bb",
+                "role": "Normal",
+                "notes": [
+                    70,
+                    74,
+                    77
+                ]
+            },
+            {
+                "name": "Fm",
+                "role": "Normal",
+                "notes": [
+                    65,
+                    68,
+                    72
+                ]
+            },
+            {
+                "name": "D7",
+                "role": "Normal",
+                "notes": [
+                    62,
+                    66,
+                    69,
+                    72
+                ]
+            },
+            {
+                "name": "Db",
+                "role": "Normal",
+                "notes": [
+                    61,
+                    65,
+                    68
+                ]
+            }
+        ]
+    }
+}
