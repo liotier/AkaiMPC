@@ -1121,6 +1121,37 @@ export const progressions = {
     ]
 };
 
+/**
+ * The genre category a progression template belongs to, e.g. 'Jungle/Drum\'n\'Bass'
+ * for 'i—♭VII—♭VI—V'. Used both by the palette builder (to find a template's
+ * paletteFilter/palettePriorities) and by modules/mpcNaming.js (the category is
+ * half of the MPC display name).
+ *
+ * @param {string} value - A progression template value
+ * @returns {string|null} The category key, or null if value matches nothing
+ */
+export function findProgressionCategory(value) {
+    for (const category in progressions) {
+        if (progressions[category].some(p => p.value === value)) return category;
+    }
+    return null;
+}
+
+/**
+ * The category a mode/scale belongs to in the `modes` object, e.g. 'Exotic'
+ * for 'Hirajoshi'. Scale Mode has no genre, so modules/mpcNaming.js uses this
+ * as the MPC display name's heading instead (see docs/mpc-export-specification.md §5.5).
+ *
+ * @param {string} mode - A mode/scale name
+ * @returns {string|null} The category key, or null if mode matches nothing
+ */
+export function findModeCategory(mode) {
+    for (const category in modes) {
+        if (modes[category].includes(mode)) return category;
+    }
+    return null;
+}
+
 // ============================================================================
 // Core Music Theory Functions
 // ============================================================================
@@ -2540,9 +2571,15 @@ export const CHORD_NAME_SUFFIX = {
     'major6': '6',
     'minor6': 'm6',
     'maj6/9': '6/9',
-    'It6': 'It+6',
-    'Fr6': 'Fr+6',
-    'Ger6': 'Ger+6'
+    // An augmented sixth is heard and played as a dominant-family sonority -
+    // It6 [0,4,10] and Ger6 [0,4,7,10] are literally a dom7 (Ger6 complete,
+    // It6 without the 5th), Fr6 [0,4,6,10] a dom7b5. 'AbGer+6' is not a chord
+    // symbol any musician reads; the augmented-sixth function is already
+    // carried by the roman numeral (It+6/Fr+6/Ger+6 in CHORD_TYPE_DISPLAY,
+    // below), which this suffix does not touch.
+    'It6': '7',
+    'Fr6': '7b5',
+    'Ger6': '7'
 };
 
 /**
