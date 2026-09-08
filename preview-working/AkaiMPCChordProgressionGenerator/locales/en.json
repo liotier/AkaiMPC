@@ -55,9 +55,10 @@
     "downloadAllMidi": "Download all MIDI files",
     "printAll": "Print all progressions",
     "download": "Download",
-    "bulkCatalogHint": "Custom progressions on-demand isn't your cup of tea? Prefer to wade through hundreds of files? There you go - every progression this generator can make, pre-built:",
-    "bulkCatalogProgressions": "Download the whole catalogue as .progression files (key of C - Pad Perform transposes on import)",
-    "bulkCatalogMidi": "Download the whole catalogue as MIDI files (all twelve keys)"
+    "bulkCatalogHint": "Custom progressions on-demand isn't your cup of tea? Prefer to wade through hundreds of files? There you go -",
+    "bulkCatalogDownloadLink": "download every progression this generator can make, pre-built",
+    "bulkCatalogProgressionsDetail": "(key of C - Pad Perform transposes on import).",
+    "bulkCatalogMidiDetail": "(all twelve keys)."
   },
   "tabs": {
     "mpc": "MPC Pads",
