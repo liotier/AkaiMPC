@@ -55,7 +55,7 @@
     "downloadAllMidi": "Alle MIDI-Dateien herunterladen",
     "printAll": "Alle Progressionen drucken",
     "download": "Herunterladen",
-    "bulkCatalogHint": "Hunderte Dateien von Hand verwalten? Jede Progression, die dieser Generator erzeugen kann, fertig gebaut - und immer auf Englisch benannt, unabhängig von der gewählten Sprache.",
+    "bulkCatalogHint": "Progressionen auf Abruf sind nicht so dein Ding? Lieber durch Hunderte Dateien wühlen? Bitte sehr - jede Progression, die dieser Generator erzeugen kann, fertig gebaut:",
     "bulkCatalogProgressions": "Den gesamten Katalog als .progression-Dateien herunterladen (Tonart C - Pad Perform transponiert beim Import)",
     "bulkCatalogMidi": "Den gesamten Katalog als MIDI-Dateien herunterladen (alle zwölf Tonarten)"
   },
