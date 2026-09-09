@@ -1274,7 +1274,6 @@ body[data-context="staff"] .chord-staff {
 .bulk-export-hint {
     margin: 24px 0 0;
     padding-top: 16px;
-    border-top: 1px solid var(--border);
     font-size: 13px;
     color: var(--muted);
 }
