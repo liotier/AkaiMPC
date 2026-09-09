@@ -55,9 +55,10 @@
     "downloadAllMidi": "Baixar todos os arquivos MIDI",
     "printAll": "Imprimir todas as progressões",
     "download": "Baixar",
-    "bulkCatalogHint": "Progressões personalizadas sob demanda não é bem sua praia? Prefere vasculhar centenas de arquivos? Aí está - toda progressão que este gerador pode criar, pronta:",
-    "bulkCatalogProgressions": "Baixar todo o catálogo como arquivos .progression (tom de Dó - o Pad Perform transpõe na importação)",
-    "bulkCatalogMidi": "Baixar todo o catálogo como arquivos MIDI (as doze tonalidades)"
+    "bulkCatalogHint": "Progressões personalizadas sob demanda não é bem sua praia? Prefere vasculhar centenas de arquivos? Aí está -",
+    "bulkCatalogDownloadLink": "baixe toda progressão que este gerador pode criar, pronta",
+    "bulkCatalogProgressionsDetail": "(tom de Dó - o Pad Perform transpõe na importação).",
+    "bulkCatalogMidiDetail": "(as doze tonalidades)."
   },
   "tabs": {
     "mpc": "Pads MPC",
