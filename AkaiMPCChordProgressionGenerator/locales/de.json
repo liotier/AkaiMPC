@@ -55,9 +55,10 @@
     "downloadAllMidi": "Alle MIDI-Dateien herunterladen",
     "printAll": "Alle Progressionen drucken",
     "download": "Herunterladen",
-    "bulkCatalogHint": "Progressionen auf Abruf sind nicht so dein Ding? Lieber durch Hunderte Dateien wühlen? Bitte sehr - jede Progression, die dieser Generator erzeugen kann, fertig gebaut:",
-    "bulkCatalogProgressions": "Den gesamten Katalog als .progression-Dateien herunterladen (Tonart C - Pad Perform transponiert beim Import)",
-    "bulkCatalogMidi": "Den gesamten Katalog als MIDI-Dateien herunterladen (alle zwölf Tonarten)"
+    "bulkCatalogHint": "Progressionen auf Abruf sind nicht so dein Ding? Lieber durch Hunderte Dateien wühlen? Bitte sehr -",
+    "bulkCatalogDownloadLink": "lade jede Progression herunter, die dieser Generator erzeugen kann, fertig gebaut",
+    "bulkCatalogProgressionsDetail": "(Tonart C - Pad Perform transponiert beim Import).",
+    "bulkCatalogMidiDetail": "(alle zwölf Tonarten)."
   },
   "tabs": {
     "mpc": "MPC-Pads",
