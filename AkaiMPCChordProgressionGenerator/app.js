@@ -1473,7 +1473,8 @@ function renderProgressions() {
     if (hasHover) {
         container.querySelectorAll('.download-btn').forEach(btn => {
             btn.addEventListener('pointerenter', function() {
-                showTooltip(this, i18n.t('buttons.download'));
+                const key = currentContext === 'midi' ? 'tooltips.downloadVariantMidi' : 'tooltips.downloadVariantProgression';
+                showTooltip(this, i18n.t(key));
             });
             btn.addEventListener('pointerleave', function() {
                 const tooltip = document.getElementById('chordTooltip');
@@ -1755,6 +1756,29 @@ document.addEventListener('DOMContentLoaded', async function() {
             showTooltip(this, i18n.t('tooltips.keyboardShortcuts'));
         });
         midiSelector.addEventListener('pointerleave', function() {
+            const tooltip = document.getElementById('chordTooltip');
+            if (tooltip) tooltip.classList.remove('visible');
+        });
+
+        // Custom tooltip for the MPC Pads context tab
+        const mpcTab = document.querySelector('.context-tab[data-context="mpc"]');
+        mpcTab.addEventListener('pointerenter', function() {
+            showTooltip(this, i18n.t('tooltips.mpcPads'));
+        });
+        mpcTab.addEventListener('pointerleave', function() {
+            const tooltip = document.getElementById('chordTooltip');
+            if (tooltip) tooltip.classList.remove('visible');
+        });
+
+        // Custom tooltip for the download/print-all button (dynamic based on context)
+        const downloadAllBtn = document.getElementById('downloadAllBtn');
+        downloadAllBtn.addEventListener('pointerenter', function() {
+            const key = currentContext === 'mpc' ? 'tooltips.downloadAllProgression'
+                      : currentContext === 'midi' ? 'tooltips.downloadAllMidi'
+                      : null;
+            if (key) showTooltip(this, i18n.t(key));
+        });
+        downloadAllBtn.addEventListener('pointerleave', function() {
             const tooltip = document.getElementById('chordTooltip');
             if (tooltip) tooltip.classList.remove('visible');
         });

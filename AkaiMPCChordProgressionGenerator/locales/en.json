@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "Chord Progression Generator",
-    "subtitle": "Create musically intelligent chord progressions — view as piano, guitar tabs, or staff notation",
+    "subtitle": "Create musically intelligent chord progressions — view as piano, guitar tabs, or staff notation",
     "subtitleLine2": "Print chord sheets to jam with others, export MIDI files for DAWs, or export .progression files for Akai MPC"
   },
   "chordMatcher": {
@@ -50,11 +50,10 @@
   },
   "buttons": {
     "generate": "Generate Progressions",
-    "downloadAll": "Download all .progression files",
-    "downloadAllProgression": "Download all .progression files",
-    "downloadAllMidi": "Download all MIDI files",
+    "downloadAll": "Download this progression's .progression files",
+    "downloadAllProgression": "Download this progression's .progression files",
+    "downloadAllMidi": "Download this progression's MIDI files",
     "printAll": "Print all progressions",
-    "download": "Download",
     "bulkCatalogHint": "Custom progressions on-demand isn't your cup of tea ? Prefer to wade through hundreds of files ? There you go -",
     "bulkCatalogDownloadLink": "download every progression this generator can make, pre-built",
     "bulkCatalogProgressionsDetail": "(key of C - Pad Perform transposes on import).",
@@ -113,7 +112,12 @@
     "scaleMode": "Explore a scale or mode by generating every chord it supports: the triad on each degree, then the seventh chord on each degree. Ideal for learning scales like Whole Tone, Phrygian Dominant or Hungarian Minor.",
     "keyboardShortcuts": "Play with computer keys: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Keyboard shortcuts are for desktop. On a tablet, tap the chord pads to play them.",
-    "modeSelectDisabled": "The Mode/Scale selector is not used in Progression Palette Mode. The progression defines its own harmonic structure."
+    "modeSelectDisabled": "The Mode/Scale selector is not used in Progression Palette Mode. The progression defines its own harmonic structure.",
+    "mpcPads": "Generates custom progressions for MPC Pad Perform",
+    "downloadAllProgression": "Download this progression's MPC Pad Perform .progression files for all of its variants",
+    "downloadAllMidi": "Download this progression's MIDI files for all of its variants",
+    "downloadVariantProgression": "Download this variant's MPC Pad Perform .progression file",
+    "downloadVariantMidi": "Download this variant's MIDI file"
   },
   "cadences": {
     "authentic": {
@@ -157,50 +161,50 @@
     "noCompatibleKeysFound": "No compatible keys found. Try fewer or different chords."
   },
   "chordRoles": {
-    "I": "Tonic - the home chord, gives resolution and stability.",
-    "II": "Supertonic - predominant chord, often leading to V.",
-    "III": "Mediant - weaker predominant or color chord, connects I and IV/vi.",
-    "IV": "Subdominant - predominant chord, prepares motion to V.",
-    "V": "Dominant - creates tension that resolves to I.",
-    "VI": "Submediant - relative minor, often used for deceptive cadences.",
-    "VII°": "Leading-tone - diminished chord, pulls strongly to I.",
+    "I": "Tonic - the home chord, gives resolution and stability.",
+    "II": "Supertonic - predominant chord, often leading to V.",
+    "III": "Mediant - weaker predominant or color chord, connects I and IV/vi.",
+    "IV": "Subdominant - predominant chord, prepares motion to V.",
+    "V": "Dominant - creates tension that resolves to I.",
+    "VI": "Submediant - relative minor, often used for deceptive cadences.",
+    "VII°": "Leading-tone - diminished chord, pulls strongly to I.",
     "♭II": "Borrowed flat-II (Neapolitan), strong predominant, prepares V.",
     "♭III": "Borrowed from parallel minor, adds dramatic color, substitutes I.",
     "♭IV": "Borrowed minor subdominant, softens motion to V.",
     "♭V": "Rare borrowed chord, chromatic color.",
     "♭VI": "Borrowed from parallel minor, dramatic predominant, often moves to V.",
     "♭VII": "Borrowed from Mixolydian, gives rock/blues flavor, often moves to I or V.",
-    "V/II": "Secondary dominant - tonicizes ii, creates motion to ii.",
-    "V/III": "Secondary dominant - tonicizes iii, rarely used but colorful.",
-    "V/IV": "Secondary dominant - tonicizes IV, brightens progression.",
-    "V/V": "Secondary dominant - tonicizes V, very common to strengthen cadence.",
-    "V/VI": "Secondary dominant - tonicizes vi, used for deceptive shifts.",
+    "V/II": "Secondary dominant - tonicizes ii, creates motion to ii.",
+    "V/III": "Secondary dominant - tonicizes iii, rarely used but colorful.",
+    "V/IV": "Secondary dominant - tonicizes IV, brightens progression.",
+    "V/V": "Secondary dominant - tonicizes V, very common to strengthen cadence.",
+    "V/VI": "Secondary dominant - tonicizes vi, used for deceptive shifts.",
     "VII°/II": "Leading-tone chord of ii, resolves strongly to ii.",
     "VII°/III": "Leading-tone chord of iii, resolves strongly to iii.",
     "VII°/IV": "Leading-tone chord of IV, resolves strongly to IV.",
     "VII°/V": "Leading-tone chord of V, resolves strongly to V.",
     "VII°/VI": "Leading-tone chord of vi, resolves strongly to vi.",
-    "SUBV7": "Tritone substitution - jazz substitution for V7, creates chromatic voice leading.",
-    "♯I°": "Passing diminished - chromatic connector between diatonic chords.",
-    "♯II°": "Passing diminished - chromatic connector between diatonic chords.",
-    "sus": "Suspended chord - replaces 3rd with 2nd/4th, creates suspension before resolution.",
+    "SUBV7": "Tritone substitution - jazz substitution for V7, creates chromatic voice leading.",
+    "♯I°": "Passing diminished - chromatic connector between diatonic chords.",
+    "♯II°": "Passing diminished - chromatic connector between diatonic chords.",
+    "sus": "Suspended chord - replaces 3rd with 2nd/4th, creates suspension before resolution.",
     "add9": "Adds brightness, dreamy color.",
     "6": "Vintage color, softens the harmony.",
-    "extended": "Extended harmony - jazz/pop color, adds depth.",
-    "borrowed": "Borrowed chord - adds expressive color by borrowing from parallel mode.",
-    "default": "Harmonic color - adds variety and interest to the progression.",
+    "extended": "Extended harmony - jazz/pop color, adds depth.",
+    "borrowed": "Borrowed chord - adds expressive color by borrowing from parallel mode.",
+    "default": "Harmonic color - adds variety and interest to the progression.",
     "types": {
-      "m7b5": "Half-diminished 7th - the ii of a minor key and the natural 7th chord on a diminished degree; leads to a dominant.",
-      "dim7": "Fully diminished 7th - maximum tension, resolves by half step in any direction.",
-      "minMaj7": "Minor-major 7th - the tonic 7th chord of harmonic and melodic minor; brooding, cinematic.",
-      "augMaj7": "Augmented major 7th - the mediant of harmonic/melodic minor; unstable and luminous.",
-      "aug7": "Augmented 7th - a dominant with a raised 5th, pushes hard to the tonic.",
-      "augmented": "Augmented triad - symmetrical and unresolved, can move to several keys.",
-      "quartal": "Stacked fourths - open and modal, avoids committing to major or minor.",
-      "dom7sus4": "7sus4 - dominant tension with the 3rd suspended, common in modal and gospel writing.",
-      "It6": "Italian augmented 6th - chromatic predominant, both outer voices squeeze onto the dominant.",
-      "Fr6": "French augmented 6th - chromatic predominant with an added 2nd, brighter than the Italian.",
-      "Ger6": "German augmented 6th - chromatic predominant, sounds like a dominant 7th and resolves to V."
+      "m7b5": "Half-diminished 7th - the ii of a minor key and the natural 7th chord on a diminished degree; leads to a dominant.",
+      "dim7": "Fully diminished 7th - maximum tension, resolves by half step in any direction.",
+      "minMaj7": "Minor-major 7th - the tonic 7th chord of harmonic and melodic minor; brooding, cinematic.",
+      "augMaj7": "Augmented major 7th - the mediant of harmonic/melodic minor; unstable and luminous.",
+      "aug7": "Augmented 7th - a dominant with a raised 5th, pushes hard to the tonic.",
+      "augmented": "Augmented triad - symmetrical and unresolved, can move to several keys.",
+      "quartal": "Stacked fourths - open and modal, avoids committing to major or minor.",
+      "dom7sus4": "7sus4 - dominant tension with the 3rd suspended, common in modal and gospel writing.",
+      "It6": "Italian augmented 6th - chromatic predominant, both outer voices squeeze onto the dominant.",
+      "Fr6": "French augmented 6th - chromatic predominant with an added 2nd, brighter than the Italian.",
+      "Ger6": "German augmented 6th - chromatic predominant, sounds like a dominant 7th and resolves to V."
     }
   },
   "modeCategories": {
@@ -221,7 +225,7 @@
     },
     "Dorian": {
       "name": "Dorian",
-      "description": "Minor scale with raised 6th degree. Pattern: W-H-W-W-W-H-W. Creates sophisticated minor sound - darker than major but brighter than natural minor. The major IV chord distinguishes it from Aeolian. Used in jazz, funk, folk, and modal music for cool, sophisticated minor tonality without heavy sadness."
+      "description": "Minor scale with raised 6th degree. Pattern: W-H-W-W-W-H-W. Creates sophisticated minor sound - darker than major but brighter than natural minor. The major IV chord distinguishes it from Aeolian. Used in jazz, funk, folk, and modal music for cool, sophisticated minor tonality without heavy sadness."
     },
     "Phrygian": {
       "name": "Phrygian",
@@ -229,7 +233,7 @@
     },
     "Lydian": {
       "name": "Lydian",
-      "description": "Major scale with raised 4th degree. Pattern: W-W-W-H-W-W-H. Creates dreamy, floating, ethereal character - even brighter than major. The raised 4th (#11) creates distinctive \"Lydian\" sound. Used in film scores, jazz, and progressive rock for magical, otherworldly, or floating quality."
+      "description": "Major scale with raised 4th degree. Pattern: W-W-W-H-W-W-H. Creates dreamy, floating, ethereal character - even brighter than major. The raised 4th (#11) creates distinctive \"Lydian\" sound. Used in film scores, jazz, and progressive rock for magical, otherworldly, or floating quality."
     },
     "Mixolydian": {
       "name": "Mixolydian",
@@ -237,7 +241,7 @@
     },
     "Locrian": {
       "name": "Locrian",
-      "description": "Minor scale with lowered 2nd and 5th degrees. Pattern: H-W-W-H-W-W-W. The most unstable mode - diminished tonic triad. Rarely used for full compositions. The ♭5 creates tritone against root. Used for dissonance, tension, or experimental passages in metal, jazz, and avant-garde music."
+      "description": "Minor scale with lowered 2nd and 5th degrees. Pattern: H-W-W-H-W-W-W. The most unstable mode - diminished tonic triad. Rarely used for full compositions. The ♭5 creates tritone against root. Used for dissonance, tension, or experimental passages in metal, jazz, and avant-garde music."
     },
     "Harmonic Minor": {
       "name": "Harmonic Minor",
@@ -245,7 +249,7 @@
     },
     "Melodic Minor": {
       "name": "Melodic Minor",
-      "description": "Natural minor with raised 6th and 7th degrees (ascending form). Pattern: W-H-W-W-W-W-H. Smoother than harmonic minor - no augmented second. Used in jazz for modal improvisation and in classical music for melodic ascent. Creates sophisticated minor tonality with major VI and VII enabling smooth voice leading."
+      "description": "Natural minor with raised 6th and 7th degrees (ascending form). Pattern: W-H-W-W-W-W-H. Smoother than harmonic minor - no augmented second. Used in jazz for modal improvisation and in classical music for melodic ascent. Creates sophisticated minor tonality with major VI and VII enabling smooth voice leading."
     },
     "Pentatonic Major": {
       "name": "Pentatonic Major",
@@ -261,7 +265,7 @@
     },
     "Whole Tone": {
       "name": "Whole Tone",
-      "description": "Six-note scale built entirely of whole steps: W-W-W-W-W-W. Perfectly symmetrical - no tonic or resolution. Creates dreamy, floating, surreal character. No perfect 5ths or 4ths, only augmented chords. Used by Debussy and in jazz for ambiguous, impressionistic, otherworldly atmosphere. Defines musical surrealism."
+      "description": "Six-note scale built entirely of whole steps: W-W-W-W-W-W. Perfectly symmetrical - no tonic or resolution. Creates dreamy, floating, surreal character. No perfect 5ths or 4ths, only augmented chords. Used by Debussy and in jazz for ambiguous, impressionistic, otherworldly atmosphere. Defines musical surrealism."
     },
     "Diminished (W-H)": {
       "name": "Diminished (W-H)",
@@ -277,7 +281,7 @@
     },
     "Altered": {
       "name": "Altered (Super Locrian)",
-      "description": "Seventh mode of melodic minor: 1-♭2-♭3-♭4-♭5-♭6-♭7. The ultimate altered dominant scale - every note except root is altered. Used over dominant 7th chords resolving to minor. Creates maximum tension before resolution. Essential jazz vocabulary for altered dominant sounds (7♯9♭13, 7alt). The go-to scale for jazz improvisers on V7 chords."
+      "description": "Seventh mode of melodic minor: 1-♭2-♭3-♭4-♭5-♭6-♭7. The ultimate altered dominant scale - every note except root is altered. Used over dominant 7th chords resolving to minor. Creates maximum tension before resolution. Essential jazz vocabulary for altered dominant sounds (7♯9♭13, 7alt). The go-to scale for jazz improvisers on V7 chords."
     },
     "Lydian Dominant": {
       "name": "Lydian Dominant",
@@ -333,7 +337,7 @@
     },
     "Hirajoshi": {
       "name": "Hirajoshi",
-      "description": "Japanese pentatonic scale: 1-2-♭3-5-♭6. Five-note scale with no perfect 5th. Creates distinctly Japanese character - neither purely major nor minor. Used in traditional Japanese music and modern compositions seeking Japanese flavor. The unique intervals create peaceful, contemplative, exotic atmosphere. Signature sound of koto and shamisen."
+      "description": "Japanese pentatonic scale: 1-2-♭3-5-♭6. Five-note scale with no perfect 5th. Creates distinctly Japanese character - neither purely major nor minor. Used in traditional Japanese music and modern compositions seeking Japanese flavor. The unique intervals create peaceful, contemplative, exotic atmosphere. Signature sound of koto and shamisen."
     },
     "Insen": {
       "name": "Insen",
@@ -476,7 +480,7 @@
       "iii—vi—ii—V": {
         "name": "iii—vi—ii—V",
         "nickname": "Circle Progression",
-        "description": "Descending circle of fifths: iii to vi to ii to V. Each chord is a fifth below the previous, creating inevitable gravitational pull toward tonic. Demonstrates pure functional harmony in action - used extensively in bebop and hard bop."
+        "description": "Descending circle of fifths: iii to vi to ii to V. Each chord is a fifth below the previous, creating inevitable gravitational pull toward tonic. Demonstrates pure functional harmony in action - used extensively in bebop and hard bop."
       },
       "IVM7—V7—iii7—vi": {
         "name": "IVM7—V7—iii7—vi",
@@ -501,7 +505,7 @@
       "iv—♭VII—I": {
         "name": "iv—♭VII—I",
         "nickname": "Backdoor",
-        "description": "The \"backdoor progression\" - approaches tonic from ♭VII instead of V. Borrowed iv from parallel minor adds color, ♭VII creates whole-step resolution to I (plagal motion). Provides relief from constant ii-V-I, adds unexpected freshness to jazz harmony."
+        "description": "The \"backdoor progression\" - approaches tonic from ♭VII instead of V. Borrowed iv from parallel minor adds color, ♭VII creates whole-step resolution to I (plagal motion). Provides relief from constant ii-V-I, adds unexpected freshness to jazz harmony."
       },
       "I—♯I°—ii—♯II°": {
         "name": "I—♯I°—ii—♯II°",
@@ -551,7 +555,7 @@
       "I—I°—ii—♯II°—iii—III°—IV": {
         "name": "I—I°—ii—♯II°—iii—III°—IV",
         "nickname": "Full Chromatic Walk",
-        "description": "Extended chromatic walk-up using multiple diminished passing chords. Creates completely chromatic bass line from I to IV. Maximum voice leading smoothness - every chord connects by half step. Jazz arranging staple."
+        "description": "Extended chromatic walk-up using multiple diminished passing chords. Creates completely chromatic bass line from I to IV. Maximum voice leading smoothness - every chord connects by half step. Jazz arranging staple."
       },
       "III7—VI7—II7—V7": {
         "name": "III7—VI7—II7—V7",
@@ -566,7 +570,7 @@
       "♭II7—I": {
         "name": "♭II7—I",
         "nickname": "Tritone Cadence",
-        "description": "The dominant replaced by the 7th chord a tritone away. Same guide tones, but the root slides down a half step into the tonic instead of leaping a fifth - the signature jazz reharmonisation."
+        "description": "The dominant replaced by the 7th chord a tritone away. Same guide tones, but the root slides down a half step into the tonic instead of leaping a fifth - the signature jazz reharmonisation."
       },
       "ii7—♭II7—IM7": {
         "name": "ii7—♭II7—IM7",
@@ -598,12 +602,12 @@
       "I—V—I—IV": {
         "name": "I—V—I—IV",
         "nickname": "Passamezzo Moderno",
-        "description": "Renaissance \"modern passamezzo\" - the major version. Tonic-dominant assertion, return to tonic, then subdominant. Simple but effective major-mode dance progression. Shows evolution from modal to tonal thinking in early Baroque period."
+        "description": "Renaissance \"modern passamezzo\" - the major version. Tonic-dominant assertion, return to tonic, then subdominant. Simple but effective major-mode dance progression. Shows evolution from modal to tonal thinking in early Baroque period."
       },
       "iv—♭VII—♭III—♭VI": {
         "name": "iv—♭VII—♭III—♭VI",
         "nickname": "Plagal Cascade",
-        "description": "Descending plagal (subdominant) motion through borrowed chords. No dominant present - all \"soft\" resolutions. Creates dark, modal atmosphere avoiding functional V-I cadences. Popular in film scores and progressive rock for ambiguous, drifting quality."
+        "description": "Descending plagal (subdominant) motion through borrowed chords. No dominant present - all \"soft\" resolutions. Creates dark, modal atmosphere avoiding functional V-I cadences. Popular in film scores and progressive rock for ambiguous, drifting quality."
       },
       "i—iv—♭VII—♭III": {
         "name": "i—iv—♭VII—♭III",
@@ -667,7 +671,7 @@
       "IM7—iii7—vi7—ii7": {
         "name": "IM7—iii7—vi7—ii7",
         "nickname": "Smooth R&B",
-        "description": "Descending diatonic 7th chords create lush, sophisticated sound. All major and minor 7ths, no dominant tension - smooth, floating quality. Descends by thirds then fourths, creating gentle forward motion. Perfect for slow jams and contemporary R&B ballads."
+        "description": "Descending diatonic 7th chords create lush, sophisticated sound. All major and minor 7ths, no dominant tension - smooth, floating quality. Descends by thirds then fourths, creating gentle forward motion. Perfect for slow jams and contemporary R&B ballads."
       },
       "I—IV—ii—V": {
         "name": "I—IV—ii—V",
@@ -699,7 +703,7 @@
       "I7": {
         "name": "I7",
         "nickname": "One-Chord Funk",
-        "description": "The essence of funk - a single dominant 9th chord vamping indefinitely. James Brown, Parliament-Funkadelic, and countless funk tracks prove you only need one chord with the right rhythm. The dom9 provides the perfect blend of tension and groove."
+        "description": "The essence of funk - a single dominant 9th chord vamping indefinitely. James Brown, Parliament-Funkadelic, and countless funk tracks prove you only need one chord with the right rhythm. The dom9 provides the perfect blend of tension and groove."
       },
       "i7": {
         "name": "i7",
@@ -778,7 +782,7 @@
       "i—♭III—♭VI—♭VII": {
         "name": "i—♭III—♭VI—♭VII",
         "nickname": "Dark Trap",
-        "description": "Extended dark trap progression. All borrowed chords from natural minor - ♭III adds hopeful moment before descending to ♭VI and ♭VII. Four-chord loop provides more harmonic movement while maintaining menacing atmosphere. Used in melodic trap and dark hip-hop production."
+        "description": "Extended dark trap progression. All borrowed chords from natural minor - ♭III adds hopeful moment before descending to ♭VI and ♭VII. Four-chord loop provides more harmonic movement while maintaining menacing atmosphere. Used in melodic trap and dark hip-hop production."
       },
       "vi—IV—I": {
         "name": "vi—IV—I",
@@ -808,7 +812,7 @@
       "ii7—V7—IM7": {
         "name": "ii7—V7—IM7",
         "nickname": "Lofi Jazz",
-        "description": "Jazzy, nostalgic palette. All 7th chords, no plain triads - warm, dusty, vinyl vibes."
+        "description": "Jazzy, nostalgic palette. All 7th chords, no plain triads - warm, dusty, vinyl vibes."
       },
       "i—♭VII—iv": {
         "name": "i—♭VII—iv",
@@ -862,7 +866,7 @@
       "I—V—vi—♭VI—IV": {
         "name": "I—V—vi—♭VI—IV",
         "nickname": "Emotional Score",
-        "description": "Emotional orchestral progression. Starts with familiar I-V-vi pop changes, then ♭VI (chromatic mediant) creates unexpected emotional shift before IV resolves. The ♭VI is the \"twist\" - dramatic moment in narrative. Common in emotional climaxes, character revelations, and romantic film scores."
+        "description": "Emotional orchestral progression. Starts with familiar I-V-vi pop changes, then ♭VI (chromatic mediant) creates unexpected emotional shift before IV resolves. The ♭VI is the \"twist\" - dramatic moment in narrative. Common in emotional climaxes, character revelations, and romantic film scores."
       },
       "i—♭III—♭VII—♭VI—V": {
         "name": "i—♭III—♭VII—♭VI—V",
@@ -1013,7 +1017,7 @@
       "i—iv—VII—III": {
         "name": "i—iv—VII—III",
         "nickname": "Harmonic Minor Psy",
-        "description": "Pure harmonic minor psytrance progression. Uses harmonic minor scale exclusively - i, iv, major VII, major III. The raised 7th creates exotic augmented second interval. Dramatic, Eastern European character. The major VII and III create bright, ascending motion against dark minor tonic for psychedelic contrast."
+        "description": "Pure harmonic minor psytrance progression. Uses harmonic minor scale exclusively - i, iv, major VII, major III. The raised 7th creates exotic augmented second interval. Dramatic, Eastern European character. The major VII and III create bright, ascending motion against dark minor tonic for psychedelic contrast."
       },
       "i—♭VI—III—VII": {
         "name": "i—♭VI—III—VII",
@@ -1065,7 +1069,7 @@
       "i—v—♭VII—iv": {
         "name": "i—v—♭VII—iv",
         "nickname": "Jump-Up",
-        "description": "Jump-up drum and bass progression. All minor/diminished chords from natural minor - i, v (not major V), ♭VII, iv. Creates bouncy, rolling bassline character. Avoids resolution for continuous energy. Simple, functional harmony supports focus on bass wobbles and ragga samples in jump-up and roller DnB styles."
+        "description": "Jump-up drum and bass progression. All minor/diminished chords from natural minor - i, v (not major V), ♭VII, iv. Creates bouncy, rolling bassline character. Avoids resolution for continuous energy. Simple, functional harmony supports focus on bass wobbles and ragga samples in jump-up and roller DnB styles."
       },
       "ii7—V7—IM7—vi7": {
         "name": "ii7—V7—IM7—vi7",
@@ -1210,7 +1214,7 @@
       "I—IV": {
         "name": "I—IV",
         "nickname": "Two-Chord Reggae",
-        "description": "Simplest reggae foundation - just I and IV oscillating. The offbeat 'skank' rhythm makes even two chords groove hard. Bob Marley's 'One Love' territory. Simple triads and dom7s maintain authentic roots sound."
+        "description": "Simplest reggae foundation - just I and IV oscillating. The offbeat 'skank' rhythm makes even two chords groove hard. Bob Marley's 'One Love' territory. Simple triads and dom7s maintain authentic roots sound."
       },
       "i—♭VI—♭VII—i": {
         "name": "i—♭VI—♭VII—i",
