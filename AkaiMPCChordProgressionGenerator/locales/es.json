@@ -50,11 +50,10 @@
   },
   "buttons": {
     "generate": "Generar progresiones",
-    "downloadAll": "Descargar todos los archivos .progression",
-    "downloadAllProgression": "Descargar todos los archivos .progression",
-    "downloadAllMidi": "Descargar todos los archivos MIDI",
+    "downloadAll": "Descargar los archivos .progression de esta progresión",
+    "downloadAllProgression": "Descargar los archivos .progression de esta progresión",
+    "downloadAllMidi": "Descargar los archivos MIDI de esta progresión",
     "printAll": "Imprimir todas las progresiones",
-    "download": "Descargar",
     "bulkCatalogHint": "¿Las progresiones personalizadas al vuelo no son lo tuyo? ¿Prefieres bucear entre cientos de archivos? Aquí las tienes -",
     "bulkCatalogDownloadLink": "descarga todas las progresiones que este generador puede crear, ya preparadas",
     "bulkCatalogProgressionsDetail": "(tonalidad de Do - Pad Perform transpone al importar).",
@@ -113,7 +112,12 @@
     "scaleMode": "Explora una escala o un modo generando todos los acordes que admite: la tríada de cada grado y después el acorde de séptima de cada grado. Ideal para aprender escalas como la de tonos enteros, la frigia dominante o la menor húngara.",
     "keyboardShortcuts": "Toca con el teclado del ordenador: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Los atajos de teclado son para escritorio. En tableta, toca los pads para tocarlos.",
-    "modeSelectDisabled": "El selector de modo/escala no se usa en el modo Paleta de progresiones. La progresión define su propia estructura armónica."
+    "modeSelectDisabled": "El selector de modo/escala no se usa en el modo Paleta de progresiones. La progresión define su propia estructura armónica.",
+    "mpcPads": "Genera progresiones personalizadas para MPC Pad Perform",
+    "downloadAllProgression": "Descarga los archivos .progression de MPC Pad Perform de esta progresión, para todas sus variantes",
+    "downloadAllMidi": "Descarga los archivos MIDI de esta progresión, para todas sus variantes",
+    "downloadVariantProgression": "Descarga el archivo .progression de MPC Pad Perform de esta variante",
+    "downloadVariantMidi": "Descarga el archivo MIDI de esta variante"
   },
   "cadences": {
     "authentic": {
