@@ -50,11 +50,10 @@
   },
   "buttons": {
     "generate": "Progressionen generieren",
-    "downloadAll": "Alle .progression-Dateien herunterladen",
-    "downloadAllProgression": "Alle .progression-Dateien herunterladen",
-    "downloadAllMidi": "Alle MIDI-Dateien herunterladen",
+    "downloadAll": "Die .progression-Dateien dieser Progression herunterladen",
+    "downloadAllProgression": "Die .progression-Dateien dieser Progression herunterladen",
+    "downloadAllMidi": "Die MIDI-Dateien dieser Progression herunterladen",
     "printAll": "Alle Progressionen drucken",
-    "download": "Herunterladen",
     "bulkCatalogHint": "Progressionen auf Abruf sind nicht so dein Ding? Lieber durch Hunderte Dateien wühlen? Bitte sehr -",
     "bulkCatalogDownloadLink": "lade jede Progression herunter, die dieser Generator erzeugen kann, fertig gebaut",
     "bulkCatalogProgressionsDetail": "(Tonart C - Pad Perform transponiert beim Import).",
@@ -113,7 +112,12 @@
     "scaleMode": "Erkunden Sie eine Tonleiter oder einen Modus, indem alle darin möglichen Akkorde erzeugt werden: der Dreiklang jeder Stufe und anschließend der Septakkord jeder Stufe. Ideal, um Tonleitern wie Ganzton, Phrygisch-Dominant oder Ungarisch Moll kennenzulernen.",
     "keyboardShortcuts": "Mit der Computertastatur spielen: cvbn (Pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Tastaturkürzel gelten für den Desktop. Auf dem Tablet tippen Sie die Pads an, um sie zu spielen.",
-    "modeSelectDisabled": "Die Modus-/Tonleiterauswahl wird im Progressions-Paletten-Modus nicht verwendet. Die Progression bestimmt ihre eigene harmonische Struktur."
+    "modeSelectDisabled": "Die Modus-/Tonleiterauswahl wird im Progressions-Paletten-Modus nicht verwendet. Die Progression bestimmt ihre eigene harmonische Struktur.",
+    "mpcPads": "Erzeugt individuelle Progressionen für MPC Pad Perform",
+    "downloadAllProgression": "Lädt die MPC-Pad-Perform-.progression-Dateien dieser Progression für alle ihre Varianten herunter",
+    "downloadAllMidi": "Lädt die MIDI-Dateien dieser Progression für alle ihre Varianten herunter",
+    "downloadVariantProgression": "Lädt die MPC-Pad-Perform-.progression-Datei dieser Variante herunter",
+    "downloadVariantMidi": "Lädt die MIDI-Datei dieser Variante herunter"
   },
   "cadences": {
     "authentic": {
