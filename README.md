@@ -9,26 +9,24 @@ This repository contains two complementary web applications for working with cho
 ## Projects
 
 ### 🎹 [Chord Progression Generator](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/)
-Generate musically intelligent custom chord progressions in 4×4 pad layouts for Akai MPC Pad Perform.
+Creates new chord progressions from music theory - 173 genre templates or 34 scales/modes, up to five voicing variants each, viewable as MPC pads, piano keyboard, guitar fretboard, or staff notation.
 
 **Key Features:**
-- 173 progression templates across 22 genres
-- 34 scales and modes from common to exotic, with chords derived from each scale
+- 173 progression templates across 22 genres, or Scale Mode to explore any of 34 scales chord-by-chord
 - Five intelligent voicing variants (Smooth, Classic, Jazz, Modal, Experimental)
 - Voice leading optimization for smooth transitions
 - Chord Matcher for finding keys from specific chords
-- Multi-view support: MPC pads, keyboard, guitar, and staff notation
-- Export to .progression files for MPC hardware
+- Multi-view support: MPC pads, keyboard, guitar, and staff notation, plus MIDI export
+- Export to `.progression` files for MPC hardware, or grab the entire catalogue pre-built as a bulk download
 
 [View Documentation →](AkaiMPCChordProgressionGenerator/README.md)
 
 ### 🔍 [Chord Progression Finder](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/)
-Analyze and explore chord progressions from MPC .progression files.
+Analyzes chord progressions from existing MPC `.progression` files - the opposite direction from the Generator: instead of creating new progressions, it identifies what you've already got.
 
 **Key Features:**
-- Pure interval-based chord analysis
-- Automatic key and scale detection
-- Roman numeral analysis
+- Pure interval-based chord analysis, including inversions - works from the actual notes, not the (possibly wrong) file name
+- Automatic key and scale detection, with Roman numeral analysis
 - Playable progressions detection (ii-V-I, I-V-vi-IV, etc.)
 - Real-time filtering and export capabilities
 - Interactive 4×4 MPC pad layout with audio playback
@@ -43,27 +41,16 @@ Pre-configured MIDI program files for Roland hardware:
 
 Download .xpm files directly from the [MIDI programs directory](https://github.com/liotier/AkaiMPC/tree/main/MIDI%20programs).
 
-## Features
+## What They Share
 
-Both chord progression tools share these capabilities:
+The Generator and the Finder are separate tools built for opposite directions (create vs. identify), each with its own feature set detailed above and in its own README. What they do share:
 
-### Multi-View Visualization
-- **MPC View**: 4x4 pad layout matching Akai MPC hardware
-- **Keyboard View**: Piano diagrams showing which keys to press
-- **Guitar View**: Chord diagrams with fret positions
-- **Staff Notation**: Traditional treble clef notation
+- **Zero installation** - runs entirely in the browser, no sign-up
+- **Privacy-first** - all processing happens locally, nothing you load or generate leaves your device
+- **MPC pad view with audio playback** - both render the familiar 4×4 layout and let you click a pad to hear it
+- **Free and open source** - Unlicense, no strings attached
 
-### Audio & Export
-- **Web Audio Playback**: Browser-based chord playback
-- **MIDI Support**: Connect external MIDI devices
-- **Keyboard Control**: Trigger pads with computer keyboard
-- **Export Options**: Download .progression files or print diagrams
-
-### Built for Musicians
-- Zero installation required - runs entirely in browser
-- Works offline after first load
-- Privacy-first - all processing happens locally
-- Mobile responsive design
+Everything else - keyboard/guitar/staff views, WebMIDI hardware output, offline caching, MIDI export, bulk downloads - is Generator-specific; see its README for the full list.
 
 ## Quick Start
 
@@ -74,11 +61,11 @@ Both chord progression tools share these capabilities:
 
 ## Technology
 
-- Pure vanilla JavaScript (ES6 modules)
-- Web Audio API for synthesis
-- WebMIDI API for external devices
-- SVG rendering for notation
-- No frameworks, no dependencies
+- Pure vanilla JavaScript (ES6 modules) - no framework in either tool
+- Web Audio API for synthesis (both tools)
+- WebMIDI API for external hardware output (Generator only)
+- SVG rendering for notation (Generator only)
+- The few third-party libraries used (JSZip for bulk exports, WebMidi.js for hardware MIDI) are vendored into the repo rather than loaded from a CDN, so a blocked or unreachable CDN never breaks a first-time visit
 
 ## Contributing
 

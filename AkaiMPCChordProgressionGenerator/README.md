@@ -39,6 +39,15 @@ Generate a progression, switch to piano or guitar view, and **print chord sheets
 
 While the [MPC Chord Progression Finder](https://github.com/liotier/AkaiMPC/blob/main/AkaiMPCChordProgressionFinder/README.md) helps you identify and recreate chord progressions from existing music, this Generator takes the opposite approach: **it creates new progressions from scratch based on music theory principles**.
 
+## Prefer a Pre-Built Library?
+
+Generating on demand is the point of this tool, but not everyone wants to click through it hundreds of times to build a collection. The entire catalogue - every progression this generator can produce, across every genre, scale, and voicing variant - is built by CI and sitting there as a straight download, no interaction required:
+
+- **`.progression` pack** - every progression, every style variant, as ready-to-load MPC files (key of C - Pad Perform transposes to any key on import)
+- **MIDI pack** - the same catalogue as Standard MIDI Files, already rendered in all twelve keys
+
+Grab either from the download links under the generator.
+
 ## For Crate Diggers and Beat Makers
 
 ### Chord Matcher: Bridge Your Samples to Theory
@@ -99,6 +108,8 @@ The generator seamlessly incorporates:
 - **Neapolitan & Augmented Sixths** - Classical drama when you need it
 - **Tritone Substitutions** - Jazz reharmonization at the click of a button
 
+Every one of these is checked against the full generated catalogue, not just spot-checked: secondary-dominant numerals, augmented-sixth spellings, and borrowed-chord roots are audited in CI so a plausible-looking chord that resolves to the wrong notes gets caught before it ships.
+
 ### Battle-Tested Progression Palettes
 173 progression palettes across 22 genres covering every style. **100+ progressions feature genre-specific palette intelligence** that prioritizes musically authentic chord voicings:
 - **Pop/Rock**: I-V-vi-IV (the "four chord song"), vi-IV-I-V (pop-punk anthem), classic rock patterns
@@ -124,7 +135,7 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 - **Harmonic Function Analysis** - Identifies what your progression needs: missing tonic resolution? Need more tension? The algorithm knows.
 - **Voice Leading Optimization** - Selects chords that create the smoothest transitions with minimal finger movement
 - **Context-Aware Suggestions** - Adds borrowed chords, secondary dominants, and modal interchange based on your selected style
-- **Genre Intelligence with Palette Priorities** - 60+ progressions use a sophisticated 3-tier weighting system (preferred, allowed, avoided) to prioritize genre-authentic chord voicings. Blues gets dom7, Folk gets simple triads, Gospel gets extended harmony—automatically.
+- **Genre Intelligence with Palette Priorities** - 100+ progressions use a sophisticated 3-tier weighting system (preferred, allowed, avoided) to prioritize genre-authentic chord voicings. Blues gets dom7, Folk gets simple triads, Gospel gets extended harmony—automatically.
 
 ## Production-Ready Features
 
@@ -133,7 +144,7 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
   - MPC One, MPC Live, MPC X, MPC Key 61
   - MPC Software, MPC Beats
 - Proper MIDI mapping with velocity sensitivity preserved
-- Chord names follow Akai's exact naming conventions
+- Names built specifically for Pad Perform's menu system - a clean category heading and a clean entry every time, regardless of how exotic the progression or scale name gets
 - Optimized pad layouts for finger drumming
 
 ### Multi-Instrument Visualization & Export
@@ -155,13 +166,14 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 ### Zero Friction Workflow
 - **No Installation** - Works in any modern browser
 - **No Server Dependency** - Runs completely offline after first load
+- **Reliable Exports** - JSZip and WebMIDI are bundled with the app rather than loaded from a CDN, so exporting works from your very first visit even behind a restrictive network
 - **Mobile Ready** - Use on your phone or tablet at rehearsal, on stage, or in the studio
 - **Privacy First** - All processing happens in your browser, nothing leaves your device
 
 ## Quick Start Guide
 
 1. **Choose Your Workflow**
-   - **Progression Palette Mode** - Select a key and browse 133 progression palettes organized by genre. 60+ progressions feature smart palette priorities for genre-authentic voicings. Generate 4 voicing variants instantly.
+   - **Progression Palette Mode** - Select a key and browse 173 progression palettes organized by genre. 100+ progressions feature smart palette priorities for genre-authentic voicings. Generates up to five voicing variants instantly.
    - **Scale Mode** - Select a key + mode/scale to explore all available chords from that scale. Perfect for learning exotic scales and modal exploration.
    - **Chord Matcher** (optional) - Input chords from your sample to filter compatible keys and modes for both workflows.
 
@@ -181,15 +193,16 @@ Together, they provide a complete harmonic toolkit for musicians and producers.
 
 ## Under the Hood
 
-- Pure HTML5/CSS3/JavaScript ES6 modules - no frameworks, no bloat
-- WebMIDI API (via webmidi.js) for cross-browser MIDI output support
+- Pure HTML5/CSS3/JavaScript ES6 modules - no framework
+- WebMIDI API (via vendored webmidi.js) for cross-browser MIDI output support
 - Web Audio API for low-latency chord playback fallback
 - Voice leading optimization using Hungarian algorithm for optimal note assignment
 - Custom harmonic analysis engine with parallel major Roman numeral analysis
 - Responsive CSS Grid that mirrors the MPC's 4×4 pad layout
 - SVG-based staff notation rendering with intelligent octave transposition
 - Viewport-aware keyboard event handling for seamless multi-progression browsing
-- JSZip for seamless multi-file exports
+- JSZip (vendored) for seamless multi-file exports, both libraries bundled with the app rather than loaded from a CDN
+- The full `.progression` and MIDI packs are generated by CI (`tools/build-pack.mjs`), not committed to the repo or built in the browser - the download links just point at the static output
 
 ## Contributing
 
@@ -206,6 +219,8 @@ This project was originally distributed as a single self-contained HTML file for
 - `styles.css` — extracted stylesheet
 - `app.js` — main application orchestration
 - `modules/musicTheory.js` — core music theory engine (scales, chords, voice leading)
+- `modules/generation.js` — variant generation, shared by the app and `tools/build-pack.mjs` so both produce identical output
+- `modules/mpcNaming.js` — the naming scheme that keeps Pad Perform's menu display correct
 - `modules/audio.js` — Web Audio synthesis and WebMIDI output
 - `modules/constants.js` — tuning, timing, layout and validation constants
 - `modules/guitarChords.js` — guitar chord library
@@ -215,6 +230,9 @@ This project was originally distributed as a single self-contained HTML file for
 - `modules/i18n.js` — internationalization system
 - `locales/*.json` — translation files (en, fr, es, de, pt, it)
 - `service-worker.js` — offline caching
+- `vendor/` — JSZip and WebMidi.js, vendored rather than CDN-loaded (see `vendor/NOTICE.md`)
+- `tools/build-pack.mjs` — builds the bulk-download `.progression`/MIDI packs; runs in CI on every deploy, not committed to the repo
+- `tools/audit-theory.mjs` — the CI theory audit described above
 
 Deployment remains the same: host these files on any static file host (GitHub Pages, Netlify, etc.). Modular structure improves readability, caching, and makes incremental development and testing easier.
 
