@@ -248,7 +248,7 @@ This project is open source and available under the Unlicense.
 ## Credits & Links
 
 **Created by Jean-Marc Liotier**
-
+<br/>
 **Sister project: [Chord Progression Finder](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionFinder/)**
-
+<br/>
 **GitHub: [Source Code](https://github.com/liotier/AkaiMPC/tree/main/AkaiMPCChordProgressionGenerator)**
