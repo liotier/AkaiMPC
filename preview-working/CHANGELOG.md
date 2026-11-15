@@ -24,6 +24,20 @@ progressions' `.progression` and MIDI files change name in the pack and in the
 MPC menu. Files you saved under the old names are not touched; export them
 again if you want the corrected chords.
 
+**The top row now follows the genre.** Row 4, the "spice" row, used to ignore
+what a progression's genre likes and avoids: a folk progression that avoids
+dominant sevenths still got a G7, a D7 and a German sixth there, and the seven
+Film/Cinematic and four Trance progressions that had no preferences declared got
+the same dominant-heavy row as everything else. Row 4 now follows the same
+preferred, allowed and avoided choices as the rest of the grid, the eleven
+progressions have preferences of their own, and a progression that names a colour
+only in its chord list, like Post-Rock Build's stacked fourths, now actually gets
+it. Row 4's scoring also stopped calling a vi a dominant and an iii a
+subdominant, which had steered it toward the wrong chords. Five progressions that
+avoid nearly everything row 4 can offer (Modal Interchange ♭VI—iv—I, Electronic
+i—iv—v, Hip-Hop i—♭III—♭VI—♭VII and i—♭VII—iv, Italo-Disco i—iv) still fall back
+on chords they avoid; they wait for the minor-key work.
+
 ## 2026-09-08
 
 ### Chord Progression Generator

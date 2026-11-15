@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | implemented |
 | Type | defect |
 | Size | M |
 | Depends on | 00, 03 |
@@ -48,9 +48,11 @@ scoring). Film/Cinematic carries no priorities at all: 0 of 7 templates.
 | D2 | **Avoided** candidates are excluded, not merely demoted. | A row-4 slot is one of four; demoting an avoided chord still lets it in when the pool is thin, which is the folk case above. Exclusion has a fallback (§3.2). |
 | D3 | **Preferred** candidates earn one scoring point. | Parity with the "common in modern music" point; a genre's preference is at least as strong a signal. |
 | D4 | The legacy hard `paletteFilter` applies to row 4 as a filter with the same fallback. | Three templates still use it; they should not behave differently from priority-bearing ones. |
-| D5 | Augmented sixths and the tritone substitute are judged by their **sounding family**: `It6`, `Ger6` as `dom7`, `Fr6` as `dom7b5`, `SubV7` is already `dom7`. | The priority lists speak of sonorities; a folk template that avoids `dom7` means the A♭7 whatever its label. |
+| D5 | Augmented sixths and the tritone substitute are judged by their **sounding family**: `It6`, `Ger6` and `Fr6` as `dom7`, `SubV7` is already `dom7`. | The priority lists speak of sonorities; a folk template that avoids `dom7` means the A♭7 whatever its label. The French sixth is a dominant seventh with a flat fifth, and no priority list names `dom7b5`, so judging it by that type let it through every avoid list (corrected after the first attempt, §8). |
 | D6 | Film/Cinematic's seven templates and the four Trance templates without priorities **receive** priorities, given in §3.4. The other 57 templates without priorities are left alone. | Those eleven are where the missing weighting is audible; a blanket pass over 57 templates is a separate data task with its own review. |
 | D7 | The README sentence becomes true rather than being deleted. | It describes the intended design. |
+| D8 | When fewer than four non-avoided candidates remain, the **palette's unused chords** become row-4 candidates (§3.2 step 4b). | Row 4 shares its chord list with the palette, which has already spent the borrowed chords on rows 2-3, so a template that avoids the dominant family is left with two or three candidates. The palette built more chords than it had pads for; they are what the template wants next, and they honour its priorities and filter by construction. Added after the first attempt measured the starvation (§8). |
+| D9 | The avoided list and the hard filter give way in the order the **palette** gives them up: avoided candidates first, then filter-excluded ones, then a numeral already on the grid (§3.2 step 5). | D4 asks for "the same fallback". The palette's top-up ignores its filter when the filter starves it, so row 4 must be able to as well; refusing to would have given Italo-Disco `i—iv` a row 4 of one chord and three copies of the tonic. |
 
 ## 3. Normative specification
 
@@ -62,7 +64,7 @@ Move the palette's `getChordPriority(chordType)` closure out of
 with the family mapping of D5 applied first:
 
 ```js
-const SOUNDING_FAMILY = { It6: 'dom7', Ger6: 'dom7', Fr6: 'dom7b5' };
+const SOUNDING_FAMILY = { It6: 'dom7', Ger6: 'dom7', Fr6: 'dom7' };
 ```
 
 `generateRow4Candidates()` and `selectDynamicRow4Chords()` take
@@ -79,22 +81,42 @@ In `selectDynamicRow4Chords()`, after generating candidates:
    filter is declared.
 3. Drop candidates with priority 1 (avoided).
 4. Score the rest; a candidate with priority 3 gets `+1`.
-5. If fewer than four remain after steps 1-3, re-admit in this order until
-   four are reached: first the avoided candidates (best score first), then
-   candidates whose numeral is already on the grid. Never re-admit a
-   filter-excluded candidate; the palette's own top-up rule does not either.
+4b. If fewer than four remain, fill from the palette. The candidates are the
+   chords the palette built and had no pad for, `allChords.slice(chordQueueIndex)`
+   in `generateVariant()`, passed in as `unusedPaletteChords` and given category
+   `palette`. Skip any that is avoided, excluded by the filter, or duplicates a
+   grid pad or a candidate already in the pool, by roman numeral or by
+   pitch-class set (`pcSignature()`). Score them like the others, best first, and
+   take only as many as reach four. A row 4 that has four candidates at step 4 is
+   never touched by this step.
+5. If fewer than four remain, re-admit in this order until four are reached:
+   first the avoided candidates that are new to the grid (best score first), then
+   the candidates the filter excluded, then candidates whose numeral is already on
+   the grid. This is the palette's own top-up rule: when its filter starves it,
+   `generateVariant()` sets `filterActive = false` and tops up regardless.
 6. The existing category-diversity pass and the top-four fill stay.
 
-Measured pool size without any filter is 12 to 16 candidates depending on
-variant; Folk's avoidance list removes nine (V7, four secondary dominants,
-three augmented sixths, SubV7) and leaves ♭VII, ♭VI, ii7, iv, VI, ♭III, ♭II,
-so step 5 is rarely needed. Record in the PR how many templates hit step 5.
+Why 4b exists. Row 4 offers the same chords the palette places on rows 2-3: ♭VII,
+♭VI, ♭III and iv are palette chords, so step 1 removes them, and `ii7` is not
+offered when the progression already holds a subdominant. What is left is mostly
+the dominant family and the augmented sixths, which are exactly what a template
+that avoids `dom7` avoids. Folk `I—IV—I—V`, Classic: the candidates new to the
+grid are V7, V7/V, V7/ii, V7/vi, V7/IV, It+6, Ger+6, Fr+6, VI and ♭II; the avoid
+list removes eight and leaves VI and ♭II. Step 4b adds the palette's next two
+chords, which the template allows. Measured in the key of C over the 580 variants
+of the 116 templates that carry priorities or a filter, 105 variants in 25
+templates have fewer than four candidates after step 3; 4b covers 85 of them and
+step 5 is reached by the other 20 (§6 item 8). The first attempt, which went
+from step 3 straight to step 5, filled the shortfall from the avoided list and
+failed items 1 to 3 (§8).
 
 ### 3.3 Spec 05 interaction
 
 When spec 05 has landed, its pitch-class filter is step 1b, between the
 numeral filter and the type filter, and is never relaxed in step 5. When
-this spec lands first, nothing changes here; 05 inserts its step.
+this spec lands first, nothing changes here; 05 inserts its step. Step 4b
+already compares pitch-class sets, so `pcSignature()` is introduced by this spec,
+with the definition of spec 05 §3.1, and 05 reuses it.
 
 ### 3.4 Priorities to add
 
@@ -154,8 +176,8 @@ template is not handed a dominant it set out to avoid.
 
 | File | Change |
 |---|---|
-| `modules/generation.js` | `chordPriority()` at module level; `SOUNDING_FAMILY`; new parameters on `generateRow4Candidates()` and `selectDynamicRow4Chords()`; steps 2-5 of §3.2; `generateVariant()` passes the template's priorities and filter to row 4 |
-| `modules/musicTheory.js` | eleven `palettePriorities` blocks (§3.4) |
+| `modules/generation.js` | `chordPriority()` at module level; `SOUNDING_FAMILY`; new parameters on `generateRow4Candidates()` and `selectDynamicRow4Chords()`; steps 2-5 of §3.2 including 4b; `generateVariant()` passes the template's priorities and filter, and the palette's unused chords, to row 4 |
+| `modules/musicTheory.js` | eleven `palettePriorities` blocks (§3.4); export `pcSignature()` |
 | `README.md` | one bullet |
 | `docs/catalogue-snapshot.txt` | regenerated |
 | `CHANGELOG.md` | entry |
@@ -176,10 +198,22 @@ None.
    (105 at baseline plus the 11 added here), and rows 2-3 of the 11 that
    gained priorities. No other block changes. Any change to a priority-less
    template's row 4 is a regression.
-5. Count and record the templates that needed the fallback of §3.2 step 5.
+5. Count and record the variants and templates that needed step 4b and those
+   that still needed step 5.
 6. Folk/Singer-Songwriter "Post-Rock Build", key C: at least one pad of type
    `quartal` (§3.5).
 7. Full verification protocol passes.
+8. Step 5 is reached only by the 20 variants of Modal Interchange `♭VI—iv—I` (3),
+   Electronic/Modern `i—iv—v` (4), Hip-Hop/Trap `i—♭III—♭VI—♭VII` (4) and
+   `i—♭VII—iv` (4), and Italo-Disco/House `i—iv` (5). They are left to spec 07,
+   which makes the palette minor-key aware, and to a later decision on their
+   priorities. The first three have unused palette chords, but the template
+   avoids all of them except one (Electronic's `vi7`); the last two declare a
+   filter so narrow that the palette's top-up fills exactly twelve pads and
+   leaves nothing. Row 4 then falls back, by step 5, on the dominant chords the
+   template avoids, as it did before this spec.
+9. A template that carries neither priorities nor a filter generates exactly the
+   variants it generated before, in every key and style.
 
 ## 7. Out of scope
 
@@ -187,12 +221,13 @@ None.
   PR description as a follow-up candidate, grouped by genre.
 - Replacing `commonUsage` numbers. They are hand-tuned and stay.
 
-## 8. Implementation attempt (blocked, not implemented)
+## 8. Record of the first attempt
 
-Status stays **proposed**: acceptance items 1, 2 and 3 cannot be met by the
-mechanism of §3.2, and the maintainer's decision is needed. The attempt is
-committed so the work is not lost; it does what the spec says except for one
-departure, below, and it fails those three items.
+The first attempt implemented §3.2 as it then stood, steps 1 to 6 without 4b, and
+was stopped because acceptance items 1, 2 and 3 could not be met. The maintainer's
+decision, widening the pool (D5, D8, D9), is what §3 now says, and §9 records how
+it was implemented. What follows is the record of why, kept as found; the
+attempt itself was committed as `cd0b705`, marked as not an implementation.
 
 What is in the attempt: `chordPriority()` and `SOUNDING_FAMILY` at module level;
 `priority` and `excludedByFilter` carried on every row-4 candidate; the
@@ -233,3 +268,64 @@ Ways forward, for the maintainer: widen row 4's pool with non-dominant colours
 can be honoured; decide `Fr6` as `dom7`; amend step 5 to the palette's top-up; or
 restate items 1-3 as "fewer avoided chords than before" and accept step 5 as the
 safety net.
+
+## 9. Implementation notes
+
+Implemented as the corrected §3 says, on top of the first attempt (`cd0b705`):
+`SOUNDING_FAMILY` maps all three augmented sixths to `dom7` (D5), and
+`selectDynamicRow4Chords()` gained step 4b (D8) with the re-admission order of D9,
+which the first attempt already had. The palette's unused chords reach row 4 as the
+seventh parameter, `generateVariant()` passing `allChords.slice(chordQueueIndex)`.
+
+Choices inside the decisions:
+
+- **A palette candidate scores like any other.** It carries `root`, `notes`,
+  `chordType`, `chordName` and `romanNumeral` from the palette, `quality` from
+  `getQualityLabel()`, category `palette`, and `commonUsage` 0.5, which earns
+  neither the common-usage point nor a tiebreak. Its priority comes from the same
+  `chordPriority()`. Ties between palette candidates keep the palette's order.
+- **The hard filter is read on the chord type as built**, as the palette reads it,
+  not on its sounding family. An augmented sixth is therefore never offered under a
+  template that declares a `paletteFilter`, since no filter names `It6`, `Ger6` or
+  `Fr6`. D5 applies to the priority tiers only.
+- **Step 5 orders its pools as follows.** Within each re-admission tier the
+  unavoided come before the avoided, then the best score. Only as many are taken as
+  reach four.
+- **`pcSignature()` is introduced here**, in `modules/musicTheory.js`, with the
+  definition spec 05 §3.1 gives. Nothing but step 4b uses it yet.
+- **Item 4's list gains Post-Rock Build.** Its rows 2-3 change by §3.5, which the
+  item does not name: the quartal chords the filter lists now reach the grid.
+
+Measured on this tree, key C:
+
+| Quantity | Before | After |
+|---|---|---|
+| Templates with priorities or a filter / with neither | 105 / 68 | 116 / 57 |
+| Item 1, Folk `I—IV—I—V`, Classic, row 4 | `G7 D7 A D♭` (spec 03's tree) | `A [VI]  D♭ [♭II]  Fsus4 [IVsus4]  Gsus2 [Vsus2]` |
+| Item 1 in all five styles / item 2 / item 3 | | holds in 5 of 5 / 5 of 5 / 20 of 20 |
+| Variants with fewer than four candidates after step 3 | | 105, in 25 templates |
+| Of those, covered by step 4b / still short, so step 5 | | 85 / 20, in five templates (item 8) |
+| Priority-less templates short of candidates | | 0 |
+| Snapshot blocks changed, against spec 03's | | 100 of 207, all templates with settings; no scale block |
+| Variants of the 57 priority-less templates that differ, 12 keys, 5 styles | | 0 of 3 420 |
+| Variants of the other 116 templates that differ | | 5 387 of 6 960, of which 720 change rows 1-3: the twelve templates of §3.4 and §3.5 |
+| `.progression` / MIDI files in the pack | 864 / 10 374 | 863 / 10 363 |
+| Pack names carrying two styles | 1 | 2 (Pop/Rock "Creep", Smooth+Classic; Italo-Disco "Minimal House", Classic+Jazz) |
+
+The figures in the decision were 126 variants leaking an avoided or filtered chord
+and 106 covered by the unused chords. This tree measures 105 and 85. The 20 left
+over, which are what item 8 names, agree. I did not find where the 21 come from; a
+leak needs a short pool, so it cannot exceed the 105 counted here, which suggests a
+different unit rather than a different behaviour.
+
+Item 8, listed in the key of C (the counts in A and F♯/G♭ are the same 20): Modal Interchange `♭VI—iv—I` in Smooth, Classic and Modal; Electronic/Modern
+`i—iv—v` in all but Jazz; Hip-Hop/Trap `i—♭III—♭VI—♭VII` and `i—♭VII—iv` in all but
+Jazz; Italo-Disco/House `i—iv` in all five.
+
+Seen and left alone. The suspended chords step 4b offers are the palette's, so they
+carry the palette's labels: Folk Classic's `Fsus4 [IVsus4]` is a real suspended
+chord, but Post-Rock Build's quartal pads read `Csus4 [Isus4]` and Jazz doubles the
+suffix (`Isus4sus4`); both are spec 05's. The sus2 and sus4 on one root that
+Trance's four templates now receive are different pitch-class sets, so spec 05's
+filter will leave them.
+

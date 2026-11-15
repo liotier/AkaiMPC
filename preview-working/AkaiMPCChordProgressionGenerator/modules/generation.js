@@ -22,6 +22,7 @@ import {
     chordFitsScale,
     getRomanSuffix,
     parseRomanStem,
+    pcSignature,
     getChordFamily,
     getChordComplexity,
     MATCHER_QUALITY_TYPES,
@@ -36,10 +37,12 @@ import {
 export const NOTE_PITCH_CLASSES = { 'C': 0, 'C#': 1, 'D': 2, 'D#': 3, 'E': 4, 'F': 5, 'F#': 6, 'G': 7, 'G#': 8, 'A': 9, 'A#': 10, 'B': 11 };
 
 // Row-4 candidates that are labelled as augmented sixths are judged by what they
-// sound like. A German sixth is a dominant seventh spelt on ♭VI and a French
-// sixth a dominant seventh with a flat fifth, so a template that avoids dom7
-// means the A♭7 whatever its label. SubV7 is already typed dom7.
-const SOUNDING_FAMILY = { It6: 'dom7', Ger6: 'dom7', Fr6: 'dom7b5' };
+// sound like: a dominant seventh spelt on ♭VI. The Italian sixth is that chord
+// without its fifth, the German sixth is it whole, and the French sixth has a
+// flat fifth, but a template that avoids dom7 means the A♭7 whatever its label,
+// and none of the three is ever named on its own in a priority list. SubV7 is
+// already typed dom7.
+const SOUNDING_FAMILY = { It6: 'dom7', Ger6: 'dom7', Fr6: 'dom7' };
 
 /**
  * How much a template wants a chord type: 3 preferred, 2 allowed, 1 avoided.
@@ -454,7 +457,7 @@ export function scoreCandidate(candidate, analysis, existingRoots) {
     return score;
 }
 
-export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType, palettePriorities = null, paletteFilter = null) {
+export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType, palettePriorities = null, paletteFilter = null, unusedPaletteChords = []) {
     const analysis = analyzeExistingChords(existingChords);
     const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, palettePriorities, paletteFilter);
     const existingRoots = existingChords.map(c => c.notes && c.notes[0] ? c.notes[0] % 12 : 0);
@@ -474,7 +477,41 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
 
     let scoredCandidates = scoreAndSort(listed.filter(c => isNew(c) && !isAvoided(c)));
 
-    // Too few left. Re-admit until there are four, softest exclusion first: the
+    // Too few left, because the template avoids what row 4 usually offers and the
+    // palette has already spent the borrowed chords on rows 2-3. The chords the
+    // palette built and had no pad for are, by construction, what the template
+    // wants next, so they fill the gap: not avoided, not outside the hard filter,
+    // and not a chord the grid or the pool already holds, by numeral or by
+    // sounding pitch classes. They are taken only as far as four, best score
+    // first, so a row 4 that does not starve is the row 4 it always was.
+    if (scoredCandidates.length < 4 && unusedPaletteChords.length > 0) {
+        const takenNumerals = new Set([...usedRomanNumerals, ...scoredCandidates.map(c => c.romanNumeral)]);
+        const takenSignatures = new Set([...existingChords, ...scoredCandidates].map(c => pcSignature(c.notes)));
+        const fill = [];
+        for (const chord of unusedPaletteChords) {
+            const candidate = {
+                root: chord.root ?? chord.scaleDegree,
+                notes: chord.notes,
+                chordType: chord.chordType,
+                chordName: chord.chordName,
+                romanNumeral: chord.romanNumeral,
+                quality: getQualityLabel(chord.chordType),
+                category: 'palette',
+                commonUsage: 0.5, // no data; neither common enough for the point nor a tiebreak
+                priority: chordPriority(chord.chordType, palettePriorities),
+                excludedByFilter: Boolean(paletteFilter) && !paletteFilter.includes(chord.chordType)
+            };
+            const signature = pcSignature(candidate.notes);
+            if (isAvoided(candidate) || candidate.excludedByFilter) continue;
+            if (takenNumerals.has(candidate.romanNumeral) || takenSignatures.has(signature)) continue;
+            takenNumerals.add(candidate.romanNumeral);
+            takenSignatures.add(signature);
+            fill.push(candidate);
+        }
+        scoredCandidates = scoreAndSort([...scoredCandidates, ...scoreAndSort(fill).slice(0, 4 - scoredCandidates.length)]);
+    }
+
+    // Still too few. Re-admit until there are four, softest exclusion first: the
     // avoided candidates that are new to the grid; then the ones the hard filter
     // dropped, which is what the palette itself does when its filter starves it
     // (the top-up in generateVariant() ignores the filter); only then a numeral
@@ -1018,7 +1055,7 @@ export function generateVariant(variantType, { key, mode, progression, category 
     }
 
     // Dynamically generate row 4 based on analysis of rows 1-3
-    const row4Chords = selectDynamicRow4Chords(rows1to3, keyOffset, scaleDegrees, variantType, palettePriorities, paletteFilter);
+    const row4Chords = selectDynamicRow4Chords(rows1to3, keyOffset, scaleDegrees, variantType, palettePriorities, paletteFilter, allChords.slice(chordQueueIndex));
 
     // Add Row 4 chords to pads
     for (let i = 0; i < 4; i++) {

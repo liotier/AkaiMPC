@@ -1719,6 +1719,18 @@ export const CHORD_INTERVALS = {
     Ger6: [0, 4, 7, 10]// German 6th:   ♭6, 1, ♭3, ♯4
 };
 
+/**
+ * The pitch classes a chord sounds, as a string that is equal for two chords
+ * exactly when they hold the same pitch-class set, whatever the octave or the
+ * voicing: [60, 64, 67] and [52, 67, 72] are both '0,4,7'. The identity of a
+ * pad for the purpose of "does the grid already hold this chord"
+ * (docs/improvements/04-row4-palette-priorities.md, 05-duplicate-sounding-pads.md).
+ *
+ * @param {number[]} notes - MIDI note numbers
+ * @returns {string} Sorted, comma-joined pitch classes
+ */
+export const pcSignature = notes => [...new Set(notes.map(n => ((n % 12) + 12) % 12))].sort((a, b) => a - b).join(',');
+
 export function buildChordRaw(baseNote, chordType) {
     // Helper function that just returns MIDI notes without context
     const intervals = CHORD_INTERVALS[chordType] || CHORD_INTERVALS.major;
