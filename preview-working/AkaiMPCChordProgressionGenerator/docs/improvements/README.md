@@ -4,7 +4,7 @@ Thirteen specifications, one per improvement, each written to be handed to an
 implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
-Status is recorded in each spec's header. Specs 00, 01 and 02 are implemented;
+Status is recorded in each spec's header. Specs 00 to 03 are implemented;
 the rest are **proposed**.
 
 ## 1. Provenance

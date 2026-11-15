@@ -21,6 +21,7 @@ import {
     getHarmonyPitchClasses,
     chordFitsScale,
     getRomanSuffix,
+    parseRomanStem,
     getChordFamily,
     getChordComplexity,
     MATCHER_QUALITY_TYPES,
@@ -52,8 +53,9 @@ export function analyzeExistingChords(chords) {
             analysis.hasDominant7 = true;
         }
 
-        // Check for subdominant (IV or ii)
-        if (chord.romanNumeral && (chord.romanNumeral.includes('IV') || chord.romanNumeral.includes('ii'))) {
+        // Check for subdominant function. Asked of the classifier, not of the
+        // string: 'iii' and 'vii°' contain 'ii' and are not subdominants.
+        if (determineChordFunction(chord.romanNumeral) === 'subdominant') {
             analysis.hasSubdominant = true;
         }
 
@@ -81,14 +83,54 @@ export function analyzeExistingChords(chords) {
     return analysis;
 }
 
+// Harmonic function of a numeral that has no accidental, by degree: the function
+// of the upper-case numeral, then of the lower-case one. Diatonic mediants and
+// submediants (iii, vi) prolong the tonic; the major triads VI and III and the
+// raised-degree VII are chromatic mediants and leading-tone chords outside the
+// key; vii° leads to the tonic like the dominant.
+const NATURAL_DEGREE_FUNCTION = {
+    I: ['tonic', 'tonic'],
+    II: ['subdominant', 'subdominant'],
+    III: ['chromatic', 'tonic'],
+    IV: ['subdominant', 'subdominant'],
+    V: ['dominant', 'dominant'],
+    VI: ['chromatic', 'tonic'],
+    VII: ['chromatic', 'dominant']
+};
+
+// Function of a numeral with exactly one flat. ♭VII and ♭VI are the double
+// plagal reading (IV of IV, and the predominant of the minor mode); ♭II is the
+// Neapolitan; ♭III is a chromatic mediant. Anything else flattened is chromatic.
+const FLAT_DEGREE_FUNCTION = {
+    II: 'subdominant',
+    III: 'chromatic',
+    VI: 'subdominant',
+    VII: 'subdominant'
+};
+
+const AUGMENTED_SIXTH_NUMERALS = new Set(['It+6', 'Fr+6', 'Ger+6']);
+
+/**
+ * Harmonic function of a roman numeral: 'tonic', 'subdominant', 'dominant' or
+ * 'chromatic'. Read from the parsed numeral, never from substrings: 'II' is a
+ * substring of 'III' and 'V' of 'VI', which filed vi as a dominant. Suffixes
+ * never change the class. The table is spec 03 §3.1.
+ *
+ * @param {string} romanNumeral - e.g. 'vi', '♭VII7', 'V7/ii', 'Ger+6'
+ * @returns {string|null} The function, or null for an empty numeral
+ */
 export function determineChordFunction(romanNumeral) {
     if (!romanNumeral) return null;
-    const upper = romanNumeral.toUpperCase();
 
-    if (upper.includes('I') && !upper.includes('II') && !upper.includes('V')) return 'tonic';
-    if (upper.includes('IV') || upper.includes('II')) return 'subdominant';
-    if (upper.includes('V')) return 'dominant';
-    if (upper.includes('VI') || upper.includes('III')) return 'mediant';
+    if (AUGMENTED_SIXTH_NUMERALS.has(romanNumeral)) return 'subdominant'; // predominant to V
+    if (romanNumeral === 'SubV7') return 'dominant';                       // stands in for V7
+    if (romanNumeral.includes('/')) return 'chromatic';                    // an applied chord
+
+    const parsed = parseRomanStem(romanNumeral);
+    if (!parsed || parsed.degree === null) return 'chromatic';
+
+    if (parsed.accidentals === '') return NATURAL_DEGREE_FUNCTION[parsed.degree][parsed.lower ? 1 : 0];
+    if (parsed.accidentals === '♭' || parsed.accidentals === 'b') return FLAT_DEGREE_FUNCTION[parsed.degree] || 'chromatic';
     return 'chromatic';
 }
 
@@ -356,8 +398,8 @@ export function scoreCandidate(candidate, analysis, existingRoots) {
 
     // 2. Provides useful voice leading (0 or 1)
     const leadsWell = existingRoots.some(root => {
-        const interval = Math.abs((candidate.root - root + 12) % 12);
-        return interval === 1 || interval === 5 || interval === 7; // semitone, fourth, or fifth
+        const interval = (candidate.root - root + 12) % 12;
+        return [1, 11, 5, 7].includes(interval); // a semitone either way, a fourth or a fifth
     });
     if (leadsWell) score += 1;
 

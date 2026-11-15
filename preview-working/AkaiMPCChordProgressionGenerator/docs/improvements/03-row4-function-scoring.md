@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | implemented |
 | Type | defect |
 | Size | S |
 | Depends on | 00 |
@@ -156,3 +156,86 @@ None.
 
 - Making row 4 respect palette priorities (spec 04) or avoid duplicate
   sonorities (spec 05). This spec only makes the existing points honest.
+
+## 8. Implementation notes
+
+Implemented as specified, with the additions below.
+
+- **One parser.** `parseRomanStem()` is exported from `modules/musicTheory.js`
+  and returns `{ accidentals, stem, lower, degree }`, or null for a numeral with
+  no stem; `degree` is null for a stem that is not one of I to VII. The
+  classifier, the audit's root-pitch-class reader and check H (spec 02) all use
+  it, so the audit no longer carries a regex of its own. The augmented sixths and
+  `SubV7` would parse as a tonic and as nothing, so the parser's comment says a
+  caller must recognise them first, and both users of it do.
+- **The unit table is audit check N.** It is static, runs in the audit step CI
+  already has, and holds 37 numerals: every row of §1's first column and the
+  seven §6 asks for, plus `i7`, `i6`, `ii7`, `IVM7`, `v`, `vi7`, `♯iv°`, `♯I°` and
+  `V/V`. It also asserts that `hasSubdominant` is false for `I iii vii°` and true
+  for `I IV`, `I ii7`, `I ♭VII`, and that the voice-leading point of
+  `scoreCandidate()` goes to a root 1, 5, 7 or 11 semitones above an existing root
+  and to no other. Run against the previous `generation.js` it reports 22
+  findings; against this one, none. Letter N because I and J are taken by specs 07
+  and 10 and K to M by spec 05.
+- **Flat numerals are read by degree, not case.** §3.1 lists `♭II`, `♭III`, `♭VI`
+  and `♭VII`; a lower-case `♭vi` takes the class of `♭VI`, and any other flat
+  degree is chromatic. No template uses one.
+
+Measured against the parent commit (`488657a`):
+
+| Quantity | Before | After |
+|---|---|---|
+| Snapshot blocks changed | | 172 of 207: every template block but one (Funk/Groove "Ascending Funk"); no scale block |
+| Changed lines outside Classic and Jazz pads 13-16 | | 0 |
+| Of those, changed by the classifier alone / by the interval test alone | | 172 / 17 |
+| Templates whose Classic and Jazz rows 1-16 are identical | 26 | 0 |
+| `.progression` files in the pack | 839 | 864 |
+| MIDI files in the pack | 10 066 | 10 374 |
+| Pack names carrying two styles | 26, all `Classic+Jazz` | 1, `Smooth+Classic` (Pop/Rock "Creep") |
+| Files with the same name and new content | | 549 `.progression`, 6 367 MIDI |
+
+**Why Classic and Jazz stop coinciding.** The 26 templates whose Classic and Jazz
+variants were identical had the same four pads in row 4 because the augmented
+sixths, which scored 2, outranked the one candidate only Jazz has, the tritone
+substitute, which scores 1. The old classifier filed `Ger+6` and `Fr+6` as
+chromatic, a function no template had on rows 1-3, so each earned the gap point.
+Now they are subdominant, a function every template has, they score 1, and the
+tritone substitute's higher `commonUsage` puts it ahead of them in the diversity
+pass. In all 26 the two variants now differ in row 4 only, and only Jazz's row 4
+holds `SubV7`. Spec 05 will remove the pairs this creates with `♭II7`.
+
+The three templates the acceptance asks for, key C:
+
+1. **Pop/Rock "Axis of Awesome", `I—V—vi—IV`, Classic.** Row 4 was
+   `G7 [V7]  A [VI]  D7 [V7/V]  A♭7 [Ger+6]` and is now
+   `G7 [V7]  D7 [V7/V]  A [VI]  D♭ [♭II]`. Old: vi dominant, ♭III subdominant,
+   `Ger+6` chromatic, the one function absent, so the German sixth took the gap
+   point and a score of 2. New: vi tonic, ♭III chromatic, `Ger+6` subdominant; it
+   scores 1 and ♭II replaces it. `V7/V` moves from 2 to 3 under D4: its D is a
+   semitone below the E♭ of the ♭III on row 3.
+2. **Synthwave/Retrowave "Vaporwave Dream", `IM7—iii7—vi7—IVM7`, Jazz.** Row 4
+   was `B♭ [♭VII]  Fm [iv]  D7 [V7/V]  A♭7 [Ger+6]` and is now
+   `A [VI]  D7 [V7/V]  D♭7 [SubV7]  D♭ [♭II]`. Rows 1-3 hold no chromatic chord.
+   Under the old reading only `Ger+6` and `Fr+6` were chromatic and took the gap
+   point; now they are subdominant, and the six candidates that are chromatic
+   (`VI`, the four applied dominants, `♭III`) take it, `VI` and `V7/V` reaching 4.
+   The diversity pass then takes one candidate per new category, which is why the
+   last two pads are the tritone substitute and `♭II` and not the score-3
+   `♭VII` and `iv`, whose category, borrowed, `VI` already holds.
+3. **Folk/Singer-Songwriter "Folk Standard", `I—IV—I—V`, Classic.** The
+   classifier alone gives `G7  A  D7  D♭`; the symmetric interval then moves
+   `D7 [V7/V]` ahead of `A [VI]`, scoring 2 and then 3, for the same E♭ reason.
+   This row 4 still holds three avoided qualities; that is spec 04.
+
+The snapshot records Classic and Jazz in full and four Smooth pads, nothing of
+Modal or Experimental (spec 00 D2), so it understates the pack's change: Funk/Groove
+"Ascending Funk" is the one template whose snapshot block is unchanged, and 3 of its
+5 pack files still change content, in the styles the snapshot does not show.
+
+Two things seen and left alone. `scoreCandidate()` and `analyzeExistingChords()`
+take a chord's root from `notes[0]`, the lowest sounding note, and rows 1-3 are
+already voiced when row 4 is chosen, so for an inverted chord the "root" is its
+bass; the voice-leading point is therefore voicing-dependent. And `chromatic` is a
+class like the others, so it is "present" as soon as one chromatic chord sits on
+rows 1-3, which is nearly always, and applied chords then earn no gap point; they
+still earn the `secondary` variety point.
