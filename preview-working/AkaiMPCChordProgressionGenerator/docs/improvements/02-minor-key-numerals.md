@@ -274,7 +274,7 @@ transposed to A (minor tonality renders in A).
 
 ## 6. Out of scope
 
-- Changing the Finder's convention (spec 12).
+- Changing the Finder's convention (spec 12, since dropped).
 - Adding palette priorities to the four Trance templates that lack them
   (spec 04 §3.4).
 - Any other description's prose. Several other descriptions could be

@@ -219,7 +219,7 @@ spec 07 and to a later decision on the priorities.
 
 - **Item 2 amended, the Smooth scorer left alone.** The line the template exists
   for is there in Smooth: B, C, C♯ in one voice, with G held. Holding E at the
-  same pitch as well is a held bass, which is the job of the optional Pedal style
+  same pitch as well is a held bass, which is the job of the Pedal style
   (spec 11), not of a smooth voice-leading search. Re-tuning that search for one
   template would change voicings across the catalogue.
 - **The priorities were the spec's error, and are corrected in §3.3 and in the

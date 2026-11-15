@@ -1,8 +1,8 @@
-# 11 - Optional: a Pedal voicing style
+# 11 - A Pedal voicing style
 
 | | |
 |---|---|
-| Status | proposed, optional |
+| Status | proposed |
 | Type | feature |
 | Size | M |
 | Depends on | 00 |
@@ -23,9 +23,10 @@ The five existing styles are voicing treatments, a nominal set
 handle a style set of any size. Adding a sixth is cheap on every surface but
 the pack's file count.
 
-This spec is optional. It adds a sixth of the catalogue to the pack and a
-sixth card to every generation; the maintainer may judge the screen cost too
-high. Nothing else depends on it.
+Made mandatory by the maintainer on 2026-11-15; it was written as optional.
+It adds a sixth of the catalogue to the pack and a sixth card to every
+generation, a cost now accepted. It also settles a point spec 09 left to it:
+the line cliché's held bass (spec 09 §8).
 
 ## 2. Decisions
 
@@ -118,11 +119,16 @@ both the progression and the palette, as the other styles are called.
    (G major, no C) is voiced above 48 and its lowest note is at least 48.
 3. `node tools/audit-theory.mjs` check B passes for all Pedal variants
    (every pitch class present).
-4. Pack rebuilt: `.progression` count grows by at most 173 (fewer where
-   Pedal fuses with another style); MIDI count by at most 2 076. Record both
+4. Pack rebuilt: `.progression` count grows by at most one file per template,
+   184 today (fewer where
+   Pedal fuses with another style); MIDI count by at most twelve per template,
+   2 208 today. Record both
    and the number of fused `+Pedal` labels.
 5. The pack's naming invariants hold (`build-pack.mjs` checks them).
-6. Full verification protocol passes; the snapshot is unchanged.
+6. The Ascending Line Cliché `i—i♯5—i6—i♯5`, key E, Pedal variant: E, MIDI 52,
+   is the lowest note of all four progression pads. This is the held bass
+   spec 09 §8 leaves to this spec.
+7. Full verification protocol passes; the snapshot is unchanged.
 
 ## 6. Out of scope
 
