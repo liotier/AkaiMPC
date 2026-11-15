@@ -167,7 +167,8 @@ each with `name` equal to the value, the nickname above, and:
 **10 · Hero Cadence**
 
 > C A♭ B♭ C. The tonic, then the two major triads a whole step apart below
-> it, ♭VI and ♭VII, climbing back home. A double plagal approach to I, the
+> it, ♭VI and ♭VII, climbing back home. Both come from the parallel minor
+> and stand in for IV and V, a move known as the backdoor IV-V. The
 > triumphant ending formula of adventure scores and victory themes, here as
 > a loop so the tonic is both departure and arrival.
 
@@ -247,7 +248,10 @@ locale files. Departures and findings:
 - **One English text left as written, and doubted.** Hero Cadence calls ♭VI-♭VII-I
   "a double plagal approach to I". The double plagal is ♭VII-IV-I; ♭VI-♭VII-I is the
   Aeolian cadence (spec 02's Power Cadence text calls it that). The harmony
-  described is right and the name is not.
+  described is right and the name is not. Corrected afterwards in §3.3 and in all
+  six locales: the text now calls it the backdoor IV-V, the name Wikipedia
+  documents (https://en.wikipedia.org/wiki/Backdoor_progression); the double
+  plagal is ♭VII-IV-I (https://www.ethanhein.com/wp/2024/identifying-plagal-cadences/).
 
 Measured against `a91f480`, the commit before spec 06 and the description fixes that
 landed on the branch meanwhile; neither changes what the catalogue produces, and the

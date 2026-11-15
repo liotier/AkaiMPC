@@ -79,8 +79,8 @@ flat; `I♯5` throws (no upper-case `♯5` type).
     value: 'i—i♯5—i6—i♯5',
     palettePriorities: {
         preferred: ['minor', 'minAug', 'minor6'],
-        allowed:   ['minor7', 'minMaj7', 'sus4'],
-        avoided:   ['major', 'major7', 'dom7', 'diminished', 'quartal']
+        allowed:   ['minor7', 'minMaj7', 'major', 'dom7', 'sus4'],
+        avoided:   ['major7', 'diminished', 'quartal']
     },
 },
 ```
@@ -137,7 +137,8 @@ One entry × six locales.
    `Em#5 [i♯5]`; pad 2's notes are E G C in some octave arrangement.
    Progression chords may repeat (pads 2 and 4), as `I—IV—I—V` already does.
 2. Key E, Smooth variant: the voice carrying B in pad 1 carries C in pad 2
-   and C♯ in pad 3, with E and G held. Measured by reading the MIDI notes.
+   and C♯ in pad 3, with G held. Measured by reading the MIDI notes. (Amended
+   after implementation: E is held as a pitch class, not as a pitch; see §8.)
 3. `node tools/audit-theory.mjs` passes with no new whitelist.
 4. Parser tests of §3.2 pass.
 5. Snapshot diff: exactly one new block.
@@ -213,3 +214,20 @@ gap with, so row 4 reaches spec 04's step 5 in all five styles. Classic, key A:
 `E7 [V7]  B7 [V7/V]  F♯ [VI]  F♯7 [V7/ii]`, all chords the template avoids. It
 joins the templates listed in spec 04 §6 item 8 (see the note in its §9), left to
 spec 07 and to a later decision on the priorities.
+
+**Decisions after implementation**, by the maintainer's reviewer:
+
+- **Item 2 amended, the Smooth scorer left alone.** The line the template exists
+  for is there in Smooth: B, C, C♯ in one voice, with G held. Holding E at the
+  same pitch as well is a held bass, which is the job of the optional Pedal style
+  (spec 11), not of a smooth voice-leading search. Re-tuning that search for one
+  template would change voicings across the catalogue.
+- **The priorities were the spec's error, and are corrected in §3.3 and in the
+  catalogue.** All four chords share the tonic, so the palette has almost nothing
+  unused, and row 4 is drawn from the general pool, which is mostly major and
+  dominant-seventh chords. Avoiding both left it nothing. In a minor key, ♭VI,
+  ♭VII and V7 are what follows a line cliché, so `major` and `dom7` are now
+  allowed and only `major7`, `diminished` and `quartal` are avoided. The template
+  no longer reaches spec 04's step 5: entries fall from 33 to 28 in the key of C.
+  Its row 4 in A is now `E7 [V7]  B7 [V7/V]  F♯ [VI]  B♭ [♭II]`, of which `F♯ [VI]`
+  is the minor-key apparatus spec 07 replaces.
