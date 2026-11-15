@@ -84,7 +84,7 @@ Known collisions in the current table and their resolution:
 
 | Case + suffix | Candidates | Resolution |
 |---|---|---|
-| upper + `sus4` | `sus4`, `quartal`, `quartal4` | `sus4` |
+| upper + `sus4` | `sus4`, `quartal`, `quartal4` | `sus4`; the collision disappears once spec 05 gives the quartal types their own suffixes |
 | upper + `''` | `major`, `It6`, `Fr6`, `Ger6` | `major` |
 | lower + `6` | `minor6` | (no collision; the old parser's `i6` special case folds in) |
 | lower + `(maj7)` | `minMaj7` | (folds in the old `i(maj7)` special case) |

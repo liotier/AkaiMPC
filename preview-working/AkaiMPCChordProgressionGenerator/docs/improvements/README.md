@@ -70,7 +70,7 @@ instrument, and the later specs rely on it.
 | 02 | [Minor-key templates in the wrong numeral convention](02-minor-key-numerals.md) | defect, data | M | 00, 01 | Sonnet 5.5 |
 | 03 | [Row-4 scoring: function classifier and root motion](03-row4-function-scoring.md) | defect | S | 00 | Haiku 5.5 |
 | 04 | [Row 4 honours palette priorities](04-row4-palette-priorities.md) | defect | M | 00, 03 | Sonnet 5.5 |
-| 05 | [No two pads may sound the same chord](05-duplicate-sounding-pads.md) | defect | S | 00 | Sonnet 5.5 |
+| 05 | [Pads that duplicate a chord or misname it](05-duplicate-sounding-pads.md) | defect | M | 00 | Sonnet 5.5 |
 | 06 | [A strict template parser](06-template-parser.md) | refactor | M | 00 | Opus 5.5 |
 | 07 | [Key-mode awareness for palette and row 4](07-minor-key-awareness.md) | defect, design | L | 00, 02, 03, 04, 05 | Fable 5.2 |
 | 08 | [Ten Film/Cinematic templates](08-cinematic-templates.md) | feature, data | M | 00, 01; 04 recommended | Sonnet 5.5 |
@@ -212,7 +212,8 @@ Not worth a spec of their own; each is handled inside the spec named.
 | `scoreCandidate()` counts a root a semitone above an existing root as good voice leading but not a semitone below (intervals 1, 5, 7, never 11) | 03 |
 | The Jazz seventh-upgrade appends a suffix to numerals that already carry one: 168 pads in the key of C (`i99`, `V99/V`, `Isus4sus4`, `vii°ø7`), found by the snapshot of spec 00 | 05 |
 | A template whose only setting is a `paletteFilter` never receives the extended types the filter names: Folk "Post-Rock Build" lists `quartal` and gets none, because declared colours are read from `palettePriorities` only | 04 |
-| Quartal chords (`quartal` C F B♭, `quartal4` C F B♭ E♭) are named `sus4` and `sus4(add11)`, though a sus4 chord has a fifth and no seventh: 70 pads in 7 templates in the key of C, plus 12 in Scale Mode, exported to the MPC under the wrong name. The audit cannot see it because it compares a name's suffix with the table, not with the notes. Needs a naming decision | - |
+| Quartal chords (`quartal` C F B♭, `quartal4` C F B♭ E♭) are named `sus4` and `sus4(add11)`, though a sus4 chord has a fifth and no seventh: 70 pads in 7 templates in the key of C, plus 12 in Scale Mode, exported to the MPC under the wrong name. The audit cannot see it because it compares a name's suffix with the table, not with the notes. Decided: seventh-chord symbols, `7sus4(no5)` and `m7(11)` | 05 |
+| The note names printed on each pad spell every chord as a stack of thirds: Csus4 reads C E♯ G, Csus2 C E♭♭ G, C6 C E G B♭♭, a quartal chord C E♯ A♯. Ten chord types are affected, among them sus2, sus4, 7sus4, 6, m6 and 6/9; the diminished seventh's B♭♭ is correct. Found while specifying the quartal fix. Needs a spec | - |
 | `analyzeExistingChords()` treats `iii` and `vii°` as subdominant because the string contains `ii` | 03 |
 | README "Dynamic Row 4" section claims genre weighting that does not exist | 04 |
 | `tools/audit-theory.mjs` whitelists 1 227 "functional twins" that are plain duplicate pads; the measured figure today is 1 265 | 05 |
