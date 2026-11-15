@@ -58,7 +58,7 @@ Found a sample with killer chords but don't know the key? The Chord Matcher lets
 - Bridge the gap between sample-based and theory-based production
 
 ### Two Workflows for Every Creative Process
-- **Progression Palette Mode** - Choose from 173 progression palettes across 22 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). 100+ progressions feature **genre-specific palette intelligence** that prioritizes authentic chord voicings for each style. A progression listed under several genres gets a palette tuned to each, and exports under the genre you chose it from. Generate up to five voicing variants instantly.
+- **Progression Palette Mode** - Choose from 183 progression palettes across 22 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). 100+ progressions feature **genre-specific palette intelligence** that prioritizes authentic chord voicings for each style. A progression listed under several genres gets a palette tuned to each, and exports under the genre you chose it from. Generate up to five voicing variants instantly.
 - **Scale Mode** - Pick from 34 scales/modes and explore all available chords: the triad on each degree in the first two rows, the seventh chord on each degree in the last two. Every chord is derived from the scale itself, so half-diminished (m7♭5), diminished 7th, minor-major 7th, augmented major 7th and 6th chords appear wherever the scale actually calls for them - and nothing on the grid uses a note the scale does not contain. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.
 - Download individual variants or bulk export every version at once
 
@@ -111,7 +111,7 @@ The generator seamlessly incorporates:
 Every one of these is checked against the full generated catalogue, not just spot-checked: secondary-dominant numerals, augmented-sixth spellings, and borrowed-chord roots are audited in CI so a plausible-looking chord that resolves to the wrong notes gets caught before it ships.
 
 ### Battle-Tested Progression Palettes
-173 progression palettes across 22 genres covering every style. **100+ progressions feature genre-specific palette intelligence** that prioritizes musically authentic chord voicings:
+183 progression palettes across 22 genres covering every style. **100+ progressions feature genre-specific palette intelligence** that prioritizes musically authentic chord voicings:
 - **Pop/Rock**: I-V-vi-IV (the "four chord song"), vi-IV-I-V (pop-punk anthem), classic rock patterns
 - **Blues/Soul**: 12-bar blues, turnarounds, Dorian vamps, minor blues (smart palettes prefer dom7, major; avoid experimental voicings)
 - **Jazz/Functional**: ii-V-I, Rhythm Changes, Giant Steps cycle, circle progressions
@@ -121,7 +121,7 @@ Every one of these is checked against the full generated catalogue, not just spo
 - **Gospel/Worship**: Gospel turnarounds, praise progressions, secondary dominants (loves major7, dom7)
 - **Hip-Hop/Trap**: Trap minor, dark trap, lofi hip-hop, boom bap, emo rap (prefers simple minor/major, minimal complexity)
 - **Latin/Bossa**: Bossa nova, tango, samba, flamenco, bolero (embraces minor7, major7, dom7)
-- **Film/Cinematic**: Epic trailer progressions, dark cinematic, heroic themes
+- **Film/Cinematic**: Epic trailer progressions, dark cinematic, heroic themes, chromatic mediants, hexatonic pole, Lydian and Dorian loops
 - **Folk/Singer-Songwriter**: Folk standards, country, Americana, Irish folk (simple triads preferred; avoids jazz complexity)
 - **Metal/Rock**: Power metal, doom metal, prog metal, melodic metal (power chords preferred; avoids jazz extensions)
 - **Trance/Psytrance/Goa**: Classic Goa, dark psy, uplifting trance, phrygian trance (modal simplicity with hypnotic character)
@@ -173,7 +173,7 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 ## Quick Start Guide
 
 1. **Choose Your Workflow**
-   - **Progression Palette Mode** - Select a key and browse 173 progression palettes organized by genre. 100+ progressions feature smart palette priorities for genre-authentic voicings. Generates up to five voicing variants instantly.
+   - **Progression Palette Mode** - Select a key and browse 183 progression palettes organized by genre. 100+ progressions feature smart palette priorities for genre-authentic voicings. Generates up to five voicing variants instantly.
    - **Scale Mode** - Select a key + mode/scale to explore all available chords from that scale. Perfect for learning exotic scales and modal exploration.
    - **Chord Matcher** (optional) - Input chords from your sample to filter compatible keys and modes for both workflows.
 

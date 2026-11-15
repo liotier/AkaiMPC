@@ -691,6 +691,86 @@ export const progressions = {
                 allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
                 avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']   // No dominant pull: these loops never resolve
             },
+        },
+        {
+            value: 'I—♭VI—I—III',
+            palettePriorities: {
+                preferred: ['major', 'major7', 'add9'],   // Chromatic mediants: major triads a major third either side of I
+                allowed: ['sus2', 'major9', 'minor'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'I—♭III—I—VI',
+            palettePriorities: {
+                preferred: ['major', 'major7', 'add9'],   // Chromatic mediants: major triads a minor third either side of I
+                allowed: ['sus2', 'major9', 'minor'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'i—♭vi—i—iii',
+            palettePriorities: {
+                preferred: ['minor', 'minor7', 'minAdd9'],   // Minor mediants: the minor chords a major third either side of i
+                allowed: ['sus2', 'minor9', 'major'],
+                avoided: ['dom7', 'major7', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'I—♭vi—♭VI—I',
+            palettePriorities: {
+                preferred: ['major', 'minor', 'major7'],   // Hexatonic pole: I to the minor triad a major third below
+                allowed: ['add9', 'sus2', 'minor7'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'I—II',
+            palettePriorities: {
+                preferred: ['major', 'major7', 'add9', 'major6'],   // Lydian: the major II holds the raised fourth
+                allowed: ['sus2', 'major9', 'minor', 'minor7'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'I—II—iii—II',
+            palettePriorities: {
+                preferred: ['major', 'major7', 'add9', 'major6'],   // Lydian again, circling the tonic without a dominant
+                allowed: ['sus2', 'major9', 'minor', 'minor7'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'i—v—♭VII—IV',
+            palettePriorities: {
+                preferred: ['minor', 'major', 'minor7'],   // Dorian: minor v and the major IV, no leading-tone dominant
+                allowed: ['sus2', 'sus4', 'add9', 'minAdd9'],
+                avoided: ['dom7', 'major7', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'i—♭III—V—i',
+            palettePriorities: {
+                preferred: ['minor', 'major'],   // The major V may carry its seventh
+                allowed: ['dom7', 'minor7', 'sus4'],
+                avoided: ['major7', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'i—♭VI—IV—♭VI',
+            palettePriorities: {
+                preferred: ['minor', 'major'],   // Wandering fifth: G climbs to A♭ and A over a held bass
+                allowed: ['sus4', 'sus2', 'minor7', 'add9'],
+                avoided: ['dom7', 'major7', 'diminished', 'augmented', 'quartal']
+            },
+        },
+        {
+            value: 'I—♭VI—♭VII—I',
+            palettePriorities: {
+                preferred: ['major', 'sus4', 'add9'],   // Hero cadence: ♭VI and ♭VII climbing back to I
+                allowed: ['major7', 'sus2', 'minor'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']
+            },
         }
     ],
     'Folk/Singer-Songwriter': [

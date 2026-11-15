@@ -52,6 +52,14 @@ that lists both a suspended and a quartal chord, Harmonic Minor Psy among them,
 no longer loses the quartal one. Progressions that contained either chord export
 under the new chord names.
 
+**Ten new Film/Cinematic progressions.** The genre grows from seven to seventeen,
+with the devices film and game scores lean on: chromatic mediants in pairs
+(Major Third Mediants, Minor Third Mediants, Minor Mediants), the Hexatonic Pole,
+two Lydian loops (Lydian Vamp, Lydian Float), Dorian Drift, Minor Lift, Wandering
+Fifth and Hero Cadence. Each has a palette tuned to it that steers clear of
+dominant chords, and descriptions in all six languages. The generator now offers 183
+progression palettes.
+
 ## 2026-09-08
 
 ### Chord Progression Generator

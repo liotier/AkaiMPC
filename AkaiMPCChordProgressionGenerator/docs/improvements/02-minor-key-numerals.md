@@ -228,12 +228,13 @@ Add to `tools/audit-theory.mjs`, before the per-variant loop:
   `VII` (regex `^(III|VI|VII)(?![a-zA-Z°ø♭♯])`) is a finding, unless the
   template object carries `allowRaisedDegrees: ['VII']` (listing the stems)
   together with a comment explaining the musical reason.
-- **H2**: any template, either tonality, with at least one `♭`-prefixed token
-  and at least one bare `III`/`VI`/`VII` token is a finding, no whitelist.
-  Mixed conventions in one string are always a typo.
+- **H2**: a minor-tonality template with at least one `♭`-prefixed token and
+  at least one bare `III`/`VI`/`VII` token is a finding, no whitelist. Mixed
+  conventions in one minor-key string are always a typo. (As first written the
+  rule applied to either tonality; spec 08 narrowed it, see §7.)
 
 Report through the existing `report()` with ids `H1 minor template uses a
-raised-degree numeral` and `H2 template mixes numeral conventions`. At
+raised-degree numeral` and `H2 minor template mixes numeral conventions`. At
 baseline these would report 12 and 4; after §3.1 they report 0. The
 whitelist mechanism exists for a future template that genuinely wants a
 leading-tone major triad; none does today.
@@ -305,6 +306,11 @@ Implemented as specified, with the departures and the findings below.
   byte-for-byte through a JSON parser that keeps insertion order, which
   `JSON.parse` in JavaScript does not (it moves integer-like keys such as `"6"`
   to the front).
+- **H2 was narrowed to minor tonality** when spec 08 added Film/Cinematic's Major
+  Third Mediants, `I—♭VI—I—III`, and Minor Third Mediants, `I—♭III—I—VI`. In a major
+  key a bare `III` or `VI` beside a `♭` token is two chromatic mediants read against
+  the parallel major, not a typo. The four baseline findings were all minor-key
+  templates and the catalogue's H2 count is unchanged by the narrowing.
 
 Disagreements with the English texts of §3.3, left as written because the
 decision is the maintainer's, and recorded in the commit message. All three

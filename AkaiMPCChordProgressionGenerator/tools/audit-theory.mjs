@@ -150,9 +150,13 @@ for (const [category, list] of Object.entries(progressions)) {
             }
         }
 
-        // H2: both conventions in one string is always a typo, with no whitelist.
-        if (bare.length > 0 && tokens.some(token => token.startsWith('♭'))) {
-            report('H2 template mixes numeral conventions', `${category} | ${template.value}`);
+        // H2: both conventions in one minor-key string is always a typo, with no
+        // whitelist. Only minor tonality: in a major key a bare III or VI beside a
+        // ♭ token is two chromatic mediants read against the parallel major, which
+        // is what Film/Cinematic's Major and Minor Third Mediants are
+        // (docs/improvements/08-cinematic-templates.md).
+        if (templateTonality(template) === 'minor' && bare.length > 0 && tokens.some(token => token.startsWith('♭'))) {
+            report('H2 minor template mixes numeral conventions', `${category} | ${template.value}`);
         }
     }
 }

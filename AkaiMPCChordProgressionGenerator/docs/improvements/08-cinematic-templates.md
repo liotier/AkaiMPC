@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | implemented |
 | Type | feature, data |
 | Size | M |
 | Depends on | 00, 01; 04 strongly recommended first so the new palettes are not handed dominants |
@@ -221,3 +221,55 @@ Ten × (`name`, `nickname`, `description`) × six locales.
 - The ascending line cliché of the spy theme (spec 09, needs a chord type).
 - Templates in other genres for the same devices. Jazz already has the
   descending line cliché; Pop/Rock has the upward mediant in a song context.
+
+## 8. Implementation notes
+
+Implemented as specified: ten template objects appended to `Film/Cinematic` in the
+order of §3.1, each with the priorities of §3.2, and ten entries in each of six
+locale files. Departures and findings:
+
+- **Audit check H2 was narrowed to minor tonality.** `I—♭VI—I—III` and
+  `I—♭III—I—VI` each hold a `♭` token and a bare `III` or `VI`, which H2 (spec 02,
+  "either tonality, no whitelist") reported, and they were the only findings in the
+  audit. In a major key those are two chromatic mediants read against the parallel
+  major, which is the whole point of the pair. The maintainer's decision: H2 now
+  applies to minor-tonality templates only, as spec 02's four baseline findings all
+  were. Spec 02's text is amended and says so.
+- **Nicknames are English in every locale.** Every existing nickname is, and the
+  pack always uses the English one (`../mpc-export-specification.md` D2), so only
+  the descriptions are translated. The English descriptions follow the spec
+  verbatim, with "colour" spelt "color" as everywhere in `en.json`.
+- **Counts.** "173" became "183" in the generator README's three places and the root
+  README's two; the Film/Cinematic bullet names the new devices. The export
+  specification's "All 173 progressions have one" (§5.3) read as a claim about the
+  catalogue and now says "Every progression has one", so it cannot go stale again.
+  Its audit figures in §7 are historical and untouched.
+- **One English text left as written, and doubted.** Hero Cadence calls ♭VI-♭VII-I
+  "a double plagal approach to I". The double plagal is ♭VII-IV-I; ♭VI-♭VII-I is the
+  Aeolian cadence (spec 02's Power Cadence text calls it that). The harmony
+  described is right and the name is not.
+
+Measured against `a91f480`, the commit before spec 06 and the description fixes that
+landed on the branch meanwhile; neither changes what the catalogue produces, and the
+figures were re-measured on the rebased tree:
+
+| Quantity | Before | After |
+|---|---|---|
+| Progression templates / Film/Cinematic templates | 173 / 7 | 183 / 17 |
+| Variants audited, 12 keys and 5 styles | 10 380 | 10 980 |
+| Snapshot blocks | 173 template, 34 scale | 183 template, 34 scale: ten new, none changed |
+| `.progression` files in the pack | 855 | 904 |
+| MIDI files in the pack | 10 267 | 10 855 |
+| Pack names carrying two styles | 10 | 11 |
+
+The pack grows by 49 `.progression` files, not 50, because Minor Mediants' Classic
+and Jazz variants are identical and fuse into `Classic+Jazz`; the 588 MIDI files are
+those 49 times twelve keys. The longest display name of the ten is 62 characters and
+every one has exactly one hyphen, checked for all five style labels and the fused one.
+
+Acceptance, all measured: item 1, row 1 of each in C is the "In C" column of §3.1,
+as progression pads, with palette chords after them (after pad 2 for Lydian Vamp);
+item 2, Wandering Fifth in E, Smooth, voices pads 1 to 3 as 64 67 71, 64 67 72 and
+64 69 73; item 3, over the 600 variants of the ten in 12 keys and 5 styles, no
+dominant-family chord reaches row 4 of any but Minor Lift, which allows it; item 4,
+ten new blocks and no changed one; item 5, as above; item 6, the full protocol.

@@ -887,6 +887,56 @@
         "name": "I—♭III—♭VI—♭II",
         "nickname": "Chromatic Film",
         "description": "Extreme chromatic mediant progression. All roots are chromatic mediants (major or minor thirds apart). Creates maximum harmonic instability and surprise. The ♭II (Neapolitan) is particularly striking. Used for surreal scenes, dream sequences, psychological breaks, and avant-garde film scoring."
+      },
+      "I—♭VI—I—III": {
+        "name": "I—♭VI—I—III",
+        "nickname": "Major Third Mediants",
+        "description": "Chromatic mediants a major third either side of the tonic: C A♭ C E. Each pair shares one note and both chords are major, so the ear accepts the shift as color rather than modulation. The drop to ♭VI is the classic spy and fantasy move, the lift to III its brighter mirror image."
+      },
+      "I—♭III—I—VI": {
+        "name": "I—♭III—I—VI",
+        "nickname": "Minor Third Mediants",
+        "description": "Chromatic mediants a minor third either side of the tonic: C E♭ C A. Both are major and each shares one note with I. ♭III darkens without leaving major, VI brightens; alternating them around the tonic gives the floating, scene-change quality of adventure scoring."
+      },
+      "i—♭vi—i—iii": {
+        "name": "i—♭vi—i—iii",
+        "nickname": "Minor Mediants",
+        "description": "The minor-key form of the mediant trick: Cm A♭m Cm Em. A minor tonic shifting to the minor chords a major third below and above, each sharing one note with it. Darker and more unsettled than the major form; the shift to ♭vi in particular is a horror and creature-theme staple."
+      },
+      "I—♭vi—♭VI—I": {
+        "name": "I—♭vi—♭VI—I",
+        "nickname": "Hexatonic Pole",
+        "description": "C A♭m A♭ C. A major triad moving to the minor triad a major third below shares no note with it and flips quality, the most remote relation two triads can have while every voice moves by a semitone. The ♭VI major that follows explains the strange chord, and the return to I closes the loop. The signature uncanny change of fantasy and science-fiction scoring."
+      },
+      "I—II": {
+        "name": "I—II",
+        "nickname": "Lydian Vamp",
+        "description": "Two chords, C D: a major tonic and the major chord a whole step above it. The II contains the raised fourth that defines the Lydian mode, so the vamp floats without pulling anywhere. The open, airborne sound of flight and wonder cues."
+      },
+      "I—II—iii—II": {
+        "name": "I—II—iii—II",
+        "nickname": "Lydian Float",
+        "description": "C D Em D. A Lydian loop that never visits a dominant: the major II and the minor iii circle the tonic, and the raised fourth inside II keeps the progression open. Add the major seventh and the sixth the palette offers for the suspended, time-slowing character of modern space scoring."
+      },
+      "i—v—♭VII—IV": {
+        "name": "i—v—♭VII—IV",
+        "nickname": "Dorian Drift",
+        "description": "Cm Gm B♭ F. Minor tonic, minor dominant, subtonic and the major IV that marks Dorian. Every chord is diatonic to C Dorian and none is a leading-tone dominant, so the loop returns to i by a plagal IV-i step instead of resolving. The endless-motion feel of slow-build electronic and film cues."
+      },
+      "i—♭III—V—i": {
+        "name": "i—♭III—V—i",
+        "nickname": "Minor Lift",
+        "description": "Cm E♭ G Cm. Minor tonic up to the relative major ♭III, then to a major V from harmonic minor before returning home. The rising third followed by the dominant turns a dark loop hopeful without leaving the key: the brief lift before a resolution."
+      },
+      "i—♭VI—IV—♭VI": {
+        "name": "i—♭VI—IV—♭VI",
+        "nickname": "Wandering Fifth",
+        "description": "Cm A♭ F A♭. Minor tonic, ♭VI and the Dorian major IV: the three chords that let a single inner voice climb by semitones over a held bass. With C kept under all three, the fifth G rises to A♭ and then to A. The Smooth variant finds that voicing; keep the first chord's bass for the swelling, heroic effect."
+      },
+      "I—♭VI—♭VII—I": {
+        "name": "I—♭VI—♭VII—I",
+        "nickname": "Hero Cadence",
+        "description": "C A♭ B♭ C. The tonic, then the two major triads a whole step apart below it, ♭VI and ♭VII, climbing back home. A double plagal approach to I, the triumphant ending formula of adventure scores and victory themes, here as a loop so the tonic is both departure and arrival."
       }
     },
     "Folk/Singer-Songwriter": {

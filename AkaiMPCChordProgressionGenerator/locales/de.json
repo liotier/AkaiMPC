@@ -845,6 +845,56 @@
         "name": "I—♭III—♭VI—♭II",
         "nickname": "Chromatic Film",
         "description": "Extreme chromatische Medianten-Progression. Alle Grundtöne sind chromatische Medianten (große oder kleine Terzen auseinander). Erzeugt maximale harmonische Instabilität und Überraschung. Das ♭II (Neapolitaner) ist besonders auffällig. Verwendet für surreale Szenen, Traumsequenzen, psychologische Brüche und Avantgarde-Filmmusik."
+      },
+      "I—♭VI—I—III": {
+        "name": "I—♭VI—I—III",
+        "nickname": "Major Third Mediants",
+        "description": "Chromatische Medianten, eine große Terz zu beiden Seiten der Tonika: C A♭ C E. Jedes Paar teilt einen Ton, und beide Akkorde sind Dur, sodass das Ohr den Wechsel als Klangfarbe statt als Modulation hört. Der Abstieg nach ♭VI ist der klassische Griff der Spionage- und Fantasy-Musik, der Aufstieg nach III sein hellerer Spiegel."
+      },
+      "I—♭III—I—VI": {
+        "name": "I—♭III—I—VI",
+        "nickname": "Minor Third Mediants",
+        "description": "Chromatische Medianten, eine kleine Terz zu beiden Seiten der Tonika: C E♭ C A. Beide sind Dur, und jede teilt einen Ton mit I. ♭III dunkelt ab, ohne Dur zu verlassen, VI hellt auf; im Wechsel um die Tonika ergeben sie den schwebenden Szenenwechsel-Charakter der Abenteuermusik."
+      },
+      "i—♭vi—i—iii": {
+        "name": "i—♭vi—i—iii",
+        "nickname": "Minor Mediants",
+        "description": "Die Moll-Form des Medianten-Kniffs: Cm A♭m Cm Em. Eine Molltonika, die zu den Mollakkorden eine große Terz darunter und darüber wechselt, jeweils mit einem gemeinsamen Ton. Dunkler und unruhiger als die Dur-Form; der Wechsel nach ♭vi ist besonders ein Standard der Horror- und Kreaturenthemen."
+      },
+      "I—♭vi—♭VI—I": {
+        "name": "I—♭vi—♭VI—I",
+        "nickname": "Hexatonic Pole",
+        "description": "C A♭m A♭ C. Ein Durdreiklang, der zum Molldreiklang eine große Terz tiefer wechselt, teilt keinen Ton mit ihm und wechselt das Tongeschlecht: die entfernteste Beziehung, die zwei Dreiklänge haben können, wenn sich jede Stimme um einen Halbton bewegt. Das darauf folgende ♭VI-Dur erklärt den fremden Akkord, und die Rückkehr zu I schließt die Schleife. Der typische unheimliche Wechsel der Fantasy- und Science-Fiction-Musik."
+      },
+      "I—II": {
+        "name": "I—II",
+        "nickname": "Lydian Vamp",
+        "description": "Zwei Akkorde, C D: eine Durtonika und der Durakkord einen Ganzton darüber. Das II enthält die erhöhte Quarte, die den lydischen Modus ausmacht, sodass der Vamp schwebt, ohne irgendwohin zu ziehen. Der offene, luftige Klang von Flug- und Staunen-Momenten."
+      },
+      "I—II—iii—II": {
+        "name": "I—II—iii—II",
+        "nickname": "Lydian Float",
+        "description": "C D Em D. Eine lydische Schleife, die nie eine Dominante berührt: das Dur-II und das Moll-iii kreisen um die Tonika, und die erhöhte Quarte in II hält die Progression offen. Die große Septime und die Sexte, die die Palette anbietet, bringen den schwebenden, zeitdehnenden Charakter moderner Weltraummusik."
+      },
+      "i—v—♭VII—IV": {
+        "name": "i—v—♭VII—IV",
+        "nickname": "Dorian Drift",
+        "description": "Cm Gm B♭ F. Molltonika, Molldominante, Subtonika und das Dur-IV, das Dorisch kennzeichnet. Jeder Akkord ist diatonisch in C-Dorisch und keiner ist eine Dominante mit Leitton, sodass die Schleife durch einen plagalen Schritt IV-i zu i zurückkehrt, statt sich aufzulösen. Das Endlos-Bewegungsgefühl langsam aufbauender elektronischer Stücke und Filmmusik."
+      },
+      "i—♭III—V—i": {
+        "name": "i—♭III—V—i",
+        "nickname": "Minor Lift",
+        "description": "Cm E♭ G Cm. Molltonika aufwärts zur Durparallele ♭III, dann zu einem Dur-V aus harmonischem Moll, bevor es nach Hause zurückgeht. Die aufsteigende Terz mit der anschließenden Dominante macht eine dunkle Schleife hoffnungsvoll, ohne die Tonart zu verlassen: der kurze Auftrieb vor einer Auflösung."
+      },
+      "i—♭VI—IV—♭VI": {
+        "name": "i—♭VI—IV—♭VI",
+        "nickname": "Wandering Fifth",
+        "description": "Cm A♭ F A♭. Molltonika, ♭VI und das dorische Dur-IV: die drei Akkorde, bei denen eine einzelne Innenstimme über einem gehaltenen Bass in Halbtonschritten aufsteigen kann. Mit C unter allen dreien steigt die Quinte G zu A♭ und dann zu A. Die Smooth-Variante findet diese Stimmführung; der Bass des ersten Akkords sollte gehalten werden, für die anschwellende, heroische Wirkung."
+      },
+      "I—♭VI—♭VII—I": {
+        "name": "I—♭VI—♭VII—I",
+        "nickname": "Hero Cadence",
+        "description": "C A♭ B♭ C. Die Tonika, dann die beiden Durdreiklänge im Ganztonabstand darunter, ♭VI und ♭VII, die zurück nach Hause steigen. Eine doppelt plagale Annäherung an I, die triumphale Schlussformel von Abenteuermusik und Siegesthemen, hier als Schleife, sodass die Tonika zugleich Ausgangs- und Zielpunkt ist."
       }
     },
     "Folk/Singer-Songwriter": {

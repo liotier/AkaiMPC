@@ -845,6 +845,56 @@
         "name": "I—♭III—♭VI—♭II",
         "nickname": "Chromatic Film",
         "description": "Progressão de mediante cromática extrema. Todas raízes são mediante cromática (terças maiores ou menores separadas). Cria instabilidade harmônica máxima e surpresa. O ♭II (napolitano) é particularmente marcante. Usado para cenas surreais, sequências de sonho, quebras psicológicas e trilhas de filmes avant-garde."
+      },
+      "I—♭VI—I—III": {
+        "name": "I—♭VI—I—III",
+        "nickname": "Major Third Mediants",
+        "description": "Mediantes cromáticas a uma terça maior de cada lado da tônica: C A♭ C E. Cada par compartilha uma nota e os dois acordes são maiores, então o ouvido aceita a mudança como cor e não como modulação. A descida para ♭VI é o movimento clássico da espionagem e da fantasia, a subida para III seu espelho mais luminoso."
+      },
+      "I—♭III—I—VI": {
+        "name": "I—♭III—I—VI",
+        "nickname": "Minor Third Mediants",
+        "description": "Mediantes cromáticas a uma terça menor de cada lado da tônica: C E♭ C A. Ambas são maiores e cada uma compartilha uma nota com I. ♭III escurece sem sair do modo maior, VI ilumina; alterná-las em torno da tônica dá a qualidade flutuante, de mudança de cena, da trilha de aventura."
+      },
+      "i—♭vi—i—iii": {
+        "name": "i—♭vi—i—iii",
+        "nickname": "Minor Mediants",
+        "description": "A forma em modo menor do recurso das mediantes: Cm A♭m Cm Em. Uma tônica menor que se desloca para os acordes menores uma terça maior abaixo e acima, cada um com uma nota em comum. Mais sombria e mais instável que a forma maior; a passagem para ♭vi em particular é um clássico dos temas de terror e de criaturas."
+      },
+      "I—♭vi—♭VI—I": {
+        "name": "I—♭vi—♭VI—I",
+        "nickname": "Hexatonic Pole",
+        "description": "C A♭m A♭ C. Um acorde maior que passa para o acorde menor uma terça maior abaixo não compartilha nenhuma nota com ele e inverte a qualidade, a relação mais remota que dois acordes podem ter enquanto cada voz se move por semitom. O ♭VI maior que vem em seguida explica o acorde estranho, e o retorno a I fecha o loop. A mudança inquietante característica da música de fantasia e de ficção científica."
+      },
+      "I—II": {
+        "name": "I—II",
+        "nickname": "Lydian Vamp",
+        "description": "Dois acordes, C D: uma tônica maior e o acorde maior um tom acima. O II contém a quarta elevada que define o modo lídio, de modo que o vamp flutua sem puxar para lugar nenhum. O som aberto e arejado das cenas de voo e de encantamento."
+      },
+      "I—II—iii—II": {
+        "name": "I—II—iii—II",
+        "nickname": "Lydian Float",
+        "description": "C D Em D. Um loop lídio que nunca passa por uma dominante: o II maior e o iii menor circulam a tônica, e a quarta elevada dentro de II mantém a progressão aberta. A sétima maior e a sexta que a paleta oferece trazem o caráter suspenso, que desacelera o tempo, da música espacial moderna."
+      },
+      "i—v—♭VII—IV": {
+        "name": "i—v—♭VII—IV",
+        "nickname": "Dorian Drift",
+        "description": "Cm Gm B♭ F. Tônica menor, dominante menor, subtônica e o IV maior que marca o dórico. Todos os acordes são diatônicos a dó dórico e nenhum é uma dominante com sensível, então o loop volta a i por um passo plagal IV-i em vez de resolver. A sensação de movimento sem fim dos crescendos lentos eletrônicos e da música de cinema."
+      },
+      "i—♭III—V—i": {
+        "name": "i—♭III—V—i",
+        "nickname": "Minor Lift",
+        "description": "Cm E♭ G Cm. Tônica menor subindo para a relativa maior ♭III e depois para um V maior do menor harmônico antes de voltar para casa. A terça ascendente seguida da dominante torna esperançoso um loop sombrio sem sair da tonalidade: o breve impulso antes de uma resolução."
+      },
+      "i—♭VI—IV—♭VI": {
+        "name": "i—♭VI—IV—♭VI",
+        "nickname": "Wandering Fifth",
+        "description": "Cm A♭ F A♭. Tônica menor, ♭VI e o IV maior dórico: os três acordes que permitem que uma única voz interna suba por semitons sobre um baixo sustentado. Com C mantida sob os três, a quinta G sobe para A♭ e depois para A. A variante Smooth encontra esse voicing; manter o baixo do primeiro acorde dá o efeito crescente e heroico."
+      },
+      "I—♭VI—♭VII—I": {
+        "name": "I—♭VI—♭VII—I",
+        "nickname": "Hero Cadence",
+        "description": "C A♭ B♭ C. A tônica, depois as duas tríades maiores a um tom de distância abaixo dela, ♭VI e ♭VII, subindo de volta para casa. Uma aproximação dupla plagal a I, a fórmula de final triunfal das trilhas de aventura e dos temas de vitória, aqui como loop para que a tônica seja ao mesmo tempo partida e chegada."
       }
     },
     "Folk/Singer-Songwriter": {
