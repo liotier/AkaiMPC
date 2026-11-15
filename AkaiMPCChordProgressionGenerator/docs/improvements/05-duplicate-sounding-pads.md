@@ -1,13 +1,13 @@
-# 05 - No two pads may sound the same chord
+# 05 - Pads that duplicate a chord or misname it
 
 | | |
 |---|---|
 | Status | proposed |
 | Type | defect |
-| Size | S |
+| Size | M |
 | Depends on | 00 |
 | Blocks | 07, 10 |
-| Recommended model | Claude Sonnet 5.5 (`claude-sonnet-5-5`): two filters keyed on a pitch-class signature, one whitelist deleted, one audit check tightened |
+| Recommended model | Claude Sonnet 5.5 (`claude-sonnet-5-5`): two filters keyed on a pitch-class signature, one whitelist deleted, a fix to the Jazz upgrade, two chord types renamed and two audit checks added, all with the decisions already made |
 
 ## 1. Problem
 
@@ -78,6 +78,26 @@ the whole catalogue in the key of C, comparing each numeral's suffix with
 | `minor11` | 1 |
 | `minor6` | 1 |
 
+A fourth defect, also a label, decided separately on 2026-11-15. The two
+quartal chord types are named as suspended chords. `quartal`, C F B♭, is
+exported as `Csus4`, and `quartal4`, C F B♭ E♭, as `Csus4(add11)`. A sus4
+chord is root, fourth and fifth, so `Csus4` tells a player to play G where
+the pad sounds B♭, and `sus4(add11)` contradicts itself, since the 11th is
+the 4th. The wrong name reaches the chord name of every exported file, which
+is what Pad Perform shows on the pad, as well as the app's pad label and the
+numeral (`Isus4`). The guitar diagram falls back to a sus4 shape. Measured in
+the key of C over the five styles: 70 `quartal` pads in 35 variants of 7
+templates, and 12 in Scale Mode across 9 scales. `quartal4` reaches no pad
+today.
+
+It is not only a label. `quartal` and `sus4` share the numeral suffix
+`sus4`, and `addChord()` drops a chord whose numeral is already taken, so a
+template that declares both loses its quartal pad: Trance/Psytrance/Goa
+"Harmonic Minor Psy" has none. Given a numeral of its own in a scratch copy,
+the pad appears. The audit could not see any of this, because check C
+compares a name's suffix with `CHORD_NAME_SUFFIX` and the table itself was
+wrong. Two chord types sharing one suffix is the pattern to forbid.
+
 ## 2. Decisions
 
 | # | Decision | Rationale |
@@ -87,6 +107,8 @@ the whole catalogue in the key of C, comparing each numeral's suffix with
 | D3 | `KNOWN_FUNCTIONAL_TWINS` is **deleted** and check F becomes strict. | A whitelist that says "these duplicates are fine" is what let the count drift from 1 227 to 1 265 unnoticed. |
 | D4 | Progression chords are **exempt** from the check against each other, as today. | A template may legitimately repeat a chord (`I—IV—I—V`, the 12-bar blues); those pads are the progression, not the palette. |
 | D5 | A numeral whose suffix is not exactly its chord type's suffix (`sus4sus4`, `i99`, `vii°ø7`) is a defect to fix, not a label to tolerate. | It produces a numeral nobody writes. |
+| D6 | Quartal chords take seventh-chord symbols, the maintainer's choice among three options: `quartal` is **`7sus4(no5)`** (`C7sus4(no5)`) and `quartal4` is **`m7(11)`** (`Cm7(11)`). | Standard symbols any player reads. C F B♭ is how jazz players voice a 7sus4 with the fifth left out, the same way the catalogue already exports an Italian sixth, which also lacks its fifth, as `Ab7`. Four stacked fourths read as a minor eleventh, as the So What chord does (https://en.wikipedia.org/wiki/So_What_chord), and the engine already classes `quartal4` as minor. `(no5)` keeps `quartal` distinct from `dom7sus4`, which already owns `7sus4`: four Scale Mode grids hold both on one root and would otherwise show two `C7sus4` pads that sound different. Rejected: a slash name of the sus chord each one inverts (`Fsus4/C`), which clashes with how the app shows inversions and has no readable four-note form; and a descriptive `C4ths`, which no player or tool reads as a chord symbol. |
+| D7 | No two chord types share a chord-name suffix, nor a numeral suffix in the same case, except the augmented sixths, which deliberately take the name of the dominant-family chord they sound like. Enforced by audit check M. | A shared suffix is what hid the quartal defect, and what made the palette drop the quartal pad. |
 
 ## 3. Normative specification
 
@@ -144,7 +166,51 @@ exempt, as they are in checks D and E. At baseline it reports 168 in the key
 of C, all Jazz; after this spec it reports 0. Tested the way spec 02's check H
 is: revert the Jazz fix temporarily and the check must fail.
 
-### 3.5 Documentation
+### 3.5 Quartal chord names
+
+In `modules/musicTheory.js`:
+
+| Table | Type | Today | After |
+|---|---|---|---|
+| `CHORD_NAME_SUFFIX` | `quartal` | `sus4` | `7sus4(no5)` |
+| `CHORD_NAME_SUFFIX` | `quartal4` | `sus4(add11)` | `m7(11)` |
+| `CHORD_TYPE_DISPLAY` | `quartal` | label `Suspended`, suffix `sus4` | label `Quartal`, suffix `7sus4(no5)` |
+| `CHORD_TYPE_DISPLAY` | `quartal4` | label `Suspended`, suffix `sus4` | label `Quartal`, `lowercase: true`, suffix `7(11)` |
+
+`CHORD_INTERVALS` does not change: the notes were right, only the names were
+wrong. A quartal pad on I in C then reads `C7sus4(no5)` `[I7sus4(no5)]`. On a
+minor degree its numeral keeps the degree's case, as every suspended chord's
+does, since a quartal triad has no third: `ii7sus4(no5)`. A `quartal4` pad on
+ii would read `Dm7(11)` `[ii7(11)]`.
+
+The new names are ASCII, as `CHORD_NAME_SUFFIX` requires for the MPC.
+`C#7sus4(no5)` is 12 characters, one fewer than the `C#sus4(add11)` the
+catalogue could already emit.
+
+Three places read these types and must follow:
+
+- **Tooltips.** `getChordTooltip()` (`app.js:735`) finds a pad's description
+  by stripping the quality from its numeral. Add `\(NO5\)` and `\(11\)` to
+  that pattern, so `I7sus4(no5)` and `ii7(11)` strip to `I` and `II` and get
+  their degree's description first, like every other pad. The existing
+  `chordRoles.types.quartal` text ("Stacked fourths - open and modal...")
+  stays the fallback.
+- **Guitar.** `SHAPE_FALLBACKS` in `modules/guitarChords.js` keeps
+  `quartal -> sus4`, because the library has no 7sus4 shape; the diagram is
+  flagged as simplified, as every fallback is. Add `quartal4 -> minor7`, which
+  shares three of its four notes, so a future `quartal4` pad does not get the
+  muted-strings diagram.
+- **Audit check M**, static, beside check L: every pair of chord types sharing
+  a `CHORD_NAME_SUFFIX` value is a finding, as is every pair sharing a
+  `CHORD_TYPE_DISPLAY` suffix with the same `lowercase` flag. `It6`, `Ger6` and
+  `Fr6` are exempt in both: their names deliberately match `dom7` and
+  `dom7b5`, and their numerals are fixed strings never built from the table.
+  `CHORD_TYPE_DISPLAY` is not exported today; export it, or a read-only view of
+  it. At baseline the check reports 4 pairs, all quartal; after this spec, 0.
+  Tested the usual way: give `quartal` back the `sus4` suffix and the check
+  must fail.
+
+### 3.6 Documentation
 
 `../mpc-export-specification.md` §7.11 is historical; do not rewrite it.
 Add one sentence at its end pointing to this spec as the later decision.
@@ -159,11 +225,14 @@ which it now is.
 | `modules/generation.js:579-640` | `usedSignatures` in `addChord()` |
 | `modules/generation.js:895-915` | Jazz upgrade: upgrade only the four mapped types, replace the old suffix |
 | `modules/generation.js:375-420` | signature filters in row-4 selection |
-| `tools/audit-theory.mjs` | delete the whitelist; import `pcSignature()`; check K |
+| `modules/musicTheory.js` (`CHORD_NAME_SUFFIX`, `CHORD_TYPE_DISPLAY`) | quartal names (§3.5); export the display table for check M |
+| `modules/guitarChords.js` | `quartal4` fallback |
+| `app.js:735` | tooltip stripping pattern learns `(NO5)` and `(11)` |
+| `tools/audit-theory.mjs` | delete the whitelist; import `pcSignature()`; checks K and M |
 | `docs/mpc-export-specification.md` | one sentence after §7.11 |
 | `README.md` | one bullet |
 | `docs/catalogue-snapshot.txt` | regenerated |
-| `CHANGELOG.md` | entry: the duplicate-pad count, 1 265 to 0 |
+| `CHANGELOG.md` | entry: the duplicate-pad count, 1 265 to 0, and quartal chords named for what they are |
 
 ## 5. i18n
 
@@ -183,7 +252,15 @@ None.
    priorities allow `sus2` and `sus4`).
 4. Audit check K reports 0, and no pad anywhere carries a numeral containing
    `sus4sus4`, `sus2sus2`, `99`, `66` or `°ø7`.
-5. Full verification protocol passes.
+5. Every pad of type `quartal` is named with the suffix `7sus4(no5)` and
+   carries it in its numeral; no `quartal` or `quartal4` pad is named or
+   numbered `sus4`. Record the number of renamed pads (70 in template mode
+   and 12 in Scale Mode at baseline, key of C).
+6. Trance/Psytrance/Goa "Harmonic Minor Psy", key C, Classic: at least one
+   pad of type `quartal`, which it lacked while its numeral was taken.
+7. Audit check M reports 0, and fails when `quartal` is given back `sus4`.
+8. Hovering a quartal pad on I shows the tonic's description, as before.
+9. Full verification protocol passes.
 
 ## 7. Out of scope
 
@@ -191,3 +268,10 @@ None.
   voicings of the same chords by design.
 - Enharmonic spelling of the surviving pad. When the ♭VI7 survives and the
   German sixth does not, the pad reads `Ab7 [♭VI7]`, which is correct.
+- How the Finder reads a quartal chord. It names C F B♭ as Fsus4 over C,
+  which is also correct: the same notes form an inversion of Fsus4. The Finder
+  is another tool (spec 12).
+- The note names printed on each pad. The app spells every chord as a stack
+  of thirds, so a quartal chord reads C E♯ A♯; sus, sixth and 7sus4 chords
+  suffer the same way. It is recorded in the index as a finding of its own.
+- Real quartal shapes in the guitar library.
