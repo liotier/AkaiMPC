@@ -2920,121 +2920,128 @@ export function getChordComplexity(chordType) {
 // Progression Parsing and Generation
 // ============================================================================
 
-function parseProgression(progressionString) {
-    const chords = progressionString.split('—');
-    return chords.map(chord => {
-        // Handle secondary dominants (V7/x, V/x notation) before general parsing
-        // Secondary dominants resolve to their target: V7/ii resolves to ii,
-        // so the root is a P5 above the target degree in the major scale
-        const secondaryMatch = chord.match(/^V7?\/(♭|♯)?(i{1,3}|I{1,3}|iv|IV|v|V|vi|VI|vii|VII)$/);
-        if (secondaryMatch) {
-            const targetAlteration = secondaryMatch[1] || '';
-            const targetNumeral = secondaryMatch[2];
+// A template is chord tokens joined by an em dash: 'I—V—vi—IV'.
+const TEMPLATE_SEPARATOR = '—';
+const MAJOR_SCALE_SEMITONES = [0, 2, 4, 5, 7, 9, 11];
+const STEM_DEGREE = { I: 0, II: 1, III: 2, IV: 3, V: 4, VI: 5, VII: 6 };
 
-            // Map target numeral to major scale degree
-            const targetMap = {
-                'i': 0, 'I': 0, 'ii': 1, 'II': 1, 'iii': 2, 'III': 2,
-                'iv': 3, 'IV': 3, 'v': 4, 'V': 4, 'vi': 5, 'VI': 5, 'vii': 6, 'VII': 6
-            };
-            const targetDegree = targetMap[targetNumeral] !== undefined ? targetMap[targetNumeral] : 0;
+// The augmented sixths are never read from a template: their numerals are the
+// fixed strings It+6, Fr+6 and Ger+6, built by the row-4 candidates.
+const UNPARSED_CHORD_TYPES = new Set(['It6', 'Fr6', 'Ger6']);
 
-            // The root of a secondary dominant is a P5 above the target
-            // In major scale degrees: V/ii root = vi (degree 5), V/V root = II (degree 1),
-            // V/vi root = III (degree 2), V/IV root = I (degree 0)
-            const majorScale = [0, 2, 4, 5, 7, 9, 11];
-            let targetSemitone = majorScale[targetDegree % majorScale.length];
-            if (targetAlteration === '♭') targetSemitone = (targetSemitone - 1 + 12) % 12;
-            if (targetAlteration === '♯') targetSemitone = (targetSemitone + 1) % 12;
-            // P5 above target = 7 semitones above
-            const rootSemitone = (targetSemitone + 7) % 12;
+/**
+ * Numeral suffix -> chord type, keyed by the case of the stem: 'lower|7' is
+ * minor7, 'upper|7' is dom7. Derived from CHORD_TYPE_DISPLAY, so reading a
+ * numeral is the inverse of writing one and a new chord type becomes readable
+ * in a template by being added to that table, nowhere else
+ * (docs/improvements/06-template-parser.md).
+ */
+export const SUFFIX_TABLE = (() => {
+    const table = new Map();
+    for (const [type, display] of Object.entries(CHORD_TYPE_DISPLAY)) {
+        if (UNPARSED_CHORD_TYPES.has(type)) continue;
+        const key = `${display.lowercase ? 'lower' : 'upper'}|${display.suffix}`;
+        // Audit check M forbids this too; failing here keeps the parser from
+        // silently reading one of two chord types
+        if (table.has(key)) throw new Error(`CHORD_TYPE_DISPLAY: ${table.get(key)} and ${type} share the numeral suffix ${key}`);
+        table.set(key, type);
+    }
+    return table;
+})();
 
-            // Find which major scale degree is closest (for the degree field)
-            let closestDegree = 0;
-            let closestDist = 12;
-            for (let i = 0; i < majorScale.length; i++) {
-                const dist = Math.min(
-                    Math.abs(majorScale[i] - rootSemitone),
-                    12 - Math.abs(majorScale[i] - rootSemitone)
-                );
-                if (dist < closestDist) {
-                    closestDist = dist;
-                    closestDegree = i;
-                }
-            }
+// The chord type a suffix denotes after a stem of the given case. The case of
+// a stem says whether the third is minor or major, so where it is what tells
+// two chords apart it must match: lower-case '7' is a minor seventh, upper-case
+// '7' a dominant one, and 'iM7' is an error rather than a major seventh. A
+// suffix that fixes the third by itself - diminished, augmented, suspended -
+// reads the same after either case, which is how the catalogue writes its
+// chromatic passing chords: 'I°', '♯II°'.
+function suffixChordType(stemIsLower, suffix) {
+    const own = SUFFIX_TABLE.get(`${stemIsLower ? 'lower' : 'upper'}|${suffix}`);
+    if (own) return own;
+    const other = SUFFIX_TABLE.get(`${stemIsLower ? 'upper' : 'lower'}|${suffix}`);
+    if (other && getChordFamily(other) !== 'major' && getChordFamily(other) !== 'minor') return other;
+    return null;
+}
 
-            const quality = chord.includes('7') ? 'dom7' : 'major';
-            // Determine if root needs a chromatic alteration relative to major scale
-            let alteration = '';
-            const naturalSemitone = majorScale[closestDegree];
-            if (rootSemitone !== naturalSemitone) {
-                alteration = (rootSemitone - naturalSemitone + 12) % 12 === 1 ? 'sharp' : 'flat';
-            }
+// Applied dominants, 'V/ii' and 'V7/♭III': the root is a perfect fifth above
+// the target, read against the major scale like every other numeral.
+const APPLIED_CHORD = /^V(7?)\/([♭♯]?)(VII|VI|V|IV|III|II|I|vii|vi|v|iv|iii|ii|i)$/;
 
-            return { degree: closestDegree, quality, alteration, isSecondary: true, secondaryTarget: targetNumeral, originalChord: chord };
-        }
+// Accidental, stem, suffix. The stems are tried longest first so 'IV' is not
+// read as 'I' followed by a 'V' suffix, nor 'iii' as 'i' followed by 'ii'.
+const PLAIN_CHORD = /^([♭♯]?)(VII|VI|V|IV|III|II|I|vii|vi|v|iv|iii|ii|i)(.*)$/;
 
-        // Handle chromatic line cliché: i(maj7), i6
-        const clicheMatch = chord.match(/^(i|I)\(maj7\)$/);
-        if (clicheMatch) {
-            return { degree: 0, quality: 'minMaj7', alteration: '' };
-        }
-        if (chord === 'i6') {
-            return { degree: 0, quality: 'minor6', alteration: '' };
-        }
+function parseChordToken(token, template) {
+    const fail = reason => {
+        throw new Error(`Unparseable chord token "${token}" in template "${template}"${reason ? `: ${reason}` : ''}`);
+    };
 
-        // Remove any quality indicators for parsing
-        const cleanChord = chord.replaceAll(/M7|m7|7|°|dim|maj|min/g, '');
+    const applied = token.match(APPLIED_CHORD);
+    if (applied) {
+        const [, seventh, targetAccidental, targetStem] = applied;
+        const accidentalShift = targetAccidental === '♭' ? -1 : targetAccidental === '♯' ? 1 : 0;
+        const targetSemitone = MAJOR_SCALE_SEMITONES[STEM_DEGREE[targetStem.toUpperCase()]] + accidentalShift;
+        const rootSemitone = ((targetSemitone + 7) % 12 + 12) % 12;
 
-        // Parse roman numerals
-        const romanToNumber = {
-            'i': 0, 'I': 0,
-            'ii': 1, 'II': 1, '♭II': 1,
-            'iii': 2, 'III': 2, '♭III': 2,
-            'iv': 3, 'IV': 3,
-            'v': 4, 'V': 4,
-            'vi': 5, 'VI': 5, '♭VI': 5,
-            'vii': 6, 'VII': 6, '♭VII': 6,
-            '♯I': 1, '♯II': 3, '♯iv': 4, '♭IIIM7': 2, '♭VIM7': 5
-        };
-
-        // Special cases
-        if (cleanChord === '♯I°') return { degree: 1, quality: 'diminished', alteration: 'sharp' };
-        if (cleanChord === '♯II°') return { degree: 3, quality: 'diminished', alteration: 'sharp' };
-        if (cleanChord === '♯iv°') return { degree: 4, quality: 'diminished', alteration: 'sharp' };
-
-        // Determine if flat or sharp
+        // Spell the root as a degree of the major scale. One the scale lacks
+        // takes the target's accidental, so V7/♭III is ♭VII7 (B♭7 in C), and is
+        // raised for a natural target, as a dominant leading up to it: V/vii is
+        // ♯IV (F♯ in C).
+        let degree = MAJOR_SCALE_SEMITONES.indexOf(rootSemitone);
         let alteration = '';
-        if (cleanChord.includes('♭')) alteration = 'flat';
-        if (cleanChord.includes('♯')) alteration = 'sharp';
-
-        // Get base numeral
-        const baseChord = cleanChord.replaceAll(/♭|♯/g, '');
-        const degree = romanToNumber[baseChord] !== undefined ? romanToNumber[baseChord] : 0;
-
-        // Determine quality from original chord string
-        let quality = 'major';
-        if (chord.includes('°') || chord.includes('dim')) {
-            quality = 'diminished';
-        } else if (chord.includes('M7') || chord.includes('maj7')) {
-            quality = 'major7';
-        } else if (chord.includes('m7')) {
-            quality = 'minor7';
-        } else if (chord.match(/[IV]7/) && !chord.includes('M7')) {
-            quality = 'dom7';
-        } else if (chord.includes('7')) {
-            // If the base chord is lowercase (minor) and has a 7, it's a minor7
-            if (baseChord === baseChord.toLowerCase()) {
-                quality = 'minor7';
-            } else {
-                quality = 'dom7';
-            }
-        } else if (baseChord === baseChord.toLowerCase() ||
-                  (baseChord === 'ii' || baseChord === 'iii' || baseChord === 'vi' || baseChord === 'vii')) {
-            quality = 'minor';
+        if (degree === -1 && targetAccidental === '♭') {
+            degree = MAJOR_SCALE_SEMITONES.indexOf((rootSemitone + 1) % 12);
+            alteration = 'flat';
+        } else if (degree === -1) {
+            degree = MAJOR_SCALE_SEMITONES.indexOf((rootSemitone + 11) % 12);
+            alteration = 'sharp';
         }
 
-        return { degree, quality, alteration };
-    });
+        return {
+            degree,
+            quality: seventh ? 'dom7' : 'major',
+            alteration,
+            isSecondary: true,
+            secondaryTarget: targetStem,
+            originalChord: token
+        };
+    }
+    if (token.includes('/')) {
+        fail(token.startsWith('vii')
+            ? 'secondary leading-tone chords are reserved in the grammar but not supported yet'
+            : 'the only applied chords are V/x and V7/x');
+    }
+
+    const plain = token.match(PLAIN_CHORD);
+    if (!plain) fail();
+    const [, accidental, stem, suffix] = plain;
+    const quality = suffixChordType(stem === stem.toLowerCase(), suffix);
+    if (!quality) fail(`no chord type has the suffix "${suffix}" after ${stem === stem.toLowerCase() ? 'a lower' : 'an upper'}-case numeral`);
+
+    return {
+        degree: STEM_DEGREE[stem.toUpperCase()],
+        quality,
+        alteration: accidental === '♭' ? 'flat' : accidental === '♯' ? 'sharp' : ''
+    };
+}
+
+/**
+ * Read a template value into one { degree, quality, alteration } per chord,
+ * degrees counted on the major scale, plus isSecondary, secondaryTarget and
+ * originalChord for an applied dominant.
+ *
+ * Strict: an unknown token throws, naming it. The parser this replaces stripped
+ * known characters and looked up what was left, so an unknown token became the
+ * tonic - 'II6' played C major - and a typo in a template was indistinguishable
+ * from intent. Every template is generated by the audit, the snapshot and the
+ * pack build in CI, so a throw can never reach a user through the catalogue.
+ *
+ * @param {string} progressionString - A template value, e.g. 'ii7—V7—IM7'
+ * @returns {Array<Object>} One parsed chord per token
+ */
+export function parseProgression(progressionString) {
+    return progressionString.split(TEMPLATE_SEPARATOR).map(token => parseChordToken(token, progressionString));
 }
 
 export function generateProgressionChords(progressionString, keyOffset, scaleDegrees, selectedMode) {

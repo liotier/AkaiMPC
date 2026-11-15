@@ -17,7 +17,7 @@
  * ~10,000 variants, ~160,000 pads.
  */
 
-import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, getKeyOffset, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature } from '../modules/musicTheory.js';
+import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, getKeyOffset, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature, parseProgression, SUFFIX_TABLE } from '../modules/musicTheory.js';
 import { generateVariant, VARIANT_STYLES, determineChordFunction, analyzeExistingChords, scoreCandidate } from '../modules/generation.js';
 import { templateTonality, CHORD_SEPARATOR } from './lib/template-tonality.mjs';
 
@@ -180,6 +180,66 @@ for (const [category, list] of Object.entries(progressions)) {
             if (displayA.suffix === displayB.suffix && Boolean(displayA.lowercase) === Boolean(displayB.lowercase)) {
                 report('M two chord types share a numeral suffix', `${typeA} and ${typeB}: ${JSON.stringify(displayA.suffix)}${displayA.lowercase ? ' (lower case)' : ''}`);
             }
+        }
+    }
+}
+
+// P: the template parser. The parser it replaced stripped the characters it
+// knew and looked up what was left, so an unknown token silently became the
+// tonic: 'II6' played C major (docs/improvements/06-template-parser.md). Every
+// catalogue template is parsed by the generation below, so a typo there already
+// fails this run; these tables pin what the grammar accepts and refuses.
+const PARSE_TABLE = [
+    // [token, degree, chord type, alteration]
+    ['I', 0, 'major', ''], ['vi', 5, 'minor', ''], ['♭VII', 6, 'major', 'flat'], ['♭vi', 5, 'minor', 'flat'],
+    ['IM7', 0, 'major7', ''], ['ii7', 1, 'minor7', ''], ['V7', 4, 'dom7', ''], ['♯IV7', 3, 'dom7', 'sharp'],
+    ['vii°', 6, 'diminished', ''], ['i(maj7)', 0, 'minMaj7', ''], ['i6', 0, 'minor6', ''],
+    // Suffixes that fix the third themselves read after either case; the
+    // catalogue writes its passing diminished chords on upper-case stems
+    ['I°', 0, 'diminished', ''], ['♯II°', 1, 'diminished', 'sharp'], ['isus4', 0, 'sus4', ''],
+    // Shapes the old parser could not read at all
+    ['I+', 0, 'augmented', ''], ['I6', 0, 'major6', ''], ['II6', 1, 'major6', ''], ['Isus4', 0, 'sus4', ''],
+    ['V7sus4', 4, 'dom7sus4', ''], ['viiø7', 6, 'm7b5', ''], ['vii°7', 6, 'dim7', ''],
+    ['I7sus4(no5)', 0, 'quartal', ''], ['ii7(11)', 1, 'quartal4', ''],
+    // Applied dominants: the root a fifth above the target, spelled after the
+    // target's accidental, raised for a natural target the scale cannot reach
+    ['V7/ii', 5, 'dom7', ''], ['V/V', 1, 'major', ''], ['V7/♭III', 6, 'dom7', 'flat'], ['V/vii', 3, 'major', 'sharp']
+];
+for (const [token, degree, quality, alteration] of PARSE_TABLE) {
+    let parsed;
+    try {
+        [parsed] = parseProgression(token);
+    } catch (error) {
+        report('P template parser disagrees with its table', `${token}: threw "${error.message}"`);
+        continue;
+    }
+    if (parsed.degree !== degree || parsed.quality !== quality || parsed.alteration !== alteration) {
+        report('P template parser disagrees with its table', `${token}: degree ${parsed.degree} ${parsed.quality} '${parsed.alteration}', expected degree ${degree} ${quality} '${alteration}'`);
+    }
+}
+const sequence = parseProgression('I—II—iii—II').map(chord => `${chord.degree}:${chord.quality}`).join(' ');
+if (sequence !== '0:major 1:major 2:minor 1:major') report('P template parser disagrees with its table', `I—II—iii—II: ${sequence}`);
+
+const MUST_REFUSE = [
+    'I—X',      // not a numeral
+    'iM7',      // a lower-case stem says minor, M7 a major seventh
+    'I(maj7)',  // and the other way round
+    'Iv',       // mixed case is no numeral
+    'I—',       // empty token from a trailing separator
+    'I— V',     // whitespace
+    '♭♭II',     // one accidental at most
+    'V7/x',     // an applied chord needs a numeral target
+    'vii°/V'    // secondary leading-tone chords: reserved, not supported yet
+];
+// i♯5 is refused until spec 09 adds the minor ♯5 chord type to CHORD_TYPE_DISPLAY
+if (!SUFFIX_TABLE.has('lower|♯5')) MUST_REFUSE.push('i♯5');
+for (const template of MUST_REFUSE) {
+    try {
+        parseProgression(template);
+        report('P template parser accepts a malformed template', template);
+    } catch (error) {
+        if (!/^Unparseable chord token ".*" in template /.test(error.message)) {
+            report('P template parser refuses without naming the token', `${template}: ${error.message}`);
         }
     }
 }
