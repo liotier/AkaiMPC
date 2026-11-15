@@ -428,10 +428,10 @@
         "nickname": "Mixolydian Vamp",
         "description": "Progressione Misolidia circolare. ♭VII preso in prestito dal parallelo minore aggiunge edge rock, IV a I fornisce cadenza plagale tradizionale. Crea sensazione rock modale, trascinante senza accordo dominante V."
       },
-      "i—V—VII—IV—VI—III—iv—V": {
-        "name": "i—V—VII—IV—VI—III—iv—V",
+      "i—V—♭VII—IV—♭VI—♭III—iv—V": {
+        "name": "i—V—♭VII—IV—♭VI—♭III—iv—V",
         "nickname": "Hotel California",
-        "description": "L'iconica progressione degli Eagles con linea di basso cromatica discendente. La tonica minore attraverso accordi presi in prestito crea malinconia sofisticata. La discesa cromatica (i-VII-VI) seguita da III-iv-V costruisce tensione drammatica. Una delle progressioni rock più analizzate, che definisce il rock californiano degli anni '70."
+        "description": "La progressione degli Eagles, Bm F♯ A E G D Em F♯ sul disco. Tre coppie in quinte discendenti i cui primi accordi scendono dalla tonica, i-V, ♭VII-IV, ♭VI-♭III, poi una cadenza iv-V che riporta all'inizio. Il V maggiore viene dalla minore armonica; tutto il resto è minore naturale. Una delle progressioni rock più analizzate."
       }
     },
     "Blues/Soul": {
@@ -794,10 +794,10 @@
         "nickname": "Flamenco",
         "description": "Cadenza Frigia del flamenco. I maggiore a ♭II crea caratteristico scontro di semitono (modo Frigio), ritorno a I, poi V. Il ♭II è il suono flamenco più distintivo, creando carattere spagnolo/moresco. Usato in rumba flamenca, bulerías e tradizioni della chitarra spagnola."
       },
-      "i—V—i—VII": {
-        "name": "i—V—i—VII",
+      "i—V—i—♭VII": {
+        "name": "i—V—i—♭VII",
         "nickname": "Samba",
-        "description": "Progressione samba brasiliana. Minore i-V-i stabilisce casa, VII maggiore (dal minore naturale, non armonico) aggiunge luminosità e slancio verso i. Il VII naturale invece della sensibile crea suono modale, meno europeo caratteristico della musica popolare brasiliana e pagode."
+        "description": "Progressione samba brasiliana. Il i-V-i minore stabilisce la casa, poi la sottotonica ♭VII, l'accordo del settimo grado del minore naturale, un accordo maggiore un tono sotto la tonica, aggiunge luminosità e riporta a i. Scegliere la sottotonica al posto della sensibile dà il suono modale, meno europeo, di samba e pagode."
       },
       "I—V/ii—ii—V/V—V": {
         "name": "I—V/ii—ii—V/V—V",
@@ -878,10 +878,10 @@
         "nickname": "Irish Folk",
         "description": "Progressione folk celtica. Familiare apertura I-V, discende a vi poi iii. Evita accordo IV, creando colore diverso dalle tipiche progressioni pop. Il pattern discendente per terze (V-vi, vi-iii) crea movimento fluido, melodico caratteristico delle ballate irlandesi e tradizioni musicali celtiche."
       },
-      "i—III—IV—VI": {
-        "name": "i—III—IV—VI",
+      "i—♭III—IV—♭VI": {
+        "name": "i—♭III—IV—♭VI",
         "nickname": "House of the Rising Sun",
-        "description": "L'iconica progressione folk-blues degli Animals. La tonica minore a III maggiore crea elevazione immediata, IV continua ascendendo, VI maggiore fornisce colore drammatico prima del ritorno. Il pattern arpeggiato di chitarra su questi accordi definì il folk-rock degli anni '60. Progressione senza tempo per ballate narrative."
+        "description": "La progressione degli Animals: Am C D F, poi Am C E. Dalla tonica minore alla relativa maggiore ♭III lo slancio è immediato, il IV maggiore preso in prestito dal Dorico continua a salire e ♭VI colora la svolta prima del ritorno. La chitarra arpeggiata su questi accordi definì il folk-rock degli anni '60."
       },
       "I—IV—I—IV—I—V—I": {
         "name": "I—IV—I—IV—I—V—I",
@@ -950,10 +950,10 @@
         "nickname": "Extended Shred",
         "description": "Progressione estesa che unisce la cadenza minore classica (i-iv-V-i) a una sequenza discendente in minore naturale (♭VI-♭III-♭VII). Il ritorno al V rilancia il giro. Ideale per lunghi assoli neoclassici e sezioni di metal progressivo."
       },
-      "VI—VII—i": {
-        "name": "VI—VII—i",
+      "♭VI—♭VII—i": {
+        "name": "♭VI—♭VII—i",
         "nickname": "Power Cadence",
-        "description": "Avvicinamento ascendente alla tonica minore attraverso i gradi maggiori VI e VII. Produce una risoluzione potente, spesso raddoppiata in quinte parallele nel metal. La salita per gradi congiunti accumula energia prima di approdare alla tonica. Onnipresente nei breakdown e nei finali metal."
+        "description": "Avvicinamento ascendente alla tonica minore attraverso ♭VI e ♭VII, due toni interi fino a i: F G Am in la minore. Spesso suonata con power chord paralleli nel metal. La cadenza eolia, la gemella in minore del finale ♭VI-♭VII-I in maggiore."
       }
     },
     "Trance/Psytrance/Goa": {
@@ -972,40 +972,40 @@
         "nickname": "Uplifting Trance",
         "description": "Arco emotivo uplifting trance. Minore i a V maggiore (minore armonico) crea speranza, poi ♭VI e ♭VII aggiungono colore modale prima di ciclare. Mix di V funzionale e prestito modale crea slancio euforico e rilascio. Definisce uplifting trance da Armin van Buuren ad Above & Beyond per picchi emotivi e breakdown."
       },
-      "i—iv—VII—III": {
-        "name": "i—iv—VII—III",
+      "i—iv—V—♭VI": {
+        "name": "i—iv—V—♭VI",
         "nickname": "Harmonic Minor Psy",
-        "description": "Progressione psytrance in pura minore armonica. Usa esclusivamente scala minore armonica - i, iv, VII maggiore, III maggiore. La 7ª alzata crea intervallo esotico di seconda aumentata. Carattere drammatico, dell'Europa orientale. VII e III maggiori creano movimento brillante, ascendente contro tonica minore scura per contrasto psichedelico."
+        "description": "Minore armonica pura: Am Dm E F in la minore. Il V maggiore porta la settima alzata che dà alla minore armonica il suo colore di seconda aumentata, e il passo ingannevole da V a ♭VI impedisce al loop di risolvere. Carattere drammatico, est-europeo, per lead psytrance costruiti sulla scala minore armonica."
       },
-      "i—♭VI—III—VII": {
-        "name": "i—♭VI—III—VII",
+      "i—♭VI—♭III—♭VII": {
+        "name": "i—♭VI—♭III—♭VII",
         "nickname": "Dark Psy",
-        "description": "Progressione dark psytrance che mescola modi. Minore i e ♭VI dal minore naturale, III e VII maggiori dalla minore armonica. Crea massima ambiguità armonica e tensione. Ascendendo da ♭VI attraverso III a VII costruisce intensità. Usata in dark psy e forest trance per atmosfera minacciosa, aliena."
+        "description": "Progressione psytrance oscura in minore naturale: Am F C G. Salire da ♭VI attraverso la relativa maggiore ♭III fino alla sottotonica ♭VII accumula intensità senza mai toccare una sensibile, così il loop non risolve mai. Usata nel dark psy e nel forest trance per un'atmosfera minacciosa e sospesa."
       },
       "i—♭III—♭VI—V": {
         "name": "i—♭III—♭VI—V",
         "nickname": "Progressive Psy",
         "description": "Psytrance progressiva con risoluzione funzionale. ♭III e ♭VI presi in prestito dal minore naturale creano colore modale, V maggiore (minore armonico) fornisce forte attrazione a i. Combina suono modale psichedelico con risoluzione soddisfacente. Usata in progressive psytrance per build e rilasci strutturati."
       },
-      "i—VII—VI—VII": {
-        "name": "i—VII—VI—VII",
+      "i—♭VII—♭VI—♭VII": {
+        "name": "i—♭VII—♭VI—♭VII",
         "nickname": "Full-On",
-        "description": "Psytrance full-on con luminosità minore armonica. Minore i contrasta con VII e VI maggiori (dalla minore armonica), VII oscilla per energia trascinante. Gli accordi maggiori creano carattere edificante, energico nonostante tonica minore. Caratteristico del suono aggressivo, euforico della full-on psytrance a 140-148 BPM."
+        "description": "Loop psytrance full-on in minore naturale: Am G F G. La sottotonica ♭VII oscilla contro ♭VI per un'energia pendolare e incalzante, e i due accordi maggiori schiariscono la tonica minore senza risolverla. Caratteristico del suono euforico del full-on psytrance a 140-148 BPM."
       },
-      "i—♭II—VII—V": {
-        "name": "i—♭II—VII—V",
+      "i—♭II—♭VII—V": {
+        "name": "i—♭II—♭VII—V",
         "nickname": "Goa Classic",
-        "description": "Goa trance classica con scale esotiche. Minore i a ♭II (colore Frigio), VII e V maggiori dalla minore armonica. Mix di Frigio e minore armonica crea suono complesso, influenzato dall'Oriente. Intervalli cromatici ed esotici creano carattere spirituale, psichedelico della scena Goa trance originale."
+        "description": "Goa trance classica che mescola i modi: Am B♭ G E. Il ♭II è colore Frigio, ♭VII è la sottotonica del minore naturale, e il V maggiore, con la sua settima alzata, viene dalla minore armonica. Tre scale in quattro accordi producono il suono esotico, dalle sfumature orientali, della scena Goa originale."
       },
-      "i—iv—i—VII": {
-        "name": "i—iv—i—VII",
+      "i—iv—i—♭VII": {
+        "name": "i—iv—i—♭VII",
         "nickname": "Forest Psy",
-        "description": "Progressione psytrance organica forest. Semplice i-iv stabilisce carattere minore, ritorno a i, VII maggiore (minore armonica) aggiunge luminosità. Cambi di accordi minimali focalizzano attenzione su texture organiche e ritmi complessi. Crea atmosfera terrena, naturale caratteristica di forest psytrance e stili psy più scuri, minimali."
+        "description": "Progressione forest psytrance organica: Am Dm Am G. Il semplice i-iv stabilisce il carattere minore, il ritorno a i lo radica, e la sottotonica ♭VII aggiunge un'uscita più luminosa prima che il loop ricominci. Il movimento armonico minimo lascia spazio alle texture organiche e ai ritmi complessi del forest e del psy minimale."
       },
-      "i—III—VII—IV": {
-        "name": "i—III—VII—IV",
+      "i—♭III—♭VII—IV": {
+        "name": "i—♭III—♭VII—IV",
         "nickname": "Morning Trance",
-        "description": "Progressione psytrance luminosa del mattino. Minore i contrasta con III, VII e IV maggiori (da mix minore armonica/Dorico). Gli accordi maggiori creano energia ottimista, da alba. Movimento ascendente (i-III-VII) poi risoluzione su IV crea arco edificante. Usata in set psytrance del mattino per atmosfera positiva, energica mentre il sole sorge."
+        "description": "Progressione psytrance mattutina e luminosa in Dorico: Am C G D. La relativa maggiore ♭III e la sottotonica ♭VII sollevano la tonica minore, e il IV maggiore, l'accordo distintivo del Dorico, arriva con l'ottimismo di un'alba. Gli stessi gradi del vamp dorico delle colonne sonore di film e videogiochi, al tempo della psytrance."
       },
       "i—v—♭VII": {
         "name": "i—v—♭VII",
@@ -1103,10 +1103,10 @@
         "nickname": "Retrowave Pop",
         "description": "Progressione retrowave influenzata dal pop. Inizia sulla relativa minore per profondità emotiva, cicla attraverso cambi familiari con produzione anni '80. Qualità accessibile, da cantare insieme connette synthwave al pop mainstream. Usata in retrowave radio-friendly e synthpop per appeal commerciale mantenendo estetica retro."
       },
-      "i—♭VI—III—♭VII": {
-        "name": "i—♭VI—III—♭VII",
+      "i—♭VI—♭III—♭VII": {
+        "name": "i—♭VI—♭III—♭VII",
         "nickname": "Dark Synth",
-        "description": "Progressione dark synth aggressiva. Minore i e ♭VI preso in prestito dal minore naturale, III maggiore dalla minore armonica crea slancio drammatico, ♭VII aggiunge potenza. Mix di modi crea carattere complesso, minaccioso. Usata in horror synth, dark electro e produzioni cyberpunk aggressive per massima intensità e oscurità."
+        "description": "Progressione dark synth aggressiva in minore naturale: Am F C G. ♭VI oscura, la relativa maggiore ♭III solleva, e la sottotonica ♭VII spinge il ritorno. Suonato con stab a dente di sega e pad in sidechain, il loop minore più comune della synthwave diventa minaccioso anziché nostalgico."
       },
       "IM7—iii7—vi7—IVM7": {
         "name": "IM7—iii7—vi7—IVM7",
@@ -1137,10 +1137,10 @@
       }
     },
     "UK Bass": {
-      "i—VII—♭VI": {
-        "name": "i—VII—♭VI",
+      "i—♭VII—♭VI": {
+        "name": "i—♭VII—♭VI",
         "nickname": "UK Garage",
-        "description": "Tavolozza soulful, saltellante. Accordi minori e maggiori per groove 2-step saltellanti."
+        "description": "Tavolozza soulful, saltellante: Am G F. La tonica minore scende attraverso la sottotonica ♭VII fino a ♭VI, i due accordi maggiori del minore naturale, per groove 2-step saltellanti."
       },
       "i—♭VI": {
         "name": "i—♭VI",

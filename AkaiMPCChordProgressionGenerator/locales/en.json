@@ -428,10 +428,10 @@
         "nickname": "Mixolydian Vamp",
         "description": "Circular Mixolydian progression. Borrowed ♭VII from parallel minor adds rock edge, IV to I provides traditional perfect cadence. Creates driving, modal rock feel without dominant V chord."
       },
-      "i—V—VII—IV—VI—III—iv—V": {
-        "name": "i—V—VII—IV—VI—III—iv—V",
+      "i—V—♭VII—IV—♭VI—♭III—iv—V": {
+        "name": "i—V—♭VII—IV—♭VI—♭III—iv—V",
         "nickname": "Hotel California",
-        "description": "The Eagles' iconic progression with descending chromatic bass line. Minor tonic through borrowed chords creates sophisticated melancholy. The chromatic descent (i-VII-VI) followed by III-iv-V builds dramatic tension. One of rock's most analyzed progressions, defining 1970s California rock."
+        "description": "The Eagles' progression, Bm F♯ A E G D Em F♯ on the record. Three falling-fifth pairs whose first chords step down from the tonic, i-V, ♭VII-IV, ♭VI-♭III, then a iv-V cadence back to the top. The major V comes from harmonic minor; everything else is natural minor. One of rock's most analyzed progressions."
       }
     },
     "Blues/Soul": {
@@ -836,10 +836,10 @@
         "nickname": "Flamenco",
         "description": "Flamenco Phrygian cadence. Major I to ♭II creates characteristic semitone clash (Phrygian mode), return to I, then V. The ♭II is most distinctive flamenco sound, creating Spanish/Moorish character. Used in rumba flamenca, bulerías, and Spanish guitar traditions."
       },
-      "i—V—i—VII": {
-        "name": "i—V—i—VII",
+      "i—V—i—♭VII": {
+        "name": "i—V—i—♭VII",
         "nickname": "Samba",
-        "description": "Brazilian samba progression. Minor i-V-i establishes home, major VII (from natural minor, not harmonic) adds brightness and forward motion back to i. The natural VII instead of leading tone creates modal, less European sound characteristic of Brazilian popular music and pagode."
+        "description": "Brazilian samba progression. Minor i-V-i establishes home, then the subtonic ♭VII, the natural minor's seventh chord, a major triad a whole step below the tonic, adds brightness and leads back to i. Choosing the subtonic over the leading tone gives the modal, less European sound of samba and pagode."
       },
       "I—V/ii—ii—V/V—V": {
         "name": "I—V/ii—ii—V/V—V",
@@ -920,10 +920,10 @@
         "nickname": "Irish Folk",
         "description": "Celtic folk progression. Familiar I-V opening, descends to vi then iii. Avoids IV chord, creating different color than typical pop progressions. The descending thirds pattern (V-vi, vi-iii) creates flowing, melodic motion characteristic of Irish ballads and Celtic music traditions."
       },
-      "i—III—IV—VI": {
-        "name": "i—III—IV—VI",
+      "i—♭III—IV—♭VI": {
+        "name": "i—♭III—IV—♭VI",
         "nickname": "House of the Rising Sun",
-        "description": "The Animals' iconic folk-blues progression. Minor tonic to major III creates immediate lift, IV continues ascending, major VI provides dramatic color before return. The arpeggiated guitar pattern over these changes defined 1960s folk-rock. Timeless progression for storytelling ballads."
+        "description": "The Animals' progression: Am C D F, then Am C E. Minor tonic to the relative major ♭III lifts immediately, the major IV borrowed from Dorian keeps rising, and ♭VI colors the turn before the return. The arpeggiated guitar over these changes defined 1960s folk-rock."
       },
       "I—IV—I—IV—I—V—I": {
         "name": "I—IV—I—IV—I—V—I",
@@ -992,10 +992,10 @@
         "nickname": "Extended Shred",
         "description": "Extended progression combining classical minor cadence (i-iv-V-i) with descending natural minor sequence (♭VI-♭III-♭VII). Returns to V for repeat. Perfect for extended neoclassical shred solos and progressive metal sections."
       },
-      "VI—VII—i": {
-        "name": "VI—VII—i",
+      "♭VI—♭VII—i": {
+        "name": "♭VI—♭VII—i",
         "nickname": "Power Cadence",
-        "description": "Ascending approach to minor tonic using major VI and VII. Creates powerful resolution often doubled with parallel fifths in metal. The stepwise ascent builds energy before landing on tonic. Heard in countless metal breakdowns and endings."
+        "description": "Ascending approach to the minor tonic through ♭VI and ♭VII, two whole steps up to i: F G Am in A minor. Often played as parallel power chords in metal. The Aeolian cadence, the minor-key twin of the ♭VI-♭VII-I ending in major."
       }
     },
     "Trance/Psytrance/Goa": {
@@ -1014,40 +1014,40 @@
         "nickname": "Uplifting Trance",
         "description": "Uplifting trance emotional arc. Minor i to major V (harmonic minor) creates hope, then ♭VI and ♭VII add modal color before cycling. Mix of functional V and modal borrowing creates euphoric lift and release. Defines uplifting trance from Armin van Buuren to Above & Beyond for emotional peaks and breakdowns."
       },
-      "i—iv—VII—III": {
-        "name": "i—iv—VII—III",
+      "i—iv—V—♭VI": {
+        "name": "i—iv—V—♭VI",
         "nickname": "Harmonic Minor Psy",
-        "description": "Pure harmonic minor psytrance progression. Uses harmonic minor scale exclusively - i, iv, major VII, major III. The raised 7th creates exotic augmented second interval. Dramatic, Eastern European character. The major VII and III create bright, ascending motion against dark minor tonic for psychedelic contrast."
+        "description": "Pure harmonic minor: Am Dm E F in A minor. The major V carries the raised seventh that gives harmonic minor its augmented-second color, and the deceptive step from V up to ♭VI keeps the loop from resolving. Dramatic, Eastern-European character for psytrance leads built on the harmonic minor scale."
       },
-      "i—♭VI—III—VII": {
-        "name": "i—♭VI—III—VII",
+      "i—♭VI—♭III—♭VII": {
+        "name": "i—♭VI—♭III—♭VII",
         "nickname": "Dark Psy",
-        "description": "Dark psytrance progression mixing modes. Minor i and ♭VI from natural minor, major III and VII from harmonic minor. Creates maximum harmonic ambiguity and tension. Ascending from ♭VI through III to VII builds intensity. Used in dark psy and forest trance for ominous, alien atmosphere."
+        "description": "Dark psytrance progression in natural minor: Am F C G. Rising from ♭VI through the relative major ♭III to the subtonic ♭VII builds intensity without ever touching a leading tone, so the loop never resolves. Used in dark psy and forest trance for an ominous, suspended atmosphere."
       },
       "i—♭III—♭VI—V": {
         "name": "i—♭III—♭VI—V",
         "nickname": "Progressive Psy",
         "description": "Progressive psytrance with functional resolution. Borrowed ♭III and ♭VI from natural minor create modal color, major V (harmonic minor) provides strong pull to i. Combines psychedelic modal sound with satisfying resolution. Used in progressive psytrance for structured builds and releases."
       },
-      "i—VII—VI—VII": {
-        "name": "i—VII—VI—VII",
+      "i—♭VII—♭VI—♭VII": {
+        "name": "i—♭VII—♭VI—♭VII",
         "nickname": "Full-On",
-        "description": "Full-on psytrance with harmonic minor brightness. Minor i contrasts with major VII and VI (from harmonic minor), VII oscillates for driving energy. The major chords create uplifting, energetic character despite minor tonic. Characteristic of full-on psytrance's aggressive, euphoric sound at 140-148 BPM."
+        "description": "Full-on psytrance loop in natural minor: Am G F G. The subtonic ♭VII oscillates against ♭VI for driving, pendular energy, and the two major triads brighten the minor tonic without resolving it. Characteristic of full-on psytrance's euphoric sound at 140-148 BPM."
       },
-      "i—♭II—VII—V": {
-        "name": "i—♭II—VII—V",
+      "i—♭II—♭VII—V": {
+        "name": "i—♭II—♭VII—V",
         "nickname": "Goa Classic",
-        "description": "Classic Goa trance with exotic scales. Minor i to ♭II (Phrygian color), major VII and V from harmonic minor. Mix of Phrygian and harmonic minor creates complex, Eastern-influenced sound. The chromatic and exotic intervals create spiritual, psychedelic character of original Goa trance scene."
+        "description": "Classic Goa trance mixing modes: Am B♭ G E. The ♭II is Phrygian color, ♭VII is the natural minor's subtonic, and the major V with its raised seventh comes from harmonic minor. Three scales in four chords produce the exotic, Eastern-leaning sound of the original Goa scene."
       },
-      "i—iv—i—VII": {
-        "name": "i—iv—i—VII",
+      "i—iv—i—♭VII": {
+        "name": "i—iv—i—♭VII",
         "nickname": "Forest Psy",
-        "description": "Organic forest psytrance progression. Simple i-iv establishes minor character, return to i, major VII (harmonic minor) adds brightness. Minimal chord changes focus attention on organic textures and complex rhythms. Creates earthy, natural atmosphere characteristic of forest psytrance and darker, minimal psy styles."
+        "description": "Organic forest psytrance progression: Am Dm Am G. Simple i-iv establishes the minor character, the return to i grounds it, and the subtonic ♭VII adds a brighter exit before the loop restarts. Minimal harmonic motion leaves room for the organic textures and complex rhythms of forest and minimal psy."
       },
-      "i—III—VII—IV": {
-        "name": "i—III—VII—IV",
+      "i—♭III—♭VII—IV": {
+        "name": "i—♭III—♭VII—IV",
         "nickname": "Morning Trance",
-        "description": "Bright morning psytrance progression. Minor i contrasts with major III, VII, and IV (from harmonic minor/Dorian mix). The major chords create optimistic, sunrise energy. Ascending motion (i-III-VII) then resolution to IV creates uplifting arc. Used in morning psytrance sets for positive, energetic atmosphere as sun rises."
+        "description": "Bright morning psytrance progression in Dorian: Am C G D. The relative major ♭III and the subtonic ♭VII lift the minor tonic, and the major IV, Dorian's signature chord, lands with sunrise optimism. The same degrees as the Dorian vamp of film and game scores, at psytrance tempo."
       },
       "i—v—♭VII": {
         "name": "i—v—♭VII",
@@ -1145,10 +1145,10 @@
         "nickname": "Retrowave Pop",
         "description": "Pop-influenced retrowave progression. Starts on relative minor for emotional depth, cycles through familiar changes with 80s production. Accessible, singalong quality connects synthwave to mainstream pop. Used in radio-friendly retrowave and synthpop for commercial appeal while maintaining retro aesthetic."
       },
-      "i—♭VI—III—♭VII": {
-        "name": "i—♭VI—III—♭VII",
+      "i—♭VI—♭III—♭VII": {
+        "name": "i—♭VI—♭III—♭VII",
         "nickname": "Dark Synth",
-        "description": "Aggressive dark synth progression. Minor i and borrowed ♭VI from natural minor, major III from harmonic minor creates dramatic lift, ♭VII adds power. Mix of modes creates complex, menacing character. Used in horror synth, dark electro, and aggressive cyberpunk productions for maximum intensity and darkness."
+        "description": "Aggressive dark synth progression in natural minor: Am F C G. ♭VI darkens, the relative major ♭III lifts, and the subtonic ♭VII powers the return. Played with saw-wave stabs and side-chained pads, the most common minor loop in synthwave turns menacing rather than nostalgic."
       },
       "IM7—iii7—vi7—IVM7": {
         "name": "IM7—iii7—vi7—IVM7",
@@ -1179,10 +1179,10 @@
       }
     },
     "UK Bass": {
-      "i—VII—♭VI": {
-        "name": "i—VII—♭VI",
+      "i—♭VII—♭VI": {
+        "name": "i—♭VII—♭VI",
         "nickname": "UK Garage",
-        "description": "Soulful, skippy palette. Minor and major chords for skippy 2-step grooves."
+        "description": "Soulful, skippy palette: Am G F. Minor tonic stepping down through the subtonic ♭VII to ♭VI, the natural minor's two major chords, for skippy 2-step grooves."
       },
       "i—♭VI": {
         "name": "i—♭VI",
