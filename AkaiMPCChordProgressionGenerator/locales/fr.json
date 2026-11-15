@@ -895,6 +895,11 @@
         "name": "I—♭VI—♭VII—I",
         "nickname": "Hero Cadence",
         "description": "C A♭ B♭ C. La tonique, puis les deux accords majeurs distants d'un ton situés sous elle, ♭VI et ♭VII, qui remontent vers la maison. Une approche double plagale de I, la formule de fin triomphante des musiques d'aventure et des thèmes de victoire, ici en boucle pour que la tonique soit à la fois départ et arrivée."
+      },
+      "i—i♯5—i6—i♯5": {
+        "name": "i—i♯5—i6—i♯5",
+        "nickname": "Ascending Line Cliché",
+        "description": "Em E G C E G C♯ et retour, en accords : la quinte d'un accord mineur monte par demi-tons au-dessus d'une fondamentale et d'une tierce tenues, i, i♯5, i6, i♯5. L'harmonisation du thème d'espionnage, un classique des musiques héroïques et de suspense. Le pad i6 garde la quinte à côté de la sixte ; pour la ligne pure à une seule voix, ne jouer que le changement de note aiguë à partir du pad i♯5."
       }
     },
     "Folk/Singer-Songwriter": {

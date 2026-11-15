@@ -771,6 +771,14 @@ export const progressions = {
                 allowed: ['major7', 'sus2', 'minor'],
                 avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']
             },
+        },
+        {
+            value: 'i—i♯5—i6—i♯5',
+            palettePriorities: {
+                preferred: ['minor', 'minAug', 'minor6'],   // The fifth climbs: 5, ♯5, 6, ♯5 over a held root and third
+                allowed: ['minor7', 'minMaj7', 'sus4'],
+                avoided: ['major', 'major7', 'dom7', 'diminished', 'quartal']
+            },
         }
     ],
     'Folk/Singer-Songwriter': [
@@ -1735,6 +1743,7 @@ export const CHORD_INTERVALS = {
     minor: [0, 3, 7],
     diminished: [0, 3, 6],
     augmented: [0, 4, 8],
+    minAug: [0, 3, 8],     // Minor ♯5: minor third, augmented fifth (the ascending line cliché)
     sus2: [0, 2, 7],
     sus4: [0, 5, 7],
 
@@ -2715,6 +2724,7 @@ export const CHORD_NAME_SUFFIX = {
     'minor': 'm',
     'diminished': 'dim',
     'augmented': 'aug',
+    'minAug': 'm#5',
     'sus2': 'sus2',
     'sus4': 'sus4',
     'major7': 'maj7',
@@ -2854,6 +2864,7 @@ export const CHORD_TYPE_DISPLAY = {
     minor: { label: 'Minor', lowercase: true, suffix: '' },
     diminished: { label: 'Diminished', lowercase: true, suffix: '°' },
     augmented: { label: 'Augmented', suffix: '+' },
+    minAug: { label: 'Minor ♯5', lowercase: true, suffix: '♯5' },
     sus2: { label: 'Suspended', suffix: 'sus2' },
     sus4: { label: 'Suspended', suffix: 'sus4' },
     quartal: { label: 'Quartal', suffix: '7sus4(no5)' },

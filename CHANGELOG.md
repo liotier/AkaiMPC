@@ -57,7 +57,13 @@ with the devices film and game scores lean on: chromatic mediants in pairs
 (Major Third Mediants, Minor Third Mediants, Minor Mediants), the Hexatonic Pole,
 two Lydian loops (Lydian Vamp, Lydian Float), Dorian Drift, Minor Lift, Wandering
 Fifth and Hero Cadence. Each has a palette tuned to it that steers clear of
-dominant chords, and descriptions in all six languages. The generator now offers 183
+dominant chords, and descriptions in all six languages.
+
+**The ascending line cliché.** Film/Cinematic gets an eighteenth progression,
+Ascending Line Cliché: Em, then the same chord with its fifth climbing by
+semitones, E G C and E G C♯, and back. It is the harmonization of the spy-theme
+riff, and it needed a chord the generator did not have, the minor chord with a
+raised fifth, written m♯5 (Em#5 in exported files). The generator now offers 184
 progression palettes.
 
 ## 2026-09-08

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | implemented |
 | Type | feature |
 | Size | S |
 | Depends on | 00, 06 |
@@ -148,3 +148,68 @@ One entry × six locales.
 - A major-key ascending cliché (`I—I+—I6—I+`): parseable after spec 06 with
   existing types, so it is a data-only addition; not requested here because
   it is a pop and show-tune device rather than a cinematic one.
+
+## 8. Implementation notes
+
+Implemented as specified, on top of spec 06's parser (commit `687882d`), which is why
+the parser itself did not change: `SUFFIX_TABLE` is derived from `CHORD_TYPE_DISPLAY`,
+so adding `minAug` there made `i♯5` readable. What changed is `minAug` in the three
+tables, the guitar fallback `minAug -> minor`, one template appended to
+Film/Cinematic after spec 08's ten, and one entry in each of six locale files.
+
+- **Parser tests live in audit check P.** The two positive rows of §3.2, `i♯5` and
+  `♭vi♯5`, are in its table, `I♯5` is in its list of refusals, and the placeholder 06
+  left, a refusal of `i♯5` that lapsed once the suffix existed, is gone with the
+  import it needed. With `minAug` taken out of the display table the run stops at
+  the template itself: "Unparseable chord token "i♯5"".
+- **The Jazz upgrade leaves `minAug` alone.** In 12 keys and 5 styles there are 120
+  `minAug` pads, and every one is still named `…m#5` and numbered `i♯5`.
+- **The nickname is English in every locale**, accent included, as `Line Cliché` is.
+  The English description reads "harmonization", as `en.json` spells everything.
+- **The Finder was left alone.** §3.5's optional `'0,3,8': 'Minor #5'` would change
+  nothing: the Finder rotates a chord to every candidate root and prefers a
+  tertian reading (`isTertian`), and E G C is a first-inversion C major, which it
+  rightly names `C/E`. `Em#5` and `C/E` are the same three notes; the minor ♯5 is
+  a spelling for a function, not a different sound.
+- **For the same reason a major ♭VI never sits beside the `m♯5` pad.** Spec 05's
+  sound filter drops the palette's `♭VI` as a twin of it (in A, `F` against `Am#5`).
+
+Measured against the parent commit (`508ef59`):
+
+| Quantity | Before | After |
+|---|---|---|
+| Progression templates / Film/Cinematic templates | 183 / 17 | 184 / 18 |
+| Variants audited, 12 keys and 5 styles | 10 980 | 11 040 |
+| Snapshot blocks | 183 template, 34 scale | 184 template, 34 scale: one new, none changed |
+| `.progression` files in the pack | 904 | 909 |
+| MIDI files in the pack | 10 855 | 10 915 |
+| Pack names carrying two styles | 11 | 11 |
+
+Acceptance. Item 1 holds: key E, Classic, pads 1 to 4 read `Em [i]`, `Em#5 [i♯5]`,
+`Em6 [i6]`, `Em#5 [i♯5]`, all progression pads, and pad 2 is E4 G4 C5. Items 3 to 6
+hold: the audit passes with no whitelist, the parser tests are in check P, the
+snapshot has one new block, and the protocol passes.
+
+**Item 2 holds only in part.** Key E, Smooth, reading the MIDI notes:
+
+| Pad | Notes | MIDI |
+|---|---|---|
+| 1 `Em` | E4 G4 B4 | 64 67 71 |
+| 2 `Em#5` | E4 G4 C5 | 64 67 72 |
+| 3 `Em6` | G4 B4 C♯5 E5 | 67 71 73 76 |
+| 4 `Em#5` | E4 G4 C5 | 64 67 72 |
+
+The line is there, B 71, C 72, C♯ 73, and G stays on 67 throughout. E does not stay
+on 64: in pad 3 the voicer puts G at the bottom and sounds E an octave higher, 76.
+The pitch class is held, the pitch is not. Classic keeps the bass: pad 3 is
+64 67 71 73. The Smooth voicer picks an inversion for the four-note `Em6` between two
+three-note chords, and the same pad 3 shape, bass on the third, comes out in C, A and
+F. I did not trace which term of its scorer decides it, and the index (§8,
+non-goals) rules out re-tuning it, so it is left as it is.
+
+**A consequence of the priorities as given.** §3.3 avoids `major` and `dom7`, which
+is nearly every chord row 4 offers, and the palette has nothing unused to fill the
+gap with, so row 4 reaches spec 04's step 5 in all five styles. Classic, key A:
+`E7 [V7]  B7 [V7/V]  F♯ [VI]  F♯7 [V7/ii]`, all chords the template avoids. It
+joins the templates listed in spec 04 §6 item 8 (see the note in its §9), left to
+spec 07 and to a later decision on the priorities.

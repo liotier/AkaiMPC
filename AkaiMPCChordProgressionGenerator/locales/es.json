@@ -895,6 +895,11 @@
         "name": "I—♭VI—♭VII—I",
         "nickname": "Hero Cadence",
         "description": "C A♭ B♭ C. La tónica, luego las dos tríadas mayores separadas por un tono situadas por debajo de ella, ♭VI y ♭VII, que suben de vuelta a casa. Una aproximación doble plagal a I, la fórmula de cierre triunfal de la música de aventuras y de los temas de victoria, aquí como bucle para que la tónica sea a la vez salida y llegada."
+      },
+      "i—i♯5—i6—i♯5": {
+        "name": "i—i♯5—i6—i♯5",
+        "nickname": "Ascending Line Cliché",
+        "description": "Em E G C E G C♯ y de vuelta, en acordes: la quinta de una tríada menor sube por semitonos sobre una fundamental y una tercera sostenidas, i, i♯5, i6, i♯5. La armonización del tema de espías y un clásico de la música heroica y de suspense. El pad i6 conserva la quinta junto a la sexta; para la línea pura de una sola voz, tocar solo el cambio de la nota aguda desde el pad i♯5."
       }
     },
     "Folk/Singer-Songwriter": {
