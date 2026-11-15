@@ -4,8 +4,8 @@ Thirteen specifications, one per improvement, each written to be handed to an
 implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
-Status is recorded in each spec's header. Spec 00 is implemented; the rest are
-**proposed**.
+Status is recorded in each spec's header. Specs 00 and 01 are implemented; the
+rest are **proposed**.
 
 ## 1. Provenance
 
@@ -211,6 +211,8 @@ Not worth a spec of their own; each is handled inside the spec named.
 |---|---|
 | `scoreCandidate()` counts a root a semitone above an existing root as good voice leading but not a semitone below (intervals 1, 5, 7, never 11) | 03 |
 | The Jazz seventh-upgrade appends a suffix to numerals that already carry one: 168 pads in the key of C (`i99`, `V99/V`, `Isus4sus4`, `vii°ø7`), found by the snapshot of spec 00 | 05 |
+| A template whose only setting is a `paletteFilter` never receives the extended types the filter names: Folk "Post-Rock Build" lists `quartal` and gets none, because declared colours are read from `palettePriorities` only | 04 |
+| Quartal chords (`quartal` C F B♭, `quartal4` C F B♭ E♭) are named `sus4` and `sus4(add11)`, though a sus4 chord has a fifth and no seventh: 70 pads in 7 templates in the key of C, plus 12 in Scale Mode, exported to the MPC under the wrong name. The audit cannot see it because it compares a name's suffix with the table, not with the notes. Needs a naming decision | - |
 | `analyzeExistingChords()` treats `iii` and `vii°` as subdominant because the string contains `ii` | 03 |
 | README "Dynamic Row 4" section claims genre weighting that does not exist | 04 |
 | `tools/audit-theory.mjs` whitelists 1 227 "functional twins" that are plain duplicate pads; the measured figure today is 1 265 | 05 |

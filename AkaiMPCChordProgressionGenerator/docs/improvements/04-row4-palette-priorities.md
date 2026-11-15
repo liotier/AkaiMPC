@@ -132,7 +132,17 @@ palettePriorities: {
 
 except `i—♭II—♭VII—V`, whose V may carry `dom7`: move `dom7` to `allowed`.
 
-### 3.5 README
+### 3.5 Colours named only by a filter
+
+`generateVariant()` offers declared colours on each degree from
+`palettePriorities.preferred` and `.allowed` only (`generation.js:689`). A
+template that declares a `paletteFilter` instead never receives the extended
+types its filter names: Folk/Singer-Songwriter "Post-Rock Build" (`I—V—vi—IV`)
+filters to `major`, `quartal`, `major7` and has no quartal pad. Read the
+filter's types into the declared colours as well. It is the only filter today
+that names a type beyond triads and sevenths. Found while implementing spec 01.
+
+### 3.6 README
 
 In "Dynamic Row 4", replace the "Genre Intelligence with Palette Priorities"
 bullet with a sentence that is now true: row 4 is chosen under the same
@@ -167,7 +177,9 @@ None.
    gained priorities. No other block changes. Any change to a priority-less
    template's row 4 is a regression.
 5. Count and record the templates that needed the fallback of §3.2 step 5.
-6. Full verification protocol passes.
+6. Folk/Singer-Songwriter "Post-Rock Build", key C: at least one pad of type
+   `quartal` (§3.5).
+7. Full verification protocol passes.
 
 ## 7. Out of scope
 

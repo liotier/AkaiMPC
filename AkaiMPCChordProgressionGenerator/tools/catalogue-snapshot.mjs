@@ -147,11 +147,10 @@ function templateBlock(category, template) {
     const key = tonality === 'minor' ? MINOR_KEY : MAJOR_KEY;
     const header = `## ${category} | ${value} | ${nickname} | ${tonality} | ${key}`;
 
-    // `category` is not read by the engine yet: it finds a template by its
-    // value alone, so a value listed under several genres gets the first
-    // genre's palette in every one of them. Passing the category already means
-    // these blocks start telling the genres apart the moment the engine does
-    // (docs/improvements/01-template-identity.md); until then it is ignored.
+    // The category selects which genre's entry is generated: a value listed
+    // under several genres has its own palette priorities in each, so their
+    // blocks differ wherever those priorities do
+    // (docs/improvements/01-template-identity.md).
     const generate = style => checkedPads(
         generateVariant(style, { key, mode: 'Major', progression: value, category, chordRequirements: [] }),
         `${header} / ${style}`

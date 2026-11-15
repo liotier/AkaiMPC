@@ -1122,19 +1122,48 @@ export const progressions = {
 };
 
 /**
- * The genre category a progression template belongs to, e.g. 'Jungle/Drum\'n\'Bass'
- * for 'i—♭VII—♭VI—V'. Used both by the palette builder (to find a template's
- * paletteFilter/palettePriorities) and by modules/mpcNaming.js (the category is
- * half of the MPC display name).
+ * The template entry for a progression, and the genre it is read under.
  *
- * @param {string} value - A progression template value
- * @returns {string|null} The category key, or null if value matches nothing
+ * A template's identity is the pair (category, value), not the value alone:
+ * sixteen values are listed under more than one genre, each entry with its own
+ * palette priorities and its own MPC menu heading. Looking a template up by
+ * value returned the first genre's entry for all of them, so the later genres'
+ * priorities were never read and their exports were filed under the first
+ * genre (docs/improvements/01-template-identity.md).
+ *
+ * When `category` names a genre that lists the value, that genre's entry is
+ * returned. Otherwise - no category, an unknown one, or one that does not list
+ * the value - the first genre listing it, which is how a bare value (an old
+ * URL, a preference stored before genres were remembered) was always read.
+ *
+ * @param {string} value - A progression template value, e.g. 'I—V—vi—IV'
+ * @param {string|null} [category=null] - The genre the value was chosen under
+ * @returns {{category: string, template: Object}|null} null if no genre lists the value
  */
-export function findProgressionCategory(value) {
-    for (const category in progressions) {
-        if (progressions[category].some(p => p.value === value)) return category;
+export function resolveTemplate(value, category = null) {
+    if (category !== null && Object.prototype.hasOwnProperty.call(progressions, category)) {
+        const template = progressions[category].find(p => p.value === value);
+        if (template) return { category, template };
+    }
+    for (const [name, list] of Object.entries(progressions)) {
+        const template = list.find(p => p.value === value);
+        if (template) return { category: name, template };
     }
     return null;
+}
+
+/**
+ * The genre category a progression template is read under, e.g.
+ * 'Jungle/Drum\'n\'Bass' for 'i—♭VII—♭VI—V' when nothing says otherwise. Used by
+ * modules/mpcNaming.js callers (the category is half of the MPC display name)
+ * and by the app to restore a selection. Same rule as resolveTemplate().
+ *
+ * @param {string} value - A progression template value
+ * @param {string|null} [preferred=null] - The genre the value was chosen under
+ * @returns {string|null} The category key, or null if value matches nothing
+ */
+export function findProgressionCategory(value, preferred = null) {
+    return resolveTemplate(value, preferred)?.category ?? null;
 }
 
 /**

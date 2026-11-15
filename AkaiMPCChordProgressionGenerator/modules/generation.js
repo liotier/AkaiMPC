@@ -10,7 +10,7 @@
 // builder, the audit tool) supplies its own state.
 
 import {
-    progressions,
+    resolveTemplate,
     getKeyOffset,
     getScaleDegrees,
     getChordQualityForMode,
@@ -502,7 +502,7 @@ export function generateScaleExploration({ key, mode, chordRequirements = [] }) 
     };
 }
 
-export function generateVariant(variantType, { key, mode, progression, chordRequirements = [] }) {
+export function generateVariant(variantType, { key, mode, progression, category = null, chordRequirements = [] }) {
     const keyOffset = getKeyOffset(key);
     // Progression Palette Mode reads every roman numeral against the parallel
     // major scale (see generateProgressionChords), and the Mode/Scale selector
@@ -518,21 +518,13 @@ export function generateVariant(variantType, { key, mode, progression, chordRequ
     const originalProgression = [...progressionChords];
     const originalProgressionLength = progressionChords.length;
 
-    // Look up the full progression template object to get palette preferences
-    let paletteFilter = null;
-    let palettePriorities = null;
-    for (const category in progressions) {
-        const template = progressions[category].find(p => p.value === progression);
-        if (template) {
-            if (template.paletteFilter) {
-                paletteFilter = template.paletteFilter;
-            }
-            if (template.palettePriorities) {
-                palettePriorities = template.palettePriorities;
-            }
-            break;
-        }
-    }
+    // The palette preferences belong to the template as listed under its genre:
+    // a value listed under several genres carries different priorities in each
+    // (docs/improvements/01-template-identity.md). Without a category, the first
+    // genre listing the value is used, as it always was.
+    const template = resolveTemplate(progression, category)?.template;
+    const paletteFilter = template?.paletteFilter || null;
+    const palettePriorities = template?.palettePriorities || null;
 
     // Helper to get chord priority (1=avoided, 2=allowed, 3=preferred)
     const getChordPriority = (chordType) => {
@@ -1023,10 +1015,10 @@ export const VARIANT_STYLES = ['Smooth', 'Classic', 'Jazz', 'Modal', 'Experiment
 // Single entry point used by the running app, tools/build-pack.mjs and
 // tools/audit-theory.mjs alike, so all three generate identical output for
 // identical input.
-export function generateVariants({ key, mode, progression, generationMode, chordRequirements = [] }) {
+export function generateVariants({ key, mode, progression, category = null, generationMode, chordRequirements = [] }) {
     if (generationMode === 'template') {
         const allVariants = VARIANT_STYLES.map(style =>
-            generateVariant(style, { key, mode, progression, chordRequirements })
+            generateVariant(style, { key, mode, progression, category, chordRequirements })
         );
 
         // Track every style that produced a given signature before dedup
