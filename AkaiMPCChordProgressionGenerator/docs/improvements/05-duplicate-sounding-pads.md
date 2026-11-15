@@ -270,7 +270,7 @@ None.
   German sixth does not, the pad reads `Ab7 [♭VI7]`, which is correct.
 - How the Finder reads a quartal chord. It names C F B♭ as Fsus4 over C,
   which is also correct: the same notes form an inversion of Fsus4. The Finder
-  is another tool (spec 12).
+  is another tool, left alone (spec 12, which would have touched it, was dropped).
 - The note names printed on each pad. The app spells every chord as a stack
   of thirds, so a quartal chord reads C E♯ A♯; sus, sixth and 7sus4 chords
   suffer the same way. It is recorded in the index as a finding of its own.

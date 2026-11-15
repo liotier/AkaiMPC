@@ -1,8 +1,8 @@
-# 12 - Optional: align the Finder's minor-key numerals with the Generator
+# 12 - Dropped: align the Finder's minor-key numerals with the Generator
 
 | | |
 |---|---|
-| Status | proposed, optional |
+| Status | dropped on 2026-11-15: the maintainer does not need the Finder to match the Generator. Kept as a record |
 | Type | consistency (other tool) |
 | Size | S |
 | Depends on | nothing; read spec 02 §1 for the background |

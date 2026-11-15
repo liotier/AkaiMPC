@@ -5,7 +5,7 @@ implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
 Status is recorded in each spec's header. Specs 00 to 06, 08 and 09 are implemented;
-the rest are **proposed**.
+spec 12 is dropped; the rest are **proposed**.
 
 ## 1. Provenance
 
@@ -76,8 +76,8 @@ instrument, and the later specs rely on it.
 | 08 | [Ten Film/Cinematic templates](08-cinematic-templates.md) | feature, data | M | 00, 01; 04 recommended | Sonnet 5.5 |
 | 09 | [The ascending line cliché: a minor ♯5 chord type](09-ascending-line-cliche.md) | feature | S | 00, 06 | Sonnet 5.5 |
 | 10 | [Row 4: chromatic mediants and mode flips](10-row4-mediants.md) | feature | M | 03, 04, 05, 07 | Opus 5.5 |
-| 11 | [Optional: a Pedal voicing style](11-pedal-voicing-style.md) | feature, optional | M | 00 | Opus 5.5 |
-| 12 | [Optional: align the Finder's minor-key numerals](12-finder-numeral-convention.md) | consistency, optional | S | - | Sonnet 5.5 |
+| 11 | [A Pedal voicing style](11-pedal-voicing-style.md) | feature | M | 00 | Opus 5.5 |
+| 12 | [Dropped: align the Finder's minor-key numerals](12-finder-numeral-convention.md) | consistency, dropped | S | - | - |
 | 13 | [Spelling that follows the key](13-spelling.md) | defect | L | 00 | Opus 5.5 |
 
 Sizes: S is under a day of a session's work with review, M one to two, L a
@@ -100,9 +100,9 @@ catalogue.
  │
  ├── 13 spelling              (independent; recommended before 07)
  │
- └── 11 pedal voicing         (optional, independent)
+ └── 11 pedal voicing         (independent)
 
-12 finder convention          (optional, independent, other tool)
+12 finder convention          (dropped)
 ```
 
 Why this order:
@@ -180,7 +180,7 @@ decisions are followed to the letter, the table says so.
 | Model | Identifier | Use it for | Specs |
 |---|---|---|---|
 | Claude Haiku 5.5 | `claude-haiku-5-5` | Mechanical changes with a complete specification and a mechanical acceptance test: a new tool whose output format is fully given, a classifier replaced by a table | 00, 03 |
-| Claude Sonnet 5.5 | `claude-sonnet-5-5` | Bounded data and logic changes where the English text is supplied and the theory decisions are already made; translation into the five other locales; small algorithmic changes whose effect the snapshot makes visible | 02, 04, 05, 08, 09, 12 |
+| Claude Sonnet 5.5 | `claude-sonnet-5-5` | Bounded data and logic changes where the English text is supplied and the theory decisions are already made; translation into the five other locales; small algorithmic changes whose effect the snapshot makes visible | 02, 04, 05, 08, 09 |
 | Claude Opus 5.5 | `claude-opus-5-5` | Cross-cutting refactors with a byte-identity requirement, changes to persistence and identity, voicing algorithms, and anything that must weigh several interacting scoring rules | 01, 06, 10, 11, 13 |
 | Claude Fable 5.2 | `claude-fable-5-2` | The one spec that changes the sounding content of 68 templates' palettes on the strength of harmonic judgement at every step, with a new audit check to design | 07 |
 
@@ -235,8 +235,8 @@ Not worth a spec of their own; each is handled inside the spec named.
 
 - Changing the engine's numeral convention. 161 templates, the exported pack
   names and the published documentation all assume parallel-major reading.
-- Making the Finder and the Generator share code. Spec 12 aligns one
-  convention; it does not merge the tools.
+- Making the Finder and the Generator share code, or agree. Spec 12, which
+  would have aligned their minor-key numerals, was dropped.
 - Any change to the MPC naming scheme or the pack structure beyond the file
   count growing with new templates and styles.
 - Re-tuning the Smooth voice-leading scorer. It behaves correctly in every
