@@ -4,7 +4,8 @@ Thirteen specifications, one per improvement, each written to be handed to an
 implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
-Status of every spec: **proposed**. Nothing in this directory is implemented.
+Status is recorded in each spec's header. Spec 00 is implemented; the rest are
+**proposed**.
 
 ## 1. Provenance
 
@@ -209,6 +210,7 @@ Not worth a spec of their own; each is handled inside the spec named.
 | Finding | Folded into |
 |---|---|
 | `scoreCandidate()` counts a root a semitone above an existing root as good voice leading but not a semitone below (intervals 1, 5, 7, never 11) | 03 |
+| The Jazz seventh-upgrade appends a suffix to numerals that already carry one: 168 pads in the key of C (`i99`, `V99/V`, `Isus4sus4`, `vii°ø7`), found by the snapshot of spec 00 | 05 |
 | `analyzeExistingChords()` treats `iii` and `vii°` as subdominant because the string contains `ii` | 03 |
 | README "Dynamic Row 4" section claims genre weighting that does not exist | 04 |
 | `tools/audit-theory.mjs` whitelists 1 227 "functional twins" that are plain duplicate pads; the measured figure today is 1 265 | 05 |

@@ -43,12 +43,40 @@ Measured today over 10 380 variants (the §7.11 figure has drifted):
 | `V/ii` + `VI`, `II` + `V/V` | 5 | row 4 |
 | **Total** | **1 265** | 1 085 in row 4, 180 inside rows 1-3 |
 
-Two mechanisms, two fixes. Row 4 is deduplicated against rows 1-3 by roman
+Three causes, three fixes. Row 4 is deduplicated against rows 1-3 by roman
 numeral only (`generation.js:383`), so a chord reached under a second name
 passes. The palette's `addChord()` (`generation.js:579`) deduplicates by
 roman numeral too, so suspended chords that are inversions of each other
-both get in. The `sus4sus4` pairs are also a labelling defect: the palette
-appends a suffix to a `romanBase` that already carries one.
+both get in.
+
+The third is a labelling defect, and it belongs to the Jazz variant, not to
+the palette. The seventh-upgrade at `generation.js:895` maps only `minor`,
+`major`, `diminished` and `augmented` to a seventh chord, then appends the
+suffix of the resulting type to the numeral instead of replacing the old
+one. A `dom9`, `minor9`, `sus2`, `sus4`, `quartal` or `minor6` pad passes its
+`!chordType.includes('7')` guard but is not upgraded, so it gets its own
+suffix a second time: `i9` becomes `i99`, `V9/V` becomes `V99/V`, `Isus4`
+becomes `Isus4sus4`. A diminished pad gets the seventh's suffix after the
+triad's: `vii°` becomes `vii°ø7`. The chord underneath is correct, which is
+why checks D and E cannot see it, and it is what produces the `sus4sus4`
+pairs in the table above.
+
+Found by the snapshot of spec 00, which first made it visible. Measured over
+the whole catalogue in the key of C, comparing each numeral's suffix with
+`getRomanSuffix(pad.chordType)`: **168 pads in 88 variants, all of them Jazz**
+(Smooth, Classic, Modal and Experimental have none).
+
+| Chord type | Pads |
+|---|---|
+| `minor9` | 58 |
+| `dom9` | 42 |
+| `sus2` | 23 |
+| `sus4` | 22 |
+| `quartal` | 10 |
+| `dom13` | 9 |
+| `m7b5` (upgraded from `diminished`) | 2 |
+| `minor11` | 1 |
+| `minor6` | 1 |
 
 ## 2. Decisions
 
@@ -58,7 +86,7 @@ appends a suffix to a `romanBase` that already carries one.
 | D2 | Applies to **both** the palette (`addChord`) and row 4. | 180 of the pairs are inside rows 1-3. |
 | D3 | `KNOWN_FUNCTIONAL_TWINS` is **deleted** and check F becomes strict. | A whitelist that says "these duplicates are fine" is what let the count drift from 1 227 to 1 265 unnoticed. |
 | D4 | Progression chords are **exempt** from the check against each other, as today. | A template may legitimately repeat a chord (`I—IV—I—V`, the 12-bar blues); those pads are the progression, not the palette. |
-| D5 | A doubled suffix (`sus4sus4`) is a defect to fix, not a label to tolerate. | It produces a numeral nobody writes. |
+| D5 | A numeral whose suffix is not exactly its chord type's suffix (`sus4sus4`, `i99`, `vii°ø7`) is a defect to fix, not a label to tolerate. | It produces a numeral nobody writes. |
 
 ## 3. Normative specification
 
@@ -78,12 +106,17 @@ signatures of the progression chords. `addChord()` returns without adding
 when the candidate's signature is present, and records it when adding. The
 roman-numeral set stays as a second key; both must be new.
 
-Fix the doubled suffix at its source: in the `declaredTypes.forEach` block
-that offers the genre's preferred and allowed types on each degree, when
-`romanBase` already ends with the suffix that `getRomanSuffix(type)` would
-append, do not append it again. Under D1 the duplicate chord would be
-rejected anyway; the fix is so that the label on a *surviving* `Isus4` is
-never `Isus4sus4`.
+Fix the wrong suffix at its source, which is the Jazz seventh-upgrade in
+`generateVariant()` (`generation.js:895`), not the palette. Upgrade a pad only
+when its chord type is one of the four the block maps (`minor`, `major`,
+`diminished`, `augmented`) and leave every other pad exactly as the palette
+built it. When it does upgrade, replace the old type's suffix on the numeral
+instead of appending the new one: remove `getRomanSuffix` of the old type
+from the end of the stem (before the slash, for an applied chord), then add
+that of the new type, so `vii°` becomes `viiø7` and `III+` becomes `III+7`.
+The guard `!chordType.includes('7')` is not a substitute for this, since
+`dom9` and `minor9` pass it. Under D1 the twin pads would be removed anyway;
+the fix is so that the label on a *surviving* pad is right.
 
 ### 3.3 Row 4
 
@@ -103,6 +136,14 @@ Delete `KNOWN_FUNCTIONAL_TWINS`. Check F reports every duplicate signature
 within a variant except pairs where both pads are progression chords.
 Expected count after this spec: 0.
 
+Add check **K**: a pad's roman numeral carries exactly its chord type's
+suffix. Read the numeral as accidentals, stem and suffix, with the suffix
+sitting before the slash on an applied chord (`V7/ii`), and compare the suffix
+with `getRomanSuffix(pad.chordType)`. `It+6`, `Fr+6`, `Ger+6` and `SubV7` stay
+exempt, as they are in checks D and E. At baseline it reports 168 in the key
+of C, all Jazz; after this spec it reports 0. Tested the way spec 02's check H
+is: revert the Jazz fix temporarily and the check must fail.
+
 ### 3.5 Documentation
 
 `../mpc-export-specification.md` §7.11 is historical; do not rewrite it.
@@ -115,9 +156,10 @@ which it now is.
 | File | Change |
 |---|---|
 | `modules/musicTheory.js` | export `pcSignature()` |
-| `modules/generation.js:579-640` | `usedSignatures` in `addChord()`; doubled-suffix guard |
+| `modules/generation.js:579-640` | `usedSignatures` in `addChord()` |
+| `modules/generation.js:895-915` | Jazz upgrade: upgrade only the four mapped types, replace the old suffix |
 | `modules/generation.js:375-420` | signature filters in row-4 selection |
-| `tools/audit-theory.mjs` | delete the whitelist; import `pcSignature()` |
+| `tools/audit-theory.mjs` | delete the whitelist; import `pcSignature()`; check K |
 | `docs/mpc-export-specification.md` | one sentence after §7.11 |
 | `README.md` | one bullet |
 | `docs/catalogue-snapshot.txt` | regenerated |
@@ -139,7 +181,8 @@ None.
    each: a `Ger+6` case (any Film/Cinematic template, Classic), a `SubV7`
    case (any template, Jazz), a suspended case (Folk `I—IV—I—V`, whose
    priorities allow `sus2` and `sus4`).
-4. No pad anywhere carries a numeral containing `sus4sus4` or `sus2sus2`.
+4. Audit check K reports 0, and no pad anywhere carries a numeral containing
+   `sus4sus4`, `sus2sus2`, `99`, `66` or `°ø7`.
 5. Full verification protocol passes.
 
 ## 7. Out of scope

@@ -927,6 +927,10 @@ The project already learned this lesson once: the header of
 `tools/check-translations.mjs` records two locale drifts that shipped unnoticed
 "because nothing checked". Eleven theory defects shipped for the same reason.
 
+Its complement is `tools/catalogue-snapshot.mjs`, which records what every
+template and scale produces in `docs/catalogue-snapshot.txt` so that a change to
+the catalogue can be reviewed as a diff (`docs/improvements/00-catalogue-snapshot.md`).
+
 ## 8. Deferred
 
 - Whether the palette should spend two of sixteen pads on functional twins such
