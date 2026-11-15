@@ -3,7 +3,7 @@
  * Theory integrity audit for the Progression Palette Mode catalogue.
  *
  * Run with:  node tools/audit-theory.mjs
- * Exits non-zero on any finding outside the whitelist below.
+ * Exits non-zero on any finding.
  *
  * Nine theory defects shipped unnoticed in this catalogue - see
  * docs/mpc-export-specification.md §7 for the full account of each, how they
@@ -17,7 +17,7 @@
  * ~10,000 variants, ~160,000 pads.
  */
 
-import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, buildChordRaw, getKeyOffset, resolveTemplate, parseRomanStem } from '../modules/musicTheory.js';
+import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, getKeyOffset, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature } from '../modules/musicTheory.js';
 import { generateVariant, VARIANT_STYLES, determineChordFunction, analyzeExistingChords, scoreCandidate } from '../modules/generation.js';
 import { templateTonality, CHORD_SEPARATOR } from './lib/template-tonality.mjs';
 
@@ -31,25 +31,6 @@ const DEGREE_SEMITONES = { I: 0, II: 2, III: 4, IV: 5, V: 7, VI: 9, VII: 11 };
 // know this misreads both the root and the quality (§7.9) - teach it rather
 // than whitelist the false positives it would otherwise report.
 const AUGMENTED_SIXTH_STEMS = new Set(['It+6', 'Fr+6', 'Ger+6']);
-
-// Two pads holding the same notes under two different, both-correct,
-// functional labels (§7.9) - not a defect, and not something a future
-// catalogue change should silently add to. Keyed by the sorted pair of
-// roman numerals so a new occurrence of a KNOWN pair passes, but a new KIND
-// of duplicate still fails.
-const KNOWN_FUNCTIONAL_TWINS = new Set([
-    'Ger+6 + ♭VI7',       // A German sixth is a dominant 7th on the flat submediant
-    'SubV7 + ♭II7',       // A tritone substitute for V7 is the dominant 7th on ♭II
-    'I7 + V7/IV',         // I7 functions as the dominant of IV
-    'II7 + V7/V',         // The major-II seventh chord is the dominant of V
-    'V7/ii + VI7',        // Coincide on A7 in a major key: P5 above ii, and dom7 on VI
-    'isus4 + ivsus2',      // Suspended chords are inversions of each other
-    'IVsus2 + Isus4',
-    'isus4sus4 + ivsus2sus2', // Same pair with a doubled extension applied by the palette
-    'IVsus2sus2 + Isus4sus4',
-    'V/ii + VI',           // A major triad on the submediant, reached two ways
-    'II + V/V'
-]);
 
 function pitchClasses(notes) {
     return new Set(notes.map(n => ((n % 12) + 12) % 12));
@@ -176,6 +157,33 @@ for (const [category, list] of Object.entries(progressions)) {
     }
 }
 
+// M: no two chord types share a suffix. Quartal chords were named 'sus4' and
+// numbered 'sus4' like the real sus4 chord, so Csus4 told a player to play G where
+// the pad sounds B♭, and the palette, which drops a chord whose numeral is taken,
+// lost the quartal pad from any template that declared both
+// (docs/improvements/05-duplicate-sounding-pads.md). Two types may not share a chord
+// name suffix, nor a numeral suffix in the same case. The augmented sixths are
+// exempt: their names deliberately match the dominant-family chord they sound like,
+// and their numerals are fixed strings never built from the table. Static.
+{
+    const exemptFromM = new Set(['It6', 'Ger6', 'Fr6']);
+    const byName = Object.entries(CHORD_NAME_SUFFIX).filter(([type]) => !exemptFromM.has(type));
+    for (let a = 0; a < byName.length; a++) {
+        for (let b = a + 1; b < byName.length; b++) {
+            if (byName[a][1] === byName[b][1]) report('M two chord types share a name suffix', `${byName[a][0]} and ${byName[b][0]}: ${JSON.stringify(byName[a][1])}`);
+        }
+    }
+    const byNumeral = Object.entries(CHORD_TYPE_DISPLAY).filter(([type]) => !exemptFromM.has(type));
+    for (let a = 0; a < byNumeral.length; a++) {
+        for (let b = a + 1; b < byNumeral.length; b++) {
+            const [typeA, displayA] = byNumeral[a], [typeB, displayB] = byNumeral[b];
+            if (displayA.suffix === displayB.suffix && Boolean(displayA.lowercase) === Boolean(displayB.lowercase)) {
+                report('M two chord types share a numeral suffix', `${typeA} and ${typeB}: ${JSON.stringify(displayA.suffix)}${displayA.lowercase ? ' (lower case)' : ''}`);
+            }
+        }
+    }
+}
+
 // N: the row-4 classifier. determineChordFunction() once filed vi as a dominant and
 // iii and ♭III as subdominants, because it asked whether a numeral's string
 // contained 'V' or 'II'; the row-4 scorer then awarded its "fills a functional
@@ -272,19 +280,36 @@ for (const key of keys) {
                         report('E roman numeral quality != chord quality', `${label} numeral=${romanQ} chord=${chordQ}`);
                     }
 
-                    // F: two pads sounding the same chord
-                    const pcSignature = [...pitchClasses(pad.notes)].sort((a, b) => a - b).join(',');
-                    if (seenPitchClassSets.has(pcSignature)) {
-                        const j = seenPitchClassSets.get(pcSignature);
+                    // F: two pads sounding the same chord. A pad spent twice on one
+                    // sonority leaves a grid of fifteen, whatever the labels say, and
+                    // a whitelist of "functional twins" is what let the count drift
+                    // unnoticed (docs/improvements/05-duplicate-sounding-pads.md). Only
+                    // two progression chords may share a sound: a template may repeat
+                    // a chord on purpose.
+                    const signature = pcSignature(pad.notes);
+                    if (seenPitchClassSets.has(signature)) {
+                        const j = seenPitchClassSets.get(signature);
                         const bothInProgression = pad.isProgressionChord && variant.pads[j].isProgressionChord;
                         if (!bothInProgression) {
-                            const kind = [variant.pads[j].romanNumeral, pad.romanNumeral].sort().join(' + ');
-                            if (!KNOWN_FUNCTIONAL_TWINS.has(kind)) {
-                                report('F two pads sound the same chord (new/unwhitelisted pair)', `${label} == pad${j + 1} ${variant.pads[j].chordName} [${variant.pads[j].romanNumeral}] (kind: ${kind})`);
-                            }
+                            report('F two pads sound the same chord', `${label} == pad${j + 1} ${variant.pads[j].chordName} [${variant.pads[j].romanNumeral}]`);
                         }
                     } else {
-                        seenPitchClassSets.set(pcSignature, i);
+                        seenPitchClassSets.set(signature, i);
+                    }
+
+                    // K: the roman numeral carries exactly its chord type's suffix. The
+                    // Jazz seventh-upgrade once appended the new suffix to a numeral that
+                    // already had one: i99, Isus4sus4, vii°ø7. The chord underneath was
+                    // right, which is why D and E cannot see it. The suffix is what sits
+                    // between the stem and a slash; the augmented sixths and SubV7 are
+                    // fixed strings, exempt as they are in D and E.
+                    if (!AUGMENTED_SIXTH_STEMS.has(pad.romanNumeral) && pad.romanNumeral !== 'SubV7') {
+                        const head = pad.romanNumeral.split('/')[0];
+                        const parsedNumeral = parseRomanStem(head);
+                        const suffix = parsedNumeral ? head.slice(parsedNumeral.accidentals.length + parsedNumeral.stem.length) : null;
+                        if (suffix !== getRomanSuffix(pad.chordType)) {
+                            report('K roman numeral suffix != chord type suffix', `${label} suffix=${JSON.stringify(suffix)} expected=${JSON.stringify(getRomanSuffix(pad.chordType))}`);
+                        }
                     }
 
                     // G: duplicate roman numeral within one variant

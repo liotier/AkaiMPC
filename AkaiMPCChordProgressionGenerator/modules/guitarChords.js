@@ -145,7 +145,8 @@ const SHAPE_FALLBACKS = {
     'augmented': 'major',
     'sus2': 'major',
     'sus4': 'major',
-    'quartal': 'sus4',
+    'quartal': 'sus4',     // no 7sus4 shape in the library; shown as simplified
+    'quartal4': 'minor7',  // shares three of its four notes with a minor 7th
     'minor7': 'minor',
     'minMaj7': 'minor',
     'minor6': 'minor',

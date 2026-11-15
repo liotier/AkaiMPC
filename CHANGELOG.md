@@ -38,6 +38,20 @@ avoid nearly everything row 4 can offer (Modal Interchange ♭VI—iv—I, Elect
 i—iv—v, Hip-Hop i—♭III—♭VI—♭VII and i—♭VII—iv, Italo-Disco i—iv) still fall back
 on chords they avoid; they wait for the minor-key work.
 
+**No more twin pads, and quartal chords called what they are.** A grid could
+spend two pads on one chord under two names: a German sixth beside the ♭VI7 it
+equals, a tritone substitute beside the ♭II7, I7 beside V7/IV, Csus4 beside
+Fsus2. Counted over the whole catalogue, in every key and style, there were 1,265
+such pairs; a pad now keeps its place only if it sounds new, and there are none.
+The Jazz style also stopped garbling the names of chords it leaves alone: i99,
+Isus4sus4, Iadd9add9 and vii°ø7 are i9, Isus4, Iadd9 and viiø7 again. And the
+stacked-fourths chords, C F B♭ and C F B♭ E♭, were exported as "Csus4" and
+"Csus4(add11)", which name notes the pad does not play; they are now C7sus4(no5)
+and Cm7(11) on the pad, in the numeral and in exported files, and a progression
+that lists both a suspended and a quartal chord, Harmonic Minor Psy among them,
+no longer loses the quartal one. Progressions that contained either chord export
+under the new chord names.
+
 ## 2026-09-08
 
 ### Chord Progression Generator

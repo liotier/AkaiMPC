@@ -459,13 +459,31 @@ export function scoreCandidate(candidate, analysis, existingRoots) {
 
 export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType, palettePriorities = null, paletteFilter = null, unusedPaletteChords = []) {
     const analysis = analyzeExistingChords(existingChords);
-    const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, palettePriorities, paletteFilter);
     const existingRoots = existingChords.map(c => c.notes && c.notes[0] ? c.notes[0] % 12 : 0);
 
     const scoreAndSort = list => list
         .map(candidate => ({ ...candidate, score: scoreCandidate(candidate, analysis, existingRoots) }))
         // Sort by score (descending) and then by common usage as tiebreaker
         .sort((a, b) => b.score !== a.score ? b.score - a.score : b.commonUsage - a.commonUsage);
+
+    // What the grid already sounds like. A candidate that sounds like a pad on
+    // rows 1-3 under another name (a German sixth is the ♭VI7 already there) is
+    // one pad spent twice, and so is one that sounds like another row-4 pad. This
+    // is never relaxed, unlike the numeral and the template's preferences below,
+    // and it is the first thing asked after the numeral. 'keep' admits a
+    // candidate only if its sound is new, and records it, so what is kept is kept
+    // best score first and no two kept chords sound alike.
+    const takenSignatures = new Set(existingChords.map(c => pcSignature(c.notes)));
+    const keep = candidate => {
+        const signature = pcSignature(candidate.notes);
+        if (takenSignatures.has(signature)) return false;
+        takenSignatures.add(signature);
+        return true;
+    };
+    const soundsNew = candidate => !takenSignatures.has(pcSignature(candidate.notes));
+
+    const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, palettePriorities, paletteFilter)
+        .filter(soundsNew);
 
     // Rows 1-3 are already on the grid; a candidate that repeats one of them
     // wastes a pad. A candidate the template's hard filter does not list is
@@ -475,7 +493,7 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
     const isAvoided = c => c.priority === 1;
     const listed = allCandidates.filter(c => !c.excludedByFilter);
 
-    let scoredCandidates = scoreAndSort(listed.filter(c => isNew(c) && !isAvoided(c)));
+    let scoredCandidates = scoreAndSort(listed.filter(c => isNew(c) && !isAvoided(c))).filter(keep);
 
     // Too few left, because the template avoids what row 4 usually offers and the
     // palette has already spent the borrowed chords on rows 2-3. The chords the
@@ -486,7 +504,6 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
     // first, so a row 4 that does not starve is the row 4 it always was.
     if (scoredCandidates.length < 4 && unusedPaletteChords.length > 0) {
         const takenNumerals = new Set([...usedRomanNumerals, ...scoredCandidates.map(c => c.romanNumeral)]);
-        const takenSignatures = new Set([...existingChords, ...scoredCandidates].map(c => pcSignature(c.notes)));
         const fill = [];
         for (const chord of unusedPaletteChords) {
             const candidate = {
@@ -501,14 +518,16 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
                 priority: chordPriority(chord.chordType, palettePriorities),
                 excludedByFilter: Boolean(paletteFilter) && !paletteFilter.includes(chord.chordType)
             };
-            const signature = pcSignature(candidate.notes);
             if (isAvoided(candidate) || candidate.excludedByFilter) continue;
-            if (takenNumerals.has(candidate.romanNumeral) || takenSignatures.has(signature)) continue;
+            if (takenNumerals.has(candidate.romanNumeral)) continue;
             takenNumerals.add(candidate.romanNumeral);
-            takenSignatures.add(signature);
             fill.push(candidate);
         }
-        scoredCandidates = scoreAndSort([...scoredCandidates, ...scoreAndSort(fill).slice(0, 4 - scoredCandidates.length)]);
+        for (const candidate of scoreAndSort(fill)) {
+            if (scoredCandidates.length >= 4) break;
+            if (keep(candidate)) scoredCandidates.push(candidate);
+        }
+        scoredCandidates = scoreAndSort(scoredCandidates);
     }
 
     // Still too few. Re-admit until there are four, softest exclusion first: the
@@ -516,7 +535,7 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
     // dropped, which is what the palette itself does when its filter starves it
     // (the top-up in generateVariant() ignores the filter); only then a numeral
     // already on the grid. Within each step the unavoided come first, then the
-    // best score.
+    // best score. A chord that sounds like one already kept is never re-admitted.
     if (scoredCandidates.length < 4) {
         const readmission = [
             scoreAndSort(listed.filter(c => isNew(c) && isAvoided(c))),
@@ -526,7 +545,11 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
             scoreAndSort(listed.filter(c => !isNew(c) && isAvoided(c))),
             scoreAndSort(allCandidates.filter(c => c.excludedByFilter && !isNew(c)))
         ].flat();
-        scoredCandidates = scoreAndSort([...scoredCandidates, ...readmission.slice(0, 4 - scoredCandidates.length)]);
+        for (const candidate of readmission) {
+            if (scoredCandidates.length >= 4) break;
+            if (keep(candidate)) scoredCandidates.push(candidate);
+        }
+        scoredCandidates = scoreAndSort(scoredCandidates);
     }
 
     // Take top 4, ensuring some diversity in categories
@@ -636,6 +659,9 @@ export function generateScaleExploration({ key, mode, chordRequirements = [] }) 
     };
 }
 
+// The triads the Jazz style turns into seventh chords, and what they become.
+const JAZZ_SEVENTH = { minor: 'minor7', major: 'major7', diminished: 'm7b5', augmented: 'aug7' };
+
 export function generateVariant(variantType, { key, mode, progression, category = null, chordRequirements = [] }) {
     const keyOffset = getKeyOffset(key);
     // Progression Palette Mode reads every roman numeral against the parallel
@@ -683,6 +709,12 @@ export function generateVariant(variantType, { key, mode, progression, category 
     // chords as its cheapest entries and rows 1 and 2 came out identical.
     const palette = [];
     const usedRomanNumerals = new Set(progressionChords.map(chord => chord.romanNumeral));
+    // A pad's identity is also its sound: two chords with the same pitch classes
+    // are one chord whatever they are called, and a grid that spends two pads on
+    // one sonority has fifteen. The progression's own chords seed the set, but
+    // they are not checked against each other: a template may repeat a chord on
+    // purpose (I-IV-I-V, the twelve-bar blues), and those pads are the progression.
+    const usedSignatures = new Set(progressionChords.map(chord => pcSignature(chord.notes)));
 
     // Set false by the top-up pass below when the filter has starved the palette
     let filterActive = true;
@@ -702,16 +734,21 @@ export function generateVariant(variantType, { key, mode, progression, category 
         const roman = romanBase.includes('/')
             ? romanBase.replace('/', suffix + '/')
             : romanBase + suffix;
-        if (usedRomanNumerals.has(roman)) return; // Skip duplicates
-        usedRomanNumerals.add(roman);
-
         const scaleDegree = rootOverride === null ? scaleDegrees[degree % scaleDegrees.length] : rootOverride;
+        const notes = buildChord(scaleDegree, type, keyOffset);
+
+        // Both keys must be new: the numeral, and what the chord sounds like
+        const signature = pcSignature(notes);
+        if (usedRomanNumerals.has(roman) || usedSignatures.has(signature)) return; // Skip duplicates
+        usedRomanNumerals.add(roman);
+        usedSignatures.add(signature);
+
         const priority = chordPriority(type, palettePriorities); // 1=avoided, 2=allowed, 3=preferred
 
         palette.push({
             degree,
             root: scaleDegree,
-            notes: buildChord(scaleDegree, type, keyOffset),
+            notes,
             chordType: type,
             chordName: getChordName(scaleDegree, type, keyOffset, romanBase),
             romanNumeral: roman,
@@ -1006,26 +1043,32 @@ export function generateVariant(variantType, { key, mode, progression, category 
             const padIndex = rowStart + colIndex;
 
             // Enhance chords based on variant type
-            if (variantType === 'Jazz' && padIndex >= 4 && !chordType.includes('7') && !chordType.includes('m7b5')) {
+            if (variantType === 'Jazz' && padIndex >= 4 && JAZZ_SEVENTH[chordType]) {
                 // Add 7ths to chords in Jazz variant: triads become 7th chords.
+                // Only the four triads of JAZZ_SEVENTH are upgraded; every other
+                // pad is left exactly as the palette built it. A dom9 or a sus4
+                // used to pass a "has no 7 in its name" guard, be upgraded to
+                // itself and have its own suffix appended a second time: i99,
+                // Isus4sus4, Iadd9add9.
+                //
                 // Build on the root the chord was actually made from - indexing
                 // back into scaleDegrees turned a ♭VII pad into a maj7 on the
                 // natural VII while it kept its flat label.
                 const scaleDegree = paletteChord.root ?? scaleDegrees[paletteChord.degree % scaleDegrees.length];
-                const upgraded = chordType === 'minor' ? 'minor7' :
-                           chordType === 'major' ? 'major7' :
-                           chordType === 'diminished' ? 'm7b5' :
-                           chordType === 'augmented' ? 'aug7' : chordType;
+                const upgraded = JAZZ_SEVENTH[chordType];
                 // The numeral has to follow the chord, and the upgrade must not
-                // recreate a chord the palette already carries. Insert the
-                // suffix before the slash on a secondary-dominant numeral
-                // ('V/ii' -> 'V7/ii'): appending it at the end produced
-                // 'V/iiM7', a different string from the 'VM7/ii' the same
-                // upgrade produces elsewhere for the identical chord.
-                const suffix = getRomanSuffix(upgraded);
-                const upgradedRoman = romanNumeral.includes('/')
-                    ? romanNumeral.replace('/', suffix + '/')
-                    : romanNumeral + suffix;
+                // recreate a chord the palette already carries. The new suffix
+                // replaces the old one, and goes before the slash on an applied
+                // chord ('V/ii' -> 'V7/ii'): appending it at the end produced
+                // 'V/iiM7', a different string from the 'VM7/ii' the same upgrade
+                // produces elsewhere for the identical chord, and a diminished
+                // 'vii°' became 'vii°ø7' where it is 'viiø7'.
+                const slash = romanNumeral.indexOf('/');
+                const head = slash === -1 ? romanNumeral : romanNumeral.slice(0, slash);
+                const tail = slash === -1 ? '' : romanNumeral.slice(slash);
+                const oldSuffix = getRomanSuffix(chordType);
+                const stem = oldSuffix && head.endsWith(oldSuffix) ? head.slice(0, -oldSuffix.length) : head;
+                const upgradedRoman = stem + getRomanSuffix(upgraded) + tail;
                 if (!usedRomanNumerals.has(upgradedRoman)) {
                     usedRomanNumerals.delete(romanNumeral);
                     usedRomanNumerals.add(upgradedRoman);

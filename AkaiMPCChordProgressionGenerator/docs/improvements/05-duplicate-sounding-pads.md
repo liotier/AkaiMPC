@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | implemented |
 | Type | defect |
 | Size | M |
 | Depends on | 00 |
@@ -275,3 +275,93 @@ None.
   of thirds, so a quartal chord reads C E♯ A♯; sus, sixth and 7sus4 chords
   suffer the same way. It is recorded in the index as a finding of its own.
 - Real quartal shapes in the guitar library.
+
+## 8. Implementation notes
+
+Implemented as specified, with the choices and findings below.
+
+- **Where.** `pcSignature()` was introduced by spec 04, which needed it first.
+  `addChord()` in `generateVariant()` keeps `usedSignatures`, seeded with the
+  progression's own chords, and refuses a chord whose numeral or sound is taken.
+  The Jazz upgrade is a table, `JAZZ_SEVENTH`, of the four triads it touches; the
+  new suffix replaces the old one before the slash. `CHORD_NAME_SUFFIX` and
+  `CHORD_TYPE_DISPLAY` carry the quartal names of §3.5, and the latter is exported
+  directly, which §3.5 allows. The tooltip pattern, the guitar fallback and checks
+  F, K and M are as written; `KNOWN_FUNCTIONAL_TWINS` is gone from the audit.
+- **Row 4 keeps its sounds in score order.** §3.3 drops a candidate whose sound
+  matches one "already selected". Applied at the end of selection, that would let
+  two sound-alike candidates count as two toward the four and leave three pads. A
+  single `keep()` admits each candidate best score first, at the pool, at step 4b
+  and at step 5, and records its sound, so what is kept never repeats a sound; the
+  grid's own sounds are removed up front and never come back. The result is the
+  same as §3.3's wording whenever no two candidates sound alike.
+- **The tonic filler is not reached.** In 10 380 variants, 12 keys and 5 styles,
+  row 4 always found four candidates.
+- **The numeral guard on the Jazz upgrade stays.** An upgrade whose numeral the
+  palette already carries is skipped, as before. The upgrade happens after the
+  palette's sound check, and no sound-alike pair arises from it: check F reports 0.
+- **The new checks were seen to fail.** With the old Jazz upgrade put back, K
+  reports 2 484 findings, the number measured above. With the sound filters taken out
+  of the palette and row 4, F reports 599. With `quartal` given back `sus4`, M reports
+  its name pair and its numeral pair, one each.
+- **Scale Mode changes by more than the rename.** Nine of its 34 snapshot blocks
+  change. The 12 quartal pads are renamed; three more pads appear. `fillGaps()` in
+  `generateScaleExploration()` offers a colour only if its numeral is unused, and
+  the quartal chords' numeral `Isus4` was always taken by the real sus4 chord, so
+  they were never offered. With their own numerals they are, and they replace
+  repeats: Locrian and Locrian ♯2 pad 16, `Cm7b5`, a copy of pad 9, becomes
+  `Cm7(11)`, and Insen pad 14, a third `Cm7`, becomes `Cm7(11)`. Scale Mode still
+  repeats chords elsewhere (Insen's `Cm7` twice more); §7 leaves it alone.
+
+Measured against the parent commit (`ff22ca0`), 12 keys and 5 styles unless said:
+
+| Quantity | Before | After |
+|---|---|---|
+| Duplicate-sounding pairs (progression-progression excluded) | 455: 275 in row 4, 180 in rows 1-3 | 0 |
+| Same count at `0593d6d`, the baseline of the series | 1 265: 1 085 and 180 | |
+| Check K, numeral suffix against chord type | 2 484 pads in 1 176 variants; 207 in 98 in the key of C | 0 |
+| Numerals containing `sus4sus4` / `sus2sus2` / `99` / `66` / `°ø7` | 612 / 384 / 1 140 / 12 / 24 | 0 / 0 / 0 / 0 / 0 |
+| Check M, shared suffixes | 4 pairs: one name, three numeral | 0 |
+| Quartal pads in template mode, key of C | 122 in 40 variants of 8 templates, all named `sus4` | 144 in 57 variants of 12 templates, all named `7sus4(no5)` |
+| Quartal pads in Scale Mode, key of C | 12 in 9 scales | 15 in 9 scales |
+| Snapshot blocks changed | | 105 template blocks and 9 of 34 scale blocks |
+| `.progression` / MIDI files in the pack | 863 / 10 363 | 855 / 10 267 |
+| Pack names carrying two styles | 2 | 10 |
+
+Across all twelve keys, template mode and Scale Mode together, the 1 872 `quartal`
+pads and 36 `quartal4` pads all carry `7sus4(no5)` and `m7(11)` in their name and
+`7sus4(no5)` and `7(11)` in their numeral; none is named or numbered `sus4`.
+
+Why the quartal count grows: the palette no longer drops the quartal chord for
+sharing a numeral with a suspended one, so 22 more appear in template mode; this is
+acceptance item 6 at work. Why two-style names grow: the Jazz style's doubled
+suffixes (`Iadd9add9`) used to make its numerals differ from Classic's, and the two
+now coincide in eight more templates, Film/Cinematic's among them.
+
+Case by case, key C, parent against this commit (acceptance item 3). The `Ger+6`
+and `♭VI7` pair, the first row of §1's table, no longer occurs at the parent
+commit: spec 03's classifier and spec 04's priorities removed it, so the cases
+below stand for the other kinds.
+
+- **`SubV7` and `♭II7`**, Jazz/Functional `IM7—♭IIIM7—♭VIM7—♭II7`, Jazz. Pad 4 is the
+  progression's `D♭7 [♭II7]`, and row 4 held `D♭7 [SubV7]` at pad 15, in
+  `D7  B♭  D♭7  A♭7 [It+6]`. Now row 4 is `D7 [V7/V]  B♭ [♭VII]  A♭7 [It+6]  Fm [iv]`:
+  the `SubV7` is gone and the next candidate, `Fm [iv]`, has moved up.
+- **`I7` and `V7/IV`**, R&B/Neo-Soul `IM7—V7/IV—IVM7—iv`, Classic. Pad 2 is the
+  progression's `C7 [V7/IV]`, and the palette repeated it as `C7 [I7]` at pad 6.
+  The palette's copy is gone, the queue moves up one place, and row 4 changes from
+  `B♭  A♭  D7  A♭7 [It+6]` to `D7 [V7/V]  A♭ [♭VI]  A♭7 [It+6]  D♭ [♭II]`.
+- **Suspended**, Trance `i—iv—V—♭VI`, Classic, in place of the Folk `I—IV—I—V` the
+  item names, which holds no sound-alike pair at the parent commit. Pads 9-12 were
+  `Csus2  Csus4  Fsus2 [ivsus2]  Fsus4 [ivsus4]`: `Fsus2` is the same three notes as
+  `Csus4`, and `Fsus4` the same as the quartal chord C F B♭. The later of each pair
+  is dropped, and `C7sus4(no5) [i7sus4(no5)]` and `F7sus4(no5) [iv7sus4(no5)]`, which
+  the shared `sus4` numeral had been hiding, take pads 11 and 12. Reggae/Dub `I—IV`
+  loses `Fsus2 [IVsus2]` in the same way.
+
+Acceptance item 8 was run in headless Chromium: Post-Rock Build's `C7sus4(no5)
+[I7sus4(no5)]` pad carries the tonic's description, its `V`, `vi` and `IV`
+neighbours carry theirs, and the page logged no error. The script is not committed.
+
+Not done, and not this spec's: the note names printed on each pad still spell a
+quartal chord as a stack of thirds (index, §7).
