@@ -845,6 +845,56 @@
         "name": "I—♭III—♭VI—♭II",
         "nickname": "Chromatic Film",
         "description": "Progressione estrema di mediante cromatica. Tutte le fondamentali sono mediante cromatiche (a terze maggiori o minori di distanza). Crea massima instabilità armonica e sorpresa. Il ♭II (Napoletana) è particolarmente sorprendente. Usata per scene surreali, sequenze oniriche e colonne sonore d'avanguardia."
+      },
+      "I—♭VI—I—III": {
+        "name": "I—♭VI—I—III",
+        "nickname": "Major Third Mediants",
+        "description": "Mediante cromatiche a una terza maggiore da una parte e dall'altra della tonica: C A♭ C E. Ogni coppia condivide una nota ed entrambi gli accordi sono maggiori, così l'orecchio accetta il passaggio come colore e non come modulazione. La discesa verso ♭VI è la mossa classica della spy music e del fantasy, la salita verso III la sua immagine speculare più luminosa."
+      },
+      "I—♭III—I—VI": {
+        "name": "I—♭III—I—VI",
+        "nickname": "Minor Third Mediants",
+        "description": "Mediante cromatiche a una terza minore da una parte e dall'altra della tonica: C E♭ C A. Entrambe sono maggiori e ciascuna condivide una nota con I. ♭III scurisce senza lasciare il maggiore, VI schiarisce; alternarle attorno alla tonica dà la qualità fluttuante, da cambio di scena, delle colonne sonore d'avventura."
+      },
+      "i—♭vi—i—iii": {
+        "name": "i—♭vi—i—iii",
+        "nickname": "Minor Mediants",
+        "description": "La forma in modo minore del trucco delle mediante: Cm A♭m Cm Em. Una tonica minore che passa agli accordi minori una terza maggiore sotto e sopra, ciascuno con una nota in comune. Più scura e instabile della forma maggiore; il passaggio a ♭vi in particolare è un classico dei temi horror e delle creature."
+      },
+      "I—♭vi—♭VI—I": {
+        "name": "I—♭vi—♭VI—I",
+        "nickname": "Hexatonic Pole",
+        "description": "C A♭m A♭ C. Un accordo maggiore che passa all'accordo minore una terza maggiore sotto non condivide nessuna nota con esso e inverte la qualità, la relazione più remota che due triadi possano avere mentre ogni voce si muove di un semitono. Il ♭VI maggiore che segue spiega l'accordo strano, e il ritorno a I chiude il loop. Il cambio perturbante tipico della musica fantasy e di fantascienza."
+      },
+      "I—II": {
+        "name": "I—II",
+        "nickname": "Lydian Vamp",
+        "description": "Due accordi, C D: una tonica maggiore e l'accordo maggiore un tono sopra. Il II contiene la quarta eccedente che definisce il modo lidio, così il vamp fluttua senza tendere da nessuna parte. Il suono aperto e aereo delle scene di volo e di meraviglia."
+      },
+      "I—II—iii—II": {
+        "name": "I—II—iii—II",
+        "nickname": "Lydian Float",
+        "description": "C D Em D. Un loop lidio che non passa mai per una dominante: il II maggiore e il iii minore girano attorno alla tonica, e la quarta eccedente dentro II tiene aperta la progressione. La settima maggiore e la sesta che la palette offre aggiungono il carattere sospeso, che rallenta il tempo, della musica spaziale moderna."
+      },
+      "i—v—♭VII—IV": {
+        "name": "i—v—♭VII—IV",
+        "nickname": "Dorian Drift",
+        "description": "Cm Gm B♭ F. Tonica minore, dominante minore, sottotonica e il IV maggiore che segna il dorico. Ogni accordo è diatonico a do dorico e nessuno è una dominante con sensibile, così il loop torna a i con un passo plagale IV-i invece di risolvere. La sensazione di moto perpetuo dei build lenti elettronici e della musica da film."
+      },
+      "i—♭III—V—i": {
+        "name": "i—♭III—V—i",
+        "nickname": "Minor Lift",
+        "description": "Cm E♭ G Cm. Tonica minore che sale alla relativa maggiore ♭III, poi a un V maggiore dal minore armonico prima di tornare a casa. La terza ascendente seguita dalla dominante rende speranzoso un loop scuro senza lasciare la tonalità: lo slancio breve prima di una risoluzione."
+      },
+      "i—♭VI—IV—♭VI": {
+        "name": "i—♭VI—IV—♭VI",
+        "nickname": "Wandering Fifth",
+        "description": "Cm A♭ F A♭. Tonica minore, ♭VI e il IV maggiore dorico: i tre accordi che permettono a una sola voce interna di salire per semitoni sopra un basso tenuto. Con C mantenuto sotto tutti e tre, la quinta G sale ad A♭ e poi ad A. La variante Smooth trova quel voicing; mantenere il basso del primo accordo dà l'effetto crescente ed eroico."
+      },
+      "I—♭VI—♭VII—I": {
+        "name": "I—♭VI—♭VII—I",
+        "nickname": "Hero Cadence",
+        "description": "C A♭ B♭ C. La tonica, poi le due triadi maggiori a distanza di un tono sotto di essa, ♭VI e ♭VII, che risalgono verso casa. Un avvicinamento doppio plagale a I, la formula di chiusura trionfale delle musiche d'avventura e dei temi di vittoria, qui come loop in modo che la tonica sia al tempo stesso partenza e arrivo."
       }
     },
     "Folk/Singer-Songwriter": {

@@ -845,6 +845,56 @@
         "name": "I—♭III—♭VI—♭II",
         "nickname": "Chromatic Film",
         "description": "Progression de médiantes chromatiques extrême. Toutes les fondamentales sont des médiantes chromatiques (tierces majeures ou mineures de distance). Crée une instabilité et une surprise harmoniques maximales. Le ♭II (napolitain) est particulièrement frappant. Utilisé pour des scènes surréalistes, des séquences de rêve, des ruptures psychologiques et des musiques de film d'avant-garde."
+      },
+      "I—♭VI—I—III": {
+        "name": "I—♭VI—I—III",
+        "nickname": "Major Third Mediants",
+        "description": "Médiantes chromatiques à une tierce majeure de part et d'autre de la tonique : C A♭ C E. Chaque paire partage une note et les deux accords sont majeurs, si bien que l'oreille reçoit le déplacement comme une couleur plutôt que comme une modulation. La descente vers ♭VI est le geste classique de l'espionnage et de la fantasy, la montée vers III son image inversée, plus lumineuse."
+      },
+      "I—♭III—I—VI": {
+        "name": "I—♭III—I—VI",
+        "nickname": "Minor Third Mediants",
+        "description": "Médiantes chromatiques à une tierce mineure de part et d'autre de la tonique : C E♭ C A. Les deux sont majeures et chacune partage une note avec I. ♭III assombrit sans quitter le majeur, VI éclaircit ; les alterner autour de la tonique donne la qualité flottante, de changement de scène, des musiques d'aventure."
+      },
+      "i—♭vi—i—iii": {
+        "name": "i—♭vi—i—iii",
+        "nickname": "Minor Mediants",
+        "description": "La forme en mode mineur du procédé des médiantes : Cm A♭m Cm Em. Une tonique mineure qui glisse vers les accords mineurs situés une tierce majeure en dessous et au-dessus, chacun partageant une note avec elle. Plus sombre et plus instable que la forme majeure ; le passage à ♭vi en particulier est un classique des thèmes d'horreur et de créatures."
+      },
+      "I—♭vi—♭VI—I": {
+        "name": "I—♭vi—♭VI—I",
+        "nickname": "Hexatonic Pole",
+        "description": "C A♭m A♭ C. Un accord majeur qui passe à l'accord mineur situé une tierce majeure en dessous ne partage aucune note avec lui et change de qualité : c'est la relation la plus éloignée que deux accords puissent avoir tandis que chaque voix se déplace d'un demi-ton. L'accord de ♭VI majeur qui suit explique l'accord étrange, et le retour à I referme la boucle. Le changement étrange par excellence de la musique de fantasy et de science-fiction."
+      },
+      "I—II": {
+        "name": "I—II",
+        "nickname": "Lydian Vamp",
+        "description": "Deux accords, C D : une tonique majeure et l'accord majeur situé un ton au-dessus. Le II contient la quarte haussée qui définit le mode lydien, si bien que le vamp flotte sans tirer nulle part. Le son ouvert et aérien des séquences de vol et d'émerveillement."
+      },
+      "I—II—iii—II": {
+        "name": "I—II—iii—II",
+        "nickname": "Lydian Float",
+        "description": "C D Em D. Une boucle lydienne qui ne passe jamais par une dominante : le II majeur et le iii mineur tournent autour de la tonique, et la quarte haussée contenue dans II garde la progression ouverte. La septième majeure et la sixte que propose la palette ajoutent le caractère suspendu, qui ralentit le temps, de la musique spatiale moderne."
+      },
+      "i—v—♭VII—IV": {
+        "name": "i—v—♭VII—IV",
+        "nickname": "Dorian Drift",
+        "description": "Cm Gm B♭ F. Tonique mineure, dominante mineure, sous-tonique et le IV majeur qui signe le dorien. Tous les accords sont diatoniques à do dorien et aucun n'est une dominante à sensible, si bien que la boucle revient à i par un pas plagal IV-i au lieu de se résoudre. La sensation de mouvement sans fin des montées lentes électroniques et des musiques de film."
+      },
+      "i—♭III—V—i": {
+        "name": "i—♭III—V—i",
+        "nickname": "Minor Lift",
+        "description": "Cm E♭ G Cm. Tonique mineure montant vers le relatif majeur ♭III, puis vers un V majeur issu du mineur harmonique avant de revenir à la maison. La tierce ascendante suivie de la dominante rend une boucle sombre pleine d'espoir sans quitter la tonalité : le bref élan avant une résolution."
+      },
+      "i—♭VI—IV—♭VI": {
+        "name": "i—♭VI—IV—♭VI",
+        "nickname": "Wandering Fifth",
+        "description": "Cm A♭ F A♭. Tonique mineure, ♭VI et le IV majeur dorien : les trois accords qui laissent une seule voix intérieure grimper par demi-tons au-dessus d'une basse tenue. Avec C maintenu sous les trois, la quinte G monte à A♭ puis à A. La variante Smooth trouve ce voicing ; conserver la basse du premier accord donne l'effet de gonflement héroïque."
+      },
+      "I—♭VI—♭VII—I": {
+        "name": "I—♭VI—♭VII—I",
+        "nickname": "Hero Cadence",
+        "description": "C A♭ B♭ C. La tonique, puis les deux accords majeurs distants d'un ton situés sous elle, ♭VI et ♭VII, qui remontent vers la maison. Une approche double plagale de I, la formule de fin triomphante des musiques d'aventure et des thèmes de victoire, ici en boucle pour que la tonique soit à la fois départ et arrivée."
       }
     },
     "Folk/Singer-Songwriter": {

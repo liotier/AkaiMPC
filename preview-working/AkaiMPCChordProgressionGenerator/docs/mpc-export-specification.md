@@ -321,7 +321,7 @@ name := mpcSafe(category) "-" mpcSafe(nickname) " " styles " (" mpcSafe(value) "
 - `category` - the key of the `progressions` object in `modules/musicTheory.js`,
   verbatim, **not** the translated `progressionCategories.*` string (D2).
 - `nickname` - `progressions.<category>.<value>.nickname` from `locales/en.json`,
-  **always the English file** (D2). All 173 progressions have one.
+  **always the English file** (D2). Every progression has one.
 - `styles` - the surviving variant's style name, or every style name that
   produced it joined by `+` where they collapsed (§5.2.1). Unlocalised.
 - `value` - the progression template string from `musicTheory.js`.

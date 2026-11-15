@@ -1146,6 +1146,116 @@ Jazz     9-12  Ebmaj7 [♭IIIM7]  Ebadd9 [♭IIIadd9]  Abmaj7 [♭VIM7]  Abadd9 
 Jazz    13-16  Fm [iv]  A [VI]  Dbmaj7 [♭IIM7]  Bb [♭VII]
 Smooth   1-4   60,64,67 | 58,63,67 | 60,63,68 | 61,65,68
 
+## Film/Cinematic | I—♭VI—I—III | Major Third Mediants | major | C
+Classic  1-4   *C [I]  *Ab [♭VI]  *C [I]  *E [III]
+Classic  5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  Abmaj7 [♭VIM7]  Abadd9 [♭VIadd9]
+Classic  9-12  Emaj7 [IIIM7]  Eadd9 [IIIadd9]  Bb [♭VII]  Eb [♭III]
+Classic 13-16  A [VI]  Fm [iv]  Db [♭II]  Dm7 [ii7]
+Jazz     1-4   *C [I]  *Ab [♭VI]  *C [I]  *E [III]
+Jazz     5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  Abmaj7 [♭VIM7]  Abadd9 [♭VIadd9]
+Jazz     9-12  Emaj7 [IIIM7]  Eadd9 [IIIadd9]  Bbmaj7 [♭VIIM7]  Ebmaj7 [♭IIIM7]
+Jazz    13-16  Bb [♭VII]  A [VI]  Db [♭II]  Fm [iv]
+Smooth   1-4   60,64,67 | 60,63,68 | 60,64,67 | 59,64,68
+
+## Film/Cinematic | I—♭III—I—VI | Minor Third Mediants | major | C
+Classic  1-4   *C [I]  *Eb [♭III]  *C [I]  *A [VI]
+Classic  5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  Ebmaj7 [♭IIIM7]  Ebadd9 [♭IIIadd9]
+Classic  9-12  Amaj7 [VIM7]  Aadd9 [VIadd9]  Bb [♭VII]  Ab [♭VI]
+Classic 13-16  Fm [iv]  Db [♭II]  Dm7 [ii7]  Csus2 [Isus2]
+Jazz     1-4   *C [I]  *Eb [♭III]  *C [I]  *A [VI]
+Jazz     5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  Ebmaj7 [♭IIIM7]  Ebadd9 [♭IIIadd9]
+Jazz     9-12  Amaj7 [VIM7]  Aadd9 [VIadd9]  Bbmaj7 [♭VIIM7]  Abmaj7 [♭VIM7]
+Jazz    13-16  Bb [♭VII]  Ab [♭VI]  Db [♭II]  Fm [iv]
+Smooth   1-4   60,64,67 | 58,63,67 | 60,64,67 | 61,64,69
+
+## Film/Cinematic | i—♭vi—i—iii | Minor Mediants | minor | A
+Classic  1-4   *Am [i]  *Fm [♭vi]  *Am [i]  *Dbm [iii]
+Classic  5-8   Bm7 [ii7]  Am7 [i7]  Fm7 [♭vi7]  Dbm7 [iii7]
+Classic  9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Amadd9 [iadd9]
+Classic 13-16  Dm [iv]  Gb [VI]  Bb [♭II]  G [♭VII]
+Jazz     1-4   *Am [i]  *Fm [♭vi]  *Am [i]  *Dbm [iii]
+Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Fm7 [♭vi7]  Dbm7 [iii7]
+Jazz     9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Amadd9 [iadd9]
+Jazz    13-16  Dm [iv]  Gb [VI]  Bb [♭II]  G [♭VII]
+Smooth   1-4   57,60,64 | 56,60,65 | 57,60,64 | 56,61,64
+
+## Film/Cinematic | I—♭vi—♭VI—I | Hexatonic Pole | major | C
+Classic  1-4   *C [I]  *Abm [♭vi]  *Ab [♭VI]  *C [I]
+Classic  5-8   Dm [ii]  Am [vi]  Cmaj7 [IM7]  Bb [♭VII]
+Classic  9-12  Fm [iv]  Eb [♭III]  Dm7 [ii7]  Csus2 [Isus2]
+Classic 13-16  A [VI]  Db [♭II]  Abm7 [♭vi7]  Absus2 [♭visus2]
+Jazz     1-4   *C [I]  *Abm [♭vi]  *Ab [♭VI]  *C [I]
+Jazz     5-8   Dm [ii]  Am [vi]  Cmaj7 [IM7]  Bbmaj7 [♭VIIM7]
+Jazz     9-12  Fm7 [iv7]  Ebmaj7 [♭IIIM7]  Dm7 [ii7]  Csus2 [Isus2]
+Jazz    13-16  Bb [♭VII]  Fm [iv]  Db [♭II]  A [VI]
+Smooth   1-4   60,64,67 | 59,63,68 | 60,63,68 | 60,64,67
+
+## Film/Cinematic | I—II | Lydian Vamp | major | C
+Classic  1-4   *C [I]  *D [II]  Cmaj7 [IM7]  Cadd9 [Iadd9]
+Classic  5-8   C6 [I6]  Dmaj7 [IIM7]  Dadd9 [IIadd9]  D6 [II6]
+Classic  9-12  Bb [♭VII]  Ab [♭VI]  Eb [♭III]  Dm7 [ii7]
+Classic 13-16  A [VI]  Fm [iv]  Db [♭II]  Csus2 [Isus2]
+Jazz     1-4   *C [I]  *D [II]  Cmaj7 [IM7]  Cadd9 [Iadd9]
+Jazz     5-8   C6 [I6]  Dmaj7 [IIM7]  Dadd9 [IIadd9]  D6 [II6]
+Jazz     9-12  Bbmaj7 [♭VIIM7]  Abmaj7 [♭VIM7]  Ebmaj7 [♭IIIM7]  Dm7 [ii7]
+Jazz    13-16  Bb [♭VII]  Ab [♭VI]  Db [♭II]  A [VI]
+Smooth   1-4   60,64,67 | 62,66,69 | 60,64,67,71 | 60,64,67,74
+
+## Film/Cinematic | I—II—iii—II | Lydian Float | major | C
+Classic  1-4   *C [I]  *D [II]  *Em [iii]  *D [II]
+Classic  5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  C6 [I6]  Dmaj7 [IIM7]
+Classic  9-12  Dadd9 [IIadd9]  D6 [II6]  Bb [♭VII]  Ab [♭VI]
+Classic 13-16  A [VI]  Eb [♭III]  Db [♭II]  Fm [iv]
+Jazz     1-4   *C [I]  *D [II]  *Em [iii]  *D [II]
+Jazz     5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  C6 [I6]  Dmaj7 [IIM7]
+Jazz     9-12  Dadd9 [IIadd9]  D6 [II6]  Bbmaj7 [♭VIIM7]  Abmaj7 [♭VIM7]
+Jazz    13-16  A [VI]  Bb [♭VII]  Db [♭II]  Ab [♭VI]
+Smooth   1-4   60,64,67 | 62,66,69 | 64,67,71 | 62,66,69
+
+## Film/Cinematic | i—v—♭VII—IV | Dorian Drift | minor | A
+Classic  1-4   *Am [i]  *Em [v]  *G [♭VII]  *D [IV]
+Classic  5-8   Bm7 [ii7]  Am7 [i7]  Em7 [v7]  Bm [ii]
+Classic  9-12  Gbm [vi]  Gbm7 [vi7]  Dm [iv]  F [♭VI]
+Classic 13-16  Gb [VI]  C [♭III]  Bb [♭II]  Asus2 [isus2]
+Jazz     1-4   *Am [i]  *Em [v]  *G [♭VII]  *D [IV]
+Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Em7 [v7]  Bm [ii]
+Jazz     9-12  Gbm [vi]  Gbm7 [vi7]  Dm7 [iv7]  Fmaj7 [♭VIM7]
+Jazz    13-16  Gb [VI]  Dm [iv]  Bb [♭II]  F [♭VI]
+Smooth   1-4   57,60,64 | 55,59,64 | 55,59,62 | 54,57,62
+
+## Film/Cinematic | i—♭III—V—i | Minor Lift | minor | A
+Classic  1-4   *Am [i]  *C [♭III]  *E [V]  *Am [i]
+Classic  5-8   Bm [ii]  Gbm [vi]  G [♭VII]  Dm [iv]
+Classic  9-12  F [♭VI]  Bm7 [ii7]  Am7 [i7]  Asus4 [isus4]
+Classic 13-16  E7 [V7]  Gb [VI]  B7 [V7/V]  Bb [♭II]
+Jazz     1-4   *Am [i]  *C [♭III]  *E [V]  *Am [i]
+Jazz     5-8   Bm [ii]  Gbm [vi]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
+Jazz     9-12  Fmaj7 [♭VIM7]  Bm7 [ii7]  Am7 [i7]  Asus4 [isus4]
+Jazz    13-16  E7 [V7]  G [♭VII]  B7 [V7/V]  Bb [♭II]
+Smooth   1-4   57,60,64 | 55,60,64 | 56,59,64 | 57,60,64
+
+## Film/Cinematic | i—♭VI—IV—♭VI | Wandering Fifth | minor | A
+Classic  1-4   *Am [i]  *F [♭VI]  *D [IV]  *F [♭VI]
+Classic  5-8   Bm [ii]  Gbm [vi]  G [♭VII]  Dm [iv]
+Classic  9-12  C [♭III]  Bm7 [ii7]  Am7 [i7]  Asus4 [isus4]
+Classic 13-16  Gb [VI]  Bb [♭II]  Asus2 [isus2]  Fsus4 [♭VIsus4]
+Jazz     1-4   *Am [i]  *F [♭VI]  *D [IV]  *F [♭VI]
+Jazz     5-8   Bm [ii]  Gbm [vi]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
+Jazz     9-12  Cmaj7 [♭IIIM7]  Bm7 [ii7]  Am7 [i7]  Asus4 [isus4]
+Jazz    13-16  G [♭VII]  Dm [iv]  Bb [♭II]  Gb [VI]
+Smooth   1-4   57,60,64 | 57,60,65 | 57,62,66 | 57,60,65
+
+## Film/Cinematic | I—♭VI—♭VII—I | Hero Cadence | major | C
+Classic  1-4   *C [I]  *Ab [♭VI]  *Bb [♭VII]  *C [I]
+Classic  5-8   Csus4 [Isus4]  Absus4 [♭VIsus4]  Bbsus4 [♭VIIsus4]  Cadd9 [Iadd9]
+Classic  9-12  Abadd9 [♭VIadd9]  Bbadd9 [♭VIIadd9]  Eb [♭III]  Dm7 [ii7]
+Classic 13-16  A [VI]  Fm [iv]  Db [♭II]  Csus2 [Isus2]
+Jazz     1-4   *C [I]  *Ab [♭VI]  *Bb [♭VII]  *C [I]
+Jazz     5-8   Csus4 [Isus4]  Absus4 [♭VIsus4]  Bbsus4 [♭VIIsus4]  Cadd9 [Iadd9]
+Jazz     9-12  Abadd9 [♭VIadd9]  Bbadd9 [♭VIIadd9]  Ebmaj7 [♭IIIM7]  Dm7 [ii7]
+Jazz    13-16  A [VI]  Fm [iv]  Db [♭II]  Eb [♭III]
+Smooth   1-4   60,64,67 | 60,63,68 | 62,65,70 | 64,67,72
+
 ## Folk/Singer-Songwriter | I—IV—I—V | Folk Standard | major | C
 Classic  1-4   *C [I]  *F [IV]  *C [I]  *G [V]
 Classic  5-8   Dm [ii]  Am [vi]  Bb [♭VII]  Fm [iv]
