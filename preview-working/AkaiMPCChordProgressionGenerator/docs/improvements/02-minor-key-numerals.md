@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | implemented |
 | Type | defect, data |
 | Size | M |
 | Depends on | 00 (snapshot), 01 (six corrected values duplicate values in other genres) |
@@ -278,3 +278,77 @@ transposed to A (minor tonality renders in A).
   (spec 04 §3.4).
 - Any other description's prose. Several other descriptions could be
   sharper; only the twelve above are wrong.
+
+## 7. Implementation notes
+
+Implemented as specified, with the departures and the findings below.
+
+- **One tonality rule.** Check H needs the tonality of a template, which the
+  snapshot tool already derived (spec 00 §3.2). The derivation moved to
+  `tools/lib/template-tonality.mjs`, which both tools import, so the audit and the
+  snapshot cannot disagree about which templates are minor. The snapshot is
+  byte-identical across the move.
+- **H1 reads the stem, not the regex.** §3.4's pattern
+  `^(III|VI|VII)(?![a-zA-Z°ø♭♯])` would let `VIM7`, `VIsus4` or `IIIM7` through,
+  because a letter after the stem fails its lookahead. Check H1 takes the leading
+  accidentals and the leading run of `[ivIV]` and flags an unaccidented upper-case
+  `III`, `VI` or `VII` whatever suffix follows. On the whole catalogue it reports
+  exactly what the regex would, at baseline and after. `allowRaisedDegrees` lists
+  stems, as specified; no template uses it, and a scratch template carrying
+  `['VII']` was seen to silence H1.
+- **Spelling.** `en.json` spells "color" 36 times and "colour" never, and "analyzed";
+  the descriptions of §3.3 were entered in that spelling.
+- **French typography.** `fr.json` puts a plain space before a colon and a semicolon
+  (60 colons in the file), so the new French descriptions do the same.
+- **Key order.** Each entry is re-keyed where it stood, so the diff of a locale
+  file is twelve entries and not a reshuffle. The locale files round-trip
+  byte-for-byte through a JSON parser that keeps insertion order, which
+  `JSON.parse` in JavaScript does not (it moves integer-like keys such as `"6"`
+  to the front).
+
+Disagreements with the English texts of §3.3, left as written because the
+decision is the maintainer's, and recorded in the commit message:
+
+1. **Hotel California, "three falling-fifth pairs".** B to F♯, A to E and G to D
+   each rise a fifth, equivalently fall a fourth; the pairs are rising-fifth. A
+   falling fifth would be B to E.
+2. **Hotel California, "everything else is natural minor".** The IV in the
+   description's own "♭VII-IV" is E major in B minor, which is Dorian's chord;
+   natural minor has a minor iv and a minor v. The House of the Rising Sun text
+   attributes its IV to Dorian correctly.
+3. **UK Garage, "the natural minor's two major chords".** Natural minor has three
+   major triads, ♭III, ♭VI and ♭VII; G and F are two of them.
+
+Measured against the parent commit (`f939906`):
+
+| Quantity | Before | After |
+|---|---|---|
+| H1 / H2 findings (check run on the unchanged data) | 12 / 4 | 0 / 0 |
+| H1 findings with Samba temporarily reverted | | 1, naming it |
+| Snapshot blocks changed | | 12, each in place; the block order and the other 195 blocks are untouched |
+| Snapshot size | 2 110 lines, 114 079 bytes | 2 110 lines, 114 268 bytes |
+| Unique template values / values under more than one genre | 146 / 16 | 141 / 19 |
+| `.progression` files in the pack | 838 | 839 |
+| MIDI files in the pack | 10 054 | 10 066 |
+| Pack files with an unchanged name and new content | | 0 |
+| Pack names carrying two styles (`Classic+Jazz`) | 27 | 26 |
+
+The pack changes in exactly the twelve templates: 60 `.progression` files are
+renamed (twelve templates times five styles) and 59 names disappear, because
+Morning Trance's Classic and Jazz variants were identical on the old chords and
+shared one file, `Classic+Jazz`, and now differ. That is the one extra file, and
+the one fewer fused name. The 26 of the spec's baseline became 27 with spec 01 and
+are 26 again by coincidence of that one template, not because the two counts are
+the same set.
+
+Acceptance item 6 was run in headless Chromium against a local server, key A: the
+Hotel California variant's pads 1-8 read Am E G D F C Dm E (the first variant
+shown, which voices some of them as inversions), Power Cadence's progression pads read
+F G Am and Harmonic Minor Psy's Am Dm E F, and the ♭VI pad's tooltip reads
+"Borrowed from parallel minor, dramatic predominant, often moves to V" where the
+G♭ pad it replaces read "Submediant - relative minor". The script is not
+committed.
+
+Still wrong in the same templates and outside this spec: their palettes are not
+minor-key aware (Hotel California's palette carries a major VI, G♭ in A, beside
+the Am), which is spec 07.

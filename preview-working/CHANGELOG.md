@@ -2,6 +2,28 @@
 
 What changed, and why it's worth updating for.
 
+## 2026-11-15
+
+### Chord Progression Generator
+
+**Twelve minor-key progressions now play what their names promise.** In A
+minor, "Hotel California" used to open with A♭ and D♭ major where the Eagles
+play G and C, and "House of the Rising Sun" played D♭ and G♭ where the Animals
+play C and F. Eleven progressions were written counting the scale's own
+degrees, and the generator counts against the parallel major, so a bare VII,
+VI or III landed a semitone too high. They are corrected - Hotel California,
+Samba, House of the Rising Sun, Power Cadence, Dark Psy, Full-On, Goa Classic,
+Forest Psy, Morning Trance, Dark Synth and UK Garage - and their descriptions
+rewritten, in all six languages, where they claimed chords "from harmonic
+minor" that harmonic minor does not contain. Harmonic Minor Psy was redesigned
+rather than corrected: it is now Am Dm E F, which really is all harmonic minor.
+A new check in the audit makes the mistake unrepeatable.
+
+One-time rename: the numerals are part of the exported name, so these twelve
+progressions' `.progression` and MIDI files change name in the pack and in the
+MPC menu. Files you saved under the old names are not touched; export them
+again if you want the corrected chords.
+
 ## 2026-09-08
 
 ### Chord Progression Generator

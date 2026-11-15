@@ -31,6 +31,7 @@ import { fileURLToPath } from 'node:url';
 import { progressions, modes, findModeCategory } from '../modules/musicTheory.js';
 import { generateVariant, generateScaleExploration } from '../modules/generation.js';
 import { unifiedDiff, splitLines } from './lib/unified-diff.mjs';
+import { templateTonality } from './lib/template-tonality.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SNAPSHOT_RELATIVE = 'docs/catalogue-snapshot.txt';
@@ -42,9 +43,6 @@ const SNAPSHOT_PATH = join(ROOT, 'docs', 'catalogue-snapshot.txt');
 const MAJOR_KEY = 'C';
 const MINOR_KEY = 'A';
 const SCALE_KEY = 'C';
-
-// The em dash that joins the chords of a template value ('I—V—vi—IV')
-const CHORD_SEPARATOR = '—';
 
 const LABEL_WIDTH = 7; // 'Classic' is the longest label
 const RANGE_WIDTH = 5; // '13-16'
@@ -59,36 +57,6 @@ const HEADER_LINES = [
 ];
 
 const en = JSON.parse(readFileSync(join(ROOT, 'locales', 'en.json'), 'utf8'));
-
-// ============================================================================
-// Template tonality
-// ============================================================================
-
-/**
- * Whether a template is in a major or a minor key. An explicit `tonality` on
- * the template wins; until templates carry one, the first token whose stem is
- * a bare I or i decides, by its case. Tokens with a slash are applied chords
- * (V7/ii), and a token with an accidental or a longer stem (♭III, IV, ii) is
- * not the tonic. A template with no tonic token at all renders as major.
- *
- * @param {Object} template - A progressions[category] entry
- * @returns {'major'|'minor'}
- */
-function templateTonality(template) {
-    if (template.tonality !== undefined) {
-        if (template.tonality !== 'major' && template.tonality !== 'minor') {
-            throw new Error(`Template ${template.value}: tonality must be 'major' or 'minor', got ${JSON.stringify(template.tonality)}`);
-        }
-        return template.tonality;
-    }
-
-    for (const token of template.value.split(CHORD_SEPARATOR)) {
-        if (token.includes('/')) continue;
-        const tonic = token.match(/^([iI])(?![ivIV])/);
-        if (tonic) return tonic[1] === 'i' ? 'minor' : 'major';
-    }
-    return 'major';
-}
 
 // ============================================================================
 // Formatting

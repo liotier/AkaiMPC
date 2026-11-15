@@ -102,7 +102,7 @@ export const progressions = {
             value: 'I—♭VII—IV—I',
         },
         {
-            value: 'i—V—VII—IV—VI—III—iv—V',
+            value: 'i—V—♭VII—IV—♭VI—♭III—iv—V',
         }
     ],
     'Blues/Soul': [
@@ -616,7 +616,7 @@ export const progressions = {
             },
         },
         {
-            value: 'i—V—i—VII',
+            value: 'i—V—i—♭VII',
             palettePriorities: {
                 preferred: ['minor', 'major', 'minor7'],      // Brazilian samba colors
                 allowed: ['dom7', 'major7'],                   // Extended harmony
@@ -708,7 +708,7 @@ export const progressions = {
             },
         },
         {
-            value: 'i—III—IV—VI',
+            value: 'i—♭III—IV—♭VI',
             palettePriorities: {
                 preferred: ['minor', 'major'],
                 allowed: ['minor7', 'dom7'],
@@ -813,7 +813,7 @@ export const progressions = {
             },
         },
         {
-            value: 'VI—VII—i',
+            value: '♭VI—♭VII—i',
             palettePriorities: {
                 preferred: ['major', 'minor'],
                 allowed: ['dom7'],
@@ -847,7 +847,7 @@ export const progressions = {
             },
         },
         {
-            value: 'i—iv—VII—III',
+            value: 'i—iv—V—♭VI',
             palettePriorities: {
                 preferred: ['minor', 'major'],
                 allowed: ['sus2', 'sus4', 'quartal'],
@@ -855,7 +855,7 @@ export const progressions = {
             },
         },
         {
-            value: 'i—♭VI—III—VII',
+            value: 'i—♭VI—♭III—♭VII',
             palettePriorities: {
                 preferred: ['minor', 'major'],
                 allowed: ['minor7', 'quartal'],
@@ -871,16 +871,16 @@ export const progressions = {
             },
         },
         {
-            value: 'i—VII—VI—VII',
+            value: 'i—♭VII—♭VI—♭VII',
         },
         {
-            value: 'i—♭II—VII—V',
+            value: 'i—♭II—♭VII—V',
         },
         {
-            value: 'i—iv—i—VII',
+            value: 'i—iv—i—♭VII',
         },
         {
-            value: 'i—III—VII—IV',
+            value: 'i—♭III—♭VII—IV',
         },
         {
             value: 'i—v—♭VII',
@@ -975,7 +975,7 @@ export const progressions = {
             },
         },
         {
-            value: 'i—♭VI—III—♭VII',
+            value: 'i—♭VI—♭III—♭VII',
             palettePriorities: {
                 preferred: ['minor', 'major'],
                 allowed: ['minor7', 'quartal'],
@@ -1003,7 +1003,7 @@ export const progressions = {
     ],
     'UK Bass': [
         {
-            value: 'i—VII—♭VI',
+            value: 'i—♭VII—♭VI',
             palettePriorities: {
                 preferred: ['minor', 'minor7'],
                 allowed: ['major', 'dom7'],

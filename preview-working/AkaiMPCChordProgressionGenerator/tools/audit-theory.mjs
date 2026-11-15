@@ -19,6 +19,7 @@
 
 import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, buildChordRaw, getKeyOffset, resolveTemplate } from '../modules/musicTheory.js';
 import { generateVariant, VARIANT_STYLES } from '../modules/generation.js';
+import { templateTonality, CHORD_SEPARATOR } from './lib/template-tonality.mjs';
 
 const NOTE_PITCH_CLASSES = { C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, 'E#': 5, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11, Cb: 11, Fb: 4 };
 const DEGREE_SEMITONES = { I: 0, II: 2, III: 4, IV: 5, V: 7, VI: 9, VII: 11 };
@@ -128,6 +129,50 @@ for (const [category, list] of Object.entries(progressions)) {
         const resolved = resolveTemplate(template.value, category);
         if (!resolved || resolved.template !== template || resolved.category !== category) {
             report('L template does not resolve to its own entry', `${category} | ${template.value} -> ${resolved ? resolved.category : 'nothing'}`);
+        }
+    }
+}
+
+// H: template numeral convention. The engine reads every roman numeral against
+// the parallel major (generateProgressionChords()), so in a minor key the natural
+// minor's mediant, submediant and subtonic are written ♭III, ♭VI, ♭VII, and a bare
+// III, VI or VII is a major triad on the raised degree: G♯ major in A minor.
+// Twelve templates were written in the scale-relative convention and played that
+// way, and nothing noticed because a label and the chord it names agree whatever
+// the nickname says (docs/improvements/02-minor-key-numerals.md). Static: no
+// generation needed.
+//
+// A bare uppercase III, VI or VII is read from the stem, whatever suffix follows
+// (VII, VII7, VIM7, VIsus4). A token containing '/' is an applied chord, whose
+// numerator is not a degree of the key, and is skipped.
+const RAISED_DEGREE_STEMS = new Set(['III', 'VI', 'VII']);
+
+function templateTokens(template) {
+    return template.value.split(CHORD_SEPARATOR).filter(token => !token.includes('/'));
+}
+
+function isBareRaisedDegree(token) {
+    const m = token.match(/^([♭♯#b]*)([ivIV]+)/);
+    return m !== null && m[1] === '' && RAISED_DEGREE_STEMS.has(m[2]);
+}
+
+for (const [category, list] of Object.entries(progressions)) {
+    for (const template of list) {
+        const tokens = templateTokens(template);
+        const bare = tokens.filter(isBareRaisedDegree);
+        const whitelisted = new Set(template.allowRaisedDegrees || []);
+
+        // H1: a minor template may use a raised degree only if it says so, and why.
+        if (templateTonality(template) === 'minor') {
+            const unlisted = bare.filter(token => !whitelisted.has(token.match(/^[ivIV]+/)[0]));
+            if (unlisted.length > 0) {
+                report('H1 minor template uses a raised-degree numeral', `${category} | ${template.value} (${unlisted.join(', ')})`);
+            }
+        }
+
+        // H2: both conventions in one string is always a typo, with no whitelist.
+        if (bare.length > 0 && tokens.some(token => token.startsWith('♭'))) {
+            report('H2 template mixes numeral conventions', `${category} | ${template.value}`);
         }
     }
 }

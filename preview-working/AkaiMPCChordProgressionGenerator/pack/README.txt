@@ -5,7 +5,7 @@ Every progression this generator can build, pre-exported so you don't have
 to click through them one at a time.
 
 AkaiMPC-Chord-Progressions.zip
-  838 .progression files, key of C, flat (no subfolders - the
+  839 .progression files, key of C, flat (no subfolders - the
   MPC reads a flat Progressions folder). Copy the contents into a folder
   named "Progressions" at the root of your MPC's storage.
 
@@ -15,7 +15,7 @@ AkaiMPC-Chord-Progressions.zip
   this pack ships C only rather than twelve near-identical copies.
 
 AkaiMPC-Chord-MIDI.zip
-  10054 .mid files, one folder per key (a DAW does not transpose on
+  10066 .mid files, one folder per key (a DAW does not transpose on
   import the way the MPC does, so all twelve keys are included here).
 
 A note on the menu names: the MPC splits each progression's name on its
