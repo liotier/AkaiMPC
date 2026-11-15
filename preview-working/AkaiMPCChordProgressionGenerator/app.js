@@ -36,7 +36,8 @@ import {
     loadFromLocalStorage,
     updateURL,
     loadFromURL,
-    applyPreferences
+    applyPreferences,
+    selectProgressionOption
 } from './modules/storage.js';
 
 import {
@@ -77,6 +78,10 @@ import { i18n } from './modules/i18n.js';
 let selectedKey = 'C';
 let selectedMode = 'Major';
 let selectedProgression = 'I—V—vi—IV';
+// The genre the progression was chosen under. A value can be listed under
+// several genres, each with its own palette and MPC heading, so the value
+// alone does not identify a template (docs/improvements/01-template-identity.md).
+let selectedCategory = findProgressionCategory(selectedProgression);
 let progressionName = '';
 let variants = [];
 let chordRequirements = [];
@@ -321,7 +326,7 @@ function switchContext(context) {
     }
 
     // Save context preference
-    saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, context, generationMode);
+    saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, context, generationMode, selectedCategory);
 }
 
 // Generation mode switching (Progression Palette Mode vs Scale Mode)
@@ -381,7 +386,7 @@ function switchGenerationMode(mode, skipSave = false) {
 
     // Save generation mode preference (unless during initialization)
     if (!skipSave) {
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode, selectedCategory);
     }
 }
 
@@ -524,6 +529,7 @@ globalThis.clearChordRequirements = clearChordRequirements;
 Object.defineProperty(globalThis, 'selectedKey', { get: () => selectedKey });
 Object.defineProperty(globalThis, 'selectedMode', { get: () => selectedMode });
 Object.defineProperty(globalThis, 'selectedProgression', { get: () => selectedProgression });
+Object.defineProperty(globalThis, 'selectedCategory', { get: () => selectedCategory });
 
 function renderChordRequirements() {
     const container = document.getElementById('selectedChords');
@@ -829,6 +835,7 @@ function populateSelects() {
         progList.forEach(prog => {
             const option = document.createElement('option');
             option.value = prog.value;
+            option.dataset.category = category;
             const progKey = `progressions.${category}.${prog.value}`;
 
             // Get translated name (fallback to progression value)
@@ -859,7 +866,8 @@ function populateSelects() {
     // Restore the current selection - repopulating cleared it
     keySelect.value = selectedKey;
     modeSelect.value = selectedMode;
-    progressionSelect.value = selectedProgression;
+    // By value and genre: the same value can head several genres' entries
+    selectProgressionOption(progressionSelect, selectedProgression, selectedCategory);
 }
 
 // Update progression name
@@ -888,6 +896,7 @@ function generateProgressions() {
         key: selectedKey,
         mode: selectedMode,
         progression: selectedProgression,
+        category: selectedCategory,
         generationMode,
         chordRequirements
     });
@@ -921,7 +930,7 @@ function getNamingParams(variant) {
         };
     }
 
-    const category = findProgressionCategory(selectedProgression);
+    const category = findProgressionCategory(selectedProgression, selectedCategory);
     const nickname = i18n.tEnglish(`progressions.${category}.${selectedProgression}.nickname`);
     return {
         generationMode: 'template',
@@ -1638,7 +1647,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (applied) {
             if (applied.key) selectedKey = applied.key;
             if (applied.mode) selectedMode = applied.mode;
-            if (applied.progression) selectedProgression = applied.progression;
+            if (applied.progression) {
+                selectedProgression = applied.progression;
+                // Falls back to the first genre listing the value when the
+                // preferences predate genres or named one that does not list it
+                selectedCategory = findProgressionCategory(applied.progression, applied.genre || null);
+            }
             if (applied.leftHanded !== undefined) isLeftHanded = applied.leftHanded;
             // Restore saved context (will be applied after event listeners are set up)
             if (applied.context) {
@@ -1675,8 +1689,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('keySelect').addEventListener('change', function() {
         selectedKey = this.value;
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
-        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode, selectedCategory);
+        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded, selectedCategory);
         if (hasGeneratedOnce) {
             triggerSparkle();
             generateProgressions();
@@ -1686,8 +1700,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('modeSelect').addEventListener('change', function() {
         selectedMode = this.value;
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
-        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode, selectedCategory);
+        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded, selectedCategory);
         if (hasGeneratedOnce) {
             triggerSparkle();
             generateProgressions();
@@ -1696,9 +1710,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     document.getElementById('progressionSelect').addEventListener('change', function() {
         selectedProgression = this.value;
+        selectedCategory = findProgressionCategory(this.value, this.selectedOptions[0]?.dataset.category || null);
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
-        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode, selectedCategory);
+        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded, selectedCategory);
         if (hasGeneratedOnce) {
             triggerSparkle();
             generateProgressions();
@@ -1893,8 +1908,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Left-handed toggle for guitar
     document.getElementById('leftHandedCheckbox').addEventListener('change', function() {
         isLeftHanded = this.checked;
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
-        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode, selectedCategory);
+        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded, selectedCategory);
         // Regenerate progressions to reflect the change
         const progressionsContainer = document.getElementById('progressionsContainer');
         if (!progressionsContainer.classList.contains('hidden')) {

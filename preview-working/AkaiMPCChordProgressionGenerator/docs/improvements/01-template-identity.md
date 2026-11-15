@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | implemented |
 | Type | defect |
 | Size | M |
 | Depends on | 00 |
@@ -166,13 +166,18 @@ None. No new user-visible string.
 1. **Identity test** (new, in the audit or a tiny script): for every
    `(category, template)` pair in `progressions`, the template object
    returned by the resolution rule is that entry, by reference.
-2. **Snapshot diff** touches exactly the eighteen shadowed entries (the
-   later-genre rows of the table in §1 marked `*` or `†`), and within them
-   only the pad order and chord types that the entry's own priorities
-   explain. The snapshot renders each `(category, value)` block separately,
+2. **Snapshot diff** touches exactly the twenty-three later-genre entries
+   whose settings differ from the first genre's: the eighteen shadowed
+   entries (the later-genre rows of the table in §1 marked `*` or `†`) and
+   five without settings of their own, which inherited the first genre's and
+   now get the default palette (Electronic/Modern and Italo-Disco/House
+   `vi—IV—I—V`, Hip-Hop/Trap `I—♭III—♭VII—IV`, African Dance `I—IV—I—V`,
+   Jungle/Drum'n'Bass `i—v—♭VII—iv`). Within them, only the pad order and
+   chord types that the entry's own settings explain. The snapshot renders each `(category, value)` block separately,
    so the diff localises by genre.
-3. **Pack**: the display name of every file is unchanged; the content of the
-   eighteen entries' files changes; re-measure and record the `.progression`
+3. **Pack**: the display name of every file is unchanged, except where the
+   styles of a changed entry fuse differently; the content of the changed
+   entries' files changes; re-measure and record the `.progression`
    count (839 at baseline, it may move as styles fuse differently).
 4. **App, manual**: select Synthwave/Retrowave "Synthpop", generate, export one
    variant; the JSON `name` begins `Synthwave/Retrowave-Synthpop`. Reload the
@@ -187,3 +192,50 @@ None. No new user-visible string.
 
 - Removing the cross-genre duplicates. See §1, last paragraph.
 - Changing the dropdown's grouping or labels.
+
+## 8. Implementation notes
+
+Implemented as specified. Where the code lives:
+
+- **Resolution.** `resolveTemplate(value, category)` in `modules/musicTheory.js`
+  is the rule of §3.1; `findProgressionCategory(value, preferred)` delegates to
+  it, so there is one rule, not two. `generateVariant()` reads the template's
+  filter and priorities through it.
+- **The dropdown.** `selectProgressionOption()` in `modules/storage.js`, beside
+  `applyPreferences()`, does the option scan of §3.3. `populateSelects()` uses
+  it too, so a language switch, which rebuilds the dropdown, keeps the genre.
+- **Naming.** `getNamingParams()` resolves the genre through
+  `findProgressionCategory(selectedProgression, selectedCategory)` rather than
+  reading `selectedCategory` raw, so a state where the two disagree still names
+  a genre that lists the value.
+- **Signatures.** `saveToLocalStorage()` takes the genre as a new last
+  argument; `updateURL()` takes it before `replaceState`, which no caller
+  passes.
+- **Audit.** Check L asserts that every `(category, value)` pair resolves to its
+  own entry. With resolution made to ignore the genre it reports 27 findings,
+  one per later-genre entry.
+
+Acceptance item 2 was corrected above: 23 entries change, not 18. The five
+added ones had no settings of their own and silently used the first genre's.
+
+Measured against `720f886`:
+
+| Quantity | Before | After |
+|---|---|---|
+| Snapshot blocks changed | | 23, exactly the predicted set |
+| `.progression` files in the pack | 839 | 838 |
+| MIDI files in the pack | 10 065 | 10 054 |
+| Files with the same name and new content | | 113, all inside the 23 entries |
+| Files renamed | | 2 become 1: African Dance "Soukous Classic", whose Classic and Jazz variants now coincide and fuse into `Classic+Jazz` |
+
+Acceptance items 4 and 5 were run in headless Chromium against a local
+server: 17 checks, all passing, including that a single-file export from the
+app is byte-identical to the pack's file of the same name. The same script
+run against `720f886` passes 3 of 17; there, the Synthwave entry exports as
+`Pop/Rock-Axis of Awesome`. The script is not committed, since the repository
+has no browser-test setup.
+
+Found along the way and recorded in the index rather than fixed here: a
+template whose only setting is a `paletteFilter` never receives the extended
+types the filter names (folded into spec 04), and quartal chords are named
+`sus4` though they contain no fifth.

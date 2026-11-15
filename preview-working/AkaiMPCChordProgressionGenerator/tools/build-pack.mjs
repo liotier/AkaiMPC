@@ -42,8 +42,12 @@ function englishNickname(category, value) {
  * Mirrors modules/generation.js's generateVariants(), but computed once here
  * so the fusion tracking and the MIDI-per-key loop can share the same pass.
  */
-function variantsFor(key, progression) {
-    const all = VARIANT_STYLES.map(style => generateVariant(style, { key, mode: 'Major', progression, chordRequirements: [] }));
+function variantsFor(key, progression, category) {
+    // The category picks which genre's entry - and so which palette priorities -
+    // a value listed under several genres is generated with. Without it the
+    // file named after the later genre held the first genre's palette
+    // (docs/improvements/01-template-identity.md).
+    const all = VARIANT_STYLES.map(style => generateVariant(style, { key, mode: 'Major', progression, category, chordRequirements: [] }));
 
     const stylesBySignature = new Map();
     all.forEach(variant => {
@@ -79,7 +83,7 @@ function buildProgressionEntries() {
     for (const [category, list] of Object.entries(progressions)) {
         for (const template of list) {
             const nickname = englishNickname(category, template.value);
-            for (const variant of variantsFor(PACK_KEY, template.value)) {
+            for (const variant of variantsFor(PACK_KEY, template.value, category)) {
                 const style = variant.styles.join('+');
                 const namingParams = { generationMode: 'template', category, nickname, value: template.value, style };
                 const fileName = buildExportFileName({ key: PACK_KEY, extension: 'progression', ...namingParams });
@@ -100,7 +104,7 @@ function buildMidiEntries() {
         for (const [category, list] of Object.entries(progressions)) {
             for (const template of list) {
                 const nickname = englishNickname(category, template.value);
-                for (const variant of variantsFor(key, template.value)) {
+                for (const variant of variantsFor(key, template.value, category)) {
                     const style = variant.styles.join('+');
                     const namingParams = { generationMode: 'template', category, nickname, value: template.value, style };
                     // buildExportFileName() appends '.mid'; generateMIDIFile() also

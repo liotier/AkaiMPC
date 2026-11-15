@@ -17,7 +17,7 @@
  * ~10,000 variants, ~160,000 pads.
  */
 
-import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, buildChordRaw, getKeyOffset } from '../modules/musicTheory.js';
+import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, buildChordRaw, getKeyOffset, resolveTemplate } from '../modules/musicTheory.js';
 import { generateVariant, VARIANT_STYLES } from '../modules/generation.js';
 
 const NOTE_PITCH_CLASSES = { C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, 'E#': 5, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11, Cb: 11, Fb: 4 };
@@ -119,12 +119,25 @@ function report(checkId, example) {
 
 let variantCount = 0, padCount = 0;
 
+// L: template identity. Every (category, value) pair must resolve to its own
+// entry, by reference - not to the same value listed under an earlier genre,
+// whose palette priorities and MPC heading would then be used instead
+// (docs/improvements/01-template-identity.md). Static: no generation needed.
+for (const [category, list] of Object.entries(progressions)) {
+    for (const template of list) {
+        const resolved = resolveTemplate(template.value, category);
+        if (!resolved || resolved.template !== template || resolved.category !== category) {
+            report('L template does not resolve to its own entry', `${category} | ${template.value} -> ${resolved ? resolved.category : 'nothing'}`);
+        }
+    }
+}
+
 for (const key of keys) {
     const keyPc = getKeyOffset(key);
     for (const [category, list] of Object.entries(progressions)) {
         for (const template of list) {
             for (const style of VARIANT_STYLES) {
-                const variant = generateVariant(style, { key, mode: 'Major', progression: template.value, chordRequirements: [] });
+                const variant = generateVariant(style, { key, mode: 'Major', progression: template.value, category, chordRequirements: [] });
                 variantCount++;
                 const where = `${key} ${template.value} ${style}`;
 
