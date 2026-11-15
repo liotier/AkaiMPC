@@ -338,3 +338,11 @@ suffix (`Isus4sus4`); both are spec 05's. The sus2 and sus4 on one root that
 Trance's four templates now receive are different pitch-class sets, so spec 05's
 filter will leave them.
 
+**Item 8 after later commits.** The 20 is the count when this spec was implemented.
+Spec 05's sound filter raised it to 28, adding Hip-Hop/Trap `ii7—V7—IM7` and
+Synthwave/Retrowave `IM7—iii7—vi7—IVM7` (four variants each; both declare a
+`paletteFilter` of `minor7`, `major7` and `dom7`), and spec 05's notes did not record
+it; spec 09's Ascending Line Cliché adds five, 33 in the key of C. Measured by
+counting the entries into step 5 at each commit. The two filter templates are in the
+same position as the five: left to spec 07 and to a later decision on their settings.
+

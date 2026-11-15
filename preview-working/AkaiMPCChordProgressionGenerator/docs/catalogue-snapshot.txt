@@ -1256,6 +1256,17 @@ Jazz     9-12  Abadd9 [♭VIadd9]  Bbadd9 [♭VIIadd9]  Ebmaj7 [♭IIIM7]  Dm7 [
 Jazz    13-16  A [VI]  Fm [iv]  Db [♭II]  Eb [♭III]
 Smooth   1-4   60,64,67 | 60,63,68 | 62,65,70 | 64,67,72
 
+## Film/Cinematic | i—i♯5—i6—i♯5 | Ascending Line Cliché | minor | A
+Classic  1-4   *Am [i]  *Am#5 [i♯5]  *Am6 [i6]  *Am#5 [i♯5]
+Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  Bm7 [ii7]
+Classic  9-12  Am7 [i7]  Asus4 [isus4]  Gbm7 [vi7]  AmMaj7 [i(maj7)]
+Classic 13-16  E7 [V7]  B7 [V7/V]  Gb [VI]  Gb7 [V7/ii]
+Jazz     1-4   *Am [i]  *Am#5 [i♯5]  *Am6 [i6]  *Am#5 [i♯5]
+Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Bm7 [ii7]
+Jazz     9-12  Am7 [i7]  Asus4 [isus4]  Gbm7 [vi7]  Am9 [i9]
+Jazz    13-16  E7 [V7]  B7 [V7/V]  Dm [iv]  AmMaj7 [i(maj7)]
+Smooth   1-4   57,60,64 | 57,60,65 | 60,64,66,69 | 57,60,65
+
 ## Folk/Singer-Songwriter | I—IV—I—V | Folk Standard | major | C
 Classic  1-4   *C [I]  *F [IV]  *C [I]  *G [V]
 Classic  5-8   Dm [ii]  Am [vi]  Bb [♭VII]  Fm [iv]

@@ -937,6 +937,11 @@
         "name": "I—♭VI—♭VII—I",
         "nickname": "Hero Cadence",
         "description": "C A♭ B♭ C. The tonic, then the two major triads a whole step apart below it, ♭VI and ♭VII, climbing back home. A double plagal approach to I, the triumphant ending formula of adventure scores and victory themes, here as a loop so the tonic is both departure and arrival."
+      },
+      "i—i♯5—i6—i♯5": {
+        "name": "i—i♯5—i6—i♯5",
+        "nickname": "Ascending Line Cliché",
+        "description": "Em E G C E G C♯ and back, as chords: the fifth of a minor triad climbs by semitones over a held root and third, i, i♯5, i6, i♯5. The spy-theme harmonization and a staple of heroic and suspense scoring. The i6 pad keeps the fifth alongside the sixth; for the pure single-voice line, play only the top note change from the i♯5 pad."
       }
     },
     "Folk/Singer-Songwriter": {

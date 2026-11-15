@@ -9,10 +9,10 @@ This repository contains two complementary web applications for working with cho
 ## Projects
 
 ### 🎹 [Chord Progression Generator](https://liotier.github.io/AkaiMPC/AkaiMPCChordProgressionGenerator/)
-Creates new chord progressions from music theory - 183 genre templates or 34 scales/modes, up to five voicing variants each, viewable as MPC pads, piano keyboard, guitar fretboard, or staff notation.
+Creates new chord progressions from music theory - 184 genre templates or 34 scales/modes, up to five voicing variants each, viewable as MPC pads, piano keyboard, guitar fretboard, or staff notation.
 
 **Key Features:**
-- 183 progression templates across 22 genres, or Scale Mode to explore any of 34 scales chord-by-chord
+- 184 progression templates across 22 genres, or Scale Mode to explore any of 34 scales chord-by-chord
 - Five intelligent voicing variants (Smooth, Classic, Jazz, Modal, Experimental)
 - Voice leading optimization for smooth transitions
 - Chord Matcher for finding keys from specific chords

@@ -895,6 +895,11 @@
         "name": "I—♭VI—♭VII—I",
         "nickname": "Hero Cadence",
         "description": "C A♭ B♭ C. La tonica, poi le due triadi maggiori a distanza di un tono sotto di essa, ♭VI e ♭VII, che risalgono verso casa. Un avvicinamento doppio plagale a I, la formula di chiusura trionfale delle musiche d'avventura e dei temi di vittoria, qui come loop in modo che la tonica sia al tempo stesso partenza e arrivo."
+      },
+      "i—i♯5—i6—i♯5": {
+        "name": "i—i♯5—i6—i♯5",
+        "nickname": "Ascending Line Cliché",
+        "description": "Em E G C E G C♯ e ritorno, in accordi: la quinta di una triade minore sale per semitoni sopra una fondamentale e una terza tenute, i, i♯5, i6, i♯5. L'armonizzazione del tema da spia e un classico della musica eroica e di suspense. Il pad i6 mantiene la quinta accanto alla sesta; per la linea pura a voce singola, suonare solo il cambio della nota più acuta a partire dal pad i♯5."
       }
     },
     "Folk/Singer-Songwriter": {

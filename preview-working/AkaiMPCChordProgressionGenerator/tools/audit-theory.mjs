@@ -17,7 +17,7 @@
  * ~10,000 variants, ~160,000 pads.
  */
 
-import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, getKeyOffset, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature, parseProgression, SUFFIX_TABLE } from '../modules/musicTheory.js';
+import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, getKeyOffset, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature, parseProgression } from '../modules/musicTheory.js';
 import { generateVariant, VARIANT_STYLES, determineChordFunction, analyzeExistingChords, scoreCandidate } from '../modules/generation.js';
 import { templateTonality, CHORD_SEPARATOR } from './lib/template-tonality.mjs';
 
@@ -205,6 +205,9 @@ const PARSE_TABLE = [
     ['I+', 0, 'augmented', ''], ['I6', 0, 'major6', ''], ['II6', 1, 'major6', ''], ['Isus4', 0, 'sus4', ''],
     ['V7sus4', 4, 'dom7sus4', ''], ['viiø7', 6, 'm7b5', ''], ['vii°7', 6, 'dim7', ''],
     ['I7sus4(no5)', 0, 'quartal', ''], ['ii7(11)', 1, 'quartal4', ''],
+    // The minor chord with a raised fifth, for the ascending line cliché
+    // (docs/improvements/09-ascending-line-cliche.md)
+    ['i♯5', 0, 'minAug', ''], ['♭vi♯5', 5, 'minAug', 'flat'],
     // Applied dominants: the root a fifth above the target, spelled after the
     // target's accidental, raised for a natural target the scale cannot reach
     ['V7/ii', 5, 'dom7', ''], ['V/V', 1, 'major', ''], ['V7/♭III', 6, 'dom7', 'flat'], ['V/vii', 3, 'major', 'sharp']
@@ -233,10 +236,9 @@ const MUST_REFUSE = [
     'I— V',     // whitespace
     '♭♭II',     // one accidental at most
     'V7/x',     // an applied chord needs a numeral target
-    'vii°/V'    // secondary leading-tone chords: reserved, not supported yet
+    'vii°/V',   // secondary leading-tone chords: reserved, not supported yet
+    'I♯5'       // the minor ♯5 chord is a lower-case numeral only
 ];
-// i♯5 is refused until spec 09 adds the minor ♯5 chord type to CHORD_TYPE_DISPLAY
-if (!SUFFIX_TABLE.has('lower|♯5')) MUST_REFUSE.push('i♯5');
 for (const template of MUST_REFUSE) {
     try {
         parseProgression(template);
