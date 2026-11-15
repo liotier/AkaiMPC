@@ -1,6 +1,6 @@
 # Improvement specifications - Chord Progression Generator
 
-Thirteen specifications, one per improvement, each written to be handed to an
+Fourteen specifications, one per improvement, each written to be handed to an
 implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
@@ -78,6 +78,7 @@ instrument, and the later specs rely on it.
 | 10 | [Row 4: chromatic mediants and mode flips](10-row4-mediants.md) | feature | M | 03, 04, 05, 07 | Opus 5.5 |
 | 11 | [Optional: a Pedal voicing style](11-pedal-voicing-style.md) | feature, optional | M | 00 | Opus 5.5 |
 | 12 | [Optional: align the Finder's minor-key numerals](12-finder-numeral-convention.md) | consistency, optional | S | - | Sonnet 5.5 |
+| 13 | [Spelling that follows the key](13-spelling.md) | defect | L | 00 | Opus 5.5 |
 
 Sizes: S is under a day of a session's work with review, M one to two, L a
 multi-step job that should be reviewed at a checkpoint before it touches the
@@ -96,6 +97,8 @@ catalogue.
  ├── 06 parser ──► 09 line cliché
  │
  ├── 08 cinematic templates   (after 01 and 04; independent of 07)
+ │
+ ├── 13 spelling              (independent; recommended before 07)
  │
  └── 11 pedal voicing         (optional, independent)
 
@@ -116,6 +119,9 @@ Why this order:
   classifies vi as a dominant.
 - **06 before 09.** The ♯5 suffix needs a parser that reads suffixes instead
   of stripping them.
+- **13 before 07, recommended.** 07 changes the chords of 68 minor-key
+  palettes, and its snapshot diff is easier to review once those chords are
+  spelled in their key rather than as flats.
 - **07 before 10.** Mediant candidates differ by key mode; 10 needs the
   tonality field that 07 introduces.
 
@@ -175,7 +181,7 @@ decisions are followed to the letter, the table says so.
 |---|---|---|---|
 | Claude Haiku 5.5 | `claude-haiku-5-5` | Mechanical changes with a complete specification and a mechanical acceptance test: a new tool whose output format is fully given, a classifier replaced by a table | 00, 03 |
 | Claude Sonnet 5.5 | `claude-sonnet-5-5` | Bounded data and logic changes where the English text is supplied and the theory decisions are already made; translation into the five other locales; small algorithmic changes whose effect the snapshot makes visible | 02, 04, 05, 08, 09, 12 |
-| Claude Opus 5.5 | `claude-opus-5-5` | Cross-cutting refactors with a byte-identity requirement, changes to persistence and identity, voicing algorithms, and anything that must weigh several interacting scoring rules | 01, 06, 10, 11 |
+| Claude Opus 5.5 | `claude-opus-5-5` | Cross-cutting refactors with a byte-identity requirement, changes to persistence and identity, voicing algorithms, and anything that must weigh several interacting scoring rules | 01, 06, 10, 11, 13 |
 | Claude Fable 5.2 | `claude-fable-5-2` | The one spec that changes the sounding content of 68 templates' palettes on the strength of harmonic judgement at every step, with a new audit check to design | 07 |
 
 Notes:
@@ -213,8 +219,8 @@ Not worth a spec of their own; each is handled inside the spec named.
 | The Jazz seventh-upgrade appends a suffix to numerals that already carry one: 168 pads in the key of C (`i99`, `V99/V`, `Isus4sus4`, `vii°ø7`), found by the snapshot of spec 00 | 05 |
 | A template whose only setting is a `paletteFilter` never receives the extended types the filter names: Folk "Post-Rock Build" lists `quartal` and gets none, because declared colours are read from `palettePriorities` only | 04 |
 | Quartal chords (`quartal` C F B♭, `quartal4` C F B♭ E♭) are named `sus4` and `sus4(add11)`, though a sus4 chord has a fifth and no seventh: 70 pads in 7 templates in the key of C, plus 12 in Scale Mode, exported to the MPC under the wrong name. The audit cannot see it because it compares a name's suffix with the table, not with the notes. Decided: seventh-chord symbols, `7sus4(no5)` and `m7(11)` | 05 |
-| The note names printed on each pad spell every chord as a stack of thirds: Csus4 reads C E♯ G, Csus2 C E♭♭ G, C6 C E G B♭♭, a quartal chord C E♯ A♯. Ten chord types are affected, among them sus2, sus4, 7sus4, 6, m6 and 6/9; the diminished seventh's B♭♭ is correct. Found while specifying the quartal fix. Needs a spec | - |
-| Chord names in sharp keys are spelled with flats: `getEnharmonicContext()` gives every root on a black key a flat whatever the key, so A major's vi reads `Gbm` for F♯m, E major's ii and vi read `Gbm` and `Dbm`, and B major's V reads `Gb`. It reaches the app's displays in G, D, A, E and B, and every `.progression` file exported from the app in those keys, whose chord names Pad Perform shows on the pads. The published `.progression` pack, in C, and the MIDI files, which carry no chord names, are spared. Found while reviewing spec 09. Needs a spec | - |
+| The note names printed on each pad spell every chord as a stack of thirds: Csus4 reads C E♯ G, Csus2 C E♭♭ G, C6 C E G B♭♭, a quartal chord C E♯ A♯. Ten chord types are affected, among them sus2, sus4, 7sus4, 6, m6 and 6/9; the diminished seventh's B♭♭ is correct. Found while specifying the quartal fix. Specified | 13 |
+| Chord names in sharp keys are spelled with flats: `getEnharmonicContext()` gives every root on a black key a flat whatever the key, so A major's vi reads `Gbm` for F♯m, E major's ii and vi read `Gbm` and `Dbm`, and B major's V reads `Gb`. It reaches the app's displays in G, D, A, E and B, and every `.progression` file exported from the app in those keys, whose chord names Pad Perform shows on the pads. The published `.progression` pack, in C, and the MIDI files, which carry no chord names, are spared. Found while reviewing spec 09. Specified | 13 |
 | `analyzeExistingChords()` treats `iii` and `vii°` as subdominant because the string contains `ii` | 03 |
 | README "Dynamic Row 4" section claims genre weighting that does not exist | 04 |
 | `tools/audit-theory.mjs` whitelists 1 227 "functional twins" that are plain duplicate pads; the measured figure today is 1 265 | 05 |
