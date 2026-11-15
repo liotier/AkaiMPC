@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | implemented |
 | Type | tooling |
 | Size | S |
 | Depends on | nothing |
@@ -150,3 +150,39 @@ dependency.
 - Snapshotting all five styles. Voicing differences are the pack's job.
 - Snapshotting every key. The twelve keys are a transposition; the audit
   already covers enharmonic spelling across them.
+
+## 7. Implementation notes
+
+Implemented as specified, with the additions below and one departure.
+
+- **A diff helper.** `--check` has to print a unified diff, the project has no
+  dependencies and no guarantee of diff(1), so `tools/lib/unified-diff.mjs`
+  writes one. This is the departure from "importing only from `../modules/` and
+  `../locales/en.json`": it is a sibling helper, the pattern `build-pack.mjs`
+  already uses for `tools/lib/zip.mjs`. Tested against GNU `patch` on 400 random
+  pairs: every diff applied and reproduced its target, and each had the same
+  number of changed lines as `diff --minimal`.
+- **The category is passed to the engine already.** `generateVariant()` ignores
+  it until spec 01 lands, so until then the blocks of a value listed under
+  several genres are identical, and they start to differ the moment the engine
+  reads the category.
+- **A hunk names its block.** The header of each hunk quotes the nearest `## `
+  line above its first change, as git does with function names, so a change deep
+  inside a block still names the template. Before the diff, `--check` lists up to
+  ten changed, added or removed blocks.
+- **Plain failures.** A CRLF checkout and a missing final newline each get their
+  own message instead of a diff that marks every line. A template with no English
+  nickname, a duplicate block header and a variant that is not a complete
+  sixteen-pad grid stop the run with an error rather than a quiet fallback.
+- **The workflow also watches the tool.** `tools/catalogue-snapshot.mjs` is in
+  `push.paths` beside the snapshot file, as the other two tools are. The
+  generator README also lists the tool in its file layout, beside the one bullet
+  the spec asked for.
+
+Measured when it was introduced, on commit `0593d6d` plus the specs: 2 110 lines,
+114 KB, 173 template blocks (68 minor, 105 major, of which nine have no tonic
+token) and 34 scale blocks; `--check` takes about 0.2 s.
+
+Not specified, found on the first day: the snapshot made the Jazz variant's
+doubled numeral suffixes visible (`i99`, `Isus4sus4`, `vii°ø7`). Spec 05 now
+describes them and carries the fix.
