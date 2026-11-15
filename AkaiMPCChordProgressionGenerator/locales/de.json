@@ -431,7 +431,7 @@
       "i—V—♭VII—IV—♭VI—♭III—iv—V": {
         "name": "i—V—♭VII—IV—♭VI—♭III—iv—V",
         "nickname": "Hotel California",
-        "description": "Die Progression der Eagles, auf der Platte Bm F♯ A E G D Em F♯. Drei Paare mit fallender Quinte, deren erste Akkorde von der Tonika abwärts schreiten, i-V, ♭VII-IV, ♭VI-♭III, dann eine iv-V-Kadenz zurück zum Anfang. Das Dur-V stammt aus harmonischem Moll, alles andere ist natürliches Moll. Eine der meistanalysierten Rock-Progressionen."
+        "description": "Die Progression der Eagles, auf der Platte Bm F♯ A E G D Em F♯. Drei Paare, die jeweils um eine Quinte steigen und deren erste Akkorde von der Tonika abwärts schreiten, i-V, ♭VII-IV, ♭VI-♭III, dann eine iv-V-Kadenz zurück zum Anfang. Das Dur-V stammt aus harmonischem Moll, das Dur-IV aus dem Dorischen, der Rest ist natürliches Moll. Eine der meistanalysierten Rock-Progressionen."
       }
     },
     "Blues/Soul": {
@@ -1140,7 +1140,7 @@
       "i—♭VII—♭VI": {
         "name": "i—♭VII—♭VI",
         "nickname": "UK Garage",
-        "description": "Seelvolle, federnde Palette: Am G F. Die Molltonika schreitet über die Subtonika ♭VII abwärts zu ♭VI, den beiden Durakkorden des natürlichen Moll, für springende 2-Step-Grooves."
+        "description": "Seelvolle, federnde Palette: Am G F. Die Molltonika schreitet über die Subtonika ♭VII abwärts zu ♭VI, zwei der drei Durakkorde des natürlichen Moll, für springende 2-Step-Grooves."
       },
       "i—♭VI": {
         "name": "i—♭VI",

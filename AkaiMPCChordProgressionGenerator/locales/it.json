@@ -431,7 +431,7 @@
       "i—V—♭VII—IV—♭VI—♭III—iv—V": {
         "name": "i—V—♭VII—IV—♭VI—♭III—iv—V",
         "nickname": "Hotel California",
-        "description": "La progressione degli Eagles, Bm F♯ A E G D Em F♯ sul disco. Tre coppie in quinte discendenti i cui primi accordi scendono dalla tonica, i-V, ♭VII-IV, ♭VI-♭III, poi una cadenza iv-V che riporta all'inizio. Il V maggiore viene dalla minore armonica; tutto il resto è minore naturale. Una delle progressioni rock più analizzate."
+        "description": "La progressione degli Eagles, Bm F♯ A E G D Em F♯ sul disco. Tre coppie che salgono ciascuna di una quinta, i cui primi accordi scendono dalla tonica, i-V, ♭VII-IV, ♭VI-♭III, poi una cadenza iv-V che riporta all'inizio. Il V maggiore viene dalla minore armonica e il IV maggiore dal dorico; il resto è minore naturale. Una delle progressioni rock più analizzate."
       }
     },
     "Blues/Soul": {
@@ -1140,7 +1140,7 @@
       "i—♭VII—♭VI": {
         "name": "i—♭VII—♭VI",
         "nickname": "UK Garage",
-        "description": "Tavolozza soulful, saltellante: Am G F. La tonica minore scende attraverso la sottotonica ♭VII fino a ♭VI, i due accordi maggiori del minore naturale, per groove 2-step saltellanti."
+        "description": "Tavolozza soulful, saltellante: Am G F. La tonica minore scende attraverso la sottotonica ♭VII fino a ♭VI, due dei tre accordi maggiori del minore naturale, per groove 2-step saltellanti."
       },
       "i—♭VI": {
         "name": "i—♭VI",

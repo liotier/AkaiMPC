@@ -44,8 +44,8 @@ above where the nickname wants them.
 
 Evidence that the second column of chords is what was meant:
 
-- The Eagles' recording is Bm F♯ A E G D Em F♯, three falling-fifth pairs
-  and a iv-V, in B minor
+- The Eagles' recording is Bm F♯ A E G D Em F♯, three pairs each rising a
+  fifth and a iv-V, in B minor
   ([guitaralliance](https://guitaralliance.net/hotel-california-verse-chord-progression/)).
   Transposed to A minor that is the right-hand column, not the generator's.
 - The Animals' recording is Am C D F, Am C E
@@ -84,7 +84,7 @@ snapshot is the instrument that would have shown `Am Ab Gb Ab` to a reader.
 | D1 | **The engine's convention stays.** The data is corrected to it. | 161 other templates, every exported pack name and the README assume parallel-major reading. The Finder's convention is a separate question (spec 12). |
 | D2 | Eleven templates are **transliterated**: every bare `III`, `VI`, `VII` in a minor-tonality template becomes `♭III`, `♭VI`, `♭VII`. | That is what each nickname and description demonstrably intends. |
 | D3 | `i—iv—VII—III` "Harmonic Minor Psy" is **redesigned**, not transliterated, to `i—iv—V—♭VI`. | Its description promises "pure harmonic minor" and bright major chords on the raised degrees, which is self-contradictory. Transliteration gives `i—iv—♭VII—♭III`, a natural-minor loop duplicating Classical/Modal's and betraying the nickname. `i—iv—V—♭VI` (Am Dm E F) is genuinely all in A harmonic minor, keeps the nickname true and keeps the deceptive, non-resolving character. Alternative if the maintainer prefers fidelity to the old chord count over the nickname: `i—iv—♭VII—♭III` with the nickname changed. |
-| D4 | The six "harmonic minor" claims and the Hotel California "descending chromatic bass line" claim are **rewritten**; all twelve English descriptions are replaced with the texts in §3.3. | A description that teaches wrong theory is worse than none. The bass of Hotel California is not chromatic; it is three falling-fifth pairs whose first chords descend by step. |
+| D4 | The six "harmonic minor" claims and the Hotel California "descending chromatic bass line" claim are **rewritten**; all twelve English descriptions are replaced with the texts in §3.3. | A description that teaches wrong theory is worse than none. The bass of Hotel California is not chromatic; it is three pairs each rising a fifth, whose first chords descend by step. |
 | D5 | Nicknames **do not change**. | They were never the problem; only the values and descriptions were. |
 | D6 | A **lint** in `tools/audit-theory.mjs` makes the mistake unrepeatable: a minor-tonality template containing a bare `III`, `VI` or `VII` fails unless whitelisted on the template with a reason. | Same philosophy as the rest of that tool. |
 | D7 | The six duplicates this creates across genres are **accepted**. | Spec 01 made (category, value) the identity. The psytrance repertoire really is the same handful of Aeolian loops as dark electronic; what differs is the palette. |
@@ -133,11 +133,11 @@ and numerals as they are.
 
 **Pop/Rock · Hotel California · `i—V—♭VII—IV—♭VI—♭III—iv—V`**
 
-> The Eagles' progression, Bm F♯ A E G D Em F♯ on the record. Three
-> falling-fifth pairs whose first chords step down from the tonic, i-V,
+> The Eagles' progression, Bm F♯ A E G D Em F♯ on the record. Three pairs,
+> each rising a fifth, whose first chords step down from the tonic, i-V,
 > ♭VII-IV, ♭VI-♭III, then a iv-V cadence back to the top. The major V comes
-> from harmonic minor; everything else is natural minor. One of rock's most
-> analysed progressions.
+> from harmonic minor and the major IV from Dorian; the rest is natural
+> minor. One of rock's most analysed progressions.
 
 **Latin/Bossa · Samba · `i—V—i—♭VII`**
 
@@ -214,8 +214,8 @@ and numerals as they are.
 **UK Bass · UK Garage · `i—♭VII—♭VI`**
 
 > Soulful, skippy palette: Am G F. Minor tonic stepping down through the
-> subtonic ♭VII to ♭VI, the natural minor's two major chords, for skippy
-> 2-step grooves.
+> subtonic ♭VII to ♭VI, two of the natural minor's three major chords, for
+> skippy 2-step grooves.
 
 ### 3.4 Lint: check H, template convention
 
@@ -307,7 +307,9 @@ Implemented as specified, with the departures and the findings below.
   to the front).
 
 Disagreements with the English texts of §3.3, left as written because the
-decision is the maintainer's, and recorded in the commit message:
+decision is the maintainer's, and recorded in the commit message. All three
+were right, and were corrected afterwards in §3.3 above and in all six
+locales:
 
 1. **Hotel California, "three falling-fifth pairs".** B to F♯, A to E and G to D
    each rise a fifth, equivalently fall a fourth; the pairs are rising-fifth. A
