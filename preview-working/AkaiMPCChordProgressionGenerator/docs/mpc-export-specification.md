@@ -894,6 +894,10 @@ pads on one sonority to show two functions - not a bug, and out of scope here.
 non-degree-based family instead of misreading the `+` as an augmented triad or
 the digit as a scale degree.
 
+The design question above was later answered the other way: a grid should not
+spend two pads on one sonority, and the palette and row 4 now drop the second
+(`docs/improvements/05-duplicate-sounding-pads.md`).
+
 ### 7.12 Effect on the catalogue
 
 | | Before any fix | After |

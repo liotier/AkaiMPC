@@ -2659,8 +2659,13 @@ export const CHORD_NAME_SUFFIX = {
     'dom13': '13',
     'dom7alt': '7alt',
     'dom7b5': '7b5',
-    'quartal': 'sus4',
-    'quartal4': 'sus4(add11)',
+    // Stacked fourths, named as the seventh chords they are. C F B♭ is how a
+    // jazz player voices a 7sus4 with the fifth left out; four stacked fourths,
+    // C F B♭ E♭, read as a minor eleventh, as the So What chord does. 'sus4' and
+    // 'sus4(add11)' named a root, a fourth and a fifth the pad does not sound.
+    // '(no5)' keeps quartal distinct from dom7sus4, which owns '7sus4'.
+    'quartal': '7sus4(no5)',
+    'quartal4': 'm7(11)',
     'add9': 'add9',
     'minAdd9': 'madd9',
     'add11': 'add11',
@@ -2761,17 +2766,18 @@ export function getInversionNotation(notes, chordType, chordName, romanNumeral =
  *   label     - user-facing quality shown on the pad
  *   lowercase - roman numeral is written in lower case (minor-family chords)
  *   suffix    - appended to the roman numeral
- * Anything absent falls back to a plain major reading.
+ * Anything absent falls back to a plain major reading. Exported for audit
+ * check M, which forbids two types sharing a suffix; nothing else reads it directly.
  */
-const CHORD_TYPE_DISPLAY = {
+export const CHORD_TYPE_DISPLAY = {
     major: { label: 'Major', suffix: '' },
     minor: { label: 'Minor', lowercase: true, suffix: '' },
     diminished: { label: 'Diminished', lowercase: true, suffix: '°' },
     augmented: { label: 'Augmented', suffix: '+' },
     sus2: { label: 'Suspended', suffix: 'sus2' },
     sus4: { label: 'Suspended', suffix: 'sus4' },
-    quartal: { label: 'Suspended', suffix: 'sus4' },
-    quartal4: { label: 'Suspended', suffix: 'sus4' },
+    quartal: { label: 'Quartal', suffix: '7sus4(no5)' },
+    quartal4: { label: 'Quartal', lowercase: true, suffix: '7(11)' },
     major7: { label: 'Major 7', suffix: 'M7' },
     minor7: { label: 'Minor 7', lowercase: true, suffix: '7' },
     dom7: { label: 'Dominant 7', suffix: '7' },

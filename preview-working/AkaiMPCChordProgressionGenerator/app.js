@@ -731,8 +731,9 @@ function getChordTooltip(romanNumeral, chordType) {
 
     const candidates = [
         `chordRoles.${normalized}`,
-        // Same numeral without its quality markings: 'VIIØ7' -> 'VII'
-        `chordRoles.${normalized.replaceAll(/M7|MAJ7|\(MAJ7\)|7|°|Ø|\+|DIM|SUS[24]|ADD9|6|9|11|13/g, '')}`,
+        // Same numeral without its quality markings: 'VIIØ7' -> 'VII',
+        // 'I7SUS4(NO5)' -> 'I', 'II7(11)' -> 'II'
+        `chordRoles.${normalized.replaceAll(/M7|MAJ7|\(MAJ7\)|\(NO5\)|\(11\)|7|°|Ø|\+|DIM|SUS[24]|ADD9|6|9|11|13/g, '')}`,
         // Chord-type specific descriptions ('chordRoles.types.m7b5')
         chordType ? `chordRoles.types.${chordType}` : null
     ].filter(Boolean);

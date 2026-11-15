@@ -78,7 +78,7 @@ Each generation creates up to five musically distinct versions of your progressi
 
 Rather than repeating chords sequentially, each progression provides a **palette of 16 unique chords** - like a painter's color palette for harmonic exploration:
 
-- **All 16 pads are unique** - No duplicate chord types, maximizing your harmonic options
+- **All 16 pads are unique in sound** - No two pads hold the same chord under different names, maximizing your harmonic options
 - **Genre-specific palette intelligence** - 100+ progressions carry priority weighting, and the palette actually builds the chord types they ask for: preferred voicings appear first and in the right colours (Blues loves dom7 and dom9, Folk prefers simple triads and sus chords, Gospel embraces major7). Chords are sorted by musical authenticity for each style.
 - **Harmonic gradient from foundation to spice** - Bottom row (pads 1-4) provides bread-and-butter chords with the tonic anchoring pad 1. Top row (pads 13-16) offers adventurous, colorful extensions for when you want to take risks.
 - **Intelligent extensions** - For each chord degree, generates different variations (triads, 7ths, major 7ths, 9ths, 6ths, sus and quartal voicings, half-diminished) plus complementary chords (ii7, vi, ♭VII, ♭VI, ♭III, iv)
