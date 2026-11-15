@@ -7,7 +7,7 @@
 | Size | L |
 | Depends on | 00, 02, 03, 04, 05 |
 | Blocks | 10 |
-| Recommended model | Claude Fable 5.2 (`claude-fable-5-2`): changes the sounding content of 68 templates' palettes, every added or removed candidate is a theory decision with alternatives, and the acceptance test is partly new. Opus 5.5 is acceptable with a maintainer review at the checkpoint in §3.7 |
+| Recommended model | Claude Opus 5.5 (`claude-opus-5-5`), with the checkpoint of §3.7 reviewed before the work goes on. The theory decisions are already in this spec's tables; what is left is the tooltip prose and judging the snapshot diff, which the checkpoint covers. Fable 5.2 is not required (revised 2026-11-15, after specs 02-06, 08 and 09 were implemented from their tables without it) |
 
 ## 1. Problem
 
