@@ -35,6 +35,36 @@ import {
 
 export const NOTE_PITCH_CLASSES = { 'C': 0, 'C#': 1, 'D': 2, 'D#': 3, 'E': 4, 'F': 5, 'F#': 6, 'G': 7, 'G#': 8, 'A': 9, 'A#': 10, 'B': 11 };
 
+// Row-4 candidates that are labelled as augmented sixths are judged by what they
+// sound like. A German sixth is a dominant seventh spelt on ♭VI and a French
+// sixth a dominant seventh with a flat fifth, so a template that avoids dom7
+// means the A♭7 whatever its label. SubV7 is already typed dom7.
+const SOUNDING_FAMILY = { It6: 'dom7', Ger6: 'dom7', Fr6: 'dom7b5' };
+
+/**
+ * How much a template wants a chord type: 3 preferred, 2 allowed, 1 avoided.
+ * The one rule for all sixteen pads: the palette in generateVariant() sorts by
+ * it, and row 4 excludes avoided candidates and rewards preferred ones. A
+ * template with no priorities allows everything.
+ *
+ * @param {string} chordType - Chord type key
+ * @param {Object|null} palettePriorities - { preferred, allowed, avoided } of the template
+ * @returns {number} 3, 2 or 1
+ */
+export function chordPriority(chordType, palettePriorities) {
+    if (!palettePriorities) return 2; // Default: allowed
+
+    const sonority = SOUNDING_FAMILY[chordType] || chordType;
+    if (palettePriorities.preferred && palettePriorities.preferred.includes(sonority)) {
+        return 3; // Preferred - highest priority
+    }
+    if (palettePriorities.avoided && palettePriorities.avoided.includes(sonority)) {
+        return 1; // Avoided - lowest priority
+    }
+    // Default to allowed (or explicitly in allowed list)
+    return 2;
+}
+
 export function analyzeExistingChords(chords) {
     const analysis = {
         hasDominant7: false,
@@ -134,7 +164,7 @@ export function determineChordFunction(romanNumeral) {
     return 'chromatic';
 }
 
-export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType) {
+export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, palettePriorities = null, paletteFilter = null) {
     const candidates = [];
 
     // Always consider these common non-diatonic chords
@@ -384,7 +414,13 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
         });
     }
 
-    return candidates;
+    // Each candidate carries what the template thinks of it, so selection can
+    // exclude, reward or re-admit it without asking again.
+    return candidates.map(candidate => ({
+        ...candidate,
+        priority: chordPriority(candidate.chordType, palettePriorities),
+        excludedByFilter: Boolean(paletteFilter) && !paletteFilter.includes(candidate.chordType)
+    }));
 }
 
 export function scoreCandidate(candidate, analysis, existingRoots) {
@@ -411,31 +447,50 @@ export function scoreCandidate(candidate, analysis, existingRoots) {
     if (!analysis.hasSecondary && candidate.category === 'secondary') score += 1;
     if (!analysis.hasDominant7 && candidate.category === 'dominant') score += 1;
 
+    // 5. The template prefers this type (0 or 1). A preference is at least as
+    // strong a signal as being common in modern music.
+    if (candidate.priority === 3) score += 1;
+
     return score;
 }
 
-export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType) {
+export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType, palettePriorities = null, paletteFilter = null) {
     const analysis = analyzeExistingChords(existingChords);
-    const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType);
+    const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, palettePriorities, paletteFilter);
     const existingRoots = existingChords.map(c => c.notes && c.notes[0] ? c.notes[0] % 12 : 0);
 
+    const scoreAndSort = list => list
+        .map(candidate => ({ ...candidate, score: scoreCandidate(candidate, analysis, existingRoots) }))
+        // Sort by score (descending) and then by common usage as tiebreaker
+        .sort((a, b) => b.score !== a.score ? b.score - a.score : b.commonUsage - a.commonUsage);
+
     // Rows 1-3 are already on the grid; a candidate that repeats one of them
-    // wastes a pad. Fall back to the full list only if filtering leaves too few.
+    // wastes a pad. A candidate the template's hard filter does not list is
+    // left out, and so is one the template avoids, while others remain.
     const usedRomanNumerals = new Set(existingChords.map(c => c.romanNumeral));
-    const fresh = allCandidates.filter(c => !usedRomanNumerals.has(c.romanNumeral));
-    const candidates = fresh.length >= 4 ? fresh : allCandidates;
+    const isNew = c => !usedRomanNumerals.has(c.romanNumeral);
+    const isAvoided = c => c.priority === 1;
+    const listed = allCandidates.filter(c => !c.excludedByFilter);
 
-    // Score and sort candidates
-    const scoredCandidates = candidates.map(candidate => ({
-        ...candidate,
-        score: scoreCandidate(candidate, analysis, existingRoots)
-    }));
+    let scoredCandidates = scoreAndSort(listed.filter(c => isNew(c) && !isAvoided(c)));
 
-    // Sort by score (descending) and then by common usage as tiebreaker
-    scoredCandidates.sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score;
-        return b.commonUsage - a.commonUsage;
-    });
+    // Too few left. Re-admit until there are four, softest exclusion first: the
+    // avoided candidates that are new to the grid; then the ones the hard filter
+    // dropped, which is what the palette itself does when its filter starves it
+    // (the top-up in generateVariant() ignores the filter); only then a numeral
+    // already on the grid. Within each step the unavoided come first, then the
+    // best score.
+    if (scoredCandidates.length < 4) {
+        const readmission = [
+            scoreAndSort(listed.filter(c => isNew(c) && isAvoided(c))),
+            scoreAndSort(allCandidates.filter(c => c.excludedByFilter && isNew(c) && !isAvoided(c))),
+            scoreAndSort(allCandidates.filter(c => c.excludedByFilter && isNew(c) && isAvoided(c))),
+            scoreAndSort(listed.filter(c => !isNew(c) && !isAvoided(c))),
+            scoreAndSort(listed.filter(c => !isNew(c) && isAvoided(c))),
+            scoreAndSort(allCandidates.filter(c => c.excludedByFilter && !isNew(c)))
+        ].flat();
+        scoredCandidates = scoreAndSort([...scoredCandidates, ...readmission.slice(0, 4 - scoredCandidates.length)]);
+    }
 
     // Take top 4, ensuring some diversity in categories
     const selected = [];
@@ -568,20 +623,6 @@ export function generateVariant(variantType, { key, mode, progression, category 
     const paletteFilter = template?.paletteFilter || null;
     const palettePriorities = template?.palettePriorities || null;
 
-    // Helper to get chord priority (1=avoided, 2=allowed, 3=preferred)
-    const getChordPriority = (chordType) => {
-        if (!palettePriorities) return 2; // Default: allowed
-
-        if (palettePriorities.preferred && palettePriorities.preferred.includes(chordType)) {
-            return 3; // Preferred - highest priority
-        }
-        if (palettePriorities.avoided && palettePriorities.avoided.includes(chordType)) {
-            return 1; // Avoided - lowest priority
-        }
-        // Default to allowed (or explicitly in allowed list)
-        return 2;
-    };
-
     // Convert progression sequence to palette ensuring ALL 16 PADS ARE UNIQUE
     // Harmonic gradient: Row 1 (pads 1-4, bottom visual row) = foundation with tonic
     //                    Row 4 (pads 13-16, top visual row) = spicy adventurous chords
@@ -628,7 +669,7 @@ export function generateVariant(variantType, { key, mode, progression, category 
         usedRomanNumerals.add(roman);
 
         const scaleDegree = rootOverride === null ? scaleDegrees[degree % scaleDegrees.length] : rootOverride;
-        const priority = getChordPriority(type);
+        const priority = chordPriority(type, palettePriorities); // 1=avoided, 2=allowed, 3=preferred
 
         palette.push({
             degree,
@@ -728,9 +769,11 @@ export function generateVariant(variantType, { key, mode, progression, category 
         // quartal / m7b5 preferences declared by the progression templates had
         // no way to reach a pad. Only chords built on the same triad as the
         // degree are offered (plus suspensions, which fit either).
+        // A template that declares only a paletteFilter names its colours there.
         const declaredTypes = [
             ...(palettePriorities?.preferred || []),
-            ...(palettePriorities?.allowed || [])
+            ...(palettePriorities?.allowed || []),
+            ...(paletteFilter || [])
         ];
         declaredTypes.forEach(type => {
             const family = getChordFamily(type);
@@ -975,7 +1018,7 @@ export function generateVariant(variantType, { key, mode, progression, category 
     }
 
     // Dynamically generate row 4 based on analysis of rows 1-3
-    const row4Chords = selectDynamicRow4Chords(rows1to3, keyOffset, scaleDegrees, variantType);
+    const row4Chords = selectDynamicRow4Chords(rows1to3, keyOffset, scaleDegrees, variantType, palettePriorities, paletteFilter);
 
     // Add Row 4 chords to pads
     for (let i = 0; i < 4; i++) {

@@ -638,24 +638,59 @@ export const progressions = {
     'Film/Cinematic': [
         {
             value: 'I—♭VI—♭III—♭VII',
+            palettePriorities: {
+                preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
+                allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']   // No dominant pull: these loops never resolve
+            },
         },
         {
             value: 'i—♭VI—♭VII—i',
+            palettePriorities: {
+                preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
+                allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']   // No dominant pull: these loops never resolve
+            },
         },
         {
             value: 'I—V—vi—♭VI—IV',
+            palettePriorities: {
+                preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
+                allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']   // No dominant pull: these loops never resolve
+            },
         },
         {
             value: 'i—♭III—♭VII—♭VI—V',
+            palettePriorities: {
+                preferred: ['major', 'minor', 'dom7'],            // The V of the Heroic Theme may keep its seventh
+                allowed: ['major7', 'minor7', 'sus4', 'add9'],
+                avoided: ['diminished', 'augmented', 'quartal']
+            },
         },
         {
             value: 'I—♭VII—♭VI—♭VII',
+            palettePriorities: {
+                preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
+                allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']   // No dominant pull: these loops never resolve
+            },
         },
         {
             value: 'i—iv—♭VI—♭III',
+            palettePriorities: {
+                preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
+                allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']   // No dominant pull: these loops never resolve
+            },
         },
         {
             value: 'I—♭III—♭VI—♭II',
+            palettePriorities: {
+                preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
+                allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
+                avoided: ['dom7', 'dom9', 'diminished', 'augmented', 'quartal']   // No dominant pull: these loops never resolve
+            },
         }
     ],
     'Folk/Singer-Songwriter': [
@@ -872,15 +907,35 @@ export const progressions = {
         },
         {
             value: 'i—♭VII—♭VI—♭VII',
+            palettePriorities: {
+                preferred: ['minor', 'major'],
+                allowed: ['minor7', 'sus2', 'sus4', 'quartal'],
+                avoided: ['major7', 'dom7', 'diminished', 'augmented']
+            },
         },
         {
             value: 'i—♭II—♭VII—V',
+            palettePriorities: {
+                preferred: ['minor', 'major'],
+                allowed: ['minor7', 'sus2', 'sus4', 'quartal', 'dom7'],   // The major V may carry its seventh
+                avoided: ['major7', 'diminished', 'augmented']
+            },
         },
         {
             value: 'i—iv—i—♭VII',
+            palettePriorities: {
+                preferred: ['minor', 'major'],
+                allowed: ['minor7', 'sus2', 'sus4', 'quartal'],
+                avoided: ['major7', 'dom7', 'diminished', 'augmented']
+            },
         },
         {
             value: 'i—♭III—♭VII—IV',
+            palettePriorities: {
+                preferred: ['minor', 'major'],
+                allowed: ['minor7', 'sus2', 'sus4', 'quartal'],
+                avoided: ['major7', 'dom7', 'diminished', 'augmented']
+            },
         },
         {
             value: 'i—v—♭VII',
