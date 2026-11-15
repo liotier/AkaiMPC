@@ -431,7 +431,7 @@
       "i—V—♭VII—IV—♭VI—♭III—iv—V": {
         "name": "i—V—♭VII—IV—♭VI—♭III—iv—V",
         "nickname": "Hotel California",
-        "description": "La progression des Eagles, Bm F♯ A E G D Em F♯ sur le disque. Trois paires en quintes descendantes dont le premier accord descend depuis la tonique, i-V, ♭VII-IV, ♭VI-♭III, puis une cadence iv-V qui ramène au début. Le V majeur vient du mineur harmonique ; tout le reste relève du mineur naturel. L'une des progressions rock les plus analysées."
+        "description": "La progression des Eagles, Bm F♯ A E G D Em F♯ sur le disque. Trois paires montant chacune d'une quinte, dont le premier accord descend depuis la tonique, i-V, ♭VII-IV, ♭VI-♭III, puis une cadence iv-V qui ramène au début. Le V majeur vient du mineur harmonique et le IV majeur du dorien ; le reste relève du mineur naturel. L'une des progressions rock les plus analysées."
       }
     },
     "Blues/Soul": {
@@ -1140,7 +1140,7 @@
       "i—♭VII—♭VI": {
         "name": "i—♭VII—♭VI",
         "nickname": "UK Garage",
-        "description": "Palette soul et sautillante : Am G F. La tonique mineure descend par la sous-tonique ♭VII jusqu'à ♭VI, les deux accords majeurs du mineur naturel, pour des grooves 2-step sautillants."
+        "description": "Palette soul et sautillante : Am G F. La tonique mineure descend par la sous-tonique ♭VII jusqu'à ♭VI, deux des trois accords majeurs du mineur naturel, pour des grooves 2-step sautillants."
       },
       "i—♭VI": {
         "name": "i—♭VI",

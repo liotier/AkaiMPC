@@ -318,6 +318,15 @@ over, which are what item 8 names, agree. I did not find where the 21 come from;
 leak needs a short pool, so it cannot exceed the 105 counted here, which suggests a
 different unit rather than a different behaviour.
 
+Resolved afterwards, measured on `cd0b705`: the decision's 126 counted the
+variants whose row 4 held an avoided or filtered chord on that commit, judging
+the French sixth as a dominant seventh. That is the 94 which starved there, plus
+32 whose only offending pad was a French sixth, which `cd0b705` still judged as
+`dom7b5` and so selected freely. Once the French sixth is avoided, 11 of those
+32 starve, which takes 94 to the 105 above, and the other 21 replace it with
+another candidate from the regular pool. The two counts measure different
+things; both lead to the same 20 variants at step 5.
+
 Item 8, listed in the key of C (the counts in A and F♯/G♭ are the same 20): Modal Interchange `♭VI—iv—I` in Smooth, Classic and Modal; Electronic/Modern
 `i—iv—v` in all but Jazz; Hip-Hop/Trap `i—♭III—♭VI—♭VII` and `i—♭VII—iv` in all but
 Jazz; Italo-Disco/House `i—iv` in all five.

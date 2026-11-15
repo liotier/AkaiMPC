@@ -431,7 +431,7 @@
       "i—V—♭VII—IV—♭VI—♭III—iv—V": {
         "name": "i—V—♭VII—IV—♭VI—♭III—iv—V",
         "nickname": "Hotel California",
-        "description": "The Eagles' progression, Bm F♯ A E G D Em F♯ on the record. Three falling-fifth pairs whose first chords step down from the tonic, i-V, ♭VII-IV, ♭VI-♭III, then a iv-V cadence back to the top. The major V comes from harmonic minor; everything else is natural minor. One of rock's most analyzed progressions."
+        "description": "The Eagles' progression, Bm F♯ A E G D Em F♯ on the record. Three pairs, each rising a fifth, whose first chords step down from the tonic, i-V, ♭VII-IV, ♭VI-♭III, then a iv-V cadence back to the top. The major V comes from harmonic minor and the major IV from Dorian; the rest is natural minor. One of rock's most analyzed progressions."
       }
     },
     "Blues/Soul": {
@@ -1182,7 +1182,7 @@
       "i—♭VII—♭VI": {
         "name": "i—♭VII—♭VI",
         "nickname": "UK Garage",
-        "description": "Soulful, skippy palette: Am G F. Minor tonic stepping down through the subtonic ♭VII to ♭VI, the natural minor's two major chords, for skippy 2-step grooves."
+        "description": "Soulful, skippy palette: Am G F. Minor tonic stepping down through the subtonic ♭VII to ♭VI, two of the natural minor's three major chords, for skippy 2-step grooves."
       },
       "i—♭VI": {
         "name": "i—♭VI",
