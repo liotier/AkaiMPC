@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | implemented |
 | Type | defect |
 | Size | L |
 | Depends on | 00; reuses `parseRomanStem()` (spec 03) and the template tonality of spec 07 §3.1 |
@@ -68,7 +68,7 @@ keys:
 | Surface | Pads | Spelled differently |
 |---|---|---|
 | Template mode, Classic and Jazz variants | 70 656 | 13 419 roots |
-| Scale Mode, seven-note scales | 4 416 | 1 036 roots |
+| Scale Mode, seven-note scales | 4 416 | 1 036 roots (re-measured on the implementation: 1 146, §8) |
 | Template mode in C or F | | 0 |
 
 The audit cannot see any of this: check C compares a name's suffix with the
@@ -92,8 +92,10 @@ table, and nothing compares a spelling with a key.
 
 ### 3.1 Letters
 
-A spelled note is a letter (C D E F G A B, index 0-6) and an accidental from
--2 to +2. Its pitch class is the letter's natural pitch class plus the
+A spelled note is a letter (C D E F G A B, index 0-6) and an accidental, from
+-1 to +1 for a root after D3 and from -2 to +2 for every chord tone but four:
+an augmented triad on B♯ has a triple-sharp fifth, F♯𝄪 (corrected at
+implementation, §8). Its pitch class is the letter's natural pitch class plus the
 accidental. Moving a letter by n steps is index arithmetic modulo 7. Data
 keeps ASCII (`F#`, `Bb`, `F##`, `Bbb`), as chord names do today; display
 converts where it wants glyphs.
@@ -146,8 +148,11 @@ whichever of this spec and spec 07 lands first moves it into
 
 **Scale Mode.** A seven-note scale spells its notes with consecutive letters
 from the tonic, so degree i takes letter tonic + i, accidentals as the pitches
-require; these are notes of the key by definition, so D3's respelling never
-applies to them. Abridged and symmetrical scales follow D8.
+require; these are notes of the key by definition, so the second clause of D3
+never applies to them. The first does: under D2's tonic, 15 degrees of seven-note
+scales come out with a double accidental, F Altered's B𝄫 among them, and are
+respelled (corrected at implementation, §8). Abridged and symmetrical scales
+follow D8.
 
 The prototype gives, and the implementation must give:
 
@@ -286,7 +291,9 @@ None.
 4. In the running app, key A, Pop/Rock "Axis of Awesome": the pads read
    `A E F#m D`; keyboard view, a `Csus4` pad's notes read C F G; staff view, a
    German sixth in C draws F♯ on the F line or space with a sharp, and A♭ and E♭
-   with flats.
+   with flats. (No pad has been a German sixth since spec 03; the staff was
+   checked on the Italian sixth pad and on a German sixth rendered by the app's
+   own modules in the page, §8.)
 5. Full verification protocol passes.
 
 ## 7. Out of scope
@@ -295,3 +302,111 @@ None.
 - Respelling the key-of-C pack, which needs nothing.
 - The Finder's spelling.
 - The `minAug` symbol itself. It stays `m#5`, and D5 spells its notes to match.
+
+## 8. Implementation notes
+
+Implemented as specified. Where the code lives:
+
+- **Spelling.** `modules/musicTheory.js` holds `CHORD_DEGREES` beside
+  `CHORD_INTERVALS`, and the rules: `spellTonic()` is D2; `templateSpelling(key,
+  tonality)` and `scaleSpelling(key, mode)` build a spelling context;
+  `spellRoot()` is §3.3 with D3; `spellChord()` is §3.4 and returns the
+  `{ root, notes }` a pad carries. `getChordName(spelling, position, chordType)`
+  names a chord from that context, `position` being `{ romanNumeral }` in
+  template mode and `{ semitones }` above the tonic in Scale Mode.
+  `getInversionNotation(spelling)` reads the first spelled note.
+  `getEnharmonicContext()`, `getNoteNameWithContext()` and `spellChordNotes()`
+  are gone.
+- **Tonality.** `templateTonality()` moved from `tools/lib/template-tonality.mjs`,
+  now deleted, into the module; the snapshot tool and the audit import it from
+  there, with `TEMPLATE_SEPARATOR`. That is the move spec 07 §3.1 asks for; its
+  check H3 remains 07's.
+- **Generation.** `generateVariant()` builds the context from the template's
+  tonality before anything is named, and passes it to
+  `generateProgressionChords()`, the palette, the Jazz upgrade and
+  `selectDynamicRow4Chords()`, which passes it on to `generateRow4Candidates()`;
+  both take it as a new last parameter, defaulting to the key's major. Every row-4
+  candidate is named after its numeral. Each pad gets `spelling` from its final
+  notes; `generateScaleExploration()` does the same with `scaleSpelling()`.
+- **Display.** `app.js` reads `pad.spelling` for the note names, the slash
+  notation and the staff. `generateStaffSVG(spelledNotes)` puts each head on its
+  letter with its own accidental: ♯, ♭, `×`, ♭♭, and `♯×` for the triple sharp
+  below. `B#` is in the guitar roots and the audit's note table.
+- **Audit check S** is S1 to S4 of §3.7, with `KEY_SCALES` a verbatim copy of
+  §3.2. S3 also asserts that a pad's chord name is its spelled root and suffix,
+  and that its notes ascend, which is what lets the inversion notation take the
+  first spelled note as the bass.
+
+Gaps in the text, filled as follows:
+
+- **The tonic of a symmetrical scale.** D2's reference scale does not exist for
+  whole tone, augmented or the diminished scales, so the key's first name is
+  taken, which is D2's tie rule: C♯ whole tone, spelled with sharps.
+- **The blues scale's ♭5** is not in its parent, Dorian, though
+  `SCALE_HARMONY_PARENT` calls every parent a strict superset. That one note is
+  spelled as D8 spells the symmetrical scales, by pitch class on the tonic's
+  side: C blues has F#dim, which agrees with its numeral iv°.
+- **Rootless type-B voicings** write their upper third and fifth as degrees 10
+  and 12, so that S1's "semitones equal the interval" holds without an octave
+  exception.
+
+Corrections, now written into the text above:
+
+1. **§3.3, Scale Mode: D3 does apply.** The text said D3's respelling never
+   applies to a seven-note scale's notes. Its second clause never does; its first
+   does. With the tonic D2 picks, 15 degrees in 13 key and scale pairs come out
+   with a double accidental: F Altered's B𝄫, and F𝄪 or C𝄪 in C♯ Todi and
+   Hungarian Minor, D♯ Neapolitan Minor, Phrygian Dominant and Persian, and G♯
+   Harmonic Minor, Bhairav, Todi, Double Harmonic, Neapolitan Major, Neapolitan
+   Minor and Persian. D3 and S3 both forbid a double-accidental root, so they are
+   respelled, F𝄪 as G, C𝄪 as D, B𝄫 as A: 30 pads. G♯ harmonic minor's leading-tone
+   chord therefore reads Gdim, as C♯ minor's vii° reads Cdim in template mode,
+   where D3 respells B♯ outside the natural minor. Both are what D3 says; both
+   are worth a look if the maintainer finds them too plain.
+2. **§3.1: one accidental range is wrong.** Roots stay within one accidental, but
+   D4 gives an augmented triad on B♯ the fifth F♯𝄪, a triple sharp. The
+   Neapolitan Major and Minor on C♯ have that chord on their seventh degree: 4
+   tones on 3 Scale Mode pads (`B#aug`, `B#aug7`), none in template mode. D4 is
+   the decision, so they are kept, written `F###` in data and ♯× on the staff.
+   D2 picks C♯ over D♭ for those two scales by 5 accidentals to 7; respelling
+   tones is not in any decision.
+3. **§6 item 4: no pad is a German sixth.** None has been, in any key or style,
+   since spec 03 (`700ffd6`): over the catalogue the only augmented sixth on a
+   pad is the Italian, 1 814 times in twelve keys. The criterion was checked on
+   what exists: the Italian sixth pad of Pop/Rock "Classic Rock" in C draws A♭
+   with a flat on the A space and F♯ with a sharp on the F line, and a German
+   sixth spelled and rendered by the app's own modules inside the page draws A♭
+   and E♭ with flats and F♯ with a sharp, on their own letters.
+4. **§1, Scale Mode count.** 1 146 roots are spelled differently, not 1 036: 1 176
+   by the letters of D1 and D2, less the 30 pads of correction 1. No other
+   reading tried gives 1 036: the major scale as reference, a reference by the
+   scale's third, the key's first name, pads 1-8 only, the gap-filling pads left
+   out. The template-mode counts are reproduced exactly, D3's 3 327 included.
+
+Measured against `07a4b61`:
+
+| Quantity | Result |
+|---|---|
+| Template mode, Classic and Jazz, twelve keys | 70 656 pads, 13 419 roots respelled; 0 in C and F |
+| D3 respellings in template mode | 3 327, none of a note of the key's scale |
+| Scale Mode, seven-note scales, twelve keys | 4 416 pads, 1 146 roots respelled |
+| Snapshot | 84 blocks change: 73 minor-tonality blocks in A and 11 Scale blocks; 386 chord names, 0 numerals, 0 Smooth lines |
+| Pack hashes, before and after | identical: 909 `.progression` files, 10 915 MIDI files |
+| Audit | no findings over 176 640 template pads and 6 528 Scale Mode pads |
+| Flat rule of `getEnharmonicContext()` restored | S2 reports 11 286, among them `A I—V—vi—IV Classic pad3 Gbm`; S4 reports 10 |
+| Stacked-thirds tone spelling restored | S3 reports 257 016, among them `Csus4 [Isus4] E#3 as the 4 of C`; S4 reports 10 |
+| Running app, headless Chromium | 17 checks pass, no page errors |
+
+D5 is implemented as decided, with no disagreement to record: the chord is
+named `m#5`, and a spelling that contradicted its own name would be the one
+exception check S3 had to tolerate. In E the line cliché's pads read E G B,
+E G B♯, E G B C♯, E G B♯.
+
+The snapshot's Scale Mode changes are D1 and D8 at work: C Lydian's fourth
+degree is `F#dim`, the whole-tone and diminished scales on C read with sharps,
+Todi reads `F#sus4`, and the fourth degree of the C Altered scale (C D♭ E♭ F♭ G♭
+A♭ B♭) reads `Fbaug`, a note of that scale, which D3 keeps.
+
+The browser script and the mutation copies are not committed, since the
+repository has no browser-test setup; the mutation tests are reproducible by
+the two one-line changes §3.7 names.

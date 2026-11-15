@@ -28,10 +28,9 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { progressions, modes, findModeCategory } from '../modules/musicTheory.js';
+import { progressions, modes, findModeCategory, templateTonality } from '../modules/musicTheory.js';
 import { generateVariant, generateScaleExploration } from '../modules/generation.js';
 import { unifiedDiff, splitLines } from './lib/unified-diff.mjs';
-import { templateTonality } from './lib/template-tonality.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SNAPSHOT_RELATIVE = 'docs/catalogue-snapshot.txt';

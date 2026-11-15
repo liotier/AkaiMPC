@@ -10,7 +10,12 @@
 // builder, the audit tool) supplies its own state.
 
 import {
+    keys,
     resolveTemplate,
+    templateTonality,
+    templateSpelling,
+    scaleSpelling,
+    spellChord,
     getKeyOffset,
     getScaleDegrees,
     getChordQualityForMode,
@@ -167,8 +172,11 @@ export function determineChordFunction(romanNumeral) {
     return 'chromatic';
 }
 
-export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, palettePriorities = null, paletteFilter = null) {
+export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, palettePriorities = null, paletteFilter = null, spelling = templateSpelling(keys[keyOffset])) {
     const candidates = [];
+    // Every candidate is named after its numeral, in the variant's spelling
+    // context: the VI of A is F#, not Gb (docs/improvements/13-spelling.md)
+    const nameOf = (romanNumeral, chordType) => getChordName(spelling, { romanNumeral }, chordType);
 
     // Always consider these common non-diatonic chords
     // ♭VII (borrowed from mixolydian/minor)
@@ -177,7 +185,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
         root: flatSeven,
         notes: buildChord(flatSeven, 'major', keyOffset),
         chordType: 'major',
-        chordName: getChordName(flatSeven, 'major', keyOffset, '♭VII'),
+        chordName: nameOf('♭VII', 'major'),
         romanNumeral: '♭VII',
         quality: 'Major',
         category: 'borrowed',
@@ -190,7 +198,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
         root: flatSix,
         notes: buildChord(flatSix, 'major', keyOffset),
         chordType: 'major',
-        chordName: getChordName(flatSix, 'major', keyOffset, '♭VI'),
+        chordName: nameOf('♭VI', 'major'),
         romanNumeral: '♭VI',
         quality: 'Major',
         category: 'borrowed',
@@ -204,7 +212,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: fifth,
             notes: buildChord(fifth, 'dom7', keyOffset),
             chordType: 'dom7',
-            chordName: getChordName(fifth, 'dom7', keyOffset),
+            chordName: nameOf('V7', 'dom7'),
             romanNumeral: 'V7',
             quality: 'Dominant 7',
             category: 'dominant',
@@ -219,7 +227,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: second,
             notes: buildChord(second, 'minor7', keyOffset),
             chordType: 'minor7',
-            chordName: getChordName(second, 'minor7', keyOffset),
+            chordName: nameOf('ii7', 'minor7'),
             romanNumeral: 'ii7',
             quality: 'Minor 7',
             category: 'subdominant',
@@ -234,7 +242,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: fourth,
             notes: buildChord(fourth, 'minor', keyOffset),
             chordType: 'minor',
-            chordName: getChordName(fourth, 'minor', keyOffset),
+            chordName: nameOf('iv', 'minor'),
             romanNumeral: 'iv',
             quality: 'Minor',
             category: 'borrowed',
@@ -252,7 +260,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: sixth,
             notes: buildChord(sixth, 'major', keyOffset),
             chordType: 'major',
-            chordName: getChordName(sixth, 'major', keyOffset),
+            chordName: nameOf('VI', 'major'),
             romanNumeral: 'VI',
             quality: 'Major',
             category: 'borrowed',
@@ -272,7 +280,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: vOfV,
             notes: buildChord(vOfV, 'dom7', keyOffset),
             chordType: 'dom7',
-            chordName: getChordName(vOfV, 'dom7', keyOffset),
+            chordName: nameOf('V7/V', 'dom7'),
             romanNumeral: 'V7/V',
             quality: 'Dominant 7',
             category: 'secondary',
@@ -285,7 +293,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: vOfii,
             notes: buildChord(vOfii, 'dom7', keyOffset),
             chordType: 'dom7',
-            chordName: getChordName(vOfii, 'dom7', keyOffset),
+            chordName: nameOf('V7/ii', 'dom7'),
             romanNumeral: 'V7/ii',
             quality: 'Dominant 7',
             category: 'secondary',
@@ -298,7 +306,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: vOfvi,
             notes: buildChord(vOfvi, 'dom7', keyOffset),
             chordType: 'dom7',
-            chordName: getChordName(vOfvi, 'dom7', keyOffset),
+            chordName: nameOf('V7/vi', 'dom7'),
             romanNumeral: 'V7/vi',
             quality: 'Dominant 7',
             category: 'secondary',
@@ -311,7 +319,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: vOfIV,
             notes: buildChord(vOfIV, 'dom7', keyOffset),
             chordType: 'dom7',
-            chordName: getChordName(vOfIV, 'dom7', keyOffset),
+            chordName: nameOf('V7/IV', 'dom7'),
             romanNumeral: 'V7/IV',
             quality: 'Dominant 7',
             category: 'secondary',
@@ -328,7 +336,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: flatSix,
             notes: buildChord(flatSix, 'It6', keyOffset),
             chordType: 'It6',
-            chordName: getChordName(flatSix, 'It6', keyOffset, 'It+6'),
+            chordName: nameOf('It+6', 'It6'),
             romanNumeral: 'It+6',
             quality: 'Italian 6th',
             category: 'augmented6th',
@@ -340,7 +348,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: flatSix,
             notes: buildChord(flatSix, 'Ger6', keyOffset),
             chordType: 'Ger6',
-            chordName: getChordName(flatSix, 'Ger6', keyOffset, 'Ger+6'),
+            chordName: nameOf('Ger+6', 'Ger6'),
             romanNumeral: 'Ger+6',
             quality: 'German 6th',
             category: 'augmented6th',
@@ -352,7 +360,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: flatSix,
             notes: buildChord(flatSix, 'Fr6', keyOffset),
             chordType: 'Fr6',
-            chordName: getChordName(flatSix, 'Fr6', keyOffset, 'Fr+6'),
+            chordName: nameOf('Fr+6', 'Fr6'),
             romanNumeral: 'Fr+6',
             quality: 'French 6th',
             category: 'augmented6th',
@@ -366,7 +374,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
         root: flatThree,
         notes: buildChord(flatThree, 'major', keyOffset),
         chordType: 'major',
-        chordName: getChordName(flatThree, 'major', keyOffset, '♭III'),
+        chordName: nameOf('♭III', 'major'),
         romanNumeral: '♭III',
         quality: 'Major',
         category: 'borrowed',
@@ -379,7 +387,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
         root: neapolitan,
         notes: buildChord(neapolitan, 'major', keyOffset),
         chordType: 'major',
-        chordName: getChordName(neapolitan, 'major', keyOffset, '♭II'),
+        chordName: nameOf('♭II', 'major'),
         romanNumeral: '♭II',
         quality: 'Major',
         category: 'chromatic',
@@ -394,7 +402,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: tritone,
             notes: buildChord(tritone, 'dom7', keyOffset),
             chordType: 'dom7',
-            chordName: getChordName(tritone, 'dom7', keyOffset, 'SubV7'),
+            chordName: nameOf('SubV7', 'dom7'),
             romanNumeral: 'SubV7',
             quality: 'Dominant 7',
             category: 'substitution',
@@ -409,7 +417,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             root: lydianTwo,
             notes: buildChord(lydianTwo, 'major', keyOffset),
             chordType: 'major',
-            chordName: getChordName(lydianTwo, 'major', keyOffset),
+            chordName: nameOf('II', 'major'),
             romanNumeral: 'II',
             quality: 'Major',
             category: 'modal',
@@ -457,7 +465,7 @@ export function scoreCandidate(candidate, analysis, existingRoots) {
     return score;
 }
 
-export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType, palettePriorities = null, paletteFilter = null, unusedPaletteChords = []) {
+export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType, palettePriorities = null, paletteFilter = null, unusedPaletteChords = [], spelling = templateSpelling(keys[keyOffset])) {
     const analysis = analyzeExistingChords(existingChords);
     const existingRoots = existingChords.map(c => c.notes && c.notes[0] ? c.notes[0] % 12 : 0);
 
@@ -482,7 +490,7 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
     };
     const soundsNew = candidate => !takenSignatures.has(pcSignature(candidate.notes));
 
-    const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, palettePriorities, paletteFilter)
+    const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, palettePriorities, paletteFilter, spelling)
         .filter(soundsNew);
 
     // Rows 1-3 are already on the grid; a candidate that repeats one of them
@@ -599,18 +607,24 @@ export function generateScaleExploration({ key, mode, chordRequirements = [] }) 
     const scaleDegrees = getScaleDegrees(mode);
     const scaleLength = scaleDegrees.length;
     const pads = [];
+    // Roots take the letter of their scale degree: C Lydian's fourth degree is
+    // F#, not Gb (docs/improvements/13-spelling.md D1, D8)
+    const spelling = scaleSpelling(key, mode);
 
     const used = new Set();
 
     const addPad = (degree, chordType) => {
         const scaleDegree = scaleDegrees[degree % scaleLength];
         const romanNumeral = getRomanNumeralForChord(degree, chordType);
+        const notes = buildChord(scaleDegree, chordType, keyOffset);
+        const position = { romanNumeral, semitones: scaleDegree };
         used.add(romanNumeral);
         pads.push({
             id: pads.length + 1,
-            chordName: getChordName(scaleDegree, chordType, keyOffset),
+            chordName: getChordName(spelling, position, chordType),
             romanNumeral,
-            notes: buildChord(scaleDegree, chordType, keyOffset),
+            notes,
+            spelling: spellChord(spelling, position, chordType, notes),
             chordType,
             quality: getQualityLabel(chordType),
             row: Math.floor(pads.length / 4) + 1,
@@ -672,12 +686,6 @@ export function generateVariant(variantType, { key, mode, progression, category 
     const scaleDegrees = getScaleDegrees('Major');
     const pads = [];
 
-    let progressionChords = generateProgressionChords(progression, keyOffset, scaleDegrees, mode);
-
-    // Store the ORIGINAL progression chords before building palette
-    const originalProgression = [...progressionChords];
-    const originalProgressionLength = progressionChords.length;
-
     // The palette preferences belong to the template as listed under its genre:
     // a value listed under several genres carries different priorities in each
     // (docs/improvements/01-template-identity.md). Without a category, the first
@@ -685,6 +693,19 @@ export function generateVariant(variantType, { key, mode, progression, category 
     const template = resolveTemplate(progression, category)?.template;
     const paletteFilter = template?.paletteFilter || null;
     const palettePriorities = template?.palettePriorities || null;
+
+    // Every chord on the grid is named, and every pad spelled, in the key and the
+    // template's tonality: C# minor, not Db minor; the vi of A is F#m
+    // (docs/improvements/13-spelling.md). A pad's spelling is computed from its
+    // final notes, after voicing and after the Jazz upgrade.
+    const spelling = templateSpelling(key, template ? templateTonality(template) : 'major');
+    const spelled = pad => ({ ...pad, spelling: spellChord(spelling, { romanNumeral: pad.romanNumeral }, pad.chordType, pad.notes) });
+
+    let progressionChords = generateProgressionChords(progression, keyOffset, scaleDegrees, mode, spelling);
+
+    // Store the ORIGINAL progression chords before building palette
+    const originalProgression = [...progressionChords];
+    const originalProgressionLength = progressionChords.length;
 
     // Convert progression sequence to palette ensuring ALL 16 PADS ARE UNIQUE
     // Harmonic gradient: Row 1 (pads 1-4, bottom visual row) = foundation with tonic
@@ -750,7 +771,7 @@ export function generateVariant(variantType, { key, mode, progression, category 
             root: scaleDegree,
             notes,
             chordType: type,
-            chordName: getChordName(scaleDegree, type, keyOffset, romanBase),
+            chordName: getChordName(spelling, { romanNumeral: roman, semitones: scaleDegree }, type),
             romanNumeral: roman,
             spiceLevel: spice, // 0=foundation, 1=standard, 2=colorful, 3=spicy
             priority: priority, // 1=avoided, 2=allowed, 3=preferred
@@ -1075,11 +1096,11 @@ export function generateVariant(variantType, { key, mode, progression, category 
                     chordType = upgraded;
                     romanNumeral = upgradedRoman;
                     notes = buildChord(scaleDegree, chordType, keyOffset);
-                    chordName = getChordName(scaleDegree, chordType, keyOffset);
+                    chordName = getChordName(spelling, { romanNumeral, semitones: scaleDegree }, chordType);
                 }
             }
 
-            const pad = {
+            const pad = spelled({
                 id: padIndex + 1,
                 chordName,
                 romanNumeral,
@@ -1090,7 +1111,7 @@ export function generateVariant(variantType, { key, mode, progression, category 
                 col: colIndex + 1,
                 isProgressionChord,
                 isChordMatcherChord
-            };
+            });
 
             pads.push(pad);
             rows1to3.push(pad);
@@ -1098,13 +1119,13 @@ export function generateVariant(variantType, { key, mode, progression, category 
     }
 
     // Dynamically generate row 4 based on analysis of rows 1-3
-    const row4Chords = selectDynamicRow4Chords(rows1to3, keyOffset, scaleDegrees, variantType, palettePriorities, paletteFilter, allChords.slice(chordQueueIndex));
+    const row4Chords = selectDynamicRow4Chords(rows1to3, keyOffset, scaleDegrees, variantType, palettePriorities, paletteFilter, allChords.slice(chordQueueIndex), spelling);
 
     // Add Row 4 chords to pads
     for (let i = 0; i < 4; i++) {
         if (i < row4Chords.length) {
             const chord = row4Chords[i];
-            pads.push({
+            pads.push(spelled({
                 id: 13 + i,
                 chordName: chord.chordName,
                 romanNumeral: chord.romanNumeral,
@@ -1115,14 +1136,14 @@ export function generateVariant(variantType, { key, mode, progression, category 
                 col: i + 1,
                 isProgressionChord: false,
                 isChordMatcherChord: false
-            });
+            }));
         } else {
             // Fallback if not enough candidates (shouldn't happen)
             const degree = scaleDegrees[0];
             const notes = buildChord(degree, 'major', keyOffset);
-            pads.push({
+            pads.push(spelled({
                 id: 13 + i,
-                chordName: getChordName(degree, 'major', keyOffset),
+                chordName: getChordName(spelling, { romanNumeral: 'I' }, 'major'),
                 romanNumeral: 'I',
                 notes: notes,
                 chordType: 'major',
@@ -1131,7 +1152,7 @@ export function generateVariant(variantType, { key, mode, progression, category 
                 col: i + 1,
                 isProgressionChord: false,
                 isChordMatcherChord: false
-            });
+            }));
         }
     }
 

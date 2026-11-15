@@ -9,8 +9,6 @@ import {
     chordFitsScale,
     getChordSuffix,
     MATCHER_QUALITY_TYPES,
-    spellChordNotes,
-    getEnharmonicContext,
     getInversionNotation,
     findProgressionCategory,
     findModeCategory
@@ -1132,8 +1130,9 @@ function renderProgressions() {
                     }
                 }
 
-                // Get inversion notation for this chord
-                const inversionNotation = getInversionNotation(pad.notes, pad.chordType || 'major', pad.chordName, pad.romanNumeral);
+                // Slash notation when the bass, spelled as the chord spells it,
+                // is not the root
+                const inversionNotation = getInversionNotation(pad.spelling);
                 const displayName = pad.chordName + inversionNotation;
 
                 // Get progression edge attributes
@@ -1159,8 +1158,9 @@ function renderProgressions() {
                         <div class="chord-role">${escapeHtml(roleText)}</div>
                         <div class="chord-notes">
                             ${(() => {
-                                // Get properly spelled note names (pass actual voicing)
-                                const noteStrings = spellChordNotes(pad.notes, pad.chordType || 'major', pad.romanNumeral);
+                                // Note names as generation spelled them, in voicing
+                                // order: Csus4 reads C F G, the vi of A F# A C#
+                                const noteStrings = pad.spelling.notes;
 
                                 // Group notes in pairs for wrapping
                                 const pairs = [];
@@ -1174,7 +1174,7 @@ function renderProgressions() {
                     </div>
                     <div class="chord-keyboard">${generateKeyboardSVG(pad.notes)}</div>
                     <div class="chord-guitar">${generateGuitarSVG(getGuitarChord(pad), pad, isLeftHanded)}</div>
-                    <div class="chord-staff">${generateStaffSVG(pad.notes, getEnharmonicContext(pad.notes[0], pad.romanNumeral) === 'flats')}</div>
+                    <div class="chord-staff">${generateStaffSVG(pad.spelling.notes)}</div>
                 </div>
             `;
             }).join('')

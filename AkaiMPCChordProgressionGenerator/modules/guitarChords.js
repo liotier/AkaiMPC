@@ -124,10 +124,12 @@ export const guitarChords = {
     }
 };
 
-// Pitch class of every note name that can start a chord name, including
-// the flat spellings getChordName produces for borrowed chords.
+// Pitch class of every note name that can start a chord name. A root is spelled
+// by its degree and carries one accidental at most, so E#, B#, Cb and Fb occur:
+// E# is the leading tone of F# major, B# the seventh degree of the Neapolitan
+// major on C# (docs/improvements/13-spelling.md).
 const ROOT_PITCH_CLASSES = {
-    'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3, 'E': 4, 'Fb': 4,
+    'C': 0, 'B#': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3, 'E': 4, 'Fb': 4,
     'E#': 5, 'F': 5, 'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8,
     'A': 9, 'A#': 10, 'Bb': 10, 'B': 11, 'Cb': 11
 };
