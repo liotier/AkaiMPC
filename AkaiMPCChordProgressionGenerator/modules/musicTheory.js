@@ -776,8 +776,10 @@ export const progressions = {
             value: 'i—i♯5—i6—i♯5',
             palettePriorities: {
                 preferred: ['minor', 'minAug', 'minor6'],   // The fifth climbs: 5, ♯5, 6, ♯5 over a held root and third
-                allowed: ['minor7', 'minMaj7', 'sus4'],
-                avoided: ['major', 'major7', 'dom7', 'diminished', 'quartal']
+                // A minor key's ♭VI, ♭VII and V7 are what follows a line cliché;
+                // avoiding major and dom7 left row 4 nothing it did not avoid
+                allowed: ['minor7', 'minMaj7', 'major', 'dom7', 'sus4'],
+                avoided: ['major7', 'diminished', 'quartal']
             },
         }
     ],

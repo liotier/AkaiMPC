@@ -345,4 +345,6 @@ Synthwave/Retrowave `IM7—iii7—vi7—IVM7` (four variants each; both declare 
 it; spec 09's Ascending Line Cliché adds five, 33 in the key of C. Measured by
 counting the entries into step 5 at each commit. The two filter templates are in the
 same position as the five: left to spec 07 and to a later decision on their settings.
+The Ascending Line Cliché's priorities were then corrected (spec 09 §8), which takes
+it out of step 5: 28 in the key of C, the same instrument counting.
 
