@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | implemented |
 | Type | refactor |
 | Size | M |
 | Depends on | 00 |
@@ -117,6 +117,14 @@ a lower-case suffix and an upper-case stem only an upper-case one. `i7` is
 therefore `minor7` and never `dom7`; `IM7` is `major7` and `iM7` is an
 error.
 
+Exception, found while implementing: a suffix whose chord type fixes the
+third by itself - the diminished, augmented and suspended families, by
+`getChordFamily()` - reads after either case. The catalogue writes its
+chromatic passing chords on upper-case stems (`I°`, `♯I°`, `♯II°`, `III°`),
+which the strict rule would have refused. Where the case is what tells two
+chord types apart (`7`, `6`, `9`, `11`, `13`, `add9`, and the bare triad),
+it must still match.
+
 ### 3.3 Degree and alteration
 
 Unchanged semantics: the stem gives the major-scale degree index 0-6; `♭`
@@ -126,9 +134,14 @@ object stays `{ degree, quality, alteration }` with `alteration` in
 `originalChord` for applied chords, exactly as today, so
 `generateProgressionChords()` needs no change.
 
-For applied dominants the current code also computes `degree` as the
-*closest* major-scale degree to the dominant's root and sets `alteration`
-accordingly. Reproduce it; `V7/♭III` in C is B♭7, degree 6 flat.
+For applied dominants the old code computed `degree` as the *closest*
+major-scale degree to the dominant's root, taking the lower neighbour on a
+tie, so a root the scale lacks always came out sharp: `V7/♭III` was `♯VI`,
+spelled A♯7. The new parser spells such a root after the target's
+accidental, raising it for a natural target: `V7/♭III` is `♭VII` (B♭7 in C),
+`V/vii` is `♯IV` (F♯). Every applied chord in the catalogue has a natural
+target and a diatonic root, so its output is unchanged; the pack hash proves
+it.
 
 ### 3.4 Errors
 
@@ -190,3 +203,41 @@ None.
 - Any change to how pads are labelled or named.
 - Parsing chord *symbols* (`Cm7`) from user input; the Chord Matcher has its
   own dropdown-based path and does not parse.
+
+## 8. Implementation notes
+
+`parseProgression()` in `modules/musicTheory.js` is a tokenizer: an applied
+dominant `V/x` or `V7/x`, or else an optional accidental, a stem tried
+longest first and a suffix looked up in `SUFFIX_TABLE`. `SUFFIX_TABLE` is
+built from `CHORD_TYPE_DISPLAY` at module load and throws if two types share a
+case and suffix. Spec 09 needs only a new display entry for `i♯5` to parse.
+`parseProgression()` is exported, for the audit's tests.
+`generateProgressionChords()` and its `12-bar-blues` special case are
+unchanged.
+
+Departures from the text above, both now written into it:
+
+- **The case rule.** Diminished, augmented and suspended suffixes read after
+  either case, because the catalogue has `I°`, `♯I°`, `♯II°` and `III°` (§3.2).
+- **Applied-chord spelling.** §3.3 said the old code gave `V7/♭III` as B♭7. It
+  gave A♯7. The new parser gives B♭7. No template has an altered target.
+
+Not implemented: the optional secondary leading-tone chords of §3.5. The
+grammar reserves them, and `vii°/V` is refused with a message saying so.
+
+The negative and positive tests of acceptance items 4 and 5 are audit check P,
+the pattern spec 03 set with check N. A token whose suffix no chord type has,
+read as a major triad the way the old parser did, makes check P report four
+findings.
+
+Measured on `a91f480`:
+
+| Check | Result |
+|---|---|
+| Old and new parser over every template value except `12-bar-blues` | 172 templates, 691 tokens, 0 field differences |
+| Pack hashes before and after | identical, 855 `.progression` and 10 267 MIDI files |
+| Snapshot `--check` without regeneration | passes |
+| Audit, translation check | pass |
+
+The one-off equivalence script is not committed; the pack hash is the durable
+proof.
