@@ -82,7 +82,7 @@ table, and nothing compares a spelling with a key.
 | D2 | **The tonic of a two-named key** (C♯/D♭, D♯/E♭, F♯/G♭, G♯/A♭, A♯/B♭) is the name whose reference scale needs fewer accidentals; on a tie, the first name in the key selector. The reference scale is the major or natural minor scale of the template's tonality, or in Scale Mode the scale itself (its parent for an abridged scale). | Standard practice, made mechanical: D♭ major but C♯ minor, A♭ major but G♯ minor. The two exact ties (F♯ major against G♭, D♯ minor against E♭) go to the name the user picked first. Table in §3.2. |
 | D3 | **A root is respelled to its plainest name only when the letter rule gives a double accidental, or gives E♯, B♯, C♭ or F♭ on a note outside the key's scale.** The plainest name is the natural when it is a white key, else the single accidental on the same side. | Letters that belong to the key stay: F♯ major's leading tone is E♯, and E♯dim is right there. Chromatic chords in remote keys stay readable: D♭ major's ♭VI would be B𝄫 and is written A, as every lead sheet writes it. The prototype respells 3 327 chromatic roots and no diatonic one. |
 | D4 | **Chord tones are spelled from the root by a degree table per chord type**, never by semitones. | Semitones cannot decide: `dom7b5` and `Fr6` share `[0, 4, 6, 10]` and spell differently (C E G♭ B♭; A♭ C D F♯). Table in §3.4. |
-| D5 | `minAug`'s top note is the **minor sixth** (E G C), although its symbol says ♯5. | The line cliché's moving voice is B, C, C♯, and lead sheets spell it that way while writing `m♯5` over it. Strict B♯ would follow the symbol and read as a typo. Reversible in one cell of the table. |
+| D5 | `minAug` is spelled **strictly from its symbol**: the raised fifth, E G B♯. | The pad shows its own name, `Em#5`, and its notes must agree with it. Every other chord is spelled from its symbol (C augmented is C E G♯, not C E A♭), so a minor sixth here would be the one exception the audit has to tolerate. Across the line cliché's pads the moving voice reads B, B♯, C♯, B♯, a legitimate spelling of a rising chromatic line. Lead sheets often write the same line B, C, C♯ in E minor, where C is the key's sixth degree; that habit was weighed and set aside by the maintainer on 2026-11-15. |
 | D6 | Augmented sixths are spelled by function (A♭ C E♭ F♯) while their chord names stay `Ab7` and `Ab7b5`. | The name was made legible on purpose (`../mpc-export-specification.md` §7.10); the numeral (`Ger+6`) and the note names carry the function. |
 | D7 | **Spelling is computed once, in generation, after voicing, and carried on the pad** as `pad.spelling`. The app reads it; nothing in the UI spells. | One producer, testable under Node like the rest of generation, and the same names in every view and every export. |
 | D8 | Abridged scales use their parent's spelling (`SCALE_HARMONY_PARENT`), as they already use its chords. The symmetrical scales - whole tone, augmented, both diminished - have no letter per degree: their roots are spelled by pitch class on the tonic name's side (sharps for a natural tonic), their tones by the degree table. | An eight-note scale cannot give each note its own letter; a rule that pretends otherwise would produce nonsense such as two different Gs. |
@@ -175,7 +175,7 @@ a 10th a 3rd); its accidental makes the pitch class come out right.
 | Chord types | Degrees |
 |---|---|
 | `major`, `minor`, `diminished`, `augmented` | 1 3 5 / 1 ♭3 5 / 1 ♭3 ♭5 / 1 3 ♯5 |
-| `minAug` | 1 ♭3 ♭6 (D5) |
+| `minAug` | 1 ♭3 ♯5 (D5) |
 | `sus2`, `sus4` | 1 2 5 / 1 4 5 |
 | `major7`, `minor7`, `dom7`, `minMaj7` | 1 3 5 7 / 1 ♭3 5 ♭7 / 1 3 5 ♭7 / 1 ♭3 5 7 |
 | `dim7`, `m7b5` | 1 ♭3 ♭5 𝄫7 / 1 ♭3 ♭5 ♭7 |
@@ -249,7 +249,7 @@ own code and is not touched.
   accidental; no root outside the key's scale is E♯, B♯, C♭ or F♭.
 - **S4** The examples of §3.3 and the corrected column of §1's second table,
   plus `Cdim7` C E♭ G♭ B𝄫, `C7#9` C E G B♭ D♯, `C7b5` C E G♭ B♭, `Caug` C E G♯,
-  `Fr+6` in C A♭ C D F♯, `Ger+6` in C A♭ C E♭ F♯, `Em#5` E G C.
+  `Fr+6` in C A♭ C D F♯, `Ger+6` in C A♭ C E♭ F♯, `Em#5` E G B♯.
 
 Tested the usual way: restore the flat rule of `getEnharmonicContext()` and S2
 must fail on A major's vi; restore stacked-thirds tone spelling and S3 must
@@ -294,5 +294,4 @@ None.
 - Export file names and the key selector labels (D9).
 - Respelling the key-of-C pack, which needs nothing.
 - The Finder's spelling.
-- The `minAug` symbol: if the maintainer prefers its notes to follow `m♯5`
-  literally, D5's table cell becomes ♯5 and the line cliché reads E G B♯.
+- The `minAug` symbol itself. It stays `m#5`, and D5 spells its notes to match.

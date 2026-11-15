@@ -72,7 +72,7 @@ instrument, and the later specs rely on it.
 | 04 | [Row 4 honours palette priorities](04-row4-palette-priorities.md) | defect | M | 00, 03 | Sonnet 5.5 |
 | 05 | [Pads that duplicate a chord or misname it](05-duplicate-sounding-pads.md) | defect | M | 00 | Sonnet 5.5 |
 | 06 | [A strict template parser](06-template-parser.md) | refactor | M | 00 | Opus 5.5 |
-| 07 | [Key-mode awareness for palette and row 4](07-minor-key-awareness.md) | defect, design | L | 00, 02, 03, 04, 05 | Fable 5.2 |
+| 07 | [Key-mode awareness for palette and row 4](07-minor-key-awareness.md) | defect, design | L | 00, 02, 03, 04, 05 | Opus 5.5, checkpoint reviewed |
 | 08 | [Ten Film/Cinematic templates](08-cinematic-templates.md) | feature, data | M | 00, 01; 04 recommended | Sonnet 5.5 |
 | 09 | [The ascending line cliché: a minor ♯5 chord type](09-ascending-line-cliche.md) | feature | S | 00, 06 | Sonnet 5.5 |
 | 10 | [Row 4: chromatic mediants and mode flips](10-row4-mediants.md) | feature | M | 03, 04, 05, 07 | Opus 5.5 |
@@ -181,8 +181,8 @@ decisions are followed to the letter, the table says so.
 |---|---|---|---|
 | Claude Haiku 5.5 | `claude-haiku-5-5` | Mechanical changes with a complete specification and a mechanical acceptance test: a new tool whose output format is fully given, a classifier replaced by a table | 00, 03 |
 | Claude Sonnet 5.5 | `claude-sonnet-5-5` | Bounded data and logic changes where the English text is supplied and the theory decisions are already made; translation into the five other locales; small algorithmic changes whose effect the snapshot makes visible | 02, 04, 05, 08, 09 |
-| Claude Opus 5.5 | `claude-opus-5-5` | Cross-cutting refactors with a byte-identity requirement, changes to persistence and identity, voicing algorithms, and anything that must weigh several interacting scoring rules | 01, 06, 10, 11, 13 |
-| Claude Fable 5.2 | `claude-fable-5-2` | The one spec that changes the sounding content of 68 templates' palettes on the strength of harmonic judgement at every step, with a new audit check to design | 07 |
+| Claude Opus 5.5 | `claude-opus-5-5` | Cross-cutting refactors with a byte-identity requirement, changes to persistence and identity, voicing algorithms, and anything that must weigh several interacting scoring rules | 01, 06, 07, 10, 11, 13 |
+| Claude Fable 5.2 | `claude-fable-5-2` | Not required by any spec. It was first recommended for 07; that was revised once the other specs proved implementable from their tables, with judgement calls brought back for review | - |
 
 Notes:
 
@@ -194,10 +194,10 @@ Notes:
   and snapshot unchanged, 173 templates parse identically), which is why Opus
   5.5 is enough despite the risk. What the model must bring is the discipline
   to reproduce three dead-code quirks exactly, listed in the spec.
-- 07 is recommended for Fable 5.2 because its acceptance test is partly new
-  (an audit check for palette diatonicity in minor keys) and because every
-  candidate chord it adds or removes is a theory decision with alternatives.
-  Opus 5.5 can do it with a maintainer review at the checkpoint the spec marks.
+- 07 was first recommended for Fable 5.2, because every candidate chord it
+  adds or removes is a theory decision. Those decisions are in its tables, and
+  its checkpoint stops the work for review before tooltips and analysis. Opus
+  5.5 with that review is the recommendation now.
 - Whatever the model, the session is given the spec path and this README, and
   is told that the Decisions tables are settled.
 
