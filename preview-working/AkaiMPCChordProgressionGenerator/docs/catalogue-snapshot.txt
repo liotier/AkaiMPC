@@ -116,7 +116,7 @@ Smooth   1-4   60,64,67 | 58,62,65 | 57,60,65 | 55,60,64
 Classic  1-4   *Am [i]  *E [V]  *G [♭VII]  *D [IV]
 Classic  5-8   *F [♭VI]  *C [♭III]  *Dm [iv]  *E [V]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  E7 [V7]  G7 [♭VII7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *E [V]  *G [♭VII]  *D [IV]
 Jazz     5-8   *F [♭VI]  *C [♭III]  *Dm7 [iv7]  *E [V]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  E7 [V7]  G7 [♭VII7]
@@ -169,24 +169,24 @@ Smooth   1-4   60,64,67 | 61,64,69 | 62,65,69 | 62,67,71
 
 ## Blues/Soul | i—♭III—♭VII—IV | Dorian Vamp | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *G [♭VII]  *D [IV]
-Classic  5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  Gbm [vi]
-Classic  9-12  Gbm7 [vi7]  Dm [iv]  F [♭VI]  C7 [♭III7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
+Classic  5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  F#m [vi]
+Classic  9-12  F#m7 [vi7]  Dm [iv]  F [♭VI]  C7 [♭III7]
+Classic 13-16  F# [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *C [♭III]  *G [♭VII]  *D [IV]
-Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  Gbm [vi]
-Jazz     9-12  Gbm7 [vi7]  Dm7 [iv7]  Fmaj7 [♭VIM7]  C7 [♭III7]
+Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  F#m [vi]
+Jazz     9-12  F#m7 [vi7]  Dm7 [iv7]  Fmaj7 [♭VIM7]  C7 [♭III7]
 Jazz    13-16  Dm [iv]  F [♭VI]  B7 [V7/V]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 55,60,64 | 55,59,62 | 54,57,62
 
 ## Blues/Soul | i—IV—i—V | Minor Blues | minor | A
 Classic  1-4   *Am [i]  *D [IV]  *Am [i]  *E [V]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  D7 [IV7]  E7 [V7]
-Classic  9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Dmaj7 [IVM7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
+Classic  9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Dmaj7 [IVM7]
+Classic 13-16  F# [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *D [IV]  *Am [i]  *E [V]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  D7 [IV7]  E7 [V7]
-Jazz     9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Am9 [i9]
-Jazz    13-16  Gb [VI]  B7 [V7/V]  Bb7 [SubV7]  Bb [♭II]
+Jazz     9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Am9 [i9]
+Jazz    13-16  F# [VI]  B7 [V7/V]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 57,62,66 | 57,60,64 | 56,59,64
 
 ## Jazz/Functional | ii—V—I | 2-5-1 | major | C
@@ -356,11 +356,11 @@ Smooth   1-4   62,65,69 | 62,67,71 | 64,67,72 | 65,69,72
 
 ## Jazz/Functional | i—i(maj7)—i7—i6 | Line Cliché | minor | A
 Classic  1-4   *Am [i]  *AmMaj7 [i(maj7)]  *Am7 [i7]  *Am6 [i6]
-Classic  5-8   Bm7 [ii7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Classic  5-8   Bm7 [ii7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Classic  9-12  Dm [iv]  G [♭VII]  F [♭VI]  C [♭III]
-Classic 13-16  E7 [V7]  B7 [V7/V]  F7 [It+6]  Gb7 [V7/ii]
+Classic 13-16  E7 [V7]  B7 [V7/V]  F7 [It+6]  F#7 [V7/ii]
 Jazz     1-4   *Am [i]  *AmMaj7 [i(maj7)]  *Am7 [i7]  *Am6 [i6]
-Jazz     5-8   Bm7 [ii7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Jazz     5-8   Bm7 [ii7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Jazz     9-12  Dm7 [iv7]  Am9 [i9]  Gmaj7 [♭VIIM7]  Fmaj7 [♭VIM7]
 Jazz    13-16  E7 [V7]  B7 [V7/V]  Dm [iv]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 57,60,64,68 | 57,60,64,67 | 57,60,64,66
@@ -466,11 +466,11 @@ Smooth   1-4   60,64,67 | 58,63,67 | 58,62,65 | 57,60,65
 
 ## Modal Interchange | i—IV—i—V | Minor Brightening | minor | A
 Classic  1-4   *Am [i]  *D [IV]  *Am [i]  *E [V]
-Classic  5-8   D7 [IV7]  E7 [V7]  Bm [ii]  Gbm [vi]
+Classic  5-8   D7 [IV7]  E7 [V7]  Bm [ii]  F#m [vi]
 Classic  9-12  G [♭VII]  Dm [iv]  F [♭VI]  C [♭III]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *D [IV]  *Am [i]  *E [V]
-Jazz     5-8   D7 [IV7]  E7 [V7]  Bm [ii]  Gbm [vi]
+Jazz     5-8   D7 [IV7]  E7 [V7]  Bm [ii]  F#m [vi]
 Jazz     9-12  Gmaj7 [♭VIIM7]  Dm7 [iv7]  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]
 Jazz    13-16  B7 [V7/V]  G [♭VII]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 57,62,66 | 57,60,64 | 56,59,64
@@ -522,23 +522,23 @@ Smooth   1-4   60,64,67 | 59,62,67 | 60,64,69 | 59,64,67
 ## Classical/Modal | i—♭VII—♭VI—V | Andalusian | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *E [V]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]
-Classic  9-12  E7 [V7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  9-12  E7 [V7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *E [V]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]
-Jazz     9-12  E7 [V7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]  Bb [♭II]
+Jazz     9-12  E7 [V7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Jazz    13-16  B7 [V7/V]  F# [VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,60 | 52,56,59
 
 ## Classical/Modal | i—♭VII—i—V | Passamezzo Antico | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *Am [i]  *E [V]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  E7 [V7]
-Classic  9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Gmaj7 [♭VIIM7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Gmaj7 [♭VIIM7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *G [♭VII]  *Am [i]  *E [V]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  E7 [V7]
-Jazz     9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Am9 [i9]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]  Bb [♭II]
+Jazz     9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Am9 [i9]
+Jazz    13-16  B7 [V7/V]  F# [VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,62 | 57,60,64 | 56,59,64
 
 ## Classical/Modal | I—V—I—IV | Passamezzo Moderno | major | C
@@ -566,34 +566,34 @@ Smooth   1-4   65,68,72 | 65,70,74 | 67,70,75 | 68,72,75
 ## Classical/Modal | i—iv—♭VII—♭III | Natural Minor | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  *G [♭VII]  *C [♭III]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  Dm7 [iv7]  G7 [♭VII7]
-Classic  9-12  C7 [♭III7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Classic  9-12  C7 [♭III7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Classic 13-16  B7 [V7/V]  F [♭VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *Dm [iv]  *G [♭VII]  *C [♭III]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Dm7 [iv7]  G7 [♭VII7]
-Jazz     9-12  C7 [♭III7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Jazz     9-12  C7 [♭III7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Jazz    13-16  B7 [V7/V]  F [♭VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 57,62,65 | 59,62,67 | 60,64,67
 
 ## Electronic/Modern | i—♭VI—♭III—♭VII | EDM Drop | minor | A
 Classic  1-4   *Am [i]  *F [♭VI]  *C [♭III]  *G [♭VII]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  F7 [♭VI7]  C7 [♭III7]
-Classic  9-12  G7 [♭VII7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Classic  9-12  G7 [♭VII7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Classic 13-16  B7 [V7/V]  Dm [iv]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *F [♭VI]  *C [♭III]  *G [♭VII]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  F7 [♭VI7]  C7 [♭III7]
-Jazz     9-12  G7 [♭VII7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Jazz     9-12  G7 [♭VII7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Jazz    13-16  B7 [V7/V]  Dm [iv]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 57,60,65 | 55,60,64 | 55,59,62
 
 ## Electronic/Modern | i—♭VII—♭VI—♭VII | Dark House | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *G [♭VII]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]
-Classic  9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Gmaj7 [♭VIIM7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Gmaj7 [♭VIIM7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *G [♭VII]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]
-Jazz     9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Am9 [i9]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]  Bb [♭II]
+Jazz     9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Am9 [i9]
+Jazz    13-16  B7 [V7/V]  F# [VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,60 | 55,59,62
 
 ## Electronic/Modern | vi—IV—I—V | Pop Loop | major | C
@@ -621,11 +621,11 @@ Smooth   1-4   60,64,67 | 59,62,67 | 60,64,69 | 60,65,69
 ## Electronic/Modern | i—♭III—♭VII—i | Modal Interchange | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *G [♭VII]  *Am [i]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  C7 [♭III7]  G7 [♭VII7]
-Classic  9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Cmaj7 [♭IIIM7]
+Classic  9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Cmaj7 [♭IIIM7]
 Classic 13-16  B7 [V7/V]  Dm [iv]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *C [♭III]  *G [♭VII]  *Am [i]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  C7 [♭III7]  G7 [♭VII7]
-Jazz     9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Am9 [i9]
+Jazz     9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Am9 [i9]
 Jazz    13-16  B7 [V7/V]  Dm [iv]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,60,64 | 55,59,62 | 57,60,64
 
@@ -642,13 +642,13 @@ Smooth   1-4   60,64,67 | 58,63,67 | 60,65,69 | 60,63,68
 
 ## Electronic/Modern | i—iv—v | Techno Minimal | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  *Em [v]  A7sus4(no5) [i7sus4(no5)]
-Classic  5-8   D7sus4(no5) [iv7sus4(no5)]  E7sus4(no5) [v7sus4(no5)]  Bm [ii]  Gbm [vi]
+Classic  5-8   D7sus4(no5) [iv7sus4(no5)]  E7sus4(no5) [v7sus4(no5)]  Bm [ii]  F#m [vi]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  Dm7 [iv7]  Em7 [v7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  E7 [V7]  Gbm7 [vi7]
+Classic 13-16  F# [VI]  B7 [V7/V]  E7 [V7]  F#m7 [vi7]
 Jazz     1-4   *Am [i]  *Dm [iv]  *Em [v]  A7sus4(no5) [i7sus4(no5)]
-Jazz     5-8   D7sus4(no5) [iv7sus4(no5)]  E7sus4(no5) [v7sus4(no5)]  Bm [ii]  Gbm [vi]
+Jazz     5-8   D7sus4(no5) [iv7sus4(no5)]  E7sus4(no5) [v7sus4(no5)]  Bm [ii]  F#m [vi]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  Dm7 [iv7]  Em7 [v7]
-Jazz    13-16  Gbm7 [vi7]  Am9 [i9]  Dm9 [iv9]  Em9 [v9]
+Jazz    13-16  F#m7 [vi7]  Am9 [i9]  Dm9 [iv9]  Em9 [v9]
 Smooth   1-4   57,60,64 | 57,62,65 | 59,64,67 | 57,62,67
 
 ## Electronic/Modern | I—IV—V | Deep House | major | C
@@ -731,12 +731,12 @@ Smooth   1-4   60,64,67,71 | 60,64,67,70 | 60,64,65,69 | 60,65,68
 ## R&B/Neo-Soul | i—iv—♭VII—♭VI | Minor Soul | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  *G [♭VII]  *F [♭VI]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  Dm7 [iv7]  G7 [♭VII7]
-Classic  9-12  F7 [♭VI7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  9-12  F7 [♭VI7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *Dm [iv]  *G [♭VII]  *F [♭VI]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Dm7 [iv7]  G7 [♭VII7]
-Jazz     9-12  F7 [♭VI7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]  Bb [♭II]
+Jazz     9-12  F7 [♭VI7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Jazz    13-16  B7 [V7/V]  F# [VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 57,62,65 | 59,62,67 | 60,65,69
 
 ## R&B/Neo-Soul | I—♯iv°—ii—V | Gospel Soul | major | C
@@ -762,14 +762,14 @@ Jazz    13-16  D7 [V7/V]  A7 [V7/ii]  Db7 [SubV7]  Bb [♭VII]
 Smooth   1-4   60,64,67,70 | 60,64,67,70,74 | 60,64,67,70,74,81 | 60,64,67
 
 ## Funk/Groove | i7 | Minor Funk Vamp | minor | A
-Classic  1-4   *Am7 [i7]  Bm7 [ii7]  Gbm7 [vi7]  Am9 [i9]
-Classic  5-8   Am11 [i11]  Am [i]  Bm [ii]  Gbm [vi]
+Classic  1-4   *Am7 [i7]  Bm7 [ii7]  F#m7 [vi7]  Am9 [i9]
+Classic  5-8   Am11 [i11]  Am [i]  Bm [ii]  F#m [vi]
 Classic  9-12  AmMaj7 [i(maj7)]  Am6 [i6]  G [♭VII]  Dm [iv]
-Classic 13-16  E7 [V7]  B7 [V7/V]  Gb [VI]  Bb [♭II]
-Jazz     1-4   *Am7 [i7]  Bm7 [ii7]  Gbm7 [vi7]  Am9 [i9]
-Jazz     5-8   Am11 [i11]  Am [i]  Bm [ii]  Gbm [vi]
+Classic 13-16  E7 [V7]  B7 [V7/V]  F# [VI]  Bb [♭II]
+Jazz     1-4   *Am7 [i7]  Bm7 [ii7]  F#m7 [vi7]  Am9 [i9]
+Jazz     5-8   Am11 [i11]  Am [i]  Bm [ii]  F#m [vi]
 Jazz     9-12  AmMaj7 [i(maj7)]  Am6 [i6]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
-Jazz    13-16  E7 [V7]  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]
+Jazz    13-16  E7 [V7]  B7 [V7/V]  F# [VI]  Bb7 [SubV7]
 Smooth   1-4   57,60,64,67 | 59,62,66,69 | 61,64,66,69 | 60,64,67,71,81
 
 ## Funk/Groove | I7—IV7 | Two-Chord Funk | major | C
@@ -786,12 +786,12 @@ Smooth   1-4   60,64,67,70 | 60,63,65,69 | 60,64,67,70,74 | 60,64,67,70,74,81
 ## Funk/Groove | i7—IV7 | Minor-Major Funk | minor | A
 Classic  1-4   *Am7 [i7]  *D7 [IV7]  Am9 [i9]  D9 [IV9]
 Classic  5-8   Bm7 [ii7]  Am [i]  D [IV]  Bm [ii]
-Classic  9-12  Gbm [vi]  Gbm7 [vi7]  G [♭VII]  Dm [iv]
-Classic 13-16  B7 [V7/V]  Gb7 [V7/ii]  Gb [VI]  F7 [It+6]
+Classic  9-12  F#m [vi]  F#m7 [vi7]  G [♭VII]  Dm [iv]
+Classic 13-16  B7 [V7/V]  F#7 [V7/ii]  F# [VI]  F7 [It+6]
 Jazz     1-4   *Am7 [i7]  *D7 [IV7]  Am9 [i9]  D9 [IV9]
 Jazz     5-8   Bm7 [ii7]  Am [i]  D [IV]  Bm [ii]
-Jazz     9-12  Gbm [vi]  Gbm7 [vi7]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
-Jazz    13-16  B7 [V7/V]  Gb7 [V7/ii]  Gb [VI]  Bb7 [SubV7]
+Jazz     9-12  F#m [vi]  F#m7 [vi7]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
+Jazz    13-16  B7 [V7/V]  F#7 [V7/ii]  F# [VI]  Bb7 [SubV7]
 Smooth   1-4   57,60,64,67 | 57,60,62,66 | 57,60,64,67,71 | 52,62,66,69,72
 
 ## Funk/Groove | I7—♭VII7—I7 | Mixolydian Funk | major | C
@@ -906,24 +906,24 @@ Smooth   1-4   65,69,72 | 64,67,72 | 62,67,71 | 64,69,72
 
 ## Hip-Hop/Trap | i—♭VI—♭VII | Trap Minor | minor | A
 Classic  1-4   *Am [i]  *F [♭VI]  *G [♭VII]  Bm7 [ii7]
-Classic  5-8   Am7 [i7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Classic  5-8   Am7 [i7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Classic  9-12  Dm [iv]  F7 [♭VI7]  G7 [♭VII7]  C [♭III]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *F [♭VI]  *G [♭VII]  Bm7 [ii7]
-Jazz     5-8   Am7 [i7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Jazz     5-8   Am7 [i7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Jazz     9-12  Dm7 [iv7]  F7 [♭VI7]  G7 [♭VII7]  Am9 [i9]
 Jazz    13-16  B7 [V7/V]  Dm [iv]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 57,60,65 | 59,62,67 | 59,62,66,69
 
 ## Hip-Hop/Trap | i—♭III—♭VI—♭VII | Dark Trap | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *F [♭VI]  *G [♭VII]
-Classic  5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  Gbm [vi]
-Classic  9-12  Gbm7 [vi7]  Dm [iv]  C7 [♭III7]  F7 [♭VI7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  Gb7 [V7/ii]
+Classic  5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  F#m [vi]
+Classic  9-12  F#m7 [vi7]  Dm [iv]  C7 [♭III7]  F7 [♭VI7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F#7 [V7/ii]
 Jazz     1-4   *Am [i]  *C [♭III]  *F [♭VI]  *G [♭VII]
-Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  Gbm [vi]
-Jazz     9-12  Gbm7 [vi7]  Dm7 [iv7]  Am9 [i9]  C9 [♭III9]
-Jazz    13-16  Dm [iv]  Gb [VI]  F9 [♭VI9]  Bb [♭II]
+Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  F#m [vi]
+Jazz     9-12  F#m7 [vi7]  Dm7 [iv7]  Am9 [i9]  C9 [♭III9]
+Jazz    13-16  Dm [iv]  F# [VI]  F9 [♭VI9]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,60,64 | 57,60,65 | 59,62,67
 
 ## Hip-Hop/Trap | vi—IV—I | Sad Trap | major | C
@@ -940,33 +940,33 @@ Smooth   1-4   57,60,64 | 57,60,65 | 55,60,64 | 62,65,69,72
 ## Hip-Hop/Trap | i—♭VII—♭VI | Lofi Hip-Hop | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *F [♭VI]  Bm7 [ii7]
 Classic  5-8   Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]  Bm [ii]
-Classic  9-12  Gbm [vi]  Gbm7 [vi7]  Gmaj7 [♭VIIM7]  Fmaj7 [♭VIM7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  9-12  F#m [vi]  F#m7 [vi7]  Gmaj7 [♭VIIM7]  Fmaj7 [♭VIM7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *G [♭VII]  *F [♭VI]  Bm7 [ii7]
 Jazz     5-8   Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]  Bm [ii]
-Jazz     9-12  Gbm [vi]  Gbm7 [vi7]  Am9 [i9]  Gmaj7 [♭VIIM7]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]  Bb [♭II]
+Jazz     9-12  F#m [vi]  F#m7 [vi7]  Am9 [i9]  Gmaj7 [♭VIIM7]
+Jazz    13-16  B7 [V7/V]  F# [VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,60 | 59,62,66,69
 
 ## Hip-Hop/Trap | i—iv—i—♭VI | Boom Bap | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  *Am [i]  *F [♭VI]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  Dm7 [iv7]  F7 [♭VI7]
-Classic  9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Fmaj7 [♭VIM7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Fmaj7 [♭VIM7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *Dm [iv]  *Am [i]  *F [♭VI]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Dm7 [iv7]  F7 [♭VI7]
-Jazz     9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Am9 [i9]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]  Bb [♭II]
+Jazz     9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Am9 [i9]
+Jazz    13-16  B7 [V7/V]  F# [VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 57,62,65 | 57,60,64 | 57,60,65
 
 ## Hip-Hop/Trap | i—♭III—iv—♭VI | Emo Rap | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *Dm [iv]  *F [♭VI]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  C7 [♭III7]  Dm7 [iv7]
-Classic  9-12  F7 [♭VI7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Classic  9-12  F7 [♭VI7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Classic 13-16  B7 [V7/V]  G [♭VII]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *C [♭III]  *Dm [iv]  *F [♭VI]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  C7 [♭III7]  Dm7 [iv7]
-Jazz     9-12  F7 [♭VI7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Jazz     9-12  F7 [♭VI7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Jazz    13-16  B7 [V7/V]  G [♭VII]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,60,64 | 57,62,65 | 57,60,65
 
@@ -994,13 +994,13 @@ Smooth   1-4   62,65,69,72 | 62,65,67,71 | 60,64,67,71 | 60,64,67,70
 
 ## Hip-Hop/Trap | i—♭VII—iv | Footwork Juke | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *Dm [iv]  Bm7 [ii7]
-Classic  5-8   Am7 [i7]  Dm7 [iv7]  Bm [ii]  Gbm [vi]
-Classic  9-12  Gbm7 [vi7]  F [♭VI]  C [♭III]  A [I]
-Classic 13-16  E7 [V7]  B7 [V7/V]  Gb [VI]  Bb [♭II]
+Classic  5-8   Am7 [i7]  Dm7 [iv7]  Bm [ii]  F#m [vi]
+Classic  9-12  F#m7 [vi7]  F [♭VI]  C [♭III]  A [I]
+Classic 13-16  E7 [V7]  B7 [V7/V]  F# [VI]  Bb [♭II]
 Jazz     1-4   *Am [i]  *G [♭VII]  *Dm [iv]  Bm7 [ii7]
-Jazz     5-8   Am7 [i7]  Dm7 [iv7]  Bm [ii]  Gbm [vi]
-Jazz     9-12  Gbm7 [vi7]  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]  Amaj7 [IM7]
-Jazz    13-16  F [♭VI]  Gb [VI]  Bb [♭II]  C [♭III]
+Jazz     5-8   Am7 [i7]  Dm7 [iv7]  Bm [ii]  F#m [vi]
+Jazz     9-12  F#m7 [vi7]  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]  Amaj7 [IM7]
+Jazz    13-16  F [♭VI]  F# [VI]  Bb [♭II]  C [♭III]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,62 | 59,62,66,69
 
 ## Latin/Bossa | IM7—VI7—ii7—V7 | Bossa Nova | major | C
@@ -1016,11 +1016,11 @@ Smooth   1-4   60,64,67,71 | 61,64,67,69 | 60,62,65,69 | 59,62,65,67
 
 ## Latin/Bossa | i—iv—V—i | Tango | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  *E [V]  *Am [i]
-Classic  5-8   E7 [V7]  Bm [ii]  Gbm [vi]  G [♭VII]
+Classic  5-8   E7 [V7]  Bm [ii]  F#m [vi]  G [♭VII]
 Classic  9-12  F [♭VI]  C [♭III]  Bm7 [ii7]  Am7 [i7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *Dm [iv]  *E [V]  *Am [i]
-Jazz     5-8   E7 [V7]  Bm [ii]  Gbm [vi]  Gmaj7 [♭VIIM7]
+Jazz     5-8   E7 [V7]  Bm [ii]  F#m [vi]  Gmaj7 [♭VIIM7]
 Jazz     9-12  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]  Bm7 [ii7]  Am7 [i7]
 Jazz    13-16  B7 [V7/V]  G [♭VII]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 57,62,65 | 56,59,64 | 57,60,64
@@ -1038,12 +1038,12 @@ Smooth   1-4   60,64,67 | 61,65,68 | 60,64,67 | 59,62,67
 
 ## Latin/Bossa | i—V—i—♭VII | Samba | minor | A
 Classic  1-4   *Am [i]  *E [V]  *Am [i]  *G [♭VII]
-Classic  5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  Gbm [vi]
-Classic  9-12  Gbm7 [vi7]  Dm [iv]  F [♭VI]  C [♭III]
-Classic 13-16  E7 [V7]  Gb [VI]  B7 [V7/V]  Bb [♭II]
+Classic  5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  F#m [vi]
+Classic  9-12  F#m7 [vi7]  Dm [iv]  F [♭VI]  C [♭III]
+Classic 13-16  E7 [V7]  F# [VI]  B7 [V7/V]  Bb [♭II]
 Jazz     1-4   *Am [i]  *E [V]  *Am [i]  *G [♭VII]
-Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  Gbm [vi]
-Jazz     9-12  Gbm7 [vi7]  Dm7 [iv7]  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Bm [ii]  F#m [vi]
+Jazz     9-12  F#m7 [vi7]  Dm7 [iv7]  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]
 Jazz    13-16  E7 [V7]  Dm [iv]  B7 [V7/V]  Bb [♭II]
 Smooth   1-4   57,60,64 | 56,59,64 | 57,60,64 | 55,59,62
 
@@ -1061,12 +1061,12 @@ Smooth   1-4   60,64,67 | 61,64,69 | 62,65,69 | 62,66,69
 ## Latin/Bossa | i—♭VII—♭VI—V | Bolero | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *E [V]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]
-Classic  9-12  E7 [V7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  9-12  E7 [V7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *E [V]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]
-Jazz     9-12  E7 [V7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]  Bb [♭II]
+Jazz     9-12  E7 [V7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Jazz    13-16  B7 [V7/V]  F# [VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,60 | 52,56,59
 
 ## Film/Cinematic | I—♭VI—♭III—♭VII | Epic Trailer | major | C
@@ -1082,13 +1082,13 @@ Smooth   1-4   60,64,67 | 60,63,68 | 58,63,67 | 58,62,65
 
 ## Film/Cinematic | i—♭VI—♭VII—i | Dark Cinematic | minor | A
 Classic  1-4   *Am [i]  *F [♭VI]  *G [♭VII]  *Am [i]
-Classic  5-8   Bm [ii]  Gbm [vi]  Fmaj7 [♭VIM7]  Fadd9 [♭VIadd9]
+Classic  5-8   Bm [ii]  F#m [vi]  Fmaj7 [♭VIM7]  Fadd9 [♭VIadd9]
 Classic  9-12  Gmaj7 [♭VIIM7]  Gadd9 [♭VIIadd9]  Dm [iv]  C [♭III]
-Classic 13-16  Gb [VI]  Bb [♭II]  Bm7 [ii7]  Am7 [i7]
+Classic 13-16  F# [VI]  Bb [♭II]  Bm7 [ii7]  Am7 [i7]
 Jazz     1-4   *Am [i]  *F [♭VI]  *G [♭VII]  *Am [i]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Fmaj7 [♭VIM7]  Fadd9 [♭VIadd9]
+Jazz     5-8   Bm [ii]  F#m [vi]  Fmaj7 [♭VIM7]  Fadd9 [♭VIadd9]
 Jazz     9-12  Gmaj7 [♭VIIM7]  Gadd9 [♭VIIadd9]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
-Jazz    13-16  Dm [iv]  Gb [VI]  Bb [♭II]  C [♭III]
+Jazz    13-16  Dm [iv]  F# [VI]  Bb [♭II]  C [♭III]
 Smooth   1-4   57,60,64 | 57,60,65 | 59,62,67 | 60,64,69
 
 ## Film/Cinematic | I—V—vi—♭VI—IV | Emotional Score | major | C
@@ -1105,11 +1105,11 @@ Smooth   1-4   60,64,67 | 59,62,67 | 60,64,69 | 60,63,68
 ## Film/Cinematic | i—♭III—♭VII—♭VI—V | Heroic Theme | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *G [♭VII]  *F [♭VI]
 Classic  5-8   *E [V]  C7 [♭III7]  G7 [♭VII7]  F7 [♭VI7]
-Classic  9-12  E7 [V7]  Bm [ii]  Gbm [vi]  Dm [iv]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  9-12  E7 [V7]  Bm [ii]  F#m [vi]  Dm [iv]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *C [♭III]  *G [♭VII]  *F [♭VI]
 Jazz     5-8   *E [V]  C7 [♭III7]  G7 [♭VII7]  F7 [♭VI7]
-Jazz     9-12  E7 [V7]  Bm [ii]  Gbm [vi]  Dm7 [iv7]
+Jazz     9-12  E7 [V7]  Bm [ii]  F#m [vi]  Dm7 [iv7]
 Jazz    13-16  B7 [V7/V]  Dm [iv]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,60,64 | 55,59,62 | 53,57,60
 
@@ -1126,13 +1126,13 @@ Smooth   1-4   60,64,67 | 58,62,65 | 56,60,63 | 58,62,65
 
 ## Film/Cinematic | i—iv—♭VI—♭III | Suspense | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  *F [♭VI]  *C [♭III]
-Classic  5-8   Bm [ii]  Gbm [vi]  Fmaj7 [♭VIM7]  Fadd9 [♭VIadd9]
+Classic  5-8   Bm [ii]  F#m [vi]  Fmaj7 [♭VIM7]  Fadd9 [♭VIadd9]
 Classic  9-12  Cmaj7 [♭IIIM7]  Cadd9 [♭IIIadd9]  G [♭VII]  Bm7 [ii7]
-Classic 13-16  Gb [VI]  Bb [♭II]  Am7 [i7]  Asus2 [isus2]
+Classic 13-16  F# [VI]  Bb [♭II]  Am7 [i7]  Asus2 [isus2]
 Jazz     1-4   *Am [i]  *Dm [iv]  *F [♭VI]  *C [♭III]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Fmaj7 [♭VIM7]  Fadd9 [♭VIadd9]
+Jazz     5-8   Bm [ii]  F#m [vi]  Fmaj7 [♭VIM7]  Fadd9 [♭VIadd9]
 Jazz     9-12  Cmaj7 [♭IIIM7]  Cadd9 [♭IIIadd9]  Gmaj7 [♭VIIM7]  Bm7 [ii7]
-Jazz    13-16  G [♭VII]  Gb [VI]  Bb [♭II]  Am7 [i7]
+Jazz    13-16  G [♭VII]  F# [VI]  Bb [♭II]  Am7 [i7]
 Smooth   1-4   57,60,64 | 57,62,65 | 57,60,65 | 55,60,64
 
 ## Film/Cinematic | I—♭III—♭VI—♭II | Chromatic Film | major | C
@@ -1169,14 +1169,14 @@ Jazz    13-16  Bb [♭VII]  Ab [♭VI]  Db [♭II]  Fm [iv]
 Smooth   1-4   60,64,67 | 58,63,67 | 60,64,67 | 61,64,69
 
 ## Film/Cinematic | i—♭vi—i—iii | Minor Mediants | minor | A
-Classic  1-4   *Am [i]  *Fm [♭vi]  *Am [i]  *Dbm [iii]
-Classic  5-8   Bm7 [ii7]  Am7 [i7]  Fm7 [♭vi7]  Dbm7 [iii7]
-Classic  9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Amadd9 [iadd9]
-Classic 13-16  Dm [iv]  Gb [VI]  Bb [♭II]  G [♭VII]
-Jazz     1-4   *Am [i]  *Fm [♭vi]  *Am [i]  *Dbm [iii]
-Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Fm7 [♭vi7]  Dbm7 [iii7]
-Jazz     9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Amadd9 [iadd9]
-Jazz    13-16  Dm [iv]  Gb [VI]  Bb [♭II]  G [♭VII]
+Classic  1-4   *Am [i]  *Fm [♭vi]  *Am [i]  *C#m [iii]
+Classic  5-8   Bm7 [ii7]  Am7 [i7]  Fm7 [♭vi7]  C#m7 [iii7]
+Classic  9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Amadd9 [iadd9]
+Classic 13-16  Dm [iv]  F# [VI]  Bb [♭II]  G [♭VII]
+Jazz     1-4   *Am [i]  *Fm [♭vi]  *Am [i]  *C#m [iii]
+Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Fm7 [♭vi7]  C#m7 [iii7]
+Jazz     9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Amadd9 [iadd9]
+Jazz    13-16  Dm [iv]  F# [VI]  Bb [♭II]  G [♭VII]
 Smooth   1-4   57,60,64 | 56,60,65 | 57,60,64 | 56,61,64
 
 ## Film/Cinematic | I—♭vi—♭VI—I | Hexatonic Pole | major | C
@@ -1215,34 +1215,34 @@ Smooth   1-4   60,64,67 | 62,66,69 | 64,67,71 | 62,66,69
 ## Film/Cinematic | i—v—♭VII—IV | Dorian Drift | minor | A
 Classic  1-4   *Am [i]  *Em [v]  *G [♭VII]  *D [IV]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  Em7 [v7]  Bm [ii]
-Classic  9-12  Gbm [vi]  Gbm7 [vi7]  Dm [iv]  F [♭VI]
-Classic 13-16  Gb [VI]  C [♭III]  Bb [♭II]  Asus2 [isus2]
+Classic  9-12  F#m [vi]  F#m7 [vi7]  Dm [iv]  F [♭VI]
+Classic 13-16  F# [VI]  C [♭III]  Bb [♭II]  Asus2 [isus2]
 Jazz     1-4   *Am [i]  *Em [v]  *G [♭VII]  *D [IV]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Em7 [v7]  Bm [ii]
-Jazz     9-12  Gbm [vi]  Gbm7 [vi7]  Dm7 [iv7]  Fmaj7 [♭VIM7]
-Jazz    13-16  Gb [VI]  Dm [iv]  Bb [♭II]  F [♭VI]
+Jazz     9-12  F#m [vi]  F#m7 [vi7]  Dm7 [iv7]  Fmaj7 [♭VIM7]
+Jazz    13-16  F# [VI]  Dm [iv]  Bb [♭II]  F [♭VI]
 Smooth   1-4   57,60,64 | 55,59,64 | 55,59,62 | 54,57,62
 
 ## Film/Cinematic | i—♭III—V—i | Minor Lift | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *E [V]  *Am [i]
-Classic  5-8   Bm [ii]  Gbm [vi]  G [♭VII]  Dm [iv]
+Classic  5-8   Bm [ii]  F#m [vi]  G [♭VII]  Dm [iv]
 Classic  9-12  F [♭VI]  Bm7 [ii7]  Am7 [i7]  Asus4 [isus4]
-Classic 13-16  E7 [V7]  Gb [VI]  B7 [V7/V]  Bb [♭II]
+Classic 13-16  E7 [V7]  F# [VI]  B7 [V7/V]  Bb [♭II]
 Jazz     1-4   *Am [i]  *C [♭III]  *E [V]  *Am [i]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
 Jazz     9-12  Fmaj7 [♭VIM7]  Bm7 [ii7]  Am7 [i7]  Asus4 [isus4]
 Jazz    13-16  E7 [V7]  G [♭VII]  B7 [V7/V]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,60,64 | 56,59,64 | 57,60,64
 
 ## Film/Cinematic | i—♭VI—IV—♭VI | Wandering Fifth | minor | A
 Classic  1-4   *Am [i]  *F [♭VI]  *D [IV]  *F [♭VI]
-Classic  5-8   Bm [ii]  Gbm [vi]  G [♭VII]  Dm [iv]
+Classic  5-8   Bm [ii]  F#m [vi]  G [♭VII]  Dm [iv]
 Classic  9-12  C [♭III]  Bm7 [ii7]  Am7 [i7]  Asus4 [isus4]
-Classic 13-16  Gb [VI]  Bb [♭II]  Asus2 [isus2]  Fsus4 [♭VIsus4]
+Classic 13-16  F# [VI]  Bb [♭II]  Asus2 [isus2]  Fsus4 [♭VIsus4]
 Jazz     1-4   *Am [i]  *F [♭VI]  *D [IV]  *F [♭VI]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
 Jazz     9-12  Cmaj7 [♭IIIM7]  Bm7 [ii7]  Am7 [i7]  Asus4 [isus4]
-Jazz    13-16  G [♭VII]  Dm [iv]  Bb [♭II]  Gb [VI]
+Jazz    13-16  G [♭VII]  Dm [iv]  Bb [♭II]  F# [VI]
 Smooth   1-4   57,60,64 | 57,60,65 | 57,62,66 | 57,60,65
 
 ## Film/Cinematic | I—♭VI—♭VII—I | Hero Cadence | major | C
@@ -1258,12 +1258,12 @@ Smooth   1-4   60,64,67 | 60,63,68 | 62,65,70 | 64,67,72
 
 ## Film/Cinematic | i—i♯5—i6—i♯5 | Ascending Line Cliché | minor | A
 Classic  1-4   *Am [i]  *Am#5 [i♯5]  *Am6 [i6]  *Am#5 [i♯5]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  Bm7 [ii7]
-Classic  9-12  Am7 [i7]  Asus4 [isus4]  Gbm7 [vi7]  AmMaj7 [i(maj7)]
-Classic 13-16  E7 [V7]  B7 [V7/V]  Gb [VI]  Bb [♭II]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  Bm7 [ii7]
+Classic  9-12  Am7 [i7]  Asus4 [isus4]  F#m7 [vi7]  AmMaj7 [i(maj7)]
+Classic 13-16  E7 [V7]  B7 [V7/V]  F# [VI]  Bb [♭II]
 Jazz     1-4   *Am [i]  *Am#5 [i♯5]  *Am6 [i6]  *Am#5 [i♯5]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Bm7 [ii7]
-Jazz     9-12  Am7 [i7]  Asus4 [isus4]  Gbm7 [vi7]  Am9 [i9]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Bm7 [ii7]
+Jazz     9-12  Am7 [i7]  Asus4 [isus4]  F#m7 [vi7]  Am9 [i9]
 Jazz    13-16  E7 [V7]  B7 [V7/V]  Dm [iv]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 57,60,65 | 60,64,66,69 | 57,60,65
 
@@ -1335,11 +1335,11 @@ Smooth   1-4   60,64,67 | 59,62,67 | 60,64,69 | 59,64,67
 
 ## Folk/Singer-Songwriter | i—♭III—IV—♭VI | House of the Rising Sun | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *D [IV]  *F [♭VI]
-Classic  5-8   Bm [ii]  Gbm [vi]  G [♭VII]  Dm [iv]
+Classic  5-8   Bm [ii]  F#m [vi]  G [♭VII]  Dm [iv]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  C7 [♭III7]  D7 [IV7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
+Classic 13-16  F# [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *C [♭III]  *D [IV]  *F [♭VI]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  C7 [♭III7]  D7 [IV7]
 Jazz    13-16  G [♭VII]  Dm [iv]  B7 [V7/V]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 55,60,64 | 57,62,66 | 57,60,65
@@ -1368,78 +1368,78 @@ Smooth   1-4   60,64,67 | 59,62,67 | 60,64,69 | 60,65,69
 
 ## Metal/Rock | i—♭VI—♭VII—i | Power Metal | minor | A
 Classic  1-4   *Am [i]  *F [♭VI]  *G [♭VII]  *Am [i]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  C [♭III]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  C [♭III]
 Classic  9-12  F7 [♭VI7]  G7 [♭VII7]  Bm7 [ii7]  Am7 [i7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
+Classic 13-16  F# [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *F [♭VI]  *G [♭VII]  *Am [i]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
 Jazz     9-12  F7 [♭VI7]  G7 [♭VII7]  Am9 [i9]  F9 [♭VI9]
-Jazz    13-16  Dm [iv]  Gb [VI]  B7 [V7/V]  Bb7 [SubV7]
+Jazz    13-16  Dm [iv]  F# [VI]  B7 [V7/V]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 57,60,65 | 59,62,67 | 60,64,69
 
 ## Metal/Rock | i—♭III—♭VI—♭VII | Doom Metal | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *F [♭VI]  *G [♭VII]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  C7 [♭III7]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  C7 [♭III7]
 Classic  9-12  F7 [♭VI7]  G7 [♭VII7]  Bm7 [ii7]  Am7 [i7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
+Classic 13-16  F# [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *C [♭III]  *F [♭VI]  *G [♭VII]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  C7 [♭III7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  C7 [♭III7]
 Jazz     9-12  F7 [♭VI7]  G7 [♭VII7]  Am9 [i9]  C9 [♭III9]
-Jazz    13-16  Dm [iv]  Gb [VI]  B7 [V7/V]  Bb7 [SubV7]
+Jazz    13-16  Dm [iv]  F# [VI]  B7 [V7/V]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 55,60,64 | 57,60,65 | 59,62,67
 
 ## Metal/Rock | i—v—♭VII—iv | Prog Metal | minor | A
 Classic  1-4   *Am [i]  *Em [v]  *G [♭VII]  *Dm [iv]
-Classic  5-8   Bm [ii]  Gbm [vi]  F [♭VI]  C [♭III]
+Classic  5-8   Bm [ii]  F#m [vi]  F [♭VI]  C [♭III]
 Classic  9-12  G7 [♭VII7]  Bm7 [ii7]  Am7 [i7]  Em7 [v7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
+Classic 13-16  F# [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *Em [v]  *G [♭VII]  *Dm [iv]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]
 Jazz     9-12  G7 [♭VII7]  Am9 [i9]  Em9 [v9]  G9 [♭VII9]
-Jazz    13-16  F [♭VI]  Gb [VI]  B7 [V7/V]  Bb [♭II]
+Jazz    13-16  F [♭VI]  F# [VI]  B7 [V7/V]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,64 | 55,59,62 | 53,57,62
 
 ## Metal/Rock | i—♭II—i | Thrash | minor | A
 Classic  1-4   *Am [i]  *Bb [♭II]  *Am [i]  Bm [ii]
-Classic  5-8   Gbm [vi]  Dm [iv]  Bb7 [♭II7]  G [♭VII]
+Classic  5-8   F#m [vi]  Dm [iv]  Bb7 [♭II7]  G [♭VII]
 Classic  9-12  F [♭VI]  C [♭III]  Bm7 [ii7]  Am7 [i7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  F7 [It+6]  Gb7 [V7/ii]
+Classic 13-16  B7 [V7/V]  F# [VI]  F7 [It+6]  F#7 [V7/ii]
 Jazz     1-4   *Am [i]  *Bb [♭II]  *Am [i]  Bm [ii]
-Jazz     5-8   Gbm [vi]  Dm7 [iv7]  Bb7 [♭II7]  Am9 [i9]
+Jazz     5-8   F#m [vi]  Dm7 [iv7]  Bb7 [♭II7]  Am9 [i9]
 Jazz     9-12  Bb9 [♭II9]  Gmaj7 [♭VIIM7]  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]
 Jazz    13-16  Dm [iv]  B7 [V7/V]  F7 [It+6]  G [♭VII]
 Smooth   1-4   57,60,64 | 58,62,65 | 57,60,64 | 59,62,66
 
 ## Metal/Rock | i—♭VII—♭VI—V | Melodic Metal | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *E [V]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  C [♭III]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  C [♭III]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
+Classic 13-16  F# [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *E [V]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]
-Jazz    13-16  Dm [iv]  Gb [VI]  B7 [V7/V]  Bb [♭II]
+Jazz    13-16  Dm [iv]  F# [VI]  B7 [V7/V]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,60 | 52,56,59
 
 ## Metal/Rock | i—iv—v—i | Minor Rock | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  *Em [v]  *Am [i]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  Dm7 [iv7]  Em7 [v7]
-Classic  9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  G [♭VII]
-Classic 13-16  B7 [V7/V]  E7 [V7]  Gb [VI]  Bb [♭II]
+Classic  9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  G [♭VII]
+Classic 13-16  B7 [V7/V]  E7 [V7]  F# [VI]  Bb [♭II]
 Jazz     1-4   *Am [i]  *Dm [iv]  *Em [v]  *Am [i]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Dm7 [iv7]  Em7 [v7]
-Jazz     9-12  Bm [ii]  Gbm [vi]  Gbm7 [vi7]  Am9 [i9]
-Jazz    13-16  Gb [VI]  B7 [V7/V]  E7 [V7]  Bb7 [SubV7]
+Jazz     9-12  Bm [ii]  F#m [vi]  F#m7 [vi7]  Am9 [i9]
+Jazz    13-16  F# [VI]  B7 [V7/V]  E7 [V7]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 57,62,65 | 59,64,67 | 60,64,69
 
 ## Metal/Rock | i—V—♭VI—♭VII | Epic Metal | minor | A
 Classic  1-4   *Am [i]  *E [V]  *F [♭VI]  *G [♭VII]
 Classic  5-8   E7 [V7]  F7 [♭VI7]  G7 [♭VII7]  Bm [ii]
-Classic  9-12  Gbm [vi]  Dm [iv]  C [♭III]  Bm7 [ii7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  9-12  F#m [vi]  Dm [iv]  C [♭III]  Bm7 [ii7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *E [V]  *F [♭VI]  *G [♭VII]
 Jazz     5-8   E7 [V7]  F7 [♭VI7]  G7 [♭VII7]  Bm [ii]
-Jazz     9-12  Gbm [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]  Am9 [i9]
+Jazz     9-12  F#m [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]  Am9 [i9]
 Jazz    13-16  B7 [V7/V]  Dm [iv]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 56,59,64 | 57,60,65 | 59,62,67
 
@@ -1447,31 +1447,31 @@ Smooth   1-4   57,60,64 | 56,59,64 | 57,60,65 | 59,62,67
 Classic  1-4   *Am [i]  *Dm [iv]  *G [♭VII]  *C [♭III]
 Classic  5-8   *F [♭VI]  *Bb [♭II]  *E [V]  G7 [♭VII7]
 Classic  9-12  C7 [♭III7]  F7 [♭VI7]  Bb7 [♭II7]  E7 [V7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  F7 [It+6]  Gb7 [V7/ii]
+Classic 13-16  B7 [V7/V]  F# [VI]  F7 [It+6]  F#7 [V7/ii]
 Jazz     1-4   *Am [i]  *Dm [iv]  *G [♭VII]  *C [♭III]
 Jazz     5-8   *F [♭VI]  *Bb [♭II]  *E [V]  G7 [♭VII7]
 Jazz     9-12  C7 [♭III7]  F7 [♭VI7]  Bb7 [♭II7]  E7 [V7]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  F7 [It+6]  Gb7 [V7/ii]
+Jazz    13-16  B7 [V7/V]  F# [VI]  F7 [It+6]  F#7 [V7/ii]
 Smooth   1-4   57,60,64 | 57,62,65 | 59,62,67 | 60,64,67
 
 ## Metal/Rock | i—V/iv—iv—V | Secondary Metal | minor | A
 Classic  1-4   *Am [i]  *A [V/iv]  *Dm [iv]  *E [V]
-Classic  5-8   E7 [V7]  Bm [ii]  Gbm [vi]  G [♭VII]
+Classic  5-8   E7 [V7]  Bm [ii]  F#m [vi]  G [♭VII]
 Classic  9-12  F [♭VI]  C [♭III]  Bm7 [ii7]  Am7 [i7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
+Classic 13-16  F# [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *A [V/iv]  *Dm [iv]  *E [V]
-Jazz     5-8   E7 [V7]  Bm [ii]  Gbm [vi]  Gmaj7 [♭VIIM7]
+Jazz     5-8   E7 [V7]  Bm [ii]  F#m [vi]  Gmaj7 [♭VIIM7]
 Jazz     9-12  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]  Am9 [i9]  Dm9 [iv9]
 Jazz    13-16  G [♭VII]  F [♭VI]  B7 [V7/V]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 57,61,64 | 57,62,65 | 56,59,64
 
 ## Metal/Rock | i—♭II—♭VII—i | Phrygian Crush | minor | A
 Classic  1-4   *Am [i]  *Bb [♭II]  *G [♭VII]  *Am [i]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  F [♭VI]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  F [♭VI]
 Classic  9-12  C [♭III]  Bb7 [♭II7]  G7 [♭VII7]  Bm7 [ii7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  F7 [It+6]  Gb7 [V7/ii]
+Classic 13-16  F# [VI]  B7 [V7/V]  F7 [It+6]  F#7 [V7/ii]
 Jazz     1-4   *Am [i]  *Bb [♭II]  *G [♭VII]  *Am [i]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Fmaj7 [♭VIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Fmaj7 [♭VIM7]
 Jazz     9-12  Cmaj7 [♭IIIM7]  Bb7 [♭II7]  G7 [♭VII7]  Am9 [i9]
 Jazz    13-16  Dm [iv]  F [♭VI]  B7 [V7/V]  F7 [It+6]
 Smooth   1-4   57,60,64 | 58,62,65 | 59,62,67 | 60,64,69
@@ -1480,176 +1480,176 @@ Smooth   1-4   57,60,64 | 58,62,65 | 59,62,67 | 60,64,69
 Classic  1-4   *Am [i]  *Dm [iv]  *E [V]  *Am [i]
 Classic  5-8   *F [♭VI]  *C [♭III]  *G [♭VII]  *E [V]
 Classic  9-12  E7 [V7]  F7 [♭VI7]  C7 [♭III7]  G7 [♭VII7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *Dm [iv]  *E [V]  *Am [i]
 Jazz     5-8   *F [♭VI]  *C [♭III]  *G [♭VII]  *E [V]
 Jazz     9-12  E7 [V7]  F7 [♭VI7]  C7 [♭III7]  G7 [♭VII7]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]  Bb [♭II]
+Jazz    13-16  B7 [V7/V]  F# [VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 57,62,65 | 56,59,64 | 57,60,64
 
 ## Metal/Rock | ♭VI—♭VII—i | Power Cadence | minor | A
 Classic  1-4   *F [♭VI]  *G [♭VII]  *Am [i]  Bm [ii]
-Classic  5-8   Gbm [vi]  Dm [iv]  C [♭III]  F7 [♭VI7]
-Classic  9-12  G7 [♭VII7]  Bm7 [ii7]  Am7 [i7]  Gbm7 [vi7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
+Classic  5-8   F#m [vi]  Dm [iv]  C [♭III]  F7 [♭VI7]
+Classic  9-12  G7 [♭VII7]  Bm7 [ii7]  Am7 [i7]  F#m7 [vi7]
+Classic 13-16  F# [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *F [♭VI]  *G [♭VII]  *Am [i]  Bm [ii]
-Jazz     5-8   Gbm [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]  F7 [♭VI7]
+Jazz     5-8   F#m [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]  F7 [♭VI7]
 Jazz     9-12  G7 [♭VII7]  F9 [♭VI9]  G9 [♭VII9]  Am9 [i9]
-Jazz    13-16  Dm [iv]  Gb [VI]  B7 [V7/V]  Bb7 [SubV7]
+Jazz    13-16  Dm [iv]  F# [VI]  B7 [V7/V]  Bb7 [SubV7]
 Smooth   1-4   65,69,72 | 67,71,74 | 69,72,76 | 59,62,66
 
 ## Trance/Psytrance/Goa | i—♭VII—i—♭VI | Classic Goa | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *Am [i]  *F [♭VI]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  C [♭III]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  C [♭III]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
-Classic 13-16  Gb [VI]  Bb [♭II]  Gsus2 [♭VIIsus2]  Gsus4 [♭VIIsus4]
+Classic 13-16  F# [VI]  Bb [♭II]  Gsus2 [♭VIIsus2]  Gsus4 [♭VIIsus4]
 Jazz     1-4   *Am [i]  *G [♭VII]  *Am [i]  *F [♭VI]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
-Jazz    13-16  Dm [iv]  Gb [VI]  Bb [♭II]  C [♭III]
+Jazz    13-16  Dm [iv]  F# [VI]  Bb [♭II]  C [♭III]
 Smooth   1-4   57,60,64 | 55,59,62 | 57,60,64 | 57,60,65
 
 ## Trance/Psytrance/Goa | i—♭II—♭VII—i | Phrygian Dominant | minor | A
 Classic  1-4   *Am [i]  *Bb [♭II]  *G [♭VII]  *Am [i]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  F [♭VI]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  F [♭VI]
 Classic  9-12  C [♭III]  Asus2 [isus2]  Asus4 [isus4]  Bb7 [♭II7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  F7 [It+6]  Gb7 [V7/ii]
+Classic 13-16  F# [VI]  B7 [V7/V]  F7 [It+6]  F#7 [V7/ii]
 Jazz     1-4   *Am [i]  *Bb [♭II]  *G [♭VII]  *Am [i]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Fmaj7 [♭VIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Fmaj7 [♭VIM7]
 Jazz     9-12  Cmaj7 [♭IIIM7]  Asus2 [isus2]  Asus4 [isus4]  Bb7 [♭II7]
 Jazz    13-16  Dm [iv]  F [♭VI]  B7 [V7/V]  F7 [It+6]
 Smooth   1-4   57,60,64 | 58,62,65 | 59,62,67 | 60,64,69
 
 ## Trance/Psytrance/Goa | i—V—♭VI—♭VII | Uplifting Trance | minor | A
 Classic  1-4   *Am [i]  *E [V]  *F [♭VI]  *G [♭VII]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  C [♭III]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  C [♭III]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
-Classic 13-16  E7 [V7]  Gb [VI]  B7 [V7/V]  Bb [♭II]
+Classic 13-16  E7 [V7]  F# [VI]  B7 [V7/V]  Bb [♭II]
 Jazz     1-4   *Am [i]  *E [V]  *F [♭VI]  *G [♭VII]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
 Jazz    13-16  E7 [V7]  Dm [iv]  B7 [V7/V]  Bb [♭II]
 Smooth   1-4   57,60,64 | 56,59,64 | 57,60,65 | 59,62,67
 
 ## Trance/Psytrance/Goa | i—iv—V—♭VI | Harmonic Minor Psy | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  *E [V]  *F [♭VI]
-Classic  5-8   Bm [ii]  Gbm [vi]  G [♭VII]  C [♭III]
+Classic  5-8   Bm [ii]  F#m [vi]  G [♭VII]  C [♭III]
 Classic  9-12  Asus2 [isus2]  Asus4 [isus4]  A7sus4(no5) [i7sus4(no5)]  D7sus4(no5) [iv7sus4(no5)]
-Classic 13-16  Gb [VI]  Bb [♭II]  Esus2 [Vsus2]  Fsus2 [♭VIsus2]
+Classic 13-16  F# [VI]  Bb [♭II]  Esus2 [Vsus2]  Fsus2 [♭VIsus2]
 Jazz     1-4   *Am [i]  *Dm [iv]  *E [V]  *F [♭VI]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Gmaj7 [♭VIIM7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Gmaj7 [♭VIIM7]  Cmaj7 [♭IIIM7]
 Jazz     9-12  Asus2 [isus2]  Asus4 [isus4]  A7sus4(no5) [i7sus4(no5)]  D7sus4(no5) [iv7sus4(no5)]
-Jazz    13-16  G [♭VII]  Gb [VI]  Bb [♭II]  C [♭III]
+Jazz    13-16  G [♭VII]  F# [VI]  Bb [♭II]  C [♭III]
 Smooth   1-4   57,60,64 | 57,62,65 | 56,59,64 | 57,60,65
 
 ## Trance/Psytrance/Goa | i—♭VI—♭III—♭VII | Dark Psy | minor | A
 Classic  1-4   *Am [i]  *F [♭VI]  *C [♭III]  *G [♭VII]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  Bm7 [ii7]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  Bm7 [ii7]
 Classic  9-12  Am7 [i7]  A7sus4(no5) [i7sus4(no5)]  F7sus4(no5) [♭VI7sus4(no5)]  C7sus4(no5) [♭III7sus4(no5)]
-Classic 13-16  Gb [VI]  Bb [♭II]  G7sus4(no5) [♭VII7sus4(no5)]  Gbm7 [vi7]
+Classic 13-16  F# [VI]  Bb [♭II]  G7sus4(no5) [♭VII7sus4(no5)]  F#m7 [vi7]
 Jazz     1-4   *Am [i]  *F [♭VI]  *C [♭III]  *G [♭VII]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Bm7 [ii7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Bm7 [ii7]
 Jazz     9-12  Am7 [i7]  A7sus4(no5) [i7sus4(no5)]  F7sus4(no5) [♭VI7sus4(no5)]  C7sus4(no5) [♭III7sus4(no5)]
-Jazz    13-16  Dm [iv]  Gb [VI]  Bb [♭II]  G7sus4(no5) [♭VII7sus4(no5)]
+Jazz    13-16  Dm [iv]  F# [VI]  Bb [♭II]  G7sus4(no5) [♭VII7sus4(no5)]
 Smooth   1-4   57,60,64 | 57,60,65 | 55,60,64 | 55,59,62
 
 ## Trance/Psytrance/Goa | i—♭III—♭VI—V | Progressive Psy | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *F [♭VI]  *E [V]
-Classic  5-8   Bm [ii]  Gbm [vi]  G [♭VII]  Dm [iv]
+Classic  5-8   Bm [ii]  F#m [vi]  G [♭VII]  Dm [iv]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  A7sus4(no5) [i7sus4(no5)]  Asus2 [isus2]
-Classic 13-16  Gb [VI]  Bb [♭II]  C7sus4(no5) [♭III7sus4(no5)]  Csus2 [♭IIIsus2]
+Classic 13-16  F# [VI]  Bb [♭II]  C7sus4(no5) [♭III7sus4(no5)]  Csus2 [♭IIIsus2]
 Jazz     1-4   *Am [i]  *C [♭III]  *F [♭VI]  *E [V]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Gmaj7 [♭VIIM7]  Dm7 [iv7]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  A7sus4(no5) [i7sus4(no5)]  Asus2 [isus2]
-Jazz    13-16  G [♭VII]  Dm [iv]  Bb [♭II]  Gb [VI]
+Jazz    13-16  G [♭VII]  Dm [iv]  Bb [♭II]  F# [VI]
 Smooth   1-4   57,60,64 | 55,60,64 | 57,60,65 | 56,59,64
 
 ## Trance/Psytrance/Goa | i—♭VII—♭VI—♭VII | Full-On | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *G [♭VII]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  C [♭III]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  C [♭III]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
-Classic 13-16  Gb [VI]  Bb [♭II]  A7sus4(no5) [i7sus4(no5)]  Gsus4 [♭VIIsus4]
+Classic 13-16  F# [VI]  Bb [♭II]  A7sus4(no5) [i7sus4(no5)]  Gsus4 [♭VIIsus4]
 Jazz     1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *G [♭VII]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
-Jazz    13-16  Dm [iv]  Gb [VI]  Bb [♭II]  C [♭III]
+Jazz    13-16  Dm [iv]  F# [VI]  Bb [♭II]  C [♭III]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,60 | 55,59,62
 
 ## Trance/Psytrance/Goa | i—♭II—♭VII—V | Goa Classic | minor | A
 Classic  1-4   *Am [i]  *Bb [♭II]  *G [♭VII]  *E [V]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  F [♭VI]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  F [♭VI]
 Classic  9-12  C [♭III]  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]
-Classic 13-16  E7 [V7]  Gb [VI]  B7 [V7/V]  F7 [It+6]
+Classic 13-16  E7 [V7]  F# [VI]  B7 [V7/V]  F7 [It+6]
 Jazz     1-4   *Am [i]  *Bb [♭II]  *G [♭VII]  *E [V]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Fmaj7 [♭VIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Fmaj7 [♭VIM7]
 Jazz     9-12  Cmaj7 [♭IIIM7]  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]
 Jazz    13-16  E7 [V7]  Dm [iv]  B7 [V7/V]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 58,62,65 | 59,62,67 | 59,64,68
 
 ## Trance/Psytrance/Goa | i—iv—i—♭VII | Forest Psy | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  *Am [i]  *G [♭VII]
-Classic  5-8   Bm [ii]  Gbm [vi]  F [♭VI]  C [♭III]
+Classic  5-8   Bm [ii]  F#m [vi]  F [♭VI]  C [♭III]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
-Classic 13-16  Gb [VI]  Bb [♭II]  A7sus4(no5) [i7sus4(no5)]  Dm7 [iv7]
+Classic 13-16  F# [VI]  Bb [♭II]  A7sus4(no5) [i7sus4(no5)]  Dm7 [iv7]
 Jazz     1-4   *Am [i]  *Dm [iv]  *Am [i]  *G [♭VII]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
-Jazz    13-16  F [♭VI]  Gb [VI]  Bb [♭II]  C [♭III]
+Jazz    13-16  F [♭VI]  F# [VI]  Bb [♭II]  C [♭III]
 Smooth   1-4   57,60,64 | 57,62,65 | 57,60,64 | 55,59,62
 
 ## Trance/Psytrance/Goa | i—♭III—♭VII—IV | Morning Trance | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *G [♭VII]  *D [IV]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  F [♭VI]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  F [♭VI]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
-Classic 13-16  Gb [VI]  Bb [♭II]  A7sus4(no5) [i7sus4(no5)]  Csus2 [♭IIIsus2]
+Classic 13-16  F# [VI]  Bb [♭II]  A7sus4(no5) [i7sus4(no5)]  Csus2 [♭IIIsus2]
 Jazz     1-4   *Am [i]  *C [♭III]  *G [♭VII]  *D [IV]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Fmaj7 [♭VIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Fmaj7 [♭VIM7]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
-Jazz    13-16  Dm [iv]  F [♭VI]  Bb [♭II]  Gb [VI]
+Jazz    13-16  Dm [iv]  F [♭VI]  Bb [♭II]  F# [VI]
 Smooth   1-4   57,60,64 | 55,60,64 | 55,59,62 | 54,57,62
 
 ## Trance/Psytrance/Goa | i—v—♭VII | Minimal Trance | minor | A
 Classic  1-4   *Am [i]  *Em [v]  *G [♭VII]  Bm7 [ii7]
 Classic  5-8   Am7 [i7]  Em7 [v7]  G7 [♭VII7]  Bm [ii]
-Classic  9-12  Gbm [vi]  Gbm7 [vi7]  Dm [iv]  F [♭VI]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  Gb7 [V7/ii]
+Classic  9-12  F#m [vi]  F#m7 [vi7]  Dm [iv]  F [♭VI]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F#7 [V7/ii]
 Jazz     1-4   *Am [i]  *Em [v]  *G [♭VII]  Bm7 [ii7]
 Jazz     5-8   Am7 [i7]  Em7 [v7]  G7 [♭VII7]  Bm [ii]
-Jazz     9-12  Gbm [vi]  Gbm7 [vi7]  Dm7 [iv7]  Fmaj7 [♭VIM7]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]  Bb [♭II]
+Jazz     9-12  F#m [vi]  F#m7 [vi7]  Dm7 [iv7]  Fmaj7 [♭VIM7]
+Jazz    13-16  B7 [V7/V]  F# [VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,64 | 55,59,62 | 59,62,66,69
 
 ## Jungle/Drum'n'Bass | i—♭VII—♭VI—V | Liquid DnB | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *E [V]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]
-Classic  9-12  E7 [V7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  9-12  E7 [V7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *E [V]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  G7 [♭VII7]  F7 [♭VI7]
-Jazz     9-12  E7 [V7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]  Bb [♭II]
+Jazz     9-12  E7 [V7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Jazz    13-16  B7 [V7/V]  F# [VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,60 | 52,56,59
 
 ## Jungle/Drum'n'Bass | i—♭III—♭VII—iv | Neurofunk | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *G [♭VII]  *Dm [iv]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  C7 [♭III7]  G7 [♭VII7]
-Classic  9-12  Dm7 [iv7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Classic  9-12  Dm7 [iv7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Classic 13-16  B7 [V7/V]  F [♭VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *C [♭III]  *G [♭VII]  *Dm [iv]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  C7 [♭III7]  G7 [♭VII7]
-Jazz     9-12  Dm7 [iv7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Jazz     9-12  Dm7 [iv7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Jazz    13-16  B7 [V7/V]  F [♭VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,60,64 | 55,59,62 | 53,57,62
 
 ## Jungle/Drum'n'Bass | i—v—♭VII—iv | Jump-Up | minor | A
 Classic  1-4   *Am [i]  *Em [v]  *G [♭VII]  *Dm [iv]
 Classic  5-8   Bm7 [ii7]  Am7 [i7]  Em7 [v7]  G7 [♭VII7]
-Classic  9-12  Dm7 [iv7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  9-12  Dm7 [iv7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *Em [v]  *G [♭VII]  *Dm [iv]
 Jazz     5-8   Bm7 [ii7]  Am7 [i7]  Em7 [v7]  G7 [♭VII7]
-Jazz     9-12  Dm7 [iv7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Jazz    13-16  B7 [V7/V]  Gb [VI]  Bb7 [SubV7]  Bb [♭II]
+Jazz     9-12  Dm7 [iv7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Jazz    13-16  B7 [V7/V]  F# [VI]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,64 | 55,59,62 | 53,57,62
 
 ## Jungle/Drum'n'Bass | ii7—V7—IM7—vi7 | Jazzstep | major | C
@@ -1731,35 +1731,35 @@ Smooth   1-4   60,64,67,71 | 60,64,67,69 | 60,64,65,69 | 59,62,65,67
 
 ## Italo-Disco/House | i—iv | Minimal House | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  Bm7 [ii7]  Am7 [i7]
-Classic  5-8   Dm7 [iv7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Classic  9-12  A [I]  Amaj7 [IM7]  Dbm [iii]  Dbm7 [iii7]
-Classic 13-16  E7 [V7]  Gb [VI]  B7 [V7/V]  G [♭VII]
+Classic  5-8   Dm7 [iv7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Classic  9-12  A [I]  Amaj7 [IM7]  C#m [iii]  C#m7 [iii7]
+Classic 13-16  E7 [V7]  F# [VI]  B7 [V7/V]  G [♭VII]
 Jazz     1-4   *Am [i]  *Dm [iv]  Bm7 [ii7]  Am7 [i7]
-Jazz     5-8   Dm7 [iv7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
-Jazz     9-12  A [I]  Amaj7 [IM7]  Dbm [iii]  Dbm7 [iii7]
-Jazz    13-16  E7 [V7]  Gb [VI]  B7 [V7/V]  G [♭VII]
+Jazz     5-8   Dm7 [iv7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
+Jazz     9-12  A [I]  Amaj7 [IM7]  C#m [iii]  C#m7 [iii7]
+Jazz    13-16  E7 [V7]  F# [VI]  B7 [V7/V]  G [♭VII]
 Smooth   1-4   57,60,64 | 57,62,65 | 59,62,66,69 | 60,64,67,69
 
 ## Synthwave/Retrowave | i—♭VII—♭VI—V | Outrun | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *E [V]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  C [♭III]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  C [♭III]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
-Classic 13-16  E7 [V7]  Gb [VI]  B7 [V7/V]  Bb [♭II]
+Classic 13-16  E7 [V7]  F# [VI]  B7 [V7/V]  Bb [♭II]
 Jazz     1-4   *Am [i]  *G [♭VII]  *F [♭VI]  *E [V]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]
 Jazz    13-16  E7 [V7]  Dm [iv]  B7 [V7/V]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,60 | 52,56,59
 
 ## Synthwave/Retrowave | i—♭III—♭VII—♭VI | Darkwave | minor | A
 Classic  1-4   *Am [i]  *C [♭III]  *G [♭VII]  *F [♭VI]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  Bm7 [ii7]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  Bm7 [ii7]
 Classic  9-12  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]  Csus2 [♭IIIsus2]
-Classic 13-16  Gb [VI]  Bb [♭II]  Csus4 [♭IIIsus4]  Gsus2 [♭VIIsus2]
+Classic 13-16  F# [VI]  Bb [♭II]  Csus4 [♭IIIsus4]  Gsus2 [♭VIIsus2]
 Jazz     1-4   *Am [i]  *C [♭III]  *G [♭VII]  *F [♭VI]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Bm7 [ii7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Bm7 [ii7]
 Jazz     9-12  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]  Csus2 [♭IIIsus2]
-Jazz    13-16  Dm [iv]  Gb [VI]  Bb [♭II]  Csus4 [♭IIIsus4]
+Jazz    13-16  Dm [iv]  F# [VI]  Bb [♭II]  Csus4 [♭IIIsus4]
 Smooth   1-4   57,60,64 | 55,60,64 | 55,59,62 | 53,57,60
 
 ## Synthwave/Retrowave | I—V—vi—IV | Synthpop | major | C
@@ -1775,13 +1775,13 @@ Smooth   1-4   60,64,67 | 59,62,67 | 60,64,69 | 60,65,69
 
 ## Synthwave/Retrowave | i—v—♭VI—♭VII | Cyberpunk | minor | A
 Classic  1-4   *Am [i]  *Em [v]  *F [♭VI]  *G [♭VII]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  C [♭III]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  C [♭III]
 Classic  9-12  Bm7 [ii7]  Am7 [i7]  A7sus4(no5) [i7sus4(no5)]  Asus2 [isus2]
-Classic 13-16  Gb [VI]  Bb [♭II]  Em7 [v7]  E7sus4(no5) [v7sus4(no5)]
+Classic 13-16  F# [VI]  Bb [♭II]  Em7 [v7]  E7sus4(no5) [v7sus4(no5)]
 Jazz     1-4   *Am [i]  *Em [v]  *F [♭VI]  *G [♭VII]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
 Jazz     9-12  Bm7 [ii7]  Am7 [i7]  A7sus4(no5) [i7sus4(no5)]  Asus2 [isus2]
-Jazz    13-16  Dm [iv]  Gb [VI]  Bb [♭II]  C [♭III]
+Jazz    13-16  Dm [iv]  F# [VI]  Bb [♭II]  C [♭III]
 Smooth   1-4   57,60,64 | 55,59,64 | 57,60,65 | 59,62,67
 
 ## Synthwave/Retrowave | I—♭VII—♭VI—I | Dreamwave | major | C
@@ -1808,13 +1808,13 @@ Smooth   1-4   57,60,64 | 57,60,65 | 55,60,64 | 55,59,62
 
 ## Synthwave/Retrowave | i—♭VI—♭III—♭VII | Dark Synth | minor | A
 Classic  1-4   *Am [i]  *F [♭VI]  *C [♭III]  *G [♭VII]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  Bm7 [ii7]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  Bm7 [ii7]
 Classic  9-12  Am7 [i7]  A7sus4(no5) [i7sus4(no5)]  F7sus4(no5) [♭VI7sus4(no5)]  C7sus4(no5) [♭III7sus4(no5)]
-Classic 13-16  Gb [VI]  Bb [♭II]  G7sus4(no5) [♭VII7sus4(no5)]  Gbm7 [vi7]
+Classic 13-16  F# [VI]  Bb [♭II]  G7sus4(no5) [♭VII7sus4(no5)]  F#m7 [vi7]
 Jazz     1-4   *Am [i]  *F [♭VI]  *C [♭III]  *G [♭VII]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Bm7 [ii7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Bm7 [ii7]
 Jazz     9-12  Am7 [i7]  A7sus4(no5) [i7sus4(no5)]  F7sus4(no5) [♭VI7sus4(no5)]  C7sus4(no5) [♭III7sus4(no5)]
-Jazz    13-16  Dm [iv]  Gb [VI]  Bb [♭II]  G7sus4(no5) [♭VII7sus4(no5)]
+Jazz    13-16  Dm [iv]  F# [VI]  Bb [♭II]  G7sus4(no5) [♭VII7sus4(no5)]
 Smooth   1-4   57,60,64 | 57,60,65 | 55,60,64 | 55,59,62
 
 ## Synthwave/Retrowave | IM7—iii7—vi7—IVM7 | Vaporwave Dream | major | C
@@ -1874,34 +1874,34 @@ Smooth   1-4   60,64,67 | 60,65,69 | 62,65,70 | 64,67,72
 
 ## UK Bass | i—♭VII—♭VI | UK Garage | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *F [♭VI]  Bm7 [ii7]
-Classic  5-8   Am7 [i7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Classic  5-8   Am7 [i7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Classic  9-12  Dm [iv]  G7 [♭VII7]  F7 [♭VI7]  C [♭III]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *G [♭VII]  *F [♭VI]  Bm7 [ii7]
-Jazz     5-8   Am7 [i7]  Bm [ii]  Gbm [vi]  Gbm7 [vi7]
+Jazz     5-8   Am7 [i7]  Bm [ii]  F#m [vi]  F#m7 [vi7]
 Jazz     9-12  Dm7 [iv7]  G7 [♭VII7]  F7 [♭VI7]  Am9 [i9]
 Jazz    13-16  B7 [V7/V]  Dm [iv]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,60 | 59,62,66,69
 
 ## UK Bass | i—♭VI | Dubstep Wobble | minor | A
 Classic  1-4   *Am [i]  *F [♭VI]  F7 [♭VI7]  Bm [ii]
-Classic  5-8   Gbm [vi]  Dm [iv]  Bm7 [ii7]  Am7 [i7]
-Classic  9-12  Gbm7 [vi7]  Fmaj7 [♭VIM7]  G [♭VII]  C [♭III]
-Classic 13-16  B7 [V7/V]  Gb7 [V7/ii]  F7 [It+6]  Db7 [V7/vi]
+Classic  5-8   F#m [vi]  Dm [iv]  Bm7 [ii7]  Am7 [i7]
+Classic  9-12  F#m7 [vi7]  Fmaj7 [♭VIM7]  G [♭VII]  C [♭III]
+Classic 13-16  B7 [V7/V]  F#7 [V7/ii]  F7 [It+6]  C#7 [V7/vi]
 Jazz     1-4   *Am [i]  *F [♭VI]  F7 [♭VI7]  Bm [ii]
-Jazz     5-8   Gbm [vi]  Dm7 [iv7]  Bm7 [ii7]  Am7 [i7]
-Jazz     9-12  Gbm7 [vi7]  Am9 [i9]  F9 [♭VI9]  Fmaj7 [♭VIM7]
-Jazz    13-16  B7 [V7/V]  Gb7 [V7/ii]  Dm [iv]  Bb7 [SubV7]
+Jazz     5-8   F#m [vi]  Dm7 [iv7]  Bm7 [ii7]  Am7 [i7]
+Jazz     9-12  F#m7 [vi7]  Am9 [i9]  F9 [♭VI9]  Fmaj7 [♭VIM7]
+Jazz    13-16  B7 [V7/V]  F#7 [V7/ii]  Dm [iv]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 57,60,65 | 65,69,72,75 | 62,66,71
 
 ## UK Bass | i—♭VII—i | Breakbeat | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *Am [i]  G7 [♭VII7]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  F [♭VI]
-Classic  9-12  C [♭III]  Bm7 [ii7]  Am7 [i7]  Gbm7 [vi7]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  F [♭VI]
+Classic  9-12  C [♭III]  Bm7 [ii7]  Am7 [i7]  F#m7 [vi7]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *G [♭VII]  *Am [i]  G7 [♭VII7]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Fmaj7 [♭VIM7]
-Jazz     9-12  Cmaj7 [♭IIIM7]  Bm7 [ii7]  Am7 [i7]  Gbm7 [vi7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Fmaj7 [♭VIM7]
+Jazz     9-12  Cmaj7 [♭IIIM7]  Bm7 [ii7]  Am7 [i7]  F#m7 [vi7]
 Jazz    13-16  B7 [V7/V]  Dm [iv]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,62 | 57,60,64 | 55,59,62,65
 
@@ -1929,11 +1929,11 @@ Smooth   1-4   60,64,67 | 59,62,67 | 60,65,69 | 60,64,67,70
 
 ## Reggae/Dub | i—♭VII—♭VI | Steppers Dub | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *F [♭VI]  G7 [♭VII7]
-Classic  5-8   F7 [♭VI7]  Bm [ii]  Gbm [vi]  Dm [iv]
+Classic  5-8   F7 [♭VI7]  Bm [ii]  F#m [vi]  Dm [iv]
 Classic  9-12  C [♭III]  Asus2 [isus2]  Asus4 [isus4]  Gsus2 [♭VIIsus2]
-Classic 13-16  B7 [V7/V]  Gb [VI]  Bb [♭II]  F7 [It+6]
+Classic 13-16  B7 [V7/V]  F# [VI]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *G [♭VII]  *F [♭VI]  G7 [♭VII7]
-Jazz     5-8   F7 [♭VI7]  Bm [ii]  Gbm [vi]  Dm7 [iv7]
+Jazz     5-8   F7 [♭VI7]  Bm [ii]  F#m [vi]  Dm7 [iv7]
 Jazz     9-12  Cmaj7 [♭IIIM7]  Asus2 [isus2]  Asus4 [isus4]  Gsus2 [♭VIIsus2]
 Jazz    13-16  B7 [V7/V]  Dm [iv]  Bb7 [SubV7]  Bb [♭II]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,60 | 55,59,62,65
@@ -1951,13 +1951,13 @@ Smooth   1-4   60,64,67 | 60,65,69 | 60,64,67,70 | 60,63,65,69
 
 ## Reggae/Dub | i—♭VI—♭VII—i | Lovers Rock | minor | A
 Classic  1-4   *Am [i]  *F [♭VI]  *G [♭VII]  *Am [i]
-Classic  5-8   Bm [ii]  Gbm [vi]  Dm [iv]  C [♭III]
+Classic  5-8   Bm [ii]  F#m [vi]  Dm [iv]  C [♭III]
 Classic  9-12  Asus4 [isus4]  F7 [♭VI7]  Fsus4 [♭VIsus4]  G7 [♭VII7]
-Classic 13-16  Gb [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
+Classic 13-16  F# [VI]  B7 [V7/V]  Bb [♭II]  F7 [It+6]
 Jazz     1-4   *Am [i]  *F [♭VI]  *G [♭VII]  *Am [i]
-Jazz     5-8   Bm [ii]  Gbm [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
+Jazz     5-8   Bm [ii]  F#m [vi]  Dm7 [iv7]  Cmaj7 [♭IIIM7]
 Jazz     9-12  Asus4 [isus4]  F7 [♭VI7]  Fsus4 [♭VIsus4]  G7 [♭VII7]
-Jazz    13-16  Dm [iv]  Gb [VI]  B7 [V7/V]  Bb7 [SubV7]
+Jazz    13-16  Dm [iv]  F# [VI]  B7 [V7/V]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 57,60,65 | 59,62,67 | 60,64,69
 
 ## Reggae/Dub | I—vi—IV—V | Reggae Pop | major | C
@@ -1973,13 +1973,13 @@ Smooth   1-4   60,64,67 | 60,64,69 | 60,65,69 | 62,67,71
 
 ## Reggae/Dub | i—iv—i—V | Rockers Minor | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  *Am [i]  *E [V]
-Classic  5-8   E7 [V7]  Bm [ii]  Gbm [vi]  G [♭VII]
+Classic  5-8   E7 [V7]  Bm [ii]  F#m [vi]  G [♭VII]
 Classic  9-12  F [♭VI]  C [♭III]  Bm7 [ii7]  Am7 [i7]
-Classic 13-16  B7 [V7/V]  Gb7 [V7/ii]  Gb [VI]  F7 [It+6]
+Classic 13-16  B7 [V7/V]  F#7 [V7/ii]  F# [VI]  F7 [It+6]
 Jazz     1-4   *Am [i]  *Dm [iv]  *Am [i]  *E [V]
-Jazz     5-8   E7 [V7]  Bm [ii]  Gbm [vi]  Am9 [i9]
+Jazz     5-8   E7 [V7]  Bm [ii]  F#m [vi]  Am9 [i9]
 Jazz     9-12  Dm9 [iv9]  E9 [V9]  Gmaj7 [♭VIIM7]  Fmaj7 [♭VIM7]
-Jazz    13-16  B7 [V7/V]  Gb7 [V7/ii]  Gb [VI]  Bb7 [SubV7]
+Jazz    13-16  B7 [V7/V]  F#7 [V7/ii]  F# [VI]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 57,62,65 | 57,60,64 | 56,59,64
 
 ## Reggae/Dub | I—V—vi—IV | Reggae Axis | major | C
@@ -1995,35 +1995,35 @@ Smooth   1-4   60,64,67 | 59,62,67 | 60,64,69 | 60,65,69
 
 ## Acid/EBM | i—iv—♭VII—i | EBM Classic | minor | A
 Classic  1-4   *Am [i]  *Dm [iv]  *G [♭VII]  *Am [i]
-Classic  5-8   G7 [♭VII7]  Bm [ii]  Gbm [vi]  Bm7 [ii7]
-Classic  9-12  Am7 [i7]  Dm7 [iv7]  Gbm7 [vi7]  Gmaj7 [♭VIIM7]
-Classic 13-16  B7 [V7/V]  Gb7 [V7/ii]  F7 [It+6]  Db7 [V7/vi]
+Classic  5-8   G7 [♭VII7]  Bm [ii]  F#m [vi]  Bm7 [ii7]
+Classic  9-12  Am7 [i7]  Dm7 [iv7]  F#m7 [vi7]  Gmaj7 [♭VIIM7]
+Classic 13-16  B7 [V7/V]  F#7 [V7/ii]  F7 [It+6]  C#7 [V7/vi]
 Jazz     1-4   *Am [i]  *Dm [iv]  *G [♭VII]  *Am [i]
-Jazz     5-8   G7 [♭VII7]  Bm [ii]  Gbm [vi]  Bm7 [ii7]
-Jazz     9-12  Am7 [i7]  Dm7 [iv7]  Gbm7 [vi7]  Am9 [i9]
-Jazz    13-16  B7 [V7/V]  Gb7 [V7/ii]  Bb7 [SubV7]  F7 [It+6]
+Jazz     5-8   G7 [♭VII7]  Bm [ii]  F#m [vi]  Bm7 [ii7]
+Jazz     9-12  Am7 [i7]  Dm7 [iv7]  F#m7 [vi7]  Am9 [i9]
+Jazz    13-16  B7 [V7/V]  F#7 [V7/ii]  Bb7 [SubV7]  F7 [It+6]
 Smooth   1-4   57,60,64 | 57,62,65 | 59,62,67 | 60,64,69
 
 ## Acid/EBM | i—♭VII—iv | Acid 303 | minor | A
 Classic  1-4   *Am [i]  *G [♭VII]  *Dm [iv]  Bm7 [ii7]
 Classic  5-8   Am7 [i7]  A7sus4(no5) [i7sus4(no5)]  G7 [♭VII7]  G7sus4(no5) [♭VII7sus4(no5)]
-Classic  9-12  Dm7 [iv7]  D7sus4(no5) [iv7sus4(no5)]  Gbm7 [vi7]  Bm [ii]
-Classic 13-16  B7 [V7/V]  Gb7 [V7/ii]  F7 [It+6]  Db7 [V7/vi]
+Classic  9-12  Dm7 [iv7]  D7sus4(no5) [iv7sus4(no5)]  F#m7 [vi7]  Bm [ii]
+Classic 13-16  B7 [V7/V]  F#7 [V7/ii]  F7 [It+6]  C#7 [V7/vi]
 Jazz     1-4   *Am [i]  *G [♭VII]  *Dm [iv]  Bm7 [ii7]
 Jazz     5-8   Am7 [i7]  A7sus4(no5) [i7sus4(no5)]  G7 [♭VII7]  G7sus4(no5) [♭VII7sus4(no5)]
-Jazz     9-12  Dm7 [iv7]  D7sus4(no5) [iv7sus4(no5)]  Gbm7 [vi7]  Bm [ii]
-Jazz    13-16  B7 [V7/V]  Gb7 [V7/ii]  Bb7 [SubV7]  F7 [It+6]
+Jazz     9-12  Dm7 [iv7]  D7sus4(no5) [iv7sus4(no5)]  F#m7 [vi7]  Bm [ii]
+Jazz    13-16  B7 [V7/V]  F#7 [V7/ii]  Bb7 [SubV7]  F7 [It+6]
 Smooth   1-4   57,60,64 | 55,59,62 | 53,57,62 | 59,62,66,69
 
 ## Acid/EBM | i—♭VI—♭VII | Industrial Climb | minor | A
 Classic  1-4   *Am [i]  *F [♭VI]  *G [♭VII]  F7 [♭VI7]
-Classic  5-8   G7 [♭VII7]  Bm [ii]  Gbm [vi]  Dm [iv]
-Classic  9-12  Bm7 [ii7]  Am7 [i7]  Gbm7 [vi7]  Fmaj7 [♭VIM7]
-Classic 13-16  B7 [V7/V]  Gb7 [V7/ii]  F7 [It+6]  Db7 [V7/vi]
+Classic  5-8   G7 [♭VII7]  Bm [ii]  F#m [vi]  Dm [iv]
+Classic  9-12  Bm7 [ii7]  Am7 [i7]  F#m7 [vi7]  Fmaj7 [♭VIM7]
+Classic 13-16  B7 [V7/V]  F#7 [V7/ii]  F7 [It+6]  C#7 [V7/vi]
 Jazz     1-4   *Am [i]  *F [♭VI]  *G [♭VII]  F7 [♭VI7]
-Jazz     5-8   G7 [♭VII7]  Bm [ii]  Gbm [vi]  Dm7 [iv7]
+Jazz     5-8   G7 [♭VII7]  Bm [ii]  F#m [vi]  Dm7 [iv7]
 Jazz     9-12  Am9 [i9]  F9 [♭VI9]  G9 [♭VII9]  Bm7 [ii7]
-Jazz    13-16  B7 [V7/V]  Gb7 [V7/ii]  Dm [iv]  Bb7 [SubV7]
+Jazz    13-16  B7 [V7/V]  F#7 [V7/ii]  Dm [iv]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 57,60,65 | 59,62,67 | 65,69,72,75
 
 ## Scale | Major | Common Western Tonal | C
@@ -2051,9 +2051,9 @@ Pads     9-12  Cm7 [i7]  Dbmaj7 [IIM7]  Eb7 [III7]  Fm7 [iv7]
 Pads    13-16  Gm7b5 [vø7]  Abmaj7 [VIM7]  Bbm7 [vii7]  C7sus4 [I7sus4]
 
 ## Scale | Lydian | Common Western Tonal | C
-Pads     1-4   C [I]  D [II]  Em [iii]  Gbdim [iv°]
+Pads     1-4   C [I]  D [II]  Em [iii]  F#dim [iv°]
 Pads     5-8   G [V]  Am [vi]  Bm [vii]  Csus2 [Isus2]
-Pads     9-12  Cmaj7 [IM7]  D7 [II7]  Em7 [iii7]  Gbm7b5 [ivø7]
+Pads     9-12  Cmaj7 [IM7]  D7 [II7]  Em7 [iii7]  F#m7b5 [ivø7]
 Pads    13-16  Gmaj7 [VM7]  Am7 [vi7]  Bm7 [vii7]  C6 [I6]
 
 ## Scale | Mixolydian | Common Western Tonal | C
@@ -2093,45 +2093,45 @@ Pads     9-12  Cm7 [i7]  Ebmaj7 [IIM7]  Fm7 [iii7]  Gm7 [iv7]
 Pads    13-16  Bb7 [V7]  C7sus4 [I7sus4]  Cmadd9 [iadd9]  Cm9 [i9]
 
 ## Scale | Blues | Compact/Popular | C
-Pads     1-4   Cm [i]  Eb [II]  F [III]  Gbdim [iv°]
+Pads     1-4   Cm [i]  Eb [II]  F [III]  F#dim [iv°]
 Pads     5-8   Gm [v]  Bb [VI]  Csus4 [Isus4]  Csus2 [Isus2]
-Pads     9-12  Cm7 [i7]  Ebmaj7 [IIM7]  F7 [III7]  Gbdim7 [iv°7]
+Pads     9-12  Cm7 [i7]  Ebmaj7 [IIM7]  F7 [III7]  F#dim7 [iv°7]
 Pads    13-16  Gm7 [v7]  Bbmaj7 [VIM7]  Cm6 [i6]  C7sus4 [I7sus4]
 
 ## Scale | Whole Tone | Symmetrical/Jazz | C
-Pads     1-4   Caug [I+]  Daug [II+]  Eaug [III+]  Gbaug [IV+]
-Pads     5-8   Abaug [V+]  Bbaug [VI+]  Caug [I+]  Caug [I+]
-Pads     9-12  Caug7 [I+7]  Daug7 [II+7]  Eaug7 [III+7]  Gbaug7 [IV+7]
-Pads    13-16  Abaug7 [V+7]  Bbaug7 [VI+7]  Caug7 [I+7]  Caug7 [I+7]
+Pads     1-4   Caug [I+]  Daug [II+]  Eaug [III+]  F#aug [IV+]
+Pads     5-8   G#aug [V+]  A#aug [VI+]  Caug [I+]  Caug [I+]
+Pads     9-12  Caug7 [I+7]  Daug7 [II+7]  Eaug7 [III+7]  F#aug7 [IV+7]
+Pads    13-16  G#aug7 [V+7]  A#aug7 [VI+7]  Caug7 [I+7]  Caug7 [I+7]
 
 ## Scale | Diminished (W-H) | Symmetrical/Jazz | C
-Pads     1-4   Cdim [i°]  Dm [ii]  Ebdim [iii°]  F [IV]
-Pads     5-8   Gbdim [v°]  Abm [vi]  Adim [vii°]  B [I]
-Pads     9-12  Cdim7 [i°7]  Dm7 [ii7]  Ebdim7 [iii°7]  F7 [IV7]
-Pads    13-16  Gbdim7 [v°7]  Abm7 [vi7]  Adim7 [vii°7]  B7 [I7]
+Pads     1-4   Cdim [i°]  Dm [ii]  D#dim [iii°]  F [IV]
+Pads     5-8   F#dim [v°]  G#m [vi]  Adim [vii°]  B [I]
+Pads     9-12  Cdim7 [i°7]  Dm7 [ii7]  D#dim7 [iii°7]  F7 [IV7]
+Pads    13-16  F#dim7 [v°7]  G#m7 [vi7]  Adim7 [vii°7]  B7 [I7]
 
 ## Scale | Diminished (H-W) | Symmetrical/Jazz | C
-Pads     1-4   Cm [i]  Dbdim [ii°]  Ebm [iii]  Edim [iv°]
-Pads     5-8   Gbm [v]  Gdim [vi°]  Am [vii]  Bbdim [i°]
-Pads     9-12  Cm7 [i7]  Dbdim7 [ii°7]  Ebm7 [iii7]  Edim7 [iv°7]
-Pads    13-16  Gbm7 [v7]  Gdim7 [vi°7]  Am7 [vii7]  Bbdim7 [i°7]
+Pads     1-4   Cm [i]  C#dim [ii°]  D#m [iii]  Edim [iv°]
+Pads     5-8   F#m [v]  Gdim [vi°]  Am [vii]  A#dim [i°]
+Pads     9-12  Cm7 [i7]  C#dim7 [ii°7]  D#m7 [iii7]  Edim7 [iv°7]
+Pads    13-16  F#m7 [v7]  Gdim7 [vi°7]  Am7 [vii7]  A#dim7 [i°7]
 
 ## Scale | Augmented | Symmetrical/Jazz | C
-Pads     1-4   Caug [I+]  Ebaug [II+]  Eaug [III+]  Gaug [IV+]
-Pads     5-8   Abaug [V+]  Baug [VI+]  Caug [I+]  Caug [I+]
-Pads     9-12  CaugMaj7 [I+M7]  Ebaug [II+]  EaugMaj7 [III+M7]  Gaug [IV+]
-Pads    13-16  AbaugMaj7 [V+M7]  Baug [VI+]  CaugMaj7 [I+M7]  CaugMaj7 [I+M7]
+Pads     1-4   Caug [I+]  D#aug [II+]  Eaug [III+]  Gaug [IV+]
+Pads     5-8   G#aug [V+]  Baug [VI+]  Caug [I+]  Caug [I+]
+Pads     9-12  CaugMaj7 [I+M7]  D#aug [II+]  EaugMaj7 [III+M7]  Gaug [IV+]
+Pads    13-16  G#augMaj7 [V+M7]  Baug [VI+]  CaugMaj7 [I+M7]  CaugMaj7 [I+M7]
 
 ## Scale | Altered | Symmetrical/Jazz | C
-Pads     1-4   Cdim [i°]  Dbm [ii]  Ebm [iii]  Eaug [IV+]
+Pads     1-4   Cdim [i°]  Dbm [ii]  Ebm [iii]  Fbaug [IV+]
 Pads     5-8   Gb [V]  Ab [VI]  Bbdim [vii°]  Cdim [i°]
-Pads     9-12  Cm7b5 [iø7]  DbmMaj7 [ii(maj7)]  Ebm7 [iii7]  EaugMaj7 [IV+M7]
+Pads     9-12  Cm7b5 [iø7]  DbmMaj7 [ii(maj7)]  Ebm7 [iii7]  FbaugMaj7 [IV+M7]
 Pads    13-16  Gb7 [V7]  Ab7 [VI7]  Bbm7b5 [viiø7]  Cm7b5 [iø7]
 
 ## Scale | Lydian Dominant | Symmetrical/Jazz | C
-Pads     1-4   C [I]  D [II]  Edim [iii°]  Gbdim [iv°]
+Pads     1-4   C [I]  D [II]  Edim [iii°]  F#dim [iv°]
 Pads     5-8   Gm [v]  Am [vi]  Bbaug [VII+]  Csus2 [Isus2]
-Pads     9-12  C7 [I7]  D7 [II7]  Em7b5 [iiiø7]  Gbm7b5 [ivø7]
+Pads     9-12  C7 [I7]  D7 [II7]  Em7b5 [iiiø7]  F#m7b5 [ivø7]
 Pads    13-16  GmMaj7 [v(maj7)]  Am7 [vi7]  BbaugMaj7 [VII+M7]  C6 [I6]
 
 ## Scale | Locrian #2 | Symmetrical/Jazz | C
@@ -2153,9 +2153,9 @@ Pads     9-12  Cm7 [i7]  Dm7 [ii7]  Ebmaj7 [IIIM7]  F7 [IV7]
 Pads    13-16  Gm7 [v7]  Am7b5 [viø7]  Bbmaj7 [VIIM7]  Cm6 [i6]
 
 ## Scale | Yaman | Indian Ragas | C
-Pads     1-4   C [I]  D [II]  Em [iii]  Gbdim [iv°]
+Pads     1-4   C [I]  D [II]  Em [iii]  F#dim [iv°]
 Pads     5-8   G [V]  Am [vi]  Bm [vii]  Csus2 [Isus2]
-Pads     9-12  Cmaj7 [IM7]  D7 [II7]  Em7 [iii7]  Gbm7b5 [ivø7]
+Pads     9-12  Cmaj7 [IM7]  D7 [II7]  Em7 [iii7]  F#m7b5 [ivø7]
 Pads    13-16  Gmaj7 [VM7]  Am7 [vi7]  Bm7 [vii7]  C6 [I6]
 
 ## Scale | Bhairavi | Indian Ragas | C
@@ -2165,9 +2165,9 @@ Pads     9-12  Cm7 [i7]  Dbmaj7 [IIM7]  Eb7 [III7]  Fm7 [iv7]
 Pads    13-16  Gm7b5 [vø7]  Abmaj7 [VIM7]  Bbm7 [vii7]  C7sus4 [I7sus4]
 
 ## Scale | Todi | Indian Ragas | C
-Pads     1-4   Cm [i]  Dbsus4 [IIsus4]  Ebaug [III+]  Gbsus4 [IVsus4]
+Pads     1-4   Cm [i]  Dbsus4 [IIsus4]  Ebaug [III+]  F#sus4 [IVsus4]
 Pads     5-8   Gaug [V+]  Ab [VI]  B [VII]  Cm [i]
-Pads     9-12  CmMaj7 [i(maj7)]  Db7sus4 [II7sus4]  Ebaug7 [III+7]  Gbsus4 [IVsus4]
+Pads     9-12  CmMaj7 [i(maj7)]  Db7sus4 [II7sus4]  Ebaug7 [III+7]  F#sus4 [IVsus4]
 Pads    13-16  GaugMaj7 [V+M7]  Abmaj7 [VIM7]  B6 [VII6]  CmMaj7 [i(maj7)]
 
 ## Scale | Double Harmonic | Exotic | C
@@ -2177,9 +2177,9 @@ Pads     9-12  Cmaj7 [IM7]  Dbmaj7 [IIM7]  E6 [III6]  FmMaj7 [iv(maj7)]
 Pads    13-16  G7sus4(no5) [V7sus4(no5)]  AbaugMaj7 [VI+M7]  Bdim [vii°]  Cmaj7 [IM7]
 
 ## Scale | Hungarian Minor | Exotic | C
-Pads     1-4   Cm [i]  D7sus4(no5) [II7sus4(no5)]  Ebaug [III+]  Gbdim [iv°]
+Pads     1-4   Cm [i]  D7sus4(no5) [II7sus4(no5)]  Ebaug [III+]  F#dim [iv°]
 Pads     5-8   G [V]  Ab [VI]  B [VII]  Csus2 [Isus2]
-Pads     9-12  CmMaj7 [i(maj7)]  D7sus4(no5) [II7sus4(no5)]  EbaugMaj7 [III+M7]  Gbdim [iv°]
+Pads     9-12  CmMaj7 [i(maj7)]  D7sus4(no5) [II7sus4(no5)]  EbaugMaj7 [III+M7]  F#dim [iv°]
 Pads    13-16  Gmaj7 [VM7]  Abmaj7 [VIM7]  B6 [VII6]  Cmadd9 [iadd9]
 
 ## Scale | Neapolitan Major | Exotic | C

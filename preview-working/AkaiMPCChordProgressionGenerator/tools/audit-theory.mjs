@@ -17,11 +17,10 @@
  * ~10,000 variants, ~160,000 pads.
  */
 
-import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, getKeyOffset, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature, parseProgression } from '../modules/musicTheory.js';
-import { generateVariant, VARIANT_STYLES, determineChordFunction, analyzeExistingChords, scoreCandidate } from '../modules/generation.js';
-import { templateTonality, CHORD_SEPARATOR } from './lib/template-tonality.mjs';
+import { progressions, modes, keys, CHORD_INTERVALS, CHORD_DEGREES, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, buildChord, getKeyOffset, getHarmonyPitchClasses, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature, parseProgression, templateTonality, templateSpelling, spellChord, TEMPLATE_SEPARATOR as CHORD_SEPARATOR } from '../modules/musicTheory.js';
+import { generateVariant, generateScaleExploration, VARIANT_STYLES, determineChordFunction, analyzeExistingChords, scoreCandidate } from '../modules/generation.js';
 
-const NOTE_PITCH_CLASSES = { C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, 'E#': 5, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11, Cb: 11, Fb: 4 };
+const NOTE_PITCH_CLASSES = { C: 0, 'B#': 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, 'E#': 5, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11, Cb: 11, Fb: 4 };
 const DEGREE_SEMITONES = { I: 0, II: 2, III: 4, IV: 5, V: 7, VI: 9, VII: 11 };
 
 // It+6 / Fr+6 / Ger+6 are not degree-based roman numerals - an augmented
@@ -296,10 +295,157 @@ for (const [numerals, expected] of [[['I', 'iii', 'vii°'], false], [['I', 'IV']
     }
 }
 
+// S: spelling (docs/improvements/13-spelling.md). Every note was once spelled by
+// its pitch class, so a black-key root was a flat whatever the key - A major's vi
+// read Gbm - and every chord was spelled as a stack of thirds, so Csus4 read
+// C E# G. Nothing compared a spelling with a key, nor a tone's letter with its
+// degree. The tables below are written out by hand, not computed, so that the
+// checks cannot share a bug with the code under test.
+
+// S1: CHORD_DEGREES has a row for every chord type, as long as its interval list,
+// and every degree's semitones equal its interval. A 9th to a 13th is the 2nd to
+// the 6th an octave up.
+const DEGREE_SEMITONES_S1 = { 1: 0, b2: 1, 2: 2, '#2': 3, b3: 3, 3: 4, 4: 5, '#4': 6, b5: 6, 5: 7, '#5': 8, b6: 8, 6: 9, bb7: 9, '#6': 10, b7: 10, 7: 11 };
+function degreeSemitones(degree) {
+    const match = /^(bb|b|#)?(\d+)$/.exec(degree);
+    if (!match) return undefined;
+    const number = Number(match[2]);
+    if (number >= 9 && number <= 13) {
+        const simple = DEGREE_SEMITONES_S1[(match[1] || '') + (number - 7)];
+        return simple === undefined ? undefined : simple + 12;
+    }
+    return DEGREE_SEMITONES_S1[degree];
+}
+const degreeNumber = degree => Number(/\d+$/.exec(degree)[0]);
+for (const [type, intervals] of Object.entries(CHORD_INTERVALS)) {
+    const degrees = CHORD_DEGREES[type];
+    if (!degrees) { report('S1 chord type has no CHORD_DEGREES row', type); continue; }
+    if (degrees.length !== intervals.length) { report('S1 CHORD_DEGREES row length != interval count', `${type}: ${degrees.join(' ')} for ${intervals.join(',')}`); continue; }
+    degrees.forEach((degree, i) => {
+        if (degreeSemitones(degree) !== intervals[i]) report('S1 degree semitones != interval', `${type}: ${degree} is ${degreeSemitones(degree)}, interval ${intervals[i]}`);
+    });
+}
+for (const type of Object.keys(CHORD_DEGREES)) {
+    if (!CHORD_INTERVALS[type]) report('S1 CHORD_DEGREES row for an unknown chord type', type);
+}
+
+// The tonic and scale of every key in either tonality: spec 13 §3.2, verbatim.
+// S2 asserts that a pad whose root is a note of the template's scale is spelled
+// as this table spells it; S3 that a root outside it is never E#, B#, Cb or Fb.
+const KEY_SCALES = `
+C      | C D E F G A B        | C D Eb F G Ab Bb
+C♯/D♭  | Db Eb F Gb Ab Bb C   | C# D# E F# G# A B
+D      | D E F# G A B C#      | D E F G A Bb C
+D♯/E♭  | Eb F G Ab Bb C D     | D# E# F# G# A# B C#
+E      | E F# G# A B C# D#    | E F# G A B C D
+F      | F G A Bb C D E       | F G Ab Bb C Db Eb
+F♯/G♭  | F# G# A# B C# D# E#  | F# G# A B C# D E
+G      | G A B C D E F#       | G A Bb C D Eb F
+G♯/A♭  | Ab Bb C Db Eb F G    | G# A# B C# D# E F#
+A      | A B C# D E F# G#     | A B C D E F G
+A♯/B♭  | Bb C D Eb F G A      | Bb C Db Eb F Gb Ab
+B      | B C# D# E F# G# A#   | B C# D E F# G A
+`;
+const SCALE_BY_KEY = new Map(KEY_SCALES.trim().split('\n').map(line => {
+    const [key, major, minor] = line.split('|').map(field => field.trim());
+    const byPitchClass = names => new Map(names.split(' ').map(name => [NOTE_PITCH_CLASSES[name], name]));
+    return [key, { major: byPitchClass(major), minor: byPitchClass(minor) }];
+}));
+
+// A spelled note name with its octave, as generation writes them ('F#4', 'Bbb3'):
+// letter index, accidental, and the MIDI note it sounds, MIDI 60 being C3. The
+// octave follows the letter (spec 13 §3.1), so B#2 sounds 60.
+const LETTERS = 'CDEFGAB';
+const LETTER_PITCH_CLASSES = [0, 2, 4, 5, 7, 9, 11];
+function parseSpelledNote(name) {
+    const match = /^([A-G])(#*|b*)(-?\d+)?$/.exec(name);
+    if (!match) return null;
+    const letter = LETTERS.indexOf(match[1]);
+    const accidental = match[2].length * (match[2].startsWith('b') ? -1 : 1);
+    const midi = match[3] === undefined ? null : (Number(match[3]) + 2) * 12 + LETTER_PITCH_CLASSES[letter] + accidental;
+    return { letter, accidental, midi, pitchClass: ((LETTER_PITCH_CLASSES[letter] + accidental) % 12 + 12) % 12 };
+}
+const AWKWARD_ROOTS = new Set(['E#', 'B#', 'Cb', 'Fb']);
+
+// S3 on one pad: the spelled notes sound the pad's notes, in voicing order and in
+// the octave the letter puts them; each letter is the root's plus its degree's
+// offset; the root has one accidental at most, is not an E#, B#, Cb or Fb outside
+// the key's scale, and is the root of the chord name. The bass coming first is
+// what makes the inversion notation read the right note.
+function checkSpelling(pad, label, keyScalePitchClasses) {
+    const spelling = pad.spelling;
+    if (!spelling || typeof spelling.root !== 'string' || !Array.isArray(spelling.notes)) { report('S3 pad has no spelling', label); return; }
+    const root = parseSpelledNote(spelling.root);
+    if (!root || root.midi !== null) { report('S3 spelled root is not a note name', `${label} root=${JSON.stringify(spelling.root)}`); return; }
+    if (pad.chordName !== spelling.root + CHORD_NAME_SUFFIX[pad.chordType]) report('S3 chord name is not the spelled root and its suffix', `${label} root=${spelling.root}`);
+    if (Math.abs(root.accidental) > 1) report('S3 root carries a double accidental', `${label} root=${spelling.root}`);
+    if (AWKWARD_ROOTS.has(spelling.root) && !keyScalePitchClasses.has(root.pitchClass)) report('S3 root outside the key is E#, B#, Cb or Fb', `${label} root=${spelling.root}`);
+    if (spelling.notes.length !== pad.notes.length) { report('S3 spelled note count != note count', `${label} ${spelling.notes.join(' ')}`); return; }
+    if (pad.notes.some((note, i) => i > 0 && note <= pad.notes[i - 1])) report('S3 notes are not in ascending voicing order', `${label} ${pad.notes.join(',')}`);
+    const degrees = CHORD_DEGREES[pad.chordType] || [];
+    spelling.notes.forEach((name, i) => {
+        const note = parseSpelledNote(name);
+        if (!note || note.midi === null) { report('S3 spelled note is not a note name with an octave', `${label} ${JSON.stringify(name)}`); return; }
+        if (note.midi !== pad.notes[i]) { report('S3 spelled note does not sound the pad note', `${label} ${name} for MIDI ${pad.notes[i]}`); return; }
+        const degree = degrees.find(d => (root.pitchClass + degreeSemitones(d)) % 12 === note.pitchClass);
+        if (!degree) { report('S3 spelled note is no degree of the chord', `${label} ${name}`); return; }
+        if (note.letter !== (root.letter + degreeNumber(degree) - 1) % 7) report('S3 tone letter is not its degree above the root', `${label} ${name} as the ${degree} of ${spelling.root}`);
+    });
+}
+
+// S4: the examples of spec 13, by name. Roots of §3.3, through the spelling
+// functions for the contexts no catalogue template reaches and through
+// generation for the rest; tones of §1 and §3.7.
+{
+    const rootOf = (key, tonality, romanNumeral) => spellChord(templateSpelling(key, tonality), { romanNumeral }, 'major', [60]).root;
+    const ROOT_EXAMPLES = [
+        ['A', 'major', 'vi', 'F#'], ['E', 'major', 'ii', 'F#'], ['E', 'major', 'vi', 'C#'], ['B', 'major', 'V', 'F#'],
+        ['C♯/D♭', 'minor', 'i', 'C#'], ['C♯/D♭', 'minor', '♭VII', 'B'], ['C♯/D♭', 'minor', '♭VI', 'A'], ['C♯/D♭', 'minor', 'V', 'G#'],
+        ['C♯/D♭', 'major', '♭VI', 'A'], ['C♯/D♭', 'major', '♭VII', 'B'], ['G♯/A♭', 'major', '♭VI', 'E'],
+        ['F♯/G♭', 'major', 'vii°', 'E#'], ['D♯/E♭', 'minor', '♭VI', 'B'],
+        ['C', 'major', 'V7/♭III', 'Bb'], ['C', 'major', 'Ger+6', 'Ab'], ['C', 'major', 'SubV7', 'Db']
+    ];
+    for (const [key, tonality, numeral, expected] of ROOT_EXAMPLES) {
+        const got = rootOf(key, tonality, numeral);
+        if (got !== expected) report('S4 spelling example', `${key} ${tonality} ${numeral}: ${got}, expected ${expected}`);
+    }
+    const lydianFourth = generateScaleExploration({ key: 'C', mode: 'Lydian' }).pads[3];
+    if (lydianFourth.chordName !== 'F#dim') report('S4 spelling example', `C Lydian pad 4: ${lydianFourth.chordName}, expected F#dim`);
+
+    // §1: the progression pads of the Classic variant
+    const PROGRESSION_EXAMPLES = [
+        ['A', 'Pop/Rock', 'I—V—vi—IV', 'A E F#m D'], ['E', 'Pop/Rock', 'I—V—vi—IV', 'E B C#m A'],
+        ['B', 'Pop/Rock', 'I—V—vi—IV', 'B F# G#m E'], ['D', 'Pop/Rock', 'I—V—vi—iii—IV', 'D A Bm F#m G']
+    ];
+    for (const [key, category, progression, expected] of PROGRESSION_EXAMPLES) {
+        const got = generateVariant('Classic', { key, mode: 'Major', progression, category, chordRequirements: [] })
+            .pads.filter(pad => pad.isProgressionChord).map(pad => pad.chordName).join(' ');
+        if (got !== expected) report('S4 spelling example', `${key} ${progression}: ${got}, expected ${expected}`);
+    }
+
+    // Tones, without octaves: [key, tonality, numeral, chord type, root offset in semitones, expected]
+    const TONE_EXAMPLES = [
+        ['C', 'major', 'I', 'sus4', 0, 'C F G'], ['C', 'major', 'I', 'sus2', 0, 'C D G'], ['C', 'major', 'I', 'dom7sus4', 0, 'C F G Bb'],
+        ['C', 'major', 'I', 'major6', 0, 'C E G A'], ['C', 'major', 'i', 'minor6', 0, 'C Eb G A'], ['C', 'major', 'I', 'maj6/9', 0, 'C E G A D'],
+        ['C', 'major', 'I', 'quartal', 0, 'C F Bb'], ['C', 'major', 'i', 'quartal4', 0, 'C F Bb Eb'],
+        ['C', 'major', 'i', 'dim7', 0, 'C Eb Gb Bbb'], ['C', 'major', 'I', 'dom7sharp9', 0, 'C E G Bb D#'], ['C', 'major', 'I', 'dom7b5', 0, 'C E Gb Bb'],
+        ['C', 'major', 'I', 'augmented', 0, 'C E G#'],
+        ['C', 'major', 'Fr+6', 'Fr6', 8, 'Ab C D F#'], ['C', 'major', 'Ger+6', 'Ger6', 8, 'Ab C Eb F#'],
+        ['E', 'minor', 'i♯5', 'minAug', 0, 'E G B#']
+    ];
+    for (const [key, tonality, numeral, type, offset, expected] of TONE_EXAMPLES) {
+        const notes = buildChord(offset, type, getKeyOffset(key));
+        const got = spellChord(templateSpelling(key, tonality), { romanNumeral: numeral }, type, notes).notes.map(name => name.replace(/-?\d+$/, '')).join(' ');
+        if (got !== expected) report('S4 spelling example', `${type} on ${numeral} in ${key} ${tonality}: ${got}, expected ${expected}`);
+    }
+}
+
 for (const key of keys) {
     const keyPc = getKeyOffset(key);
     for (const [category, list] of Object.entries(progressions)) {
         for (const template of list) {
+            const templateScale = SCALE_BY_KEY.get(key)[templateTonality(template)];
+            const templateScalePitchClasses = new Set(templateScale.keys());
             for (const style of VARIANT_STYLES) {
                 const variant = generateVariant(style, { key, mode: 'Major', progression: template.value, category, chordRequirements: [] });
                 variantCount++;
@@ -328,6 +474,13 @@ for (const key of keys) {
                     if (!setsEqual(pitchClasses(pad.notes), expected)) {
                         report('B sounding chord misses a required pitch class', `${label} ${pad.notes.join(',')}`);
                     }
+
+                    // S2: a root that is a note of the template's scale is spelled as
+                    // the table of §3.2 spells it. S3: see checkSpelling().
+                    if ((style === 'Classic' || style === 'Jazz') && templateScale.has(parsed.rootPc) && pad.spelling?.root !== templateScale.get(parsed.rootPc)) {
+                        report('S2 diatonic root not spelled as its key spells it', `${label} root=${pad.spelling?.root}, expected ${templateScale.get(parsed.rootPc)}`);
+                    }
+                    checkSpelling(pad, label, templateScalePitchClasses);
 
                     // C: chord name's suffix matches its chordType
                     if (parsed.type === null) report('C chord-name suffix not in CHORD_NAME_SUFFIX', `${label} suffix=${JSON.stringify(parsed.suffix)}`);
@@ -392,7 +545,23 @@ for (const key of keys) {
     }
 }
 
-console.log(`Audited ${variantCount} variants / ${padCount} pads across ${keys.length} keys.\n`);
+// S3 over Scale Mode: every scale in every key. The key's scale is the one its
+// chords are built from, its parent's notes included for an abridged scale.
+let scalePadCount = 0;
+for (const key of keys) {
+    const keyPc = getKeyOffset(key);
+    for (const list of Object.values(modes)) {
+        for (const mode of list) {
+            const keyScalePitchClasses = new Set([...getHarmonyPitchClasses(mode)].map(pc => (pc + keyPc) % 12));
+            generateScaleExploration({ key, mode }).pads.forEach((pad, i) => {
+                scalePadCount++;
+                checkSpelling(pad, `${key} ${mode} pad${i + 1} ${pad.chordName} [${pad.romanNumeral}]`, keyScalePitchClasses);
+            });
+        }
+    }
+}
+
+console.log(`Audited ${variantCount} variants / ${padCount} pads across ${keys.length} keys, and ${scalePadCount} Scale Mode pads.\n`);
 
 if (findings.size === 0) {
     console.log('No findings.');

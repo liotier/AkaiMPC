@@ -160,30 +160,56 @@ export function generateGuitarSVG(guitarChord, pad, isLeftHanded) {
     return svg;
 }
 
+// Spelled note names as generation writes them (pad.spelling.notes): a letter,
+// a run of '#' or 'b', and the app's octave number, in which MIDI 60 is C3.
+const SPELLED_NOTE = /^([A-G])(#*|b*)(-?\d+)$/;
+const STAFF_LETTERS = 'CDEFGAB';
+const STAFF_LETTER_PITCH_CLASSES = [0, 2, 4, 5, 7, 9, 11];
+
+// The accidental drawn before a head. ♯ and ♭ are U+266F and U+266D; a double
+// sharp is ×, a double flat ♭♭, glyphs every serif font has. A triple sharp,
+// which only an augmented chord on a B♯ root needs, is ♯×.
+function accidentalGlyph(accidental) {
+    if (accidental === 0) return '';
+    if (accidental > 0) return '\u266F'.repeat(accidental % 2) + '\u00D7'.repeat(Math.floor(accidental / 2));
+    return '\u266D'.repeat(-accidental);
+}
+
 /**
- * Render a chord as note heads on a treble staff.
+ * Render a chord as note heads on a treble staff, each head on its own
+ * letter's line or space with its own accidental: a German sixth on A♭ draws
+ * A♭ and E♭ with flats and F♯ with a sharp, which a single sharps-or-flats flag
+ * for the chord could not (docs/improvements/13-spelling.md §3.6).
  *
- * @param {number[]} notes - MIDI note numbers
- * @param {boolean} preferFlats - Spell black keys as flats rather than sharps
+ * @param {string[]} spelledNotes - pad.spelling.notes, e.g. ['Ab3', 'C4', 'Eb4', 'F#4']
  * @returns {string} SVG markup
  */
-export function generateStaffSVG(notes, preferFlats = false) {
-    if (!notes || notes.length === 0) return '';
+export function generateStaffSVG(spelledNotes) {
+    if (!spelledNotes || spelledNotes.length === 0) return '';
+
+    // Letter, accidental, the app's octave, and the MIDI note it sounds: the
+    // octave follows the letter, so B#2 sounds MIDI 60 and Cb4 sounds MIDI 71
+    const parsed = spelledNotes.map(name => {
+        const [, letterName, accidentalText, octaveText] = SPELLED_NOTE.exec(name);
+        const letter = STAFF_LETTERS.indexOf(letterName);
+        const accidental = accidentalText.length * (accidentalText.startsWith('b') ? -1 : 1);
+        const octave = Number(octaveText);
+        return { letter, accidental, octave, midi: (octave + 2) * 12 + STAFF_LETTER_PITCH_CLASSES[letter] + accidental };
+    });
 
     // Sort notes from low to high
-    const sortedNotes = [...notes].sort((a, b) => a - b);
+    const sortedNotes = [...parsed].sort((a, b) => a.midi - b.midi);
 
     // Intelligently transpose notes to fit optimally on staff
     // Target: center notes around B4 (MIDI 71), the middle staff line
-    const median = sortedNotes[Math.floor(sortedNotes.length / 2)];
+    const median = sortedNotes[Math.floor(sortedNotes.length / 2)].midi;
     const targetMedian = 71; // B4 - middle line of treble staff
 
-    // Calculate octave shift (in multiples of 12 semitones)
-    const rawShift = targetMedian - median;
-    const octaveShift = Math.round(rawShift / 12) * 12;
+    // Calculate octave shift (in whole octaves)
+    const octaveShift = Math.round((targetMedian - median) / 12);
 
     // Transpose all notes by the calculated octave shift
-    const transposedNotes = sortedNotes.map(note => note + octaveShift);
+    const transposedNotes = sortedNotes.map(note => ({ ...note, octave: note.octave + octaveShift }));
 
     // FIXED staff dimensions for visual consistency - scaled up 20%
     const staffY = 36;
@@ -201,29 +227,18 @@ export function generateStaffSVG(notes, preferFlats = false) {
 
     const startX = leftMargin;
 
-    // MIDI note to staff position mapping - based on treble clef
+    // Spelled note to staff position - treble clef, in scientific pitch, so
+    // middle C (MIDI 60, the app's C3) is C4 here.
     // Staff lines (from bottom): E4(64)=8, G4(67)=6, B4(71)=4, D5(74)=2, F5(77)=0
     // Spaces (from bottom): F4(65)=7, A4(69)=5, C5(72)=3, E5(76)=1
-    const noteToStaffPosition = (midi, useFlats = false) => {
-        // Using modulo 12 to get note within octave, then octave offset
-        const noteInOctave = ((midi % 12) + 12) % 12; // 0=C, 1=C#, 2=D, etc.
-        const octave = Math.floor(midi / 12);
-
-        // Staff degree of each pitch class. A black key sits on the degree
-        // below when spelled with a sharp (C#) and the one above when spelled
-        // with a flat (Db), so the accidental and the head agree.
-        // C=0, D=1, E=2, F=3, G=4, A=5, B=6
-        const sharpOffsets = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
-        const flatOffsets = [0, 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6];
-        const offsetInOctave = (useFlats ? flatOffsets : sharpOffsets)[noteInOctave];
-
-        // C4 (MIDI 60) is at position 10 (ledger line below staff)
-        // Each octave up decreases position by 7, down increases by 7
-        const c4Position = 10; // Middle C position
-        const c4Octave = 5; // floor(60/12) = 5
-        const octaveDifference = octave - c4Octave;
-
-        return c4Position - (octaveDifference * 7) - offsetInOctave;
+    // A head sits on its letter, whatever its accidental: F# on the F line or
+    // space, Gb on the G.
+    const noteToStaffPosition = note => {
+        // Middle C is at position 10 (ledger line below staff); each octave up
+        // decreases the position by 7, each letter up by 1
+        const c4Position = 10;
+        const middleCOctave = 3; // the app's octave number of MIDI 60
+        return c4Position - (note.octave - middleCOctave) * 7 - note.letter;
     };
 
     let svg = `<svg viewBox="0 0 ${fixedWidth} ${fixedHeight}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">`;
@@ -240,17 +255,10 @@ export function generateStaffSVG(notes, preferFlats = false) {
         fill="black" stroke="black" stroke-width="0.5"/>
     </g>`;
 
-    // Black keys need an accidental drawn in front of the note head. Without
-    // one, C and C sharp landed on the same line and the staff view showed the
-    // wrong chord for every key with black notes in it.
-    const SHARP_PITCH_CLASSES = new Set([1, 3, 6, 8, 10]);
-    const accidentalFor = (midi) =>
-        SHARP_PITCH_CLASSES.has(((midi % 12) + 12) % 12) ? (preferFlats ? '\u266D' : '\u266F') : '';
-
     // Draw each note as an eighth note
-    transposedNotes.forEach((midiNote, index) => {
+    transposedNotes.forEach((note, index) => {
         const x = startX + index * baseNoteSpacing;
-        const staffPosition = noteToStaffPosition(midiNote, preferFlats);
+        const staffPosition = noteToStaffPosition(note);
         const y = staffY + staffPosition * (lineSpacing / 2);
 
         // Draw ledger lines if needed
@@ -268,10 +276,12 @@ export function generateStaffSVG(notes, preferFlats = false) {
             }
         }
 
-        // Draw accidental to the left of the note head
-        const accidental = accidentalFor(midiNote);
+        // Draw the note's own accidental to the left of its head, right-aligned
+        // so a wider ♭♭ grows away from the head rather than into it. Without
+        // one, C and C sharp landed on the same line.
+        const accidental = accidentalGlyph(note.accidental);
         if (accidental) {
-            svg += `<text x="${x - 11}" y="${y + 5}" text-anchor="middle" font-size="17"
+            svg += `<text x="${x - 7}" y="${y + 5}" text-anchor="end" font-size="17"
                 font-family="serif" fill="black">${accidental}</text>`;
         }
 

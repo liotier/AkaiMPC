@@ -1312,6 +1312,42 @@ export function findProgressionCategory(value, preferred = null) {
 }
 
 /**
+ * Whether a progression template is in a major or a minor key.
+ *
+ * One rule, shared by generation (which spells a template's chords in the
+ * scale of its tonality, docs/improvements/13-spelling.md),
+ * tools/catalogue-snapshot.mjs (which renders major templates in C and minor
+ * ones in A) and tools/audit-theory.mjs (check H, which only polices
+ * minor-tonality templates). It lived in tools/lib/template-tonality.mjs until
+ * generation needed it; generation cannot import from tools/. Specified in
+ * docs/improvements/00-catalogue-snapshot.md §3.2.
+ *
+ * An explicit `tonality` on the template wins; until templates carry one, the
+ * first token whose stem is a bare I or i decides, by its case. Tokens with a
+ * slash are applied chords (V7/ii), and a token with an accidental or a longer
+ * stem (♭III, IV, ii) is not the tonic. A template with no tonic token at all
+ * is major.
+ *
+ * @param {Object} template - A progressions[category] entry
+ * @returns {'major'|'minor'}
+ */
+export function templateTonality(template) {
+    if (template.tonality !== undefined) {
+        if (template.tonality !== 'major' && template.tonality !== 'minor') {
+            throw new Error(`Template ${template.value}: tonality must be 'major' or 'minor', got ${JSON.stringify(template.tonality)}`);
+        }
+        return template.tonality;
+    }
+
+    for (const token of template.value.split(TEMPLATE_SEPARATOR)) {
+        if (token.includes('/')) continue;
+        const tonic = token.match(/^([iI])(?![ivIV])/);
+        if (tonic) return tonic[1] === 'i' ? 'minor' : 'major';
+    }
+    return 'major';
+}
+
+/**
  * The category a mode/scale belongs to in the `modes` object, e.g. 'Exotic'
  * for 'Hirajoshi'. Scale Mode has no genre, so modules/mpcNaming.js uses this
  * as the MPC display name's heading instead (see docs/mpc-export-specification.md §5.5).
@@ -1808,6 +1844,81 @@ export const CHORD_INTERVALS = {
     It6: [0, 4, 10],   // Italian 6th:  ♭6, 1, ♯4
     Fr6: [0, 4, 6, 10],// French 6th:   ♭6, 1, 2, ♯4
     Ger6: [0, 4, 7, 10]// German 6th:   ♭6, 1, ♭3, ♯4
+};
+
+/**
+ * The degree each interval of CHORD_INTERVALS is, in the same order: what
+ * decides a chord tone's letter. Semitones cannot: dom7b5 and Fr6 share
+ * [0, 4, 6, 10] and are spelled C E G♭ B♭ and A♭ C D F♯. A degree's letter is
+ * its number minus one steps above the root's (a 9th is a 2nd, a 10th a 3rd,
+ * an 11th a 4th, a 12th a 5th, a 13th a 6th); its accidental, ASCII like chord
+ * names, makes the semitones come out right. The upper notes of the rootless
+ * type-B voicings, a 3rd and a 5th an octave up, are written 10 and 12 so
+ * that every degree's semitones equal its interval, which audit check S1
+ * asserts. A new chord type needs its row here
+ * (docs/improvements/13-spelling.md §3.4).
+ */
+export const CHORD_DEGREES = {
+    major: ['1', '3', '5'],
+    minor: ['1', 'b3', '5'],
+    diminished: ['1', 'b3', 'b5'],
+    augmented: ['1', '3', '#5'],
+    // Spelled from its symbol, m#5: E G B#, not E G C (spec 13 D5)
+    minAug: ['1', 'b3', '#5'],
+    sus2: ['1', '2', '5'],
+    sus4: ['1', '4', '5'],
+
+    major7: ['1', '3', '5', '7'],
+    minor7: ['1', 'b3', '5', 'b7'],
+    dom7: ['1', '3', '5', 'b7'],
+    dim7: ['1', 'b3', 'b5', 'bb7'],
+    m7b5: ['1', 'b3', 'b5', 'b7'],
+    minMaj7: ['1', 'b3', '5', '7'],
+    aug7: ['1', '3', '#5', 'b7'],
+    augMaj7: ['1', '3', '#5', '7'],
+    dom7sus4: ['1', '4', '5', 'b7'],
+
+    major9: ['1', '3', '5', '7', '9'],
+    minor9: ['1', 'b3', '5', 'b7', '9'],
+    dom9: ['1', '3', '5', 'b7', '9'],
+    dom7b9: ['1', '3', '5', 'b7', 'b9'],
+    dom7sharp9: ['1', '3', '5', 'b7', '#9'],
+    major11: ['1', '3', '5', '7', '9', '11'],
+    minor11: ['1', 'b3', '5', 'b7', '9', '11'],
+    dom11: ['1', '3', '5', 'b7', '9', '11'],
+    major13: ['1', '3', '5', '7', '9', '13'],
+    minor13: ['1', 'b3', '5', 'b7', '9', '13'],
+    dom13: ['1', '3', '5', 'b7', '9', '13'],
+
+    dom7alt: ['1', '3', '#5', 'b7', '#9'],
+    dom7b5: ['1', '3', 'b5', 'b7'],
+
+    quartal: ['1', '4', 'b7'],
+    quartal4: ['1', '4', 'b7', 'b10'],
+
+    add9: ['1', '3', '5', '9'],
+    minAdd9: ['1', 'b3', '5', '9'],
+    add11: ['1', '3', '5', '11'],
+
+    major6: ['1', '3', '5', '6'],
+    minor6: ['1', 'b3', '5', '6'],
+    'maj6/9': ['1', '3', '5', '6', '9'],
+
+    shell7: ['1', '3', '7'],
+    shellm7: ['1', 'b3', 'b7'],
+    shelldom7: ['1', '3', 'b7'],
+
+    rootless7A: ['3', '5', '7', '9'],
+    rootlessm7A: ['b3', '5', 'b7', '9'],
+    rootlessdom7A: ['3', '5', 'b7', '9'],
+    rootless7B: ['7', '9', '10', '12'],
+    rootlessm7B: ['b7', '9', 'b10', '12'],
+    rootlessdom7B: ['b7', '9', '10', '12'],
+
+    // Spelled by function from the ♭6 (spec 13 D6): A♭ C F♯, A♭ C D F♯, A♭ C E♭ F♯
+    It6: ['1', '3', '#6'],
+    Fr6: ['1', '3', '#4', '#6'],
+    Ger6: ['1', '3', '5', '#6']
 };
 
 /**
@@ -2553,145 +2664,239 @@ export function applyVoicingStyle(chordProgression, voicingType = 'default') {
 }
 
 // ============================================================================
-// Note Naming and Enharmonic Spelling
+// Spelling: letters for roots and chord tones
 // ============================================================================
+//
+// A note is spelled by its scale degree, never by its pitch class: the vi of A
+// major is F♯, not G♭, and the fourth of Csus4 is F, not E♯. The rules are
+// docs/improvements/13-spelling.md: a root takes the letter of its degree (D1),
+// the tonic of a two-named key is the name whose scale needs fewer accidentals
+// (D2), a root is respelled only when that gives a double accidental or an E♯,
+// B♯, C♭ or F♭ the key does not have (D3), and chord tones take their letters
+// from CHORD_DEGREES (D4).
+//
+// A spelled note is { letter, accidental }: a letter index (C=0 ... B=6) and an
+// accidental in semitones (-2 is a double flat). Names are ASCII ('F#', 'Bb',
+// 'F##', 'Bbb'), as chord names are; a display converts where it wants glyphs.
 
-export function getEnharmonicContext(rootMidi, romanNumeral) {
-    // Determine if we should use sharps or flats based on roman numeral
-    const rootPitchClass = rootMidi % 12;
+const LETTERS = 'CDEFGAB';
+const LETTER_PITCH_CLASSES = [0, 2, 4, 5, 7, 9, 11];
+const MAJOR_STEPS = [0, 2, 4, 5, 7, 9, 11];
+const NATURAL_MINOR_STEPS = [0, 2, 3, 5, 7, 8, 10];
+const SPELLING_NUMERALS = { I: 0, II: 1, III: 2, IV: 3, V: 4, VI: 5, VII: 6 };
+const mod12 = n => ((n % 12) + 12) % 12;
 
-    // Borrowed chords with flats prefer flat spelling
-    if (romanNumeral && (romanNumeral.includes('♭VII') || romanNumeral.includes('♭VI') ||
-        romanNumeral.includes('♭III') || romanNumeral.includes('♭II') || romanNumeral === 'SubV7')) {
-        return 'flats';
-    }
+// The augmented sixths stand on ♭VI and the tritone substitute on ♭II; their
+// numerals are fixed strings, not degrees (spec 13 §3.3 step 3).
+const NUMERAL_ALIASES = { 'It+6': '♭VI', 'Fr+6': '♭VI', 'Ger+6': '♭VI', SubV7: '♭II' };
 
-    // Sharp alterations prefer sharp spelling
-    if (romanNumeral && (romanNumeral.includes('♯') || romanNumeral === '#VI')) {
-        return 'sharps';
-    }
-
-    // Use flats for Db, Eb, Gb, Ab, Bb pitch classes in most contexts
-    if ([1, 3, 6, 8, 10].includes(rootPitchClass) && !romanNumeral?.includes('♯')) {
-        return 'flats';
-    }
-
-    return 'sharps';
+/** The note with this letter that sounds this pitch class, by the smaller accidental. */
+function letterNote(letter, pitchClass) {
+    const index = ((letter % 7) + 7) % 7;
+    return { letter: index, accidental: mod12(pitchClass - LETTER_PITCH_CLASSES[index] + 6) - 6 };
 }
 
-export function getNoteNameWithContext(midiNote, preferFlats = false) {
-    const sharpNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-    const flatNames = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
-    const pitchClass = midiNote % 12;
-    return preferFlats ? flatNames[pitchClass] : sharpNames[pitchClass];
+const notePitchClass = note => mod12(LETTER_PITCH_CLASSES[note.letter] + note.accidental);
+
+const accidentalText = accidental => (accidental > 0 ? '#' : 'b').repeat(Math.abs(accidental));
+
+/** 'F#', 'Bb', 'C', 'F##': the ASCII name of a spelled note. */
+function noteName(note) {
+    return LETTERS[note.letter] + accidentalText(note.accidental);
 }
 
-export function spellChordNotes(rootMidiOrNotes, chordType, romanNumeral = '') {
-    // If first parameter is an array, use actual voicing notes; otherwise rebuild chord
-    let notes;
-    let rootMidi;
+/** A key selector name ('C♯', 'D♭', 'G') as a spelled note. Glyphs or ASCII. */
+function parseNoteName(name) {
+    const match = /^([A-G])([♯#]*|[♭b]*)$/.exec(name);
+    if (!match) throw new Error(`Not a note name: ${JSON.stringify(name)}`);
+    const sign = /[♭b]/.test(match[2]) ? -1 : 1;
+    return { letter: LETTERS.indexOf(match[1]), accidental: sign * [...match[2]].length };
+}
 
-    if (Array.isArray(rootMidiOrNotes)) {
-        // Using actual voicing - find the root note (lowest pitch class that matches chord)
-        notes = rootMidiOrNotes;
+/**
+ * The plainest name of a pitch class: the natural when it is a white key, else
+ * one accidental on the side given (D3), sharp for a positive side.
+ */
+function plainestNote(pitchClass, side) {
+    const natural = LETTER_PITCH_CLASSES.indexOf(pitchClass);
+    if (natural !== -1) return { letter: natural, accidental: 0 };
+    return side < 0
+        ? letterNote(LETTER_PITCH_CLASSES.indexOf(mod12(pitchClass + 1)), pitchClass)
+        : letterNote(LETTER_PITCH_CLASSES.indexOf(mod12(pitchClass - 1)), pitchClass);
+}
 
-        // For proper spelling, we need the theoretical root (not necessarily the bass)
-        // Build the chord in root position to identify pitch classes
-        const sorted = [...notes].sort((a, b) => a - b);
-        const bassPitchClass = sorted[0] % 12;
+/** A seven-note scale spelled on consecutive letters from its tonic. */
+function spellScale(tonic, steps) {
+    const tonicPitchClass = notePitchClass(tonic);
+    return steps.map((step, index) => letterNote(tonic.letter + index, tonicPitchClass + step));
+}
 
-        // Try to identify root: for major/minor chords, root is usually present
-        // Default to bass note as root
-        rootMidi = sorted[0];
+const accidentalCount = notes => notes.reduce((sum, note) => sum + Math.abs(note.accidental), 0);
 
-        // Try to find the actual chord root by checking pitch classes
-        const pitchClasses = new Set(notes.map(n => n % 12));
-
-        // For major chords, root + 4 + 7 semitones
-        // For minor chords, root + 3 + 7 semitones
-        const majorInterval = (bassPitchClass + 4) % 12;
-        const minorInterval = (bassPitchClass + 3) % 12;
-        const fifthInterval = (bassPitchClass + 7) % 12;
-
-        // Check if bass is root (has third and fifth above it)
-        const bassIsRoot = (chordType.includes('minor') && pitchClasses.has(minorInterval) && pitchClasses.has(fifthInterval)) ||
-                          (chordType.includes('major') && pitchClasses.has(majorInterval) && pitchClasses.has(fifthInterval));
-
-        if (!bassIsRoot) {
-            // For inversions or complex voicings, find root by checking all notes
-            for (const note of sorted) {
-                const pc = note % 12;
-                const thirdUp = (pc + (chordType.includes('minor') ? 3 : 4)) % 12;
-                const fifthUp = (pc + 7) % 12;
-
-                if (pitchClasses.has(thirdUp) && pitchClasses.has(fifthUp)) {
-                    rootMidi = note;
-                    break;
-                }
-            }
+/**
+ * The tonic of a key (D2): of the key's names ('C♯/D♭' has two), the one whose
+ * reference scale needs fewer accidentals; on a tie, the first. The reference
+ * scale is seven steps in semitones: major or natural minor in template mode,
+ * the scale itself (or its parent) in Scale Mode. Gives the table of spec 13
+ * §3.2: D♭ major but C♯ minor, A♭ major but G♯ minor, F♯ major and D♯ minor
+ * by the tie rule.
+ *
+ * @param {string} key - A key selector name, e.g. 'C♯/D♭'
+ * @param {number[]} referenceSteps - Seven scale steps in semitones
+ * @returns {{letter: number, accidental: number}} The spelled tonic
+ */
+export function spellTonic(key, referenceSteps) {
+    let best = null;
+    let bestCount = Infinity;
+    for (const tonic of key.split('/').map(parseNoteName)) {
+        const count = accidentalCount(spellScale(tonic, referenceSteps));
+        if (count < bestCount) {
+            best = tonic;
+            bestCount = count;
         }
-    } else {
-        // Legacy mode: rebuild chord from root
-        rootMidi = rootMidiOrNotes;
-        notes = buildChordRaw(rootMidi, chordType);
     }
+    return best;
+}
 
-    // Determine spelling preference
-    const useFlats = getEnharmonicContext(rootMidi, romanNumeral) === 'flats';
+/**
+ * The spelling context of Progression Palette Mode: a key and a template
+ * tonality. Numerals are read against the major scale in either tonality, as
+ * the engine reads them; the tonality picks the tonic (C♯ minor, D♭ major) and
+ * the scale whose notes D3 never respells.
+ *
+ * @param {string} key - A key selector name
+ * @param {'major'|'minor'} [tonality='major'] - From templateTonality()
+ * @returns {Object} A context for getChordName(), spellRoot() and spellChord()
+ */
+export function templateSpelling(key, tonality = 'major') {
+    const steps = tonality === 'minor' ? NATURAL_MINOR_STEPS : MAJOR_STEPS;
+    const scale = spellScale(spellTonic(key, steps), steps);
+    return { kind: 'template', tonic: scale[0], scale, pitchClasses: new Set(scale.map(notePitchClass)) };
+}
 
-    // Spell notes properly in thirds
-    const noteNames = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-    const rootName = getNoteNameWithContext(rootMidi, useFlats).replaceAll(/[#b]/g, '');
-    const rootIndex = noteNames.indexOf(rootName);
+/**
+ * The spelling context of Scale Mode. A seven-note scale gives each degree the
+ * next letter; an abridged scale uses its parent's letters (D8), as it uses
+ * its parent's chords. The symmetrical scales - whole tone, augmented, both
+ * diminished - have no letter per degree, so their roots are spelled by pitch
+ * class on the tonic's side, sharps for a natural tonic, and their tonic is
+ * the key's first name.
+ *
+ * @param {string} key - A key selector name
+ * @param {string} mode - A scale name
+ * @returns {Object} A context for getChordName(), spellRoot() and spellChord()
+ */
+export function scaleSpelling(key, mode) {
+    const own = getScaleDegrees(mode);
+    const parent = SCALE_HARMONY_PARENT[mode];
+    const steps = own.length === 7 ? own : parent ? getScaleDegrees(parent) : null;
+    if (steps) {
+        const scale = spellScale(spellTonic(key, steps), steps);
+        return { kind: 'scale', tonic: scale[0], scale, pitchClasses: new Set(scale.map(notePitchClass)) };
+    }
+    const tonic = parseNoteName(key.split('/')[0]);
+    const tonicPitchClass = notePitchClass(tonic);
+    return { kind: 'scale', tonic, scale: null, pitchClasses: new Set(own.map(step => mod12(tonicPitchClass + step))) };
+}
 
-    const spelled = notes.map((midi, i) => {
-        // Calculate expected note letter (every other letter = third)
-        const expectedIndex = (rootIndex + i * 2) % 7;
-        const expectedLetter = noteNames[expectedIndex];
+/**
+ * The note a numeral names above a reference note, read against the major
+ * scale: the letter is the reference's plus the degree, the pitch class the
+ * reference's plus the major-scale step plus the numeral's accidentals.
+ */
+function numeralNote(reference, numeral) {
+    const parsed = parseRomanStem(numeral);
+    if (!parsed || parsed.degree === null) return null;
+    const index = SPELLING_NUMERALS[parsed.degree];
+    let shift = 0;
+    for (const symbol of parsed.accidentals) shift += symbol === '♭' || symbol === 'b' ? -1 : 1;
+    return letterNote(reference.letter + index, notePitchClass(reference) + MAJOR_STEPS[index] + shift);
+}
 
-        // Get actual pitch class
-        const pitchClass = midi % 12;
-        // Octave follows the letter name, not the raw MIDI octave: B♯ belongs
-        // to the B below the C it sounds as, and C♭ to the C above.
-        let octave = Math.floor(midi / 12) - 2;
-
-        // Find the spelling that matches the expected letter
-        const sharpName = getNoteNameWithContext(midi, false);
-        const flatName = getNoteNameWithContext(midi, true);
-
-        let noteName;
-        if (sharpName[0] === expectedLetter) {
-            noteName = sharpName;
-        } else if (flatName[0] === expectedLetter) {
-            noteName = flatName;
+/**
+ * The root of a chord, spelled (D1, D3). In template mode it is read from the
+ * numeral: an applied chord V/x stands on the degree its numerator names above
+ * its target, so a fifth and four letters up; It+6, Fr+6 and Ger+6 stand on
+ * ♭VI and SubV7 on ♭II. In Scale Mode it is the scale's note at that many
+ * semitones above the tonic. Then D3: a double accidental, or an E♯, B♯, C♭ or
+ * F♭ the key's scale does not have, becomes its plainest name.
+ *
+ * @param {Object} spelling - From templateSpelling() or scaleSpelling()
+ * @param {{romanNumeral?: string, semitones?: number}} position - The numeral
+ *   (template mode) or the root's semitones above the tonic (Scale Mode)
+ * @returns {{letter: number, accidental: number}} The spelled root
+ */
+export function spellRoot(spelling, { romanNumeral = '', semitones = null } = {}) {
+    let note;
+    if (spelling.kind === 'template') {
+        const numeral = NUMERAL_ALIASES[romanNumeral] || romanNumeral;
+        const slash = numeral.indexOf('/');
+        if (slash === -1) {
+            note = numeralNote(spelling.tonic, numeral);
         } else {
-            // Need double sharp or double flat
-            const letterPitches = { 'C': 0, 'D': 2, 'E': 4, 'F': 5, 'G': 7, 'A': 9, 'B': 11 };
-            const expectedPitch = letterPitches[expectedLetter];
-            const difference = (pitchClass - expectedPitch + 12) % 12;
-
-            if (difference === 1) {
-                noteName = expectedLetter + '#';
-            } else if (difference === 2) {
-                noteName = expectedLetter + '##';
-            } else if (difference === 11) {
-                noteName = expectedLetter + 'b';
-            } else if (difference === 10) {
-                noteName = expectedLetter + 'bb';
-            } else {
-                noteName = useFlats ? flatName : sharpName;
-            }
+            const target = numeralNote(spelling.tonic, numeral.slice(slash + 1));
+            note = target && numeralNote(target, numeral.slice(0, slash));
         }
+        if (!note) throw new Error(`Cannot spell the root of the numeral ${JSON.stringify(romanNumeral)}`);
+    } else {
+        const pitchClass = mod12(notePitchClass(spelling.tonic) + semitones);
+        note = spelling.scale?.find(scaleNote => notePitchClass(scaleNote) === pitchClass)
+            // A symmetrical scale, or the one note an abridged scale has and its
+            // parent lacks (the blues scale's ♭5): the tonic's side
+            ?? plainestNote(pitchClass, spelling.tonic.accidental < 0 ? -1 : 1);
+    }
 
-        // Sharpened B and C flat cross an octave boundary in pitch but not in
-        // letter, so 'B#4' should read 'B#3' and 'Cb3' should read 'Cb4'
-        if (noteName.startsWith('B') && noteName.includes('#') && pitchClass <= 1) octave -= 1;
-        if (noteName.startsWith('C') && noteName.includes('b') && pitchClass >= 10) octave += 1;
+    const pitchClass = notePitchClass(note);
+    const awkward = (note.accidental === 1 && (note.letter === 2 || note.letter === 6)) // E♯, B♯
+        || (note.accidental === -1 && (note.letter === 0 || note.letter === 3));        // C♭, F♭
+    if (Math.abs(note.accidental) >= 2 || (awkward && !spelling.pitchClasses.has(pitchClass))) {
+        return plainestNote(pitchClass, Math.sign(note.accidental));
+    }
+    return note;
+}
 
-        return noteName + octave;
-    });
+// '#5' -> { number: 5, semitones: 8 }. A 9th to a 13th is the 2nd to the 6th
+// an octave up.
+function parseDegree(degree) {
+    const [, accidental, digits] = /^(bb|b|#)?(\d+)$/.exec(degree);
+    const number = Number(digits);
+    const simple = ((number - 1) % 7) + 1;
+    const shift = accidental === 'bb' ? -2 : accidental === 'b' ? -1 : accidental === '#' ? 1 : 0;
+    return { number, semitones: MAJOR_STEPS[simple - 1] + (number > 7 ? 12 : 0) + shift };
+}
 
-    return spelled;
+/**
+ * Spell a voiced chord (D4): the root by spellRoot(), each note by the degree
+ * of CHORD_DEGREES whose pitch class it has, the letter that degree's number
+ * minus one above the root's. Notes come out in voicing order, the bass first,
+ * and the octave follows the letter, so B♯ is written in the octave of the B
+ * below the C it sounds as and C♭ in the octave of the C above; MIDI 60 is C3,
+ * as everywhere in the app.
+ *
+ * @param {Object} spelling - From templateSpelling() or scaleSpelling()
+ * @param {{romanNumeral?: string, semitones?: number}} position - As for spellRoot()
+ * @param {string} chordType - Chord type key
+ * @param {number[]} notes - The voiced MIDI notes
+ * @returns {{root: string, notes: string[]}} e.g. { root: 'F#', notes: ['C#4', 'F#4', 'A4'] }
+ */
+export function spellChord(spelling, position, chordType, notes) {
+    const root = spellRoot(spelling, position);
+    const rootPitchClass = notePitchClass(root);
+    const letterByPitchClass = new Map();
+    for (const degree of CHORD_DEGREES[chordType] || CHORD_DEGREES.major) {
+        const { number, semitones } = parseDegree(degree);
+        letterByPitchClass.set(mod12(rootPitchClass + semitones), root.letter + number - 1);
+    }
+    return {
+        root: noteName(root),
+        notes: notes.map(midi => {
+            const letter = letterByPitchClass.get(mod12(midi));
+            // A note the chord type does not have cannot happen (audit check B);
+            // if it did, audit check S3 would report the letter this gives it
+            const note = letter === undefined ? plainestNote(mod12(midi), root.accidental < 0 ? -1 : 1) : letterNote(letter, mod12(midi));
+            return noteName(note) + (Math.floor((midi - note.accidental) / 12) - 2);
+        })
+    };
 }
 
 /**
@@ -2785,72 +2990,33 @@ export function getChordSuffix(chordType) {
     return CHORD_NAME_SUFFIX[chordType] || '';
 }
 
-export function getChordName(degree, chordType, keyOffset, romanNumeral = '') {
-    const midiNote = 60 + keyOffset + degree;
-    const useFlats = getEnharmonicContext(midiNote, romanNumeral) === 'flats';
-    const rootNote = getNoteNameWithContext(midiNote, useFlats);
-
-    return rootNote + getChordSuffix(chordType);
+/**
+ * A chord's name: its spelled root and its suffix, 'F#m' for the vi of A major.
+ * The one producer of chord names, in both modes; generation passes the
+ * spelling context of the key it is in (docs/improvements/13-spelling.md §3.5).
+ *
+ * @param {Object} spelling - From templateSpelling() or scaleSpelling()
+ * @param {{romanNumeral?: string, semitones?: number}} position - The numeral
+ *   (template mode) or the root's semitones above the tonic (Scale Mode)
+ * @param {string} chordType - Chord type key
+ * @returns {string} e.g. 'F#m', 'Bb7', 'Ab7' for a German sixth in C
+ */
+export function getChordName(spelling, position, chordType) {
+    return noteName(spellRoot(spelling, position)) + getChordSuffix(chordType);
 }
 
-
-// Detect chord inversion and return slash notation if inverted
-export function getInversionNotation(notes, chordType, chordName, romanNumeral = '') {
-    if (!notes || notes.length < 3) return '';
-
-    const sorted = [...notes].sort((a, b) => a - b);
-    const bassPitchClass = sorted[0] % 12;
-
-    // Build root position chord to identify expected intervals
-    const pitchClasses = notes.map(n => n % 12);
-    const pitchClassSet = new Set(pitchClasses);
-
-    // Define interval structures for different chord types
-    let thirdInterval, fifthInterval;
-
-    if (chordType.includes('minor')) {
-        thirdInterval = 3; // minor third
-        fifthInterval = 7; // perfect fifth
-    } else if (chordType.includes('diminished')) {
-        thirdInterval = 3; // minor third
-        fifthInterval = 6; // diminished fifth
-    } else {
-        // major or dominant
-        thirdInterval = 4; // major third
-        fifthInterval = 7; // perfect fifth
-    }
-
-    // Try to find the root by checking which note forms the expected intervals
-    let rootPitchClass = null;
-
-    for (const pc of pitchClassSet) {
-        const third = (pc + thirdInterval) % 12;
-        const fifth = (pc + fifthInterval) % 12;
-
-        if (pitchClassSet.has(third) && pitchClassSet.has(fifth)) {
-            rootPitchClass = pc;
-            break;
-        }
-    }
-
-    // If we couldn't find root by intervals, assume lowest note's pitch class
-    if (rootPitchClass === null) {
-        rootPitchClass = bassPitchClass;
-    }
-
-    // Check if bass is root position
-    if (bassPitchClass === rootPitchClass) {
-        return ''; // Root position, no inversion notation needed
-    }
-
-    // Get the bass note name with octave number for slash notation
-    const bassNote = sorted[0];
-    const useFlats = getEnharmonicContext(bassNote, romanNumeral) === 'flats';
-    const bassNoteName = getNoteNameWithContext(bassNote, useFlats);
-    const bassOctave = Math.floor(bassNote / 12) - 2; // Convert MIDI to octave number
-
-    // Return slash notation with octave (e.g., /Eb3)
-    return '/' + bassNoteName + bassOctave;
+/**
+ * Slash notation for an inverted chord: '/E3' when the bass, the first of the
+ * spelled notes, is not the root; '' in root position. Read from pad.spelling,
+ * so the bass is spelled as the chord spells it.
+ *
+ * @param {{root: string, notes: string[]}} spelling - A pad's spelling
+ * @returns {string} '' or '/' followed by the bass with its octave
+ */
+export function getInversionNotation(spelling) {
+    const bass = spelling?.notes?.[0];
+    if (!bass) return '';
+    return bass.replace(/-?\d+$/, '') === spelling.root ? '' : '/' + bass;
 }
 
 /**
@@ -3013,8 +3179,9 @@ export function getChordComplexity(chordType) {
 // Progression Parsing and Generation
 // ============================================================================
 
-// A template is chord tokens joined by an em dash: 'I—V—vi—IV'.
-const TEMPLATE_SEPARATOR = '—';
+// A template is chord tokens joined by an em dash: 'I—V—vi—IV'. Exported for
+// the audit, which splits templates into tokens itself.
+export const TEMPLATE_SEPARATOR = '—';
 const MAJOR_SCALE_SEMITONES = [0, 2, 4, 5, 7, 9, 11];
 const STEM_DEGREE = { I: 0, II: 1, III: 2, IV: 3, V: 4, VI: 5, VII: 6 };
 
@@ -3137,7 +3304,19 @@ export function parseProgression(progressionString) {
     return progressionString.split(TEMPLATE_SEPARATOR).map(token => parseChordToken(token, progressionString));
 }
 
-export function generateProgressionChords(progressionString, keyOffset, scaleDegrees, selectedMode) {
+/**
+ * The chords of a template in a key, root position, then voiced by
+ * optimizeVoiceLeading().
+ *
+ * @param {string} progressionString - A template value, or '12-bar-blues'
+ * @param {number} keyOffset - The key's pitch class
+ * @param {number[]} scaleDegrees - The major scale (numerals read against it)
+ * @param {string} selectedMode - Unused
+ * @param {Object} [spelling] - From templateSpelling(): the key and the
+ *   template's tonality, which name the chords. Defaults to the key's major.
+ * @returns {Array<Object>} One chord per token
+ */
+export function generateProgressionChords(progressionString, keyOffset, scaleDegrees, selectedMode, spelling = templateSpelling(keys[keyOffset])) {
     let progression = [];
 
     // Special handling for 12-bar blues
@@ -3149,13 +3328,14 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
         pattern.forEach(degree => {
             const scaleDegree = scaleDegrees[degree % scaleDegrees.length];
             const chordType = 'dom7';
+            const romanNumeral = getRomanNumeralForChord(degree, chordType);
             progression.push({
                 degree,
                 scaleDegree,
                 notes: buildChord(scaleDegree, chordType, keyOffset),
                 chordType,
-                chordName: getChordName(scaleDegree, chordType, keyOffset),
-                romanNumeral: getRomanNumeralForChord(degree, chordType)
+                chordName: getChordName(spelling, { romanNumeral, semitones: scaleDegree }, chordType),
+                romanNumeral
             });
         });
     } else {
@@ -3180,12 +3360,6 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
             }
 
             const notes = buildChord(scaleDegree, quality, keyOffset);
-            // Pass the numeral so the accidental follows it: without this a ♯iv°
-            // was spelled Gbdim while the palette's copy of the same chord was
-            // spelled F#dim, on the same card.
-            const chordName = getChordName(scaleDegree, quality, keyOffset,
-                (alteration === 'flat' ? '♭' : alteration === 'sharp' ? '♯' : '') +
-                ['I','II','III','IV','V','VI','VII'][degree]);
 
             // For secondary dominants, preserve the original slash notation
             let romanNumeral;
@@ -3210,7 +3384,9 @@ export function generateProgressionChords(progressionString, keyOffset, scaleDeg
                 scaleDegree,
                 notes,
                 chordType: quality,
-                chordName,
+                // Named after the numeral, which is what spells its root: the vi
+                // of A is F#m, an applied V7/♭III in C is Bb7
+                chordName: getChordName(spelling, { romanNumeral, semitones: scaleDegree }, quality),
                 romanNumeral
             };
         });

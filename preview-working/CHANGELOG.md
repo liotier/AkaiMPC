@@ -66,6 +66,22 @@ riff, and it needed a chord the generator did not have, the minor chord with a
 raised fifth, written m♯5 (Em#5 in exported files). The generator now offers 184
 progression palettes.
 
+**Sharp keys are spelled with sharps, and every chord with its own notes.** In A
+major the vi chord was printed Gbm where every musician writes F♯m; E major's ii
+and vi read Gbm and Dbm, B major's V read Gb, and C♯ minor itself came out as
+D♭ minor. Every chord is now named after its scale degree, so a key's chords
+carry the key's own sharps or flats: A E F#m D, C#m B A G#. Keys with two names
+follow common practice, D♭ major but C♯ minor, A♭ major but G♯ minor, and Scale
+Mode spells each scale on its own letters, so C Lydian's raised fourth is F#dim,
+not Gbdim. The note names under each pad were spelled as a stack of thirds
+whatever the chord: Csus4 read C E♯ G, C6 C E G B𝄫, a quartal chord C E♯ A♯. They
+now read C F G, C E G A and C F B♭, Em#5 reads E G B♯ to match its name, and the
+staff draws every note on its own line with its own accidental, so a chord that
+needs a flat and a sharp, like the Italian sixth A♭ C F♯, shows both. Inverted
+chords name their bass the same way. This reaches the pads and the chord names
+inside `.progression` files exported from the app in sharp keys; the published
+pack, in C, and the MIDI files, which carry no chord names, are unchanged.
+
 ## 2026-09-08
 
 ### Chord Progression Generator
