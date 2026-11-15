@@ -2777,6 +2777,36 @@ export function getRomanSuffix(chordType) {
 }
 
 /**
+ * Splits a roman numeral into the parts a caller usually wants: its leading
+ * accidentals, its stem of i, v, I and V, whether the stem is lower case, and
+ * the degree it names. Everything after the stem (7, M7, °, ø7, (maj7), sus4)
+ * and everything after a slash is ignored; a caller that needs them reads the
+ * numeral itself. The one parser for numerals, shared by the row-4 classifier in
+ * generation.js and by tools/audit-theory.mjs (docs/improvements/03-row4-function-scoring.md).
+ *
+ * The augmented sixths ('It+6', 'Fr+6', 'Ger+6') and 'SubV7' are not degree
+ * numerals; their stems would parse as a tonic or a dominant, so a caller must
+ * recognise them first.
+ *
+ * @param {string} numeral - e.g. '♭VII7', 'vii°', 'iii7', 'V7/ii'
+ * @returns {{accidentals: string, stem: string, lower: boolean, degree: string|null}|null}
+ *   null when the numeral has no stem. `degree` is the upper-cased stem when it
+ *   is one of I to VII, otherwise null. `accidentals` is a run of ♭ ♯ b #.
+ */
+export function parseRomanStem(numeral) {
+    const match = /^([♭♯#b]*)([ivIV]+)/.exec(numeral || '');
+    if (!match) return null;
+    const stem = match[2];
+    const degree = stem.toUpperCase();
+    return {
+        accidentals: match[1],
+        stem,
+        lower: stem === stem.toLowerCase(),
+        degree: ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'].includes(degree) ? degree : null
+    };
+}
+
+/**
  * Which triad a chord type is built on, so extensions can be offered only on
  * degrees where they make sense: a dom13 belongs on a major degree, a minor11
  * on a minor one, and suspended sonorities fit either.

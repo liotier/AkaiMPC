@@ -17,8 +17,8 @@
  * ~10,000 variants, ~160,000 pads.
  */
 
-import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, buildChordRaw, getKeyOffset, resolveTemplate } from '../modules/musicTheory.js';
-import { generateVariant, VARIANT_STYLES } from '../modules/generation.js';
+import { progressions, keys, CHORD_INTERVALS, CHORD_NAME_SUFFIX, buildChordRaw, getKeyOffset, resolveTemplate, parseRomanStem } from '../modules/musicTheory.js';
+import { generateVariant, VARIANT_STYLES, determineChordFunction, analyzeExistingChords, scoreCandidate } from '../modules/generation.js';
 import { templateTonality, CHORD_SEPARATOR } from './lib/template-tonality.mjs';
 
 const NOTE_PITCH_CLASSES = { C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, 'E#': 5, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11, Cb: 11, Fb: 4 };
@@ -78,12 +78,11 @@ function romanNumeralRootPc(romanNumeral) {
         const den = romanNumeralRootPc(denominator);
         return (num === null || den === null) ? null : (num + den) % 12;
     }
-    const m = romanNumeral.match(/^([♭♯#b]*)([ivIV]+)/);
-    if (!m) return null;
-    const base = DEGREE_SEMITONES[m[2].toUpperCase()];
-    if (base === undefined) return null;
+    const parsed = parseRomanStem(romanNumeral);
+    if (!parsed || parsed.degree === null) return null;
+    const base = DEGREE_SEMITONES[parsed.degree];
     let accidental = 0;
-    for (const ch of m[1]) accidental += (ch === '♭' || ch === 'b') ? -1 : 1;
+    for (const ch of parsed.accidentals) accidental += (ch === '♭' || ch === 'b') ? -1 : 1;
     return ((base + accidental) % 12 + 12) % 12;
 }
 
@@ -152,8 +151,8 @@ function templateTokens(template) {
 }
 
 function isBareRaisedDegree(token) {
-    const m = token.match(/^([♭♯#b]*)([ivIV]+)/);
-    return m !== null && m[1] === '' && RAISED_DEGREE_STEMS.has(m[2]);
+    const parsed = parseRomanStem(token);
+    return parsed !== null && parsed.accidentals === '' && RAISED_DEGREE_STEMS.has(parsed.stem);
 }
 
 for (const [category, list] of Object.entries(progressions)) {
@@ -164,7 +163,7 @@ for (const [category, list] of Object.entries(progressions)) {
 
         // H1: a minor template may use a raised degree only if it says so, and why.
         if (templateTonality(template) === 'minor') {
-            const unlisted = bare.filter(token => !whitelisted.has(token.match(/^[ivIV]+/)[0]));
+            const unlisted = bare.filter(token => !whitelisted.has(parseRomanStem(token).stem));
             if (unlisted.length > 0) {
                 report('H1 minor template uses a raised-degree numeral', `${category} | ${template.value} (${unlisted.join(', ')})`);
             }
@@ -174,6 +173,52 @@ for (const [category, list] of Object.entries(progressions)) {
         if (bare.length > 0 && tokens.some(token => token.startsWith('♭'))) {
             report('H2 template mixes numeral conventions', `${category} | ${template.value}`);
         }
+    }
+}
+
+// N: the row-4 classifier. determineChordFunction() once filed vi as a dominant and
+// iii and ♭III as subdominants, because it asked whether a numeral's string
+// contained 'V' or 'II'; the row-4 scorer then awarded its "fills a functional
+// gap" point on the wrong premises (docs/improvements/03-row4-function-scoring.md).
+// Static: a table of numerals and the function each must have, the textbook
+// grouping of Open Music Theory ch. 3.2 and of the spec's §3.1. The contestable
+// rows (♭VII as subdominant, an applied chord as chromatic) are decisions, not
+// accidents; changing one is changing the spec.
+const FUNCTION_TABLE = [
+    ['I', 'tonic'], ['i', 'tonic'], ['IM7', 'tonic'], ['i7', 'tonic'], ['i(maj7)', 'tonic'], ['i6', 'tonic'],
+    ['ii', 'subdominant'], ['ii7', 'subdominant'], ['II', 'subdominant'],
+    ['iii', 'tonic'], ['iii7', 'tonic'],
+    ['IV', 'subdominant'], ['iv', 'subdominant'], ['IVM7', 'subdominant'],
+    ['V', 'dominant'], ['V7', 'dominant'], ['v', 'dominant'],
+    ['vi', 'tonic'], ['vi7', 'tonic'], ['VI', 'chromatic'],
+    ['vii°', 'dominant'], ['viiø7', 'dominant'], ['VII', 'chromatic'],
+    ['♭II', 'subdominant'], ['♭III', 'chromatic'], ['♭VI', 'subdominant'], ['♭VI7', 'subdominant'], ['♭VII', 'subdominant'],
+    ['♯iv°', 'chromatic'], ['♯I°', 'chromatic'],
+    ['V7/ii', 'chromatic'], ['V/V', 'chromatic'], ['V7/♭III', 'chromatic'],
+    ['It+6', 'subdominant'], ['Fr+6', 'subdominant'], ['Ger+6', 'subdominant'],
+    ['SubV7', 'dominant']
+];
+for (const [numeral, expected] of FUNCTION_TABLE) {
+    const got = determineChordFunction(numeral);
+    if (got !== expected) report('N row-4 classifier disagrees with its table', `${numeral}: ${got}, expected ${expected}`);
+}
+
+// The 'hasSubdominant' flag is read from the classifier, so a chord whose numeral
+// merely contains 'ii' (iii, vii°) is not a subdominant presence.
+for (const [numerals, expected] of [[['I', 'iii', 'vii°'], false], [['I', 'IV'], true], [['I', 'ii7'], true], [['I', '♭VII'], true]]) {
+    const got = analyzeExistingChords(numerals.map(romanNumeral => ({ romanNumeral, quality: '', notes: [60] }))).hasSubdominant;
+    if (got !== expected) report('N row-4 classifier disagrees with its table', `hasSubdominant of ${numerals.join(' ')}: ${got}, expected ${expected}`);
+}
+
+// The voice-leading point is symmetric: a root a semitone above or below an
+// existing root, a fourth or a fifth away, earns it; nothing else does. The
+// candidate's own function is already present so no other point is awarded.
+{
+    const analysis = { functionsPresent: new Set(['tonic']), hasBorrowed: true, hasSecondary: true, hasDominant7: true };
+    for (let root = 0; root < 12; root++) {
+        const earned = scoreCandidate({ romanNumeral: 'I', root, commonUsage: 0, category: 'none' }, analysis, [0]);
+        const expected = [1, 5, 7, 11].includes(root) ? 1 : 0;
+        if (earned !== expected) report('N row-4 classifier disagrees with its table', `voice-leading point for a root ${root} semitones above an existing root: ${earned}, expected ${expected}`);
     }
 }
 
