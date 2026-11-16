@@ -647,6 +647,7 @@ export const progressions = {
     'Film/Cinematic': [
         {
             value: 'I—♭VI—♭III—♭VII',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
                 allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
@@ -655,6 +656,7 @@ export const progressions = {
         },
         {
             value: 'i—♭VI—♭VII—i',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
                 allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
@@ -663,6 +665,7 @@ export const progressions = {
         },
         {
             value: 'I—V—vi—♭VI—IV',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
                 allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
@@ -671,6 +674,7 @@ export const progressions = {
         },
         {
             value: 'i—♭III—♭VII—♭VI—V',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'minor', 'dom7'],            // The V of the Heroic Theme may keep its seventh
                 allowed: ['major7', 'minor7', 'sus4', 'add9'],
@@ -679,6 +683,7 @@ export const progressions = {
         },
         {
             value: 'I—♭VII—♭VI—♭VII',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
                 allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
@@ -687,6 +692,7 @@ export const progressions = {
         },
         {
             value: 'i—iv—♭VI—♭III',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
                 allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
@@ -695,6 +701,7 @@ export const progressions = {
         },
         {
             value: 'I—♭III—♭VI—♭II',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'minor', 'major7', 'add9'],   // Warm triads and open colour; the loop is the point
                 allowed: ['minor7', 'sus2', 'sus4', 'major9', 'minAdd9'],
@@ -703,6 +710,7 @@ export const progressions = {
         },
         {
             value: 'I—♭VI—I—III',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'major7', 'add9'],   // Chromatic mediants: major triads a major third either side of I
                 allowed: ['sus2', 'major9', 'minor'],
@@ -711,6 +719,7 @@ export const progressions = {
         },
         {
             value: 'I—♭III—I—VI',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'major7', 'add9'],   // Chromatic mediants: major triads a minor third either side of I
                 allowed: ['sus2', 'major9', 'minor'],
@@ -719,6 +728,7 @@ export const progressions = {
         },
         {
             value: 'i—♭vi—i—iii',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['minor', 'minor7', 'minAdd9'],   // Minor mediants: the minor chords a major third either side of i
                 allowed: ['sus2', 'minor9', 'major'],
@@ -727,6 +737,7 @@ export const progressions = {
         },
         {
             value: 'I—♭vi—♭VI—I',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'minor', 'major7'],   // Hexatonic pole: I to the minor triad a major third below
                 allowed: ['add9', 'sus2', 'minor7'],
@@ -735,6 +746,7 @@ export const progressions = {
         },
         {
             value: 'I—II',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'major7', 'add9', 'major6'],   // Lydian: the major II holds the raised fourth
                 allowed: ['sus2', 'major9', 'minor', 'minor7'],
@@ -743,6 +755,7 @@ export const progressions = {
         },
         {
             value: 'I—II—iii—II',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'major7', 'add9', 'major6'],   // Lydian again, circling the tonic without a dominant
                 allowed: ['sus2', 'major9', 'minor', 'minor7'],
@@ -751,6 +764,7 @@ export const progressions = {
         },
         {
             value: 'i—v—♭VII—IV',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['minor', 'major', 'minor7'],   // Dorian: minor v and the major IV, no leading-tone dominant
                 allowed: ['sus2', 'sus4', 'add9', 'minAdd9'],
@@ -759,6 +773,7 @@ export const progressions = {
         },
         {
             value: 'i—♭III—V—i',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['minor', 'major'],   // The major V may carry its seventh
                 allowed: ['dom7', 'minor7', 'sus4'],
@@ -767,6 +782,7 @@ export const progressions = {
         },
         {
             value: 'i—♭VI—IV—♭VI',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['minor', 'major'],   // Wandering fifth: G climbs to A♭ and A over a held bass
                 allowed: ['sus4', 'sus2', 'minor7', 'add9'],
@@ -775,6 +791,7 @@ export const progressions = {
         },
         {
             value: 'I—♭VI—♭VII—I',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['major', 'sus4', 'add9'],   // Hero cadence: ♭VI and ♭VII climbing back to I
                 allowed: ['major7', 'sus2', 'minor'],
@@ -783,6 +800,7 @@ export const progressions = {
         },
         {
             value: 'i—i♯5—i6—i♯5',
+            row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] },  // spec 10 D4
             palettePriorities: {
                 preferred: ['minor', 'minAug', 'minor6'],   // The fifth climbs: 5, ♯5, 6, ♯5 over a held root and third
                 // A minor key's ♭VI, ♭VII and V7 are what follows a line cliché;

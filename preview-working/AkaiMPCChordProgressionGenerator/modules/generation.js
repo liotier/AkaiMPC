@@ -148,6 +148,17 @@ const FLAT_DEGREE_FUNCTION = {
 
 const AUGMENTED_SIXTH_NUMERALS = new Set(['It+6', 'Fr+6', 'Ger+6']);
 
+// Degree index and major-scale step of a numeral's stem, for the mode flips of row 4
+const FLIP_DEGREE_INDEX = { I: 0, II: 1, III: 2, IV: 3, V: 4, VI: 5, VII: 6 };
+const MAJOR_SCALE_STEPS = [0, 2, 4, 5, 7, 9, 11];
+
+/**
+ * The row-4 categories a template's `row4` hint may name
+ * (docs/improvements/10-row4-mediants.md §3.3). Audit check J refuses any other.
+ */
+export const ROW4_CATEGORIES = ['borrowed', 'diatonic', 'dominant', 'subdominant', 'secondary', 'augmented6th',
+    'chromatic', 'substitution', 'modal', 'mediant', 'modeFlip'];
+
 /**
  * Harmonic function of a roman numeral: 'tonic', 'subdominant', 'dominant' or
  * 'chromatic'. Read from the parsed numeral, never from substrings: 'II' is a
@@ -179,8 +190,11 @@ export function determineChordFunction(romanNumeral) {
  * offers that targets or borrows a degree a minor key lacks - V7/ii, V7/vi, the
  * major VI, the Lydian II - gives way in a minor pool to the devices a minor key
  * uses: the Dorian IV, the Picardy I, the leading-tone seventh and the applied
- * dominants of the minor key's own degrees. Order breaks ties, after score and
- * common usage; the major pool keeps the order it always had.
+ * dominants of the minor key's own degrees. Both pools offer the chromatic
+ * mediants of the tonic and the hexatonic pole, category `mediant`, and the
+ * mode flip of every major or minor progression chord, category `modeFlip`
+ * (docs/improvements/10-row4-mediants.md). Order breaks ties, after score and
+ * common usage; the candidates the major pool had before spec 10 keep their order.
  *
  * @param {number} keyOffset - The key's pitch class
  * @param {number[]} scaleDegrees - The major scale
@@ -190,9 +204,11 @@ export function determineChordFunction(romanNumeral) {
  * @param {Object|null} [palettePriorities=null] - The template's
  * @param {string[]|null} [paletteFilter=null] - The template's
  * @param {Object} [spelling] - From templateSpelling()
+ * @param {Array<Object>} [progressionChords=[]] - The progression's pads, whose
+ *   mode flips are offered
  * @returns {Array<Object>} Candidates with priority and excludedByFilter
  */
-export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, tonality = 'major', palettePriorities = null, paletteFilter = null, spelling = templateSpelling(keys[keyOffset], tonality)) {
+export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, tonality = 'major', palettePriorities = null, paletteFilter = null, spelling = templateSpelling(keys[keyOffset], tonality), progressionChords = []) {
     const candidates = [];
     const tonic = scaleDegrees[0];
 
@@ -241,17 +257,27 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
         addAugmentedSixths();
         addNeapolitanAndSubstitute();
         if (variantType === 'Modal') add('ii', scaleDegrees[1], 'minor', 'borrowed', 0.3); // Dorian supertonic
+        // Last, so that a tie goes to the chords the pool always had: the
+        // chromatic mediants of the minor tonic, minor like it, each sharing one
+        // note with it; and the hexatonic pole, the major triad a major third up,
+        // which shares none (spec 10 §3.1)
+        add('♭vi', (tonic + 8) % 12, 'minor', 'mediant', 0.6);
+        add('iii', (tonic + 4) % 12, 'minor', 'mediant', 0.5);
+        add('♭iii', (tonic + 3) % 12, 'minor', 'mediant', 0.5);
+        add('vi', (tonic + 9) % 12, 'minor', 'mediant', 0.4);
+        add('III', (tonic + 4) % 12, 'major', 'mediant', 0.4);
     } else {
-        // Borrowed from the parallel minor
+        // Borrowed from the parallel minor; ♭VI is also the downward major-third
+        // mediant, and competes with the other mediants (spec 10 D1)
         add('♭VII', (tonic + 10) % 12, 'major', 'borrowed', 0.9);
-        add('♭VI', (tonic + 8) % 12, 'major', 'borrowed', 0.8);
+        add('♭VI', (tonic + 8) % 12, 'major', 'mediant', 0.8);
         addDominant();
         if (!analysis.hasSubdominant && scaleDegrees.length > 1) add('ii7', scaleDegrees[1], 'minor7', 'subdominant', 0.85);
         if (scaleDegrees.length > 3) add('iv', scaleDegrees[3], 'minor', 'borrowed', 0.85);
         // A major VI is a major triad on the submediant - the quality changes,
         // not the root. Raising the root built the chord on the flat seventh and
-        // still labelled it VI.
-        if (scaleDegrees.length > 5) add('VI', scaleDegrees[5], 'major', 'borrowed', 0.8);
+        // still labelled it VI. It is the downward minor-third mediant
+        if (scaleDegrees.length > 5) add('VI', scaleDegrees[5], 'major', 'mediant', 0.6);
         // Applied dominants, a fifth above their targets, from the major scale
         // whatever the mode: in C, V7/V = D7, V7/ii = A7, V7/vi = E7, V7/IV = C7
         if (scaleDegrees.length > 1) {
@@ -261,9 +287,35 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             add('V7/IV', 0, 'dom7', 'secondary', 0.4);
         }
         addAugmentedSixths();
-        add('♭III', (tonic + 3) % 12, 'major', 'borrowed', 0.5);
+        add('♭III', (tonic + 3) % 12, 'major', 'mediant', 0.5);
         addNeapolitanAndSubstitute();
         if (variantType === 'Modal') add('II', (tonic + 2) % 12, 'major', 'modal', 0.3); // Lydian II
+        // Last, so that a tie goes to the chords the pool always had: the upward
+        // major-third mediant, and the hexatonic pole, the minor triad on ♭6,
+        // which shares no note with the tonic (spec 10 §3.1)
+        add('III', (tonic + 4) % 12, 'major', 'mediant', 0.6);
+        add('♭vi', (tonic + 8) % 12, 'minor', 'mediant', 0.4);
+    }
+
+    // Mode flips: every distinct root of a major or minor progression chord, as
+    // the triad of the other family. The numeral is the progression chord's stem
+    // with its case inverted, its accidental kept and no suffix: IV becomes iv,
+    // ♭VI ♭vi, i I. The tonic's flip is the likeliest (spec 10 §3.2). An applied
+    // chord has no numeral a flip could take, and produces none.
+    const flipped = new Set();
+    for (const chord of progressionChords) {
+        const family = getChordFamily(chord.chordType);
+        if ((family !== 'major' && family !== 'minor') || !chord.romanNumeral || chord.romanNumeral.includes('/')) continue;
+        const parsed = parseRomanStem(chord.romanNumeral);
+        if (!parsed || parsed.degree === null) continue;
+        const index = FLIP_DEGREE_INDEX[parsed.degree];
+        let shift = 0;
+        for (const symbol of parsed.accidentals) shift += symbol === '♭' || symbol === 'b' ? -1 : 1;
+        const root = ((tonic + MAJOR_SCALE_STEPS[index] + shift) % 12 + 12) % 12;
+        if (flipped.has(root)) continue;
+        flipped.add(root);
+        const type = family === 'major' ? 'minor' : 'major';
+        add(parsed.accidentals + getRomanNumeralForChord(index, type), root, type, 'modeFlip', root === tonic % 12 ? 0.6 : 0.5);
     }
 
     // Each candidate carries what the template thinks of it, so selection can
@@ -306,12 +358,18 @@ export function scoreCandidate(candidate, analysis, existingRoots) {
     return score;
 }
 
-export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType, tonality = 'major', palettePriorities = null, paletteFilter = null, unusedPaletteChords = [], spelling = templateSpelling(keys[keyOffset], tonality)) {
+export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType, tonality = 'major', palettePriorities = null, paletteFilter = null, unusedPaletteChords = [], spelling = templateSpelling(keys[keyOffset], tonality), row4Hint = null) {
     const analysis = analyzeExistingChords(existingChords);
     const existingRoots = existingChords.map(c => c.notes && c.notes[0] ? c.notes[0] % 12 : 0);
 
+    // The template's row-4 hint: a preferred category earns a point, an avoided
+    // one is left out until the fallback needs it (spec 10 §3.3)
+    const preferredCategories = new Set(row4Hint?.prefer || []);
+    const avoidedCategories = new Set(row4Hint?.avoid || []);
+    const isCategoryAvoided = c => avoidedCategories.has(c.category);
+
     const scoreAndSort = list => list
-        .map(candidate => ({ ...candidate, score: scoreCandidate(candidate, analysis, existingRoots) }))
+        .map(candidate => ({ ...candidate, score: scoreCandidate(candidate, analysis, existingRoots) + (preferredCategories.has(candidate.category) ? 1 : 0) }))
         // Sort by score (descending) and then by common usage as tiebreaker
         .sort((a, b) => b.score !== a.score ? b.score - a.score : b.commonUsage - a.commonUsage);
 
@@ -331,7 +389,8 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
     };
     const soundsNew = candidate => !takenSignatures.has(pcSignature(candidate.notes));
 
-    const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, tonality, palettePriorities, paletteFilter, spelling)
+    const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, tonality, palettePriorities, paletteFilter, spelling,
+        existingChords.filter(c => c.isProgressionChord))
         .filter(soundsNew);
 
     // Rows 1-3 are already on the grid; a candidate that repeats one of them
@@ -342,7 +401,7 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
     const isAvoided = c => c.priority === 1;
     const listed = allCandidates.filter(c => !c.excludedByFilter);
 
-    let scoredCandidates = scoreAndSort(listed.filter(c => isNew(c) && !isAvoided(c))).filter(keep);
+    let scoredCandidates = scoreAndSort(listed.filter(c => isNew(c) && !isAvoided(c) && !isCategoryAvoided(c))).filter(keep);
 
     // Too few left, because the template avoids what row 4 usually offers and the
     // palette has already spent the borrowed chords on rows 2-3. The chords the
@@ -386,8 +445,12 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
     // already on the grid. Within each step the unavoided come first, then the
     // best score. A chord that sounds like one already kept is never re-admitted.
     if (scoredCandidates.length < 4) {
+        // The categories the template's hint avoids come back right after the
+        // types its priorities avoid (spec 10 §3.3)
         const readmission = [
-            scoreAndSort(listed.filter(c => isNew(c) && isAvoided(c))),
+            scoreAndSort(listed.filter(c => isNew(c) && isAvoided(c) && !isCategoryAvoided(c))),
+            scoreAndSort(listed.filter(c => isNew(c) && isCategoryAvoided(c) && !isAvoided(c))),
+            scoreAndSort(listed.filter(c => isNew(c) && isCategoryAvoided(c) && isAvoided(c))),
             scoreAndSort(allCandidates.filter(c => c.excludedByFilter && isNew(c) && !isAvoided(c))),
             scoreAndSort(allCandidates.filter(c => c.excludedByFilter && isNew(c) && isAvoided(c))),
             scoreAndSort(listed.filter(c => !isNew(c) && !isAvoided(c))),
@@ -981,7 +1044,7 @@ export function generateVariant(variantType, { key, mode, progression, category 
     }
 
     // Dynamically generate row 4 based on analysis of rows 1-3
-    const row4Chords = selectDynamicRow4Chords(rows1to3, keyOffset, scaleDegrees, variantType, tonality, palettePriorities, paletteFilter, allChords.slice(chordQueueIndex), spelling);
+    const row4Chords = selectDynamicRow4Chords(rows1to3, keyOffset, scaleDegrees, variantType, tonality, palettePriorities, paletteFilter, allChords.slice(chordQueueIndex), spelling, template?.row4 || null);
 
     // Fallback if not enough candidates (shouldn't happen)
     while (row4Chords.length < 4) {
