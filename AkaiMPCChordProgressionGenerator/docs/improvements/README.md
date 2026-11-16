@@ -4,9 +4,8 @@ Fourteen specifications, one per improvement, each written to be handed to an
 implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
-Status is recorded in each spec's header. Specs 00 to 06, 08, 09, 11 and 13 are
-implemented; spec 07 is in progress, stopped at its checkpoint; spec 12 is dropped;
-the rest are **proposed**.
+Status is recorded in each spec's header. Specs 00 to 09, 11 and 13 are
+implemented; spec 12 is dropped; the rest are **proposed**.
 
 ## 1. Provenance
 

@@ -92,6 +92,23 @@ progression and one MIDI file per progression and key, 184 and 2,208 files: no
 Pedal grid coincides with another style's anywhere in the catalogue. No existing
 file changes.
 
+**Minor-key progressions get minor-key palettes.** The generator treated every
+progression as if it were in a major key, so all 74 minor progressions were
+offered the major key's chords around them: in A minor, B minor and F♯ minor,
+labelled ii and vi as though they belonged, though F♯ minor belongs to no form of
+A minor, and a top row of applied dominants aimed at those same foreign chords.
+A minor progression now gets its own key's supertonic and dominant (Bm7b5, Bdim,
+Em, Em7 in A minor), its ♭III, ♭VI, ♭VII and iv as plain diatonic chords rather
+than "borrowed", and a top row of the devices minor keys use: the Dorian IV, the
+Picardy major I, the leading-tone diminished seventh, and the applied dominants of
+the key's own chords. Tooltips explain chords as the minor key hears them, where ♭VI
+is the submediant rather than a borrowing, and the analysis line stops calling
+nearly every minor progression "Modal Interchange" (63 of 74 before, 14 now).
+Major progressions are unchanged. "Plagal Cascade", which has no tonic chord, is
+now read as the minor progression it is. The pack's files for minor progressions
+change content, and a few change name where two styles now coincide or no longer
+do.
+
 ## 2026-09-08
 
 ### Chord Progression Generator

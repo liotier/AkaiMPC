@@ -211,6 +211,24 @@
       "Ger6": "Sixte augmentée allemande - prédominante chromatique sonnant comme une septième de dominante, résout sur V."
     }
   },
+  "chordRolesMinor": {
+    "I": "Tierce picarde - la tonique majeure, empruntée au mode parallèle majeur, une résolution ou un détour lumineux.",
+    "i": "Tonique - l'accord de repos mineur, apporte résolution et stabilité.",
+    "II°": "Sus-tonique - diminuée en mineur, accord de pré-dominante, mène souvent vers V.",
+    "♭III": "Relatif majeur - diatonique en mineur, éclaircit la tonalité, se déplace souvent vers ♭VI ou ♭VII.",
+    "IV": "Sous-dominante dorienne - empruntée au mode parallèle majeur, sa sixte haussée éclaire la tonalité mineure.",
+    "iv": "Sous-dominante - accord de pré-dominante mineur, prépare le mouvement vers V ou le retour à i.",
+    "V": "Dominante - majeure, issue du mineur harmonique ; sa sensible attire fortement vers i.",
+    "v": "Dominante du mineur naturel - sans sensible, une attraction faible et modale vers i.",
+    "♭VI": "Sus-dominante - diatonique en mineur, pré-dominante dramatique, se déplace souvent vers V.",
+    "♭VII": "Sous-tonique - diatonique en mineur, un ton sous i, mène vers i ou ♭III.",
+    "VII°": "Sensible - accord diminué issu du mineur harmonique, attire fortement vers i.",
+    "♭II": "Seconde napolitaine - chromatique en mineur, forte pré-dominante, prépare V.",
+    "V/IV": "Dominante secondaire - la tonique devenue septième de dominante, tonicise iv.",
+    "V/♭III": "Dominante secondaire - tonicise ♭III, le relatif majeur.",
+    "V/♭VI": "Dominante secondaire - tonicise ♭VI, renforce le mouvement vers la sus-dominante.",
+    "V/♭VII": "Dominante secondaire - tonicise ♭VII."
+  },
   "modeCategories": {
     "Common Western Tonal": "Modes tonaux occidentaux courants",
     "Compact/Popular": "Compacts/populaires",

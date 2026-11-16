@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | in progress: §3.1 to §3.3 done, stopped at the checkpoint of §3.7 |
+| Status | implemented |
 | Type | defect, design |
 | Size | L |
 | Depends on | 00, 02, 03, 04, 05 |
@@ -178,7 +178,9 @@ upper-case `I`, or a `ii`/`II` without `°`/`ø`. Keep the string
 ### 3.6 Audit check I
 
 For every variant of a minor-tonality template: every pad in rows 2 and 3
-that is not a progression chord and not a Chord Matcher injection must have
+that is not a progression chord, not a Chord Matcher injection and not built on
+the root of one of the template's progression chords (amended at the checkpoint
+review, §8.1) must have
 its pitch-class set contained in the union of A natural minor, A harmonic
 minor and A Dorian transposed to the key (that is, the pitch classes
 `{0, 2, 3, 5, 7, 8, 9, 10, 11}` relative to the tonic). Row 4 is exempt: it
@@ -218,10 +220,14 @@ enforces parity.
 
 ## 6. Acceptance
 
-1. Audit check I reports 0; the baseline number is recorded in the PR.
-2. Metal/Rock `i—♭VII—♭VI—V`, key A, Classic: no pad reads `Bm`, `Bm7`,
-   `Gbm`/`F#m` or `Gbm7`/`F#m7`. Pads in rows 2-3 include `Bm7b5 [iiø7]` and
-   `Em [v]`. Row 4 offers `D [IV]` unless a filter or priority excludes it.
+1. Audit check I reports 0, pads built on the root of one of the template's own
+   progression chords being exempt like the progression chords themselves; the
+   baseline number is recorded in the PR. (Amended at the checkpoint review,
+   §8.1.)
+2. Metal/Rock `i—♭VII—♭VI—V`, key A, Classic: no pad in rows 2-3 is `Bm`, `Bm7`,
+   `F♯m` or `F♯m7` (the major key's ii and vi); rows 2-3 hold `Em [v]` and a
+   minor-key supertonic, `ii°` or `iiø7`. Row 4 offers `D [IV]` unless a filter or
+   priority excludes it. (Amended at the checkpoint review, §8.1.)
 3. Trance `i—♭VII—i—♭VI`, key A, Modal variant: row 4 contains `D [IV]`
    (Dorian) and does not contain `Gb [VI]`, `F#7 [V7/ii]` or `C#7 [V7/vi]`.
 4. A major template's sixteen pads are **unchanged** from the snapshot after
@@ -243,9 +249,9 @@ enforces parity.
 
 ### 8.1 Checkpoint (§3.7)
 
-§3.1 to §3.3 are implemented; §3.4 (tooltips), §3.5 (analysis line), §3.6 (check
-I, measured but not yet in the audit), the README and the CHANGELOG wait for the
-review.
+At the checkpoint, `9e6ea29`, §3.1 to §3.3 were implemented; §3.4, §3.5 and
+§3.6 waited for the review. What follows is the state reported for it, then the
+review's decisions.
 
 - **§3.1.** `templateTonality()` was already exported from `modules/musicTheory.js`
   by spec 13, which needed it first, and the snapshot tool and check H already
@@ -312,4 +318,74 @@ Measured against `09b19af`:
 | Entries into spec 04's step 5, key C, six styles | 35 in seven templates before (spec 04's 28, plus 7 from the Pedal style), 31 in six after: Hip-Hop/Trap `i—♭III—♭VI—♭VII` no longer falls back; Electronic/Modern `i—iv—v` gains its Jazz variant |
 | `.progression` / MIDI files in the pack | 1 093 / 13 123 before, 1 094 / 13 135 after; 437 `.progression` files keep their name with new content. Fusions move: "Footwork Juke" Classic and Jazz now fuse, "Minimal House" and "Minor Mediants" no longer do |
 | Audit (without check I), translations, snapshot check | pass |
+
+**Review decisions**, relayed on 2026-11-16:
+
+1. **Check I exempts the chords built on a progression chord's root**, as it
+   exempts the progression chords. §3.2 leaves those extensions unchanged on
+   purpose: they are the template's own chords in the genre's colours, and the
+   out-of-key ones are idiomatic minor-key chromaticism (♭VI7 resolving to V like
+   an augmented sixth, ♭III7 as V7/♭VI, ♭II7 as the tritone substitute), as I7 and
+   IV7 are in a major key. The check exists to catch the major key's ii and vi in
+   a minor palette. Measured independently by the reviewer in A, Classic: every
+   out-of-key pad in rows 2-3 sits on a progression root, 52 of 52. Expected after
+   the exemption: 0. §3.6 and item 1 of §6 are amended.
+2. **Item 2 is amended; `iiø7` keeps spice 2.** A half-diminished supertonic is
+   foundation in minor-key jazz but colour in minor rock, metal and trance, and
+   the genre's priorities decide the rest: Metal prefers diminished, hence `ii°`.
+   Measured by the reviewer: `iiø7` reaches rows 2-3 in 24 of 74 minor templates,
+   `ii°` in 12, `v` or `v7` in 70. Item 2 of §6 now asks for a minor-key
+   supertonic, `ii°` or `iiø7`.
+3. **The top-up extension is confirmed**: `♭IIIM7`, `♭VIM7` and `♭VII7` after the
+   spec's ten, diatonic to natural minor and only filling short grids.
+
+### 8.2 After the review
+
+- **Check I** is in the audit as amended: a pad's root is read from its
+  spelling (spec 13), and the progression's roots are its progression pads'.
+  It reports 0. With the major key's complements put back for minor templates it
+  reports 7 584, the `vi` and `vi7` pads among them; run against the tree before
+  this spec, `09b19af`, the amended check reports the same 7 584, and the check as
+  first written 11 268.
+- **Tooltips.** `chordRolesMinor` has the sixteen keys of §3.4 in six locales,
+  and `check-translations.mjs` counts it among the families reached by computed
+  paths. `generateVariant()` returns the `tonality` it built the grid in; the pad
+  renderer passes it to `getChordTooltip()` and puts it on each pad as
+  `data-tonality`, which the hover and tap handlers read. Scale Mode passes
+  nothing, so its tooltips are unchanged.
+- **One correction to §3.4.** It names `i` and `I`, `iv` and `IV`, `v` and `V` as
+  separate keys, but also says the existing upper-casing applies, under which `i`
+  would collapse onto `I` and the minor tonic would be described as a Picardy
+  third. The minor table is therefore read with the numeral's case kept: as
+  written, then without quality markings (`i7` reads `i`), then upper-cased with a
+  half-diminished or diminished seventh read as its triad (`iiø7` and `ii°` read
+  `II°`, `vii°7` reads `VII°`), then upper-cased without markings (`V7/iv` reads
+  `V/IV`). Anything else falls through to `chordRoles`.
+- **Analysis line.** `isBorrowedNumeral()` in `app.js` applies §3.5, an applied
+  chord judged by its numerator. The minor rule's ♯ is read as the degree's
+  accidental: the ♯5 of the line cliché's `i♯5` is a chord tone, the key's own ♭6,
+  and the Ascending Line Cliché is not modal interchange. The major rule is
+  unchanged. Minor templates labelled "Modal Interchange": 63 of 74 before, 14
+  after.
+- **README and CHANGELOG** as §4 asks.
+
+Acceptance, final state:
+
+| Item | Result |
+|---|---|
+| 1. Check I | 0; baseline 11 268 as first specified, 7 584 as amended |
+| 2. Andalusian `i—♭VII—♭VI—V`, Metal/Rock, A, Classic | rows 2-3 `Em C Dm Bdim / Am7 G7 F7 E7` hold no `Bm`, `Bm7`, `F♯m`, `F♯m7`, and hold `Em [v]` and `Bdim [ii°]`; row 4 `D [IV]  B7 [V7/V]  B♭ [♭II]  G♯dim7 [vii°7]` |
+| 3. Classic Goa `i—♭VII—i—♭VI`, A, Modal | row 4 `D [IV]  G♯dim7 [vii°7]  B♭ [♭II]  A [I]`, no `VI`, `V7/ii` or `V7/vi` |
+| 4. Major templates unchanged | 0 of 7 920 major variants differ from `09b19af`; the snapshot diff touches only minor blocks |
+| 5. ♭VI tooltip | `chordRolesMinor.♭VI` on the Andalusian, `chordRoles.♭VI` on `I—V—vi—IV` |
+| 6. Analysis line | none on `i—♭VII—♭VI—V`, "Modal Interchange" on `i—IV—i—V` |
+| 7. Protocol | audit with H3 and I, translations, pack build and snapshot check pass |
+
+Items 5 and 6 and the other minor tooltips were run in headless Chromium against
+a local server: 30 checks pass, the page logs no error. The script is not
+committed.
+
+Measured against `09b19af`, in addition to §8.1's table, which still holds: the
+pack is byte-identical to the checkpoint's build, 1 094 `.progression` and 13 135
+MIDI files, and the snapshot is unchanged since the checkpoint.
 

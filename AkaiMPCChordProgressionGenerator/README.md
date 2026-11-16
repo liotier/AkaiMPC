@@ -104,7 +104,7 @@ authority. Scales whose quarter tones could not be approximated honestly
 
 ### Advanced Harmonic Concepts Made Easy
 The generator seamlessly incorporates:
-- **Borrowed Chords** - Automatic modal interchange (that ♭VII from Mixolydian, iv from minor)
+- **Borrowed Chords** - Automatic modal interchange, both ways: a major progression borrows ♭VII, ♭VI and iv from the parallel minor; a minor progression is offered the Dorian IV and the Picardy I, and its palette is built from its own key (iiø7, v, ♭III), not from the major key's ii and vi
 - **Secondary Dominants** - V/V, V/ii, V/vi for that gospel/jazz movement
 - **Neapolitan & Augmented Sixths** - Classical drama when you need it
 - **Tritone Substitutions** - Jazz reharmonization at the click of a button

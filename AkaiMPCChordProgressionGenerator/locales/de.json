@@ -211,6 +211,24 @@
       "Ger6": "Deutscher übermäßiger Sextakkord - chromatische Subdominantfunktion, klingt wie ein Dominantseptakkord und löst sich nach V auf."
     }
   },
+  "chordRolesMinor": {
+    "I": "Picardische Terz - die Durtonika, aus dem gleichnamigen Dur entliehen, eine helle Auflösung oder Wendung.",
+    "i": "Tonika - der Moll-Ruheakkord, bringt Auflösung und Stabilität.",
+    "II°": "Supertonika - in Moll vermindert, Subdominant-Akkord, führt oft zu V.",
+    "♭III": "Durparallele - in Moll leitereigen, hellt die Tonart auf, bewegt sich oft zu ♭VI oder ♭VII.",
+    "IV": "Dorische Subdominante - aus dem gleichnamigen Dur entliehen, ihre erhöhte Sexte hellt die Molltonart auf.",
+    "iv": "Subdominante - Moll-Subdominant-Akkord, bereitet Bewegung zu V oder zurück zu i vor.",
+    "V": "Dominante - Dur, aus harmonischem Moll; ihr Leitton zieht stark zu i.",
+    "v": "Dominante des natürlichen Moll - ohne Leitton, ein schwacher, modaler Zug zu i.",
+    "♭VI": "Submediante - in Moll leitereigen, dramatische Subdominante, bewegt sich oft zu V.",
+    "♭VII": "Subtonika - in Moll leitereigen, einen Ganzton unter i, führt zu i oder ♭III.",
+    "VII°": "Leitton - verminderter Akkord aus harmonischem Moll, zieht stark zu i.",
+    "♭II": "Neapolitaner-Sekunde - in Moll chromatisch, starke Subdominante, bereitet V vor.",
+    "V/IV": "Sekundärdominante - die Tonika als Dominantseptakkord, tonikalisiert iv.",
+    "V/♭III": "Sekundärdominante - tonikalisiert ♭III, die Durparallele.",
+    "V/♭VI": "Sekundärdominante - tonikalisiert ♭VI, verstärkt die Bewegung zur Submediante.",
+    "V/♭VII": "Sekundärdominante - tonikalisiert ♭VII."
+  },
   "modeCategories": {
     "Common Western Tonal": "Gängige westliche tonale Modi",
     "Compact/Popular": "Kompakt/populär",

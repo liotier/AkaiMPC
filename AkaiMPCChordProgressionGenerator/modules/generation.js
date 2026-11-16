@@ -1017,6 +1017,9 @@ export function generateVariant(variantType, { key, mode, progression, category 
 
     return {
         name: variantType,
+        // The tonality the grid was built in, for the tooltips and the analysis
+        // line of the app (spec 07 §3.4, §3.5)
+        tonality,
         pads
     };
 }
