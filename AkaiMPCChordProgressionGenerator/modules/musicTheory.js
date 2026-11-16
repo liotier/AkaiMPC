@@ -91,6 +91,7 @@ export const progressions = {
         },
         {
             value: 'vi—V—IV—V',
+            tonality: 'major',
         },
         {
             value: 'I—III—IV—iv',
@@ -108,6 +109,7 @@ export const progressions = {
     'Blues/Soul': [
         {
             value: '12-bar-blues',
+            tonality: 'major',
             palettePriorities: {
                 preferred: ['dom7', 'major'],                // Blues is built on dom7 and major triads
                 allowed: ['minor', 'minor7'],                 // For variety and minor blues
@@ -159,9 +161,11 @@ export const progressions = {
         },
         {
             value: 'iii—vi—ii—V',
+            tonality: 'major',
         },
         {
             value: 'IVM7—V7—iii7—vi',
+            tonality: 'major',
         },
         {
             value: 'IM7—ii7—iii7—IVM7',
@@ -183,6 +187,7 @@ export const progressions = {
         },
         {
             value: 'III7—VI7—II7—V7',
+            tonality: 'major',
             palettePriorities: {
                 preferred: ['dom7', 'dom9', 'dom13'],
                 allowed: ['major7', 'dom7b9'],
@@ -346,6 +351,7 @@ export const progressions = {
         },
         {
             value: 'iv—♭VII—♭III—♭VI',
+            tonality: 'minor',  // no tonic token: declared, not derived (docs/improvements/07-minor-key-awareness.md §3.1)
         },
         {
             value: 'i—iv—♭VII—♭III',
@@ -422,6 +428,7 @@ export const progressions = {
         },
         {
             value: 'vi—ii—iii—IV',
+            tonality: 'major',
             palettePriorities: {
                 preferred: ['minor', 'minor7', 'major7'],      // Emotional, vulnerable
                 allowed: ['major', 'dom7'],
@@ -486,6 +493,7 @@ export const progressions = {
         },
         {
             value: 'ii7—V7',
+            tonality: 'major',
             palettePriorities: {
                 preferred: ['minor9', 'dom9', 'dom7'],
                 allowed: ['minor7', 'dom13'],
@@ -520,6 +528,7 @@ export const progressions = {
         },
         {
             value: 'IV—V—iii—vi',
+            tonality: 'major',
             palettePriorities: {
                 preferred: ['major', 'major7', 'minor'],      // Uplifting, bright praise sound
                 allowed: ['dom7', 'minor7'],                   // Extended harmony

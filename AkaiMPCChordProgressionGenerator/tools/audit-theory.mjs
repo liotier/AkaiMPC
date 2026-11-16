@@ -157,6 +157,14 @@ for (const [category, list] of Object.entries(progressions)) {
         if (templateTonality(template) === 'minor' && bare.length > 0 && tokens.some(token => token.startsWith('♭'))) {
             report('H2 minor template mixes numeral conventions', `${category} | ${template.value}`);
         }
+
+        // H3: a template with no tonic token says which tonality it is in. Without
+        // one it was read as major, which put Classical/Modal iv—♭VII—♭III—♭VI,
+        // a minor progression, in C major (docs/improvements/07-minor-key-awareness.md §3.1).
+        const hasTonicToken = template.value.split(CHORD_SEPARATOR).some(token => !token.includes('/') && /^([iI])(?![ivIV])/.test(token));
+        if (!hasTonicToken && template.tonality === undefined) {
+            report('H3 template without a tonic token declares no tonality', `${category} | ${template.value}`);
+        }
     }
 }
 

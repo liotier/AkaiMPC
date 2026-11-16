@@ -18,7 +18,6 @@ import {
     spellChord,
     getKeyOffset,
     getScaleDegrees,
-    getChordQualityForMode,
     getScaleTriad,
     getScaleSeventh,
     getQualityLabel,
@@ -173,257 +172,98 @@ export function determineChordFunction(romanNumeral) {
     return 'chromatic';
 }
 
-export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, palettePriorities = null, paletteFilter = null, spelling = templateSpelling(keys[keyOffset])) {
+/**
+ * The chords row 4 may choose from, before selectDynamicRow4Chords() filters and
+ * scores them. The pool depends on the template's tonality
+ * (docs/improvements/07-minor-key-awareness.md §3.3): every chord a major pool
+ * offers that targets or borrows a degree a minor key lacks - V7/ii, V7/vi, the
+ * major VI, the Lydian II - gives way in a minor pool to the devices a minor key
+ * uses: the Dorian IV, the Picardy I, the leading-tone seventh and the applied
+ * dominants of the minor key's own degrees. Order breaks ties, after score and
+ * common usage; the major pool keeps the order it always had.
+ *
+ * @param {number} keyOffset - The key's pitch class
+ * @param {number[]} scaleDegrees - The major scale
+ * @param {Object} analysis - From analyzeExistingChords()
+ * @param {string} variantType - The style
+ * @param {'major'|'minor'} [tonality='major'] - From templateTonality()
+ * @param {Object|null} [palettePriorities=null] - The template's
+ * @param {string[]|null} [paletteFilter=null] - The template's
+ * @param {Object} [spelling] - From templateSpelling()
+ * @returns {Array<Object>} Candidates with priority and excludedByFilter
+ */
+export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, tonality = 'major', palettePriorities = null, paletteFilter = null, spelling = templateSpelling(keys[keyOffset], tonality)) {
     const candidates = [];
+    const tonic = scaleDegrees[0];
+
     // Every candidate is named after its numeral, in the variant's spelling
     // context: the VI of A is F#, not Gb (docs/improvements/13-spelling.md)
-    const nameOf = (romanNumeral, chordType) => getChordName(spelling, { romanNumeral }, chordType);
-
-    // Always consider these common non-diatonic chords
-    // ♭VII (borrowed from mixolydian/minor)
-    const flatSeven = (scaleDegrees[0] + 10) % 12;
-    candidates.push({
-        root: flatSeven,
-        notes: buildChord(flatSeven, 'major', keyOffset),
-        chordType: 'major',
-        chordName: nameOf('♭VII', 'major'),
-        romanNumeral: '♭VII',
-        quality: 'Major',
-        category: 'borrowed',
-        commonUsage: 0.9
+    const add = (romanNumeral, root, chordType, category, commonUsage) => candidates.push({
+        root,
+        notes: buildChord(root, chordType, keyOffset),
+        chordType,
+        chordName: getChordName(spelling, { romanNumeral }, chordType),
+        romanNumeral,
+        quality: getQualityLabel(chordType),
+        category,
+        commonUsage
     });
 
-    // ♭VI (borrowed from minor)
-    const flatSix = (scaleDegrees[0] + 8) % 12;
-    candidates.push({
-        root: flatSix,
-        notes: buildChord(flatSix, 'major', keyOffset),
-        chordType: 'major',
-        chordName: nameOf('♭VI', 'major'),
-        romanNumeral: '♭VI',
-        quality: 'Major',
-        category: 'borrowed',
-        commonUsage: 0.8
-    });
+    // V7, the dominant seventh: in a minor key the harmonic minor's
+    const addDominant = () => {
+        if (!analysis.hasDominant7 && scaleDegrees.length > 4) add('V7', scaleDegrees[4], 'dom7', 'dominant', 1.0);
+    };
+    // Augmented sixths, rooted on ♭6, in the classical styles
+    const addAugmentedSixths = () => {
+        if (variantType !== 'Classic' && variantType !== 'Jazz') return;
+        const flatSix = (tonic + 8) % 12;
+        add('It+6', flatSix, 'It6', 'augmented6th', 0.3);
+        add('Ger+6', flatSix, 'Ger6', 'augmented6th', 0.3);
+        add('Fr+6', flatSix, 'Fr6', 'augmented6th', 0.2);
+    };
+    // ♭II, the Neapolitan, and in Jazz the tritone substitute for V7
+    const addNeapolitanAndSubstitute = () => {
+        add('♭II', (tonic + 1) % 12, 'major', 'chromatic', 0.4);
+        if (variantType === 'Jazz') add('SubV7', (scaleDegrees[4] + 6) % 12, 'dom7', 'substitution', 0.5);
+    };
 
-    // V7 (dominant seventh)
-    if (!analysis.hasDominant7 && scaleDegrees.length > 4) {
-        const fifth = scaleDegrees[4 % scaleDegrees.length];
-        candidates.push({
-            root: fifth,
-            notes: buildChord(fifth, 'dom7', keyOffset),
-            chordType: 'dom7',
-            chordName: nameOf('V7', 'dom7'),
-            romanNumeral: 'V7',
-            quality: 'Dominant 7',
-            category: 'dominant',
-            commonUsage: 1.0
-        });
-    }
-
-    // ii7 (subdominant seventh)
-    if (!analysis.hasSubdominant && scaleDegrees.length > 1) {
-        const second = scaleDegrees[1 % scaleDegrees.length];
-        candidates.push({
-            root: second,
-            notes: buildChord(second, 'minor7', keyOffset),
-            chordType: 'minor7',
-            chordName: nameOf('ii7', 'minor7'),
-            romanNumeral: 'ii7',
-            quality: 'Minor 7',
-            category: 'subdominant',
-            commonUsage: 0.85
-        });
-    }
-
-    // iv (minor subdominant - borrowed from parallel minor)
-    if (scaleDegrees.length > 3) {
-        const fourth = scaleDegrees[3 % scaleDegrees.length];
-        candidates.push({
-            root: fourth,
-            notes: buildChord(fourth, 'minor', keyOffset),
-            chordType: 'minor',
-            chordName: nameOf('iv', 'minor'),
-            romanNumeral: 'iv',
-            quality: 'Minor',
-            category: 'borrowed',
-            commonUsage: 0.85
-        });
-    }
-
-    // VI (major sixth - raised submediant, common in pop/rock)
-    if (scaleDegrees.length > 5) {
-        const sixth = scaleDegrees[5 % scaleDegrees.length];
+    if (tonality === 'minor') {
+        add('IV', scaleDegrees[3], 'major', 'borrowed', 0.8);      // Dorian subdominant
+        add('I', tonic, 'major', 'borrowed', 0.5);                 // Picardy third
+        addDominant();
+        add('vii°7', scaleDegrees[6], 'dim7', 'dominant', 0.6);    // harmonic minor's leading-tone seventh
+        // Applied dominants, each a fifth above its target: the key's own degrees
+        add('V7/V', 2, 'dom7', 'secondary', 0.7);
+        add('V7/iv', 0, 'dom7', 'secondary', 0.6);                 // the tonic as I7
+        add('V7/♭III', 10, 'dom7', 'secondary', 0.5);              // ♭VII7
+        add('V7/♭VI', 3, 'dom7', 'secondary', 0.5);                // ♭III7
+        add('V7/♭VII', 5, 'dom7', 'secondary', 0.4);               // IV7
+        addAugmentedSixths();
+        addNeapolitanAndSubstitute();
+        if (variantType === 'Modal') add('ii', scaleDegrees[1], 'minor', 'borrowed', 0.3); // Dorian supertonic
+    } else {
+        // Borrowed from the parallel minor
+        add('♭VII', (tonic + 10) % 12, 'major', 'borrowed', 0.9);
+        add('♭VI', (tonic + 8) % 12, 'major', 'borrowed', 0.8);
+        addDominant();
+        if (!analysis.hasSubdominant && scaleDegrees.length > 1) add('ii7', scaleDegrees[1], 'minor7', 'subdominant', 0.85);
+        if (scaleDegrees.length > 3) add('iv', scaleDegrees[3], 'minor', 'borrowed', 0.85);
         // A major VI is a major triad on the submediant - the quality changes,
-        // not the root. Raising the root built the chord on the flat seventh
-        // and still labelled it VI.
-        candidates.push({
-            root: sixth,
-            notes: buildChord(sixth, 'major', keyOffset),
-            chordType: 'major',
-            chordName: nameOf('VI', 'major'),
-            romanNumeral: 'VI',
-            quality: 'Major',
-            category: 'borrowed',
-            commonUsage: 0.8
-        });
-    }
-
-    // Secondary dominants (V7/x chords)
-    // Always calculated from major scale degrees (P5 above target), not the
-    // current mode's scale degrees, since secondary dominants are chromatic
-    // and not derived from the diatonic scale.
-    // In key of C: V/V=D7, V/ii=A7, V/vi=E7, V/IV=C7
-    if (scaleDegrees.length > 1) {
-        // V7/V: P5 above V (scale degree 7) = scale degree 2
-        const vOfV = 2;  // Always D in key of C, regardless of mode
-        candidates.push({
-            root: vOfV,
-            notes: buildChord(vOfV, 'dom7', keyOffset),
-            chordType: 'dom7',
-            chordName: nameOf('V7/V', 'dom7'),
-            romanNumeral: 'V7/V',
-            quality: 'Dominant 7',
-            category: 'secondary',
-            commonUsage: 0.7
-        });
-
-        // V7/ii: P5 above ii (scale degree 2) = scale degree 9
-        const vOfii = 9;  // Always A in key of C
-        candidates.push({
-            root: vOfii,
-            notes: buildChord(vOfii, 'dom7', keyOffset),
-            chordType: 'dom7',
-            chordName: nameOf('V7/ii', 'dom7'),
-            romanNumeral: 'V7/ii',
-            quality: 'Dominant 7',
-            category: 'secondary',
-            commonUsage: 0.5
-        });
-
-        // V7/vi: P5 above vi (scale degree 9) = scale degree 4
-        const vOfvi = 4;  // Always E in key of C
-        candidates.push({
-            root: vOfvi,
-            notes: buildChord(vOfvi, 'dom7', keyOffset),
-            chordType: 'dom7',
-            chordName: nameOf('V7/vi', 'dom7'),
-            romanNumeral: 'V7/vi',
-            quality: 'Dominant 7',
-            category: 'secondary',
-            commonUsage: 0.5
-        });
-
-        // V7/IV: P5 above IV (scale degree 5) = scale degree 0 (tonic as dom7)
-        const vOfIV = 0;  // Always C7 in key of C (I7 functions as V7/IV)
-        candidates.push({
-            root: vOfIV,
-            notes: buildChord(vOfIV, 'dom7', keyOffset),
-            chordType: 'dom7',
-            chordName: nameOf('V7/IV', 'dom7'),
-            romanNumeral: 'V7/IV',
-            quality: 'Dominant 7',
-            category: 'secondary',
-            commonUsage: 0.4
-        });
-    }
-
-    // Augmented 6th chords (classical approach to V)
-    if (variantType === 'Classic' || variantType === 'Jazz') {
-        const flatSix = (scaleDegrees[0] + 8) % 12;  // ♭6 scale degree
-
-        // Italian 6th (It+6): ♭VI with raised 4th
-        candidates.push({
-            root: flatSix,
-            notes: buildChord(flatSix, 'It6', keyOffset),
-            chordType: 'It6',
-            chordName: nameOf('It+6', 'It6'),
-            romanNumeral: 'It+6',
-            quality: 'Italian 6th',
-            category: 'augmented6th',
-            commonUsage: 0.3
-        });
-
-        // German 6th (Ger+6): like It6 but with ♭3
-        candidates.push({
-            root: flatSix,
-            notes: buildChord(flatSix, 'Ger6', keyOffset),
-            chordType: 'Ger6',
-            chordName: nameOf('Ger+6', 'Ger6'),
-            romanNumeral: 'Ger+6',
-            quality: 'German 6th',
-            category: 'augmented6th',
-            commonUsage: 0.3
-        });
-
-        // French 6th (Fr+6): like It6 but with 2
-        candidates.push({
-            root: flatSix,
-            notes: buildChord(flatSix, 'Fr6', keyOffset),
-            chordType: 'Fr6',
-            chordName: nameOf('Fr+6', 'Fr6'),
-            romanNumeral: 'Fr+6',
-            quality: 'French 6th',
-            category: 'augmented6th',
-            commonUsage: 0.2
-        });
-    }
-
-    // ♭III (borrowed from minor)
-    const flatThree = (scaleDegrees[0] + 3) % 12;
-    candidates.push({
-        root: flatThree,
-        notes: buildChord(flatThree, 'major', keyOffset),
-        chordType: 'major',
-        chordName: nameOf('♭III', 'major'),
-        romanNumeral: '♭III',
-        quality: 'Major',
-        category: 'borrowed',
-        commonUsage: 0.5
-    });
-
-    // ♭II (Neapolitan)
-    const neapolitan = (scaleDegrees[0] + 1) % 12;
-    candidates.push({
-        root: neapolitan,
-        notes: buildChord(neapolitan, 'major', keyOffset),
-        chordType: 'major',
-        chordName: nameOf('♭II', 'major'),
-        romanNumeral: '♭II',
-        quality: 'Major',
-        category: 'chromatic',
-        commonUsage: 0.4
-    });
-
-    // Variant-specific additions
-    if (variantType === 'Jazz') {
-        // SubV7 (tritone substitution for V7)
-        const tritone = (scaleDegrees[4] + 6) % 12;  // Tritone from V, not I
-        candidates.push({
-            root: tritone,
-            notes: buildChord(tritone, 'dom7', keyOffset),
-            chordType: 'dom7',
-            chordName: nameOf('SubV7', 'dom7'),
-            romanNumeral: 'SubV7',
-            quality: 'Dominant 7',
-            category: 'substitution',
-            commonUsage: 0.5
-        });
-    }
-
-    if (variantType === 'Modal') {
-        // Lydian II
-        const lydianTwo = (scaleDegrees[0] + 2) % 12;
-        candidates.push({
-            root: lydianTwo,
-            notes: buildChord(lydianTwo, 'major', keyOffset),
-            chordType: 'major',
-            chordName: nameOf('II', 'major'),
-            romanNumeral: 'II',
-            quality: 'Major',
-            category: 'modal',
-            commonUsage: 0.3
-        });
+        // not the root. Raising the root built the chord on the flat seventh and
+        // still labelled it VI.
+        if (scaleDegrees.length > 5) add('VI', scaleDegrees[5], 'major', 'borrowed', 0.8);
+        // Applied dominants, a fifth above their targets, from the major scale
+        // whatever the mode: in C, V7/V = D7, V7/ii = A7, V7/vi = E7, V7/IV = C7
+        if (scaleDegrees.length > 1) {
+            add('V7/V', 2, 'dom7', 'secondary', 0.7);
+            add('V7/ii', 9, 'dom7', 'secondary', 0.5);
+            add('V7/vi', 4, 'dom7', 'secondary', 0.5);
+            add('V7/IV', 0, 'dom7', 'secondary', 0.4);
+        }
+        addAugmentedSixths();
+        add('♭III', (tonic + 3) % 12, 'major', 'borrowed', 0.5);
+        addNeapolitanAndSubstitute();
+        if (variantType === 'Modal') add('II', (tonic + 2) % 12, 'major', 'modal', 0.3); // Lydian II
     }
 
     // Each candidate carries what the template thinks of it, so selection can
@@ -466,7 +306,7 @@ export function scoreCandidate(candidate, analysis, existingRoots) {
     return score;
 }
 
-export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType, palettePriorities = null, paletteFilter = null, unusedPaletteChords = [], spelling = templateSpelling(keys[keyOffset])) {
+export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType, tonality = 'major', palettePriorities = null, paletteFilter = null, unusedPaletteChords = [], spelling = templateSpelling(keys[keyOffset], tonality)) {
     const analysis = analyzeExistingChords(existingChords);
     const existingRoots = existingChords.map(c => c.notes && c.notes[0] ? c.notes[0] % 12 : 0);
 
@@ -491,7 +331,7 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
     };
     const soundsNew = candidate => !takenSignatures.has(pcSignature(candidate.notes));
 
-    const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, palettePriorities, paletteFilter, spelling)
+    const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, tonality, palettePriorities, paletteFilter, spelling)
         .filter(soundsNew);
 
     // Rows 1-3 are already on the grid; a candidate that repeats one of them
@@ -699,7 +539,11 @@ export function generateVariant(variantType, { key, mode, progression, category 
     // template's tonality: C# minor, not Db minor; the vi of A is F#m
     // (docs/improvements/13-spelling.md). A pad's spelling is computed from its
     // final notes, after voicing and after the Jazz upgrade.
-    const spelling = templateSpelling(key, template ? templateTonality(template) : 'major');
+    // Numerals are read against the parallel major in either tonality; what the
+    // palette and row 4 offer around them depends on it
+    // (docs/improvements/07-minor-key-awareness.md)
+    const tonality = template ? templateTonality(template) : 'major';
+    const spelling = templateSpelling(key, tonality);
     const spelled = pad => ({ ...pad, spelling: spellChord(spelling, { romanNumeral: pad.romanNumeral }, pad.chordType, pad.notes) });
 
     let progressionChords = generateProgressionChords(progression, keyOffset, scaleDegrees, mode, spelling);
@@ -742,7 +586,7 @@ export function generateVariant(variantType, { key, mode, progression, category 
     let filterActive = true;
 
     // Helper to add unique chord
-    const addChord = (degree, type, romanBase, suffix, spice, isChordMatcher = false, rootOverride = null) => {
+    const addChord = (degree, type, romanBase, suffix, spice, isChordMatcher = false, rootOverride = null, category = null) => {
         // Apply palette filter if defined (hard filter - backward compatibility)
         if (filterActive && paletteFilter && !paletteFilter.includes(type)) {
             return; // Skip chord types not in the filter
@@ -776,6 +620,7 @@ export function generateVariant(variantType, { key, mode, progression, category 
             romanNumeral: roman,
             spiceLevel: spice, // 0=foundation, 1=standard, 2=colorful, 3=spicy
             priority: priority, // 1=avoided, 2=allowed, 3=preferred
+            category, // 'diatonic' or 'borrowed' for the colour chords, else null
             isChordMatcherChord: isChordMatcher
         });
     };
@@ -878,44 +723,35 @@ export function generateVariant(variantType, { key, mode, progression, category 
         });
     });
 
-    // Add complementary chords (foundation and spicy)
-    // ii7 - foundation (if not already present)
-    if (scaleDegrees.length > 1) {
-        addChord(1, 'minor7', 'ii', '7', 0);
-        addChord(1, 'minor', 'ii', '', 1);
+    // Add complementary chords (foundation and spicy). They are the key's own
+    // supertonic and dominant or submediant: in a major key ii and vi, in a minor
+    // key the natural minor's iiø7, ii°, v and v7. The major key's ii and vi, B
+    // minor and F♯ minor in A minor, were offered to every minor template though
+    // F♯ minor belongs to no form of A minor (spec 07 D3).
+    // [degree, chord type, spice]
+    const complements = tonality === 'minor'
+        ? [[1, 'm7b5', 2], [1, 'diminished', 2], [4, 'minor', 1], [4, 'minor7', 1]]
+        : [[1, 'minor7', 0], [1, 'minor', 1], [5, 'minor', 1], [5, 'minor7', 1]];
+    for (const [degree, type, spice] of complements) {
+        if (degree < scaleDegrees.length) addChord(degree, type, getRomanNumeralForChord(degree, type), '', spice);
     }
 
-    // vi - foundation/standard
-    if (scaleDegrees.length > 5) {
-        addChord(5, 'minor', 'vi', '', 1);
-        addChord(5, 'minor7', 'vi', '7', 1);
-    }
-
-    // Add borrowed/modal interchange chords only if they are NOT already
-    // diatonic to the current mode. In minor keys, ♭VII, ♭VI, ♭III are
-    // native - labeling them "borrowed" is incorrect.
-    // Routed through addChord so they take part in the same de-duplication and
-    // priority handling as everything else: pushing them straight onto the
-    // palette meant a progression containing ♭VII got a second ♭VII pad, and
-    // left them without a priority so the palette sort compared against
-    // undefined.
-    const diatonicPitchClasses = new Set(scaleDegrees.map(d => ((d % 12) + 12) % 12));
-
+    // The colour chords of the other mode. In a major key ♭VII, ♭VI, ♭III and iv
+    // are borrowed from the parallel minor; in a minor key they are its own
+    // diatonic chords, offered as plainly as any (spec 07 D4). The guard that was
+    // meant to tell the two apart compared against the major scale, which
+    // template mode always uses, so it never fired. Routed through addChord so
+    // they take part in the same de-duplication and priority handling as
+    // everything else: pushing them straight onto the palette meant a
+    // progression containing ♭VII got a second ♭VII pad, and left them without a
+    // priority so the palette sort compared against undefined.
     // [semitones above tonic, degree, roman numeral, chord type, spice]
-    const borrowedChords = [
-        [10, 6, '♭VII', 'major', 2],  // colorful (Mixolydian/blues flavor)
-        [8, 5, '♭VI', 'major', 3],    // borrowed from parallel minor
-        [3, 2, '♭III', 'major', 3]    // borrowed from parallel minor
-    ];
-    borrowedChords.forEach(([semitones, degree, roman, type, spice]) => {
-        if (diatonicPitchClasses.has(semitones)) return;
-        addChord(degree, type, roman, '', spice, false, (scaleDegrees[0] + semitones) % 12);
-    });
-
-    // iv - borrowed from parallel minor - skip if IV is already minor in mode
-    const fourthQuality = scaleDegrees.length > 3 ? getChordQualityForMode(3, 'Major') : null;
-    if (scaleDegrees.length > 3 && fourthQuality !== 'minor') {
-        addChord(3, 'minor', 'iv', '', 2);
+    const colourChords = tonality === 'minor'
+        ? [[10, 6, '♭VII', 'major', 1], [8, 5, '♭VI', 'major', 1], [3, 2, '♭III', 'major', 1], [5, 3, 'iv', 'minor', 1]]
+        : [[10, 6, '♭VII', 'major', 2], [8, 5, '♭VI', 'major', 3], [3, 2, '♭III', 'major', 3], [5, 3, 'iv', 'minor', 2]];
+    const colourCategory = tonality === 'minor' ? 'diatonic' : 'borrowed';
+    for (const [semitones, degree, roman, type, spice] of colourChords) {
+        addChord(degree, type, roman, '', spice, false, (scaleDegrees[0] + semitones) % 12, colourCategory);
     }
 
     // A narrow paletteFilter can leave fewer chords than the grid needs. The MPC
@@ -926,16 +762,31 @@ export function generateVariant(variantType, { key, mode, progression, category 
     const PADS_BEFORE_DYNAMIC_ROW = 12;
     if (originalProgressionLength + palette.length < PADS_BEFORE_DYNAMIC_ROW) {
         filterActive = false;
-        const topUp = [
-            [0, 'major'], [0, 'major7'], [1, 'minor'], [1, 'minor7'],
-            [2, 'minor'], [2, 'minor7'], [3, 'major'], [3, 'major7'],
-            [4, 'major'], [4, 'dom7'], [5, 'minor'], [5, 'minor7']
-        ];
-        for (const [degree, type] of topUp) {
+        // The key's own chords, so a minor template is topped up from the minor
+        // key (spec 07 §3.2). The spec's ten mostly repeat the colour chords and
+        // complements already offered, so a template whose filter keeps few of
+        // those ran dry and its grid came out short: Hip-Hop/Trap i—♭VII—iv and
+        // Italo-Disco/House i—iv got fourteen pads. The natural minor's three
+        // other diatonic sevenths follow them, used only when the ten are spent
+        // (spec 07 §8). [degree, chord type, roman numeral, semitones above the
+        // tonic for a root off the major scale]
+        const topUp = tonality === 'minor'
+            ? [
+                [0, 'minor', 'i'], [0, 'minor7', 'i7'], [1, 'm7b5', 'iiø7'], [2, 'major', '♭III', 3],
+                [3, 'minor', 'iv'], [3, 'minor7', 'iv7'], [4, 'minor', 'v'], [4, 'minor7', 'v7'],
+                [5, 'major', '♭VI', 8], [6, 'major', '♭VII', 10],
+                [2, 'major7', '♭IIIM7', 3], [5, 'major7', '♭VIM7', 8], [6, 'dom7', '♭VII7', 10]
+            ]
+            : [
+                [0, 'major'], [0, 'major7'], [1, 'minor'], [1, 'minor7'],
+                [2, 'minor'], [2, 'minor7'], [3, 'major'], [3, 'major7'],
+                [4, 'major'], [4, 'dom7'], [5, 'minor'], [5, 'minor7']
+            ].map(([degree, type]) => [degree, type,
+                getRomanNumeralForChord(degree, type === 'major7' ? 'major' : type === 'minor7' ? 'minor' : type) + getRomanSuffix(type)]);
+        for (const [degree, type, roman, semitones] of topUp) {
             if (originalProgressionLength + palette.length >= PADS_BEFORE_DYNAMIC_ROW) break;
             if (degree >= scaleDegrees.length) continue;
-            const romanBase = getRomanNumeralForChord(degree, type === 'major7' ? 'major' : type === 'minor7' ? 'minor' : type);
-            addChord(degree, type, romanBase, getRomanSuffix(type), 3);
+            addChord(degree, type, roman, '', 3, false, semitones === undefined ? null : (scaleDegrees[0] + semitones) % 12);
         }
         filterActive = true;
     }
@@ -1130,7 +981,7 @@ export function generateVariant(variantType, { key, mode, progression, category 
     }
 
     // Dynamically generate row 4 based on analysis of rows 1-3
-    const row4Chords = selectDynamicRow4Chords(rows1to3, keyOffset, scaleDegrees, variantType, palettePriorities, paletteFilter, allChords.slice(chordQueueIndex), spelling);
+    const row4Chords = selectDynamicRow4Chords(rows1to3, keyOffset, scaleDegrees, variantType, tonality, palettePriorities, paletteFilter, allChords.slice(chordQueueIndex), spelling);
 
     // Fallback if not enough candidates (shouldn't happen)
     while (row4Chords.length < 4) {
