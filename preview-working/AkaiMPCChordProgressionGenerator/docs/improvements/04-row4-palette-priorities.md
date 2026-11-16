@@ -358,6 +358,7 @@ same instrument. Spec 11 added a sixth style, Pedal, so both counts are given; t
 | `09b19af`, before spec 07 | 28 | 35 | 7 |
 | After spec 07 | 25 | 31 | 6 |
 | After spec 10 | 25 | 31 | 6 |
+| After four templates opted into spec 10's hint | 8 | 10 | 2 |
 
 Spec 07 took Hip-Hop/Trap `i—♭III—♭VI—♭VII` out of step 5, and added the Jazz
 variant of Electronic/Modern `i—iv—v`. Spec 10 changes no template outside
@@ -377,3 +378,16 @@ pads their own settings exclude, over the variants that reach step 5:
 its filter admits three chord types and row 4 offers almost nothing of them. No
 template's settings were changed; that remains a data decision.
 
+**Item 8 after the opt-ins** (2026-11-16, the maintainer's data decision). Four of
+the six templates that still fell back were given spec 10's hint,
+`row4: { prefer: ['mediant', 'modeFlip'] }`: Modal Interchange `♭VI—iv—I`,
+Electronic/Modern `i—iv—v`, Hip-Hop/Trap `i—♭VII—iv` and Italo-Disco/House `i—iv`.
+Mediants and mode flips are triads their own settings allow, so they no longer
+reach step 5, and no row-4 pad of theirs is a chord their settings exclude, in any
+style (Italo-Disco `i—iv` had 23 of 24). Step 5 in the key of C: 8 entries over
+five styles, 10 over six, in two templates, Hip-Hop/Trap `ii7—V7—IM7` (Lofi Jazz)
+and Synthwave/Retrowave `IM7—iii7—vi7—IVM7` (Vaporwave Dream). Their filters admit
+only seventh chords, every candidate the hint could add is a triad, and each loses
+one pad, `A [VI]`. Accepted as it stands. Snapshot: those four blocks, row 4 only.
+Pack: the same 1 094 `.progression` files, 23 with new content, all from the four
+templates.
