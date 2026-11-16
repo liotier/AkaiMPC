@@ -90,6 +90,10 @@
       "label": "Erweiterte Lage",
       "tooltip": "Experimentelle Variante: Verwendet erweiterte Lagen über mehrere Oktaven. Erzeugt einzigartige, unkonventionelle harmonische Farben und Texturen."
     },
+    "Pedal": {
+      "label": "Orgelpunkt",
+      "tooltip": "Orgelpunkt-Variante: Hält den Basston des ersten Akkords unter jedem Akkord, der ihn enthält, sodass sich die Oberstimmen bewegen, während der Bass liegen bleibt. Akkorde ohne diesen Ton nehmen ihre nächstgelegene Umkehrung über ihm."
+    },
     "progressionClarification": "Akkorde 1-{{count}} aus der Progression, {{next}}-16 extrapoliert. ",
     "chordDistanceHint": "Die Farben der Karten zeigen die Akkord-Distanz von der ausgewählten Karte",
     "scaleExploration": {
@@ -108,7 +112,7 @@
   "tooltips": {
     "progressionPaletteDisabled": "Progressionspaletten werden im Tonleiter-Erkundungsmodus nicht verwendet. Alle Akkorde der ausgewählten Tonleiter werden generiert.",
     "progressionPaletteEnabled": "Jede Palette liefert 16 einzigartige Akkorde: die ersten N aus der Progression, die restlichen Pads aus erweiterter Harmonik. Genre-spezifische Filter gewährleisten passende Akkordfarben.",
-    "paletteMode": "Erzeugt 16-Pad-Akkordpaletten aus kuratierten Progressionen aus 22 Genres. Liefert bis zu fünf Voicing-Varianten (Smooth, Classic, Jazz, Modal, Experimental). Genretypische Vorgaben stimmen die erweiterte Harmonik ab.",
+    "paletteMode": "Erzeugt 16-Pad-Akkordpaletten aus kuratierten Progressionen aus 22 Genres. Liefert bis zu sechs Voicing-Varianten (Smooth, Classic, Jazz, Modal, Experimental, Pedal). Genretypische Vorgaben stimmen die erweiterte Harmonik ab.",
     "scaleMode": "Erkunden Sie eine Tonleiter oder einen Modus, indem alle darin möglichen Akkorde erzeugt werden: der Dreiklang jeder Stufe und anschließend der Septakkord jeder Stufe. Ideal, um Tonleitern wie Ganzton, Phrygisch-Dominant oder Ungarisch Moll kennenzulernen.",
     "keyboardShortcuts": "Mit der Computertastatur spielen: cvbn (Pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Tastaturkürzel gelten für den Desktop. Auf dem Tablet tippen Sie die Pads an, um sie zu spielen.",

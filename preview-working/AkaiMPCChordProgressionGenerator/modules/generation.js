@@ -35,6 +35,7 @@ import {
     getChordName,
     generateProgressionChords,
     applyVoicingStyle,
+    applyPedalVoicing,
     optimizeVoiceLeading,
     optimizeSmoothVoiceLeading
 } from './musicTheory.js';
@@ -952,6 +953,10 @@ export function generateVariant(variantType, { key, mode, progression, category 
         return a.spiceLevel - b.spiceLevel;
     });
 
+    // The Pedal style holds the bass of the progression's first chord under the
+    // whole grid, palette and row 4 included (docs/improvements/11-pedal-voicing-style.md D5)
+    const pedalPitchClass = originalProgression.length ? ((Math.min(...originalProgression[0].notes) % 12) + 12) % 12 : 0;
+
     // Apply variant-specific voicing styles to ORIGINAL PROGRESSION
     let voicedProgression = [...originalProgression];
     switch (variantType) {
@@ -970,6 +975,9 @@ export function generateVariant(variantType, { key, mode, progression, category 
             break;
         case 'Experimental':
             voicedProgression = applyVoicingStyle(voicedProgression, 'spread');
+            break;
+        case 'Pedal':
+            voicedProgression = applyPedalVoicing(voicedProgression, pedalPitchClass);
             break;
     }
 
@@ -991,6 +999,9 @@ export function generateVariant(variantType, { key, mode, progression, category 
             break;
         case 'Experimental':
             voicedPalette = applyVoicingStyle(voicedPalette, 'spread');
+            break;
+        case 'Pedal':
+            voicedPalette = applyPedalVoicing(voicedPalette, pedalPitchClass);
             break;
     }
 
@@ -1121,39 +1132,36 @@ export function generateVariant(variantType, { key, mode, progression, category 
     // Dynamically generate row 4 based on analysis of rows 1-3
     const row4Chords = selectDynamicRow4Chords(rows1to3, keyOffset, scaleDegrees, variantType, palettePriorities, paletteFilter, allChords.slice(chordQueueIndex), spelling);
 
+    // Fallback if not enough candidates (shouldn't happen)
+    while (row4Chords.length < 4) {
+        row4Chords.push({
+            chordName: getChordName(spelling, { romanNumeral: 'I' }, 'major'),
+            romanNumeral: 'I',
+            notes: buildChord(scaleDegrees[0], 'major', keyOffset),
+            chordType: 'major',
+            quality: 'Major'
+        });
+    }
+
+    // Row 4 is chosen after the palette is voiced, and the other styles leave it
+    // in root position; the Pedal style holds its pedal under row 4 as well
+    const row4 = variantType === 'Pedal' ? applyPedalVoicing(row4Chords.slice(0, 4), pedalPitchClass) : row4Chords;
+
     // Add Row 4 chords to pads
     for (let i = 0; i < 4; i++) {
-        if (i < row4Chords.length) {
-            const chord = row4Chords[i];
-            pads.push(spelled({
-                id: 13 + i,
-                chordName: chord.chordName,
-                romanNumeral: chord.romanNumeral,
-                notes: chord.notes,
-                chordType: chord.chordType,
-                quality: chord.quality,
-                row: 4,
-                col: i + 1,
-                isProgressionChord: false,
-                isChordMatcherChord: false
-            }));
-        } else {
-            // Fallback if not enough candidates (shouldn't happen)
-            const degree = scaleDegrees[0];
-            const notes = buildChord(degree, 'major', keyOffset);
-            pads.push(spelled({
-                id: 13 + i,
-                chordName: getChordName(spelling, { romanNumeral: 'I' }, 'major'),
-                romanNumeral: 'I',
-                notes: notes,
-                chordType: 'major',
-                quality: 'Major',
-                row: 4,
-                col: i + 1,
-                isProgressionChord: false,
-                isChordMatcherChord: false
-            }));
-        }
+        const chord = row4[i];
+        pads.push(spelled({
+            id: 13 + i,
+            chordName: chord.chordName,
+            romanNumeral: chord.romanNumeral,
+            notes: chord.notes,
+            chordType: chord.chordType,
+            quality: chord.quality,
+            row: 4,
+            col: i + 1,
+            isProgressionChord: false,
+            isChordMatcherChord: false
+        }));
     }
 
     return {
@@ -1193,10 +1201,12 @@ export function deduplicateVariants(variantList) {
     return unique;
 }
 
-// The five voicing treatments a Progression Palette Mode template is rendered
+// The six voicing treatments a Progression Palette Mode template is rendered
 // through. A nominal set, not an ordinal one - see docs/mpc-export-specification.md
-// D5 for why these carry no rank number in the exported name.
-export const VARIANT_STYLES = ['Smooth', 'Classic', 'Jazz', 'Modal', 'Experimental'];
+// D5 for why these carry no rank number in the exported name. Pedal is appended
+// last so that every fused label of the first five (Classic+Jazz) is unchanged
+// (docs/improvements/11-pedal-voicing-style.md D1).
+export const VARIANT_STYLES = ['Smooth', 'Classic', 'Jazz', 'Modal', 'Experimental', 'Pedal'];
 
 // Single entry point used by the running app, tools/build-pack.mjs and
 // tools/audit-theory.mjs alike, so all three generate identical output for

@@ -247,7 +247,7 @@ unrecoverable. Character count appears nowhere on that list.
 ### 5.2 The style segment
 
 The label carries the style name alone - `Smooth`, `Classic`, `Jazz`, `Modal`,
-`Experimental` - with no number.
+`Experimental`, `Pedal` - with no number.
 
 Elektrobolt numbered his files `1 Smooth`, `2 Classic`, `3 Jazz`, `4 Modal`,
 positionally, transcribing the order the variants arrived in. An earlier draft of
@@ -263,6 +263,7 @@ five styles are voicing treatments applied in `generateVariant()`
 | Jazz | close voicing, then `optimizeVoiceLeading` |
 | Modal | open voicing |
 | Experimental | spread voicing |
+| Pedal | `applyPedalVoicing`: the first chord's bass held under every chord that contains it (`docs/improvements/11-pedal-voicing-style.md`) |
 
 Smooth, default, close, open, spread is a **nominal** set. Open voicing is not
 more of anything than close voicing, it is different. A number imposed on a

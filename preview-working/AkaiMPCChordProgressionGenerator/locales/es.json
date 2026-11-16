@@ -90,6 +90,10 @@
       "label": "Voicing extendido",
       "tooltip": "Variante experimental: Utiliza voicings extendidos a través de múltiples octavas. Crea colores y texturas armónicas únicas y no convencionales."
     },
+    "Pedal": {
+      "label": "Bajo pedal",
+      "tooltip": "Variante pedal: Mantiene la nota del bajo del primer acorde bajo cada acorde que la contiene, de modo que las voces superiores se mueven mientras el bajo permanece. Los acordes sin esa nota toman su inversión más cercana por encima de ella."
+    },
     "progressionClarification": "Acordes 1-{{count}} de la progresión, {{next}}-16 extrapolados. ",
     "chordDistanceHint": "Los colores de las tarjetas muestran la distancia de acordes desde la tarjeta seleccionada",
     "scaleExploration": {
@@ -108,7 +112,7 @@
   "tooltips": {
     "progressionPaletteDisabled": "Las paletas de progresiones no se utilizan en el modo de exploración de escala. Se generarán todos los acordes de la escala seleccionada.",
     "progressionPaletteEnabled": "Cada paleta proporciona 16 acordes únicos: los primeros N de la progresión, los pads restantes de la armonía extendida. Los filtros específicos de género aseguran colores de acordes apropiados.",
-    "paletteMode": "Genera paletas de 16 acordes a partir de progresiones seleccionadas en 22 géneros. Produce hasta cinco variantes de voicing (Smooth, Classic, Jazz, Modal, Experimental). Las preferencias de cada género ajustan la armonía extendida.",
+    "paletteMode": "Genera paletas de 16 acordes a partir de progresiones seleccionadas en 22 géneros. Produce hasta seis variantes de voicing (Smooth, Classic, Jazz, Modal, Experimental, Pedal). Las preferencias de cada género ajustan la armonía extendida.",
     "scaleMode": "Explora una escala o un modo generando todos los acordes que admite: la tríada de cada grado y después el acorde de séptima de cada grado. Ideal para aprender escalas como la de tonos enteros, la frigia dominante o la menor húngara.",
     "keyboardShortcuts": "Toca con el teclado del ordenador: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Los atajos de teclado son para escritorio. En tableta, toca los pads para tocarlos.",

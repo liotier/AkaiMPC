@@ -2568,6 +2568,64 @@ export function optimizeSmoothVoiceLeading(chordProgression) {
     return optimized;
 }
 
+/**
+ * The pitch classes of a voiced chord in the order of its root-position chord,
+ * root first, so a ninth chord reads 1 3 5 7 9 whatever its inversion. The
+ * root is the pitch class on which the type's intervals give the chord's
+ * pitch classes; for a symmetrical chord several qualify, and any of them gives
+ * the same cyclic order.
+ */
+function rootPositionPitchClasses(notes, chordType) {
+    const pitchClasses = new Set(notes.map(note => ((note % 12) + 12) % 12));
+    const intervals = CHORD_INTERVALS[chordType];
+    if (intervals) {
+        for (let root = 0; root < 12; root++) {
+            const ordered = [...new Set(intervals.map(interval => (root + interval) % 12))];
+            if (ordered.length === pitchClasses.size && ordered.every(pc => pitchClasses.has(pc))) return ordered;
+        }
+    }
+    return [...pitchClasses];
+}
+
+/**
+ * The Pedal style (docs/improvements/11-pedal-voicing-style.md): the first
+ * chord's bass, placed in C3-B3 (MIDI 48-59), is held under every chord that
+ * contains it, the chord's other notes stacked closely above it in
+ * root-position order. A chord without that note takes its nearest inversion
+ * to the previous chord, raised by octaves until nothing sounds below the
+ * pedal: Pad Perform plays one pad at a time, so a pedal cannot sound under a
+ * chord that omits it.
+ *
+ * @param {Array<Object>} chords - Chords with notes and chordType
+ * @param {number} [pedalPitchClass] - The pedal's pitch class; by default the
+ *   lowest note of the first chord's. The palette passes the progression's.
+ * @returns {Array<Object>} The chords, re-voiced
+ */
+export function applyPedalVoicing(chords, pedalPitchClass = chords.length ? ((Math.min(...chords[0].notes) % 12) + 12) % 12 : 0) {
+    if (chords.length === 0) return chords;
+    const pedal = 48 + pedalPitchClass;
+
+    let previous = null;
+    return chords.map(chord => {
+        const pitchClasses = rootPositionPitchClasses(chord.notes, chord.chordType);
+        let voicing = null;
+        const pedalIndex = pitchClasses.indexOf(pedalPitchClass);
+        if (pedalIndex !== -1) {
+            const rotated = [...pitchClasses.slice(pedalIndex), ...pitchClasses.slice(0, pedalIndex)];
+            const built = buildVoicingFromBass(pedal, rotated);
+            // Within two octaves of the pedal every pitch class should fit; if
+            // one ever does not, the chord is voiced as if it lacked the pedal
+            if (new Set(built.map(note => note % 12)).size === pitchClasses.length) voicing = built;
+        }
+        if (voicing === null) {
+            voicing = findBestVoicing(chord.notes, previous ?? chord.notes);
+            while (Math.min(...voicing) < pedal) voicing = voicing.map(note => note + 12);
+        }
+        previous = voicing;
+        return { ...chord, notes: voicing };
+    });
+}
+
 // Create close voicing (all notes within an octave or close together)
 export function applyCloseVoicing(chordNotes) {
     if (chordNotes.length === 0) return chordNotes;

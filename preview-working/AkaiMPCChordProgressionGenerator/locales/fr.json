@@ -90,6 +90,10 @@
       "label": "Voicing étendu",
       "tooltip": "Variante expérimentale : Utilise des voicings étendus sur plusieurs octaves. Crée des couleurs et textures harmoniques uniques et non conventionnelles."
     },
+    "Pedal": {
+      "label": "Basse pédale",
+      "tooltip": "Variante pédale : Tient la note de basse du premier accord sous chaque accord qui la contient, si bien que les voix supérieures bougent tandis que la basse reste. Les accords sans cette note prennent leur renversement le plus proche au-dessus d'elle."
+    },
     "progressionClarification": "Accords 1-{{count}} de la progression, {{next}}-16 extrapolés. ",
     "chordDistanceHint": "Les couleurs des cartes montrent la distance d'accords depuis la carte sélectionnée",
     "scaleExploration": {
@@ -108,7 +112,7 @@
   "tooltips": {
     "progressionPaletteDisabled": "Les palettes de progressions ne sont pas utilisées en mode Exploration de Gamme. Tous les accords de la gamme sélectionnée seront générés.",
     "progressionPaletteEnabled": "Chaque palette fournit 16 accords uniques : les N premiers de la progression, les pads restants issus de l'harmonie étendue. Des filtres spécifiques au genre assurent des couleurs d'accords appropriées.",
-    "paletteMode": "Génère des palettes de 16 accords à partir de progressions sélectionnées dans 22 genres. Produit jusqu'à cinq variantes de voicing (Smooth, Classic, Jazz, Modal, Experimental). Les préférences propres à chaque genre ajustent l'harmonie étendue.",
+    "paletteMode": "Génère des palettes de 16 accords à partir de progressions sélectionnées dans 22 genres. Produit jusqu'à six variantes de voicing (Smooth, Classic, Jazz, Modal, Experimental, Pedal). Les préférences propres à chaque genre ajustent l'harmonie étendue.",
     "scaleMode": "Explorez une gamme ou un mode en générant tous les accords qu'ils autorisent : la triade de chaque degré, puis l'accord de septième de chaque degré. Idéal pour découvrir des gammes comme la gamme par tons, la phrygienne dominante ou la mineure hongroise.",
     "keyboardShortcuts": "Jouez au clavier de l'ordinateur : cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Les raccourcis clavier sont réservés au bureau. Sur tablette, touchez les pads pour les jouer.",
