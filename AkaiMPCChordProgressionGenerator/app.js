@@ -746,6 +746,8 @@ function analyzeProgression(pads, tonality) {
 // Quality markings that do not change what a numeral does: 'VIIØ7' -> 'VII',
 // 'I7SUS4(NO5)' -> 'I', 'II7(11)' -> 'II'
 const QUALITY_MARKINGS = /M7|MAJ7|\(MAJ7\)|\(NO5\)|\(11\)|7|°|Ø|\+|DIM|SUS[24]|ADD9|6|9|11|13/g;
+// The same markings in a numeral whose case is kept: 'vi7' -> 'vi', 'IM7' -> 'I'
+const QUALITY_MARKINGS_CASE_KEPT = /M7|\(maj7\)|\(no5\)|\(11\)|7|°|ø|\+|sus[24]|add9|6|9|11|13/g;
 
 /**
  * The minor-key description of a numeral, from chordRolesMinor, or null. In a
@@ -757,7 +759,7 @@ const QUALITY_MARKINGS = /M7|MAJ7|\(MAJ7\)|\(NO5\)|\(11\)|7|°|Ø|\+|DIM|SUS[24]
  * 'VII°'), then upper-cased without markings ('V7/♭iii' -> 'V/♭III').
  */
 function getMinorChordRole(romanNumeral) {
-    const caseKept = romanNumeral.replaceAll(/M7|\(maj7\)|\(no5\)|\(11\)|7|°|ø|\+|sus[24]|add9|6|9|11|13/g, '');
+    const caseKept = romanNumeral.replaceAll(QUALITY_MARKINGS_CASE_KEPT, '');
     const upper = romanNumeral.toUpperCase();
     const candidates = [
         romanNumeral,
@@ -789,14 +791,20 @@ function getChordTooltip(romanNumeral, chordType, tonality) {
         if (minorRole) return minorRole;
     }
 
-    // Roman numerals are keyed in upper case; case only encodes major/minor,
-    // which the description does not depend on
-    const normalized = romanNumeral ? romanNumeral.toUpperCase() : '';
+    // The numeral as written first: its case is its quality, and vi, the
+    // relative minor, does another thing than VI, a chromatic mediant. Then upper
+    // case, the form most keys are written in, where case changes nothing
+    // (docs/improvements/10-row4-mediants.md D5). Discarding the case first
+    // described a major VI pad as the relative minor.
+    const exact = romanNumeral || '';
+    const normalized = exact.toUpperCase();
 
     const candidates = [
+        `chordRoles.${exact}`,
         `chordRoles.${normalized}`,
-        // Same numeral without its quality markings: 'VIIØ7' -> 'VII',
-        // 'I7SUS4(NO5)' -> 'I', 'II7(11)' -> 'II'
+        // Same numeral without its quality markings, case kept and then upper
+        // case: 'vi7' -> 'vi', 'VIIØ7' -> 'VII', 'I7SUS4(NO5)' -> 'I'
+        `chordRoles.${exact.replaceAll(QUALITY_MARKINGS_CASE_KEPT, '')}`,
         `chordRoles.${normalized.replaceAll(QUALITY_MARKINGS, '')}`,
         // Chord-type specific descriptions ('chordRoles.types.m7b5')
         chordType ? `chordRoles.types.${chordType}` : null
