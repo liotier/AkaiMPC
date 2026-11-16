@@ -190,11 +190,13 @@ export function determineChordFunction(romanNumeral) {
  * offers that targets or borrows a degree a minor key lacks - V7/ii, V7/vi, the
  * major VI, the Lydian II - gives way in a minor pool to the devices a minor key
  * uses: the Dorian IV, the Picardy I, the leading-tone seventh and the applied
- * dominants of the minor key's own degrees. Both pools offer the chromatic
- * mediants of the tonic and the hexatonic pole, category `mediant`, and the
- * mode flip of every major or minor progression chord, category `modeFlip`
- * (docs/improvements/10-row4-mediants.md). Order breaks ties, after score and
- * common usage; the candidates the major pool had before spec 10 keep their order.
+ * dominants of the minor key's own degrees. A template whose row-4 hint prefers
+ * `mediant` is also offered the chromatic mediants of the tonic and the
+ * hexatonic pole, with the major pool's ♭VI, VI and ♭III counted among them; one
+ * that prefers `modeFlip` is offered the mode flip of every major or minor
+ * progression chord (docs/improvements/10-row4-mediants.md). Without such a hint
+ * the pools are exactly what they were before. Order breaks ties, after score
+ * and common usage; the new candidates come last.
  *
  * @param {number} keyOffset - The key's pitch class
  * @param {number[]} scaleDegrees - The major scale
@@ -206,11 +208,17 @@ export function determineChordFunction(romanNumeral) {
  * @param {Object} [spelling] - From templateSpelling()
  * @param {Array<Object>} [progressionChords=[]] - The progression's pads, whose
  *   mode flips are offered
+ * @param {Object|null} [row4Hint=null] - The template's `row4` hint
  * @returns {Array<Object>} Candidates with priority and excludedByFilter
  */
-export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, tonality = 'major', palettePriorities = null, paletteFilter = null, spelling = templateSpelling(keys[keyOffset], tonality), progressionChords = []) {
+export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, tonality = 'major', palettePriorities = null, paletteFilter = null, spelling = templateSpelling(keys[keyOffset], tonality), progressionChords = [], row4Hint = null) {
     const candidates = [];
     const tonic = scaleDegrees[0];
+
+    // Spec 10 is opt-in: its candidates, its categories and VI's lower usage
+    // apply only to a template whose hint prefers the category (§8.1 there)
+    const mediants = Boolean(row4Hint?.prefer?.includes('mediant'));
+    const modeFlips = Boolean(row4Hint?.prefer?.includes('modeFlip'));
 
     // Every candidate is named after its numeral, in the variant's spelling
     // context: the VI of A is F#, not Gb (docs/improvements/13-spelling.md)
@@ -261,23 +269,28 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
         // chromatic mediants of the minor tonic, minor like it, each sharing one
         // note with it; and the hexatonic pole, the major triad a major third up,
         // which shares none (spec 10 §3.1)
-        add('♭vi', (tonic + 8) % 12, 'minor', 'mediant', 0.6);
-        add('iii', (tonic + 4) % 12, 'minor', 'mediant', 0.5);
-        add('♭iii', (tonic + 3) % 12, 'minor', 'mediant', 0.5);
-        add('vi', (tonic + 9) % 12, 'minor', 'mediant', 0.4);
-        add('III', (tonic + 4) % 12, 'major', 'mediant', 0.4);
+        if (mediants) {
+            add('♭vi', (tonic + 8) % 12, 'minor', 'mediant', 0.6);
+            add('iii', (tonic + 4) % 12, 'minor', 'mediant', 0.5);
+            add('♭iii', (tonic + 3) % 12, 'minor', 'mediant', 0.5);
+            add('vi', (tonic + 9) % 12, 'minor', 'mediant', 0.4);
+            add('III', (tonic + 4) % 12, 'major', 'mediant', 0.4);
+        }
     } else {
+        // Under a hint that prefers mediants, ♭VI, VI and ♭III compete as the
+        // mediants they are, and VI at the usage of the other mediants (spec 10 D1)
+        const borrowedOrMediant = mediants ? 'mediant' : 'borrowed';
         // Borrowed from the parallel minor; ♭VI is also the downward major-third
-        // mediant, and competes with the other mediants (spec 10 D1)
+        // mediant, and under a mediant hint competes as one (spec 10 D1)
         add('♭VII', (tonic + 10) % 12, 'major', 'borrowed', 0.9);
-        add('♭VI', (tonic + 8) % 12, 'major', 'mediant', 0.8);
+        add('♭VI', (tonic + 8) % 12, 'major', borrowedOrMediant, 0.8);
         addDominant();
         if (!analysis.hasSubdominant && scaleDegrees.length > 1) add('ii7', scaleDegrees[1], 'minor7', 'subdominant', 0.85);
         if (scaleDegrees.length > 3) add('iv', scaleDegrees[3], 'minor', 'borrowed', 0.85);
         // A major VI is a major triad on the submediant - the quality changes,
         // not the root. Raising the root built the chord on the flat seventh and
         // still labelled it VI. It is the downward minor-third mediant
-        if (scaleDegrees.length > 5) add('VI', scaleDegrees[5], 'major', 'mediant', 0.6);
+        if (scaleDegrees.length > 5) add('VI', scaleDegrees[5], 'major', borrowedOrMediant, mediants ? 0.6 : 0.8);
         // Applied dominants, a fifth above their targets, from the major scale
         // whatever the mode: in C, V7/V = D7, V7/ii = A7, V7/vi = E7, V7/IV = C7
         if (scaleDegrees.length > 1) {
@@ -287,14 +300,16 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
             add('V7/IV', 0, 'dom7', 'secondary', 0.4);
         }
         addAugmentedSixths();
-        add('♭III', (tonic + 3) % 12, 'major', 'mediant', 0.5);
+        add('♭III', (tonic + 3) % 12, 'major', borrowedOrMediant, 0.5);
         addNeapolitanAndSubstitute();
         if (variantType === 'Modal') add('II', (tonic + 2) % 12, 'major', 'modal', 0.3); // Lydian II
         // Last, so that a tie goes to the chords the pool always had: the upward
         // major-third mediant, and the hexatonic pole, the minor triad on ♭6,
         // which shares no note with the tonic (spec 10 §3.1)
-        add('III', (tonic + 4) % 12, 'major', 'mediant', 0.6);
-        add('♭vi', (tonic + 8) % 12, 'minor', 'mediant', 0.4);
+        if (mediants) {
+            add('III', (tonic + 4) % 12, 'major', 'mediant', 0.6);
+            add('♭vi', (tonic + 8) % 12, 'minor', 'mediant', 0.4);
+        }
     }
 
     // Mode flips: every distinct root of a major or minor progression chord, as
@@ -303,7 +318,7 @@ export function generateRow4Candidates(keyOffset, scaleDegrees, analysis, varian
     // ♭VI ♭vi, i I. The tonic's flip is the likeliest (spec 10 §3.2). An applied
     // chord has no numeral a flip could take, and produces none.
     const flipped = new Set();
-    for (const chord of progressionChords) {
+    for (const chord of modeFlips ? progressionChords : []) {
         const family = getChordFamily(chord.chordType);
         if ((family !== 'major' && family !== 'minor') || !chord.romanNumeral || chord.romanNumeral.includes('/')) continue;
         const parsed = parseRomanStem(chord.romanNumeral);
@@ -390,7 +405,7 @@ export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees,
     const soundsNew = candidate => !takenSignatures.has(pcSignature(candidate.notes));
 
     const allCandidates = generateRow4Candidates(keyOffset, scaleDegrees, analysis, variantType, tonality, palettePriorities, paletteFilter, spelling,
-        existingChords.filter(c => c.isProgressionChord))
+        existingChords.filter(c => c.isProgressionChord), row4Hint)
         .filter(soundsNew);
 
     // Rows 1-3 are already on the grid; a candidate that repeats one of them

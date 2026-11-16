@@ -348,3 +348,32 @@ same position as the five: left to spec 07 and to a later decision on their sett
 The Ascending Line Cliché's priorities were then corrected (spec 09 §8), which takes
 it out of step 5: 28 in the key of C, the same instrument counting.
 
+**Item 8 after specs 07 and 10.** Measured on `f9f3ab0` (spec 07) and again on
+spec 10's implementation, by counting the entries into step 5 in the key of C, the
+same instrument. Spec 11 added a sixth style, Pedal, so both counts are given; the
+28 above is five styles.
+
+| Tree | Five styles (no Pedal) | Six styles | Templates |
+|---|---|---|---|
+| `09b19af`, before spec 07 | 28 | 35 | 7 |
+| After spec 07 | 25 | 31 | 6 |
+| After spec 10 | 25 | 31 | 6 |
+
+Spec 07 took Hip-Hop/Trap `i—♭III—♭VI—♭VII` out of step 5, and added the Jazz
+variant of Electronic/Modern `i—iv—v`. Spec 10 changes no template outside
+Film/Cinematic, and none of these. The six that still fall back, with the row-4
+pads their own settings exclude, over the variants that reach step 5:
+
+| Template | Variants in step 5 | Row-4 pads excluded | By what |
+|---|---|---|---|
+| Modal Interchange `♭VI—iv—I` | 4: Smooth, Classic, Modal, Pedal | 7 of 16 | `dom7`, avoided: `V7`, `V7/V` |
+| Electronic/Modern `i—iv—v` | 6, all styles | 16 of 24 | `dom7`, avoided: `V7/V`, `V7`, `V7/iv` |
+| Hip-Hop/Trap `ii7—V7—IM7` | 5: all but Jazz | 5 of 20 | the filter (`minor7`, `major7`, `dom7`): `VI` |
+| Hip-Hop/Trap `i—♭VII—iv` | 5: all but Modal | 5 of 20 | the filter (`minor`, `minor7`, `major`): `V7` |
+| Italo-Disco/House `i—iv` | 6, all styles | 23 of 24 | the filter (`minor`, `minor7`, `major7`): `V7`, `V7/V`, `IV`, `vii°7` |
+| Synthwave/Retrowave `IM7—iii7—vi7—IVM7` | 5: all but Jazz | 5 of 20 | the filter (`major7`, `minor7`, `dom7`): `VI` |
+
+61 of their 124 row-4 pads in those variants. Italo-Disco/House `i—iv` is the extreme:
+its filter admits three chord types and row 4 offers almost nothing of them. No
+template's settings were changed; that remains a data decision.
+

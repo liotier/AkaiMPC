@@ -109,6 +109,16 @@ now read as the minor progression it is. The pack's files for minor progressions
 change content, and a few change name where two styles now coincide or no longer
 do.
 
+**Film/Cinematic gets the film-score moves in its top row.** The eighteen
+Film/Cinematic progressions now fill row 4 with chromatic mediants, the chord a
+third away that shares one note with the tonic (E, A or A♭ major around C), the
+hexatonic pole that shares none (A♭ minor around C), and mode flips, a progression
+chord with its third turned over (C minor for C major, A major for A minor),
+instead of the secondary dominants and augmented sixths of classical harmony. Every
+other progression is unchanged; other genres can opt in later. Tooltips no longer
+confuse a major VI or III with the relative minor vi or the mediant iii, and
+describe the new chords.
+
 ## 2026-09-08
 
 ### Chord Progression Generator

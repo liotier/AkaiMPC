@@ -108,6 +108,7 @@ The generator seamlessly incorporates:
 - **Secondary Dominants** - V/V, V/ii, V/vi for that gospel/jazz movement
 - **Neapolitan & Augmented Sixths** - Classical drama when you need it
 - **Tritone Substitutions** - Jazz reharmonization at the click of a button
+- **Chromatic mediants and the hexatonic pole** - The film-score move to a chord a third away that shares one note with the tonic, or none at all
 
 Every one of these is checked against the full generated catalogue, not just spot-checked: secondary-dominant numerals, augmented-sixth spellings, and borrowed-chord roots are audited in CI so a plausible-looking chord that resolves to the wrong notes gets caught before it ships.
 
@@ -136,7 +137,7 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 - **Harmonic Function Analysis** - Identifies what your progression needs: missing tonic resolution? Need more tension? The algorithm knows.
 - **Voice Leading Optimization** - Selects chords that create the smoothest transitions with minimal finger movement
 - **Context-Aware Suggestions** - Adds borrowed chords, secondary dominants, and modal interchange based on your selected style
-- **Genre Intelligence with Palette Priorities** - 100+ progressions use a sophisticated 3-tier weighting system (preferred, allowed, avoided) to prioritize genre-authentic chord voicings. Blues gets dom7, Folk gets simple triads, Gospel gets extended harmony—automatically. Row 4 is chosen under the same tiers as the rest of the palette: a folk template is not handed a dominant seventh in its spice row, and a cinematic one is not handed a dominant it set out to avoid. When a genre avoids most of what row 4 usually offers, the palette's own next chords fill the gap.
+- **Genre Intelligence with Palette Priorities** - 100+ progressions use a sophisticated 3-tier weighting system (preferred, allowed, avoided) to prioritize genre-authentic chord voicings. Blues gets dom7, Folk gets simple triads, Gospel gets extended harmony—automatically. Row 4 is chosen under the same tiers as the rest of the palette: a folk template is not handed a dominant seventh in its spice row, and a cinematic one is not handed a dominant it set out to avoid. When a genre avoids most of what row 4 usually offers, the palette's own next chords fill the gap. Film/Cinematic progressions go further: their row 4 favours chromatic mediants (E, A, A♭ minor around C) and mode flips (C minor for C major, F minor for F) over secondary dominants.
 
 ## Production-Ready Features
 

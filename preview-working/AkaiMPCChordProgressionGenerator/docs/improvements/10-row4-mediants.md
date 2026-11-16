@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | in progress: §3.1 to §3.3 done, blocked on acceptance items 1, 3 and 5 (§8) |
+| Status | implemented |
 | Type | feature |
 | Size | M |
 | Depends on | 03, 04, 05, 07 |
@@ -39,7 +39,7 @@ The upward `III` added here would be described as a "weaker predominant".
 |---|---|---|
 | D1 | New row-4 category **`mediant`**: the four same-quality chromatic mediants of the tonic, plus the hexatonic pole. `♭VI`, `♭III` and `VI` move from `borrowed` into it for major templates. | They are one family and should compete as one in the diversity pass; today two of them compete under `borrowed` against `iv` and `♭VII`. |
 | D2 | New row-4 category **`modeFlip`**: for every distinct progression chord of major or minor family, the same root with the opposite third. | The video's "modal interchange" trick generalised; costs nothing per candidate. |
-| D3 | Templates may carry an optional **`row4`** hint: `{ prefer: [categories], avoid: [categories] }`. Preferred categories earn a point, avoided ones are excluded with the usual fallback. Default when absent: today's behaviour. | Film/Cinematic wants mediants and flips and not secondary dominants; Jazz wants the opposite. A per-template hint is cheaper and more honest than retuning `commonUsage`. |
+| D3 | Templates may carry an optional **`row4`** hint: `{ prefer: [categories], avoid: [categories] }`. Preferred categories earn a point, avoided ones are excluded with the usual fallback. Default when absent: today's behaviour. Scope corrected at review (§8.1): everything this spec adds to row 4 is opt-in through the hint, so a template without one keeps today's candidates, categories and scores exactly. | Film/Cinematic wants mediants and flips and not secondary dominants; Jazz wants the opposite. A per-template hint is cheaper and more honest than retuning `commonUsage`. |
 | D4 | Film/Cinematic templates (the seventeen after spec 08, eighteen after 09) receive `row4: { prefer: ['mediant', 'modeFlip'], avoid: ['secondary', 'augmented6th'] }`. No other genre is tagged in this spec. | That is the genre whose palette the review found wanting. |
 | D5 | Tooltip lookup tries the **exact-case numeral first**, then the upper-cased one. `chordRoles` gains lower-case keys where the meaning differs (`vi`, `iii`, `♭vi`, `♭iii`) and the upper-case `VI`, `III` entries are rewritten for the major chords they now describe. | The case of a numeral is its quality; discarding it loses the meaning. |
 
@@ -151,9 +151,10 @@ About eight `chordRoles` keys and five `chordRolesMinor` keys, six locales.
 
 ## 6. Acceptance
 
-1. Film/Cinematic `I—♭VI—♭III—♭VII` (Epic Trailer), key C, Classic: row 4
-   contains `E [III]` or `Abm [♭vi]` and `Cm [i]` (tonic flip); it contains
-   no secondary dominant and no augmented sixth.
+1. Epic Trailer, key C, Classic: row 4 contains a mediant the progression does
+   not already hold (`E [III]`, `A [VI]` or `Abm [♭vi]`) and `Cm [i]`, the tonic
+   flip; no secondary dominant, augmented sixth or `SubV7`. (Amended at review,
+   §8.1.)
 2. Film/Cinematic `i—♭VI—♭VII—i` (Dark Cinematic), key A: row 4 contains at
    least one of `Fm [♭vi]`, `C#m [iii]`, `C# [III]`, and `A [I]` (Picardy)
    unless a numeral or signature filter removed it.
@@ -180,10 +181,11 @@ About eight `chordRoles` keys and five `chordRolesMinor` keys, six locales.
 
 ## 8. Implementation notes
 
-### 8.1 Blocked: acceptance items 1, 3 and 5
+### 8.1 Blocked: acceptance items 1, 3 and 5, and the review's decisions
 
-Done, in a work-in-progress commit: §3.1, §3.2 and §3.3. Not done: §3.5 (tooltips),
-the README and the CHANGELOG, which wait for the decision below.
+At the work-in-progress commit `8c37a65`, §3.1 to §3.3 were done as first
+specified, and §3.5, the README and the CHANGELOG waited for the decision. What
+follows is the state reported then, the review's decisions after it.
 
 - **Candidates.** `generateRow4Candidates()` takes the progression's pads as a last
   parameter. The major pool's `♭VI`, `VI` and `♭III` are category `mediant`, `VI` at
@@ -242,4 +244,74 @@ if the item admits `A [VI]`, or if `III` and `♭vi` earn more than `VI` under t
 Measured against `f9f3ab0`, as specified: `.progression` files 1 094 to 1 068 and
 MIDI files 13 135 to 12 838, since more styles now coincide and fuse; audit,
 translations and snapshot check pass.
+
+**Review decisions**, relayed on 2026-11-16:
+
+1. **Opt-in by hint, fully; a correction of D3's scope.** All of this spec's row-4
+   behaviour applies only to a template whose hint prefers the category: the new
+   candidates (`III`, `♭vi`, the minor mediants, the mode flips) and D1's move of
+   `♭VI`, `♭III` and `VI` into `mediant` with `VI`'s lower usage under `mediant`;
+   the flips under `modeFlip`. A template without such a hint keeps exactly
+   today's candidates, categories and scores, so items 3 and 5 hold as written.
+   Other genres may opt in later through their own hints, as a separate data
+   decision.
+2. **Item 1 amended**: a mediant the progression does not already hold, `E [III]`,
+   `A [VI]` or `A♭m [♭vi]`, and the tonic flip `Cm [i]`; no secondary dominant,
+   augmented sixth or `SubV7`. No score change: `VI` is a chromatic mediant in the
+   spec's own table.
+
+### 8.2 After the review
+
+- **Gating.** `generateRow4Candidates()` takes the hint as a last parameter, after
+  the progression's pads. Under a hint preferring `mediant`, the major pool's
+  `♭VI`, `VI` and `♭III` are category `mediant` with `VI` at 0.6, and the new
+  mediants are offered; otherwise the three are `borrowed`, `VI` at 0.8, and the
+  new mediants are not. The flips are offered only under `modeFlip`. The hint's
+  `prefer` point and `avoid` exclusion in `selectDynamicRow4Chords()` are as
+  §8.1 describes; with no hint they do nothing.
+- **Tooltips.** `getChordTooltip()` tries `chordRoles.<numeral>` as written, then
+  upper-cased, then each without quality markings, case kept and then upper-cased,
+  then the chord type. §3.5 says "then the stripped forms as today", which strip
+  the upper-cased numeral; under that order `vi7` would be read as `VI` and given
+  the chromatic-mediant text, so the case-kept stripped form comes first (a
+  correction, in the spirit of D5). `chordRoles` gains `vi` and `iii` (the old `VI`
+  and `III` texts), `♭vi` and `♭iii`, and `VI` and `III` are rewritten for the
+  major chords; `chordRolesMinor` gains `iii`, `♭iii`, `♭vi`, `vi` and `III`. Six
+  locales. The Portuguese `vi` text, moved verbatim, had "Submedante"; corrected.
+- **Seen and left alone.** The tonic flip `i` on a major template falls through to
+  the major tonic's text, "Tonic - the home chord", since §3.5 names no key for it.
+  Scale Mode numerals count scale degrees without accidentals, so the major chord
+  on a minor scale's sixth degree is written `VI` and now reads the
+  chromatic-mediant text, where it read the relative-minor text before; neither
+  fits, and Scale Mode is not this spec's.
+- **README and CHANGELOG** as §4 asks.
+
+Acceptance, final state:
+
+| Item | Result |
+|---|---|
+| 1. Epic Trailer, C, Classic | `Fm [iv]  A [VI]  Cm [i]  D♭ [♭II]`: the mediant `A [VI]`, the tonic flip, nothing excluded. Classic, Jazz, Modal and Experimental give this row; Smooth and Pedal give `A♭m [♭vi]` in the flip's place |
+| 2. Dark Cinematic, A | `D [IV]  Fm [♭vi]  A [I]  G♯dim7 [vii°7]` in all six styles |
+| 3. Jazz/Functional unchanged | every variant of every template outside Film/Cinematic, 11 952 over twelve keys and six styles, is identical to `f9f3ab0`, pads, numerals, notes and spellings; Scale Mode too, 408 grids |
+| 4. Tooltips | `VI` and `III` pads read the new texts, `vi`, `vi7` and `iii` the relative-minor and mediant texts; the new chords read theirs, in a major and a minor template |
+| 5. Snapshot diff | the 18 Film/Cinematic blocks, row-4 lines only |
+| 6. Check J | 0; 1 with a hint that names `mediants` |
+| 7. Protocol | audit, translations, pack build and snapshot check pass |
+
+Item 4 and the other tooltips were run in headless Chromium against a local server:
+9 checks pass, no page error. The script is not committed.
+
+Measured against `f9f3ab0`:
+
+| Quantity | Result |
+|---|---|
+| Variants that differ | 1 296 of 13 248: the 18 Film/Cinematic templates, all keys and styles, and nothing else |
+| Film/Cinematic row 4, C, Classic (§3.4) | 25 mediants and 19 flips in 72 pads, two or three per template; no secondary dominant, augmented sixth or `SubV7` |
+| Snapshot | 18 blocks, row 4 only. Gained `i` 20, `♭vi` 14, `III` 12, `I` 6, `♭iii` 4; lost `♭II` 18, `V7/V` 6, and the palette fills and borrowed chords they displaced |
+| Pack | 1 094 `.progression` and 13 135 MIDI files, as before; 104 and 1 248 change content, all Film/Cinematic |
+| Entries into spec 04's step 5, key C | 31 in six templates, six styles; 25 in five styles. Unchanged by this spec; recorded in spec 04's notes |
+
+A follow-up §7 names, for a later data decision: Jazz/Functional with
+`prefer: ['secondary', 'substitution']`, Folk/Singer-Songwriter with
+`avoid: ['secondary', 'augmented6th', 'substitution']`.
 
