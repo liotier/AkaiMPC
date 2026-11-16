@@ -326,6 +326,7 @@ export const progressions = {
         },
         {
             value: '♭VI—iv—I',
+            row4: { prefer: ['mediant', 'modeFlip'] },  // opted in: its own settings left row 4 short (spec 04 §6 item 8)
             palettePriorities: {
                 preferred: ['major', 'minor'],
                 allowed: ['major7', 'minor7'],
@@ -378,6 +379,7 @@ export const progressions = {
         },
         {
             value: 'i—iv—v',
+            row4: { prefer: ['mediant', 'modeFlip'] },  // opted in: its own settings left row 4 short (spec 04 §6 item 8)
             palettePriorities: {
                 preferred: ['minor', 'quartal'],       // Sparse, mechanical core
                 allowed: ['minor7'],                    // Subtle depth
@@ -596,6 +598,7 @@ export const progressions = {
         },
         {
             value: 'i—♭VII—iv',
+            row4: { prefer: ['mediant', 'modeFlip'] },  // opted in: its own settings left row 4 short (spec 04 §6 item 8)
             paletteFilter: ['minor', 'minor7', 'major'],
         }
     ],
@@ -1094,6 +1097,7 @@ export const progressions = {
         },
         {
             value: 'i—iv',
+            row4: { prefer: ['mediant', 'modeFlip'] },  // opted in: its own settings left row 4 short (spec 04 §6 item 8)
             paletteFilter: ['minor', 'minor7', 'major7'],
         }
     ],

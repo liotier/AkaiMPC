@@ -315,3 +315,10 @@ A follow-up §7 names, for a later data decision: Jazz/Functional with
 `prefer: ['secondary', 'substitution']`, Folk/Singer-Songwriter with
 `avoid: ['secondary', 'augmented6th', 'substitution']`.
 
+### 8.3 First opt-ins outside Film/Cinematic
+
+On 2026-11-16 the maintainer opted four templates into the hint, without `avoid`,
+because their own settings left row 4 short and it fell back on chords they
+exclude: Modal Interchange `♭VI—iv—I`, Electronic/Modern `i—iv—v`, Hip-Hop/Trap
+`i—♭VII—iv` and Italo-Disco/House `i—iv`. The figures are in spec 04's notes,
+item 8. The follow-up hints for Jazz/Functional and Folk named above remain open.

@@ -24,6 +24,16 @@ progressions' `.progression` and MIDI files change name in the pack and in the
 MPC menu. Files you saved under the old names are not touched; export them
 again if you want the corrected chords.
 
+**Progressions listed under several genres now keep their genre.** Sixteen
+progressions appear under more than one genre, each with a palette tuned to it:
+the four chords of Axis of Awesome are also Folk's Post-Rock Build, Synthwave's
+Synthpop and Reggae's Reggae Axis. The generator only ever used the first genre's
+entry, so picking Synthpop built Pop/Rock's palette, exported the file as
+"Pop/Rock-Axis of Awesome", and a reload put the Pop/Rock entry back in the menu.
+Each entry now builds its own palette, exports under its own genre, and stays
+selected after a reload and in a shared link. Links saved earlier still open, on
+the first genre as before. The pack's files for those entries change content.
+
 **The top row now follows the genre.** Row 4, the "spice" row, used to ignore
 what a progression's genre likes and avoids: a folk progression that avoids
 dominant sevenths still got a G7, a D7 and a German sixth there, and the seven
@@ -33,10 +43,11 @@ preferred, allowed and avoided choices as the rest of the grid, the eleven
 progressions have preferences of their own, and a progression that names a colour
 only in its chord list, like Post-Rock Build's stacked fourths, now actually gets
 it. Row 4's scoring also stopped calling a vi a dominant and an iii a
-subdominant, which had steered it toward the wrong chords. Five progressions that
-avoid nearly everything row 4 can offer (Modal Interchange ♭VI—iv—I, Electronic
-i—iv—v, Hip-Hop i—♭III—♭VI—♭VII and i—♭VII—iv, Italo-Disco i—iv) still fall back
-on chords they avoid; they wait for the minor-key work.
+subdominant, which had steered it toward the wrong chords. A few progressions
+whose own preferences leave row 4 almost nothing to offer fell back on chords
+they avoid. The minor-key palettes and the film-score moves below fixed all but
+two, Lofi Jazz and Vaporwave Dream, which accept only seventh chords and keep one
+major triad in their top row.
 
 **No more twin pads, and quartal chords called what they are.** A grid could
 spend two pads on one chord under two names: a German sixth beside the ♭VI7 it
@@ -61,10 +72,10 @@ dominant chords, and descriptions in all six languages.
 
 **The ascending line cliché.** Film/Cinematic gets an eighteenth progression,
 Ascending Line Cliché: Em, then the same chord with its fifth climbing by
-semitones, E G C and E G C♯, and back. It is the harmonization of the spy-theme
-riff, and it needed a chord the generator did not have, the minor chord with a
-raised fifth, written m♯5 (Em#5 in exported files). The generator now offers 184
-progression palettes.
+semitones, E G B♯, then Em6, E G B C♯, and back. It is the harmonization of the
+spy-theme riff, and it needed a chord the generator did not have, the minor chord
+with a raised fifth, written m♯5 (Em#5 in exported files). The generator now
+offers 184 progression palettes.
 
 **Sharp keys are spelled with sharps, and every chord with its own notes.** In A
 major the vi chord was printed Gbm where every musician writes F♯m; E major's ii
@@ -114,10 +125,18 @@ Film/Cinematic progressions now fill row 4 with chromatic mediants, the chord a
 third away that shares one note with the tonic (E, A or A♭ major around C), the
 hexatonic pole that shares none (A♭ minor around C), and mode flips, a progression
 chord with its third turned over (C minor for C major, A major for A minor),
-instead of the secondary dominants and augmented sixths of classical harmony. Every
-other progression is unchanged; other genres can opt in later. Tooltips no longer
+instead of the secondary dominants and augmented sixths of classical harmony. Four
+more progressions, whose own preferences had left their top row short of chords,
+take the same moves: Borrowed Cadence, Techno Minimal, Footwork Juke and Minimal
+House. Their top rows had offered chords they avoid, all four pads in Minimal
+House's case. Every other progression is unchanged. Tooltips no longer
 confuse a major VI or III with the relative minor vi or the mediant iii, and
 describe the new chords.
+
+**Behind the scenes.** Every change to the catalogue now ships with a readable
+record of every progression's chords, checked on each commit beside a much
+stricter theory audit, and a typo in a progression's definition stops the build
+instead of quietly playing the tonic.
 
 ## 2026-09-08
 
