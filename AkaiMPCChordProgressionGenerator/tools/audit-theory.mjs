@@ -18,7 +18,7 @@
  */
 
 import { progressions, modes, keys, CHORD_INTERVALS, CHORD_DEGREES, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, buildChord, getKeyOffset, getHarmonyPitchClasses, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature, parseProgression, templateTonality, templateSpelling, spellChord, TEMPLATE_SEPARATOR as CHORD_SEPARATOR } from '../modules/musicTheory.js';
-import { generateVariant, generateScaleExploration, VARIANT_STYLES, determineChordFunction, analyzeExistingChords, scoreCandidate } from '../modules/generation.js';
+import { generateVariant, generateScaleExploration, VARIANT_STYLES, ROW4_CATEGORIES, determineChordFunction, analyzeExistingChords, scoreCandidate } from '../modules/generation.js';
 
 const NOTE_PITCH_CLASSES = { C: 0, 'B#': 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, 'E#': 5, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11, Cb: 11, Fb: 4 };
 const DEGREE_SEMITONES = { I: 0, II: 2, III: 4, IV: 5, V: 7, VI: 9, VII: 11 };
@@ -164,6 +164,27 @@ for (const [category, list] of Object.entries(progressions)) {
         const hasTonicToken = template.value.split(CHORD_SEPARATOR).some(token => !token.includes('/') && /^([iI])(?![ivIV])/.test(token));
         if (!hasTonicToken && template.tonality === undefined) {
             report('H3 template without a tonic token declares no tonality', `${category} | ${template.value}`);
+        }
+    }
+}
+
+// J: a template's row-4 hint names categories row 4 has. A misspelt category
+// would be ignored silently and the hint would do nothing
+// (docs/improvements/10-row4-mediants.md §3.3). Static.
+for (const [category, list] of Object.entries(progressions)) {
+    for (const template of list) {
+        if (template.row4 === undefined) continue;
+        const hint = template.row4;
+        const fields = hint && typeof hint === 'object' ? Object.keys(hint) : [];
+        if (!hint || typeof hint !== 'object' || fields.some(field => field !== 'prefer' && field !== 'avoid')) {
+            report('J row-4 hint is malformed', `${category} | ${template.value}: ${JSON.stringify(hint)}`);
+            continue;
+        }
+        for (const field of fields) {
+            if (!Array.isArray(hint[field])) { report('J row-4 hint is malformed', `${category} | ${template.value}: ${field} is not a list`); continue; }
+            for (const name of hint[field]) {
+                if (!ROW4_CATEGORIES.includes(name)) report('J row-4 hint names an unknown category', `${category} | ${template.value}: ${field} ${JSON.stringify(name)}`);
+            }
         }
     }
 }

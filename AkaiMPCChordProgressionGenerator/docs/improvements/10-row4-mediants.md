@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | in progress: §3.1 to §3.3 done, blocked on acceptance items 1, 3 and 5 (§8) |
 | Type | feature |
 | Size | M |
 | Depends on | 03, 04, 05, 07 |
@@ -177,3 +177,69 @@ About eight `chordRoles` keys and five `chordRolesMinor` keys, six locales.
   'substitution']`; list it in the PR.
 - Neo-Riemannian labelling (P, L, R, H) on pads. The numerals already carry
   the information for anyone who reads them.
+
+## 8. Implementation notes
+
+### 8.1 Blocked: acceptance items 1, 3 and 5
+
+Done, in a work-in-progress commit: §3.1, §3.2 and §3.3. Not done: §3.5 (tooltips),
+the README and the CHANGELOG, which wait for the decision below.
+
+- **Candidates.** `generateRow4Candidates()` takes the progression's pads as a last
+  parameter. The major pool's `♭VI`, `VI` and `♭III` are category `mediant`, `VI` at
+  0.6; `III` and `♭vi` are added. The minor pool adds `♭vi`, `iii`, `♭iii`, `vi` and
+  `III`. Every new candidate is placed last in its pool, so a tie goes to the
+  chords the pool already had. Both pools end with the mode flips: one per distinct
+  root of a major or minor progression chord, the stem's case inverted, its
+  accidental kept, category `modeFlip`, 0.6 for the tonic and 0.5 otherwise. An
+  applied chord has no numeral a flip could take and produces none, which §3.2
+  does not say.
+- **Hint.** `selectDynamicRow4Chords()` takes the template's `row4` as a last
+  parameter. A preferred category earns a point; an avoided one is left out of the
+  regular pool and comes back in step 5 right after the avoided types, unavoided
+  types first. `ROW4_CATEGORIES` is exported from `modules/generation.js`; check J
+  reads it and reports 1 for a hint that names `mediants`. The eighteen
+  Film/Cinematic templates carry the hint of D4.
+
+What holds: item 2 (Dark Cinematic in A: `D [IV]  Fm [♭vi]  A [I]  G♯dim7 [vii°7]`
+in all six styles), item 6, item 7, and §3.4's expectation: in C, Classic, the
+eighteen Film/Cinematic rows hold 25 mediants and 19 flips in 72 pads, two or
+three per template, and no secondary dominant or augmented sixth.
+
+What does not hold:
+
+1. **Items 3 and 5: the new categories reach every template.** Item 3 expects a
+   Jazz/Functional row 4 unchanged, item 5 a diff limited to Film/Cinematic and to
+   templates where `VI`'s lower usage matters. Measured: 182 of 184 template blocks
+   change row 4 (nothing outside row 4), all 21 Jazz/Functional ones included.
+   Gained, over the snapshot's Classic and Jazz rows: `♭vi` 135, `♭VI` 126, the
+   tonic flip `i` 105; lost: `♭II` 217, `It+6` 104, `VI` 82, `SubV7` 69. The cause is
+   the diversity pass, which §3.4 says not to change: after the two best
+   candidates it gives a seat to every category not yet on row 4, and `mediant` and
+   `modeFlip` are now in every pool. D1's move of `♭VI` out of `borrowed` adds to it:
+   `♭VII` and `♭VI` no longer compete for one seat, and the three moved chords lose
+   the point `scoreCandidate()` gives a `borrowed` candidate when the progression
+   has no borrowed chord. Placing the new candidates last changes nothing measurable.
+2. **Item 1: `E [III]` or `A♭m [♭vi]`.** Epic Trailer in C, Classic, gives
+   `Fm [iv]  A [VI]  Cm [i]  D♭ [♭II]`: the tonic flip is there, no secondary dominant
+   or augmented sixth, but the mediant seat goes to `A [VI]`, score 3, against
+   `E [III]`'s 2 and `A♭m`'s 3 at lower usage. `VI` is itself a chromatic mediant
+   under D1, which the item's list leaves out. Smooth and Pedal give `A♭m [♭vi]`.
+
+Measured alternatives, snapshot blocks whose row 4 changes (of 184), each with the
+hints of D4:
+
+| Variant | Blocks | Jazz/Functional (of 21) | Item 1, Classic |
+|---|---|---|---|
+| As specified | 182 | 21 | fails, `A [VI]` |
+| New candidates (III, ♭vi, the minor mediants, flips) only where the hint prefers their category | 117 | 20 | fails |
+| The same, and D1's move of `♭VI`, `VI`, `♭III` only where the hint prefers `mediant` | 89 | 9, from `VI`'s usage alone | fails |
+| As specified, but `mediant` and `modeFlip` get no diversity seat unless preferred (changes the pass, against §3.4) | 119 | 13 | fails |
+
+Item 1 fails in every variant, since `A [VI]` outscores `E [III]` there; it holds
+if the item admits `A [VI]`, or if `III` and `♭vi` earn more than `VI` under the hint.
+
+Measured against `f9f3ab0`, as specified: `.progression` files 1 094 to 1 068 and
+MIDI files 13 135 to 12 838, since more styles now coincide and fuse; audit,
+translations and snapshot check pass.
+

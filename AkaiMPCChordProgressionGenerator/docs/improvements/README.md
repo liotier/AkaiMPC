@@ -5,7 +5,8 @@ implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
 Status is recorded in each spec's header. Specs 00 to 09, 11 and 13 are
-implemented; spec 12 is dropped; the rest are **proposed**.
+implemented; spec 10 is in progress, blocked on its acceptance (§8 there); spec 12
+is dropped.
 
 ## 1. Provenance
 
