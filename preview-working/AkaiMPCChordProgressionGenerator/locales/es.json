@@ -211,6 +211,24 @@
       "Ger6": "Sexta aumentada alemana - predominante cromática que suena como séptima de dominante y resuelve a V."
     }
   },
+  "chordRolesMinor": {
+    "I": "Tercera de picardía - la tónica mayor, prestada del modo paralelo mayor, una resolución o un giro luminoso.",
+    "i": "Tónica - el acorde de reposo menor, aporta resolución y estabilidad.",
+    "II°": "Supertónica - disminuida en menor, acorde de pre-dominante, a menudo conduce a V.",
+    "♭III": "Relativo mayor - diatónico en menor, aclara la tonalidad, a menudo se mueve hacia ♭VI o ♭VII.",
+    "IV": "Subdominante dórica - prestada del modo paralelo mayor, su sexta elevada ilumina la tonalidad menor.",
+    "iv": "Subdominante - acorde de pre-dominante menor, prepara el movimiento hacia V o el regreso a i.",
+    "V": "Dominante - mayor, del menor armónico; su sensible atrae fuertemente hacia i.",
+    "v": "Dominante del menor natural - sin sensible, una atracción débil y modal hacia i.",
+    "♭VI": "Submediante - diatónico en menor, pre-dominante dramática, a menudo se mueve hacia V.",
+    "♭VII": "Subtónica - diatónica en menor, un tono por debajo de i, conduce a i o ♭III.",
+    "VII°": "Sensible - acorde disminuido del menor armónico, atrae fuertemente hacia i.",
+    "♭II": "Segunda napolitana - cromática en menor, fuerte pre-dominante, prepara V.",
+    "V/IV": "Dominante secundaria - la tónica convertida en séptima de dominante, toniciza iv.",
+    "V/♭III": "Dominante secundaria - toniciza ♭III, el relativo mayor.",
+    "V/♭VI": "Dominante secundaria - toniciza ♭VI, refuerza el movimiento hacia la submediante.",
+    "V/♭VII": "Dominante secundaria - toniciza ♭VII."
+  },
   "modeCategories": {
     "Common Western Tonal": "Modos tonales occidentales comunes",
     "Compact/Popular": "Compactos/populares",

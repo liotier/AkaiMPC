@@ -448,6 +448,9 @@ function checkSpelling(pad, label, keyScalePitchClasses) {
     }
 }
 
+// Natural minor, harmonic minor and Dorian together, above the tonic (check I)
+const MINOR_KEY_PITCH_CLASSES = new Set([0, 2, 3, 5, 7, 8, 9, 10, 11]);
+
 for (const key of keys) {
     const keyPc = getKeyOffset(key);
     for (const [category, list] of Object.entries(progressions)) {
@@ -461,6 +464,28 @@ for (const key of keys) {
 
                 // A: structure
                 if (variant.pads.length !== 16) report('A structural: pad count != 16', `${where} -> ${variant.pads.length}`);
+
+                // I: a minor template's palette offers the key's chords. The palette
+                // used to offer the major key's ii and vi, B minor and F♯ minor in A
+                // minor, to every minor template (docs/improvements/07-minor-key-awareness.md
+                // §3.6). Rows 2 and 3 stay within natural minor, harmonic minor and
+                // Dorian together, pitch classes 0 2 3 5 7 8 9 10 11 above the tonic,
+                // apart from the progression's own chords, Chord Matcher injections,
+                // and the chords built on a progression chord's root: those are the
+                // template's own chords in its genre's colours, and the ones that
+                // leave the key are idiomatic minor-key chromaticism (♭VI7 resolving
+                // to V like an augmented sixth, ♭III7 as V7/♭VI, ♭II7 as the tritone
+                // substitute), as I7 and IV7 are in a major key. Row 4 is chromatic
+                // by design and exempt.
+                if (templateTonality(template) === 'minor') {
+                    const rootPitchClass = pad => parseSpelledNote(pad.spelling.root).pitchClass;
+                    const progressionRoots = new Set(variant.pads.filter(pad => pad.isProgressionChord).map(rootPitchClass));
+                    variant.pads.slice(4, 12).forEach((pad, i) => {
+                        if (pad.isProgressionChord || pad.isChordMatcherChord || progressionRoots.has(rootPitchClass(pad))) return;
+                        const foreign = pad.notes.some(note => !MINOR_KEY_PITCH_CLASSES.has(((note - keyPc) % 12 + 12) % 12));
+                        if (foreign) report('I minor palette offers a chord foreign to the key', `${where} pad${i + 5} ${pad.chordName} [${pad.romanNumeral}]`);
+                    });
+                }
 
                 const seenRomanNumerals = new Map();
                 const seenPitchClassSets = new Map();

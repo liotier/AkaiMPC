@@ -211,6 +211,24 @@
       "Ger6": "German augmented 6th - chromatic predominant, sounds like a dominant 7th and resolves to V."
     }
   },
+  "chordRolesMinor": {
+    "I": "Picardy third - the major tonic, borrowed from the parallel major, a bright resolution or turn.",
+    "i": "Tonic - the minor home chord, gives resolution and stability.",
+    "II°": "Supertonic - diminished in minor, predominant chord, often leading to V.",
+    "♭III": "Relative major - diatonic in minor, brightens the key, often moves to ♭VI or ♭VII.",
+    "IV": "Dorian subdominant - borrowed from the parallel major, its raised 6th lifts the minor key.",
+    "iv": "Subdominant - minor predominant chord, prepares motion to V or back to i.",
+    "V": "Dominant - major, from harmonic minor; its leading tone pulls strongly to i.",
+    "v": "Natural-minor dominant - without a leading tone, a weak, modal pull to i.",
+    "♭VI": "Submediant - diatonic in minor, dramatic predominant, often moves to V.",
+    "♭VII": "Subtonic - diatonic in minor, a whole step below i, leads to i or ♭III.",
+    "VII°": "Leading-tone chord - diminished, from harmonic minor, pulls strongly to i.",
+    "♭II": "Neapolitan (flat-II) - chromatic in minor, strong predominant, prepares V.",
+    "V/IV": "Secondary dominant - the tonic made a dominant 7th, tonicizes iv.",
+    "V/♭III": "Secondary dominant - tonicizes ♭III, the relative major.",
+    "V/♭VI": "Secondary dominant - tonicizes ♭VI, strengthens the move to the submediant.",
+    "V/♭VII": "Secondary dominant - tonicizes ♭VII."
+  },
   "modeCategories": {
     "Common Western Tonal": "Common Western Tonal",
     "Compact/Popular": "Compact/Popular",
