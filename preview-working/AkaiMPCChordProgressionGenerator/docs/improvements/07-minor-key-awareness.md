@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | in progress: §3.1 to §3.3 done, stopped at the checkpoint of §3.7 |
 | Type | defect, design |
 | Size | L |
 | Depends on | 00, 02, 03, 04, 05 |
@@ -238,3 +238,78 @@ enforces parity.
 - Harmonic-minor or Dorian *templates*; those are data (spec 08 adds some).
 - Mediant candidates (spec 10).
 - Scale Mode (D8).
+
+## 8. Implementation notes
+
+### 8.1 Checkpoint (§3.7)
+
+§3.1 to §3.3 are implemented; §3.4 (tooltips), §3.5 (analysis line), §3.6 (check
+I, measured but not yet in the audit), the README and the CHANGELOG wait for the
+review.
+
+- **§3.1.** `templateTonality()` was already exported from `modules/musicTheory.js`
+  by spec 13, which needed it first, and the snapshot tool and check H already
+  import it. The nine templates of the table declare their `tonality`; check H3
+  reports a template that has no tonic token and no declaration, and reported the
+  nine before they were declared. 74 templates are minor: the 73 derived ones and
+  Classical/Modal "Plagal Cascade", `iv—♭VII—♭III—♭VI`, which moves in the
+  snapshot from `major | C` to `minor | A`.
+- **§3.2.** `generateVariant()` reads the tonality once and uses it for the
+  complements, for `colourChords` (which replaces the borrowed list, the dead
+  guard and the separate `iv` rule) and for the top-up. Palette chords carry a
+  `category`, `diatonic` or `borrowed` for the colour chords, `null` otherwise;
+  nothing reads it yet.
+- **§3.3.** `generateRow4Candidates()` takes `tonality` after `variantType`, as
+  written; `selectDynamicRow4Chords()` takes it in the same place. The major pool
+  is today's, in today's order. The minor pool, in tie-breaking order: `IV`, `I`,
+  `V7`, `vii°7`, `V7/V`, `V7/iv`, `V7/♭III`, `V7/♭VI`, `V7/♭VII`, the augmented
+  sixths, `♭II`, `SubV7`, and `ii` in Modal.
+
+One gap filled, to be confirmed: **the minor top-up list of §3.2 runs dry.** Its
+ten chords are mostly the colour chords and complements the palette has already
+offered, so a template whose `paletteFilter` keeps few of them came out with
+fewer than sixteen pads: Hip-Hop/Trap "Footwork Juke" `i—♭VII—iv` and
+Italo-Disco/House "Minimal House" `i—iv` with fourteen, Trance "Minimal Trance"
+`i—v—♭VII` with fifteen, which audit check A and the snapshot tool refuse and
+which would export a short `.progression` file. The natural minor's other three
+diatonic sevenths, `♭IIIM7`, `♭VIM7` and `♭VII7`, follow the ten and are used only
+when the ten are spent; that makes the minor list the counterpart of the major
+one, which pairs each triad with its seventh. Every grid has sixteen pads again.
+
+Two acceptance items cannot be met under the decisions as they stand:
+
+1. **Item 1, check I at 0.** Before this work check I reports 11 268, not the
+   estimated 16 000: the major key's `ii` and `ii7` are B minor in A, which A Dorian
+   contains, so the check passes them; `vi` and `vi7` account for 7 440. After §3.1
+   to §3.3 it reports 3 972, in 39 templates, and every one is an extension of the
+   progression's own chords, which §3.2 leaves unchanged: `♭VI7` 1 704 (F7 in A
+   minor, whose E♭ is in none of the three scales; it sounds as the German sixth),
+   `♭III7` 984, `♭II7` 288, the quartal and suspended chords built on ♭VI and ♭III
+   480, `♭VI9` 180, `♭vi7` 72, `iii7` 72, `♭IIsus2` 72, `♭III9` 48, `♭II9` 48. §1 lists
+   four foreign pads for `i—♭VII—♭VI—V` and misses its fifth, `F7 [♭VI7]`. Reaching 0
+   needs one of: check I exempting the extensions of progression chords as it
+   exempts the progression chords themselves; the palette not extending ♭VI, ♭III
+   and ♭II with chords that leave the key in a minor template; or a recorded
+   non-zero expectation.
+2. **Item 2, `Bm7b5 [iiø7]` in rows 2-3 of `i—♭VII—♭VI—V` in A, Classic.** It is not
+   there under any of the five genres that list the progression, in any style.
+   §3.2 gives `iiø7` spice 2, and the palette sorts by priority and then spice, so
+   the eight spice-1 chords `i7`, `♭VII7`, `♭VI7`, `V7`, `v`, `v7`, `♭III` and `iv` fill
+   rows 2-3 first. Across all minor variants `iiø7` reaches rows 2-3 in 1 452 of
+   5 328 and is absent from 3 864; `ii°` reaches them in 780, `v` in 4 608, `v7` in
+   3 156. The rest of item 2 holds: no `Bm`, `Bm7`, `F#m` or `F#m7` on any pad, `Em [v]`
+   in row 3 and `D [IV]` in row 4. Item 3 holds as written.
+
+Measured against `09b19af`:
+
+| Quantity | Result |
+|---|---|
+| Major-tonality variants, twelve keys, six styles | 7 920, none different, pads, numerals, notes and spellings compared |
+| Minor-tonality variants | 5 328, all different, in all 74 templates |
+| Snapshot | 73 minor blocks changed, Plagal Cascade moved from C major to A minor; no major or Scale block. No progression pad changes; the 22 row-1 lines and 11 Smooth lines that change are progressions shorter than four chords, whose first row holds palette chords |
+| Check I (not yet in the audit) | 11 268 before, 3 972 after |
+| Row 4 over the minor variants | `vii°7` 4 420, `IV` 4 245, `V7/V` 4 112, `♭II` 3 922, `I` 1 600, `V7/iv` 1 141, `V7` 556, `SubV7` 442, `It+6` 356, `ii` 156, `V7/♭VI` 105, `V7/♭III` 49, `V7/♭VII` 16, and palette fills |
+| Entries into spec 04's step 5, key C, six styles | 35 in seven templates before (spec 04's 28, plus 7 from the Pedal style), 31 in six after: Hip-Hop/Trap `i—♭III—♭VI—♭VII` no longer falls back; Electronic/Modern `i—iv—v` gains its Jazz variant |
+| `.progression` / MIDI files in the pack | 1 093 / 13 123 before, 1 094 / 13 135 after; 437 `.progression` files keep their name with new content. Fusions move: "Footwork Juke" Classic and Jazz now fuse, "Minimal House" and "Minor Mediants" no longer do |
+| Audit (without check I), translations, snapshot check | pass |
+
