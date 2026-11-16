@@ -82,6 +82,16 @@ chords name their bass the same way. This reaches the pads and the chord names
 inside `.progression` files exported from the app in sharp keys; the published
 pack, in C, and the MIDI files, which carry no chord names, are unchanged.
 
+**A sixth voicing style: Pedal.** The first chord's bass note is held under every
+chord that contains it, so the upper voices move while the bass stays: the heroic
+Em, C, A over a held E, or the line cliché's Em, Em#5, Em6 over the same E. A chord
+without that note takes its nearest inversion above it, since an MPC pad cannot
+sound a note its chord lacks. The whole grid follows, the top row included. Every
+progression gets a Pedal card, and the pack grows by one `.progression` file per
+progression and one MIDI file per progression and key, 184 and 2,208 files: no
+Pedal grid coincides with another style's anywhere in the catalogue. No existing
+file changes.
+
 ## 2026-09-08
 
 ### Chord Progression Generator

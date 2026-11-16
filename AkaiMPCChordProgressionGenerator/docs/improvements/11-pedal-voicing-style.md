@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | proposed |
+| Status | implemented |
 | Type | feature |
 | Size | M |
 | Depends on | 00 |
@@ -71,7 +71,11 @@ both the progression and the palette, as the other styles are called.
 
 - `VARIANT_STYLES = ['Smooth', 'Classic', 'Jazz', 'Modal', 'Experimental', 'Pedal']`.
 - `generateVariant()`: two new `case 'Pedal'` branches calling
-  `applyPedalVoicing()`.
+  `applyPedalVoicing()`, and a third call for row 4, which D5 includes and no
+  style otherwise voices (corrected at implementation, §7).
+- `applyPedalVoicing(chords, pedalPitchClass)` takes the pedal as an optional
+  second argument, so that the palette and row 4 are voiced over the
+  progression's pedal (D5); by default it is the first chord's.
 - Nothing in `modules/mpcNaming.js` changes; it takes the style name as a
   string.
 - `tools/build-pack.mjs` and `tools/audit-theory.mjs` iterate
@@ -135,3 +139,54 @@ both the progression and the palette, as the other styles are called.
 - A user-selectable pedal note. The first chord's bass is the only choice
   that needs no interface.
 - Pedal against foreign harmony (D4).
+
+## 7. Implementation notes
+
+Implemented as specified. `applyPedalVoicing()` is in `modules/musicTheory.js`,
+beside the other voicing treatments; `rootPositionPitchClasses()` gives a chord's
+pitch classes in root-position order, root first, from its type's intervals,
+because by the time a style is applied the progression's notes have already been
+voice-led by `generateProgressionChords()` and are no longer in that order.
+`buildVoicingFromBass()` stays private. `VARIANT_STYLES` gains `Pedal`, last.
+`variants.Pedal` is in the six locales, and the `paletteMode` help text, which
+listed the five styles, lists six in each; §3.4 asks for "up to six" wherever
+"up to five" occurs, and it occurs there too.
+
+One correction, now written into §3.2:
+
+- **Row 4 needs a third call.** §3.2 asked for two `case 'Pedal'` branches, the
+  progression and the palette. D5 says rows 2 to 4 follow the pedal, but row 4 is
+  chosen after the palette is voiced and no style voices it: its chords stay in
+  root position from C4 up, so with two branches a Pedal grid's top row would
+  carry its E, in E minor, on top of an Am at 69 72 76 rather than under it.
+  `generateVariant()` voices row 4 too, under the progression's pedal, as D5
+  decides. The four fallback chords of row 4, which never occur, are voiced with
+  it.
+
+Measured against `b942b28`:
+
+| Quantity | Result |
+|---|---|
+| `.progression` files in the pack | 909 → 1 093, +184: the maximum, one per template |
+| MIDI files in the pack | 10 915 → 13 123, +2 208: the maximum, twelve per template |
+| Fused `+Pedal` labels | 0: no Pedal grid equals another style's |
+| Existing pack files changed | 0 of 909 `.progression` and 0 of 10 915 MIDI, compared entry by entry |
+| Pedal pads, all templates, twelve keys | 35 328 |
+| ... that contain the pedal's pitch class | 19 124, every one with the pedal as its lowest note; the fallback of §3.1 is never taken |
+| ... that do not | 16 204, none sounding below the pedal |
+| Pedal note | always in 48-59 |
+| Audit, all six styles | no findings, 13 248 variants / 211 968 pads |
+| Snapshot | unchanged, as §4 expects |
+| Running app, headless Chromium | six cards, 96 pads, the Pedal label in English and German, no page errors |
+
+Acceptance items 1, 2 and 6, progression pads of the Pedal variant:
+
+| Template, key | Pads (MIDI) |
+|---|---|
+| `i—♭VI—IV—♭VI` Wandering Fifth, E | Em 52,55,59; C 52,55,60; A 52,57,61; C 52,55,60 |
+| `I—V—vi—IV`, C | C 48,52,55; G 59,62,67; Am 48,52,57; F 48,53,57 |
+| `i—i♯5—i6—i♯5` Ascending Line Cliché, E | Em 52,55,59; Em#5 52,55,60; Em6 52,55,59,61; Em#5 52,55,60 |
+
+The Wandering Fifth's top voice climbs B, C, C♯ over E, as §1 describes, and the
+line cliché's E is held at 52 under all four pads, the held bass spec 09 §8 left
+to this spec.

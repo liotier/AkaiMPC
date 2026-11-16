@@ -90,6 +90,10 @@
       "label": "Voicing Espanso",
       "tooltip": "Variante sperimentale: Utilizza voicing espansi su più ottave. Crea colori e texture armoniche uniche e non convenzionali."
     },
+    "Pedal": {
+      "label": "Basso Pedale",
+      "tooltip": "Variante pedale: Mantiene la nota di basso del primo accordo sotto ogni accordo che la contiene, così le voci superiori si muovono mentre il basso resta fermo. Gli accordi privi di quella nota prendono il rivolto più vicino sopra di essa."
+    },
     "progressionClarification": "Accordi 1-{{count}} dalla progressione, {{next}}-16 estrapolati. ",
     "chordDistanceHint": "I colori delle carte mostrano la distanza dell'accordo dalla carta selezionata",
     "scaleExploration": {
@@ -108,7 +112,7 @@
   "tooltips": {
     "progressionPaletteDisabled": "Le tavolozze di progressione non sono utilizzate in modalità Esplorazione Scala. Verranno generati tutti gli accordi della scala selezionata.",
     "progressionPaletteEnabled": "Ogni tavolozza fornisce 16 accordi unici: primi N dalla progressione, pad rimanenti dall'armonia estesa. Filtri specifici del genere garantiscono colori di accordi appropriati.",
-    "paletteMode": "Genera palette di 16 accordi da progressioni selezionate in 22 generi. Produce fino a cinque varianti di voicing (Smooth, Classic, Jazz, Modal, Experimental). Le preferenze di ogni genere calibrano l'armonia estesa.",
+    "paletteMode": "Genera palette di 16 accordi da progressioni selezionate in 22 generi. Produce fino a sei varianti di voicing (Smooth, Classic, Jazz, Modal, Experimental, Pedal). Le preferenze di ogni genere calibrano l'armonia estesa.",
     "scaleMode": "Esplora una scala o un modo generando tutti gli accordi che consente: la triade di ogni grado e poi l'accordo di settima di ogni grado. Ideale per imparare scale come l'esatonale, la frigia dominante o la minore ungherese.",
     "keyboardShortcuts": "Suona con la tastiera del computer: cvbn (pad 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Le scorciatoie da tastiera valgono sul desktop. Su tablet, tocca i pad per suonarli.",

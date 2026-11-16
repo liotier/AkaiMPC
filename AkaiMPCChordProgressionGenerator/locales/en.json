@@ -90,6 +90,10 @@
       "label": "Spread Voicing",
       "tooltip": "Experimental variant: Uses spread voicings across multiple octaves. Creates unique, unconventional harmonic colors and textures."
     },
+    "Pedal": {
+      "label": "Pedal Bass",
+      "tooltip": "Pedal variant: holds the first chord's bass note under every chord that contains it, so the upper voices move while the bass stays. Chords without that note take their nearest inversion above it."
+    },
     "progressionClarification": "Chords 1-{{count}} from progression, {{next}}-16 extrapolated. ",
     "chordDistanceHint": "Colors of cards show chord distance from selected card",
     "scaleExploration": {
@@ -108,7 +112,7 @@
   "tooltips": {
     "progressionPaletteDisabled": "Progression palettes are not used in Scale Exploration mode. All chords from the selected scale will be generated.",
     "progressionPaletteEnabled": "Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors.",
-    "paletteMode": "Generate 16-pad chord palettes from curated progressions across 22 genres. Creates up to five voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific preferences tailor the extended harmony.",
+    "paletteMode": "Generate 16-pad chord palettes from curated progressions across 22 genres. Creates up to six voicing variants (Smooth, Classic, Jazz, Modal, Experimental, Pedal). Genre-specific preferences tailor the extended harmony.",
     "scaleMode": "Explore a scale or mode by generating every chord it supports: the triad on each degree, then the seventh chord on each degree. Ideal for learning scales like Whole Tone, Phrygian Dominant or Hungarian Minor.",
     "keyboardShortcuts": "Play with computer keys: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Keyboard shortcuts are for desktop. On a tablet, tap the chord pads to play them.",

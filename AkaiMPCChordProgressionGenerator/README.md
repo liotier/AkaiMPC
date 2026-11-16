@@ -58,21 +58,22 @@ Found a sample with killer chords but don't know the key? The Chord Matcher lets
 - Bridge the gap between sample-based and theory-based production
 
 ### Two Workflows for Every Creative Process
-- **Progression Palette Mode** - Choose from 184 progression palettes across 22 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). 100+ progressions feature **genre-specific palette intelligence** that prioritizes authentic chord voicings for each style. A progression listed under several genres gets a palette tuned to each, and exports under the genre you chose it from. Generate up to five voicing variants instantly.
+- **Progression Palette Mode** - Choose from 184 progression palettes across 22 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). 100+ progressions feature **genre-specific palette intelligence** that prioritizes authentic chord voicings for each style. A progression listed under several genres gets a palette tuned to each, and exports under the genre you chose it from. Generate up to six voicing variants instantly.
 - **Scale Mode** - Pick from 34 scales/modes and explore all available chords: the triad on each degree in the first two rows, the seventh chord on each degree in the last two. Every chord is derived from the scale itself, so half-diminished (m7♭5), diminished 7th, minor-major 7th, augmented major 7th and 6th chords appear wherever the scale actually calls for them - and nothing on the grid uses a note the scale does not contain. Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.
 - Download individual variants or bulk export every version at once
 
 ## Musical Intelligence Under the Hood
 
-### Five Intelligent Variants, Five Different Vibes
+### Six Intelligent Variants, Six Different Vibes
 
-Each generation creates up to five musically distinct versions of your progression with optimized voice leading (variants that come out identical are dropped, so you only ever see genuinely different options):
+Each generation creates up to six musically distinct versions of your progression with optimized voice leading (variants that come out identical are dropped, so you only ever see genuinely different options):
 
 - **Smooth** - Comprehensive voice-leading search maximising common tones, step-wise motion and contrary motion.
 - **Classic** - Default voice leading optimization for smooth transitions with minimal finger movement.
 - **Jazz** - Close voicings for that tight, sophisticated sound. Extended chords (7ths, 9ths) where appropriate.
 - **Modal** - Open voicings (drop-2) for a more spacious, airy sound. Perfect for atmospheric pads.
 - **Experimental** - Spread voicings for maximum variation. For producers who color outside the lines.
+- **Pedal** - Holds the first chord's bass note under every chord that contains it, so the upper voices move over a note that stays: the heroic Em, C, A over a held E. Chords without that note sit in their nearest inversion above it.
 
 ### Chord Palette Approach: Your Musical Color Wheel
 
@@ -173,7 +174,7 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 ## Quick Start Guide
 
 1. **Choose Your Workflow**
-   - **Progression Palette Mode** - Select a key and browse 184 progression palettes organized by genre. 100+ progressions feature smart palette priorities for genre-authentic voicings. Generates up to five voicing variants instantly.
+   - **Progression Palette Mode** - Select a key and browse 184 progression palettes organized by genre. 100+ progressions feature smart palette priorities for genre-authentic voicings. Generates up to six voicing variants instantly.
    - **Scale Mode** - Select a key + mode/scale to explore all available chords from that scale. Perfect for learning exotic scales and modal exploration.
    - **Chord Matcher** (optional) - Input chords from your sample to filter compatible keys and modes for both workflows.
 

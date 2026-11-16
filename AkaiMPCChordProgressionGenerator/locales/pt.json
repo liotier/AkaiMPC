@@ -90,6 +90,10 @@
       "label": "Voicing Expandido",
       "tooltip": "Variante experimental: Usa voicings expandidos através de múltiplas oitavas. Cria cores e texturas harmônicas únicas e não convencionais."
     },
+    "Pedal": {
+      "label": "Baixo Pedal",
+      "tooltip": "Variante pedal: Mantém a nota do baixo do primeiro acorde sob cada acorde que a contém, de modo que as vozes superiores se movem enquanto o baixo permanece. Os acordes sem essa nota tomam sua inversão mais próxima acima dela."
+    },
     "progressionClarification": "Acordes 1-{{count}} da progressão, {{next}}-16 extrapolados. ",
     "chordDistanceHint": "As cores dos cartões mostram a distância do acorde do cartão selecionado",
     "scaleExploration": {
@@ -108,7 +112,7 @@
   "tooltips": {
     "progressionPaletteDisabled": "Paletas de progressão não são usadas no modo Exploração de Escala. Todos os acordes da escala selecionada serão gerados.",
     "progressionPaletteEnabled": "Cada paleta fornece 16 acordes únicos: primeiros N da progressão, pads restantes da harmonia estendida. Filtros específicos de gênero garantem cores de acordes apropriadas.",
-    "paletteMode": "Gera paletas de 16 acordes a partir de progressões selecionadas em 22 gêneros. Produz até cinco variantes de voicing (Smooth, Classic, Jazz, Modal, Experimental). As preferências de cada gênero ajustam a harmonia estendida.",
+    "paletteMode": "Gera paletas de 16 acordes a partir de progressões selecionadas em 22 gêneros. Produz até seis variantes de voicing (Smooth, Classic, Jazz, Modal, Experimental, Pedal). As preferências de cada gênero ajustam a harmonia estendida.",
     "scaleMode": "Explore uma escala ou modo gerando todos os acordes que ela admite: a tríade de cada grau e depois o acorde de sétima de cada grau. Ideal para conhecer escalas como a de tons inteiros, a frígia dominante ou a menor húngara.",
     "keyboardShortcuts": "Toque pelo teclado do computador: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Os atalhos de teclado são para desktop. No tablet, toque nos pads para tocá-los.",
