@@ -1,11 +1,13 @@
 # Improvement specifications - Chord Progression Generator
 
-Fourteen specifications, one per improvement, each written to be handed to an
+Seventeen specifications, one per improvement, each written to be handed to an
 implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
 Status is recorded in each spec's header. Specs 00 to 11 and 13 are
-implemented; spec 12 is dropped.
+implemented; spec 12 is dropped. Specs 14 to 16 come from the review of the
+branch before merge and are specified; spec 15 ends with an open question for
+the maintainer.
 
 ## 1. Provenance
 
@@ -79,6 +81,9 @@ instrument, and the later specs rely on it.
 | 11 | [A Pedal voicing style](11-pedal-voicing-style.md) | feature | M | 00 | Opus 5.5 |
 | 12 | [Dropped: align the Finder's minor-key numerals](12-finder-numeral-convention.md) | consistency, dropped | S | - | - |
 | 13 | [Spelling that follows the key](13-spelling.md) | defect | L | 00 | Opus 5.5 |
+| 14 | [Pad descriptions and the analysis line](14-pad-descriptions-and-analysis.md) | defect | M | 00, 07, 09, 10, 13 | Sonnet 5.5 |
+| 15 | [Scale Mode's gap filler repeats chords](15-scale-mode-gap-filler.md) | defect | S | 05, 13 | Sonnet 5.5 |
+| 16 | [Five exports nothing uses](16-dead-exports.md) | cleanup | S | - | Haiku 5.5 |
 
 Sizes: S is under a day of a session's work with review, M one to two, L a
 multi-step job that should be reviewed at a checkpoint before it touches the
@@ -100,8 +105,13 @@ catalogue.
  │
  ├── 13 spelling              (independent; recommended before 07)
  │
- └── 11 pedal voicing         (independent)
+ ├── 11 pedal voicing         (independent)
+ │
+ ├── 14 descriptions, analysis (after 07, 09, 10, 13)
+ │
+ └── 15 Scale Mode filler     (after 05)
 
+16 dead exports               (independent)
 12 finder convention          (dropped)
 ```
 
@@ -126,7 +136,8 @@ Why this order:
   tonality field that 07 introduces.
 
 Three specs are mutually independent and can run in parallel sessions: 03,
-05 and 06. So can 08 and 11, once their dependencies are merged.
+05 and 06. So can 08 and 11, once their dependencies are merged, and so can
+14, 15 and 16, whose dependencies are all implemented.
 
 ## 5. Verification protocol
 
@@ -179,8 +190,8 @@ decisions are followed to the letter, the table says so.
 
 | Model | Identifier | Use it for | Specs |
 |---|---|---|---|
-| Claude Haiku 5.5 | `claude-haiku-5-5` | Mechanical changes with a complete specification and a mechanical acceptance test: a new tool whose output format is fully given, a classifier replaced by a table | 00, 03 |
-| Claude Sonnet 5.5 | `claude-sonnet-5-5` | Bounded data and logic changes where the English text is supplied and the theory decisions are already made; translation into the five other locales; small algorithmic changes whose effect the snapshot makes visible | 02, 04, 05, 08, 09 |
+| Claude Haiku 5.5 | `claude-haiku-5-5` | Mechanical changes with a complete specification and a mechanical acceptance test: a new tool whose output format is fully given, a classifier replaced by a table | 00, 03, 16 |
+| Claude Sonnet 5.5 | `claude-sonnet-5-5` | Bounded data and logic changes where the English text is supplied and the theory decisions are already made; translation into the five other locales; small algorithmic changes whose effect the snapshot makes visible | 02, 04, 05, 08, 09, 14, 15 |
 | Claude Opus 5.5 | `claude-opus-5-5` | Cross-cutting refactors with a byte-identity requirement, changes to persistence and identity, voicing algorithms, and anything that must weigh several interacting scoring rules | 01, 06, 07, 10, 11, 13 |
 | Claude Fable 5.2 | `claude-fable-5-2` | Not required by any spec. It was first recommended for 07; that was revised once the other specs proved implementable from their tables, with judgement calls brought back for review | - |
 
