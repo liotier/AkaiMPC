@@ -195,6 +195,8 @@
     "SUBV7": "Substitution tritonique - substitution jazz pour V7, crée un mouvement chromatique des voix.",
     "♯I°": "Diminué de passage - connecteur chromatique entre accords diatoniques.",
     "♯II°": "Diminué de passage - connecteur chromatique entre accords diatoniques.",
+    "♯IV": "Accord du triton - accord majeur chromatique à un triton de la tonique, le point le plus éloigné ; il glisse d'un demi-ton vers IV.",
+    "♯IV°": "Accord de sensible de V (vii°/V) - accord de passage dont la fondamentale monte d'un demi-ton vers celle de V.",
     "sus": "Accord suspendu - remplace la tierce par une seconde/quarte, crée une suspension avant résolution.",
     "add9": "Ajoute de la brillance, couleur rêveuse.",
     "6": "Couleur vintage, adoucit l'harmonie.",
@@ -213,7 +215,9 @@
       "dom7sus4": "7sus4 - tension de dominante avec la tierce suspendue, courant en modal et en gospel.",
       "It6": "Sixte augmentée italienne - prédominante chromatique qui resserre les voix extrêmes sur la dominante.",
       "Fr6": "Sixte augmentée française - prédominante chromatique avec seconde ajoutée, plus claire que l’italienne.",
-      "Ger6": "Sixte augmentée allemande - prédominante chromatique sonnant comme une septième de dominante, résout sur V."
+      "Ger6": "Sixte augmentée allemande - prédominante chromatique sonnant comme une septième de dominante, résout sur V.",
+      "dom7b5": "Septième de dominante à quinte diminuée - mêmes notes que la septième de dominante à un triton, elle peut donc résoudre vers la cible de l'une ou de l'autre.",
+      "minAug": "Triade mineure à quinte augmentée - sonne comme une triade majeure en premier renversement ; dans un cliché de ligne, c'est l'étape chromatique entre i et i6."
     }
   },
   "chordRolesMinor": {
@@ -237,7 +241,14 @@
     "♭iii": "Médiante chromatique - accord mineur une tierce mineure au-dessus de i, avec une note commune ; sombre et lointain.",
     "♭vi": "Médiante chromatique - accord mineur une tierce majeure sous i, avec une note commune ; sombre, il s'enfonce.",
     "vi": "Médiante chromatique - accord mineur une tierce mineure sous i, avec une note commune ; doux-amer, avec la sixte dorienne.",
-    "III": "Pôle hexatonique - accord majeur sans note commune avec i, chaque voix bouge d'un demi-ton ; étrange et lointain."
+    "III": "Pôle hexatonique - accord majeur sans note commune avec i, chaque voix bouge d'un demi-ton ; étrange et lointain.",
+    "i♯5": "Accord de cliché de ligne - la tonique mineure à quinte haussée d'un demi-ton, étape chromatique entre i et i6."
+  },
+  "chordRolesMajor": {
+    "i": "Tonique mineure - l'accord de repos du mineur parallèle, emprunté ; il assombrit la tonique sans la quitter.",
+    "iv": "Sous-dominante mineure - empruntée au mineur parallèle ; sa sixte abaissée descend sur la quinte, une attraction plagale plus sombre.",
+    "I°": "Diminué à note commune - garde la fondamentale de la tonique pendant que ses autres notes bougent chromatiquement, une couleur de passage.",
+    "III°": "Accord de sensible de IV (vii°/IV) - accord de passage dont la fondamentale monte d'un demi-ton vers celle de IV."
   },
   "modeCategories": {
     "Common Western Tonal": "Modes tonaux occidentaux courants",

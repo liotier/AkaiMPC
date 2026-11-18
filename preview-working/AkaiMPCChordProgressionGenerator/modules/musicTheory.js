@@ -3220,6 +3220,150 @@ export function getChordFamily(chordType) {
     return 'suspended';
 }
 
+// ============================================================================
+// WHAT A PROGRESSION CHORD IS, AND HOW A PAD DESCRIBES ITSELF
+// docs/improvements/14-pad-descriptions-and-analysis.md
+// ============================================================================
+
+const pitchClassSet = list => new Set(list);
+
+// Pitch classes above the tonic (spec 14 D2)
+const DIATONIC_PITCH_CLASSES = {
+    major: pitchClassSet([0, 2, 4, 5, 7, 9, 11]),
+    minor: pitchClassSet([0, 2, 3, 5, 7, 8, 10, 11])      // natural minor and its raised seventh
+};
+const PARALLEL_SOURCES = {
+    // A major key borrows from Aeolian, Dorian, Phrygian and harmonic minor.
+    // Lydian is left out, or ♯iv° would read as a borrowing.
+    major: [[0, 2, 3, 5, 7, 8, 10], [0, 2, 3, 5, 7, 9, 10], [0, 1, 3, 5, 7, 8, 10], [0, 2, 3, 5, 7, 8, 11]].map(pitchClassSet),
+    // A minor key borrows from Ionian, Dorian and Phrygian (the Neapolitan)
+    minor: [[0, 2, 4, 5, 7, 9, 11], [0, 2, 3, 5, 7, 9, 10], [0, 1, 3, 5, 7, 8, 10]].map(pitchClassSet)
+};
+const AUGMENTED_SIXTHS = new Set(['It+6', 'Fr+6', 'Ger+6']);
+
+// A major third and a minor seventh: the dominant family, whatever is added
+function isDominantType(chordType) {
+    const intervals = new Set((CHORD_INTERVALS[chordType] || []).map(interval => interval % 12));
+    return intervals.has(4) && intervals.has(10);
+}
+
+// A dominant on ♭II, or SubV7: the tritone substitute of V7 (spec 14 D3, D12)
+function isTritoneSubstitute(romanNumeral, chordType) {
+    if (/^SubV/.test(romanNumeral)) return true;
+    if (romanNumeral.includes('/')) return false;
+    const parsed = parseRomanStem(romanNumeral);
+    return !!parsed && /[♭b]/.test(parsed.accidentals) && parsed.degree === 'II' && isDominantType(chordType);
+}
+
+/**
+ * What a progression chord is in its key, for the analysis line under each
+ * variant: 'diatonic', 'borrowed' (modal interchange), 'applied' (a secondary
+ * chord) or 'chromatic'. The first rule that matches decides; the table and its
+ * reasons are in docs/improvements/14-pad-descriptions-and-analysis.md §4.1.
+ *
+ * @param {{romanNumeral: string, chordType: string, notes: number[]}} pad
+ * @param {'major'|'minor'} tonality - The template's, from templateTonality()
+ * @param {number} tonicPitchClass - The key's tonic, 0-11
+ * @returns {'diatonic'|'borrowed'|'applied'|'chromatic'}
+ */
+export function classifyProgressionChord(pad, tonality, tonicPitchClass) {
+    const numeral = pad.romanNumeral || '';
+    const chordType = pad.chordType;
+    const parsed = parseRomanStem(numeral.split('/')[0]);
+    const accidental = parsed ? parsed.accidentals : '';
+    const degree = parsed ? parsed.degree : null;
+    const flat = /[♭b]/.test(accidental);
+    const family = getChordFamily(chordType);
+    const dominant = isDominantType(chordType);
+    const major = tonality !== 'minor';
+
+    // 1. An applied chord written as one
+    if (numeral.includes('/')) return 'applied';
+    // 2. Augmented sixths, the augmented family and the line cliché's minor ♯5:
+    //    i♯5 sounds E G C in E minor but is spelled E G B♯ (spec 13 D5)
+    if (AUGMENTED_SIXTHS.has(numeral) || family === 'augmented' || chordType === 'minAug') return 'chromatic';
+    // 3. The tritone substitute
+    if (isTritoneSubstitute(numeral, chordType)) return 'chromatic';
+    // 4. A dominant seventh on II, III, VI or VII in a major key is a secondary
+    //    dominant; a plain major triad there is not decided here (D6)
+    if (major && !accidental && ['II', 'III', 'VI', 'VII'].includes(degree) && dominant) return 'applied';
+    // 5. A minor chord on a flattened degree: double mixture. Its C♭ shares a
+    //    pitch class with the leading tone B, so pitch classes cannot tell (D8)
+    if (flat && parsed.lower && family === 'minor') return 'chromatic';
+    // 6. A diminished chord off the key's own degrees: passing or leading-tone
+    if (family === 'diminished' && !(!accidental && (degree === 'VII' || degree === 'II'))) return 'chromatic';
+    // 7. The blues I7 and IV7 (D5)
+    if (major && !accidental && (degree === 'I' || degree === 'IV') && dominant) return 'diatonic';
+
+    const pitchClasses = (pad.notes || []).map(note => ((note - tonicPitchClass) % 12 + 12) % 12);
+    // 8. Every note in the key
+    if (pitchClasses.every(pc => DIATONIC_PITCH_CLASSES[major ? 'major' : 'minor'].has(pc))) return 'diatonic';
+    // 9. Every note in one parallel mode
+    if (PARALLEL_SOURCES[major ? 'major' : 'minor'].some(source => pitchClasses.every(pc => source.has(pc)))) return 'borrowed';
+    // 10. Anything else
+    return 'chromatic';
+}
+
+// Quality markings that do not change what a numeral does: 'VIIØ7' -> 'VII',
+// 'I7SUS4(NO5)' -> 'I', 'II7(11)' -> 'II'
+const QUALITY_MARKINGS = /M7|MAJ7|\(MAJ7\)|\(NO5\)|\(11\)|7|°|Ø|\+|DIM|SUS[24]|ADD9|6|9|11|13/g;
+// The same markings in a numeral whose case is kept: 'vi7' -> 'vi', 'IM7' -> 'I'
+const QUALITY_MARKINGS_CASE_KEPT = /M7|\(maj7\)|\(no5\)|\(11\)|7|°|ø|\+|sus[24]|add9|6|9|11|13/g;
+
+/**
+ * The i18n key of a pad's description (spec 14 §4.2). In order: the tritone
+ * substitute; then, in a template, the table of its tonality - chordRolesMinor
+ * or chordRolesMajor - where a numeral reads as written, then as its diminished
+ * triad if it has one ('iiø7' and 'ii°' read 'II°', 'vii°7' reads 'VII°'), then
+ * without quality markings with its case kept ('iv7' reads 'iv'), then upper-cased
+ * without them ('V7/iv' reads 'V/IV'); then chordRoles, where case matters first
+ * (vi, the relative minor, is not VI, a chromatic mediant) and then does not;
+ * then the chord type, the chord family, and the generic texts. Scale Mode passes
+ * no tonality: a Scale Mode i is its scale's tonic, not a borrowing.
+ *
+ * @param {string} romanNumeral - e.g. 'viiø7', '♭VII', 'V7/V'
+ * @param {string} chordType - Chord type key, e.g. 'm7b5'
+ * @param {string} [tonality] - The template's, 'major' or 'minor'
+ * @param {(key: string) => boolean} has - Whether an i18n key exists
+ * @returns {string} An i18n key
+ */
+export function chordRoleKey(romanNumeral, chordType, tonality, has) {
+    const numeral = romanNumeral || '';
+    if (isTritoneSubstitute(numeral, chordType)) return 'chordRoles.SUBV7';
+
+    const table = { minor: 'chordRolesMinor', major: 'chordRolesMajor' }[tonality];
+    if (table && numeral) {
+        const candidates = [numeral];
+        if (/[°ø]/.test(numeral)) candidates.push(numeral.toUpperCase().replace('Ø', '°').replace(/°7$/, '°'));
+        candidates.push(numeral.replaceAll(QUALITY_MARKINGS_CASE_KEPT, ''), numeral.toUpperCase().replaceAll(QUALITY_MARKINGS, ''));
+        for (const candidate of candidates) {
+            if (has(`${table}.${candidate}`)) return `${table}.${candidate}`;
+        }
+    }
+
+    const upper = numeral.toUpperCase();
+    const candidates = [
+        `chordRoles.${numeral}`,
+        `chordRoles.${upper}`,
+        `chordRoles.${numeral.replaceAll(QUALITY_MARKINGS_CASE_KEPT, '')}`,
+        `chordRoles.${upper.replaceAll(QUALITY_MARKINGS, '')}`,
+        chordType ? `chordRoles.types.${chordType}` : null
+    ].filter(Boolean);
+    for (const candidate of candidates) {
+        if (has(candidate)) return candidate;
+    }
+
+    // Generic descriptions by chord family
+    if (chordType) {
+        if (chordType.includes('sus') || chordType.startsWith('quartal')) return 'chordRoles.sus';
+        if (chordType.includes('add9') || chordType === 'minAdd9') return 'chordRoles.add9';
+        if (chordType === 'major6' || chordType === 'minor6' || chordType === 'maj6/9') return 'chordRoles.6';
+        if (/9|11|13/.test(chordType)) return 'chordRoles.extended';
+    }
+    if (upper.includes('♭') || upper.includes('♯')) return 'chordRoles.borrowed';
+    return 'chordRoles.default';
+}
+
 /**
  * Rough "how much colour does this chord add" score, used to order the palette
  * from foundation chords to spicy ones. Triads are plain, sevenths add colour,

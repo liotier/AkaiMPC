@@ -195,6 +195,8 @@
     "SUBV7": "Tritone substitution - jazz substitution for V7, creates chromatic voice leading.",
     "♯I°": "Passing diminished - chromatic connector between diatonic chords.",
     "♯II°": "Passing diminished - chromatic connector between diatonic chords.",
+    "♯IV": "Tritone chord - a chromatic major chord a tritone from the tonic, the furthest point from home; it slides a semitone down into IV.",
+    "♯IV°": "Leading-tone diminished chord of V (vii°/V) - a passing chord whose root rises a semitone to V's.",
     "sus": "Suspended chord - replaces 3rd with 2nd/4th, creates suspension before resolution.",
     "add9": "Adds brightness, dreamy color.",
     "6": "Vintage color, softens the harmony.",
@@ -213,7 +215,9 @@
       "dom7sus4": "7sus4 - dominant tension with the 3rd suspended, common in modal and gospel writing.",
       "It6": "Italian augmented 6th - chromatic predominant, both outer voices squeeze onto the dominant.",
       "Fr6": "French augmented 6th - chromatic predominant with an added 2nd, brighter than the Italian.",
-      "Ger6": "German augmented 6th - chromatic predominant, sounds like a dominant 7th and resolves to V."
+      "Ger6": "German augmented 6th - chromatic predominant, sounds like a dominant 7th and resolves to V.",
+      "dom7b5": "Dominant seventh with a flattened fifth - it has the same notes as the dominant seventh a tritone away, so it can resolve to either one's target.",
+      "minAug": "Minor triad with a raised fifth - it sounds like a major triad in first inversion; in a line cliché it is the chromatic step between i and i6."
     }
   },
   "chordRolesMinor": {
@@ -237,7 +241,14 @@
     "♭iii": "Chromatic mediant - minor chord a minor third above i, sharing one note with it; dark and remote.",
     "♭vi": "Chromatic mediant - minor chord a major third below i, sharing one note with it; dark and sinking.",
     "vi": "Chromatic mediant - minor chord a minor third below i, sharing one note with it; bittersweet, with the Dorian 6th.",
-    "III": "Hexatonic pole - major chord with no note in common with i, every voice moves by a semitone; eerie and remote."
+    "III": "Hexatonic pole - major chord with no note in common with i, every voice moves by a semitone; eerie and remote.",
+    "i♯5": "Line-cliché chord - the minor tonic with its fifth raised a semitone, a chromatic step between i and i6."
+  },
+  "chordRolesMajor": {
+    "i": "Minor tonic - the parallel minor's home chord, borrowed; it darkens the tonic without leaving it.",
+    "iv": "Minor subdominant - borrowed from the parallel minor; its flattened sixth sinks to the fifth, a darker plagal pull.",
+    "I°": "Common-tone diminished chord - keeps the tonic's root while its other notes move chromatically, a passing color.",
+    "III°": "Leading-tone diminished chord of IV (vii°/IV) - a passing chord whose root rises a semitone to IV's."
   },
   "modeCategories": {
     "Common Western Tonal": "Common Western Tonal",

@@ -195,6 +195,8 @@
     "SUBV7": "Sustitución tritonal - sustitución jazz para V7, crea un movimiento cromático de voces.",
     "♯I°": "Disminuido de paso - conector cromático entre acordes diatónicos.",
     "♯II°": "Disminuido de paso - conector cromático entre acordes diatónicos.",
+    "♯IV": "Acorde de tritono - acorde mayor cromático a un tritono de la tónica, el punto más lejano; se desliza un semitono hacia IV.",
+    "♯IV°": "Acorde sensible de V (vii°/V) - acorde de paso cuya fundamental sube un semitono hacia la de V.",
     "sus": "Acorde suspendido - reemplaza la tercera por una segunda/cuarta, crea una suspensión antes de la resolución.",
     "add9": "Añade brillo, color soñador.",
     "6": "Color vintage, suaviza la armonía.",
@@ -213,7 +215,9 @@
       "dom7sus4": "7sus4 - tensión de dominante con la tercera suspendida, común en modal y gospel.",
       "It6": "Sexta aumentada italiana - predominante cromática que estrecha las voces extremas hacia la dominante.",
       "Fr6": "Sexta aumentada francesa - predominante cromática con segunda añadida, más brillante que la italiana.",
-      "Ger6": "Sexta aumentada alemana - predominante cromática que suena como séptima de dominante y resuelve a V."
+      "Ger6": "Sexta aumentada alemana - predominante cromática que suena como séptima de dominante y resuelve a V.",
+      "dom7b5": "Séptima de dominante con quinta disminuida - tiene las mismas notas que la séptima de dominante a un tritono, así que puede resolver hacia el destino de cualquiera de las dos.",
+      "minAug": "Tríada menor con quinta aumentada - suena como una tríada mayor en primera inversión; en un cliché de línea es el paso cromático entre i e i6."
     }
   },
   "chordRolesMinor": {
@@ -237,7 +241,14 @@
     "♭iii": "Mediante cromática - acorde menor una tercera menor por encima de i, con una nota en común; oscuro y lejano.",
     "♭vi": "Mediante cromática - acorde menor una tercera mayor por debajo de i, con una nota en común; oscuro y descendente.",
     "vi": "Mediante cromática - acorde menor una tercera menor por debajo de i, con una nota en común; agridulce, con la sexta dórica.",
-    "III": "Polo hexatónico - acorde mayor sin ninguna nota en común con i, cada voz se mueve un semitono; inquietante y lejano."
+    "III": "Polo hexatónico - acorde mayor sin ninguna nota en común con i, cada voz se mueve un semitono; inquietante y lejano.",
+    "i♯5": "Acorde de cliché de línea - la tónica menor con la quinta elevada un semitono, un paso cromático entre i e i6."
+  },
+  "chordRolesMajor": {
+    "i": "Tónica menor - el acorde de reposo del menor paralelo, prestado; oscurece la tónica sin abandonarla.",
+    "iv": "Subdominante menor - prestada del menor paralelo; su sexta rebajada desciende a la quinta, un impulso plagal más oscuro.",
+    "I°": "Disminuido de nota común - mantiene la fundamental de la tónica mientras sus otras notas se mueven cromáticamente, un color de paso.",
+    "III°": "Acorde sensible de IV (vii°/IV) - acorde de paso cuya fundamental sube un semitono hacia la de IV."
   },
   "modeCategories": {
     "Common Western Tonal": "Modos tonales occidentales comunes",

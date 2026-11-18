@@ -195,6 +195,8 @@
     "SUBV7": "Tritonus-Substitution - Jazz-Ersatz für V7, erzeugt chromatische Stimmführung.",
     "♯I°": "Durchgangs-verminderter Akkord - chromatischer Verbinder zwischen diatonischen Akkorden.",
     "♯II°": "Durchgangs-verminderter Akkord - chromatischer Verbinder zwischen diatonischen Akkorden.",
+    "♯IV": "Tritonus-Akkord - chromatischer Durakkord einen Tritonus von der Tonika entfernt, der fernste Punkt; gleitet einen Halbton abwärts zu IV.",
+    "♯IV°": "Leitton-Akkord von V (vii°/V) - Durchgangsakkord, dessen Grundton einen Halbton zum Grundton von V steigt.",
     "sus": "Vorhaltakkord - ersetzt die Terz durch Sekunde/Quarte, erzeugt Vorhalt vor Auflösung.",
     "add9": "Fügt Helligkeit hinzu, verträumte Farbe.",
     "6": "Vintage-Farbe, mildert die Harmonie.",
@@ -213,7 +215,9 @@
       "dom7sus4": "7sus4 - Dominantspannung mit vorgehaltener Terz, häufig in modaler Musik und im Gospel.",
       "It6": "Italienischer übermäßiger Sextakkord - chromatische Subdominantfunktion, die Außenstimmen ziehen zur Dominante.",
       "Fr6": "Französischer übermäßiger Sextakkord - chromatische Subdominantfunktion mit zusätzlicher Sekunde, heller als der italienische.",
-      "Ger6": "Deutscher übermäßiger Sextakkord - chromatische Subdominantfunktion, klingt wie ein Dominantseptakkord und löst sich nach V auf."
+      "Ger6": "Deutscher übermäßiger Sextakkord - chromatische Subdominantfunktion, klingt wie ein Dominantseptakkord und löst sich nach V auf.",
+      "dom7b5": "Dominantseptakkord mit verminderter Quinte - dieselben Töne wie der Dominantseptakkord einen Tritonus entfernt, kann sich also zum Ziel beider auflösen.",
+      "minAug": "Molldreiklang mit übermäßiger Quinte - klingt wie ein Durdreiklang in erster Umkehrung; im Line-Cliché der chromatische Schritt zwischen i und i6."
     }
   },
   "chordRolesMinor": {
@@ -237,7 +241,14 @@
     "♭iii": "Chromatische Mediante - Mollakkord eine kleine Terz über i, mit einem gemeinsamen Ton; dunkel und fern.",
     "♭vi": "Chromatische Mediante - Mollakkord eine große Terz unter i, mit einem gemeinsamen Ton; dunkel und absinkend.",
     "vi": "Chromatische Mediante - Mollakkord eine kleine Terz unter i, mit einem gemeinsamen Ton; bittersüß, mit der dorischen Sexte.",
-    "III": "Hexatonischer Pol - Durakkord ohne gemeinsamen Ton mit i, jede Stimme bewegt sich um einen Halbton; unheimlich und fern."
+    "III": "Hexatonischer Pol - Durakkord ohne gemeinsamen Ton mit i, jede Stimme bewegt sich um einen Halbton; unheimlich und fern.",
+    "i♯5": "Line-Cliché-Akkord - die Molltonika mit um einen Halbton erhöhter Quinte, ein chromatischer Schritt zwischen i und i6."
+  },
+  "chordRolesMajor": {
+    "i": "Molltonika - der Ruheakkord des gleichnamigen Moll, entliehen; verdunkelt die Tonika, ohne sie zu verlassen.",
+    "iv": "Moll-Subdominante - aus dem gleichnamigen Moll entliehen; ihre erniedrigte Sexte sinkt zur Quinte, ein dunklerer plagaler Zug.",
+    "I°": "Verminderter Akkord mit gemeinsamem Ton - hält den Grundton der Tonika, während die übrigen Töne chromatisch weiterziehen, eine Durchgangsfarbe.",
+    "III°": "Leitton-Akkord von IV (vii°/IV) - Durchgangsakkord, dessen Grundton einen Halbton zum Grundton von IV steigt."
   },
   "modeCategories": {
     "Common Western Tonal": "Gängige westliche tonale Modi",

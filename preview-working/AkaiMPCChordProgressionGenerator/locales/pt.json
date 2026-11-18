@@ -195,6 +195,8 @@
     "SUBV7": "Substituição por trítono - substituição jazz para V7, cria condução de vozes cromática.",
     "♯I°": "Diminuto de passagem - conector cromático entre acordes diatônicos.",
     "♯II°": "Diminuto de passagem - conector cromático entre acordes diatônicos.",
+    "♯IV": "Acorde de trítono - acorde maior cromático a um trítono da tônica, o ponto mais distante; desliza um semitom para baixo até IV.",
+    "♯IV°": "Acorde sensível de V (vii°/V) - acorde de passagem cuja fundamental sobe um semitom para a de V.",
     "sus": "Acorde suspenso - substitui 3ª por 2ª/4ª, cria suspensão antes da resolução.",
     "add9": "Adiciona brilho, cor sonhadora.",
     "6": "Cor vintage, suaviza a harmonia.",
@@ -213,7 +215,9 @@
       "dom7sus4": "7sus4 - tensão de dominante com a terça suspensa, comum no modal e no gospel.",
       "It6": "Sexta aumentada italiana - predominante cromática que aperta as vozes extremas sobre a dominante.",
       "Fr6": "Sexta aumentada francesa - predominante cromática com segunda adicionada, mais brilhante que a italiana.",
-      "Ger6": "Sexta aumentada alemã - predominante cromática que soa como sétima de dominante e resolve para V."
+      "Ger6": "Sexta aumentada alemã - predominante cromática que soa como sétima de dominante e resolve para V.",
+      "dom7b5": "Sétima da dominante com quinta diminuta - tem as mesmas notas que a sétima da dominante a um trítono, então pode resolver para o alvo de qualquer uma das duas.",
+      "minAug": "Tríade menor com quinta aumentada - soa como uma tríade maior em primeira inversão; num clichê de linha é o passo cromático entre i e i6."
     }
   },
   "chordRolesMinor": {
@@ -237,7 +241,14 @@
     "♭iii": "Mediante cromática - acorde menor uma terça menor acima de i, com uma nota em comum; sombrio e distante.",
     "♭vi": "Mediante cromática - acorde menor uma terça maior abaixo de i, com uma nota em comum; sombrio e descendente.",
     "vi": "Mediante cromática - acorde menor uma terça menor abaixo de i, com uma nota em comum; agridoce, com a sexta dórica.",
-    "III": "Polo hexatônico - acorde maior sem nenhuma nota em comum com i, cada voz se move um semitom; inquietante e distante."
+    "III": "Polo hexatônico - acorde maior sem nenhuma nota em comum com i, cada voz se move um semitom; inquietante e distante.",
+    "i♯5": "Acorde de clichê de linha - a tônica menor com a quinta elevada um semitom, um passo cromático entre i e i6."
+  },
+  "chordRolesMajor": {
+    "i": "Tônica menor - o acorde de repouso do menor paralelo, emprestado; escurece a tônica sem deixá-la.",
+    "iv": "Subdominante menor - emprestada do menor paralelo; sua sexta abaixada desce para a quinta, um impulso plagal mais escuro.",
+    "I°": "Diminuto de nota comum - mantém a fundamental da tônica enquanto suas outras notas se movem cromaticamente, uma cor de passagem.",
+    "III°": "Acorde sensível de IV (vii°/IV) - acorde de passagem cuja fundamental sobe um semitom para a de IV."
   },
   "modeCategories": {
     "Common Western Tonal": "Tonalidade Ocidental Comum",
