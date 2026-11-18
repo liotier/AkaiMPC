@@ -164,7 +164,7 @@ node tools/build-pack.mjs
 node tools/catalogue-snapshot.mjs --check
 ```
 
-The fourth exists once spec 00 is merged. Rules:
+The fourth is spec 00's. Rules:
 
 1. A spec that is **not meant to change output** (06, and 01 for the 155
    entries it does not affect) proves it with the pack: record

@@ -98,7 +98,7 @@
     "chordDistanceHint": "Los colores de las tarjetas muestran la distancia de acordes desde la tarjeta seleccionada",
     "scaleExploration": {
       "label": "Todos los acordes de la escala",
-      "tooltip": "Modo Escala: la tríada de cada grado de la escala en las dos primeras filas y el acorde de séptima de cada grado en las dos últimas. Ambos se derivan de la propia escala, así que ningún pad usa una nota que la escala no contenga."
+      "tooltip": "Modo Escala: la tríada de cada grado de la escala en las dos primeras filas y el acorde de séptima de cada grado en las dos últimas. Ambos se derivan de la propia escala, así que ningún pad usa una nota que la escala no contenga. Cuando un acorde sonaría igual que otro pad, como en las escalas simétricas, otro acorde de la escala ocupa su lugar: no hay dos pads que suenen igual."
     },
     "voiceLeadingLegend": "Suavidad relativa:\n🟢 Suave  🟡 Moderada  🟠 Marcada",
     "voiceLeadingHoverLegend": "Distancia desde el acorde señalado:\n🟢 Suave  🟡 Moderada  🟠 Marcada"

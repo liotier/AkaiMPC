@@ -98,7 +98,7 @@
     "chordDistanceHint": "I colori delle carte mostrano la distanza dell'accordo dalla carta selezionata",
     "scaleExploration": {
       "label": "Tutti gli accordi della scala",
-      "tooltip": "Modalità Scala: la triade di ogni grado della scala nelle prime due righe e l’accordo di settima di ogni grado nelle ultime due. Entrambi sono ricavati dalla scala stessa, quindi nessun pad usa una nota che la scala non contiene."
+      "tooltip": "Modalità Scala: la triade di ogni grado della scala nelle prime due righe e l’accordo di settima di ogni grado nelle ultime due. Entrambi sono ricavati dalla scala stessa, quindi nessun pad usa una nota che la scala non contiene. Quando un accordo suonerebbe come un altro pad, come nelle scale simmetriche, un altro accordo della scala ne prende il posto: non ci sono due pad che suonano uguali."
     },
     "voiceLeadingLegend": "Scorrevolezza relativa:\n🟢 Fluida  🟡 Moderata  🟠 Marcata",
     "voiceLeadingHoverLegend": "Distanza dall'accordo selezionato:\n🟢 Fluida  🟡 Moderata  🟠 Marcata"

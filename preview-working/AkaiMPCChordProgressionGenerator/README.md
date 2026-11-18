@@ -59,7 +59,7 @@ Found a sample with killer chords but don't know the key? The Chord Matcher lets
 
 ### Two Workflows for Every Creative Process
 - **Progression Palette Mode** - Choose from 184 progression palettes across 22 genres (Pop/Rock, Jazz, Blues, Gospel, Hip-Hop/Trap, Latin, Trance, Jungle/DnB, and more). 100+ progressions feature **genre-specific palette intelligence** that prioritizes authentic chord voicings for each style. A progression listed under several genres gets a palette tuned to each, and exports under the genre you chose it from. Generate up to six voicing variants instantly.
-- **Scale Mode** - Pick from 34 scales/modes and explore all available chords: the triad on each degree in the first two rows, the seventh chord on each degree in the last two. Every chord is derived from the scale itself, so half-diminished (m7♭5), diminished 7th, minor-major 7th, augmented major 7th and 6th chords appear wherever the scale actually calls for them - and nothing on the grid uses a note the scale does not contain. No two pads sound alike. Roman numerals follow the same convention as the progression palettes (Dorian's E♭ is ♭III, Pentatonic Major's G is V), and hovering a pad spells the chord out: "Major triad on the flattened third degree". Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.
+- **Scale Mode** - Pick from 34 scales/modes and explore all available chords: the triad on each degree in the first two rows, the seventh chord on each degree in the last two. Every chord is derived from the scale itself, so half-diminished (m7♭5), diminished 7th, minor-major 7th, augmented major 7th and 6th chords appear wherever the scale actually calls for them - and nothing on the grid uses a note the scale does not contain. No two pads sound alike: where a degree's chord would repeat one already on the grid, as the symmetric scales do (Whole Tone builds the same augmented triad on three degrees), another chord the scale supports takes its place. Roman numerals follow the same convention as the progression palettes (Dorian's E♭ is ♭III, Pentatonic Major's G is V), and hovering a pad spells the chord out: "Major triad on the flattened third degree". Perfect for learning exotic scales like Whole Tone, Phrygian Dominant, or Hungarian Minor.
 - Download individual variants or bulk export every version at once
 
 ## Musical Intelligence Under the Hood
@@ -137,7 +137,7 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 - **Harmonic Function Analysis** - Identifies what your progression needs: missing tonic resolution? Need more tension? The algorithm knows.
 - **Voice Leading Optimization** - Selects chords that create the smoothest transitions with minimal finger movement
 - **Context-Aware Suggestions** - Adds borrowed chords, secondary dominants, and modal interchange based on your selected style
-- **Genre Intelligence with Palette Priorities** - 100+ progressions use a sophisticated 3-tier weighting system (preferred, allowed, avoided) to prioritize genre-authentic chord voicings. Blues gets dom7, Folk gets simple triads, Gospel gets extended harmony—automatically. Row 4 is chosen under the same tiers as the rest of the palette: a folk template is not handed a dominant seventh in its spice row, and a cinematic one is not handed a dominant it set out to avoid. When a genre avoids most of what row 4 usually offers, the palette's own next chords fill the gap. Film/Cinematic progressions go further: their row 4 favours chromatic mediants (E, A, A♭ minor around C) and mode flips (C minor for C major, F minor for F) over secondary dominants.
+- **Genre Intelligence with Palette Priorities** - 100+ progressions use a sophisticated 3-tier weighting system (preferred, allowed, avoided) to prioritize genre-authentic chord voicings. Blues gets dom7, Folk gets simple triads, Gospel gets extended harmony—automatically. Row 4 is chosen under the same tiers as the rest of the palette: a folk template is not handed a dominant seventh in its spice row, and a cinematic one is not handed a dominant it set out to avoid. When a genre avoids most of what row 4 usually offers, the palette's own next chords fill the gap. Film/Cinematic progressions go further, with four others whose own preferences left their top row short: their row 4 favours chromatic mediants (E, A, A♭ minor around C) and mode flips (C minor for C major, F minor for F) over secondary dominants.
 
 ## Production-Ready Features
 
@@ -157,7 +157,9 @@ The fourth row isn't just filler—it's dynamically calculated based on sophisti
 - **Sequential playback in staff view** - Notes play as eighth notes at 90 BPM for melodic exploration
 - **Guitar fretboard diagrams** - With left-handed support (mirror option)
 - **Piano keyboard view** - See intervals clearly, understand voicings visually
-- **Roman Numeral Analysis** - Know the function of every chord in your progression
+- **Roman Numeral Analysis** - Know the function of every chord in your progression, with a one-line summary of what it uses (Modal Interchange, Secondary Dominants, Extended Harmony, Chromatic)
+- **Chords in plain words** - Hover any pad for the chord spelled out ("Dominant seventh chord on the flattened second degree") above what it does ("Tritone substitution...")
+- **Spelled like the sheet music** - Every chord is named after its scale degree, in its key: F♯m in A major, never G♭m; the line cliché's raised fifth is E G B♯
 
 ### Real-Time Production Tools
 - **WebMIDI Output Support** - Send chords directly to softsynths or hardware via MIDI (Firefox 108+, Chrome, Edge). Auto-detects available devices with graceful fallback to browser beep.
@@ -205,7 +207,7 @@ Together, they provide a complete harmonic toolkit for musicians and producers.
 - Viewport-aware keyboard event handling for seamless multi-progression browsing
 - JSZip (vendored) for seamless multi-file exports, both libraries bundled with the app rather than loaded from a CDN
 - The full `.progression` and MIDI packs are generated by CI (`tools/build-pack.mjs`), not committed to the repo or built in the browser - the download links just point at the static output
-- A committed snapshot of what every progression template and scale produces (`docs/catalogue-snapshot.txt`, written by `tools/catalogue-snapshot.mjs`) is checked in CI beside the theory audit - the audit proves each pad agrees with its own label, the snapshot makes any change to the catalogue's chords a readable diff, so a theory change ships with its regenerated snapshot
+- A committed snapshot of what every progression template and scale produces (`docs/catalogue-snapshot.txt`, written by `tools/catalogue-snapshot.mjs`) is checked in CI beside the theory audit - the audit proves each pad agrees with its own label, is spelled in its key, sounds unlike every other pad on its grid and carries a true numeral and description; the snapshot makes any change to the catalogue's chords a readable diff, so a theory change ships with its regenerated snapshot
 
 ## Contributing
 
@@ -237,6 +239,8 @@ This project was originally distributed as a single self-contained HTML file for
 - `tools/build-pack.mjs` — builds the bulk-download `.progression`/MIDI packs; runs in CI on every deploy, not committed to the repo
 - `tools/audit-theory.mjs` — the CI theory audit described above
 - `tools/catalogue-snapshot.mjs` - writes and checks `docs/catalogue-snapshot.txt`, the reviewable record of every template's chords; run in CI beside the audit
+- `tools/check-translations.mjs` - checks that the six locale files agree with each other and with the code; run in CI (see `locales/README.md`)
+- `docs/improvements/` - the specifications behind the theory changes, each with its decisions, measurements and implementation notes
 
 Deployment remains the same: host these files on any static file host (GitHub Pages, Netlify, etc.). Modular structure improves readability, caching, and makes incremental development and testing easier.
 

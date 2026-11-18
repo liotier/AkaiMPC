@@ -2,9 +2,20 @@
 
 What changed, and why it's worth updating for.
 
-## 2026-11-15
+## 2026-11-18
 
 ### Chord Progression Generator
+
+In short: 184 progressions instead of 173, eleven of them new film-score
+devices; a sixth voicing style, Pedal; minor keys treated as minor keys; every
+chord spelled in its key and described truthfully, with a plain-language phrase
+on every pad; and a Scale Mode whose sixteen pads are sixteen different chords,
+numbered like the palettes. The `.progression` pack grows from 839 to 1 094
+files and the MIDI pack from 10 065 to 13 135. Some exported files change name:
+the twelve corrected minor-key progressions, those holding stacked-fourths
+chords, and a few minor-key variants; the entries below say why. A forum-ready
+announcement of this release is in
+[`AkaiMPCChordProgressionGenerator/docs/announcements/2026-11-18.md`](AkaiMPCChordProgressionGenerator/docs/announcements/2026-11-18.md).
 
 **Twelve minor-key progressions now play what their names promise.** In A
 minor, "Hotel California" used to open with A♭ and D♭ major where the Eagles
@@ -154,8 +165,8 @@ on its sixteen pads. Every grid, in every key, now holds sixteen different
 chords. Spare pads take the next colour that sounds new, on another degree when
 the tonic has none left, and a degree chord that would repeat one already on
 the grid gives way to another chord the scale supports. Whole Tone gains 7♭5
-chords and a new chord type, the augmented ninth (C E G♯ B♭ D, "Caug9"); the
-Augmented scale now shows its own major and minor triads on C, E and G♯. Three
+chords and a new chord type, the dominant ninth with a raised fifth (C E G♯ B♭
+D, shown as Caug9); the Augmented scale now shows its own major and minor triads on C, E and G♯. Three
 scales, Bhairav, Double Harmonic and Hungarian Minor, also lose a diminished
 chord that held a note they do not have.
 
@@ -174,9 +185,15 @@ shows the chords it is used for: four dominant sevenths a minor third apart,
 C7, D♯7, F♯7 and A7 in C, where it showed only minor and diminished chords.
 
 **Behind the scenes.** Every change to the catalogue now ships with a readable
-record of every progression's chords, checked on each commit beside a much
-stricter theory audit, and a typo in a progression's definition stops the build
-instead of quietly playing the tonic.
+record of every progression's and every scale's chords, checked on each commit
+beside a much stricter theory audit. The audit plays all 184 progressions in
+every key and style and all 34 scales in every key, 218 496 pads in all, and
+checks that each chord holds the notes its name says, is spelled in its key,
+sounds unlike every other pad on its grid, and carries a true numeral and a
+true description. A typo in a progression's definition stops the build instead
+of quietly playing the tonic. The specifications behind every change, with
+their decisions and measurements, are in
+`AkaiMPCChordProgressionGenerator/docs/improvements/`.
 
 ## 2026-09-08
 

@@ -98,7 +98,7 @@
     "chordDistanceHint": "Die Farben der Karten zeigen die Akkord-Distanz von der ausgewählten Karte",
     "scaleExploration": {
       "label": "Alle Akkorde der Tonleiter",
-      "tooltip": "Tonleiter-Modus: in den ersten beiden Reihen der Dreiklang jeder Stufe, in den letzten beiden der Septakkord jeder Stufe. Beide werden aus der Tonleiter selbst abgeleitet, sodass kein Pad einen Ton verwendet, den die Tonleiter nicht enthält."
+      "tooltip": "Tonleiter-Modus: in den ersten beiden Reihen der Dreiklang jeder Stufe, in den letzten beiden der Septakkord jeder Stufe. Beide werden aus der Tonleiter selbst abgeleitet, sodass kein Pad einen Ton verwendet, den die Tonleiter nicht enthält. Würde ein Akkord wie ein anderes Pad klingen, wie in den symmetrischen Tonleitern, tritt ein anderer Akkord der Tonleiter an seine Stelle: Keine zwei Pads klingen gleich."
     },
     "voiceLeadingLegend": "Relative Geschmeidigkeit:\n🟢 Fließend  🟡 Mittel  🟠 Sprunghaft",
     "voiceLeadingHoverLegend": "Abstand zum ausgewählten Akkord:\n🟢 Fließend  🟡 Mittel  🟠 Sprunghaft"

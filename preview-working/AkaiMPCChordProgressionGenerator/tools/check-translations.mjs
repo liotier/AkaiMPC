@@ -223,9 +223,11 @@ if (unresolved.length) {
 }
 
 // Unused keys are reported but do not fail: several families are reached only
-// through computed paths (chordRoles by roman numeral, cadences by type).
+// through computed paths (chordRoles by roman numeral, chordTypeNames by chord
+// type, degreePhrases by degree, cadences by type).
 const DYNAMIC_PREFIXES = ['modes.', 'modeCategories.', 'progressions.', 'progressionCategories.',
-                          'chordRoles.', 'chordRolesMinor.', 'cadences.', 'variants.', 'chordMatcher.qualities.'];
+                          'chordRoles.', 'chordRolesMinor.', 'chordRolesMajor.', 'chordTypeNames.', 'degreePhrases.',
+                          'cadences.', 'variants.', 'chordMatcher.qualities.'];
 const unused = [...sourceKeys]
     .filter(key => !referenced.has(key))
     .filter(key => !DYNAMIC_PREFIXES.some(prefix => key.startsWith(prefix)))
