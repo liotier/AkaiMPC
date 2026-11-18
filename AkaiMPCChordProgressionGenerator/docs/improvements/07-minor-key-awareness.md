@@ -367,6 +367,10 @@ Measured against `09b19af`:
   and the Ascending Line Cliché is not modal interchange. The major rule is
   unchanged. Minor templates labelled "Modal Interchange": 63 of 74 before, 14
   after.
+  Superseded by spec 14: §3.5's major-key rule ("any `♭` or `♯`") missed
+  `iv` and `i` and called passing diminished chords borrowed. One classifier,
+  `classifyProgressionChord()` in `musicTheory.js`, now serves both tonalities
+  and replaces `isBorrowedNumeral()`.
 - **README and CHANGELOG** as §4 asks.
 
 Acceptance, final state:

@@ -195,6 +195,8 @@
     "SUBV7": "Sostituzione di tritono - sostituzione jazz per V7, crea conduzione voci cromatica.",
     "♯I°": "Diminuito di passaggio - connettore cromatico tra accordi diatonici.",
     "♯II°": "Diminuito di passaggio - connettore cromatico tra accordi diatonici.",
+    "♯IV": "Accordo di tritono - accordo maggiore cromatico a un tritono dalla tonica, il punto più lontano; scivola di un semitono verso IV.",
+    "♯IV°": "Accordo sensibile di V (vii°/V) - accordo di passaggio la cui fondamentale sale di un semitono verso quella di V.",
     "sus": "Accordo sospeso - sostituisce 3ª con 2ª/4ª, crea sospensione prima della risoluzione.",
     "add9": "Aggiunge brillantezza, colore sognante.",
     "6": "Colore vintage, ammorbidisce armonia.",
@@ -213,7 +215,9 @@
       "dom7sus4": "7sus4 - tensione di dominante con la terza sospesa, comune nel modale e nel gospel.",
       "It6": "Sesta aumentata italiana - predominante cromatica che stringe le voci esterne sulla dominante.",
       "Fr6": "Sesta aumentata francese - predominante cromatica con seconda aggiunta, più brillante di quella italiana.",
-      "Ger6": "Sesta aumentata tedesca - predominante cromatica che suona come una settima di dominante e risolve su V."
+      "Ger6": "Sesta aumentata tedesca - predominante cromatica che suona come una settima di dominante e risolve su V.",
+      "dom7b5": "Settima di dominante con quinta diminuita - ha le stesse note della settima di dominante a un tritono, quindi può risolvere verso la meta di entrambe.",
+      "minAug": "Triade minore con quinta aumentata - suona come una triade maggiore in primo rivolto; in un line cliché è il passo cromatico tra i e i6."
     }
   },
   "chordRolesMinor": {
@@ -237,7 +241,14 @@
     "♭iii": "Mediante cromatica - accordo minore una terza minore sopra i, con una nota in comune; cupo e lontano.",
     "♭vi": "Mediante cromatica - accordo minore una terza maggiore sotto i, con una nota in comune; cupo e discendente.",
     "vi": "Mediante cromatica - accordo minore una terza minore sotto i, con una nota in comune; agrodolce, con la sesta dorica.",
-    "III": "Polo esatonico - accordo maggiore senza note in comune con i, ogni voce si muove di un semitono; inquietante e lontano."
+    "III": "Polo esatonico - accordo maggiore senza note in comune con i, ogni voce si muove di un semitono; inquietante e lontano.",
+    "i♯5": "Accordo di line cliché - la tonica minore con la quinta alzata di un semitono, un passo cromatico tra i e i6."
+  },
+  "chordRolesMajor": {
+    "i": "Tonica minore - l'accordo di riposo del minore parallelo, preso in prestito; scurisce la tonica senza lasciarla.",
+    "iv": "Sottodominante minore - presa in prestito dal minore parallelo; la sua sesta abbassata scende sulla quinta, una spinta plagale più scura.",
+    "I°": "Diminuito a nota comune - mantiene la fondamentale della tonica mentre le altre note si muovono cromaticamente, un colore di passaggio.",
+    "III°": "Accordo sensibile di IV (vii°/IV) - accordo di passaggio la cui fondamentale sale di un semitono verso quella di IV."
   },
   "modeCategories": {
     "Common Western Tonal": "Tonalità Occidentale Comune",

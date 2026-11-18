@@ -4,7 +4,7 @@ Seventeen specifications, one per improvement, each written to be handed to an
 implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
-Status is recorded in each spec's header. Specs 00 to 11, 13, 15 and 16 are
+Status is recorded in each spec's header. Specs 00 to 11 and 13 to 16 are
 implemented; spec 12 is dropped. Specs 14 to 16 come from the review of the
 branch before merge; spec 15 was implemented with option B of its §6.
 

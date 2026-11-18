@@ -133,6 +133,20 @@ House's case. Every other progression is unchanged. Tooltips no longer
 confuse a major VI or III with the relative minor vi or the mediant iii, and
 describe the new chords.
 
+**Chord descriptions and the progression summary say what the chords are.**
+The summary under each variant called "I-iv-I-V", a Modal Interchange
+progression, "Diatonic progression", because its borrowed iv carries no flat.
+It called passing diminished chords and the tritone substitute "Modal
+Interchange", and the diatonic circle of fifths "Chromatic" for its vii°. It
+labelled the ascending line cliché diatonic although its B♯ is a raised fifth.
+One rule now sorts every progression chord into diatonic, borrowed, applied
+or chromatic, and 28 summaries change. Hovering a pad also tells more of the
+truth: the minor iv in a major key is described as borrowed from the parallel
+minor, not as the major subdominant. ♭II7 is the tritone substitute, not the
+Neapolitan. The line cliché's raised-fifth chord, the leading-tone chord of
+V and the 7♭5 chords no longer fall back to "Borrowed chord". These texts
+are in all six languages.
+
 **Scale Mode stops repeating itself.** A Scale Mode grid could hold one chord
 twice under two names: the Major scale's last pad was C6, which sounds exactly
 like the Am7 two pads before it, and Whole Tone offered eight different chords

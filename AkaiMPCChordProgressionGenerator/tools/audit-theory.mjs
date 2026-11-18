@@ -17,11 +17,18 @@
  * ~10,000 variants, ~160,000 pads.
  */
 
-import { progressions, modes, keys, CHORD_INTERVALS, CHORD_DEGREES, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, buildChord, getKeyOffset, getHarmonyPitchClasses, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature, parseProgression, templateTonality, templateSpelling, spellChord, TEMPLATE_SEPARATOR as CHORD_SEPARATOR } from '../modules/musicTheory.js';
+import { readFileSync } from 'node:fs';
+import { progressions, modes, keys, CHORD_INTERVALS, CHORD_DEGREES, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, buildChord, getKeyOffset, getHarmonyPitchClasses, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature, parseProgression, templateTonality, templateSpelling, spellChord, chordRoleKey, TEMPLATE_SEPARATOR as CHORD_SEPARATOR } from '../modules/musicTheory.js';
 import { generateVariant, generateScaleExploration, VARIANT_STYLES, ROW4_CATEGORIES, determineChordFunction, analyzeExistingChords, scoreCandidate } from '../modules/generation.js';
 
 const NOTE_PITCH_CLASSES = { C: 0, 'B#': 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, 'E#': 5, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11, Cb: 11, Fb: 4 };
 const DEGREE_SEMITONES = { I: 0, II: 2, III: 4, IV: 5, V: 7, VI: 9, VII: 11 };
+
+// R: what a pad's description resolves to. The English locale is the reference:
+// check-translations.mjs keeps the other five in step with it.
+const ENGLISH = JSON.parse(readFileSync(new URL('../locales/en.json', import.meta.url), 'utf8'));
+const hasEnglishKey = key => key.split('.').reduce((node, part) =>
+    (node && typeof node === 'object' && part in node) ? node[part] : undefined, ENGLISH) !== undefined;
 
 // It+6 / Fr+6 / Ger+6 are not degree-based roman numerals - an augmented
 // sixth is always rooted on the flat submediant by convention, unrelated to
@@ -520,6 +527,16 @@ for (const key of keys) {
                     if (!pad.chordName) { report('A structural: empty chord name', label); return; }
                     if (!CHORD_INTERVALS[pad.chordType]) { report('A structural: unknown chordType', `${label} type=${pad.chordType}`); return; }
 
+                    // R: a pad describes what it is (docs/improvements/14-pad-descriptions-and-analysis.md).
+                    // The generic "Borrowed chord" and "Harmonic color" texts once stood in
+                    // for the line cliché's i♯5, the tritone substitute and the leading-tone
+                    // chord of V. Descriptions do not depend on the key, so C is enough.
+                    if (key === 'C') {
+                        const roleKey = chordRoleKey(pad.romanNumeral, pad.chordType, templateTonality(template), hasEnglishKey);
+                        if (roleKey === 'chordRoles.borrowed' || roleKey === 'chordRoles.default') report('R pad falls back to a generic description', `${label} -> ${roleKey}`);
+                        else if (!hasEnglishKey(roleKey)) report('R pad description key missing from en.json', `${label} -> ${roleKey}`);
+                    }
+
                     const parsed = parseChordName(pad.chordName);
                     if (!parsed) { report('C unparseable chord name', label); return; }
 
@@ -616,6 +633,9 @@ for (const key of keys) {
                 scalePadCount++;
                 const label = `${key} ${mode} pad${i + 1} ${pad.chordName} [${pad.romanNumeral}]`;
                 checkSpelling(pad, label, keyScalePitchClasses);
+                // R in Scale Mode: no tonality, so nothing is borrowed. The ♭ of a
+                // 7♭5 suffix once sent such pads to "Borrowed chord".
+                if (chordRoleKey(pad.romanNumeral, pad.chordType, undefined, hasEnglishKey) === 'chordRoles.borrowed') report('R Scale Mode pad described as borrowed', label);
                 const sound = pcSignature(pad.notes);
                 if (soundsSeen.has(sound)) report('Q Scale Mode pad sounds like another pad of its grid', `${label} = pad${soundsSeen.get(sound)}`);
                 else soundsSeen.set(sound, i + 1);

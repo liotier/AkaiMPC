@@ -8,7 +8,8 @@ import {
     getHarmonyPitchClasses,
     chordFitsScale,
     getChordSuffix,
-    parseRomanStem,
+    classifyProgressionChord,
+    chordRoleKey,
     MATCHER_QUALITY_TYPES,
     getInversionNotation,
     findProgressionCategory,
@@ -693,48 +694,28 @@ function resetKeyModeFilters() {
 
 // Dynamic Row 4 Analysis Functions
 /**
- * Whether a progression numeral is borrowed from the other mode, relative to the
- * template's tonality (docs/improvements/07-minor-key-awareness.md §3.5). Numerals
- * are written against the parallel major, so in a major key any accidental is a
- * borrowing; in a minor key ♭III, ♭VI and ♭VII are the key's own, and what is
- * borrowed is a ♯, the Neapolitan ♭II, the Dorian IV, the Picardy I, or a
- * supertonic that is not diminished. An applied chord is judged by its numerator.
- * The ♯ is the degree's accidental: the ♯5 of the line cliché's i♯5 is a chord
- * tone, the key's own ♭6, and borrows nothing.
+ * The analysis line under a variant's title: what its progression chords are.
+ * Each is classified by classifyProgressionChord() in musicTheory.js
+ * (docs/improvements/14-pad-descriptions-and-analysis.md D1); the line names
+ * every class present, and "Extended Harmony" for any seventh.
  *
- * @param {string} romanNumeral - e.g. '♭VII', 'IV7', 'V7/iv'
- * @param {string} [tonality] - 'minor', or anything else for the major reading
- * @returns {boolean}
+ * @param {Object[]} pads - The variant's pads
+ * @param {string} [tonality] - The template's, 'major' or 'minor'
+ * @param {number} tonicPitchClass - The key's tonic, 0-11
+ * @returns {string} The line, or '' when no pad is a progression chord
  */
-function isBorrowedNumeral(romanNumeral, tonality) {
-    if (!romanNumeral) return false;
-    if (tonality !== 'minor') return romanNumeral.includes('♭') || romanNumeral.includes('♯');
-
-    const head = romanNumeral.split('/')[0];
-    const parsed = parseRomanStem(head);
-    if (!parsed || parsed.degree === null) return false;
-    if (/[♯#]/.test(parsed.accidentals)) return true;
-    if (parsed.accidentals !== '') return /^[♭b]$/.test(parsed.accidentals) && parsed.degree === 'II';
-    if (parsed.stem === 'IV' || parsed.stem === 'I') return true;
-    return parsed.degree === 'II' && !/[°ø]/.test(head);
-}
-
-function analyzeProgression(pads, tonality) {
+function analyzeProgression(pads, tonality, tonicPitchClass) {
     const progressionPads = pads.filter(p => p.isProgressionChord);
     if (progressionPads.length === 0) return '';
 
-    // "Modal interchange" only for chords borrowed from the other mode: every
-    // minor template used to qualify, because its ♭VII contains a ♭
-    const hasBorrowed = progressionPads.some(p => isBorrowedNumeral(p.romanNumeral, tonality));
-    const hasSecondary = progressionPads.some(p => p.romanNumeral && p.romanNumeral.includes('/'));
+    const classes = new Set(progressionPads.map(p => classifyProgressionChord(p, tonality, tonicPitchClass)));
     const has7ths = progressionPads.some(p => p.quality && p.quality.includes('7'));
-    const hasDiminished = progressionPads.some(p => p.quality === 'Diminished');
 
     const characteristics = [];
-    if (hasBorrowed) characteristics.push(i18n.t('analysis.modalInterchange'));
-    if (hasSecondary) characteristics.push(i18n.t('analysis.secondaryDominants'));
+    if (classes.has('borrowed')) characteristics.push(i18n.t('analysis.modalInterchange'));
+    if (classes.has('applied')) characteristics.push(i18n.t('analysis.secondaryDominants'));
     if (has7ths) characteristics.push(i18n.t('analysis.extendedHarmony'));
-    if (hasDiminished) characteristics.push(i18n.t('analysis.chromatic'));
+    if (classes.has('chromatic')) characteristics.push(i18n.t('analysis.chromatic'));
 
     if (characteristics.length === 0) {
         return i18n.t('analysis.diatonic');
@@ -743,42 +724,10 @@ function analyzeProgression(pads, tonality) {
 }
 
 // Tooltip functions
-// Quality markings that do not change what a numeral does: 'VIIØ7' -> 'VII',
-// 'I7SUS4(NO5)' -> 'I', 'II7(11)' -> 'II'
-const QUALITY_MARKINGS = /M7|MAJ7|\(MAJ7\)|\(NO5\)|\(11\)|7|°|Ø|\+|DIM|SUS[24]|ADD9|6|9|11|13/g;
-// The same markings in a numeral whose case is kept: 'vi7' -> 'vi', 'IM7' -> 'I'
-const QUALITY_MARKINGS_CASE_KEPT = /M7|\(maj7\)|\(no5\)|\(11\)|7|°|ø|\+|sus[24]|add9|6|9|11|13/g;
-
 /**
- * The minor-key description of a numeral, from chordRolesMinor, or null. In a
- * minor key the same numeral can mean another thing - ♭VI is the submediant, not
- * a borrowing - and case matters: i is the tonic and I the Picardy third, iv the
- * subdominant and IV the Dorian one. So the numeral is tried as written, then
- * without its quality markings, then upper-cased with a half-diminished or
- * diminished seventh read as its diminished triad ('iiø7' -> 'II°', 'vii°7' ->
- * 'VII°'), then upper-cased without markings ('V7/♭iii' -> 'V/♭III').
- */
-function getMinorChordRole(romanNumeral) {
-    const caseKept = romanNumeral.replaceAll(QUALITY_MARKINGS_CASE_KEPT, '');
-    const upper = romanNumeral.toUpperCase();
-    const candidates = [
-        romanNumeral,
-        caseKept,
-        upper.replace('Ø', '°').replace(/°7$/, '°'),
-        upper.replaceAll(QUALITY_MARKINGS, '')
-    ];
-    for (const candidate of candidates) {
-        const key = `chordRolesMinor.${candidate}`;
-        if (i18n.has(key)) return i18n.t(key);
-    }
-    return null;
-}
-
-/**
- * Explain what a chord does in the progression.
- * Looks for the most specific description available: in a minor template the
- * minor-key table first, then the exact roman numeral, then the numeral without
- * its quality markings, then the chord type itself.
+ * Explain what a chord does in the progression. The lookup order is
+ * chordRoleKey()'s, in musicTheory.js, so the audit can check it without a
+ * browser (docs/improvements/14-pad-descriptions-and-analysis.md §4.2).
  *
  * @param {string} romanNumeral - e.g. 'viiø7', '♭VII', 'V7/V'
  * @param {string} chordType - Chord type key, e.g. 'm7b5'
@@ -786,49 +735,7 @@ function getMinorChordRole(romanNumeral) {
  * @returns {string} Description
  */
 function getChordTooltip(romanNumeral, chordType, tonality) {
-    if (tonality === 'minor' && romanNumeral) {
-        const minorRole = getMinorChordRole(romanNumeral);
-        if (minorRole) return minorRole;
-    }
-
-    // The numeral as written first: its case is its quality, and vi, the
-    // relative minor, does another thing than VI, a chromatic mediant. Then upper
-    // case, the form most keys are written in, where case changes nothing
-    // (docs/improvements/10-row4-mediants.md D5). Discarding the case first
-    // described a major VI pad as the relative minor.
-    const exact = romanNumeral || '';
-    const normalized = exact.toUpperCase();
-
-    const candidates = [
-        `chordRoles.${exact}`,
-        `chordRoles.${normalized}`,
-        // Same numeral without its quality markings, case kept and then upper
-        // case: 'vi7' -> 'vi', 'VIIØ7' -> 'VII', 'I7SUS4(NO5)' -> 'I'
-        `chordRoles.${exact.replaceAll(QUALITY_MARKINGS_CASE_KEPT, '')}`,
-        `chordRoles.${normalized.replaceAll(QUALITY_MARKINGS, '')}`,
-        // Chord-type specific descriptions ('chordRoles.types.m7b5')
-        chordType ? `chordRoles.types.${chordType}` : null
-    ].filter(Boolean);
-
-    for (const candidate of candidates) {
-        if (i18n.has(candidate)) return i18n.t(candidate);
-    }
-
-    // Generic descriptions by chord family
-    if (chordType) {
-        if (chordType.includes('sus') || chordType.startsWith('quartal')) return i18n.t('chordRoles.sus');
-        if (chordType.includes('add9') || chordType === 'minAdd9') return i18n.t('chordRoles.add9');
-        if (chordType === 'major6' || chordType === 'minor6' || chordType === 'maj6/9') return i18n.t('chordRoles.6');
-        if (/9|11|13/.test(chordType)) return i18n.t('chordRoles.extended');
-    }
-
-    // Default based on whether it's borrowed
-    if (normalized.includes('♭') || normalized.includes('♯')) {
-        return i18n.t('chordRoles.borrowed');
-    }
-
-    // Default for unrecognized chords
-    return i18n.t('chordRoles.default');
+    return i18n.t(chordRoleKey(romanNumeral, chordType, tonality, key => i18n.has(key)));
 }
 
 function showTooltip(element, text) {
@@ -1254,7 +1161,7 @@ function renderProgressions() {
             }).join('')
         ).join('');
 
-        const progressionAnalysis = analyzeProgression(variant.pads, variant.tonality);
+        const progressionAnalysis = analyzeProgression(variant.pads, variant.tonality, getKeyOffset(selectedKey));
 
         // Calculate progression length for clarification text (already declared above for edge calculation)
         const progressionClarification = progressionChordCount > 0

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | specified |
+| Status | implemented |
 | Type | defect |
 | Size | M |
 | Depends on | 00, 07, 09, 10, 13 (all implemented) |
@@ -297,3 +297,35 @@ No Scale Mode pad's description changes. Check R passes, and fails if
 - Chromatic mediants, and Forte's "doubly chromatic" mediant for a chord of
   the opposite mode a third away (`I` to `♭vi`), which D8 calls double
   mixture: <https://en.wikipedia.org/wiki/Chromatic_mediant>
+
+## 8. Implementation notes
+
+- `classifyProgressionChord()` and `chordRoleKey()` are in `musicTheory.js`,
+  after `getChordFamily()`, with the quality-marking expressions that moved
+  from `app.js`. `app.js` keeps `analyzeProgression()`, which now takes the
+  tonic (`getKeyOffset(selectedKey)`), and a one-line `getChordTooltip()`.
+  `isBorrowedNumeral()`, `getMinorChordRole()` and the `parseRomanStem` import
+  are gone from `app.js`.
+- **Rule 2 reads the family.** It tests `getChordFamily(type) === 'augmented'`
+  plus `minAug`, not the list of four types. That covers `dom7alt` and spec
+  15's new `aug9` too, which a list would have had to follow.
+- **Measured, against the code before this spec:** exactly the 28 labels of
+  §5.1 change (Smooth, key of C). No template's label varies across the six
+  styles once Extended Harmony is set aside. The 18 resolutions of §5.2 change,
+  and no other template-mode one does. No template pad resolves to a generic
+  text, and every resolved key exists in `en.json`.
+- **D15 was wrong on one point.** Scale Mode numerals carry no accidental on
+  their degree, but a suffix can: `III7♭5`. Under the old lookup, the seven
+  `7♭5` pads that spec 15 adds to Scale Mode read "Borrowed chord" because of
+  that ♭. With `chordRoles.types.dom7b5` they read the dominant-seventh-flat-five
+  text. Those seven are the only Scale Mode descriptions that change. Check R
+  therefore also covers Scale Mode, for the "borrowed" fallback only; "Harmonic
+  color" stays allowed there (D15).
+- **Check R and `i♯5`.** Removing `chordRolesMinor.i♯5` alone does not fail R:
+  the pad then reads `chordRoles.types.minAug`, which is the intended second
+  layer. Removing `types.dom7b5` fails R in both modes (6 template findings in C,
+  84 Scale Mode findings over the 12 keys).
+- **Snapshot:** 186 added lines, the 184 `Classes` lines and two header
+  lines; nothing else changes. The pack is byte-identical.
+- Translations: the nine keys are in all six locales;
+  `check-translations.mjs` passes.
