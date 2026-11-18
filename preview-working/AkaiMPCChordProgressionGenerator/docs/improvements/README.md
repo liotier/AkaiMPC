@@ -1,12 +1,14 @@
 # Improvement specifications - Chord Progression Generator
 
-Seventeen specifications, one per improvement, each written to be handed to an
+Eighteen specifications, one per improvement, each written to be handed to an
 implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
 Status is recorded in each spec's header. Specs 00 to 11 and 13 to 16 are
 implemented; spec 12 is dropped. Specs 14 to 16 come from the review of the
-branch before merge; spec 15 was implemented with option B of its §6.
+branch before merge; spec 15 was implemented with option B of its §6. Spec 17
+is specified and blocks the merge: it fixes a regression of spec 10 in Scale
+Mode's descriptions.
 
 ## 1. Provenance
 
@@ -83,6 +85,7 @@ instrument, and the later specs rely on it.
 | 14 | [Pad descriptions and the analysis line](14-pad-descriptions-and-analysis.md) | defect | M | 00, 07, 09, 10, 13 | Sonnet 5.5 |
 | 15 | [Scale Mode grids without repeated sounds](15-scale-mode-gap-filler.md) | defect | M | 05, 13 | Sonnet 5.5 |
 | 16 | [Five exports nothing uses](16-dead-exports.md) | cleanup | S | - | Haiku 5.5 |
+| 17 | [Scale Mode numerals and descriptions, and a plain-language chord phrase](17-scale-mode-numerals-and-descriptions.md) | defect, regression, feature | L | 13, 14, 15 | Opus 5.5 |
 
 Sizes: S is under a day of a session's work with review, M one to two, L a
 multi-step job that should be reviewed at a checkpoint before it touches the
@@ -108,7 +111,9 @@ catalogue.
  │
  ├── 14 descriptions, analysis (after 07, 09, 10, 13)
  │
- └── 15 Scale Mode repeats    (after 05)
+ ├── 15 Scale Mode repeats    (after 05)
+ │
+ └── 17 Scale Mode numerals and descriptions (after 13, 14, 15)
 
 16 dead exports               (independent)
 12 finder convention          (dropped)
@@ -191,7 +196,7 @@ decisions are followed to the letter, the table says so.
 |---|---|---|---|
 | Claude Haiku 5.5 | `claude-haiku-5-5` | Mechanical changes with a complete specification and a mechanical acceptance test: a new tool whose output format is fully given, a classifier replaced by a table | 00, 03, 16 |
 | Claude Sonnet 5.5 | `claude-sonnet-5-5` | Bounded data and logic changes where the English text is supplied and the theory decisions are already made; translation into the five other locales; small algorithmic changes whose effect the snapshot makes visible | 02, 04, 05, 08, 09, 14, 15 |
-| Claude Opus 5.5 | `claude-opus-5-5` | Cross-cutting refactors with a byte-identity requirement, changes to persistence and identity, voicing algorithms, and anything that must weigh several interacting scoring rules | 01, 06, 07, 10, 11, 13 |
+| Claude Opus 5.5 | `claude-opus-5-5` | Cross-cutting refactors with a byte-identity requirement, changes to persistence and identity, voicing algorithms, and anything that must weigh several interacting scoring rules | 01, 06, 07, 10, 11, 13, 17 |
 | Claude Fable 5.2 | `claude-fable-5-2` | Not required by any spec. It was first recommended for 07; that was revised once the other specs proved implementable from their tables, with judgement calls brought back for review | - |
 
 Notes:
