@@ -19,6 +19,9 @@ import {
     getKeyOffset,
     getScaleDegrees,
     getScaleTriad,
+    rootDegree,
+    scaleModeNumeral,
+    CHORD_TYPE_DISPLAY,
     getScaleSeventh,
     getQualityLabel,
     getRomanNumeralForChord,
@@ -538,10 +541,19 @@ export function generateScaleExploration({ key, mode, chordRequirements = [] }) 
     // F#, not Gb (docs/improvements/13-spelling.md D1, D8)
     const spelling = scaleSpelling(key, mode);
     const harmonyPitchClasses = getHarmonyPitchClasses(mode);
+    // Numerals follow the parallel-major convention templates use, read from the
+    // scale spelled in C so they are the same in every key: Dorian's E♭ is ♭III,
+    // Pentatonic Major's G is V, and a diminished scale's eighth note has its own
+    // numeral (docs/improvements/17-scale-mode-numerals-and-descriptions.md D1, D2)
+    const spellingInC = scaleSpelling('C', mode);
+    const degreeOf = degree => rootDegree(spellingInC, { semitones: scaleDegrees[degree % scaleLength] });
+    // A suspended chord takes the case of its degree's triad: isus4 in Minor (D3)
+    const numeralOf = (degree, chordType) => scaleModeNumeral(degreeOf(degree), chordType,
+        !!CHORD_TYPE_DISPLAY[getScaleTriad(degree, mode)]?.lowercase);
 
     const addPad = (degree, chordType) => {
         const scaleDegree = scaleDegrees[degree % scaleLength];
-        const romanNumeral = getRomanNumeralForChord(degree, chordType);
+        const romanNumeral = numeralOf(degree, chordType);
         const notes = buildChord(scaleDegree, chordType, keyOffset);
         const position = { romanNumeral, semitones: scaleDegree };
         pads.push({
@@ -551,6 +563,7 @@ export function generateScaleExploration({ key, mode, chordRequirements = [] }) 
             notes,
             spelling: spellChord(spelling, position, chordType, notes),
             chordType,
+            degree: degreeOf(degree),
             quality: getQualityLabel(chordType),
             row: Math.floor(pads.length / 4) + 1,
             col: (pads.length % 4) + 1,
@@ -578,12 +591,12 @@ export function generateScaleExploration({ key, mode, chordRequirements = [] }) 
     const soundOf = (degree, type) => pcSignature(buildChord(scaleDegrees[degree], type, keyOffset));
     const isNew = (degree, type) =>
         chordFitsScale(((scaleDegrees[degree] % 12) + 12) % 12, type, harmonyPitchClasses) &&
-        !takenNumerals.has(getRomanNumeralForChord(degree, type)) &&
+        !takenNumerals.has(numeralOf(degree, type)) &&
         !takenSounds.has(soundOf(degree, type));
     const take = (index, degree, type) => {
         plan[index] = { degree, type };
         takenSounds.add(soundOf(degree, type));
-        takenNumerals.add(getRomanNumeralForChord(degree, type));
+        takenNumerals.add(numeralOf(degree, type));
     };
     // First new-sounding chord from the lists, trying the degrees in order and
     // every degree with one list before moving to the next list
@@ -636,6 +649,9 @@ export function generateScaleExploration({ key, mode, chordRequirements = [] }) 
     return {
         name: mode,
         titleKey: 'scaleExploration',
+        // Only these two scales are keys: their pads read the template
+        // descriptions, the others' their chord type's (spec 17 D4)
+        tonality: mode === 'Major' ? 'major' : mode === 'Minor' ? 'minor' : undefined,
         pads: pads
     };
 }
@@ -670,7 +686,11 @@ export function generateVariant(variantType, { key, mode, progression, category 
     // (docs/improvements/07-minor-key-awareness.md)
     const tonality = template ? templateTonality(template) : 'major';
     const spelling = templateSpelling(key, tonality);
-    const spelled = pad => ({ ...pad, spelling: spellChord(spelling, { romanNumeral: pad.romanNumeral }, pad.chordType, pad.notes) });
+    const spelled = pad => ({
+        ...pad,
+        spelling: spellChord(spelling, { romanNumeral: pad.romanNumeral }, pad.chordType, pad.notes),
+        degree: rootDegree(spelling, { romanNumeral: pad.romanNumeral })
+    });
 
     let progressionChords = generateProgressionChords(progression, keyOffset, scaleDegrees, mode, spelling);
 

@@ -1470,19 +1470,6 @@ export function getScaleDegrees(mode) {
     return scale.map(note => Math.round(note));  // Round any quarter tones to nearest semitone
 }
 
-/**
- * Get the triad quality for a scale degree in a given mode.
- * Delegates to getScaleTriad so the declared colour below is used when it is
- * playable in the scale and repaired from the scale when it is not.
- *
- * @param {number} degree - Scale degree index (0-based)
- * @param {string} mode - Mode/scale name
- * @returns {string} Chord type key
- */
-export function getChordQualityForMode(degree, mode) {
-    return getScaleTriad(degree, mode);
-}
-
 // The intended triad colour of each degree, as authored. Consumed through
 // getScaleTriad(), which discards any entry that would step outside the scale.
 function getDeclaredChordQuality(degree, mode) {
@@ -1500,35 +1487,35 @@ function getDeclaredChordQuality(degree, mode) {
         'Minor': {
             0: 'minor',   // i
             1: 'diminished',  // ii°
-            2: 'major',   // III
+            2: 'major',   // ♭III
             3: 'minor',   // iv
             4: 'minor',   // v
-            5: 'major',   // VI
-            6: 'major'    // VII
+            5: 'major',   // ♭VI
+            6: 'major'    // ♭VII
         },
         'Dorian': {
             0: 'minor',   // i
             1: 'minor',   // ii
-            2: 'major',   // III
+            2: 'major',   // ♭III
             3: 'major',   // IV
             4: 'minor',   // v
             5: 'diminished',  // vi°
-            6: 'major'    // VII
+            6: 'major'    // ♭VII
         },
         'Phrygian': {
             0: 'minor',   // i
-            1: 'major',   // II
-            2: 'major',   // III
+            1: 'major',   // ♭II
+            2: 'major',   // ♭III
             3: 'minor',   // iv
             4: 'diminished',  // v°
-            5: 'major',   // VI
-            6: 'minor'    // vii
+            5: 'major',   // ♭VI
+            6: 'minor'    // ♭vii
         },
         'Lydian': {
             0: 'major',   // I
             1: 'major',   // II
             2: 'minor',   // iii
-            3: 'diminished',  // #iv°
+            3: 'diminished',  // ♯iv°
             4: 'major',   // V
             5: 'minor',   // vi
             6: 'minor'    // vii
@@ -1540,30 +1527,30 @@ function getDeclaredChordQuality(degree, mode) {
             3: 'major',   // IV
             4: 'minor',   // v
             5: 'minor',   // vi
-            6: 'major'    // VII
+            6: 'major'    // ♭VII
         },
         'Locrian': {
             0: 'diminished',  // i°
-            1: 'major',   // II
-            2: 'minor',   // iii
+            1: 'major',   // ♭II
+            2: 'minor',   // ♭iii
             3: 'minor',   // iv
-            4: 'major',   // V
-            5: 'major',   // VI
-            6: 'minor'    // vii
+            4: 'major',   // ♭V
+            5: 'major',   // ♭VI
+            6: 'minor'    // ♭vii
         },
         'Harmonic Minor': {
             0: 'minor',   // i
             1: 'diminished',  // ii°
-            2: 'augmented',   // III+ (augmented triad)
+            2: 'augmented',   // ♭III+ (augmented triad)
             3: 'minor',   // iv
             4: 'major',   // V
-            5: 'major',   // VI
+            5: 'major',   // ♭VI
             6: 'diminished'  // vii°
         },
         'Melodic Minor': {
             0: 'minor',   // i
             1: 'minor',   // ii
-            2: 'augmented',   // III+ (augmented triad)
+            2: 'augmented',   // ♭III+ (augmented triad)
             3: 'major',   // IV
             4: 'major',   // V
             5: 'diminished',  // vi°
@@ -1578,41 +1565,41 @@ function getDeclaredChordQuality(degree, mode) {
         },
         'Pentatonic Minor': {
             0: 'minor',   // i
-            1: 'major',   // III
+            1: 'major',   // ♭III
             2: 'minor',   // iv
             3: 'minor',   // v
-            4: 'major'    // VII
+            4: 'major'    // ♭VII
         },
         'Blues': {
             0: 'minor',   // i
-            1: 'major',   // III
+            1: 'major',   // ♭III
             2: 'minor',   // iv
-            3: 'major',   // IV (with blue note)
+            3: 'major',   // ♯IV (with blue note)
             4: 'minor',   // v
-            5: 'major'    // VII
+            5: 'major'    // ♭VII
         },
         'Double Harmonic': {
             0: 'major',   // I
-            1: 'major',   // II (with b2)
+            1: 'major',   // ♭II
             2: 'major',   // III
             3: 'minor',   // iv
             4: 'major',   // V
-            5: 'major',   // VI (with b6)
+            5: 'major',   // ♭VI
             6: 'diminished'  // vii°
         },
         'Hungarian Minor': {
             0: 'minor',   // i
             1: 'diminished',  // ii°
-            2: 'major',   // III+
-            3: 'minor',   // #iv
+            2: 'major',   // ♭III
+            3: 'minor',   // ♯iv
             4: 'major',   // V
-            5: 'major',   // VI
+            5: 'major',   // ♭VI
             6: 'diminished'  // vii°
         },
         'Neapolitan Major': {
             0: 'major',   // I
-            1: 'major',   // II (with b2)
-            2: 'minor',   // iii
+            1: 'major',   // ♭II
+            2: 'minor',   // ♭iii
             3: 'major',   // IV
             4: 'major',   // V
             5: 'minor',   // vi
@@ -1621,7 +1608,7 @@ function getDeclaredChordQuality(degree, mode) {
         'Neapolitan Minor': {
             0: 'minor',   // i
             1: 'major',   // ♭II
-            2: 'augmented',  // III+ (Eb-G-B = augmented triad)
+            2: 'augmented',  // ♭III+ (Eb-G-B = augmented triad)
             3: 'minor',   // iv
             4: 'major',   // V
             5: 'major',   // ♭VI
@@ -1630,40 +1617,40 @@ function getDeclaredChordQuality(degree, mode) {
         // Enigmatic scale chord qualities removed (scale removed)
         'Phrygian Dominant': {
             0: 'major',   // I
-            1: 'major',   // II (with b2)
+            1: 'major',   // ♭II
             2: 'diminished',  // iii°
             3: 'minor',   // iv
             4: 'minor',   // v
-            5: 'major',   // VI (with b6)
-            6: 'minor'    // vii
+            5: 'major',   // ♭VI
+            6: 'minor'    // ♭vii
         },
         'Persian': {
             0: 'major',   // I
-            1: 'major',   // II (with b2)
+            1: 'major',   // ♭II
             2: 'major',   // III
             3: 'minor',   // iv
-            4: 'diminished',  // v° (with b5)
-            5: 'major',   // VI (with b6)
+            4: 'diminished',  // ♭v°
+            5: 'major',   // ♭VI
             6: 'diminished'  // vii°
         },
         'Hirajoshi': {
             0: 'minor',   // i
             1: 'major',   // II
-            2: 'minor',   // iii (with b3)
+            2: 'minor',   // ♭iii
             3: 'major',   // V
-            4: 'major'    // VI (with b6)
+            4: 'major'    // ♭VI
         },
         'Insen': {
             0: 'minor',   // i
-            1: 'major',   // II (with b2)
+            1: 'major',   // ♭II
             2: 'minor',   // iv
             3: 'minor',   // v
-            4: 'major'    // VII (with b7)
+            4: 'major'    // ♭VII
         },
         'Kumoi': {
             0: 'minor',   // i
             1: 'major',   // II
-            2: 'minor',   // iii (with b3)
+            2: 'minor',   // ♭iii
             3: 'major',   // V
             4: 'minor'    // vi
         },
@@ -1672,119 +1659,122 @@ function getDeclaredChordQuality(degree, mode) {
             1: 'major',   // II
             2: 'minor',   // iv
             3: 'minor',   // v
-            4: 'major'    // VII (with b7)
+            4: 'major'    // ♭VII
         },
         // Symmetrical/Jazz scales
         'Whole Tone': {
             0: 'augmented',  // I+ (all triads are augmented in whole tone)
             1: 'augmented',  // II+
             2: 'augmented',  // III+
-            3: 'augmented',  // #IV+
-            4: 'augmented',  // #V+
-            5: 'augmented'   // #VI+
+            3: 'augmented',  // ♯IV+
+            4: 'augmented',  // ♯V+
+            5: 'augmented'   // ♯VI+
         },
         'Diminished (W-H)': {
             0: 'diminished',  // i°
             1: 'minor',   // ii
-            2: 'diminished',  // iii°
+            2: 'diminished',  // ♯ii°
             3: 'major',   // IV
-            4: 'diminished',  // v°
-            5: 'minor',   // vi
-            6: 'diminished',  // vii°
-            7: 'major'    // I (octave)
+            4: 'diminished',  // ♯iv°
+            5: 'minor',   // ♯v
+            6: 'diminished',  // vi°
+            7: 'major'    // VII
         },
         'Diminished (H-W)': {
-            0: 'minor',   // i
-            1: 'diminished',  // ii°
-            2: 'minor',   // iii
-            3: 'diminished',  // iv°
-            4: 'minor',   // v
-            5: 'diminished',  // vi°
-            6: 'minor',   // vii
-            7: 'diminished'  // i° (octave)
+            // Major on 1, 3, 5, 7: the triads the half-whole scale is used for,
+            // whose sevenths are four dominants a minor third apart
+            // (docs/improvements/17-scale-mode-numerals-and-descriptions.md D9)
+            0: 'major',   // I
+            1: 'diminished',  // ♯i°
+            2: 'major',   // ♯II
+            3: 'diminished',  // iii°
+            4: 'major',   // ♯IV
+            5: 'diminished',  // v°
+            6: 'major',   // VI
+            7: 'diminished'  // ♯vi°
         },
         'Augmented': {
             0: 'augmented',  // I+ (all triads in augmented hexatonic are augmented)
-            1: 'augmented',  // bIII+
+            1: 'augmented',  // ♯II+
             2: 'augmented',  // III+
             3: 'augmented',  // V+
-            4: 'augmented',  // bVI+
+            4: 'augmented',  // ♯V+
             5: 'augmented'   // VII+
         },
         // Arabic Maqamat chord qualities removed (scales removed)
         // Indian Ragas
         'Bhairav': {
             0: 'major',   // I
-            1: 'major',   // II (with b2)
+            1: 'major',   // ♭II
             2: 'major',   // III
             3: 'minor',   // iv
             4: 'major',   // V
-            5: 'major',   // VI (with b6)
+            5: 'major',   // ♭VI
             6: 'diminished'  // vii°
         },
         'Kafi': {
             0: 'minor',   // i
             1: 'minor',   // ii
-            2: 'major',   // III
+            2: 'major',   // ♭III
             3: 'major',   // IV
             4: 'minor',   // v
             5: 'diminished',  // vi°
-            6: 'major'    // VII
+            6: 'major'    // ♭VII
         },
         'Yaman': {
             0: 'major',   // I
             1: 'major',   // II
             2: 'minor',   // iii
-            3: 'diminished',  // #iv°
+            3: 'diminished',  // ♯iv°
             4: 'major',   // V
             5: 'minor',   // vi
             6: 'minor'    // vii
         },
         'Bhairavi': {
             0: 'minor',   // i
-            1: 'major',   // II
-            2: 'major',   // III
+            1: 'major',   // ♭II
+            2: 'major',   // ♭III
             3: 'minor',   // iv
             4: 'diminished',  // v°
-            5: 'major',   // VI
-            6: 'minor'    // vii
+            5: 'major',   // ♭VI
+            6: 'minor'    // ♭vii
         },
         'Todi': {
             0: 'minor',   // i
-            1: 'major',   // II (with b2)
-            2: 'minor',   // iii
-            3: 'diminished',  // #iv°
+            1: 'major',   // ♭II
+            2: 'minor',   // ♭iii
+            3: 'diminished',  // ♯iv°
             4: 'major',   // V
-            5: 'major',   // VI (with b6)
+            5: 'major',   // ♭VI
             6: 'diminished'  // vii°
         },
         // Melodic Minor Modes
         'Altered': {
             0: 'diminished',  // i° (altered tonic)
-            1: 'minor',   // ii
-            2: 'minor',   // iii
-            3: 'minor',   // iv
-            4: 'major',   // V (with b5)
-            5: 'major',   // VI
-            6: 'minor'    // vii
+            1: 'minor',   // ♭ii
+            2: 'minor',   // ♭iii
+            3: 'minor',   // ♭iv
+            4: 'major',   // ♭V
+            5: 'major',   // ♭VI
+            6: 'minor'    // ♭vii
         },
         'Lydian Dominant': {
             0: 'major',   // I (dom7 context)
             1: 'major',   // II
             2: 'minor',   // iii
-            3: 'diminished',  // #iv°
+            3: 'diminished',  // ♯iv°
             4: 'major',   // V
             5: 'minor',   // vi
-            6: 'minor'    // vii
+            6: 'minor'    // ♭vii
         },
         'Locrian #2': {
             0: 'diminished',  // i° (m7b5 context)
             1: 'minor',   // ii
-            2: 'minor',   // iii
+            2: 'minor',   // ♭iii
             3: 'minor',   // iv
-            4: 'major',   // V (with b5)
-            5: 'major',   // VI
-            6: 'minor'    // vii
+            4: 'major',   // ♭V
+            5: 'major',   // ♭VI
+            6: 'minor'    // ♭vii
         },
         // Bebop scale chord qualities removed (scales removed)
     };
@@ -2067,7 +2057,7 @@ function countForeignTones(rootPitchClass, chordType, pitchClasses) {
 /**
  * Best triad for a scale degree.
  *
- * The hand-written table in getChordQualityForMode records the intended colour
+ * The hand-written table in getDeclaredChordQuality() records the intended colour
  * of each degree and is kept whenever it stays inside the scale. When it does
  * not - which was the case for most of the exotic scales - the triad is derived
  * from the scale instead, so Scale Mode never shows a chord containing a note
@@ -2884,7 +2874,23 @@ function numeralNote(reference, numeral) {
  *   (template mode) or the root's semitones above the tonic (Scale Mode)
  * @returns {{letter: number, accidental: number}} The spelled root
  */
-export function spellRoot(spelling, { romanNumeral = '', semitones = null } = {}) {
+export function spellRoot(spelling, position = {}) {
+    const note = functionalRoot(spelling, position);
+    const pitchClass = notePitchClass(note);
+    const awkward = (note.accidental === 1 && (note.letter === 2 || note.letter === 6)) // E♯, B♯
+        || (note.accidental === -1 && (note.letter === 0 || note.letter === 3));        // C♭, F♭
+    if (Math.abs(note.accidental) >= 2 || (awkward && !spelling.pitchClasses.has(pitchClass))) {
+        return plainestNote(pitchClass, Math.sign(note.accidental));
+    }
+    return note;
+}
+
+/**
+ * The root as its function names it, before spellRoot() respells an awkward
+ * name: in C♯ major the ♯iv° stands on F𝄪, which the pad shows as G. A degree
+ * is read from this note, so that it agrees with the numeral.
+ */
+function functionalRoot(spelling, { romanNumeral = '', semitones = null } = {}) {
     let note;
     if (spelling.kind === 'template') {
         const numeral = NUMERAL_ALIASES[romanNumeral] || romanNumeral;
@@ -2903,14 +2909,26 @@ export function spellRoot(spelling, { romanNumeral = '', semitones = null } = {}
             // parent lacks (the blues scale's ♭5): the tonic's side
             ?? plainestNote(pitchClass, spelling.tonic.accidental < 0 ? -1 : 1);
     }
-
-    const pitchClass = notePitchClass(note);
-    const awkward = (note.accidental === 1 && (note.letter === 2 || note.letter === 6)) // E♯, B♯
-        || (note.accidental === -1 && (note.letter === 0 || note.letter === 3));        // C♭, F♭
-    if (Math.abs(note.accidental) >= 2 || (awkward && !spelling.pitchClasses.has(pitchClass))) {
-        return plainestNote(pitchClass, Math.sign(note.accidental));
-    }
     return note;
+}
+
+/**
+ * A pad's degree: its root's letter counted from the tonic's, and how far the
+ * root lies from that degree of the tonic's major scale
+ * (docs/improvements/17-scale-mode-numerals-and-descriptions.md D8). V7/V in C
+ * is { step: 2, alteration: 0 }, ♭VII { step: 7, alteration: -1 }.
+ *
+ * @param {Object} spelling - From templateSpelling() or scaleSpelling()
+ * @param {{romanNumeral?: string, semitones?: number}} position - As for spellRoot()
+ * @returns {{step: number, alteration: number}} step 1-7
+ */
+export function rootDegree(spelling, position) {
+    const note = functionalRoot(spelling, position);
+    const step = ((note.letter - spelling.tonic.letter) % 7 + 7) % 7;
+    const expected = mod12(notePitchClass(spelling.tonic) + MAJOR_STEPS[step]);
+    let alteration = mod12(notePitchClass(note) - expected);
+    if (alteration > 6) alteration -= 12;
+    return { step: step + 1, alteration };
 }
 
 // '#5' -> { number: 5, semitones: 8 }. A 9th to a 13th is the 2nd to the 6th
@@ -3158,6 +3176,25 @@ export function getRomanNumeralForChord(degree, chordType) {
 }
 
 /**
+ * A Scale Mode numeral (spec 17 D1-D3): the parallel-major convention templates
+ * use, read from the pad's degree, so Dorian's E♭ is ♭III and Pentatonic Major's
+ * G is V. The case follows the chord type; a suspended chord, which has no
+ * third, takes the case its degree's triad would have.
+ *
+ * @param {{step: number, alteration: number}} degree - From rootDegree()
+ * @param {string} chordType - Chord type key
+ * @param {boolean} [lowerCase] - The case of a suspended chord's degree
+ * @returns {string} e.g. '♭III', 'iiø7', '♯IV7♭5', 'isus4'
+ */
+export function scaleModeNumeral(degree, chordType, lowerCase) {
+    const display = CHORD_TYPE_DISPLAY[chordType] || DEFAULT_CHORD_DISPLAY;
+    const stem = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'][degree.step - 1];
+    const accidental = degree.alteration > 0 ? '♯'.repeat(degree.alteration) : '♭'.repeat(-degree.alteration);
+    const lower = getChordFamily(chordType) === 'suspended' ? !!lowerCase : !!display.lowercase;
+    return accidental + (lower ? stem.toLowerCase() : stem) + display.suffix;
+}
+
+/**
  * Roman numeral suffix for a chord type (e.g. 'm7b5' -> 'ø7'). Used when the
  * numeral stem already exists, such as a borrowed '♭VII'.
  *
@@ -3329,6 +3366,9 @@ const QUALITY_MARKINGS_CASE_KEPT = /M7|\(maj7\)|\(no5\)|\(11\)|7|°|ø|\+|sus[24
  */
 export function chordRoleKey(romanNumeral, chordType, tonality, has) {
     const numeral = romanNumeral || '';
+    // Scale Mode outside Major and Minor: the scale is no key, so no numeral
+    // text, written for keys, applies (spec 17 D4)
+    if (!tonality) return chordTypeRoleKey(chordType, has);
     if (isTritoneSubstitute(numeral, chordType)) return 'chordRoles.SUBV7';
 
     const table = { minor: 'chordRolesMinor', major: 'chordRolesMajor' }[tonality];
@@ -3353,15 +3393,44 @@ export function chordRoleKey(romanNumeral, chordType, tonality, has) {
         if (has(candidate)) return candidate;
     }
 
-    // Generic descriptions by chord family
-    if (chordType) {
-        if (chordType.includes('sus') || chordType.startsWith('quartal')) return 'chordRoles.sus';
-        if (chordType.includes('add9') || chordType === 'minAdd9') return 'chordRoles.add9';
-        if (chordType === 'major6' || chordType === 'minor6' || chordType === 'maj6/9') return 'chordRoles.6';
-        if (/9|11|13/.test(chordType)) return 'chordRoles.extended';
-    }
+    const family = chordFamilyRoleKey(chordType);
+    if (family) return family;
     if (upper.includes('♭') || upper.includes('♯')) return 'chordRoles.borrowed';
     return 'chordRoles.default';
+}
+
+// Generic descriptions by chord family
+function chordFamilyRoleKey(chordType) {
+    if (!chordType) return null;
+    if (chordType.includes('sus') || chordType.startsWith('quartal')) return 'chordRoles.sus';
+    if (chordType.includes('add9') || chordType === 'minAdd9') return 'chordRoles.add9';
+    if (chordType === 'major6' || chordType === 'minor6' || chordType === 'maj6/9') return 'chordRoles.6';
+    if (/9|11|13/.test(chordType)) return 'chordRoles.extended';
+    return null;
+}
+
+// What a chord is, without what it does: its type's text, else its family's
+function chordTypeRoleKey(chordType, has) {
+    if (chordType && has(`chordRoles.types.${chordType}`)) return `chordRoles.types.${chordType}`;
+    return chordFamilyRoleKey(chordType) || 'chordRoles.default';
+}
+
+/**
+ * The i18n keys of a pad's plain-language phrase, "Major triad on the flattened
+ * seventh degree" (spec 17 D6): its chord type's name and its degree's phrase.
+ *
+ * @param {{chordType: string, degree?: {step: number, alteration: number}}} pad
+ * @returns {{name: string, degree: string}|null} null for a pad without a degree
+ */
+export function chordPhraseKeys(pad) {
+    if (!pad || !pad.degree) return null;
+    return { name: `chordTypeNames.${pad.chordType}`, degree: `degreePhrases.${degreePhraseKey(pad.degree)}` };
+}
+
+/** '1', 'b7', '#4': a degree as its phrase key, and as the pad's data-degree. */
+export function degreePhraseKey(degree) {
+    const sign = degree.alteration < 0 ? 'b' : degree.alteration > 0 ? '#' : '';
+    return sign + degree.step;
 }
 
 /**

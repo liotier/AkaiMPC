@@ -18,17 +18,37 @@
  */
 
 import { readFileSync } from 'node:fs';
-import { progressions, modes, keys, CHORD_INTERVALS, CHORD_DEGREES, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, buildChord, getKeyOffset, getHarmonyPitchClasses, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature, parseProgression, templateTonality, templateSpelling, spellChord, chordRoleKey, TEMPLATE_SEPARATOR as CHORD_SEPARATOR } from '../modules/musicTheory.js';
+import { progressions, modes, keys, CHORD_INTERVALS, CHORD_DEGREES, CHORD_NAME_SUFFIX, CHORD_TYPE_DISPLAY, buildChordRaw, buildChord, getKeyOffset, getHarmonyPitchClasses, resolveTemplate, parseRomanStem, getRomanSuffix, pcSignature, parseProgression, templateTonality, templateSpelling, spellChord, chordRoleKey, chordPhraseKeys, TEMPLATE_SEPARATOR as CHORD_SEPARATOR } from '../modules/musicTheory.js';
 import { generateVariant, generateScaleExploration, VARIANT_STYLES, ROW4_CATEGORIES, determineChordFunction, analyzeExistingChords, scoreCandidate } from '../modules/generation.js';
 
 const NOTE_PITCH_CLASSES = { C: 0, 'B#': 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, 'E#': 5, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11, Cb: 11, Fb: 4 };
 const DEGREE_SEMITONES = { I: 0, II: 2, III: 4, IV: 5, V: 7, VI: 9, VII: 11 };
+
+// T: a Scale Mode numeral in C names its root's letter degree and accidental
+const ROMAN_BY_LETTER = { C: 'I', D: 'II', E: 'III', F: 'IV', G: 'V', A: 'VI', B: 'VII' };
+const ALTERATION_SIGN = { '': '', '#': '♯', 'b': '♭' };
+const scaleNumeralCache = new Map();
+const scaleNumeralsInC = mode => {
+    if (!scaleNumeralCache.has(mode)) scaleNumeralCache.set(mode, generateScaleExploration({ key: 'C', mode }).pads.map(pad => pad.romanNumeral));
+    return scaleNumeralCache.get(mode);
+};
+// R in Scale Mode: the keys that describe a chord by its type or family only
+const TYPE_AND_FAMILY_ROLE = /^chordRoles\.(types\..+|sus|add9|6|extended)$/;
 
 // R: what a pad's description resolves to. The English locale is the reference:
 // check-translations.mjs keeps the other five in step with it.
 const ENGLISH = JSON.parse(readFileSync(new URL('../locales/en.json', import.meta.url), 'utf8'));
 const hasEnglishKey = key => key.split('.').reduce((node, part) =>
     (node && typeof node === 'object' && part in node) ? node[part] : undefined, ENGLISH) !== undefined;
+
+// R: every pad, in both modes, can say what it is in plain words, "Major triad
+// on the flattened seventh degree" (spec 17 D6)
+function checkPhrase(pad, label) {
+    const keys = chordPhraseKeys(pad);
+    if (!keys) { report('R pad has no degree for its phrase', label); return; }
+    if (!hasEnglishKey(keys.name)) report('R chord type has no name in en.json', `${label} -> ${keys.name}`);
+    if (!hasEnglishKey(keys.degree)) report('R degree has no phrase in en.json', `${label} -> ${keys.degree}`);
+}
 
 // It+6 / Fr+6 / Ger+6 are not degree-based roman numerals - an augmented
 // sixth is always rooted on the flat submediant by convention, unrelated to
@@ -535,6 +555,7 @@ for (const key of keys) {
                         const roleKey = chordRoleKey(pad.romanNumeral, pad.chordType, templateTonality(template), hasEnglishKey);
                         if (roleKey === 'chordRoles.borrowed' || roleKey === 'chordRoles.default') report('R pad falls back to a generic description', `${label} -> ${roleKey}`);
                         else if (!hasEnglishKey(roleKey)) report('R pad description key missing from en.json', `${label} -> ${roleKey}`);
+                        checkPhrase(pad, label);
                     }
 
                     const parsed = parseChordName(pad.chordName);
@@ -629,13 +650,37 @@ for (const key of keys) {
         for (const mode of list) {
             const keyScalePitchClasses = new Set([...getHarmonyPitchClasses(mode)].map(pc => (pc + keyPc) % 12));
             const soundsSeen = new Map();
-            generateScaleExploration({ key, mode }).pads.forEach((pad, i) => {
+            const exploration = generateScaleExploration({ key, mode });
+            const numeralsInC = scaleNumeralsInC(mode);
+            const rootsByStem = new Map();
+            exploration.pads.forEach((pad, i) => {
                 scalePadCount++;
                 const label = `${key} ${mode} pad${i + 1} ${pad.chordName} [${pad.romanNumeral}]`;
                 checkSpelling(pad, label, keyScalePitchClasses);
-                // R in Scale Mode: no tonality, so nothing is borrowed. The ♭ of a
-                // 7♭5 suffix once sent such pads to "Borrowed chord".
-                if (chordRoleKey(pad.romanNumeral, pad.chordType, undefined, hasEnglishKey) === 'chordRoles.borrowed') report('R Scale Mode pad described as borrowed', label);
+                // R in Scale Mode (docs/improvements/17-scale-mode-numerals-and-descriptions.md).
+                // Only Major and Minor are keys and read the numeral texts; any other
+                // scale reads its chord type's or family's. A numeral text once gave
+                // natural minor's E♭ "a major chord a major third above the tonic".
+                const roleKey = chordRoleKey(pad.romanNumeral, pad.chordType, exploration.tonality, hasEnglishKey);
+                if (roleKey === 'chordRoles.borrowed' || roleKey === 'chordRoles.default') report('R Scale Mode pad falls back to a generic description', `${label} -> ${roleKey}`);
+                else if (!exploration.tonality && !TYPE_AND_FAMILY_ROLE.test(roleKey)) report('R Scale Mode pad outside Major and Minor reads a numeral text', `${label} -> ${roleKey}`);
+                else if (!hasEnglishKey(roleKey)) report('R pad description key missing from en.json', `${label} -> ${roleKey}`);
+                if (key === 'C') checkPhrase(pad, label);
+                // T: numerals follow the parallel-major convention, read from the scale
+                // spelled in C: the same in every key, the root's own letter degree, and
+                // never one numeral for two roots. Positional numerals once named
+                // Pentatonic Major's G 'IV' and a diminished scale's eighth note 'I'.
+                if (pad.romanNumeral !== numeralsInC[i]) report('T Scale Mode numeral differs from the same pad in C', `${label} vs ${numeralsInC[i]}`);
+                const stem = /^([♭♯]*)([ivIV]+)/.exec(pad.romanNumeral);
+                if (!stem) { report('T Scale Mode numeral has no stem', label); return; }
+                if (key === 'C') {
+                    const root = NOTE_PITCH_CLASSES[pad.spelling.root] !== undefined ? pad.spelling.root : null;
+                    const expected = root && (ALTERATION_SIGN[root.slice(1)] ?? null) + ROMAN_BY_LETTER[root[0]];
+                    if (expected !== stem[1] + stem[2].toUpperCase()) report('T Scale Mode numeral is not its root\'s degree in C', `${label} root=${pad.spelling.root}`);
+                }
+                const stemKey = stem[1] + stem[2].toUpperCase();
+                if (rootsByStem.has(stemKey) && rootsByStem.get(stemKey) !== pad.spelling.root) report('T two roots share a numeral in one grid', `${label} and ${rootsByStem.get(stemKey)}`);
+                rootsByStem.set(stemKey, pad.spelling.root);
                 const sound = pcSignature(pad.notes);
                 if (soundsSeen.has(sound)) report('Q Scale Mode pad sounds like another pad of its grid', `${label} = pad${soundsSeen.get(sound)}`);
                 else soundsSeen.set(sound, i + 1);

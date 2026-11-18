@@ -159,6 +159,20 @@ Augmented scale now shows its own major and minor triads on C, E and G♯. Three
 scales, Bhairav, Double Harmonic and Hungarian Minor, also lose a diminished
 chord that held a note they do not have.
 
+**Scale Mode speaks the same language as the palettes, and every chord says
+what it is.** Scale Mode numbered chords by their position in the scale, so
+Pentatonic Major's G was IV, two different chords of a diminished scale were
+both I, and natural minor's E♭ was III where the palettes write ♭III. It now
+uses the palettes' convention in every scale. Scale Mode's chord descriptions
+were also borrowed from the palettes, and a third of them described another
+chord: natural minor's E♭ was "a major chord a major third above the tonic".
+Major and Minor keep the palettes' descriptions, which are true there; every
+other scale describes each chord by what it is. Hovering any pad, in either
+mode, now also spells the chord out first - "Major triad on the flattened
+seventh degree" - in all six languages. And the half-whole diminished scale
+shows the chords it is used for: four dominant sevenths a minor third apart,
+C7, D♯7, F♯7 and A7 in C, where it showed only minor and diminished chords.
+
 **Behind the scenes.** Every change to the catalogue now ships with a readable
 record of every progression's chords, checked on each commit beside a much
 stricter theory audit, and a typo in a progression's definition stops the build

@@ -181,6 +181,12 @@ About eight `chordRoles` keys and five `chordRolesMinor` keys, six locales.
 
 ## 8. Implementation notes
 
+> **Later correction (spec 17).** The rewritten `III` and `VI` texts state a
+> fixed interval from the tonic. Scale Mode, which numbered chords by position
+> and read the same table, gave them to 62 pads in 23 scales whose roots lie
+> elsewhere, natural minor's E♭ among them. Spec 17 numbers Scale Mode against
+> the parallel major and gives the numeral texts only to Major and Minor.
+
 ### 8.1 Blocked: acceptance items 1, 3 and 5, and the review's decisions
 
 At the work-in-progress commit `8c37a65`, §3.1 to §3.3 were done as first
