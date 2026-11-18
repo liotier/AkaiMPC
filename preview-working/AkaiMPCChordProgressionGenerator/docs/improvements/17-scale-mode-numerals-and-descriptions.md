@@ -272,7 +272,15 @@ Translate into `fr`, `es`, `de`, `pt`, `it`; American spelling, as `en.json`.
   degree" above its description; the Keyboard view shows the phrase alone;
   Minor's E♭ reads `♭III` and the relative-major text; French and German
   phrases display; no console error.
-- **Seen, not changed.** Outside Major and Minor, the tooltip names the chord
-  type twice: "Major triad on the fourth degree", then "Major triad - bright
-  and stable...". Showing only the text after the type's name there would remove
-  it.
+- **No repeated name.** A description of what a chord is (its type's or
+  family's text) opens with the chord's name, which the phrase has just
+  given: "Major triad on the fourth degree", then "Major triad - bright and
+  stable...". The tooltip keeps only what follows the hyphen and capitalises
+  it ("Bright and stable, the most common chord."); the card, which has no
+  phrase, keeps the whole text. Functional texts keep their head, which names
+  the function, not the chord ("Relative major - ..."). Two texts were adjusted
+  for it: `aug9`'s description no longer restates the chord's name after its
+  hyphen, and its head is now the unambiguous name, in six languages; the
+  French `dom7sus4` name became "Accord de septième de dominante à quarte
+  suspendue", masculine like the adjective ("courant") its description
+  ends with.

@@ -766,8 +766,31 @@ function getChordPhrase(chordType, degreeKey) {
 function getPadTooltipText(pad) {
     const phrase = getChordPhrase(pad.dataset.chordType, pad.dataset.degree);
     if (currentContext === 'keyboard') return phrase;
-    const description = getChordTooltip(pad.dataset.roman, pad.dataset.chordType, pad.dataset.tonality) || 'Chord';
+    const roleKey = chordRoleKey(pad.dataset.roman, pad.dataset.chordType, pad.dataset.tonality, key => i18n.has(key));
+    let description = i18n.t(roleKey) || 'Chord';
+    // A description of what the chord is, its type's or its family's, opens with
+    // the chord's name, which the phrase above has just given: keep what follows
+    if (phrase && TYPE_OR_FAMILY_ROLE.test(roleKey)) description = withoutLeadingName(description);
     return phrase ? `${phrase}\n${description}` : description;
+}
+
+// The description keys that name the chord rather than its function
+const TYPE_OR_FAMILY_ROLE = /^chordRoles\.(types\..+|sus|add9|6|extended)$/;
+
+/**
+ * 'Major triad - bright and stable, the most common chord.' becomes 'Bright and
+ * stable, the most common chord.'. A text with no leading name, such as 'Vintage
+ * color, softens the harmony.', is returned as it is. The English texts written
+ * first put non-breaking spaces around the hyphen, hence the \s.
+ *
+ * @param {string} text - A description
+ * @returns {string}
+ */
+function withoutLeadingName(text) {
+    const match = /^.+?\s-\s(.+)$/s.exec(text);
+    if (!match) return text;
+    const rest = match[1];
+    return rest.charAt(0).toLocaleUpperCase(i18n.getCurrentLanguage()) + rest.slice(1);
 }
 
 function showTooltip(element, text) {
