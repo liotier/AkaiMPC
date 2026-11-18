@@ -98,7 +98,7 @@
     "chordDistanceHint": "Les couleurs des cartes montrent la distance d'accords depuis la carte sélectionnée",
     "scaleExploration": {
       "label": "Tous les accords de la gamme",
-      "tooltip": "Mode Gamme : la triade de chaque degré de la gamme sur les deux premières rangées, et l’accord de septième de chaque degré sur les deux dernières. Les deux sont déduits de la gamme elle-même : aucun pad n’utilise une note absente de la gamme."
+      "tooltip": "Mode Gamme : la triade de chaque degré de la gamme sur les deux premières rangées, et l’accord de septième de chaque degré sur les deux dernières. Les deux sont déduits de la gamme elle-même : aucun pad n’utilise une note absente de la gamme. Lorsqu’un accord sonnerait comme un autre pad, comme dans les gammes symétriques, un autre accord de la gamme prend sa place : deux pads ne sonnent jamais pareil."
     },
     "voiceLeadingLegend": "Fluidité relative :\n🟢 Fluide  🟡 Modérée  🟠 Marquée",
     "voiceLeadingHoverLegend": "Distance depuis l'accord survolé :\n🟢 Fluide  🟡 Modérée  🟠 Marquée"

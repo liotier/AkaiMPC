@@ -936,14 +936,27 @@ Its complement is `tools/catalogue-snapshot.mjs`, which records what every
 template and scale produces in `docs/catalogue-snapshot.txt` so that a change to
 the catalogue can be reviewed as a diff (`docs/improvements/00-catalogue-snapshot.md`).
 
+The audit has since grown well beyond checks A to G: template numerals (H),
+minor-key palettes (I), row-4 hints (J), identity (L), suffixes (K, M), the
+parser (P), row-4 function (N), spelling (S), duplicate sounds in Scale Mode (Q), descriptions (R)
+and Scale Mode numerals (T). Each is documented in the header comment of its
+check and in the spec under `docs/improvements/` that introduced it.
+
 ## 8. Deferred
 
 - Whether the palette should spend two of sixteen pads on functional twins such
   as `Ger+6` and `♭VI7` (§7.11). A deliberate design question, not a defect:
   fixing it would change which chords appear on the grid for many progressions,
   a larger and more subjective change than anything else in this document.
+  **Since decided:** no grid spends two pads on one sonority, in either mode
+  (`docs/improvements/05-duplicate-sounding-pads.md`,
+  `docs/improvements/15-scale-mode-gap-filler.md`); the whitelist is gone.
 
 ## 9. Acceptance criteria
+
+The figures below are this specification's own. The catalogue has grown since:
+the pack now holds 1 094 `.progression` files and 13 135 MIDI files, and the
+audit covers 13 248 variants and 211 968 pads; the criteria themselves still hold.
 
 1. `node tools/build-pack.mjs` emits 839 `.progression` files in C and 10 065
    `.mid` files across twelve keys, with **zero** duplicate display names,

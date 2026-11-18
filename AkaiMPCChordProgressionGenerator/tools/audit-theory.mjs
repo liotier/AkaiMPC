@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Theory integrity audit for the Progression Palette Mode catalogue.
+ * Theory integrity audit for the Progression Palette Mode catalogue and Scale
+ * Mode.
  *
  * Run with:  node tools/audit-theory.mjs
  * Exits non-zero on any finding.
@@ -13,8 +14,10 @@
  *
  * Method: run the real generation functions - the same ones the app and
  * tools/build-pack.mjs use - over every progression template, in every key,
- * in every style, and assert machine-checkable invariants against every pad.
- * ~10,000 variants, ~160,000 pads.
+ * in every style, and every scale in every key, and assert machine-checkable
+ * invariants against every pad: 13,248 variants and 211,968 pads, plus 6,528
+ * Scale Mode pads. The checks are lettered A to T; each one's comment says what
+ * it guards and which spec in docs/improvements/ introduced it.
  */
 
 import { readFileSync } from 'node:fs';
