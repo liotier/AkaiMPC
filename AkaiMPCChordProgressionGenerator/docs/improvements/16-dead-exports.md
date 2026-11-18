@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | specified |
+| Status | implemented |
 | Type | cleanup |
 | Size | S |
 | Depends on | - |
@@ -49,3 +49,13 @@ wrong scheme.
   and the MIDI output selector still lists outputs where Web MIDI is
   available.
 - No `CHANGELOG.md` entry: nothing a user sees changes.
+
+## 4. Implementation notes
+
+- The five definitions and their doc comments are gone (74 lines). `grep -rnw`
+  for each name over the scripts, tools and HTML returns nothing.
+- Audit, translations and snapshot checks pass; the snapshot is unchanged.
+- The pack is byte-identical: `sha256sum pack/*.zip` gives the same two
+  hashes before and after.
+- The browser check (sound, MIDI selector, no console error) ran with the
+  smoke test of specs 14 and 15.

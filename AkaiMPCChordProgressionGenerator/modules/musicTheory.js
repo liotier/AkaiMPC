@@ -2298,39 +2298,6 @@ export function calculateVoiceLeadingDistance(chord1Notes, chord2Notes) {
     return result.cost;
 }
 
-// Get detailed voice leading analysis using Hungarian algorithm
-export function getOptimalVoiceAssignment(chord1Notes, chord2Notes) {
-    const maxLength = Math.max(chord1Notes.length, chord2Notes.length);
-    const notes1 = [...chord1Notes];
-    const notes2 = [...chord2Notes];
-
-    while (notes1.length < maxLength) notes1.push(notes1[notes1.length - 1] + 12);
-    while (notes2.length < maxLength) notes2.push(notes2[notes2.length - 1] + 12);
-
-    const costMatrix = [];
-    for (let i = 0; i < maxLength; i++) {
-        const row = [];
-        for (let j = 0; j < maxLength; j++) {
-            row.push(Math.abs(notes1[i] - notes2[j]));
-        }
-        costMatrix.push(row);
-    }
-
-    const result = hungarianAlgorithm(costMatrix);
-
-    // Map back to actual notes
-    return {
-        totalDistance: result.cost,
-        voiceMovements: result.assignment.map(a => ({
-            fromNote: notes1[a.from],
-            toNote: notes2[a.to],
-            semitones: a.cost,
-            direction: notes2[a.to] > notes1[a.from] ? 'up' :
-                       notes2[a.to] < notes1[a.from] ? 'down' : 'static'
-        }))
-    };
-}
-
 // Generate all reasonable inversions of a chord within a comfortable range
 export function generateInversions(chordNotes) {
     const inversions = [];
