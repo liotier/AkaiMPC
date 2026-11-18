@@ -207,6 +207,7 @@
       "minMaj7": "Mineure majeure 7 - accord de tonique du mineur harmonique et mélodique ; sombre, cinématographique.",
       "augMaj7": "Augmentée majeure 7 - médiante du mineur harmonique/mélodique ; instable et lumineuse.",
       "aug7": "Septième augmentée - dominante à quinte augmentée, pousse fortement vers la tonique.",
+      "aug9": "Neuvième augmentée - neuvième de dominante à quinte augmentée, cinq des six notes de la gamme par tons.",
       "augmented": "Triade augmentée - symétrique et non résolue, peut mener vers plusieurs tonalités.",
       "quartal": "Empilement de quartes - ouvert et modal, ne choisit ni majeur ni mineur.",
       "dom7sus4": "7sus4 - tension de dominante avec la tierce suspendue, courant en modal et en gospel.",

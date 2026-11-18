@@ -145,6 +145,7 @@ const SHAPE_FALLBACKS = {
     'major6': 'major',
     'add9': 'major',
     'augmented': 'major',
+    'aug9': 'augmented',   // no 9♯5 shape in the library; shown as simplified
     'sus2': 'major',
     'sus4': 'major',
     'quartal': 'sus4',     // no 7sus4 shape in the library; shown as simplified

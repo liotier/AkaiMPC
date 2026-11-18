@@ -1825,6 +1825,7 @@ export const CHORD_INTERVALS = {
     minMaj7: [0, 3, 7, 11],       // Minor-major 7th
     aug7: [0, 4, 8, 10],          // Augmented 7th (7♯5)
     augMaj7: [0, 4, 8, 11],       // Augmented major 7th
+    aug9: [0, 4, 8, 10, 14],      // Augmented 9th (9♯5): five of the whole-tone scale's six notes
     dom7sus4: [0, 5, 7, 10],      // 7sus4
 
     // Extended chords (9th, 11th, 13th)
@@ -1907,6 +1908,7 @@ export const CHORD_DEGREES = {
     minMaj7: ['1', 'b3', '5', '7'],
     aug7: ['1', '3', '#5', 'b7'],
     augMaj7: ['1', '3', '#5', '7'],
+    aug9: ['1', '3', '#5', 'b7', '9'],
     dom7sus4: ['1', '4', '5', 'b7'],
 
     major9: ['1', '3', '5', '7', '9'],
@@ -2999,6 +3001,7 @@ export const CHORD_NAME_SUFFIX = {
     'minMaj7': 'mMaj7',
     'aug7': 'aug7',
     'augMaj7': 'augMaj7',
+    'aug9': 'aug9',
     'major9': 'maj9',
     'minor9': 'm9',
     'dom9': '9',
@@ -3102,6 +3105,7 @@ export const CHORD_TYPE_DISPLAY = {
     minMaj7: { label: 'Minor-Major 7', lowercase: true, suffix: '(maj7)' },
     aug7: { label: 'Augmented 7', suffix: '+7' },
     augMaj7: { label: 'Augmented Major 7', suffix: '+M7' },
+    aug9: { label: 'Augmented 9', suffix: '+9' },
     major6: { label: 'Major 6', suffix: '6' },
     minor6: { label: 'Minor 6', lowercase: true, suffix: '6' },
     'maj6/9': { label: 'Major 6/9', suffix: '6/9' },

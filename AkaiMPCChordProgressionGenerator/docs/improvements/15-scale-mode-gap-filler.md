@@ -1,13 +1,13 @@
-# 15 - Scale Mode's gap filler repeats chords already on the grid
+# 15 - Scale Mode grids without repeated sounds
 
 | | |
 |---|---|
-| Status | specified |
+| Status | implemented, with option B of §6 |
 | Type | defect |
-| Size | S |
+| Size | M (S for the filler alone; option B added a chord type) |
 | Depends on | 05 (`pcSignature()`), 13 (implemented) |
 | Blocks | - |
-| Recommended model | Claude Sonnet 5.5 (`claude-sonnet-5-5`): one function rewritten from a given sketch, its effect fully listed below, one audit check |
+| Recommended model | Claude Sonnet 5.5 (`claude-sonnet-5-5`): one function rewritten, one chord type added through existing tables, one audit check, the effect visible in the snapshot |
 
 ## 1. Problem
 
@@ -188,3 +188,82 @@ the maintainer's choice:
   (`Caug` [I+] and `Eaug` [III+]) stay, as a picture of the symmetry.
 
 The decision becomes a short follow-up spec, or a section appended here.
+
+## 7. Decision: option B, and how it was implemented
+
+The maintainer chose B. §3 to §5 describe the filler alone, as first
+specified; this section supersedes them where they differ.
+
+### 7.1 Correction to §6
+
+§6 said every scale supports at least 17 distinct chords, Whole Tone 17. That
+count included shell voicings and the augmented sixths, which no pad
+displays as a chord type. With the displayable types, Whole Tone supports 11
+distinct chords: 2 augmented triads, 6 augmented sevenths and 3 dominant
+sevenths with a flattened fifth. Sixteen distinct pads therefore need one
+more type.
+
+### 7.2 Decisions
+
+| # | Decision | Rationale |
+|---|---|---|
+| D7 | The grid is planned before any pad is added, in three passes. (1) Every degree chord, triads then sevenths, whose sound is not yet planned and which fits the scale. (2) Each degree chord that failed (1) gives way to another chord: on its own degree when one fits, otherwise on the first degree in scale order that has one. (3) The gaps of scales with fewer than eight degrees, by D3. | Degree chords keep priority over colours, as before: pass 1 places them all before any replacement or filler can take a sound they need, which also covers D2. |
+| D8 | Candidates are tried list by list: the half's colour lists of §4 first, then a further list (`dom7b5`, `aug9`, `aug7`, `augMaj7`, `dom7b9`, `dom7sharp9`, `dom7alt`, `major7`, `dom7`, `minor7`, `minMaj7`, `m7b5`, `dim7`, the four triads, `maj6/9`, `add11`, `dom11`, `minor11`, `major13`, `dom13`, `minor13`). Each list is tried on every candidate degree before the next list is tried. | The further list is reached only where the usual colours are spent, so every grid that had no repeat keeps its chords. |
+| D9 | A new chord type, `aug9` (`[0, 4, 8, 10, 14]`, the dominant ninth with a raised fifth), named `aug9` (Caug9), numeral suffix `+9` (I+9), label "Augmented 9", spelled 1 3 ♯5 ♭7 9, guitar shape falling back to `augmented`, with a description in the six locales. | It is the whole-tone scale's dominant and the only addition Whole Tone needs: each of its six roots gives a different five-note subset. The name follows `aug7`. No template uses it, and no code enumerates the types except the parser's suffix table and the audit, so template palettes cannot pick it up. |
+| D10 | A degree chord that does not fit its scale fails pass 1 and is replaced like a repeat. | The builder's own comment promises that nothing on the grid holds a note the scale lacks. Six degree chords broke that promise: `Bdim` (B D F) in Bhairav and Double Harmonic, neither of which has D, and `F#dim` (F♯ A C) in Hungarian Minor, which has no A natural. Each was both a triad and its own seventh-half repeat. |
+| D11 | Check Q forbids any repeated sound in any Scale Mode grid, in every key. There is no allowlist. | Option B leaves no exception. |
+
+### 7.3 Result
+
+Measured over the 34 scales in all 12 keys: no grid holds two pads that
+sound alike, and every grid has 16 pads. In C, 79 pads change, in 24 grids:
+
+| Scale | Pads | Scale | Pads | Scale | Pads |
+|---|---|---|---|---|---|
+| Augmented | 11 | Neapolitan Major | 4 | Lydian | 1 |
+| Whole Tone | 8 | Pentatonic Major | 4 | Lydian Dominant | 1 |
+| Bhairav | 5 | Persian | 4 | Major | 1 |
+| Double Harmonic | 5 | Todi | 4 | Melodic Minor | 1 |
+| Hungarian Minor | 5 | Diminished (H-W) | 3 | Mixolydian | 1 |
+| Neapolitan Minor | 5 | Diminished (W-H) | 3 | Yaman | 1 |
+| Altered | 2 | Hirajoshi | 3 | Dorian | 1 |
+| Insen | 2 | Kumoi | 3 | Kafi | 1 |
+
+The thirteen grids whose only repeats came from the filler change exactly as
+§5 lists. In the seven where B also replaced degree chords (Bhairav, Double
+Harmonic, Hungarian Minor, Neapolitan Major, Neapolitan Minor, Persian, Todi),
+some filler pads differ from §5's table, because the replacements take
+colours first. The four symmetric scales account for the other 25 pads.
+
+The symmetric scales now read (key of C):
+
+```
+Whole Tone        Caug  Daug  E7b5  F#7b5  G#7b5  A#aug9  Caug9  Daug9
+                  Caug7  Daug7  Eaug7  F#aug7  G#aug7  A#aug7  Eaug9  F#aug9
+Augmented         Caug  D#aug  Emaj7  Cmaj7  G#maj7  CmMaj7  E  Em
+                  CaugMaj7  C  EaugMaj7  Cm  G#augMaj7  EmMaj7  G#mMaj7  G#
+Diminished (W-H)  Cdim  Dm  D#dim  F  F#dim  G#m  Adim  B
+                  Cdim7  Dm7  D6  F7  Dm6  G#m7  Fm6  B7
+Diminished (H-W)  Cm  C#dim  D#m  Edim  F#m  Gdim  Am  A#dim
+                  Cm7  C#dim7  D#m7  Cm6  F#m7  D#m6  Am7  F#m6
+```
+
+Augmented now shows the hexatonic scale's own triads, major and minor on C,
+E and G♯. In the diminished scales the repeated diminished sevenths give way
+to sixth chords on other degrees. On those degrees the colour lists are
+tried before the further list, so the replacements are 6ths, not the 7♭9
+chords §6 gave as an example. Both are subsets of the scale; the 7♭9 would
+need the further list to come first, which would also change the other
+scales' replacements.
+
+Protocol: the snapshot diff touches only the 34 `## Scale` blocks (43 lines);
+the pack is byte-identical; check Q passes, and reports 528 repeats over the
+12 keys when the sound test is removed from the planner. Audit,
+translations and snapshot checks pass.
+
+### 7.4 Seen, not changed
+
+The two diminished scales have eight degrees, and their eighth pad's numeral
+wraps to `I` (`B [I]`, `B7 [I7]` in W-H, `A#dim [i°]` in H-W). That is how
+`getRomanNumeralForChord()` numbers an eighth degree, before and after this
+spec.

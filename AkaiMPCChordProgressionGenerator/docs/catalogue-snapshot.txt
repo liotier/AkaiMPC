@@ -2030,7 +2030,7 @@ Smooth   1-4   57,60,64 | 57,60,65 | 59,62,67 | 65,69,72,75
 Pads     1-4   C [I]  Dm [ii]  Em [iii]  F [IV]
 Pads     5-8   G [V]  Am [vi]  Bdim [vii°]  Csus4 [Isus4]
 Pads     9-12  Cmaj7 [IM7]  Dm7 [ii7]  Em7 [iii7]  Fmaj7 [IVM7]
-Pads    13-16  G7 [V7]  Am7 [vi7]  Bm7b5 [viiø7]  C6 [I6]
+Pads    13-16  G7 [V7]  Am7 [vi7]  Bm7b5 [viiø7]  Cadd9 [Iadd9]
 
 ## Scale | Minor | Common Western Tonal | C
 Pads     1-4   Cm [i]  Ddim [ii°]  Eb [III]  Fm [iv]
@@ -2042,7 +2042,7 @@ Pads    13-16  Gm7 [v7]  Abmaj7 [VIM7]  Bb7 [VII7]  C7sus4 [I7sus4]
 Pads     1-4   Cm [i]  Dm [ii]  Eb [III]  F [IV]
 Pads     5-8   Gm [v]  Adim [vi°]  Bb [VII]  Csus4 [Isus4]
 Pads     9-12  Cm7 [i7]  Dm7 [ii7]  Ebmaj7 [IIIM7]  F7 [IV7]
-Pads    13-16  Gm7 [v7]  Am7b5 [viø7]  Bbmaj7 [VIIM7]  Cm6 [i6]
+Pads    13-16  Gm7 [v7]  Am7b5 [viø7]  Bbmaj7 [VIIM7]  C7sus4 [I7sus4]
 
 ## Scale | Phrygian | Common Western Tonal | C
 Pads     1-4   Cm [i]  Db [II]  Eb [III]  Fm [iv]
@@ -2054,13 +2054,13 @@ Pads    13-16  Gm7b5 [vø7]  Abmaj7 [VIM7]  Bbm7 [vii7]  C7sus4 [I7sus4]
 Pads     1-4   C [I]  D [II]  Em [iii]  F#dim [iv°]
 Pads     5-8   G [V]  Am [vi]  Bm [vii]  Csus2 [Isus2]
 Pads     9-12  Cmaj7 [IM7]  D7 [II7]  Em7 [iii7]  F#m7b5 [ivø7]
-Pads    13-16  Gmaj7 [VM7]  Am7 [vi7]  Bm7 [vii7]  C6 [I6]
+Pads    13-16  Gmaj7 [VM7]  Am7 [vi7]  Bm7 [vii7]  Cadd9 [Iadd9]
 
 ## Scale | Mixolydian | Common Western Tonal | C
 Pads     1-4   C [I]  Dm [ii]  Edim [iii°]  F [IV]
 Pads     5-8   Gm [v]  Am [vi]  Bb [VII]  Csus4 [Isus4]
 Pads     9-12  C7 [I7]  Dm7 [ii7]  Em7b5 [iiiø7]  Fmaj7 [IVM7]
-Pads    13-16  Gm7 [v7]  Am7 [vi7]  Bbmaj7 [VIIM7]  C6 [I6]
+Pads    13-16  Gm7 [v7]  Am7 [vi7]  Bbmaj7 [VIIM7]  C7sus4 [I7sus4]
 
 ## Scale | Locrian | Common Western Tonal | C
 Pads     1-4   Cdim [i°]  Db [II]  Ebm [iii]  Fm [iv]
@@ -2078,13 +2078,13 @@ Pads    13-16  G7 [V7]  Abmaj7 [VIM7]  Bdim7 [vii°7]  Cmadd9 [iadd9]
 Pads     1-4   Cm [i]  Dm [ii]  Ebaug [III+]  F [IV]
 Pads     5-8   G [V]  Adim [vi°]  Bdim [vii°]  Csus4 [Isus4]
 Pads     9-12  CmMaj7 [i(maj7)]  Dm7 [ii7]  EbaugMaj7 [III+M7]  F7 [IV7]
-Pads    13-16  G7 [V7]  Am7b5 [viø7]  Bm7b5 [viiø7]  Cm6 [i6]
+Pads    13-16  G7 [V7]  Am7b5 [viø7]  Bm7b5 [viiø7]  Cmadd9 [iadd9]
 
 ## Scale | Pentatonic Major | Compact/Popular | C
 Pads     1-4   C [I]  Dm [ii]  Em [iii]  G [IV]
-Pads     5-8   Am [v]  Csus4 [Isus4]  Csus2 [Isus2]  C6 [I6]
+Pads     5-8   Am [v]  Csus4 [Isus4]  Csus2 [Isus2]  Cadd9 [Iadd9]
 Pads     9-12  Cmaj7 [IM7]  Dm7 [ii7]  Em7 [iii7]  G7 [IV7]
-Pads    13-16  Am7 [v7]  Cadd9 [Iadd9]  Cmaj9 [IM9]  Cmaj7 [IM7]
+Pads    13-16  Am7 [v7]  Cmaj9 [IM9]  Dm6 [ii6]  D7sus4 [II7sus4]
 
 ## Scale | Pentatonic Minor | Compact/Popular | C
 Pads     1-4   Cm [i]  Eb [II]  Fm [iii]  Gm [iv]
@@ -2099,40 +2099,40 @@ Pads     9-12  Cm7 [i7]  Ebmaj7 [IIM7]  F7 [III7]  F#dim7 [iv°7]
 Pads    13-16  Gm7 [v7]  Bbmaj7 [VIM7]  Cm6 [i6]  C7sus4 [I7sus4]
 
 ## Scale | Whole Tone | Symmetrical/Jazz | C
-Pads     1-4   Caug [I+]  Daug [II+]  Eaug [III+]  F#aug [IV+]
-Pads     5-8   G#aug [V+]  A#aug [VI+]  Caug [I+]  Caug [I+]
+Pads     1-4   Caug [I+]  Daug [II+]  E7b5 [III7♭5]  F#7b5 [IV7♭5]
+Pads     5-8   G#7b5 [V7♭5]  A#aug9 [VI+9]  Caug9 [I+9]  Daug9 [II+9]
 Pads     9-12  Caug7 [I+7]  Daug7 [II+7]  Eaug7 [III+7]  F#aug7 [IV+7]
-Pads    13-16  G#aug7 [V+7]  A#aug7 [VI+7]  Caug7 [I+7]  Caug7 [I+7]
+Pads    13-16  G#aug7 [V+7]  A#aug7 [VI+7]  Eaug9 [III+9]  F#aug9 [IV+9]
 
 ## Scale | Diminished (W-H) | Symmetrical/Jazz | C
 Pads     1-4   Cdim [i°]  Dm [ii]  D#dim [iii°]  F [IV]
 Pads     5-8   F#dim [v°]  G#m [vi]  Adim [vii°]  B [I]
-Pads     9-12  Cdim7 [i°7]  Dm7 [ii7]  D#dim7 [iii°7]  F7 [IV7]
-Pads    13-16  F#dim7 [v°7]  G#m7 [vi7]  Adim7 [vii°7]  B7 [I7]
+Pads     9-12  Cdim7 [i°7]  Dm7 [ii7]  D6 [II6]  F7 [IV7]
+Pads    13-16  Dm6 [ii6]  G#m7 [vi7]  Fm6 [iv6]  B7 [I7]
 
 ## Scale | Diminished (H-W) | Symmetrical/Jazz | C
 Pads     1-4   Cm [i]  C#dim [ii°]  D#m [iii]  Edim [iv°]
 Pads     5-8   F#m [v]  Gdim [vi°]  Am [vii]  A#dim [i°]
-Pads     9-12  Cm7 [i7]  C#dim7 [ii°7]  D#m7 [iii7]  Edim7 [iv°7]
-Pads    13-16  F#m7 [v7]  Gdim7 [vi°7]  Am7 [vii7]  A#dim7 [i°7]
+Pads     9-12  Cm7 [i7]  C#dim7 [ii°7]  D#m7 [iii7]  Cm6 [i6]
+Pads    13-16  F#m7 [v7]  D#m6 [iii6]  Am7 [vii7]  F#m6 [v6]
 
 ## Scale | Augmented | Symmetrical/Jazz | C
-Pads     1-4   Caug [I+]  D#aug [II+]  Eaug [III+]  Gaug [IV+]
-Pads     5-8   G#aug [V+]  Baug [VI+]  Caug [I+]  Caug [I+]
-Pads     9-12  CaugMaj7 [I+M7]  D#aug [II+]  EaugMaj7 [III+M7]  Gaug [IV+]
-Pads    13-16  G#augMaj7 [V+M7]  Baug [VI+]  CaugMaj7 [I+M7]  CaugMaj7 [I+M7]
+Pads     1-4   Caug [I+]  D#aug [II+]  Emaj7 [IIIM7]  Cmaj7 [IM7]
+Pads     5-8   G#maj7 [VM7]  CmMaj7 [i(maj7)]  E [III]  Em [iii]
+Pads     9-12  CaugMaj7 [I+M7]  C [I]  EaugMaj7 [III+M7]  Cm [i]
+Pads    13-16  G#augMaj7 [V+M7]  EmMaj7 [iii(maj7)]  G#mMaj7 [v(maj7)]  G# [V]
 
 ## Scale | Altered | Symmetrical/Jazz | C
 Pads     1-4   Cdim [i°]  Dbm [ii]  Ebm [iii]  Fbaug [IV+]
-Pads     5-8   Gb [V]  Ab [VI]  Bbdim [vii°]  Cdim [i°]
+Pads     5-8   Gb [V]  Ab [VI]  Bbdim [vii°]  Dbsus4 [IIsus4]
 Pads     9-12  Cm7b5 [iø7]  DbmMaj7 [ii(maj7)]  Ebm7 [iii7]  FbaugMaj7 [IV+M7]
-Pads    13-16  Gb7 [V7]  Ab7 [VI7]  Bbm7b5 [viiø7]  Cm7b5 [iø7]
+Pads    13-16  Gb7 [V7]  Ab7 [VI7]  Bbm7b5 [viiø7]  Dbmadd9 [iiadd9]
 
 ## Scale | Lydian Dominant | Symmetrical/Jazz | C
 Pads     1-4   C [I]  D [II]  Edim [iii°]  F#dim [iv°]
 Pads     5-8   Gm [v]  Am [vi]  Bbaug [VII+]  Csus2 [Isus2]
 Pads     9-12  C7 [I7]  D7 [II7]  Em7b5 [iiiø7]  F#m7b5 [ivø7]
-Pads    13-16  GmMaj7 [v(maj7)]  Am7 [vi7]  BbaugMaj7 [VII+M7]  C6 [I6]
+Pads    13-16  GmMaj7 [v(maj7)]  Am7 [vi7]  BbaugMaj7 [VII+M7]  Cadd9 [Iadd9]
 
 ## Scale | Locrian #2 | Symmetrical/Jazz | C
 Pads     1-4   Cdim [i°]  Ddim [ii°]  Ebm [iii]  Fm [iv]
@@ -2142,21 +2142,21 @@ Pads    13-16  GbaugMaj7 [V+M7]  Ab7 [VI7]  Bb7 [VII7]  Cm7(11) [i7(11)]
 
 ## Scale | Bhairav | Indian Ragas | C
 Pads     1-4   C [I]  Db [II]  E [III]  Fm [iv]
-Pads     5-8   G7sus4(no5) [V7sus4(no5)]  Abaug [VI+]  Bdim [vii°]  Csus4 [Isus4]
+Pads     5-8   G7sus4(no5) [V7sus4(no5)]  Abaug [VI+]  Em6 [iii6]  CaugMaj7 [I+M7]
 Pads     9-12  Cmaj7 [IM7]  Dbmaj7 [IIM7]  E6 [III6]  FmMaj7 [iv(maj7)]
-Pads    13-16  G7sus4(no5) [V7sus4(no5)]  AbaugMaj7 [VI+M7]  Bdim [vii°]  Cmaj7 [IM7]
+Pads    13-16  G7b5 [V7♭5]  AbaugMaj7 [VI+M7]  Fmadd9 [ivadd9]  Cadd11 [Iadd11]
 
 ## Scale | Kafi | Indian Ragas | C
 Pads     1-4   Cm [i]  Dm [ii]  Eb [III]  F [IV]
 Pads     5-8   Gm [v]  Adim [vi°]  Bb [VII]  Csus4 [Isus4]
 Pads     9-12  Cm7 [i7]  Dm7 [ii7]  Ebmaj7 [IIIM7]  F7 [IV7]
-Pads    13-16  Gm7 [v7]  Am7b5 [viø7]  Bbmaj7 [VIIM7]  Cm6 [i6]
+Pads    13-16  Gm7 [v7]  Am7b5 [viø7]  Bbmaj7 [VIIM7]  C7sus4 [I7sus4]
 
 ## Scale | Yaman | Indian Ragas | C
 Pads     1-4   C [I]  D [II]  Em [iii]  F#dim [iv°]
 Pads     5-8   G [V]  Am [vi]  Bm [vii]  Csus2 [Isus2]
 Pads     9-12  Cmaj7 [IM7]  D7 [II7]  Em7 [iii7]  F#m7b5 [ivø7]
-Pads    13-16  Gmaj7 [VM7]  Am7 [vi7]  Bm7 [vii7]  C6 [I6]
+Pads    13-16  Gmaj7 [VM7]  Am7 [vi7]  Bm7 [vii7]  Cadd9 [Iadd9]
 
 ## Scale | Bhairavi | Indian Ragas | C
 Pads     1-4   Cm [i]  Db [II]  Eb [III]  Fm [iv]
@@ -2166,33 +2166,33 @@ Pads    13-16  Gm7b5 [vø7]  Abmaj7 [VIM7]  Bbm7 [vii7]  C7sus4 [I7sus4]
 
 ## Scale | Todi | Indian Ragas | C
 Pads     1-4   Cm [i]  Dbsus4 [IIsus4]  Ebaug [III+]  F#sus4 [IVsus4]
-Pads     5-8   Gaug [V+]  Ab [VI]  B [VII]  Cm [i]
-Pads     9-12  CmMaj7 [i(maj7)]  Db7sus4 [II7sus4]  Ebaug7 [III+7]  F#sus4 [IVsus4]
-Pads    13-16  GaugMaj7 [V+M7]  Abmaj7 [VIM7]  B6 [VII6]  CmMaj7 [i(maj7)]
+Pads     5-8   Dbsus2 [IIsus2]  Ab [VI]  B [VII]  Badd9 [VIIadd9]
+Pads     9-12  CmMaj7 [i(maj7)]  Db7sus4 [II7sus4]  Ebaug7 [III+7]  Ebm7(11) [iii7(11)]
+Pads    13-16  GaugMaj7 [V+M7]  Abmaj7 [VIM7]  B6 [VII6]  Cdim [i°]
 
 ## Scale | Double Harmonic | Exotic | C
 Pads     1-4   C [I]  Db [II]  E [III]  Fm [iv]
-Pads     5-8   G7sus4(no5) [V7sus4(no5)]  Abaug [VI+]  Bdim [vii°]  Csus4 [Isus4]
+Pads     5-8   G7sus4(no5) [V7sus4(no5)]  Abaug [VI+]  Em6 [iii6]  CaugMaj7 [I+M7]
 Pads     9-12  Cmaj7 [IM7]  Dbmaj7 [IIM7]  E6 [III6]  FmMaj7 [iv(maj7)]
-Pads    13-16  G7sus4(no5) [V7sus4(no5)]  AbaugMaj7 [VI+M7]  Bdim [vii°]  Cmaj7 [IM7]
+Pads    13-16  G7b5 [V7♭5]  AbaugMaj7 [VI+M7]  Fmadd9 [ivadd9]  Cadd11 [Iadd11]
 
 ## Scale | Hungarian Minor | Exotic | C
-Pads     1-4   Cm [i]  D7sus4(no5) [II7sus4(no5)]  Ebaug [III+]  F#dim [iv°]
-Pads     5-8   G [V]  Ab [VI]  B [VII]  Csus2 [Isus2]
-Pads     9-12  CmMaj7 [i(maj7)]  D7sus4(no5) [II7sus4(no5)]  EbaugMaj7 [III+M7]  F#dim [iv°]
-Pads    13-16  Gmaj7 [VM7]  Abmaj7 [VIM7]  B6 [VII6]  Cmadd9 [iadd9]
+Pads     1-4   Cm [i]  D7sus4(no5) [II7sus4(no5)]  Ebaug [III+]  Cmadd9 [iadd9]
+Pads     5-8   G [V]  Ab [VI]  B [VII]  Cdim [i°]
+Pads     9-12  CmMaj7 [i(maj7)]  D7b5 [II7♭5]  EbaugMaj7 [III+M7]  Bm6 [vii6]
+Pads    13-16  Gmaj7 [VM7]  Abmaj7 [VIM7]  B6 [VII6]  GaugMaj7 [V+M7]
 
 ## Scale | Neapolitan Major | Exotic | C
 Pads     1-4   Cm [i]  Dbaug [II+]  Ebaug [III+]  F [IV]
-Pads     5-8   Gaug [V+]  Adim [vi°]  Baug [VII+]  Csus4 [Isus4]
+Pads     5-8   G7sus4(no5) [V7sus4(no5)]  Adim [vi°]  B7b5 [VII7♭5]  Fadd9 [IVadd9]
 Pads     9-12  CmMaj7 [i(maj7)]  DbaugMaj7 [II+M7]  Ebaug7 [III+7]  F7 [IV7]
-Pads    13-16  Gaug7 [V+7]  Am7b5 [viø7]  Baug7 [VII+7]  Cm6 [i6]
+Pads    13-16  Gaug7 [V+7]  Am7b5 [viø7]  Baug7 [VII+7]  F9 [IV9]
 
 ## Scale | Neapolitan Minor | Exotic | C
 Pads     1-4   Cm [i]  Db [II]  Ebaug [III+]  Fm [iv]
-Pads     5-8   Gaug [V+]  Ab [VI]  Baug [VII+]  Csus4 [Isus4]
+Pads     5-8   G7sus4(no5) [V7sus4(no5)]  Ab [VI]  Dbsus2 [IIsus2]  Dbmaj9 [IIM9]
 Pads     9-12  CmMaj7 [i(maj7)]  Dbmaj7 [IIM7]  Ebaug7 [III+7]  Fm7 [iv7]
-Pads    13-16  Gaug7 [V+7]  Abmaj7 [VIM7]  Baug [VII+]  CmMaj7 [i(maj7)]
+Pads    13-16  Gaug7 [V+7]  Abmaj7 [VIM7]  Dbadd9 [IIadd9]  Db9 [II9]
 
 ## Scale | Phrygian Dominant | Exotic | C
 Pads     1-4   C [I]  Db [II]  Edim [iii°]  Fm [iv]
@@ -2202,27 +2202,27 @@ Pads    13-16  Gm7b5 [vø7]  AbaugMaj7 [VI+M7]  Bbm7 [vii7]  C7sus4 [I7sus4]
 
 ## Scale | Persian | Exotic | C
 Pads     1-4   Caug [I+]  Db [II]  E [III]  Fm [iv]
-Pads     5-8   Gbsus4 [Vsus4]  Abaug [VI+]  Bsus4 [VIIsus4]  Caug [I+]
+Pads     5-8   Gbsus4 [Vsus4]  Ab7sus4(no5) [VI7sus4(no5)]  Bsus4 [VIIsus4]  Eadd9 [IIIadd9]
 Pads     9-12  CaugMaj7 [I+M7]  Dbmaj7 [IIM7]  E6 [III6]  FmMaj7 [iv(maj7)]
-Pads    13-16  Gb7sus4 [V7sus4]  Abaug7 [VI+7]  Bsus4 [VIIsus4]  CaugMaj7 [I+M7]
+Pads    13-16  Gb7sus4 [V7sus4]  Abaug7 [VI+7]  Db7sus4 [II7sus4]  Db7#9 [II7♯9]
 
 ## Scale | Hirajoshi | Exotic | C
 Pads     1-4   Cm [i]  Ddim [ii°]  Ebaug [III+]  G [IV]
 Pads     5-8   Ab [V]  Csus4 [Isus4]  Csus2 [Isus2]  Cmadd9 [iadd9]
 Pads     9-12  CmMaj7 [i(maj7)]  Dm7b5 [iiø7]  EbaugMaj7 [III+M7]  G7 [IV7]
-Pads    13-16  Abmaj7 [VM7]  CmMaj7 [i(maj7)]  CmMaj7 [i(maj7)]  CmMaj7 [i(maj7)]
+Pads    13-16  Abmaj7 [VM7]  Dm7(11) [ii7(11)]  Ab6 [V6]  Abm6 [v6]
 
 ## Scale | Insen | Exotic | C
 Pads     1-4   Cm [i]  Db [II]  Fm [iii]  Gdim [iv°]
 Pads     5-8   Bbm [v]  Csus4 [Isus4]  C7sus4(no5) [I7sus4(no5)]  C7sus4 [I7sus4]
 Pads     9-12  Cm7 [i7]  Dbmaj7 [IIM7]  Fm7 [iii7]  Gm7b5 [ivø7]
-Pads    13-16  Bbm7 [v7]  Cm7(11) [i7(11)]  Cm7 [i7]  Cm7 [i7]
+Pads    13-16  Bbm7 [v7]  Cm7(11) [i7(11)]  Dbadd9 [IIadd9]  Dbmaj9 [IIM9]
 
 ## Scale | Kumoi | Exotic | C
 Pads     1-4   Cm [i]  Dm [ii]  Eb [III]  Gm [iv]
 Pads     5-8   Adim [v°]  Csus4 [Isus4]  Csus2 [Isus2]  C7sus4(no5) [I7sus4(no5)]
 Pads     9-12  Cm7 [i7]  Dm7 [ii7]  Ebmaj7 [IIIM7]  Gm7 [iv7]
-Pads    13-16  Am7b5 [vø7]  Cm6 [i6]  C7sus4 [I7sus4]  Cmadd9 [iadd9]
+Pads    13-16  Am7b5 [vø7]  C7sus4 [I7sus4]  Cmadd9 [iadd9]  Cm9 [i9]
 
 ## Scale | Egyptian Pentatonic | Exotic | C
 Pads     1-4   Cm [i]  Dm [ii]  F [III]  Gm [iv]
