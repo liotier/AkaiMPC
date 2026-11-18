@@ -140,22 +140,6 @@ export const MESSAGES = {
 };
 
 // ============================================================================
-// STORAGE KEYS
-// ============================================================================
-
-/**
- * LocalStorage and URL parameter keys
- */
-export const STORAGE_KEYS = {
-    KEY: 'key',
-    MODE: 'mode',
-    PROGRESSION: 'progression',
-    LEFT_HANDED: 'leftHanded',
-    CONTEXT: 'context',              // New: remember last used context
-    CHORD_REQUIREMENTS: 'chordRequirements'
-};
-
-// ============================================================================
 // VALIDATION LIMITS
 // ============================================================================
 
@@ -182,17 +166,6 @@ export const LIMITS = {
  */
 export function midiToFrequency(midiNote) {
     return AUDIO.A4_FREQUENCY * Math.pow(2, (midiNote - AUDIO.A4_MIDI_NOTE) / MUSIC.SEMITONES_PER_OCTAVE);
-}
-
-/**
- * Calculate interval between two MIDI notes in semitones
- *
- * @param {number} note1 - First MIDI note
- * @param {number} note2 - Second MIDI note
- * @returns {number} Interval in semitones (always positive)
- */
-export function calculateInterval(note1, note2) {
-    return Math.abs(note2 - note1) % MUSIC.SEMITONES_PER_OCTAVE;
 }
 
 // ============================================================================
