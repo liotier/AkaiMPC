@@ -10,6 +10,7 @@ import {
     getChordSuffix,
     classifyProgressionChord,
     chordRoleKey,
+    degreePhraseKey,
     MATCHER_QUALITY_TYPES,
     getInversionNotation,
     findProgressionCategory,
@@ -738,6 +739,37 @@ function getChordTooltip(romanNumeral, chordType, tonality) {
     return i18n.t(chordRoleKey(romanNumeral, chordType, tonality, key => i18n.has(key)));
 }
 
+/**
+ * The chord in plain words, "Major triad on the flattened seventh degree"
+ * (docs/improvements/17-scale-mode-numerals-and-descriptions.md D6): its type's
+ * name and its degree's phrase, or '' when either is missing.
+ *
+ * @param {string} chordType - Chord type key
+ * @param {string} degreeKey - The pad's data-degree: '1', 'b7', '#4'
+ * @returns {string}
+ */
+function getChordPhrase(chordType, degreeKey) {
+    const name = `chordTypeNames.${chordType}`;
+    const degree = `degreePhrases.${degreeKey}`;
+    if (!chordType || !degreeKey || !i18n.has(name) || !i18n.has(degree)) return '';
+    return `${i18n.t(name)} ${i18n.t(degree)}`;
+}
+
+/**
+ * What a pad's tooltip says: the phrase, then the description on a second line.
+ * The Keyboard view prints the description on the card, so its tooltip is the
+ * phrase alone (spec 17 D6, D7).
+ *
+ * @param {HTMLElement} pad - A .chord-pad element
+ * @returns {string}
+ */
+function getPadTooltipText(pad) {
+    const phrase = getChordPhrase(pad.dataset.chordType, pad.dataset.degree);
+    if (currentContext === 'keyboard') return phrase;
+    const description = getChordTooltip(pad.dataset.roman, pad.dataset.chordType, pad.dataset.tonality) || 'Chord';
+    return phrase ? `${phrase}\n${description}` : description;
+}
+
 function showTooltip(element, text) {
     const tooltip = document.getElementById('chordTooltip') || createTooltip();
     tooltip.textContent = text;
@@ -1123,7 +1155,7 @@ function renderProgressions() {
                 return `
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''} ${voiceLeadingClass}"
                     data-notes="${pad.notes.join(',')}" data-roman="${escapeHtml(pad.romanNumeral)}" data-quality="${escapeHtml(pad.quality)}" data-chord-type="${escapeHtml(pad.chordType || '')}" data-tonality="${escapeHtml(variant.tonality || '')}" data-role="${escapeHtml(roleText)}"
-                    data-pad-id="${pad.id}" data-original-vl-class="${voiceLeadingClass}"
+                    data-pad-id="${pad.id}" data-degree="${pad.degree ? degreePhraseKey(pad.degree) : ''}" data-original-vl-class="${voiceLeadingClass}"
                     data-voice-leading="${escapeHtml(voiceLeadingLegend)}" ${edgeAttrs}>
                     <div class="chord-text-column">
                         <div class="chord-pad-content">
@@ -1296,20 +1328,14 @@ function renderProgressions() {
         // Desktop: Hover + Click-to-lock voice leading
         if (hasHover) {
             pad.addEventListener('pointerenter', function() {
-                const roman = this.getAttribute('data-roman');
-                const chordType = this.getAttribute('data-chord-type');
-
                 // Activate voice leading hover effect (only if not locked on another pad)
                 if (!voiceLeadingLocked || voiceLeadingLocked === this) {
                     activateVoiceLeadingHover(this);
                 }
 
                 // Always show tooltip on hover (even if voice leading is locked elsewhere)
-                // In keyboard context, no tooltip (chord function is visible on card)
-                if (currentContext !== 'keyboard') {
-                    const chordFunction = getChordTooltip(roman, chordType, this.dataset.tonality) || 'Chord';
-                    showTooltip(this, chordFunction);
-                }
+                const tooltipText = getPadTooltipText(this);
+                if (tooltipText) showTooltip(this, tooltipText);
             });
 
             pad.addEventListener('pointerleave', function() {
@@ -1369,10 +1395,10 @@ function renderProgressions() {
                         voiceLeadingLocked = currentPad;
                     }
 
-                    // Also show tooltip with chord function (except keyboard context where it's visible inline)
-                    if (currentContext !== 'keyboard') {
-                        const roman = currentPad.dataset.roman;
-                        const roleText = getChordTooltip(roman, currentPad.dataset.chordType, currentPad.dataset.tonality);
+                    // Also show the tooltip: the chord in words, and its description
+                    // except in the Keyboard view, which prints it on the card
+                    {
+                        const roleText = getPadTooltipText(currentPad);
                         if (roleText) {
                             showTooltip(currentPad, roleText);
                             activeTooltip = currentPad;

@@ -2,11 +2,11 @@
 
 | | |
 |---|---|
-| Status | specified |
+| Status | implemented |
 | Type | defect, regression, feature |
 | Size | L |
 | Depends on | 13, 14, 15 (all implemented) |
-| Blocks | merge: §1.2 is a regression of this development phase |
+| Blocks | - (it blocked the merge: §1.2 was a regression of this phase) |
 | Recommended model | Claude Opus 5.5 (`claude-opus-5-5`): numerals derived from spelling, a description lookup split by mode, and about 400 strings of musical terminology in six languages. A Sonnet 5.5 session can do the translations from the English given here |
 
 ## 1. Problem
@@ -143,7 +143,7 @@ Translate into `fr`, `es`, `de`, `pt`, `it`; American spelling, as `en.json`.
 
 | Type | Name | Type | Name |
 |---|---|---|---|
-| major | Major triad | aug9 | Augmented ninth chord |
+| major | Major triad | aug9 | Dominant ninth chord with a raised fifth |
 | minor | Minor triad | major6 | Major sixth chord |
 | diminished | Diminished triad | minor6 | Minor sixth chord |
 | augmented | Augmented triad | maj6/9 | Major six-nine chord |
@@ -237,3 +237,42 @@ Translate into `fr`, `es`, `de`, `pt`, `it`; American spelling, as `en.json`.
 - The jazz-idiomatic 7♭9 preference for the diminished scales (§2 D9).
 - Conventional formulas for the symmetric scales (`♭II` rather than `♯I` in
   H-W): D2 follows spec 13's spelling instead.
+
+## 6. Implementation notes
+
+- **Code.** `musicTheory.js` gains `rootDegree()`, which reads the root
+  before spec 13 respells an awkward name, so a phrase agrees with its numeral
+  (in C♯ major, ♯iv° stands on F𝄪, shown as G, and reads "raised fourth");
+  `scaleModeNumeral()`, `chordPhraseKeys()` and `degreePhraseKey()`.
+  `spellRoot()` is split into `functionalRoot()` and the respelling, with
+  unchanged results. `chordRoleKey()` with no tonality returns the type's or
+  family's key. `generation.js` sets `pad.degree` in both modes, Scale Mode's
+  numerals and its `tonality` for Major and Minor. `app.js` adds `data-degree`
+  to pads and `getPadTooltipText()`.
+- **Numerals:** 247 of 544 change in C, not the 212 of the prototype. The
+  difference is D3: suspended chords now take their degree's case (`isus4`,
+  `ii7sus4`), which the prototype did not do. No grid gives two roots one
+  numeral.
+- **Chords:** only Diminished (H-W) changes, the 11 pads of §4. The
+  replacement planner's numeral test reads the new numerals; since a numeral
+  and a (degree, type) pair correspond one to one, no other grid moves.
+- **Comments:** 79 numeral comments in the declared-quality table were
+  rewritten by script from `scaleModeNumeral()`; "(octave)" and the "(with
+  b2)" notes, which the accidental now states, are gone.
+- **One wording change:** `aug9` is named "Dominant ninth chord with a raised
+  fifth", not "Augmented ninth chord": an "augmented ninth" is also the ♯9
+  interval, which this chord does not have.
+- **Checks.** T reports 208 and 60 findings when Scale Mode is given back its
+  positional numerals. R reports 5 628 findings when the no-tonality branch is
+  removed, and 3 356 and 1 588 when a chord name and a degree phrase are
+  deleted from `en.json`.
+- **Protocol:** the snapshot changes 121 lines, all in `## Scale` blocks; the
+  pack is byte-identical; audit, translations and snapshot checks pass.
+- **Browser:** template `♭VII` shows "Major triad on the flattened seventh
+  degree" above its description; the Keyboard view shows the phrase alone;
+  Minor's E♭ reads `♭III` and the relative-major text; French and German
+  phrases display; no console error.
+- **Seen, not changed.** Outside Major and Minor, the tooltip names the chord
+  type twice: "Major triad on the fourth degree", then "Major triad - bright
+  and stable...". Showing only the text after the type's name there would remove
+  it.

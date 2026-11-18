@@ -4,11 +4,10 @@ Eighteen specifications, one per improvement, each written to be handed to an
 implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
-Status is recorded in each spec's header. Specs 00 to 11 and 13 to 16 are
+Status is recorded in each spec's header. Specs 00 to 11 and 13 to 17 are
 implemented; spec 12 is dropped. Specs 14 to 16 come from the review of the
 branch before merge; spec 15 was implemented with option B of its §6. Spec 17
-is specified and blocks the merge: it fixes a regression of spec 10 in Scale
-Mode's descriptions.
+fixed a regression of spec 10 in Scale Mode's descriptions.
 
 ## 1. Provenance
 
@@ -51,6 +50,7 @@ instrument, and the later specs rely on it.
   and as the comment in `generateProgressionChords()` states. In a minor key
   the natural-minor mediant, submediant and subtonic are therefore ♭III, ♭VI
   and ♭VII, never III, VI, VII. Spec 02 is about templates that broke this.
+  Since spec 17, Scale Mode follows the same convention.
 - **Template values are quoted verbatim**, with their U+2014 em dash separator
   (`I—V—vi—IV`). That character is data, not punctuation.
 - **Rows** follow the data model: row 1 is pads 1-4 and holds the progression,
