@@ -90,11 +90,15 @@
       "label": "Erweiterte Lage",
       "tooltip": "Experimentelle Variante: Verwendet erweiterte Lagen über mehrere Oktaven. Erzeugt einzigartige, unkonventionelle harmonische Farben und Texturen."
     },
+    "Pedal": {
+      "label": "Orgelpunkt",
+      "tooltip": "Orgelpunkt-Variante: Hält den Basston des ersten Akkords unter jedem Akkord, der ihn enthält, sodass sich die Oberstimmen bewegen, während der Bass liegen bleibt. Akkorde ohne diesen Ton nehmen ihre nächstgelegene Umkehrung über ihm."
+    },
     "progressionClarification": "Akkorde 1-{{count}} aus der Progression, {{next}}-16 extrapoliert. ",
     "chordDistanceHint": "Die Farben der Karten zeigen die Akkord-Distanz von der ausgewählten Karte",
     "scaleExploration": {
       "label": "Alle Akkorde der Tonleiter",
-      "tooltip": "Tonleiter-Modus: in den ersten beiden Reihen der Dreiklang jeder Stufe, in den letzten beiden der Septakkord jeder Stufe. Beide werden aus der Tonleiter selbst abgeleitet, sodass kein Pad einen Ton verwendet, den die Tonleiter nicht enthält."
+      "tooltip": "Tonleiter-Modus: in den ersten beiden Reihen der Dreiklang jeder Stufe, in den letzten beiden der Septakkord jeder Stufe. Beide werden aus der Tonleiter selbst abgeleitet, sodass kein Pad einen Ton verwendet, den die Tonleiter nicht enthält. Würde ein Akkord wie ein anderes Pad klingen, wie in den symmetrischen Tonleitern, tritt ein anderer Akkord der Tonleiter an seine Stelle: Keine zwei Pads klingen gleich."
     },
     "voiceLeadingLegend": "Relative Geschmeidigkeit:\n🟢 Fließend  🟡 Mittel  🟠 Sprunghaft",
     "voiceLeadingHoverLegend": "Abstand zum ausgewählten Akkord:\n🟢 Fließend  🟡 Mittel  🟠 Sprunghaft"
@@ -108,7 +112,7 @@
   "tooltips": {
     "progressionPaletteDisabled": "Progressionspaletten werden im Tonleiter-Erkundungsmodus nicht verwendet. Alle Akkorde der ausgewählten Tonleiter werden generiert.",
     "progressionPaletteEnabled": "Jede Palette liefert 16 einzigartige Akkorde: die ersten N aus der Progression, die restlichen Pads aus erweiterter Harmonik. Genre-spezifische Filter gewährleisten passende Akkordfarben.",
-    "paletteMode": "Erzeugt 16-Pad-Akkordpaletten aus kuratierten Progressionen aus 22 Genres. Liefert bis zu fünf Voicing-Varianten (Smooth, Classic, Jazz, Modal, Experimental). Genretypische Vorgaben stimmen die erweiterte Harmonik ab.",
+    "paletteMode": "Erzeugt 16-Pad-Akkordpaletten aus kuratierten Progressionen aus 22 Genres. Liefert bis zu sechs Voicing-Varianten (Smooth, Classic, Jazz, Modal, Experimental, Pedal). Genretypische Vorgaben stimmen die erweiterte Harmonik ab.",
     "scaleMode": "Erkunden Sie eine Tonleiter oder einen Modus, indem alle darin möglichen Akkorde erzeugt werden: der Dreiklang jeder Stufe und anschließend der Septakkord jeder Stufe. Ideal, um Tonleitern wie Ganzton, Phrygisch-Dominant oder Ungarisch Moll kennenzulernen.",
     "keyboardShortcuts": "Mit der Computertastatur spielen: cvbn (Pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Tastaturkürzel gelten für den Desktop. Auf dem Tablet tippen Sie die Pads an, um sie zu spielen.",
@@ -163,16 +167,20 @@
   "chordRoles": {
     "I": "Tonika - der Ruheakkord, bringt Auflösung und Stabilität.",
     "II": "Supertonika - Subdominant-Akkord, führt oft zu V.",
-    "III": "Mediante - schwache Subdominante oder Farbakkord, verbindet I und IV/vi.",
+    "III": "Chromatische Mediante - Durakkord eine große Terz über der Tonika, hell und plötzlich; auch die Dominante von vi.",
+    "iii": "Mediante - schwache Subdominante oder Farbakkord, verbindet I und IV/vi.",
     "IV": "Subdominante - Subdominant-Akkord, bereitet Bewegung zu V vor.",
     "V": "Dominante - erzeugt Spannung, die sich zu I auflöst.",
-    "VI": "Submediante - parallele Moll-Tonart, oft für Trugschlüsse verwendet.",
+    "VI": "Chromatische Mediante - Durakkord eine kleine Terz unter der Tonika, hell und plötzlich; auch die Dominante von ii.",
+    "vi": "Submediante - parallele Moll-Tonart, oft für Trugschlüsse verwendet.",
     "VII°": "Leitton - verminderter Akkord, zieht stark zu I.",
     "♭II": "Entliehene Neapolitaner-Sekunde, starke Subdominante, bereitet V vor.",
     "♭III": "Aus parallelem Moll entliehen, fügt dramatische Farbe hinzu, ersetzt I.",
+    "♭iii": "Doppelt chromatische Mediante - Mollakkord eine kleine Terz über der Tonika, ohne gemeinsamen Ton mit ihr; fern und dunkel.",
     "♭IV": "Entliehene Moll-Subdominante, mildert die Bewegung zu V.",
     "♭V": "Seltener entliehener Akkord, chromatische Farbe.",
     "♭VI": "Aus parallelem Moll entliehen, dramatische Subdominante, bewegt sich oft zu V.",
+    "♭vi": "Hexatonischer Pol - Mollakkord ohne gemeinsamen Ton mit der Tonika, jede Stimme bewegt sich um einen Halbton; unheimlich und fern.",
     "♭VII": "Aus Mixolydisch entliehen, verleiht Rock/Blues-Geschmack, bewegt sich oft zu I oder V.",
     "V/II": "Sekundärdominante - tonikalisiert ii, erzeugt Bewegung zu ii.",
     "V/III": "Sekundärdominante - tonikalisiert iii, selten verwendet, aber farbenreich.",
@@ -187,6 +195,8 @@
     "SUBV7": "Tritonus-Substitution - Jazz-Ersatz für V7, erzeugt chromatische Stimmführung.",
     "♯I°": "Durchgangs-verminderter Akkord - chromatischer Verbinder zwischen diatonischen Akkorden.",
     "♯II°": "Durchgangs-verminderter Akkord - chromatischer Verbinder zwischen diatonischen Akkorden.",
+    "♯IV": "Tritonus-Akkord - chromatischer Durakkord einen Tritonus von der Tonika entfernt, der fernste Punkt; gleitet einen Halbton abwärts zu IV.",
+    "♯IV°": "Leitton-Akkord von V (vii°/V) - Durchgangsakkord, dessen Grundton einen Halbton zum Grundton von V steigt.",
     "sus": "Vorhaltakkord - ersetzt die Terz durch Sekunde/Quarte, erzeugt Vorhalt vor Auflösung.",
     "add9": "Fügt Helligkeit hinzu, verträumte Farbe.",
     "6": "Vintage-Farbe, mildert die Harmonie.",
@@ -199,13 +209,118 @@
       "minMaj7": "Moll-Dur-Septakkord - Tonika-Septakkord in harmonisch und melodisch Moll; düster, filmisch.",
       "augMaj7": "Übermäßiger Durseptakkord - Mediante in harmonisch/melodisch Moll; instabil und leuchtend.",
       "aug7": "Übermäßiger Septakkord - Dominante mit erhöhter Quinte, drängt stark zur Tonika.",
+      "aug9": "Dominantnonenakkord mit erhöhter Quinte - die Dominante der Ganztonleiter, fünf ihrer sechs Töne in einem Akkord.",
       "augmented": "Übermäßiger Dreiklang - symmetrisch und ungelöst, kann in mehrere Tonarten führen.",
       "quartal": "Quartenschichtung - offen und modal, legt sich weder auf Dur noch auf Moll fest.",
       "dom7sus4": "7sus4 - Dominantspannung mit vorgehaltener Terz, häufig in modaler Musik und im Gospel.",
       "It6": "Italienischer übermäßiger Sextakkord - chromatische Subdominantfunktion, die Außenstimmen ziehen zur Dominante.",
       "Fr6": "Französischer übermäßiger Sextakkord - chromatische Subdominantfunktion mit zusätzlicher Sekunde, heller als der italienische.",
-      "Ger6": "Deutscher übermäßiger Sextakkord - chromatische Subdominantfunktion, klingt wie ein Dominantseptakkord und löst sich nach V auf."
+      "Ger6": "Deutscher übermäßiger Sextakkord - chromatische Subdominantfunktion, klingt wie ein Dominantseptakkord und löst sich nach V auf.",
+      "dom7b5": "Dominantseptakkord mit verminderter Quinte - dieselben Töne wie der Dominantseptakkord einen Tritonus entfernt, kann sich also zum Ziel beider auflösen.",
+      "minAug": "Molldreiklang mit übermäßiger Quinte - klingt wie ein Durdreiklang in erster Umkehrung; im Line-Cliché der chromatische Schritt zwischen i und i6.",
+      "major": "Durdreiklang - hell und stabil, der häufigste Akkord.",
+      "minor": "Molldreiklang - dunkler als Dur und ebenso stabil.",
+      "diminished": "Verminderter Dreiklang - zwei geschichtete kleine Terzen, gespannt; er will weiter.",
+      "major7": "Durseptakkord mit großer Septime - Durdreiklang mit großer Septime, weich und offen.",
+      "minor7": "Mollseptakkord - Molldreiklang mit kleiner Septime, weich.",
+      "dom7": "Dominantseptakkord - Durdreiklang mit kleiner Septime; sein Tritonus drängt zur Auflösung."
     }
+  },
+  "chordRolesMinor": {
+    "I": "Picardische Terz - die Durtonika, aus dem gleichnamigen Dur entliehen, eine helle Auflösung oder Wendung.",
+    "i": "Tonika - der Moll-Ruheakkord, bringt Auflösung und Stabilität.",
+    "II°": "Supertonika - in Moll vermindert, Subdominant-Akkord, führt oft zu V.",
+    "♭III": "Durparallele - in Moll leitereigen, hellt die Tonart auf, bewegt sich oft zu ♭VI oder ♭VII.",
+    "IV": "Dorische Subdominante - aus dem gleichnamigen Dur entliehen, ihre erhöhte Sexte hellt die Molltonart auf.",
+    "iv": "Subdominante - Moll-Subdominant-Akkord, bereitet Bewegung zu V oder zurück zu i vor.",
+    "V": "Dominante - Dur, aus harmonischem Moll; ihr Leitton zieht stark zu i.",
+    "v": "Dominante des natürlichen Moll - ohne Leitton, ein schwacher, modaler Zug zu i.",
+    "♭VI": "Submediante - in Moll leitereigen, dramatische Subdominante, bewegt sich oft zu V.",
+    "♭VII": "Subtonika - in Moll leitereigen, einen Ganzton unter i, führt zu i oder ♭III.",
+    "VII°": "Leitton - verminderter Akkord aus harmonischem Moll, zieht stark zu i.",
+    "♭II": "Neapolitaner-Sekunde - in Moll chromatisch, starke Subdominante, bereitet V vor.",
+    "V/IV": "Sekundärdominante - die Tonika als Dominantseptakkord, tonikalisiert iv.",
+    "V/♭III": "Sekundärdominante - tonikalisiert ♭III, die Durparallele.",
+    "V/♭VI": "Sekundärdominante - tonikalisiert ♭VI, verstärkt die Bewegung zur Submediante.",
+    "V/♭VII": "Sekundärdominante - tonikalisiert ♭VII.",
+    "iii": "Chromatische Mediante - Mollakkord eine große Terz über i, mit einem gemeinsamen Ton; leuchtend und fremd.",
+    "♭iii": "Chromatische Mediante - Mollakkord eine kleine Terz über i, mit einem gemeinsamen Ton; dunkel und fern.",
+    "♭vi": "Chromatische Mediante - Mollakkord eine große Terz unter i, mit einem gemeinsamen Ton; dunkel und absinkend.",
+    "vi": "Chromatische Mediante - Mollakkord eine kleine Terz unter i, mit einem gemeinsamen Ton; bittersüß, mit der dorischen Sexte.",
+    "III": "Hexatonischer Pol - Durakkord ohne gemeinsamen Ton mit i, jede Stimme bewegt sich um einen Halbton; unheimlich und fern.",
+    "i♯5": "Line-Cliché-Akkord - die Molltonika mit um einen Halbton erhöhter Quinte, ein chromatischer Schritt zwischen i und i6."
+  },
+  "chordRolesMajor": {
+    "i": "Molltonika - der Ruheakkord des gleichnamigen Moll, entliehen; verdunkelt die Tonika, ohne sie zu verlassen.",
+    "iv": "Moll-Subdominante - aus dem gleichnamigen Moll entliehen; ihre erniedrigte Sexte sinkt zur Quinte, ein dunklerer plagaler Zug.",
+    "I°": "Verminderter Akkord mit gemeinsamem Ton - hält den Grundton der Tonika, während die übrigen Töne chromatisch weiterziehen, eine Durchgangsfarbe.",
+    "III°": "Leitton-Akkord von IV (vii°/IV) - Durchgangsakkord, dessen Grundton einen Halbton zum Grundton von IV steigt."
+  },
+  "chordTypeNames": {
+    "major": "Durdreiklang",
+    "minor": "Molldreiklang",
+    "diminished": "Verminderter Dreiklang",
+    "augmented": "Übermäßiger Dreiklang",
+    "minAug": "Molldreiklang mit übermäßiger Quinte",
+    "sus2": "Akkord mit Sekundvorhalt",
+    "sus4": "Akkord mit Quartvorhalt",
+    "quartal": "Quartenakkord (7sus4 ohne Quinte)",
+    "quartal4": "Quartenakkord (Mollseptakkord mit Undezime)",
+    "major7": "Durseptakkord mit großer Septime",
+    "minor7": "Mollseptakkord",
+    "dom7": "Dominantseptakkord",
+    "dom7sus4": "Dominantseptakkord mit Quartvorhalt",
+    "dim7": "Verminderter Septakkord",
+    "m7b5": "Halbverminderter Septakkord",
+    "minMaj7": "Moll-Dur-Septakkord",
+    "aug7": "Übermäßiger Septakkord",
+    "augMaj7": "Übermäßiger Durseptakkord",
+    "aug9": "Dominantnonenakkord mit erhöhter Quinte",
+    "major6": "Durakkord mit Sexte",
+    "minor6": "Mollakkord mit Sexte",
+    "maj6/9": "Durakkord mit Sexte und None",
+    "major9": "Dur-Nonenakkord mit großer Septime",
+    "minor9": "Moll-Nonenakkord",
+    "dom9": "Dominantnonenakkord",
+    "dom7b9": "Dominantseptakkord mit kleiner None",
+    "dom7sharp9": "Dominantseptakkord mit übermäßiger None",
+    "dom7b5": "Dominantseptakkord mit verminderter Quinte",
+    "dom7alt": "Alterierter Dominantakkord",
+    "major11": "Dur-Undezimenakkord",
+    "minor11": "Moll-Undezimenakkord",
+    "dom11": "Dominant-Undezimenakkord",
+    "major13": "Dur-Tredezimenakkord",
+    "minor13": "Moll-Tredezimenakkord",
+    "dom13": "Dominant-Tredezimenakkord",
+    "add9": "Durdreiklang mit hinzugefügter None",
+    "minAdd9": "Molldreiklang mit hinzugefügter None",
+    "add11": "Durdreiklang mit hinzugefügter Undezime",
+    "It6": "Italienischer übermäßiger Sextakkord",
+    "Fr6": "Französischer übermäßiger Sextakkord",
+    "Ger6": "Deutscher übermäßiger Sextakkord"
+  },
+  "degreePhrases": {
+    "1": "auf der Tonika",
+    "b1": "auf der erniedrigten Tonika",
+    "#1": "auf der erhöhten Tonika",
+    "2": "auf der zweiten Stufe",
+    "b2": "auf der erniedrigten zweiten Stufe",
+    "#2": "auf der erhöhten zweiten Stufe",
+    "3": "auf der dritten Stufe",
+    "b3": "auf der erniedrigten dritten Stufe",
+    "#3": "auf der erhöhten dritten Stufe",
+    "4": "auf der vierten Stufe",
+    "b4": "auf der erniedrigten vierten Stufe",
+    "#4": "auf der erhöhten vierten Stufe",
+    "5": "auf der fünften Stufe",
+    "b5": "auf der erniedrigten fünften Stufe",
+    "#5": "auf der erhöhten fünften Stufe",
+    "6": "auf der sechsten Stufe",
+    "b6": "auf der erniedrigten sechsten Stufe",
+    "#6": "auf der erhöhten sechsten Stufe",
+    "7": "auf der siebten Stufe",
+    "b7": "auf der erniedrigten siebten Stufe",
+    "#7": "auf der erhöhten siebten Stufe"
   },
   "modeCategories": {
     "Common Western Tonal": "Gängige westliche tonale Modi",
@@ -428,10 +543,10 @@
         "nickname": "Mixolydian Vamp",
         "description": "Zirkuläre mixolydische Progression. Entliehenes ♭VII aus parallelem Moll fügt Rock-Kante hinzu, IV zu I bietet traditionelle perfekte Kadenz. Erzeugt treibendes, modales Rock-Gefühl ohne Dominant-V-Akkord."
       },
-      "i—V—VII—IV—VI—III—iv—V": {
-        "name": "i—V—VII—IV—VI—III—iv—V",
+      "i—V—♭VII—IV—♭VI—♭III—iv—V": {
+        "name": "i—V—♭VII—IV—♭VI—♭III—iv—V",
         "nickname": "Hotel California",
-        "description": "Die ikonische Eagles-Progression mit chromatisch absteigender Basslinie. Die Moll-Tonika durch entliehene Akkorde erzeugt raffinierte Melancholie. Der chromatische Abstieg (i-VII-VI) gefolgt von III-iv-V baut dramatische Spannung auf. Eine der meistanalysierten Rock-Progressionen, prägend für den kalifornischen Rock der 1970er Jahre."
+        "description": "Die Progression der Eagles, auf der Platte Bm F♯ A E G D Em F♯. Drei Paare, die jeweils um eine Quinte steigen und deren erste Akkorde von der Tonika abwärts schreiten, i-V, ♭VII-IV, ♭VI-♭III, dann eine iv-V-Kadenz zurück zum Anfang. Das Dur-V stammt aus harmonischem Moll, das Dur-IV aus dem Dorischen, der Rest ist natürliches Moll. Eine der meistanalysierten Rock-Progressionen."
       }
     },
     "Blues/Soul": {
@@ -794,10 +909,10 @@
         "nickname": "Flamenco",
         "description": "Flamenco-phrygische Kadenz. Dur-I zu ♭II erzeugt charakteristischen Halbton-Clash (phrygischer Modus), Rückkehr zu I, dann V. Das ♭II ist der markanteste Flamenco-Sound und erzeugt spanisch/maurischen Charakter. Verwendet in Rumba Flamenca, Bulerías und spanischen Gitarrentraditionen."
       },
-      "i—V—i—VII": {
-        "name": "i—V—i—VII",
+      "i—V—i—♭VII": {
+        "name": "i—V—i—♭VII",
         "nickname": "Samba",
-        "description": "Brasilianische Samba-Progression. Moll i-V-i etabliert Heimat, Dur-VII (aus natürlichem Moll, nicht harmonisch) fügt Helligkeit und Vorwärtsbewegung zu i hinzu. Das natürliche VII anstelle des Leittons erzeugt modalen, weniger europäischen Sound, charakteristisch für brasilianische Populärmusik und Pagode."
+        "description": "Brasilianische Samba-Progression. Das Moll-i-V-i etabliert die Heimat, dann bringt die Subtonika ♭VII, der siebte Akkord des natürlichen Moll und ein Dur-Dreiklang einen Ganzton unter der Tonika, Helligkeit und führt zurück zu i. Die Wahl der Subtonika statt des Leittons ergibt den modalen, weniger europäischen Klang von Samba und Pagode."
       },
       "I—V/ii—ii—V/V—V": {
         "name": "I—V/ii—ii—V/V—V",
@@ -845,6 +960,61 @@
         "name": "I—♭III—♭VI—♭II",
         "nickname": "Chromatic Film",
         "description": "Extreme chromatische Medianten-Progression. Alle Grundtöne sind chromatische Medianten (große oder kleine Terzen auseinander). Erzeugt maximale harmonische Instabilität und Überraschung. Das ♭II (Neapolitaner) ist besonders auffällig. Verwendet für surreale Szenen, Traumsequenzen, psychologische Brüche und Avantgarde-Filmmusik."
+      },
+      "I—♭VI—I—III": {
+        "name": "I—♭VI—I—III",
+        "nickname": "Major Third Mediants",
+        "description": "Chromatische Medianten, eine große Terz zu beiden Seiten der Tonika: C A♭ C E. Jedes Paar teilt einen Ton, und beide Akkorde sind Dur, sodass das Ohr den Wechsel als Klangfarbe statt als Modulation hört. Der Abstieg nach ♭VI ist der klassische Griff der Spionage- und Fantasy-Musik, der Aufstieg nach III sein hellerer Spiegel."
+      },
+      "I—♭III—I—VI": {
+        "name": "I—♭III—I—VI",
+        "nickname": "Minor Third Mediants",
+        "description": "Chromatische Medianten, eine kleine Terz zu beiden Seiten der Tonika: C E♭ C A. Beide sind Dur, und jede teilt einen Ton mit I. ♭III dunkelt ab, ohne Dur zu verlassen, VI hellt auf; im Wechsel um die Tonika ergeben sie den schwebenden Szenenwechsel-Charakter der Abenteuermusik."
+      },
+      "i—♭vi—i—iii": {
+        "name": "i—♭vi—i—iii",
+        "nickname": "Minor Mediants",
+        "description": "Die Moll-Form des Medianten-Kniffs: Cm A♭m Cm Em. Eine Molltonika, die zu den Mollakkorden eine große Terz darunter und darüber wechselt, jeweils mit einem gemeinsamen Ton. Dunkler und unruhiger als die Dur-Form; der Wechsel nach ♭vi ist besonders ein Standard der Horror- und Kreaturenthemen."
+      },
+      "I—♭vi—♭VI—I": {
+        "name": "I—♭vi—♭VI—I",
+        "nickname": "Hexatonic Pole",
+        "description": "C A♭m A♭ C. Ein Durdreiklang, der zum Molldreiklang eine große Terz tiefer wechselt, teilt keinen Ton mit ihm und wechselt das Tongeschlecht: die entfernteste Beziehung, die zwei Dreiklänge haben können, wenn sich jede Stimme um einen Halbton bewegt. Das darauf folgende ♭VI-Dur erklärt den fremden Akkord, und die Rückkehr zu I schließt die Schleife. Der typische unheimliche Wechsel der Fantasy- und Science-Fiction-Musik."
+      },
+      "I—II": {
+        "name": "I—II",
+        "nickname": "Lydian Vamp",
+        "description": "Zwei Akkorde, C D: eine Durtonika und der Durakkord einen Ganzton darüber. Das II enthält die erhöhte Quarte, die den lydischen Modus ausmacht, sodass der Vamp schwebt, ohne irgendwohin zu ziehen. Der offene, luftige Klang von Flug- und Staunen-Momenten."
+      },
+      "I—II—iii—II": {
+        "name": "I—II—iii—II",
+        "nickname": "Lydian Float",
+        "description": "C D Em D. Eine lydische Schleife, die nie eine Dominante berührt: das Dur-II und das Moll-iii kreisen um die Tonika, und die erhöhte Quarte in II hält die Progression offen. Die große Septime und die Sexte, die die Palette anbietet, bringen den schwebenden, zeitdehnenden Charakter moderner Weltraummusik."
+      },
+      "i—v—♭VII—IV": {
+        "name": "i—v—♭VII—IV",
+        "nickname": "Dorian Drift",
+        "description": "Cm Gm B♭ F. Molltonika, Molldominante, Subtonika und das Dur-IV, das Dorisch kennzeichnet. Jeder Akkord ist diatonisch in C-Dorisch und keiner ist eine Dominante mit Leitton, sodass die Schleife durch einen plagalen Schritt IV-i zu i zurückkehrt, statt sich aufzulösen. Das Endlos-Bewegungsgefühl langsam aufbauender elektronischer Stücke und Filmmusik."
+      },
+      "i—♭III—V—i": {
+        "name": "i—♭III—V—i",
+        "nickname": "Minor Lift",
+        "description": "Cm E♭ G Cm. Molltonika aufwärts zur Durparallele ♭III, dann zu einem Dur-V aus harmonischem Moll, bevor es nach Hause zurückgeht. Die aufsteigende Terz mit der anschließenden Dominante macht eine dunkle Schleife hoffnungsvoll, ohne die Tonart zu verlassen: der kurze Auftrieb vor einer Auflösung."
+      },
+      "i—♭VI—IV—♭VI": {
+        "name": "i—♭VI—IV—♭VI",
+        "nickname": "Wandering Fifth",
+        "description": "Cm A♭ F A♭. Molltonika, ♭VI und das dorische Dur-IV: die drei Akkorde, bei denen eine einzelne Innenstimme über einem gehaltenen Bass in Halbtonschritten aufsteigen kann. Mit C unter allen dreien steigt die Quinte G zu A♭ und dann zu A. Die Smooth-Variante findet diese Stimmführung; der Bass des ersten Akkords sollte gehalten werden, für die anschwellende, heroische Wirkung."
+      },
+      "I—♭VI—♭VII—I": {
+        "name": "I—♭VI—♭VII—I",
+        "nickname": "Hero Cadence",
+        "description": "C A♭ B♭ C. Die Tonika, dann die beiden Durdreiklänge im Ganztonabstand darunter, ♭VI und ♭VII, die zurück nach Hause steigen. Beide stammen aus dem gleichnamigen Moll und vertreten IV und V, eine Wendung, die als Backdoor-IV-V bekannt ist. Die triumphale Schlussformel von Abenteuermusik und Siegesthemen, hier als Schleife, sodass die Tonika zugleich Ausgangs- und Zielpunkt ist."
+      },
+      "i—i♯5—i6—i♯5": {
+        "name": "i—i♯5—i6—i♯5",
+        "nickname": "Ascending Line Cliché",
+        "description": "Em E G C E G C♯ und zurück, als Akkorde: die Quinte eines Molldreiklangs steigt in Halbtönen über gehaltenem Grundton und gehaltener Terz, i, i♯5, i6, i♯5. Die Harmonisierung des Spionagethemas und ein Standard heroischer und spannungsgeladener Filmmusik. Das i6-Pad behält die Quinte neben der Sexte; für die reine einstimmige Linie nur den Wechsel der obersten Note vom i♯5-Pad aus spielen."
       }
     },
     "Folk/Singer-Songwriter": {
@@ -878,10 +1048,10 @@
         "nickname": "Irish Folk",
         "description": "Keltische Folk-Progression. Vertraute I-V-Eröffnung, steigt zu vi dann iii ab. Vermeidet IV-Akkord und erzeugt andere Färbung als typische Pop-Progressionen. Das absteigende Terzen-Muster (V-vi, vi-iii) erzeugt fließende, melodische Bewegung charakteristisch für irische Balladen und keltische Musiktraditionen."
       },
-      "i—III—IV—VI": {
-        "name": "i—III—IV—VI",
+      "i—♭III—IV—♭VI": {
+        "name": "i—♭III—IV—♭VI",
         "nickname": "House of the Rising Sun",
-        "description": "Die ikonische Folk-Blues-Progression von The Animals. Die Moll-Tonika zu Dur-III erzeugt sofortigen Auftrieb, IV setzt den Aufstieg fort, Dur-VI liefert dramatische Farbe vor der Rückkehr. Das arpeggierte Gitarrenmuster über diesen Akkorden definierte den Folk-Rock der 1960er Jahre. Zeitlose Progression für erzählende Balladen."
+        "description": "Die Progression der Animals: Am C D F, dann Am C E. Von der Moll-Tonika zur Durparallele ♭III gibt es sofort Auftrieb, das aus Dorisch entliehene Dur-IV steigt weiter, und ♭VI färbt die Wendung vor der Rückkehr. Die arpeggierte Gitarre über diesen Akkorden prägte den Folk-Rock der 1960er Jahre."
       },
       "I—IV—I—IV—I—V—I": {
         "name": "I—IV—I—IV—I—V—I",
@@ -950,10 +1120,10 @@
         "nickname": "Extended Shred",
         "description": "Ausgedehnte Progression, die die klassische Mollkadenz (i-iv-V-i) mit einer absteigenden Sequenz in natürlichem Moll (♭VI-♭III-♭VII) verbindet. Die Rückkehr zur V startet die Schleife neu. Ideal für lange neoklassische Soli und Progressive-Metal-Passagen."
       },
-      "VI—VII—i": {
-        "name": "VI—VII—i",
+      "♭VI—♭VII—i": {
+        "name": "♭VI—♭VII—i",
         "nickname": "Power Cadence",
-        "description": "Aufsteigende Annäherung an die Molltonika über die Durstufen VI und VII. Sie erzeugt eine kraftvolle Auflösung, im Metal oft in Quintparallelen verdoppelt. Der schrittweise Aufstieg staut Energie, bevor die Tonika erreicht wird. Allgegenwärtig in Metal-Breakdowns und -Schlüssen."
+        "description": "Aufsteigende Annäherung an die Molltonika über ♭VI und ♭VII, zwei Ganztöne aufwärts bis i: F G Am in a-Moll. Im Metal oft als parallele Powerchords gespielt. Die äolische Kadenz, das Moll-Gegenstück zum ♭VI-♭VII-I-Schluss in Dur."
       }
     },
     "Trance/Psytrance/Goa": {
@@ -972,40 +1142,40 @@
         "nickname": "Uplifting Trance",
         "description": "Emotionaler Uplifting-Trance-Bogen. Moll-i zu Dur-V (harmonisches Moll) erzeugt Hoffnung, dann fügen ♭VI und ♭VII modale Farbe vor dem Zyklus hinzu. Mischung aus funktionalem V und modaler Entlehnung erzeugt euphorischen Auftrieb und Release. Definiert Uplifting-Trance von Armin van Buuren bis Above & Beyond für emotionale Höhepunkte und Breakdowns."
       },
-      "i—iv—VII—III": {
-        "name": "i—iv—VII—III",
+      "i—iv—V—♭VI": {
+        "name": "i—iv—V—♭VI",
         "nickname": "Harmonic Minor Psy",
-        "description": "Reine harmonische Moll-Psytrance-Progression. Verwendet ausschließlich harmonische Moll-Tonleiter - i, iv, Dur-VII, Dur-III. Die erhöhte 7 erzeugt exotisches übermäßiges Sekundintervall. Dramatischer, osteuropäischer Charakter. Die Dur-Akkorde VII und III erzeugen helle, aufsteigende Bewegung gegen dunkle Moll-Tonika für psychedelischen Kontrast."
+        "description": "Reines harmonisches Moll: Am Dm E F in a-Moll. Das Dur-V trägt die erhöhte Septime, die dem harmonischen Moll seine Färbung der übermäßigen Sekunde verleiht, und der Trugschlussschritt von V aufwärts zu ♭VI verhindert, dass sich die Schleife auflöst. Dramatischer, osteuropäischer Charakter für Psytrance-Leads auf Basis der harmonischen Molltonleiter."
       },
-      "i—♭VI—III—VII": {
-        "name": "i—♭VI—III—VII",
+      "i—♭VI—♭III—♭VII": {
+        "name": "i—♭VI—♭III—♭VII",
         "nickname": "Dark Psy",
-        "description": "Dark-Psytrance-Progression mit gemischten Modi. Moll-i und ♭VI aus natürlichem Moll, Dur-III und VII aus harmonischem Moll. Erzeugt maximale harmonische Mehrdeutigkeit und Spannung. Aufsteigen von ♭VI durch III zu VII baut Intensität auf. Verwendet in Dark-Psy und Forest-Trance für bedrohliche, außerirdische Atmosphäre."
+        "description": "Dunkle Psytrance-Progression in natürlichem Moll: Am F C G. Der Aufstieg von ♭VI über die Durparallele ♭III zur Subtonika ♭VII baut Intensität auf, ohne je einen Leitton zu berühren, sodass sich die Schleife nie auflöst. Verwendet in Dark Psy und Forest Trance für eine bedrohliche, schwebende Atmosphäre."
       },
       "i—♭III—♭VI—V": {
         "name": "i—♭III—♭VI—V",
         "nickname": "Progressive Psy",
         "description": "Progressive Psytrance mit funktionaler Auflösung. Entliehene ♭III und ♭VI aus natürlichem Moll erzeugen modale Farbe, Dur-V (harmonisches Moll) liefert starken Zug zu i. Kombiniert psychedelischen modalen Klang mit befriedigender Auflösung. Verwendet in Progressive-Psytrance für strukturierte Aufbauten und Releases."
       },
-      "i—VII—VI—VII": {
-        "name": "i—VII—VI—VII",
+      "i—♭VII—♭VI—♭VII": {
+        "name": "i—♭VII—♭VI—♭VII",
         "nickname": "Full-On",
-        "description": "Full-On-Psytrance mit harmonischer Moll-Helligkeit. Moll-i kontrastiert mit Dur-VII und VI (aus harmonischem Moll), VII oszilliert für treibende Energie. Die Dur-Akkorde erzeugen aufhebendes, energetisches Gefühl trotz Moll-Tonika. Charakteristisch für den aggressiven, euphorischen Klang des Full-On-Psytrance bei 140-148 BPM."
+        "description": "Full-On-Psytrance-Schleife in natürlichem Moll: Am G F G. Die Subtonika ♭VII oszilliert gegen ♭VI für treibende, pendelnde Energie, und die beiden Durakkorde hellen die Molltonika auf, ohne sie aufzulösen. Charakteristisch für den euphorischen Sound des Full-On-Psytrance bei 140-148 BPM."
       },
-      "i—♭II—VII—V": {
-        "name": "i—♭II—VII—V",
+      "i—♭II—♭VII—V": {
+        "name": "i—♭II—♭VII—V",
         "nickname": "Goa Classic",
-        "description": "Klassischer Goa-Trance mit exotischen Tonleitern. Moll-i zu ♭II (phrygische Farbe), Dur-VII und V aus harmonischem Moll. Mischung aus Phrygisch und harmonischem Moll erzeugt komplexen, östlich beeinflussten Klang. Die chromatischen und exotischen Intervalle erzeugen den spirituellen, psychedelischen Charakter der ursprünglichen Goa-Trance-Szene."
+        "description": "Klassischer Goa-Trance mit gemischten Modi: Am B♭ G E. ♭II ist phrygische Färbung, ♭VII die Subtonika des natürlichen Moll, und das Dur-V mit seiner erhöhten Septime stammt aus harmonischem Moll. Drei Tonleitern in vier Akkorden ergeben den exotischen, östlich anmutenden Sound der ursprünglichen Goa-Szene."
       },
-      "i—iv—i—VII": {
-        "name": "i—iv—i—VII",
+      "i—iv—i—♭VII": {
+        "name": "i—iv—i—♭VII",
         "nickname": "Forest Psy",
-        "description": "Organische Forest-Psytrance-Progression. Einfaches i-iv etabliert Moll-Charakter, Rückkehr zu i, Dur-VII (harmonisches Moll) fügt Helligkeit hinzu. Minimale Akkordwechsel lenken Aufmerksamkeit auf organische Texturen und komplexe Rhythmen. Erzeugt erdige, natürliche Atmosphäre charakteristisch für Forest-Psytrance und dunklere, minimale Psy-Stile."
+        "description": "Organische Forest-Psytrance-Progression: Am Dm Am G. Das schlichte i-iv etabliert den Mollcharakter, die Rückkehr zu i erdet ihn, und die Subtonika ♭VII bietet einen helleren Ausgang, bevor die Schleife neu beginnt. Die minimale harmonische Bewegung lässt Raum für die organischen Texturen und komplexen Rhythmen von Forest- und Minimal-Psy."
       },
-      "i—III—VII—IV": {
-        "name": "i—III—VII—IV",
+      "i—♭III—♭VII—IV": {
+        "name": "i—♭III—♭VII—IV",
         "nickname": "Morning Trance",
-        "description": "Helle Morning-Psytrance-Progression. Moll-i kontrastiert mit Dur-III, VII und IV (aus harmonischem Moll/Dorisch-Mix). Die Dur-Akkorde erzeugen optimistische Sonnenaufgangs-Energie. Aufsteigende Bewegung (i-III-VII) dann Auflösung zu IV erzeugt aufhebendem Bogen. Verwendet in Morning-Psytrance-Sets für positive, energetische Atmosphäre beim Sonnenaufgang."
+        "description": "Helle Morgen-Psytrance-Progression in Dorisch: Am C G D. Die Durparallele ♭III und die Subtonika ♭VII heben die Molltonika an, und das Dur-IV, der charakteristische Akkord des Dorischen, trifft mit Sonnenaufgangsoptimismus ein. Dieselben Stufen wie der dorische Vamp von Film- und Spielemusik, im Psytrance-Tempo."
       },
       "i—v—♭VII": {
         "name": "i—v—♭VII",
@@ -1103,10 +1273,10 @@
         "nickname": "Retrowave Pop",
         "description": "Pop-beeinflusste Retrowave-Progression. Beginnt auf relativer Moll für emotionale Tiefe, durchläuft vertraute Wechsel mit 80er-Produktion. Zugängliche, mitsing-bare Qualität verbindet Synthwave mit Mainstream-Pop. Verwendet in radiofreundlichem Retrowave und Synthpop für kommerziellen Appeal bei Beibehaltung der Retro-Ästhetik."
       },
-      "i—♭VI—III—♭VII": {
-        "name": "i—♭VI—III—♭VII",
+      "i—♭VI—♭III—♭VII": {
+        "name": "i—♭VI—♭III—♭VII",
         "nickname": "Dark Synth",
-        "description": "Aggressive Dark-Synth-Progression. Moll-i und entliehenes ♭VI aus natürlichem Moll, Dur-III aus harmonischem Moll erzeugt dramatischen Auftrieb, ♭VII fügt Kraft hinzu. Mischung aus Modi erzeugt komplexen, bedrohlichen Charakter. Verwendet in Horror-Synth, Dark-Electro und aggressiven Cyberpunk-Produktionen für maximale Intensität und Dunkelheit."
+        "description": "Aggressive Dark-Synth-Progression in natürlichem Moll: Am F C G. ♭VI verdunkelt, die Durparallele ♭III hebt, und die Subtonika ♭VII treibt die Rückkehr an. Mit Sägezahn-Stabs und Sidechain-Pads gespielt, wird die häufigste Moll-Schleife der Synthwave bedrohlich statt nostalgisch."
       },
       "IM7—iii7—vi7—IVM7": {
         "name": "IM7—iii7—vi7—IVM7",
@@ -1137,10 +1307,10 @@
       }
     },
     "UK Bass": {
-      "i—VII—♭VI": {
-        "name": "i—VII—♭VI",
+      "i—♭VII—♭VI": {
+        "name": "i—♭VII—♭VI",
         "nickname": "UK Garage",
-        "description": "Seelvolle, federnde Palette. Moll- und Dur-Akkorde für springende 2-Step-Grooves."
+        "description": "Seelvolle, federnde Palette: Am G F. Die Molltonika schreitet über die Subtonika ♭VII abwärts zu ♭VI, zwei der drei Durakkorde des natürlichen Moll, für springende 2-Step-Grooves."
       },
       "i—♭VI": {
         "name": "i—♭VI",

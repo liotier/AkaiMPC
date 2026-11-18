@@ -124,10 +124,12 @@ export const guitarChords = {
     }
 };
 
-// Pitch class of every note name that can start a chord name, including
-// the flat spellings getChordName produces for borrowed chords.
+// Pitch class of every note name that can start a chord name. A root is spelled
+// by its degree and carries one accidental at most, so E#, B#, Cb and Fb occur:
+// E# is the leading tone of F# major, B# the seventh degree of the Neapolitan
+// major on C# (docs/improvements/13-spelling.md).
 const ROOT_PITCH_CLASSES = {
-    'C': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3, 'E': 4, 'Fb': 4,
+    'C': 0, 'B#': 0, 'C#': 1, 'Db': 1, 'D': 2, 'D#': 3, 'Eb': 3, 'E': 4, 'Fb': 4,
     'E#': 5, 'F': 5, 'F#': 6, 'Gb': 6, 'G': 7, 'G#': 8, 'Ab': 8,
     'A': 9, 'A#': 10, 'Bb': 10, 'B': 11, 'Cb': 11
 };
@@ -143,9 +145,12 @@ const SHAPE_FALLBACKS = {
     'major6': 'major',
     'add9': 'major',
     'augmented': 'major',
+    'aug9': 'augmented',   // no 9♯5 shape in the library; shown as simplified
     'sus2': 'major',
     'sus4': 'major',
-    'quartal': 'sus4',
+    'quartal': 'sus4',     // no 7sus4 shape in the library; shown as simplified
+    'quartal4': 'minor7',  // shares three of its four notes with a minor 7th
+    'minAug': 'minor',     // no m♯5 shape in the library; shown as simplified
     'minor7': 'minor',
     'minMaj7': 'minor',
     'minor6': 'minor',

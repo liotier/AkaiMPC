@@ -57,8 +57,9 @@ progressions are added.
 
 Keys that no literal lookup references are reported as a note rather than a
 failure, since several families are reached only through computed paths
-(`chordRoles` by roman numeral, `cadences` by type). The baseline is zero, so
-the note means something when it appears.
+(`chordRoles`, `chordRolesMinor` and `chordRolesMajor` by roman numeral or chord
+type, `chordTypeNames` by chord type, `degreePhrases` by degree, `cadences` by
+type). The baseline is zero, so the note means something when it appears.
 
 ## Translation Guidelines
 
@@ -127,6 +128,24 @@ Each JSON file has the following structure:
 }
 ```
 
+### Chord descriptions and phrases
+
+Hovering a pad shows two lines: a phrase that names the chord, built from
+`chordTypeNames.<type>` and `degreePhrases.<degree>` ("Major triad" + "on the
+flattened seventh degree"), then the chord's description from `chordRoles`,
+`chordRolesMinor` or `chordRolesMajor`. Three rules follow from that:
+
+- A degree phrase carries its own preposition and article ("sur la tonique",
+  "sul secondo grado", "auf der zweiten Stufe"), so that it reads after any
+  chord name without agreement between the two.
+- Descriptions are written "Name - text". Where the description names the
+  chord itself (`chordRoles.types.*` and the family texts), the tooltip drops
+  the part before the hyphen, which the phrase has just said, and capitalises
+  the rest. Keep the spaced hyphen, and make the text after it read on its own,
+  agreeing with the chord name the phrase gives.
+- The card in the Keyboard, MIDI and Staff views shows the whole description,
+  without the phrase.
+
 ### Quality Standards
 
 1. **Accuracy**: Maintain musical theory accuracy
@@ -150,5 +169,5 @@ For questions or clarification, open an issue on GitHub.
 
 ## File Sizes
 
-Each language file holds 759 keys and is roughly 95 KB uncompressed,
+Each language file holds 905 keys and is roughly 105 to 117 KB uncompressed,
 about a quarter of that gzipped.

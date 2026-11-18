@@ -8,9 +8,10 @@ import {
     getHarmonyPitchClasses,
     chordFitsScale,
     getChordSuffix,
+    classifyProgressionChord,
+    chordRoleKey,
+    degreePhraseKey,
     MATCHER_QUALITY_TYPES,
-    spellChordNotes,
-    getEnharmonicContext,
     getInversionNotation,
     findProgressionCategory,
     findModeCategory
@@ -36,7 +37,8 @@ import {
     loadFromLocalStorage,
     updateURL,
     loadFromURL,
-    applyPreferences
+    applyPreferences,
+    selectProgressionOption
 } from './modules/storage.js';
 
 import {
@@ -77,6 +79,10 @@ import { i18n } from './modules/i18n.js';
 let selectedKey = 'C';
 let selectedMode = 'Major';
 let selectedProgression = 'I—V—vi—IV';
+// The genre the progression was chosen under. A value can be listed under
+// several genres, each with its own palette and MPC heading, so the value
+// alone does not identify a template (docs/improvements/01-template-identity.md).
+let selectedCategory = findProgressionCategory(selectedProgression);
 let progressionName = '';
 let variants = [];
 let chordRequirements = [];
@@ -321,7 +327,7 @@ function switchContext(context) {
     }
 
     // Save context preference
-    saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, context, generationMode);
+    saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, context, generationMode, selectedCategory);
 }
 
 // Generation mode switching (Progression Palette Mode vs Scale Mode)
@@ -381,7 +387,7 @@ function switchGenerationMode(mode, skipSave = false) {
 
     // Save generation mode preference (unless during initialization)
     if (!skipSave) {
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode, selectedCategory);
     }
 }
 
@@ -524,6 +530,7 @@ globalThis.clearChordRequirements = clearChordRequirements;
 Object.defineProperty(globalThis, 'selectedKey', { get: () => selectedKey });
 Object.defineProperty(globalThis, 'selectedMode', { get: () => selectedMode });
 Object.defineProperty(globalThis, 'selectedProgression', { get: () => selectedProgression });
+Object.defineProperty(globalThis, 'selectedCategory', { get: () => selectedCategory });
 
 function renderChordRequirements() {
     const container = document.getElementById('selectedChords');
@@ -687,20 +694,29 @@ function resetKeyModeFilters() {
 }
 
 // Dynamic Row 4 Analysis Functions
-function analyzeProgression(pads) {
+/**
+ * The analysis line under a variant's title: what its progression chords are.
+ * Each is classified by classifyProgressionChord() in musicTheory.js
+ * (docs/improvements/14-pad-descriptions-and-analysis.md D1); the line names
+ * every class present, and "Extended Harmony" for any seventh.
+ *
+ * @param {Object[]} pads - The variant's pads
+ * @param {string} [tonality] - The template's, 'major' or 'minor'
+ * @param {number} tonicPitchClass - The key's tonic, 0-11
+ * @returns {string} The line, or '' when no pad is a progression chord
+ */
+function analyzeProgression(pads, tonality, tonicPitchClass) {
     const progressionPads = pads.filter(p => p.isProgressionChord);
     if (progressionPads.length === 0) return '';
 
-    const hasBorrowed = progressionPads.some(p => p.romanNumeral && (p.romanNumeral.includes('♭') || p.romanNumeral.includes('♯')));
-    const hasSecondary = progressionPads.some(p => p.romanNumeral && p.romanNumeral.includes('/'));
+    const classes = new Set(progressionPads.map(p => classifyProgressionChord(p, tonality, tonicPitchClass)));
     const has7ths = progressionPads.some(p => p.quality && p.quality.includes('7'));
-    const hasDiminished = progressionPads.some(p => p.quality === 'Diminished');
 
     const characteristics = [];
-    if (hasBorrowed) characteristics.push(i18n.t('analysis.modalInterchange'));
-    if (hasSecondary) characteristics.push(i18n.t('analysis.secondaryDominants'));
+    if (classes.has('borrowed')) characteristics.push(i18n.t('analysis.modalInterchange'));
+    if (classes.has('applied')) characteristics.push(i18n.t('analysis.secondaryDominants'));
     if (has7ths) characteristics.push(i18n.t('analysis.extendedHarmony'));
-    if (hasDiminished) characteristics.push(i18n.t('analysis.chromatic'));
+    if (classes.has('chromatic')) characteristics.push(i18n.t('analysis.chromatic'));
 
     if (characteristics.length === 0) {
         return i18n.t('analysis.diatonic');
@@ -710,46 +726,71 @@ function analyzeProgression(pads) {
 
 // Tooltip functions
 /**
- * Explain what a chord does in the progression.
- * Looks for the most specific description available: the exact roman numeral,
- * then the numeral without its quality markings, then the chord type itself.
+ * Explain what a chord does in the progression. The lookup order is
+ * chordRoleKey()'s, in musicTheory.js, so the audit can check it without a
+ * browser (docs/improvements/14-pad-descriptions-and-analysis.md §4.2).
  *
  * @param {string} romanNumeral - e.g. 'viiø7', '♭VII', 'V7/V'
  * @param {string} chordType - Chord type key, e.g. 'm7b5'
+ * @param {string} [tonality] - The template's, 'major' or 'minor'; nothing in Scale Mode
  * @returns {string} Description
  */
-function getChordTooltip(romanNumeral, chordType) {
-    // Roman numerals are keyed in upper case; case only encodes major/minor,
-    // which the description does not depend on
-    const normalized = romanNumeral ? romanNumeral.toUpperCase() : '';
+function getChordTooltip(romanNumeral, chordType, tonality) {
+    return i18n.t(chordRoleKey(romanNumeral, chordType, tonality, key => i18n.has(key)));
+}
 
-    const candidates = [
-        `chordRoles.${normalized}`,
-        // Same numeral without its quality markings: 'VIIØ7' -> 'VII'
-        `chordRoles.${normalized.replaceAll(/M7|MAJ7|\(MAJ7\)|7|°|Ø|\+|DIM|SUS[24]|ADD9|6|9|11|13/g, '')}`,
-        // Chord-type specific descriptions ('chordRoles.types.m7b5')
-        chordType ? `chordRoles.types.${chordType}` : null
-    ].filter(Boolean);
+/**
+ * The chord in plain words, "Major triad on the flattened seventh degree"
+ * (docs/improvements/17-scale-mode-numerals-and-descriptions.md D6): its type's
+ * name and its degree's phrase, or '' when either is missing.
+ *
+ * @param {string} chordType - Chord type key
+ * @param {string} degreeKey - The pad's data-degree: '1', 'b7', '#4'
+ * @returns {string}
+ */
+function getChordPhrase(chordType, degreeKey) {
+    const name = `chordTypeNames.${chordType}`;
+    const degree = `degreePhrases.${degreeKey}`;
+    if (!chordType || !degreeKey || !i18n.has(name) || !i18n.has(degree)) return '';
+    return `${i18n.t(name)} ${i18n.t(degree)}`;
+}
 
-    for (const candidate of candidates) {
-        if (i18n.has(candidate)) return i18n.t(candidate);
-    }
+/**
+ * What a pad's tooltip says: the phrase, then the description on a second line.
+ * The Keyboard view prints the description on the card, so its tooltip is the
+ * phrase alone (spec 17 D6, D7).
+ *
+ * @param {HTMLElement} pad - A .chord-pad element
+ * @returns {string}
+ */
+function getPadTooltipText(pad) {
+    const phrase = getChordPhrase(pad.dataset.chordType, pad.dataset.degree);
+    if (currentContext === 'keyboard') return phrase;
+    const roleKey = chordRoleKey(pad.dataset.roman, pad.dataset.chordType, pad.dataset.tonality, key => i18n.has(key));
+    let description = i18n.t(roleKey) || 'Chord';
+    // A description of what the chord is, its type's or its family's, opens with
+    // the chord's name, which the phrase above has just given: keep what follows
+    if (phrase && TYPE_OR_FAMILY_ROLE.test(roleKey)) description = withoutLeadingName(description);
+    return phrase ? `${phrase}\n${description}` : description;
+}
 
-    // Generic descriptions by chord family
-    if (chordType) {
-        if (chordType.includes('sus') || chordType.startsWith('quartal')) return i18n.t('chordRoles.sus');
-        if (chordType.includes('add9') || chordType === 'minAdd9') return i18n.t('chordRoles.add9');
-        if (chordType === 'major6' || chordType === 'minor6' || chordType === 'maj6/9') return i18n.t('chordRoles.6');
-        if (/9|11|13/.test(chordType)) return i18n.t('chordRoles.extended');
-    }
+// The description keys that name the chord rather than its function
+const TYPE_OR_FAMILY_ROLE = /^chordRoles\.(types\..+|sus|add9|6|extended)$/;
 
-    // Default based on whether it's borrowed
-    if (normalized.includes('♭') || normalized.includes('♯')) {
-        return i18n.t('chordRoles.borrowed');
-    }
-
-    // Default for unrecognized chords
-    return i18n.t('chordRoles.default');
+/**
+ * 'Major triad - bright and stable, the most common chord.' becomes 'Bright and
+ * stable, the most common chord.'. A text with no leading name, such as 'Vintage
+ * color, softens the harmony.', is returned as it is. The English texts written
+ * first put non-breaking spaces around the hyphen, hence the \s.
+ *
+ * @param {string} text - A description
+ * @returns {string}
+ */
+function withoutLeadingName(text) {
+    const match = /^.+?\s-\s(.+)$/s.exec(text);
+    if (!match) return text;
+    const rest = match[1];
+    return rest.charAt(0).toLocaleUpperCase(i18n.getCurrentLanguage()) + rest.slice(1);
 }
 
 function showTooltip(element, text) {
@@ -829,6 +870,7 @@ function populateSelects() {
         progList.forEach(prog => {
             const option = document.createElement('option');
             option.value = prog.value;
+            option.dataset.category = category;
             const progKey = `progressions.${category}.${prog.value}`;
 
             // Get translated name (fallback to progression value)
@@ -859,7 +901,8 @@ function populateSelects() {
     // Restore the current selection - repopulating cleared it
     keySelect.value = selectedKey;
     modeSelect.value = selectedMode;
-    progressionSelect.value = selectedProgression;
+    // By value and genre: the same value can head several genres' entries
+    selectProgressionOption(progressionSelect, selectedProgression, selectedCategory);
 }
 
 // Update progression name
@@ -888,6 +931,7 @@ function generateProgressions() {
         key: selectedKey,
         mode: selectedMode,
         progression: selectedProgression,
+        category: selectedCategory,
         generationMode,
         chordRequirements
     });
@@ -921,7 +965,7 @@ function getNamingParams(variant) {
         };
     }
 
-    const category = findProgressionCategory(selectedProgression);
+    const category = findProgressionCategory(selectedProgression, selectedCategory);
     const nickname = i18n.tEnglish(`progressions.${category}.${selectedProgression}.nickname`);
     return {
         generationMode: 'template',
@@ -1097,7 +1141,7 @@ function renderProgressions() {
 
         const gridHTML = rows.reverse().map((row, rowIndex) =>
             row.map((pad, padIndexInRow) => {
-                const roleText = getChordTooltip(pad.romanNumeral, pad.chordType);
+                const roleText = getChordTooltip(pad.romanNumeral, pad.chordType, variant.tonality);
 
                 // Calculate voice leading distance from tonic (default state)
                 let voiceLeadingClass = '';
@@ -1122,8 +1166,9 @@ function renderProgressions() {
                     }
                 }
 
-                // Get inversion notation for this chord
-                const inversionNotation = getInversionNotation(pad.notes, pad.chordType || 'major', pad.chordName, pad.romanNumeral);
+                // Slash notation when the bass, spelled as the chord spells it,
+                // is not the root
+                const inversionNotation = getInversionNotation(pad.spelling);
                 const displayName = pad.chordName + inversionNotation;
 
                 // Get progression edge attributes
@@ -1132,8 +1177,8 @@ function renderProgressions() {
 
                 return `
                 <div class="chord-pad ${pad.isProgressionChord ? 'progression-chord' : ''} ${pad.isChordMatcherChord ? 'chord-matcher-chord' : ''} ${voiceLeadingClass}"
-                    data-notes="${pad.notes.join(',')}" data-roman="${escapeHtml(pad.romanNumeral)}" data-quality="${escapeHtml(pad.quality)}" data-chord-type="${escapeHtml(pad.chordType || '')}" data-role="${escapeHtml(roleText)}"
-                    data-pad-id="${pad.id}" data-original-vl-class="${voiceLeadingClass}"
+                    data-notes="${pad.notes.join(',')}" data-roman="${escapeHtml(pad.romanNumeral)}" data-quality="${escapeHtml(pad.quality)}" data-chord-type="${escapeHtml(pad.chordType || '')}" data-tonality="${escapeHtml(variant.tonality || '')}" data-role="${escapeHtml(roleText)}"
+                    data-pad-id="${pad.id}" data-degree="${pad.degree ? degreePhraseKey(pad.degree) : ''}" data-original-vl-class="${voiceLeadingClass}"
                     data-voice-leading="${escapeHtml(voiceLeadingLegend)}" ${edgeAttrs}>
                     <div class="chord-text-column">
                         <div class="chord-pad-content">
@@ -1149,8 +1194,9 @@ function renderProgressions() {
                         <div class="chord-role">${escapeHtml(roleText)}</div>
                         <div class="chord-notes">
                             ${(() => {
-                                // Get properly spelled note names (pass actual voicing)
-                                const noteStrings = spellChordNotes(pad.notes, pad.chordType || 'major', pad.romanNumeral);
+                                // Note names as generation spelled them, in voicing
+                                // order: Csus4 reads C F G, the vi of A F# A C#
+                                const noteStrings = pad.spelling.notes;
 
                                 // Group notes in pairs for wrapping
                                 const pairs = [];
@@ -1164,13 +1210,13 @@ function renderProgressions() {
                     </div>
                     <div class="chord-keyboard">${generateKeyboardSVG(pad.notes)}</div>
                     <div class="chord-guitar">${generateGuitarSVG(getGuitarChord(pad), pad, isLeftHanded)}</div>
-                    <div class="chord-staff">${generateStaffSVG(pad.notes, getEnharmonicContext(pad.notes[0], pad.romanNumeral) === 'flats')}</div>
+                    <div class="chord-staff">${generateStaffSVG(pad.spelling.notes)}</div>
                 </div>
             `;
             }).join('')
         ).join('');
 
-        const progressionAnalysis = analyzeProgression(variant.pads);
+        const progressionAnalysis = analyzeProgression(variant.pads, variant.tonality, getKeyOffset(selectedKey));
 
         // Calculate progression length for clarification text (already declared above for edge calculation)
         const progressionClarification = progressionChordCount > 0
@@ -1305,20 +1351,14 @@ function renderProgressions() {
         // Desktop: Hover + Click-to-lock voice leading
         if (hasHover) {
             pad.addEventListener('pointerenter', function() {
-                const roman = this.getAttribute('data-roman');
-                const chordType = this.getAttribute('data-chord-type');
-
                 // Activate voice leading hover effect (only if not locked on another pad)
                 if (!voiceLeadingLocked || voiceLeadingLocked === this) {
                     activateVoiceLeadingHover(this);
                 }
 
                 // Always show tooltip on hover (even if voice leading is locked elsewhere)
-                // In keyboard context, no tooltip (chord function is visible on card)
-                if (currentContext !== 'keyboard') {
-                    const chordFunction = getChordTooltip(roman, chordType) || 'Chord';
-                    showTooltip(this, chordFunction);
-                }
+                const tooltipText = getPadTooltipText(this);
+                if (tooltipText) showTooltip(this, tooltipText);
             });
 
             pad.addEventListener('pointerleave', function() {
@@ -1378,10 +1418,10 @@ function renderProgressions() {
                         voiceLeadingLocked = currentPad;
                     }
 
-                    // Also show tooltip with chord function (except keyboard context where it's visible inline)
-                    if (currentContext !== 'keyboard') {
-                        const roman = currentPad.dataset.roman;
-                        const roleText = getChordTooltip(roman, currentPad.dataset.chordType);
+                    // Also show the tooltip: the chord in words, and its description
+                    // except in the Keyboard view, which prints it on the card
+                    {
+                        const roleText = getPadTooltipText(currentPad);
                         if (roleText) {
                             showTooltip(currentPad, roleText);
                             activeTooltip = currentPad;
@@ -1638,7 +1678,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (applied) {
             if (applied.key) selectedKey = applied.key;
             if (applied.mode) selectedMode = applied.mode;
-            if (applied.progression) selectedProgression = applied.progression;
+            if (applied.progression) {
+                selectedProgression = applied.progression;
+                // Falls back to the first genre listing the value when the
+                // preferences predate genres or named one that does not list it
+                selectedCategory = findProgressionCategory(applied.progression, applied.genre || null);
+            }
             if (applied.leftHanded !== undefined) isLeftHanded = applied.leftHanded;
             // Restore saved context (will be applied after event listeners are set up)
             if (applied.context) {
@@ -1675,8 +1720,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('keySelect').addEventListener('change', function() {
         selectedKey = this.value;
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
-        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode, selectedCategory);
+        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded, selectedCategory);
         if (hasGeneratedOnce) {
             triggerSparkle();
             generateProgressions();
@@ -1686,8 +1731,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('modeSelect').addEventListener('change', function() {
         selectedMode = this.value;
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
-        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode, selectedCategory);
+        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded, selectedCategory);
         if (hasGeneratedOnce) {
             triggerSparkle();
             generateProgressions();
@@ -1696,9 +1741,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     document.getElementById('progressionSelect').addEventListener('change', function() {
         selectedProgression = this.value;
+        selectedCategory = findProgressionCategory(this.value, this.selectedOptions[0]?.dataset.category || null);
         updateProgressionName();
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
-        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode, selectedCategory);
+        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded, selectedCategory);
         if (hasGeneratedOnce) {
             triggerSparkle();
             generateProgressions();
@@ -1893,8 +1939,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Left-handed toggle for guitar
     document.getElementById('leftHandedCheckbox').addEventListener('change', function() {
         isLeftHanded = this.checked;
-        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode);
-        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded);
+        saveToLocalStorage(selectedKey, selectedMode, selectedProgression, isLeftHanded, currentContext, generationMode, selectedCategory);
+        updateURL(selectedKey, selectedMode, selectedProgression, isLeftHanded, selectedCategory);
         // Regenerate progressions to reflect the change
         const progressionsContainer = document.getElementById('progressionsContainer');
         if (!progressionsContainer.classList.contains('hidden')) {

@@ -90,11 +90,15 @@
       "label": "Spread Voicing",
       "tooltip": "Experimental variant: Uses spread voicings across multiple octaves. Creates unique, unconventional harmonic colors and textures."
     },
+    "Pedal": {
+      "label": "Pedal Bass",
+      "tooltip": "Pedal variant: holds the first chord's bass note under every chord that contains it, so the upper voices move while the bass stays. Chords without that note take their nearest inversion above it."
+    },
     "progressionClarification": "Chords 1-{{count}} from progression, {{next}}-16 extrapolated. ",
     "chordDistanceHint": "Colors of cards show chord distance from selected card",
     "scaleExploration": {
       "label": "Every chord in the scale",
-      "tooltip": "Scale Mode: the triad on each degree of the scale in the first two rows, and the seventh chord on each degree in the last two. Both are derived from the scale itself, so nothing on the grid uses a note the scale does not contain."
+      "tooltip": "Scale Mode: the triad on each degree of the scale in the first two rows, and the seventh chord on each degree in the last two. Both are derived from the scale itself, so nothing on the grid uses a note the scale does not contain. Where a chord would sound like one already on the grid, as in the symmetric scales, another chord from the scale takes its place: no two pads sound alike."
     },
     "voiceLeadingLegend": "Relative smoothness:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic",
     "voiceLeadingHoverLegend": "Distance from the hovered chord:\n🟢 Smooth  🟡 Moderate  🟠 Dramatic"
@@ -108,7 +112,7 @@
   "tooltips": {
     "progressionPaletteDisabled": "Progression palettes are not used in Scale Exploration mode. All chords from the selected scale will be generated.",
     "progressionPaletteEnabled": "Each palette provides 16 unique chords: first N from the progression, remaining pads from extended harmony. Genre-specific filters ensure appropriate chord colors.",
-    "paletteMode": "Generate 16-pad chord palettes from curated progressions across 22 genres. Creates up to five voicing variants (Smooth, Classic, Jazz, Modal, Experimental). Genre-specific preferences tailor the extended harmony.",
+    "paletteMode": "Generate 16-pad chord palettes from curated progressions across 22 genres. Creates up to six voicing variants (Smooth, Classic, Jazz, Modal, Experimental, Pedal). Genre-specific preferences tailor the extended harmony.",
     "scaleMode": "Explore a scale or mode by generating every chord it supports: the triad on each degree, then the seventh chord on each degree. Ideal for learning scales like Whole Tone, Phrygian Dominant or Hungarian Minor.",
     "keyboardShortcuts": "Play with computer keys: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Keyboard shortcuts are for desktop. On a tablet, tap the chord pads to play them.",
@@ -163,16 +167,20 @@
   "chordRoles": {
     "I": "Tonic - the home chord, gives resolution and stability.",
     "II": "Supertonic - predominant chord, often leading to V.",
-    "III": "Mediant - weaker predominant or color chord, connects I and IV/vi.",
+    "III": "Chromatic mediant - major chord a major third above the tonic, bright and sudden; also the dominant of vi.",
+    "iii": "Mediant - weaker predominant or color chord, connects I and IV/vi.",
     "IV": "Subdominant - predominant chord, prepares motion to V.",
     "V": "Dominant - creates tension that resolves to I.",
-    "VI": "Submediant - relative minor, often used for deceptive cadences.",
+    "VI": "Chromatic mediant - major chord a minor third below the tonic, bright and sudden; also the dominant of ii.",
+    "vi": "Submediant - relative minor, often used for deceptive cadences.",
     "VII°": "Leading-tone - diminished chord, pulls strongly to I.",
     "♭II": "Borrowed flat-II (Neapolitan), strong predominant, prepares V.",
     "♭III": "Borrowed from parallel minor, adds dramatic color, substitutes I.",
+    "♭iii": "Doubly chromatic mediant - minor chord a minor third above the tonic, sharing no note with it; remote and dark.",
     "♭IV": "Borrowed minor subdominant, softens motion to V.",
     "♭V": "Rare borrowed chord, chromatic color.",
     "♭VI": "Borrowed from parallel minor, dramatic predominant, often moves to V.",
+    "♭vi": "Hexatonic pole - minor chord with no note in common with the tonic, every voice moves by a semitone; eerie and remote.",
     "♭VII": "Borrowed from Mixolydian, gives rock/blues flavor, often moves to I or V.",
     "V/II": "Secondary dominant - tonicizes ii, creates motion to ii.",
     "V/III": "Secondary dominant - tonicizes iii, rarely used but colorful.",
@@ -187,6 +195,8 @@
     "SUBV7": "Tritone substitution - jazz substitution for V7, creates chromatic voice leading.",
     "♯I°": "Passing diminished - chromatic connector between diatonic chords.",
     "♯II°": "Passing diminished - chromatic connector between diatonic chords.",
+    "♯IV": "Tritone chord - a chromatic major chord a tritone from the tonic, the furthest point from home; it slides a semitone down into IV.",
+    "♯IV°": "Leading-tone diminished chord of V (vii°/V) - a passing chord whose root rises a semitone to V's.",
     "sus": "Suspended chord - replaces 3rd with 2nd/4th, creates suspension before resolution.",
     "add9": "Adds brightness, dreamy color.",
     "6": "Vintage color, softens the harmony.",
@@ -199,13 +209,118 @@
       "minMaj7": "Minor-major 7th - the tonic 7th chord of harmonic and melodic minor; brooding, cinematic.",
       "augMaj7": "Augmented major 7th - the mediant of harmonic/melodic minor; unstable and luminous.",
       "aug7": "Augmented 7th - a dominant with a raised 5th, pushes hard to the tonic.",
+      "aug9": "Dominant ninth with a raised fifth - the dominant of the whole-tone scale, five of its six notes in one chord.",
       "augmented": "Augmented triad - symmetrical and unresolved, can move to several keys.",
       "quartal": "Stacked fourths - open and modal, avoids committing to major or minor.",
       "dom7sus4": "7sus4 - dominant tension with the 3rd suspended, common in modal and gospel writing.",
       "It6": "Italian augmented 6th - chromatic predominant, both outer voices squeeze onto the dominant.",
       "Fr6": "French augmented 6th - chromatic predominant with an added 2nd, brighter than the Italian.",
-      "Ger6": "German augmented 6th - chromatic predominant, sounds like a dominant 7th and resolves to V."
+      "Ger6": "German augmented 6th - chromatic predominant, sounds like a dominant 7th and resolves to V.",
+      "dom7b5": "Dominant seventh with a flattened fifth - it has the same notes as the dominant seventh a tritone away, so it can resolve to either one's target.",
+      "minAug": "Minor triad with a raised fifth - it sounds like a major triad in first inversion; in a line cliché it is the chromatic step between i and i6.",
+      "major": "Major triad - bright and stable, the most common chord.",
+      "minor": "Minor triad - darker than major, and as stable.",
+      "diminished": "Diminished triad - two stacked minor thirds, tense; it wants to move on.",
+      "major7": "Major seventh chord - a major triad with a major seventh, soft and open.",
+      "minor7": "Minor seventh chord - a minor triad with a minor seventh, mellow.",
+      "dom7": "Dominant seventh chord - a major triad with a minor seventh; its tritone pulls toward a resolution."
     }
+  },
+  "chordRolesMinor": {
+    "I": "Picardy third - the major tonic, borrowed from the parallel major, a bright resolution or turn.",
+    "i": "Tonic - the minor home chord, gives resolution and stability.",
+    "II°": "Supertonic - diminished in minor, predominant chord, often leading to V.",
+    "♭III": "Relative major - diatonic in minor, brightens the key, often moves to ♭VI or ♭VII.",
+    "IV": "Dorian subdominant - borrowed from the parallel major, its raised 6th lifts the minor key.",
+    "iv": "Subdominant - minor predominant chord, prepares motion to V or back to i.",
+    "V": "Dominant - major, from harmonic minor; its leading tone pulls strongly to i.",
+    "v": "Natural-minor dominant - without a leading tone, a weak, modal pull to i.",
+    "♭VI": "Submediant - diatonic in minor, dramatic predominant, often moves to V.",
+    "♭VII": "Subtonic - diatonic in minor, a whole step below i, leads to i or ♭III.",
+    "VII°": "Leading-tone chord - diminished, from harmonic minor, pulls strongly to i.",
+    "♭II": "Neapolitan (flat-II) - chromatic in minor, strong predominant, prepares V.",
+    "V/IV": "Secondary dominant - the tonic made a dominant 7th, tonicizes iv.",
+    "V/♭III": "Secondary dominant - tonicizes ♭III, the relative major.",
+    "V/♭VI": "Secondary dominant - tonicizes ♭VI, strengthens the move to the submediant.",
+    "V/♭VII": "Secondary dominant - tonicizes ♭VII.",
+    "iii": "Chromatic mediant - minor chord a major third above i, sharing one note with it; luminous and strange.",
+    "♭iii": "Chromatic mediant - minor chord a minor third above i, sharing one note with it; dark and remote.",
+    "♭vi": "Chromatic mediant - minor chord a major third below i, sharing one note with it; dark and sinking.",
+    "vi": "Chromatic mediant - minor chord a minor third below i, sharing one note with it; bittersweet, with the Dorian 6th.",
+    "III": "Hexatonic pole - major chord with no note in common with i, every voice moves by a semitone; eerie and remote.",
+    "i♯5": "Line-cliché chord - the minor tonic with its fifth raised a semitone, a chromatic step between i and i6."
+  },
+  "chordRolesMajor": {
+    "i": "Minor tonic - the parallel minor's home chord, borrowed; it darkens the tonic without leaving it.",
+    "iv": "Minor subdominant - borrowed from the parallel minor; its flattened sixth sinks to the fifth, a darker plagal pull.",
+    "I°": "Common-tone diminished chord - keeps the tonic's root while its other notes move chromatically, a passing color.",
+    "III°": "Leading-tone diminished chord of IV (vii°/IV) - a passing chord whose root rises a semitone to IV's."
+  },
+  "chordTypeNames": {
+    "major": "Major triad",
+    "minor": "Minor triad",
+    "diminished": "Diminished triad",
+    "augmented": "Augmented triad",
+    "minAug": "Minor triad with a raised fifth",
+    "sus2": "Suspended-second chord",
+    "sus4": "Suspended-fourth chord",
+    "quartal": "Stacked-fourths chord (7sus4 without fifth)",
+    "quartal4": "Stacked-fourths chord (minor seventh with an eleventh)",
+    "major7": "Major seventh chord",
+    "minor7": "Minor seventh chord",
+    "dom7": "Dominant seventh chord",
+    "dom7sus4": "Dominant seventh chord with a suspended fourth",
+    "dim7": "Diminished seventh chord",
+    "m7b5": "Half-diminished seventh chord",
+    "minMaj7": "Minor-major seventh chord",
+    "aug7": "Augmented seventh chord",
+    "augMaj7": "Augmented major seventh chord",
+    "aug9": "Dominant ninth chord with a raised fifth",
+    "major6": "Major sixth chord",
+    "minor6": "Minor sixth chord",
+    "maj6/9": "Major six-nine chord",
+    "major9": "Major ninth chord",
+    "minor9": "Minor ninth chord",
+    "dom9": "Dominant ninth chord",
+    "dom7b9": "Dominant seventh chord with a flattened ninth",
+    "dom7sharp9": "Dominant seventh chord with a raised ninth",
+    "dom7b5": "Dominant seventh chord with a flattened fifth",
+    "dom7alt": "Altered dominant chord",
+    "major11": "Major eleventh chord",
+    "minor11": "Minor eleventh chord",
+    "dom11": "Dominant eleventh chord",
+    "major13": "Major thirteenth chord",
+    "minor13": "Minor thirteenth chord",
+    "dom13": "Dominant thirteenth chord",
+    "add9": "Major triad with an added ninth",
+    "minAdd9": "Minor triad with an added ninth",
+    "add11": "Major triad with an added eleventh",
+    "It6": "Italian augmented sixth",
+    "Fr6": "French augmented sixth",
+    "Ger6": "German augmented sixth"
+  },
+  "degreePhrases": {
+    "1": "on the tonic",
+    "b1": "on the flattened tonic",
+    "#1": "on the raised tonic",
+    "2": "on the second degree",
+    "b2": "on the flattened second degree",
+    "#2": "on the raised second degree",
+    "3": "on the third degree",
+    "b3": "on the flattened third degree",
+    "#3": "on the raised third degree",
+    "4": "on the fourth degree",
+    "b4": "on the flattened fourth degree",
+    "#4": "on the raised fourth degree",
+    "5": "on the fifth degree",
+    "b5": "on the flattened fifth degree",
+    "#5": "on the raised fifth degree",
+    "6": "on the sixth degree",
+    "b6": "on the flattened sixth degree",
+    "#6": "on the raised sixth degree",
+    "7": "on the seventh degree",
+    "b7": "on the flattened seventh degree",
+    "#7": "on the raised seventh degree"
   },
   "modeCategories": {
     "Common Western Tonal": "Common Western Tonal",
@@ -428,10 +543,10 @@
         "nickname": "Mixolydian Vamp",
         "description": "Circular Mixolydian progression. Borrowed ♭VII from parallel minor adds rock edge, IV to I provides traditional perfect cadence. Creates driving, modal rock feel without dominant V chord."
       },
-      "i—V—VII—IV—VI—III—iv—V": {
-        "name": "i—V—VII—IV—VI—III—iv—V",
+      "i—V—♭VII—IV—♭VI—♭III—iv—V": {
+        "name": "i—V—♭VII—IV—♭VI—♭III—iv—V",
         "nickname": "Hotel California",
-        "description": "The Eagles' iconic progression with descending chromatic bass line. Minor tonic through borrowed chords creates sophisticated melancholy. The chromatic descent (i-VII-VI) followed by III-iv-V builds dramatic tension. One of rock's most analyzed progressions, defining 1970s California rock."
+        "description": "The Eagles' progression, Bm F♯ A E G D Em F♯ on the record. Three pairs, each rising a fifth, whose first chords step down from the tonic, i-V, ♭VII-IV, ♭VI-♭III, then a iv-V cadence back to the top. The major V comes from harmonic minor and the major IV from Dorian; the rest is natural minor. One of rock's most analyzed progressions."
       }
     },
     "Blues/Soul": {
@@ -836,10 +951,10 @@
         "nickname": "Flamenco",
         "description": "Flamenco Phrygian cadence. Major I to ♭II creates characteristic semitone clash (Phrygian mode), return to I, then V. The ♭II is most distinctive flamenco sound, creating Spanish/Moorish character. Used in rumba flamenca, bulerías, and Spanish guitar traditions."
       },
-      "i—V—i—VII": {
-        "name": "i—V—i—VII",
+      "i—V—i—♭VII": {
+        "name": "i—V—i—♭VII",
         "nickname": "Samba",
-        "description": "Brazilian samba progression. Minor i-V-i establishes home, major VII (from natural minor, not harmonic) adds brightness and forward motion back to i. The natural VII instead of leading tone creates modal, less European sound characteristic of Brazilian popular music and pagode."
+        "description": "Brazilian samba progression. Minor i-V-i establishes home, then the subtonic ♭VII, the natural minor's seventh chord, a major triad a whole step below the tonic, adds brightness and leads back to i. Choosing the subtonic over the leading tone gives the modal, less European sound of samba and pagode."
       },
       "I—V/ii—ii—V/V—V": {
         "name": "I—V/ii—ii—V/V—V",
@@ -887,6 +1002,61 @@
         "name": "I—♭III—♭VI—♭II",
         "nickname": "Chromatic Film",
         "description": "Extreme chromatic mediant progression. All roots are chromatic mediants (major or minor thirds apart). Creates maximum harmonic instability and surprise. The ♭II (Neapolitan) is particularly striking. Used for surreal scenes, dream sequences, psychological breaks, and avant-garde film scoring."
+      },
+      "I—♭VI—I—III": {
+        "name": "I—♭VI—I—III",
+        "nickname": "Major Third Mediants",
+        "description": "Chromatic mediants a major third either side of the tonic: C A♭ C E. Each pair shares one note and both chords are major, so the ear accepts the shift as color rather than modulation. The drop to ♭VI is the classic spy and fantasy move, the lift to III its brighter mirror image."
+      },
+      "I—♭III—I—VI": {
+        "name": "I—♭III—I—VI",
+        "nickname": "Minor Third Mediants",
+        "description": "Chromatic mediants a minor third either side of the tonic: C E♭ C A. Both are major and each shares one note with I. ♭III darkens without leaving major, VI brightens; alternating them around the tonic gives the floating, scene-change quality of adventure scoring."
+      },
+      "i—♭vi—i—iii": {
+        "name": "i—♭vi—i—iii",
+        "nickname": "Minor Mediants",
+        "description": "The minor-key form of the mediant trick: Cm A♭m Cm Em. A minor tonic shifting to the minor chords a major third below and above, each sharing one note with it. Darker and more unsettled than the major form; the shift to ♭vi in particular is a horror and creature-theme staple."
+      },
+      "I—♭vi—♭VI—I": {
+        "name": "I—♭vi—♭VI—I",
+        "nickname": "Hexatonic Pole",
+        "description": "C A♭m A♭ C. A major triad moving to the minor triad a major third below shares no note with it and flips quality, the most remote relation two triads can have while every voice moves by a semitone. The ♭VI major that follows explains the strange chord, and the return to I closes the loop. The signature uncanny change of fantasy and science-fiction scoring."
+      },
+      "I—II": {
+        "name": "I—II",
+        "nickname": "Lydian Vamp",
+        "description": "Two chords, C D: a major tonic and the major chord a whole step above it. The II contains the raised fourth that defines the Lydian mode, so the vamp floats without pulling anywhere. The open, airborne sound of flight and wonder cues."
+      },
+      "I—II—iii—II": {
+        "name": "I—II—iii—II",
+        "nickname": "Lydian Float",
+        "description": "C D Em D. A Lydian loop that never visits a dominant: the major II and the minor iii circle the tonic, and the raised fourth inside II keeps the progression open. Add the major seventh and the sixth the palette offers for the suspended, time-slowing character of modern space scoring."
+      },
+      "i—v—♭VII—IV": {
+        "name": "i—v—♭VII—IV",
+        "nickname": "Dorian Drift",
+        "description": "Cm Gm B♭ F. Minor tonic, minor dominant, subtonic and the major IV that marks Dorian. Every chord is diatonic to C Dorian and none is a leading-tone dominant, so the loop returns to i by a plagal IV-i step instead of resolving. The endless-motion feel of slow-build electronic and film cues."
+      },
+      "i—♭III—V—i": {
+        "name": "i—♭III—V—i",
+        "nickname": "Minor Lift",
+        "description": "Cm E♭ G Cm. Minor tonic up to the relative major ♭III, then to a major V from harmonic minor before returning home. The rising third followed by the dominant turns a dark loop hopeful without leaving the key: the brief lift before a resolution."
+      },
+      "i—♭VI—IV—♭VI": {
+        "name": "i—♭VI—IV—♭VI",
+        "nickname": "Wandering Fifth",
+        "description": "Cm A♭ F A♭. Minor tonic, ♭VI and the Dorian major IV: the three chords that let a single inner voice climb by semitones over a held bass. With C kept under all three, the fifth G rises to A♭ and then to A. The Smooth variant finds that voicing; keep the first chord's bass for the swelling, heroic effect."
+      },
+      "I—♭VI—♭VII—I": {
+        "name": "I—♭VI—♭VII—I",
+        "nickname": "Hero Cadence",
+        "description": "C A♭ B♭ C. The tonic, then the two major triads a whole step apart below it, ♭VI and ♭VII, climbing back home. Both come from the parallel minor and stand in for IV and V, a move known as the backdoor IV-V. The triumphant ending formula of adventure scores and victory themes, here as a loop so the tonic is both departure and arrival."
+      },
+      "i—i♯5—i6—i♯5": {
+        "name": "i—i♯5—i6—i♯5",
+        "nickname": "Ascending Line Cliché",
+        "description": "Em E G C E G C♯ and back, as chords: the fifth of a minor triad climbs by semitones over a held root and third, i, i♯5, i6, i♯5. The spy-theme harmonization and a staple of heroic and suspense scoring. The i6 pad keeps the fifth alongside the sixth; for the pure single-voice line, play only the top note change from the i♯5 pad."
       }
     },
     "Folk/Singer-Songwriter": {
@@ -920,10 +1090,10 @@
         "nickname": "Irish Folk",
         "description": "Celtic folk progression. Familiar I-V opening, descends to vi then iii. Avoids IV chord, creating different color than typical pop progressions. The descending thirds pattern (V-vi, vi-iii) creates flowing, melodic motion characteristic of Irish ballads and Celtic music traditions."
       },
-      "i—III—IV—VI": {
-        "name": "i—III—IV—VI",
+      "i—♭III—IV—♭VI": {
+        "name": "i—♭III—IV—♭VI",
         "nickname": "House of the Rising Sun",
-        "description": "The Animals' iconic folk-blues progression. Minor tonic to major III creates immediate lift, IV continues ascending, major VI provides dramatic color before return. The arpeggiated guitar pattern over these changes defined 1960s folk-rock. Timeless progression for storytelling ballads."
+        "description": "The Animals' progression: Am C D F, then Am C E. Minor tonic to the relative major ♭III lifts immediately, the major IV borrowed from Dorian keeps rising, and ♭VI colors the turn before the return. The arpeggiated guitar over these changes defined 1960s folk-rock."
       },
       "I—IV—I—IV—I—V—I": {
         "name": "I—IV—I—IV—I—V—I",
@@ -992,10 +1162,10 @@
         "nickname": "Extended Shred",
         "description": "Extended progression combining classical minor cadence (i-iv-V-i) with descending natural minor sequence (♭VI-♭III-♭VII). Returns to V for repeat. Perfect for extended neoclassical shred solos and progressive metal sections."
       },
-      "VI—VII—i": {
-        "name": "VI—VII—i",
+      "♭VI—♭VII—i": {
+        "name": "♭VI—♭VII—i",
         "nickname": "Power Cadence",
-        "description": "Ascending approach to minor tonic using major VI and VII. Creates powerful resolution often doubled with parallel fifths in metal. The stepwise ascent builds energy before landing on tonic. Heard in countless metal breakdowns and endings."
+        "description": "Ascending approach to the minor tonic through ♭VI and ♭VII, two whole steps up to i: F G Am in A minor. Often played as parallel power chords in metal. The Aeolian cadence, the minor-key twin of the ♭VI-♭VII-I ending in major."
       }
     },
     "Trance/Psytrance/Goa": {
@@ -1014,40 +1184,40 @@
         "nickname": "Uplifting Trance",
         "description": "Uplifting trance emotional arc. Minor i to major V (harmonic minor) creates hope, then ♭VI and ♭VII add modal color before cycling. Mix of functional V and modal borrowing creates euphoric lift and release. Defines uplifting trance from Armin van Buuren to Above & Beyond for emotional peaks and breakdowns."
       },
-      "i—iv—VII—III": {
-        "name": "i—iv—VII—III",
+      "i—iv—V—♭VI": {
+        "name": "i—iv—V—♭VI",
         "nickname": "Harmonic Minor Psy",
-        "description": "Pure harmonic minor psytrance progression. Uses harmonic minor scale exclusively - i, iv, major VII, major III. The raised 7th creates exotic augmented second interval. Dramatic, Eastern European character. The major VII and III create bright, ascending motion against dark minor tonic for psychedelic contrast."
+        "description": "Pure harmonic minor: Am Dm E F in A minor. The major V carries the raised seventh that gives harmonic minor its augmented-second color, and the deceptive step from V up to ♭VI keeps the loop from resolving. Dramatic, Eastern-European character for psytrance leads built on the harmonic minor scale."
       },
-      "i—♭VI—III—VII": {
-        "name": "i—♭VI—III—VII",
+      "i—♭VI—♭III—♭VII": {
+        "name": "i—♭VI—♭III—♭VII",
         "nickname": "Dark Psy",
-        "description": "Dark psytrance progression mixing modes. Minor i and ♭VI from natural minor, major III and VII from harmonic minor. Creates maximum harmonic ambiguity and tension. Ascending from ♭VI through III to VII builds intensity. Used in dark psy and forest trance for ominous, alien atmosphere."
+        "description": "Dark psytrance progression in natural minor: Am F C G. Rising from ♭VI through the relative major ♭III to the subtonic ♭VII builds intensity without ever touching a leading tone, so the loop never resolves. Used in dark psy and forest trance for an ominous, suspended atmosphere."
       },
       "i—♭III—♭VI—V": {
         "name": "i—♭III—♭VI—V",
         "nickname": "Progressive Psy",
         "description": "Progressive psytrance with functional resolution. Borrowed ♭III and ♭VI from natural minor create modal color, major V (harmonic minor) provides strong pull to i. Combines psychedelic modal sound with satisfying resolution. Used in progressive psytrance for structured builds and releases."
       },
-      "i—VII—VI—VII": {
-        "name": "i—VII—VI—VII",
+      "i—♭VII—♭VI—♭VII": {
+        "name": "i—♭VII—♭VI—♭VII",
         "nickname": "Full-On",
-        "description": "Full-on psytrance with harmonic minor brightness. Minor i contrasts with major VII and VI (from harmonic minor), VII oscillates for driving energy. The major chords create uplifting, energetic character despite minor tonic. Characteristic of full-on psytrance's aggressive, euphoric sound at 140-148 BPM."
+        "description": "Full-on psytrance loop in natural minor: Am G F G. The subtonic ♭VII oscillates against ♭VI for driving, pendular energy, and the two major triads brighten the minor tonic without resolving it. Characteristic of full-on psytrance's euphoric sound at 140-148 BPM."
       },
-      "i—♭II—VII—V": {
-        "name": "i—♭II—VII—V",
+      "i—♭II—♭VII—V": {
+        "name": "i—♭II—♭VII—V",
         "nickname": "Goa Classic",
-        "description": "Classic Goa trance with exotic scales. Minor i to ♭II (Phrygian color), major VII and V from harmonic minor. Mix of Phrygian and harmonic minor creates complex, Eastern-influenced sound. The chromatic and exotic intervals create spiritual, psychedelic character of original Goa trance scene."
+        "description": "Classic Goa trance mixing modes: Am B♭ G E. The ♭II is Phrygian color, ♭VII is the natural minor's subtonic, and the major V with its raised seventh comes from harmonic minor. Three scales in four chords produce the exotic, Eastern-leaning sound of the original Goa scene."
       },
-      "i—iv—i—VII": {
-        "name": "i—iv—i—VII",
+      "i—iv—i—♭VII": {
+        "name": "i—iv—i—♭VII",
         "nickname": "Forest Psy",
-        "description": "Organic forest psytrance progression. Simple i-iv establishes minor character, return to i, major VII (harmonic minor) adds brightness. Minimal chord changes focus attention on organic textures and complex rhythms. Creates earthy, natural atmosphere characteristic of forest psytrance and darker, minimal psy styles."
+        "description": "Organic forest psytrance progression: Am Dm Am G. Simple i-iv establishes the minor character, the return to i grounds it, and the subtonic ♭VII adds a brighter exit before the loop restarts. Minimal harmonic motion leaves room for the organic textures and complex rhythms of forest and minimal psy."
       },
-      "i—III—VII—IV": {
-        "name": "i—III—VII—IV",
+      "i—♭III—♭VII—IV": {
+        "name": "i—♭III—♭VII—IV",
         "nickname": "Morning Trance",
-        "description": "Bright morning psytrance progression. Minor i contrasts with major III, VII, and IV (from harmonic minor/Dorian mix). The major chords create optimistic, sunrise energy. Ascending motion (i-III-VII) then resolution to IV creates uplifting arc. Used in morning psytrance sets for positive, energetic atmosphere as sun rises."
+        "description": "Bright morning psytrance progression in Dorian: Am C G D. The relative major ♭III and the subtonic ♭VII lift the minor tonic, and the major IV, Dorian's signature chord, lands with sunrise optimism. The same degrees as the Dorian vamp of film and game scores, at psytrance tempo."
       },
       "i—v—♭VII": {
         "name": "i—v—♭VII",
@@ -1145,10 +1315,10 @@
         "nickname": "Retrowave Pop",
         "description": "Pop-influenced retrowave progression. Starts on relative minor for emotional depth, cycles through familiar changes with 80s production. Accessible, singalong quality connects synthwave to mainstream pop. Used in radio-friendly retrowave and synthpop for commercial appeal while maintaining retro aesthetic."
       },
-      "i—♭VI—III—♭VII": {
-        "name": "i—♭VI—III—♭VII",
+      "i—♭VI—♭III—♭VII": {
+        "name": "i—♭VI—♭III—♭VII",
         "nickname": "Dark Synth",
-        "description": "Aggressive dark synth progression. Minor i and borrowed ♭VI from natural minor, major III from harmonic minor creates dramatic lift, ♭VII adds power. Mix of modes creates complex, menacing character. Used in horror synth, dark electro, and aggressive cyberpunk productions for maximum intensity and darkness."
+        "description": "Aggressive dark synth progression in natural minor: Am F C G. ♭VI darkens, the relative major ♭III lifts, and the subtonic ♭VII powers the return. Played with saw-wave stabs and side-chained pads, the most common minor loop in synthwave turns menacing rather than nostalgic."
       },
       "IM7—iii7—vi7—IVM7": {
         "name": "IM7—iii7—vi7—IVM7",
@@ -1179,10 +1349,10 @@
       }
     },
     "UK Bass": {
-      "i—VII—♭VI": {
-        "name": "i—VII—♭VI",
+      "i—♭VII—♭VI": {
+        "name": "i—♭VII—♭VI",
         "nickname": "UK Garage",
-        "description": "Soulful, skippy palette. Minor and major chords for skippy 2-step grooves."
+        "description": "Soulful, skippy palette: Am G F. Minor tonic stepping down through the subtonic ♭VII to ♭VI, two of the natural minor's three major chords, for skippy 2-step grooves."
       },
       "i—♭VI": {
         "name": "i—♭VI",

@@ -90,11 +90,15 @@
       "label": "Voicing extendido",
       "tooltip": "Variante experimental: Utiliza voicings extendidos a través de múltiples octavas. Crea colores y texturas armónicas únicas y no convencionales."
     },
+    "Pedal": {
+      "label": "Bajo pedal",
+      "tooltip": "Variante pedal: Mantiene la nota del bajo del primer acorde bajo cada acorde que la contiene, de modo que las voces superiores se mueven mientras el bajo permanece. Los acordes sin esa nota toman su inversión más cercana por encima de ella."
+    },
     "progressionClarification": "Acordes 1-{{count}} de la progresión, {{next}}-16 extrapolados. ",
     "chordDistanceHint": "Los colores de las tarjetas muestran la distancia de acordes desde la tarjeta seleccionada",
     "scaleExploration": {
       "label": "Todos los acordes de la escala",
-      "tooltip": "Modo Escala: la tríada de cada grado de la escala en las dos primeras filas y el acorde de séptima de cada grado en las dos últimas. Ambos se derivan de la propia escala, así que ningún pad usa una nota que la escala no contenga."
+      "tooltip": "Modo Escala: la tríada de cada grado de la escala en las dos primeras filas y el acorde de séptima de cada grado en las dos últimas. Ambos se derivan de la propia escala, así que ningún pad usa una nota que la escala no contenga. Cuando un acorde sonaría igual que otro pad, como en las escalas simétricas, otro acorde de la escala ocupa su lugar: no hay dos pads que suenen igual."
     },
     "voiceLeadingLegend": "Suavidad relativa:\n🟢 Suave  🟡 Moderada  🟠 Marcada",
     "voiceLeadingHoverLegend": "Distancia desde el acorde señalado:\n🟢 Suave  🟡 Moderada  🟠 Marcada"
@@ -108,7 +112,7 @@
   "tooltips": {
     "progressionPaletteDisabled": "Las paletas de progresiones no se utilizan en el modo de exploración de escala. Se generarán todos los acordes de la escala seleccionada.",
     "progressionPaletteEnabled": "Cada paleta proporciona 16 acordes únicos: los primeros N de la progresión, los pads restantes de la armonía extendida. Los filtros específicos de género aseguran colores de acordes apropiados.",
-    "paletteMode": "Genera paletas de 16 acordes a partir de progresiones seleccionadas en 22 géneros. Produce hasta cinco variantes de voicing (Smooth, Classic, Jazz, Modal, Experimental). Las preferencias de cada género ajustan la armonía extendida.",
+    "paletteMode": "Genera paletas de 16 acordes a partir de progresiones seleccionadas en 22 géneros. Produce hasta seis variantes de voicing (Smooth, Classic, Jazz, Modal, Experimental, Pedal). Las preferencias de cada género ajustan la armonía extendida.",
     "scaleMode": "Explora una escala o un modo generando todos los acordes que admite: la tríada de cada grado y después el acorde de séptima de cada grado. Ideal para aprender escalas como la de tonos enteros, la frigia dominante o la menor húngara.",
     "keyboardShortcuts": "Toca con el teclado del ordenador: cvbn (pads 1-4), dfgh (5-8), erty (9-12), 3456 (13-16)",
     "keyboardShortcutsTouch": "Los atajos de teclado son para escritorio. En tableta, toca los pads para tocarlos.",
@@ -163,16 +167,20 @@
   "chordRoles": {
     "I": "Tónica - el acorde de reposo, aporta resolución y estabilidad.",
     "II": "Supertónica - acorde de pre-dominante, a menudo conduce a V.",
-    "III": "Mediante - pre-dominante débil o acorde de color, conecta I y IV/vi.",
+    "III": "Mediante cromática - acorde mayor una tercera mayor por encima de la tónica, luminoso y repentino; también la dominante de vi.",
+    "iii": "Mediante - pre-dominante débil o acorde de color, conecta I y IV/vi.",
     "IV": "Subdominante - acorde de pre-dominante, prepara el movimiento hacia V.",
     "V": "Dominante - crea una tensión que se resuelve en I.",
-    "VI": "Superdominante - relativo menor, a menudo utilizado para cadencias engañosas.",
+    "VI": "Mediante cromática - acorde mayor una tercera menor por debajo de la tónica, luminoso y repentino; también la dominante de ii.",
+    "vi": "Superdominante - relativo menor, a menudo utilizado para cadencias engañosas.",
     "VII°": "Sensible - acorde disminuido, atrae fuertemente hacia I.",
     "♭II": "Segunda napolitana prestada, fuerte pre-dominante, prepara V.",
     "♭III": "Prestado del modo paralelo menor, añade un color dramático, sustituye I.",
+    "♭iii": "Mediante doblemente cromática - acorde menor una tercera menor por encima de la tónica, sin nota en común con ella; lejano y oscuro.",
     "♭IV": "Subdominante menor prestada, suaviza el movimiento hacia V.",
     "♭V": "Acorde prestado raro, color cromático.",
     "♭VI": "Prestado del modo paralelo menor, pre-dominante dramática, a menudo se mueve hacia V.",
+    "♭vi": "Polo hexatónico - acorde menor sin ninguna nota en común con la tónica, cada voz se mueve un semitono; inquietante y lejano.",
     "♭VII": "Prestado del mixolidio, da un sabor rock/blues, a menudo se mueve hacia I o V.",
     "V/II": "Dominante secundaria - toniciza ii, crea un movimiento hacia ii.",
     "V/III": "Dominante secundaria - toniciza iii, raramente utilizado pero colorido.",
@@ -187,6 +195,8 @@
     "SUBV7": "Sustitución tritonal - sustitución jazz para V7, crea un movimiento cromático de voces.",
     "♯I°": "Disminuido de paso - conector cromático entre acordes diatónicos.",
     "♯II°": "Disminuido de paso - conector cromático entre acordes diatónicos.",
+    "♯IV": "Acorde de tritono - acorde mayor cromático a un tritono de la tónica, el punto más lejano; se desliza un semitono hacia IV.",
+    "♯IV°": "Acorde sensible de V (vii°/V) - acorde de paso cuya fundamental sube un semitono hacia la de V.",
     "sus": "Acorde suspendido - reemplaza la tercera por una segunda/cuarta, crea una suspensión antes de la resolución.",
     "add9": "Añade brillo, color soñador.",
     "6": "Color vintage, suaviza la armonía.",
@@ -199,13 +209,118 @@
       "minMaj7": "Menor-mayor 7 - acorde de tónica del menor armónico y melódico; sombrío, cinematográfico.",
       "augMaj7": "Aumentada mayor 7 - mediante del menor armónico/melódico; inestable y luminosa.",
       "aug7": "Séptima aumentada - dominante con quinta aumentada, empuja con fuerza hacia la tónica.",
+      "aug9": "Novena de dominante con quinta aumentada - la dominante de la escala de tonos enteros, cinco de sus seis notas en un acorde.",
       "augmented": "Tríada aumentada - simétrica y sin resolver, puede conducir a varias tonalidades.",
       "quartal": "Cuartas superpuestas - abierto y modal, no se compromete con mayor ni menor.",
       "dom7sus4": "7sus4 - tensión de dominante con la tercera suspendida, común en modal y gospel.",
       "It6": "Sexta aumentada italiana - predominante cromática que estrecha las voces extremas hacia la dominante.",
       "Fr6": "Sexta aumentada francesa - predominante cromática con segunda añadida, más brillante que la italiana.",
-      "Ger6": "Sexta aumentada alemana - predominante cromática que suena como séptima de dominante y resuelve a V."
+      "Ger6": "Sexta aumentada alemana - predominante cromática que suena como séptima de dominante y resuelve a V.",
+      "dom7b5": "Séptima de dominante con quinta disminuida - tiene las mismas notas que la séptima de dominante a un tritono, así que puede resolver hacia el destino de cualquiera de las dos.",
+      "minAug": "Tríada menor con quinta aumentada - suena como una tríada mayor en primera inversión; en un cliché de línea es el paso cromático entre i e i6.",
+      "major": "Tríada mayor - luminosa y estable, el acorde más común.",
+      "minor": "Tríada menor - más oscura que la mayor, e igual de estable.",
+      "diminished": "Tríada disminuida - dos terceras menores superpuestas, tensa; pide avanzar.",
+      "major7": "Acorde de séptima mayor - tríada mayor con séptima mayor, suave y abierto.",
+      "minor7": "Acorde de séptima menor - tríada menor con séptima menor, cálido.",
+      "dom7": "Acorde de séptima de dominante - tríada mayor con séptima menor; su tritono pide una resolución."
     }
+  },
+  "chordRolesMinor": {
+    "I": "Tercera de picardía - la tónica mayor, prestada del modo paralelo mayor, una resolución o un giro luminoso.",
+    "i": "Tónica - el acorde de reposo menor, aporta resolución y estabilidad.",
+    "II°": "Supertónica - disminuida en menor, acorde de pre-dominante, a menudo conduce a V.",
+    "♭III": "Relativo mayor - diatónico en menor, aclara la tonalidad, a menudo se mueve hacia ♭VI o ♭VII.",
+    "IV": "Subdominante dórica - prestada del modo paralelo mayor, su sexta elevada ilumina la tonalidad menor.",
+    "iv": "Subdominante - acorde de pre-dominante menor, prepara el movimiento hacia V o el regreso a i.",
+    "V": "Dominante - mayor, del menor armónico; su sensible atrae fuertemente hacia i.",
+    "v": "Dominante del menor natural - sin sensible, una atracción débil y modal hacia i.",
+    "♭VI": "Submediante - diatónico en menor, pre-dominante dramática, a menudo se mueve hacia V.",
+    "♭VII": "Subtónica - diatónica en menor, un tono por debajo de i, conduce a i o ♭III.",
+    "VII°": "Sensible - acorde disminuido del menor armónico, atrae fuertemente hacia i.",
+    "♭II": "Segunda napolitana - cromática en menor, fuerte pre-dominante, prepara V.",
+    "V/IV": "Dominante secundaria - la tónica convertida en séptima de dominante, toniciza iv.",
+    "V/♭III": "Dominante secundaria - toniciza ♭III, el relativo mayor.",
+    "V/♭VI": "Dominante secundaria - toniciza ♭VI, refuerza el movimiento hacia la submediante.",
+    "V/♭VII": "Dominante secundaria - toniciza ♭VII.",
+    "iii": "Mediante cromática - acorde menor una tercera mayor por encima de i, con una nota en común; luminoso y extraño.",
+    "♭iii": "Mediante cromática - acorde menor una tercera menor por encima de i, con una nota en común; oscuro y lejano.",
+    "♭vi": "Mediante cromática - acorde menor una tercera mayor por debajo de i, con una nota en común; oscuro y descendente.",
+    "vi": "Mediante cromática - acorde menor una tercera menor por debajo de i, con una nota en común; agridulce, con la sexta dórica.",
+    "III": "Polo hexatónico - acorde mayor sin ninguna nota en común con i, cada voz se mueve un semitono; inquietante y lejano.",
+    "i♯5": "Acorde de cliché de línea - la tónica menor con la quinta elevada un semitono, un paso cromático entre i e i6."
+  },
+  "chordRolesMajor": {
+    "i": "Tónica menor - el acorde de reposo del menor paralelo, prestado; oscurece la tónica sin abandonarla.",
+    "iv": "Subdominante menor - prestada del menor paralelo; su sexta rebajada desciende a la quinta, un impulso plagal más oscuro.",
+    "I°": "Disminuido de nota común - mantiene la fundamental de la tónica mientras sus otras notas se mueven cromáticamente, un color de paso.",
+    "III°": "Acorde sensible de IV (vii°/IV) - acorde de paso cuya fundamental sube un semitono hacia la de IV."
+  },
+  "chordTypeNames": {
+    "major": "Tríada mayor",
+    "minor": "Tríada menor",
+    "diminished": "Tríada disminuida",
+    "augmented": "Tríada aumentada",
+    "minAug": "Tríada menor con quinta aumentada",
+    "sus2": "Acorde suspendido de segunda",
+    "sus4": "Acorde suspendido de cuarta",
+    "quartal": "Acorde de cuartas superpuestas (7sus4 sin quinta)",
+    "quartal4": "Acorde de cuartas superpuestas (séptima menor con oncena)",
+    "major7": "Acorde de séptima mayor",
+    "minor7": "Acorde de séptima menor",
+    "dom7": "Acorde de séptima de dominante",
+    "dom7sus4": "Séptima de dominante con cuarta suspendida",
+    "dim7": "Acorde de séptima disminuida",
+    "m7b5": "Acorde semidisminuido",
+    "minMaj7": "Acorde menor con séptima mayor",
+    "aug7": "Acorde de séptima aumentada",
+    "augMaj7": "Acorde aumentado con séptima mayor",
+    "aug9": "Novena de dominante con quinta aumentada",
+    "major6": "Acorde mayor con sexta añadida",
+    "minor6": "Acorde menor con sexta añadida",
+    "maj6/9": "Acorde mayor seis-nueve",
+    "major9": "Acorde de novena mayor",
+    "minor9": "Acorde de novena menor",
+    "dom9": "Acorde de novena de dominante",
+    "dom7b9": "Séptima de dominante con novena menor",
+    "dom7sharp9": "Séptima de dominante con novena aumentada",
+    "dom7b5": "Séptima de dominante con quinta disminuida",
+    "dom7alt": "Acorde de dominante alterado",
+    "major11": "Acorde de oncena mayor",
+    "minor11": "Acorde de oncena menor",
+    "dom11": "Acorde de oncena de dominante",
+    "major13": "Acorde de trecena mayor",
+    "minor13": "Acorde de trecena menor",
+    "dom13": "Acorde de trecena de dominante",
+    "add9": "Tríada mayor con novena añadida",
+    "minAdd9": "Tríada menor con novena añadida",
+    "add11": "Tríada mayor con oncena añadida",
+    "It6": "Sexta aumentada italiana",
+    "Fr6": "Sexta aumentada francesa",
+    "Ger6": "Sexta aumentada alemana"
+  },
+  "degreePhrases": {
+    "1": "sobre la tónica",
+    "b1": "sobre la tónica rebajada",
+    "#1": "sobre la tónica elevada",
+    "2": "sobre el segundo grado",
+    "b2": "sobre el segundo grado rebajado",
+    "#2": "sobre el segundo grado elevado",
+    "3": "sobre el tercer grado",
+    "b3": "sobre el tercer grado rebajado",
+    "#3": "sobre el tercer grado elevado",
+    "4": "sobre el cuarto grado",
+    "b4": "sobre el cuarto grado rebajado",
+    "#4": "sobre el cuarto grado elevado",
+    "5": "sobre el quinto grado",
+    "b5": "sobre el quinto grado rebajado",
+    "#5": "sobre el quinto grado elevado",
+    "6": "sobre el sexto grado",
+    "b6": "sobre el sexto grado rebajado",
+    "#6": "sobre el sexto grado elevado",
+    "7": "sobre el séptimo grado",
+    "b7": "sobre el séptimo grado rebajado",
+    "#7": "sobre el séptimo grado elevado"
   },
   "modeCategories": {
     "Common Western Tonal": "Modos tonales occidentales comunes",
@@ -428,10 +543,10 @@
         "nickname": "Mixolydian Vamp",
         "description": "Progresión mixolidia circular. El ♭VII prestado del menor paralelo añade borde rock, IV a I proporciona cadencia perfecta tradicional. Crea sensación rock modal impulsora sin el acorde dominante V."
       },
-      "i—V—VII—IV—VI—III—iv—V": {
-        "name": "i—V—VII—IV—VI—III—iv—V",
+      "i—V—♭VII—IV—♭VI—♭III—iv—V": {
+        "name": "i—V—♭VII—IV—♭VI—♭III—iv—V",
         "nickname": "Hotel California",
-        "description": "La progresión icónica de The Eagles con línea de bajo cromática descendente. La tónica menor a través de acordes prestados crea melancolía sofisticada. El descenso cromático (i-VII-VI) seguido de III-iv-V construye tensión dramática. Una de las progresiones rock más analizadas, definiendo el rock californiano de los años 1970."
+        "description": "La progresión de The Eagles, Bm F♯ A E G D Em F♯ en el disco. Tres pares que suben cada uno una quinta, cuyos primeros acordes bajan desde la tónica, i-V, ♭VII-IV, ♭VI-♭III, y luego una cadencia iv-V que vuelve al inicio. El V mayor viene del menor armónico y el IV mayor del dórico; el resto es menor natural. Una de las progresiones de rock más analizadas."
       }
     },
     "Blues/Soul": {
@@ -794,10 +909,10 @@
         "nickname": "Flamenco",
         "description": "Cadencia frigia de flamenco. I mayor a ♭II crea choque característico de semitono (modo frigio), retorno a I, luego V. El ♭II es el sonido flamenco más distintivo, creando carácter español/morisco. Usado en rumba flamenca, bulerías y tradiciones de guitarra española."
       },
-      "i—V—i—VII": {
-        "name": "i—V—i—VII",
+      "i—V—i—♭VII": {
+        "name": "i—V—i—♭VII",
         "nickname": "Samba",
-        "description": "Progresión samba brasileña. i-V-i menor establece hogar, VII mayor (de menor natural, no armónico) añade brillo y movimiento hacia adelante de vuelta a i. El VII natural en lugar de sensible crea sonido modal menos europeo característico de la música popular brasileña y pagode."
+        "description": "Progresión de samba brasileña. El i-V-i menor establece el hogar, luego la subtónica ♭VII, el acorde del séptimo grado del menor natural, un acorde mayor un tono por debajo de la tónica, aporta brillo y conduce de vuelta a i. Elegir la subtónica en lugar de la sensible da el sonido modal, menos europeo, de la samba y el pagode."
       },
       "I—V/ii—ii—V/V—V": {
         "name": "I—V/ii—ii—V/V—V",
@@ -845,6 +960,61 @@
         "name": "I—♭III—♭VI—♭II",
         "nickname": "Chromatic Film",
         "description": "Progresión extrema de mediante cromática. Todas las fundamentales son mediantes cromáticas (terceras mayores o menores de distancia). Crea máxima inestabilidad armónica y sorpresa. El ♭II (napolitano) es particularmente impactante. Usado para escenas surrealistas, secuencias de sueños, rupturas psicológicas y bandas sonoras de cine vanguardista."
+      },
+      "I—♭VI—I—III": {
+        "name": "I—♭VI—I—III",
+        "nickname": "Major Third Mediants",
+        "description": "Mediantes cromáticas a una tercera mayor a cada lado de la tónica: C A♭ C E. Cada par comparte una nota y ambos acordes son mayores, así que el oído acepta el cambio como color y no como modulación. El descenso a ♭VI es el movimiento clásico del espionaje y la fantasía, el ascenso a III su imagen especular más luminosa."
+      },
+      "I—♭III—I—VI": {
+        "name": "I—♭III—I—VI",
+        "nickname": "Minor Third Mediants",
+        "description": "Mediantes cromáticas a una tercera menor a cada lado de la tónica: C E♭ C A. Ambas son mayores y cada una comparte una nota con I. ♭III oscurece sin salir del modo mayor, VI ilumina; alternarlas alrededor de la tónica da la cualidad flotante, de cambio de escena, de la música de aventuras."
+      },
+      "i—♭vi—i—iii": {
+        "name": "i—♭vi—i—iii",
+        "nickname": "Minor Mediants",
+        "description": "La forma en modo menor del recurso de las mediantes: Cm A♭m Cm Em. Una tónica menor que se desplaza a los acordes menores situados una tercera mayor por debajo y por encima, cada uno con una nota en común. Más oscura e inestable que la forma mayor; el paso a ♭vi en particular es un clásico de los temas de terror y de criaturas."
+      },
+      "I—♭vi—♭VI—I": {
+        "name": "I—♭vi—♭VI—I",
+        "nickname": "Hexatonic Pole",
+        "description": "C A♭m A♭ C. Un acorde mayor que pasa al acorde menor una tercera mayor por debajo no comparte ninguna nota con él y cambia de cualidad, la relación más remota que pueden tener dos tríadas mientras cada voz se mueve por semitono. El ♭VI mayor que sigue explica el acorde extraño, y el regreso a I cierra el bucle. El cambio inquietante característico de la música de fantasía y ciencia ficción."
+      },
+      "I—II": {
+        "name": "I—II",
+        "nickname": "Lydian Vamp",
+        "description": "Dos acordes, C D: una tónica mayor y el acorde mayor un tono por encima. El II contiene la cuarta elevada que define el modo lidio, así que el vamp flota sin tirar hacia ninguna parte. El sonido abierto y aéreo de las escenas de vuelo y de asombro."
+      },
+      "I—II—iii—II": {
+        "name": "I—II—iii—II",
+        "nickname": "Lydian Float",
+        "description": "C D Em D. Un bucle lidio que nunca pasa por una dominante: el II mayor y el iii menor giran en torno a la tónica, y la cuarta elevada dentro de II mantiene la progresión abierta. La séptima mayor y la sexta que ofrece la paleta aportan el carácter suspendido, que ralentiza el tiempo, de la música espacial moderna."
+      },
+      "i—v—♭VII—IV": {
+        "name": "i—v—♭VII—IV",
+        "nickname": "Dorian Drift",
+        "description": "Cm Gm B♭ F. Tónica menor, dominante menor, subtónica y el IV mayor que caracteriza al dórico. Todos los acordes son diatónicos a do dórico y ninguno es una dominante con sensible, así que el bucle vuelve a i por un paso plagal IV-i en lugar de resolver. La sensación de movimiento sin fin de las construcciones lentas electrónicas y de la música de cine."
+      },
+      "i—♭III—V—i": {
+        "name": "i—♭III—V—i",
+        "nickname": "Minor Lift",
+        "description": "Cm E♭ G Cm. Tónica menor que sube al relativo mayor ♭III y luego a un V mayor del menor armónico antes de volver al inicio. La tercera ascendente seguida de la dominante vuelve esperanzador un bucle oscuro sin salir de la tonalidad: el breve impulso antes de una resolución."
+      },
+      "i—♭VI—IV—♭VI": {
+        "name": "i—♭VI—IV—♭VI",
+        "nickname": "Wandering Fifth",
+        "description": "Cm A♭ F A♭. Tónica menor, ♭VI y el IV mayor dórico: los tres acordes que permiten que una sola voz interna suba por semitonos sobre un bajo sostenido. Con C mantenida bajo los tres, la quinta G sube a A♭ y luego a A. La variante Smooth encuentra ese voicing; conservar el bajo del primer acorde da el efecto creciente y heroico."
+      },
+      "I—♭VI—♭VII—I": {
+        "name": "I—♭VI—♭VII—I",
+        "nickname": "Hero Cadence",
+        "description": "C A♭ B♭ C. La tónica, luego las dos tríadas mayores separadas por un tono situadas por debajo de ella, ♭VI y ♭VII, que suben de vuelta a casa. Ambos proceden del menor paralelo y sustituyen a IV y V, un movimiento conocido como backdoor IV-V. La fórmula de cierre triunfal de la música de aventuras y de los temas de victoria, aquí como bucle para que la tónica sea a la vez salida y llegada."
+      },
+      "i—i♯5—i6—i♯5": {
+        "name": "i—i♯5—i6—i♯5",
+        "nickname": "Ascending Line Cliché",
+        "description": "Em E G C E G C♯ y de vuelta, en acordes: la quinta de una tríada menor sube por semitonos sobre una fundamental y una tercera sostenidas, i, i♯5, i6, i♯5. La armonización del tema de espías y un clásico de la música heroica y de suspense. El pad i6 conserva la quinta junto a la sexta; para la línea pura de una sola voz, tocar solo el cambio de la nota aguda desde el pad i♯5."
       }
     },
     "Folk/Singer-Songwriter": {
@@ -878,10 +1048,10 @@
         "nickname": "Irish Folk",
         "description": "Progresión folk celta. Apertura familiar I-V, desciende a vi luego iii. Evita acorde IV, creando color diferente de progresiones pop típicas. El patrón de terceras descendentes (V-vi, vi-iii) crea movimiento melódico fluido característico de baladas irlandesas y tradiciones musicales celtas."
       },
-      "i—III—IV—VI": {
-        "name": "i—III—IV—VI",
+      "i—♭III—IV—♭VI": {
+        "name": "i—♭III—IV—♭VI",
         "nickname": "House of the Rising Sun",
-        "description": "La icónica progresión folk-blues de The Animals. La tónica menor a III mayor crea elevación inmediata, IV continúa ascendiendo, VI mayor proporciona color dramático antes de volver. El patrón arpegiado de guitarra sobre estos acordes definió el folk-rock de los años 1960. Progresión atemporal para baladas narrativas."
+        "description": "La progresión de The Animals: Am C D F, luego Am C E. De la tónica menor al relativo mayor ♭III el impulso es inmediato, el IV mayor tomado prestado del dórico sigue subiendo y ♭VI colorea el giro antes del regreso. La guitarra arpegiada sobre estos acordes definió el folk-rock de los años 1960."
       },
       "I—IV—I—IV—I—V—I": {
         "name": "I—IV—I—IV—I—V—I",
@@ -950,10 +1120,10 @@
         "nickname": "Extended Shred",
         "description": "Progresión extensa que une la cadencia menor clásica (i-iv-V-i) con una secuencia descendente en menor natural (♭VI-♭III-♭VII). El regreso al V relanza el bucle. Ideal para solos neoclásicos largos y secciones de metal progresivo."
       },
-      "VI—VII—i": {
-        "name": "VI—VII—i",
+      "♭VI—♭VII—i": {
+        "name": "♭VI—♭VII—i",
         "nickname": "Power Cadence",
-        "description": "Aproximación ascendente a la tónica menor a través de los grados mayores VI y VII. Produce una resolución potente, a menudo doblada en quintas paralelas en el metal. El ascenso por grados conjuntos acumula energía antes de llegar a la tónica. Omnipresente en breakdowns y finales de temas metal."
+        "description": "Aproximación ascendente a la tónica menor a través de ♭VI y ♭VII, dos tonos enteros hasta i: F G Am en la menor. A menudo se toca como power chords paralelos en el metal. La cadencia eolia, gemela en menor del final ♭VI-♭VII-I en mayor."
       }
     },
     "Trance/Psytrance/Goa": {
@@ -972,40 +1142,40 @@
         "nickname": "Uplifting Trance",
         "description": "Arco emocional uplifting trance. i menor a V mayor (menor armónico) crea esperanza, luego ♭VI y ♭VII añaden color modal antes de ciclar. Mezcla de V funcional y préstamo modal crea elevación y liberación eufóricas. Define uplifting trance desde Armin van Buuren hasta Above & Beyond para picos emocionales y breakdowns."
       },
-      "i—iv—VII—III": {
-        "name": "i—iv—VII—III",
+      "i—iv—V—♭VI": {
+        "name": "i—iv—V—♭VI",
         "nickname": "Harmonic Minor Psy",
-        "description": "Progresión psytrance menor armónica pura. Usa escala menor armónica exclusivamente - i, iv, VII mayor, III mayor. La 7ª elevada crea intervalo exótico de segunda aumentada. Carácter dramático este-europeo. El VII y III mayores crean movimiento ascendente brillante contra tónica menor oscura para contraste psicodélico."
+        "description": "Menor armónico puro: Am Dm E F en la menor. El V mayor lleva la séptima elevada que da al menor armónico su color de segunda aumentada, y el paso engañoso de V a ♭VI impide que el bucle se resuelva. Carácter dramático, de Europa del Este, para leads de psytrance construidos sobre la escala menor armónica."
       },
-      "i—♭VI—III—VII": {
-        "name": "i—♭VI—III—VII",
+      "i—♭VI—♭III—♭VII": {
+        "name": "i—♭VI—♭III—♭VII",
         "nickname": "Dark Psy",
-        "description": "Progresión dark psytrance mezclando modos. i menor y ♭VI de menor natural, III y VII mayores de menor armónico. Crea máxima ambigüedad y tensión armónica. Ascenso de ♭VI por III a VII construye intensidad. Usado en dark psy y forest trance para atmósfera ominosa y alienígena."
+        "description": "Progresión de psytrance oscuro en menor natural: Am F C G. Subir de ♭VI al relativo mayor ♭III y a la subtónica ♭VII acumula intensidad sin tocar nunca una sensible, así que el bucle nunca se resuelve. Se usa en dark psy y forest trance para una atmósfera ominosa y suspendida."
       },
       "i—♭III—♭VI—V": {
         "name": "i—♭III—♭VI—V",
         "nickname": "Progressive Psy",
         "description": "Psytrance progresivo con resolución funcional. ♭III y ♭VI prestados de menor natural crean color modal, V mayor (menor armónico) proporciona fuerte atracción a i. Combina sonido modal psicodélico con resolución satisfactoria. Usado en psytrance progresivo para construcciones y liberaciones estructuradas."
       },
-      "i—VII—VI—VII": {
-        "name": "i—VII—VI—VII",
+      "i—♭VII—♭VI—♭VII": {
+        "name": "i—♭VII—♭VI—♭VII",
         "nickname": "Full-On",
-        "description": "Full-on psytrance con brillo menor armónico. i menor contrasta con VII y VI mayores (de menor armónico), VII oscila para energía impulsora. Los acordes mayores crean carácter elevador y energético a pesar de tónica menor. Característico del sonido agresivo y eufórico de full-on psytrance a 140-148 BPM."
+        "description": "Bucle de psytrance full-on en menor natural: Am G F G. La subtónica ♭VII oscila contra ♭VI para una energía impulsora y pendular, y los dos acordes mayores aclaran la tónica menor sin resolverla. Característico del sonido eufórico del psytrance full-on a 140-148 BPM."
       },
-      "i—♭II—VII—V": {
-        "name": "i—♭II—VII—V",
+      "i—♭II—♭VII—V": {
+        "name": "i—♭II—♭VII—V",
         "nickname": "Goa Classic",
-        "description": "Goa trance clásico con escalas exóticas. i menor a ♭II (color frigio), VII y V mayores de menor armónico. Mezcla de frigio y menor armónico crea sonido complejo influenciado por Oriente. Los intervalos cromáticos y exóticos crean carácter espiritual y psicodélico de escena Goa trance original."
+        "description": "Goa trance clásico que mezcla modos: Am B♭ G E. El ♭II es color frigio, ♭VII es la subtónica del menor natural, y el V mayor, con su séptima elevada, viene del menor armónico. Tres escalas en cuatro acordes producen el sonido exótico, de aire oriental, de la escena Goa original."
       },
-      "i—iv—i—VII": {
-        "name": "i—iv—i—VII",
+      "i—iv—i—♭VII": {
+        "name": "i—iv—i—♭VII",
         "nickname": "Forest Psy",
-        "description": "Progresión forest psytrance orgánica. Simple i-iv establece carácter menor, vuelve a i, VII mayor (menor armónico) añade brillo. Cambios de acordes mínimos enfocan atención en texturas orgánicas y ritmos complejos. Crea atmósfera terrenal y natural característica de forest psytrance y estilos psy minimales más oscuros."
+        "description": "Progresión orgánica de psytrance forest: Am Dm Am G. El sencillo i-iv establece el carácter menor, la vuelta a i lo asienta y la subtónica ♭VII añade una salida más brillante antes de que el bucle vuelva a empezar. El movimiento armónico mínimo deja espacio a las texturas orgánicas y a los ritmos complejos del forest y del psy minimal."
       },
-      "i—III—VII—IV": {
-        "name": "i—III—VII—IV",
+      "i—♭III—♭VII—IV": {
+        "name": "i—♭III—♭VII—IV",
         "nickname": "Morning Trance",
-        "description": "Progresión psytrance matutina brillante. i menor contrasta con III, VII y IV mayores (de mezcla menor armónico/dórico). Los acordes mayores crean energía optimista de amanecer. Movimiento ascendente (i-III-VII) luego resolución a IV crea arco elevador. Usado en sets matutinos de psytrance para atmósfera positiva y energética al salir el sol."
+        "description": "Progresión de psytrance matinal y luminosa en dórico: Am C G D. El relativo mayor ♭III y la subtónica ♭VII elevan la tónica menor, y el IV mayor, el acorde distintivo del dórico, llega con optimismo de amanecer. Los mismos grados que el vamp dórico de las bandas sonoras de cine y videojuegos, al tempo del psytrance."
       },
       "i—v—♭VII": {
         "name": "i—v—♭VII",
@@ -1103,10 +1273,10 @@
         "nickname": "Retrowave Pop",
         "description": "Progresión retrowave influenciada por pop. Comienza en relativo menor para profundidad emocional, cicla por cambios familiares con producción años 80. Cualidad accesible para cantar conecta synthwave con pop mainstream. Usado en retrowave amigable para radio y synthpop para atractivo comercial mientras mantiene estética retro."
       },
-      "i—♭VI—III—♭VII": {
-        "name": "i—♭VI—III—♭VII",
+      "i—♭VI—♭III—♭VII": {
+        "name": "i—♭VI—♭III—♭VII",
         "nickname": "Dark Synth",
-        "description": "Progresión dark synth agresiva. i menor y ♭VI prestado de menor natural, III mayor de menor armónico crea elevación dramática, ♭VII añade poder. Mezcla de modos crea carácter complejo y amenazante. Usado en horror synth, dark electro y producciones cyberpunk agresivas para máxima intensidad y oscuridad."
+        "description": "Progresión dark synth agresiva en menor natural: Am F C G. ♭VI oscurece, el relativo mayor ♭III eleva y la subtónica ♭VII impulsa el regreso. Tocado con stabs de onda de sierra y pads con sidechain, el bucle menor más común de la synthwave se vuelve amenazante en lugar de nostálgico."
       },
       "IM7—iii7—vi7—IVM7": {
         "name": "IM7—iii7—vi7—IVM7",
@@ -1137,10 +1307,10 @@
       }
     },
     "UK Bass": {
-      "i—VII—♭VI": {
-        "name": "i—VII—♭VI",
+      "i—♭VII—♭VI": {
+        "name": "i—♭VII—♭VI",
         "nickname": "UK Garage",
-        "description": "Paleta soul y saltarina. Acordes menores y mayores para grooves 2-step rebotantes."
+        "description": "Paleta soul y saltarina: Am G F. La tónica menor desciende por la subtónica ♭VII hasta ♭VI, dos de los tres acordes mayores del menor natural, para grooves 2-step rebotantes."
       },
       "i—♭VI": {
         "name": "i—♭VI",

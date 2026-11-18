@@ -6,6 +6,12 @@ name: Check theory and pack build
 # checked. This job checks the theory layer, and also builds the published
 # pack so a naming-invariant failure (docs/mpc-export-specification.md §5.8)
 # is caught before merge rather than discovered at deploy time.
+#
+# The audit proves every pad agrees with its own label; it cannot say what a
+# template sounds like. The snapshot step covers that: the committed
+# docs/catalogue-snapshot.txt records every template's chords, and a change to
+# what the catalogue produces has to land with its regenerated snapshot so the
+# diff can be reviewed (docs/improvements/00-catalogue-snapshot.md).
 
 on:
   push:
@@ -13,8 +19,10 @@ on:
       - 'AkaiMPCChordProgressionGenerator/modules/**'
       - 'AkaiMPCChordProgressionGenerator/tools/audit-theory.mjs'
       - 'AkaiMPCChordProgressionGenerator/tools/build-pack.mjs'
+      - 'AkaiMPCChordProgressionGenerator/tools/catalogue-snapshot.mjs'
       - 'AkaiMPCChordProgressionGenerator/tools/lib/**'
       - 'AkaiMPCChordProgressionGenerator/locales/**'
+      - 'AkaiMPCChordProgressionGenerator/docs/catalogue-snapshot.txt'
       - '.github/workflows/check-theory.yml'
   pull_request:
     paths:
@@ -38,6 +46,10 @@ jobs:
       - name: Audit the chord catalogue
         working-directory: AkaiMPCChordProgressionGenerator
         run: node tools/audit-theory.mjs
+
+      - name: Check the catalogue snapshot
+        working-directory: AkaiMPCChordProgressionGenerator
+        run: node tools/catalogue-snapshot.mjs --check
 
       - name: Build the pack (naming-invariant check + smoke test)
         working-directory: AkaiMPCChordProgressionGenerator
