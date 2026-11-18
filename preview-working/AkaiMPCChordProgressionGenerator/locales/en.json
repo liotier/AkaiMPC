@@ -207,6 +207,7 @@
       "minMaj7": "Minor-major 7th - the tonic 7th chord of harmonic and melodic minor; brooding, cinematic.",
       "augMaj7": "Augmented major 7th - the mediant of harmonic/melodic minor; unstable and luminous.",
       "aug7": "Augmented 7th - a dominant with a raised 5th, pushes hard to the tonic.",
+      "aug9": "Augmented 9th - a dominant ninth with a raised 5th, five of the whole-tone scale's six notes.",
       "augmented": "Augmented triad - symmetrical and unresolved, can move to several keys.",
       "quartal": "Stacked fourths - open and modal, avoids committing to major or minor.",
       "dom7sus4": "7sus4 - dominant tension with the 3rd suspended, common in modal and gospel writing.",

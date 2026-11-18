@@ -33,13 +33,6 @@ export function initAudioContext() {
 }
 
 /**
- * Get the current audio context (read-only access)
- */
-export function getAudioContext() {
-    return audioContext;
-}
-
-/**
  * Set the selected MIDI output device
  * @param {Object} midiOutput - WebMidi output object
  */
@@ -48,13 +41,6 @@ export function setMidiOutput(midiOutput) {
     if (midiOutput) {
         console.log(MESSAGES.INFO.MIDI_SUCCESS, midiOutput.name);
     }
-}
-
-/**
- * Get the currently selected MIDI output
- */
-export function getMidiOutput() {
-    return selectedMidiOutput;
 }
 
 /**

@@ -133,6 +133,18 @@ House's case. Every other progression is unchanged. Tooltips no longer
 confuse a major VI or III with the relative minor vi or the mediant iii, and
 describe the new chords.
 
+**Scale Mode stops repeating itself.** A Scale Mode grid could hold one chord
+twice under two names: the Major scale's last pad was C6, which sounds exactly
+like the Am7 two pads before it, and Whole Tone offered eight different chords
+on its sixteen pads. Every grid, in every key, now holds sixteen different
+chords. Spare pads take the next colour that sounds new, on another degree when
+the tonic has none left, and a degree chord that would repeat one already on
+the grid gives way to another chord the scale supports. Whole Tone gains 7♭5
+chords and a new chord type, the augmented ninth (C E G♯ B♭ D, "Caug9"); the
+Augmented scale now shows its own major and minor triads on C, E and G♯. Three
+scales, Bhairav, Double Harmonic and Hungarian Minor, also lose a diminished
+chord that held a note they do not have.
+
 **Behind the scenes.** Every change to the catalogue now ships with a readable
 record of every progression's chords, checked on each commit beside a much
 stricter theory audit, and a typo in a progression's definition stops the build

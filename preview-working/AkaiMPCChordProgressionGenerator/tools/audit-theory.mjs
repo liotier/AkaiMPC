@@ -601,15 +601,24 @@ for (const key of keys) {
 
 // S3 over Scale Mode: every scale in every key. The key's scale is the one its
 // chords are built from, its parent's notes included for an abridged scale.
+// Q: no two pads of a Scale Mode grid sound alike. Whole Tone's augmented triads
+// on I, III and V are one chord, as are a diminished scale's dim7 on every other
+// degree; the grid replaces such repeats rather than spending pads on them
+// (docs/improvements/15-scale-mode-gap-filler.md).
 let scalePadCount = 0;
 for (const key of keys) {
     const keyPc = getKeyOffset(key);
     for (const list of Object.values(modes)) {
         for (const mode of list) {
             const keyScalePitchClasses = new Set([...getHarmonyPitchClasses(mode)].map(pc => (pc + keyPc) % 12));
+            const soundsSeen = new Map();
             generateScaleExploration({ key, mode }).pads.forEach((pad, i) => {
                 scalePadCount++;
-                checkSpelling(pad, `${key} ${mode} pad${i + 1} ${pad.chordName} [${pad.romanNumeral}]`, keyScalePitchClasses);
+                const label = `${key} ${mode} pad${i + 1} ${pad.chordName} [${pad.romanNumeral}]`;
+                checkSpelling(pad, label, keyScalePitchClasses);
+                const sound = pcSignature(pad.notes);
+                if (soundsSeen.has(sound)) report('Q Scale Mode pad sounds like another pad of its grid', `${label} = pad${soundsSeen.get(sound)}`);
+                else soundsSeen.set(sound, i + 1);
             });
         }
     }

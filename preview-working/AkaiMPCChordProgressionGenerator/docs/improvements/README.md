@@ -4,10 +4,9 @@ Seventeen specifications, one per improvement, each written to be handed to an
 implementing session on its own. This index fixes the order, the dependencies,
 the shared verification protocol and the recommended model for each.
 
-Status is recorded in each spec's header. Specs 00 to 11 and 13 are
+Status is recorded in each spec's header. Specs 00 to 11, 13, 15 and 16 are
 implemented; spec 12 is dropped. Specs 14 to 16 come from the review of the
-branch before merge and are specified; spec 15 ends with an open question for
-the maintainer.
+branch before merge; spec 15 was implemented with option B of its §6.
 
 ## 1. Provenance
 
@@ -82,7 +81,7 @@ instrument, and the later specs rely on it.
 | 12 | [Dropped: align the Finder's minor-key numerals](12-finder-numeral-convention.md) | consistency, dropped | S | - | - |
 | 13 | [Spelling that follows the key](13-spelling.md) | defect | L | 00 | Opus 5.5 |
 | 14 | [Pad descriptions and the analysis line](14-pad-descriptions-and-analysis.md) | defect | M | 00, 07, 09, 10, 13 | Sonnet 5.5 |
-| 15 | [Scale Mode's gap filler repeats chords](15-scale-mode-gap-filler.md) | defect | S | 05, 13 | Sonnet 5.5 |
+| 15 | [Scale Mode grids without repeated sounds](15-scale-mode-gap-filler.md) | defect | M | 05, 13 | Sonnet 5.5 |
 | 16 | [Five exports nothing uses](16-dead-exports.md) | cleanup | S | - | Haiku 5.5 |
 
 Sizes: S is under a day of a session's work with review, M one to two, L a
@@ -109,7 +108,7 @@ catalogue.
  │
  ├── 14 descriptions, analysis (after 07, 09, 10, 13)
  │
- └── 15 Scale Mode filler     (after 05)
+ └── 15 Scale Mode repeats    (after 05)
 
 16 dead exports               (independent)
 12 finder convention          (dropped)

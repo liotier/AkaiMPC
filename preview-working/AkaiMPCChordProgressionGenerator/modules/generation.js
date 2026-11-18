@@ -521,6 +521,14 @@ export function matchesChordRequirement(scaleDegree, chordType, keyOffset, chord
 // / getScaleSeventh), so nothing on the grid contains a note the scale does not
 // have - which is how half-diminished, diminished 7th, minor-major 7th and 6th
 // chords turn up wherever the scale actually calls for them.
+//
+// No two pads sound alike (docs/improvements/15-scale-mode-gap-filler.md). A
+// degree chord whose sound is already on the grid - Whole Tone's augmented
+// triads on I, III and V are one chord, a diminished scale's dim7 on every other
+// degree is one chord, a degree with no seventh would repeat its triad - is
+// replaced by another chord the scale supports, on the same degree when one
+// fits. Scales with fewer than 8 degrees leave gaps in each half, filled the
+// same way rather than by repeating the tonic.
 export function generateScaleExploration({ key, mode, chordRequirements = [] }) {
     const keyOffset = getKeyOffset(key);
     const scaleDegrees = getScaleDegrees(mode);
@@ -529,15 +537,13 @@ export function generateScaleExploration({ key, mode, chordRequirements = [] }) 
     // Roots take the letter of their scale degree: C Lydian's fourth degree is
     // F#, not Gb (docs/improvements/13-spelling.md D1, D8)
     const spelling = scaleSpelling(key, mode);
-
-    const used = new Set();
+    const harmonyPitchClasses = getHarmonyPitchClasses(mode);
 
     const addPad = (degree, chordType) => {
         const scaleDegree = scaleDegrees[degree % scaleLength];
         const romanNumeral = getRomanNumeralForChord(degree, chordType);
         const notes = buildChord(scaleDegree, chordType, keyOffset);
         const position = { romanNumeral, semitones: scaleDegree };
-        used.add(romanNumeral);
         pads.push({
             id: pads.length + 1,
             chordName: getChordName(spelling, position, chordType),
@@ -553,37 +559,79 @@ export function generateScaleExploration({ key, mode, chordRequirements = [] }) 
         });
     };
 
-    // Scales with fewer than 8 degrees leave gaps in each half of the grid.
-    // Fill them with further colours the scale supports rather than repeating
-    // the tonic, which wasted two of the sixteen pads on every 7-note scale.
-    const harmonyPitchClasses = getHarmonyPitchClasses(mode);
-    const fillGaps = (limit, extras, fallbackType) => {
-        const candidates = extras.filter(type =>
-            chordFitsScale(((scaleDegrees[0] % 12) + 12) % 12, type, harmonyPitchClasses) &&
-            !used.has(getRomanNumeralForChord(0, type))
-        );
-        while (pads.length < limit) {
-            addPad(0, candidates.shift() || fallbackType);
-        }
-    };
-
     // Suspended colours first in the triad half, extensions first in the
-    // seventh half; each list then falls through to the other's so short
-    // scales still get distinct chords rather than a repeated tonic.
+    // seventh half; each list then falls through to the other's. The further
+    // colours are tried only once those are spent, which only the symmetric
+    // scales and degrees without a seventh reach.
     const SUSPENDED_COLOURS = ['sus4', 'sus2', 'quartal'];
     const EXTENDED_COLOURS = ['major6', 'minor6', 'dom7sus4', 'add9', 'minAdd9', 'major9', 'minor9', 'dom9', 'quartal4'];
+    const FURTHER_COLOURS = ['dom7b5', 'aug9', 'aug7', 'augMaj7', 'dom7b9', 'dom7sharp9', 'dom7alt',
+        'major7', 'dom7', 'minor7', 'minMaj7', 'm7b5', 'dim7', 'major', 'minor', 'augmented', 'diminished',
+        'maj6/9', 'add11', 'dom11', 'minor11', 'major13', 'dom13', 'minor13'];
+    const TRIAD_HALF_COLOURS = [...SUSPENDED_COLOURS, ...EXTENDED_COLOURS];
+    const SEVENTH_HALF_COLOURS = [...EXTENDED_COLOURS, ...SUSPENDED_COLOURS];
 
-    // Triads, one per scale degree (pads 1-8)
-    for (let i = 0; i < scaleLength && pads.length < 8; i++) {
-        addPad(i, getScaleTriad(i, mode));
-    }
-    fillGaps(8, [...SUSPENDED_COLOURS, ...EXTENDED_COLOURS], getScaleTriad(0, mode));
+    const degreeSlots = Math.min(scaleLength, 8);
+    const plan = new Array(16).fill(null);       // pad index -> { degree, type }
+    const takenSounds = new Set();
+    const takenNumerals = new Set();
+    const soundOf = (degree, type) => pcSignature(buildChord(scaleDegrees[degree], type, keyOffset));
+    const isNew = (degree, type) =>
+        chordFitsScale(((scaleDegrees[degree] % 12) + 12) % 12, type, harmonyPitchClasses) &&
+        !takenNumerals.has(getRomanNumeralForChord(degree, type)) &&
+        !takenSounds.has(soundOf(degree, type));
+    const take = (index, degree, type) => {
+        plan[index] = { degree, type };
+        takenSounds.add(soundOf(degree, type));
+        takenNumerals.add(getRomanNumeralForChord(degree, type));
+    };
+    // First new-sounding chord from the lists, trying the degrees in order and
+    // every degree with one list before moving to the next list
+    const findNew = (degrees, lists) => {
+        for (const list of lists) {
+            for (const degree of degrees) {
+                const type = list.find(candidate => isNew(degree, candidate));
+                if (type) return { degree, type };
+            }
+        }
+        return null;
+    };
+    const allDegrees = [...Array(scaleLength).keys()];
 
-    // Seventh chords, one per scale degree (pads 9-16)
-    for (let i = 0; i < scaleLength && pads.length < 16; i++) {
-        addPad(i, getScaleSeventh(i, mode));
+    // 1. Every degree chord whose sound is not on the grid yet, triads first
+    const repeats = [];
+    for (let degree = 0; degree < degreeSlots; degree++) {
+        const type = getScaleTriad(degree, mode);
+        if (isNew(degree, type)) take(degree, degree, type); else repeats.push(degree);
     }
-    fillGaps(16, [...EXTENDED_COLOURS, ...SUSPENDED_COLOURS], getScaleSeventh(0, mode));
+    for (let degree = 0; degree < degreeSlots; degree++) {
+        const type = getScaleSeventh(degree, mode);
+        if (isNew(degree, type)) take(8 + degree, degree, type); else repeats.push(8 + degree);
+    }
+
+    // 2. A repeated degree chord gives way to another chord, on its own degree
+    //    when one fits, otherwise on the first degree that has one
+    for (const index of repeats) {
+        const degree = index % 8;
+        const colours = index < 8 ? TRIAD_HALF_COLOURS : SEVENTH_HALF_COLOURS;
+        const otherDegrees = allDegrees.filter(other => other !== degree);
+        const found = findNew([degree], [colours, FURTHER_COLOURS]) ||
+            findNew(otherDegrees, [colours, FURTHER_COLOURS]);
+        if (found) take(index, found.degree, found.type);
+        else plan[index] = { degree, type: index < 8 ? getScaleTriad(degree, mode) : getScaleSeventh(degree, mode) };
+    }
+
+    // 3. The gaps of scales with fewer than 8 degrees: the tonic first, then
+    //    every other degree
+    for (let index = 0; index < 16; index++) {
+        if (plan[index]) continue;
+        const colours = index < 8 ? TRIAD_HALF_COLOURS : SEVENTH_HALF_COLOURS;
+        const found = findNew(allDegrees, [colours, FURTHER_COLOURS]);
+        if (found) take(index, found.degree, found.type);
+        else plan[index] = { degree: 0, type: index < 8 ? getScaleTriad(0, mode) : getScaleSeventh(0, mode) };
+    }
+
+    plan.forEach(({ degree, type }) => addPad(degree, type));
 
     return {
         name: mode,
