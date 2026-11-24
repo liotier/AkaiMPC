@@ -16,7 +16,7 @@
  * tools/build-pack.mjs use - over every progression template, in every key,
  * in every style, and every scale in every key, and assert machine-checkable
  * invariants against every pad: 13,248 variants and 211,968 pads, plus 6,528
- * Scale Mode pads. The checks are lettered A to T; each one's comment says what
+ * Scale Mode pads. The checks are lettered A to U; each one's comment says what
  * it guards and which spec in docs/improvements/ introduced it.
  */
 
@@ -37,6 +37,24 @@ const scaleNumeralsInC = mode => {
 };
 // R in Scale Mode: the keys that describe a chord by its type or family only
 const TYPE_AND_FAMILY_ROLE = /^chordRoles\.(types\..+|sus|add9|6|extended)$/;
+
+// U: a grid is the same in every key, transposed (docs/improvements/18-row4-key-invariance.md).
+// Each pad's pitch classes, read relative to the key, must equal the same pad's
+// in C. Row 4 once depended on the key: its voice-leading point compared roots
+// in the tonic's frame with the voiced bass in absolute pitch classes, which
+// agree only in C. The C grids are the ones the loops below generate first;
+// nothing is generated twice. Pitch classes, not names: spelling differs by key.
+if (keys[0] !== 'C') throw new Error('check U compares every key with C, which must come first in keys');
+const gridInC = new Map();
+const relativePitchClasses = (pad, keyPc) => [...new Set(pad.notes.map(note => ((note - keyPc) % 12 + 12) % 12))].sort((a, b) => a - b).join(',');
+function checkKeyInvariance(id, keyPc, pads, label) {
+    const grid = pads.map(pad => relativePitchClasses(pad, keyPc));
+    if (keyPc === 0) { gridInC.set(id, grid); return; }
+    const inC = gridInC.get(id);
+    if (!inC) { report('U grid has no C counterpart', label); return; }
+    const differing = grid.map((pcs, i) => (pcs === inC[i] ? null : `pad${i + 1}`)).filter(Boolean);
+    if (differing.length) report('U grid is not its C grid transposed', `${label}: ${differing.join(' ')}`);
+}
 
 // R: what a pad's description resolves to. The English locale is the reference:
 // check-translations.mjs keeps the other five in step with it.
@@ -513,6 +531,9 @@ for (const key of keys) {
                 variantCount++;
                 const where = `${key} ${template.value} ${style}`;
 
+                // U: the same grid as in C, transposed
+                checkKeyInvariance(`template|${category}|${template.value}|${style}`, keyPc, variant.pads, `${category} ${template.value} ${style} in ${key}`);
+
                 // A: structure
                 if (variant.pads.length !== 16) report('A structural: pad count != 16', `${where} -> ${variant.pads.length}`);
 
@@ -654,6 +675,7 @@ for (const key of keys) {
             const keyScalePitchClasses = new Set([...getHarmonyPitchClasses(mode)].map(pc => (pc + keyPc) % 12));
             const soundsSeen = new Map();
             const exploration = generateScaleExploration({ key, mode });
+            checkKeyInvariance(`scale|${mode}`, keyPc, exploration.pads, `Scale Mode ${mode} in ${key}`);
             const numeralsInC = scaleNumeralsInC(mode);
             const rootsByStem = new Map();
             exploration.pads.forEach((pad, i) => {
