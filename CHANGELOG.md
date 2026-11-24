@@ -2,6 +2,24 @@
 
 What changed, and why it's worth updating for.
 
+## 2026-11-24
+
+### Chord Progression Generator
+
+**The top row is the same in every key.** A palette generated in E should be
+the palette generated in C, a major third up. Rows 1 to 3 always were; row 4
+was not, in 1 175 of the 12 144 variants outside C, because the chords it
+suggests were scored against the bass of each voiced chord, measured in
+absolute pitch, instead of against the chords' roots, measured from the tonic.
+The two agree only in C, and even there the bass is not always the root. Row 4
+now reads the roots: every grid, in every key and style, is the C grid
+transposed, and the theory audit checks it. The MIDI pack, built in all twelve
+keys, now agrees with the `.progression` pack, built in C. In C, 108 variants
+get a different or reordered top row: the "Adventure" film progression, for
+one, now ends on B♭m rather than Cm, which had owed its credit to the basses F
+and G, on which no chord was built. 105 `.progression` files and 1 361 MIDI files
+change content; no file changes name.
+
 ## 2026-11-18
 
 ### Chord Progression Generator

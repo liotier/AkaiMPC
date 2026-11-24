@@ -2734,6 +2734,17 @@ const NATURAL_MINOR_STEPS = [0, 2, 3, 5, 7, 8, 10];
 const SPELLING_NUMERALS = { I: 0, II: 1, III: 2, IV: 3, V: 4, VI: 5, VII: 6 };
 const mod12 = n => ((n % 12) + 12) % 12;
 
+/**
+ * A degree's semitones above the tonic, the inverse of rootDegree(): { step: 7,
+ * alteration: -1 } (♭VII) is 10.
+ *
+ * @param {{step: number, alteration: number}} degree - From rootDegree()
+ * @returns {number} 0-11
+ */
+export function degreeSemitones(degree) {
+    return mod12(MAJOR_STEPS[degree.step - 1] + degree.alteration);
+}
+
 // The augmented sixths stand on ♭VI and the tritone substitute on ♭II; their
 // numerals are fixed strings, not degrees (spec 13 §3.3 step 3).
 const NUMERAL_ALIASES = { 'It+6': '♭VI', 'Fr+6': '♭VI', 'Ger+6': '♭VI', SubV7: '♭II' };

@@ -235,7 +235,8 @@ Modal or Experimental (spec 00 D2), so it understates the pack's change: Funk/Gr
 Two things seen and left alone. `scoreCandidate()` and `analyzeExistingChords()`
 take a chord's root from `notes[0]`, the lowest sounding note, and rows 1-3 are
 already voiced when row 4 is chosen, so for an inverted chord the "root" is its
-bass; the voice-leading point is therefore voicing-dependent. And `chromatic` is a
+bass; the voice-leading point is therefore voicing-dependent (fixed by spec 18,
+which reads roots from each pad's degree, in the tonic's frame). And `chromatic` is a
 class like the others, so it is "present" as soon as one chromatic chord sits on
 rows 1-3, which is nearly always, and applied chords then earn no gap point; they
 still earn the `secondary` variety point.
