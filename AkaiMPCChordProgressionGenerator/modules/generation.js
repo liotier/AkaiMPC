@@ -20,6 +20,7 @@ import {
     getScaleDegrees,
     getScaleTriad,
     rootDegree,
+    degreeSemitones,
     scaleModeNumeral,
     CHORD_TYPE_DISPLAY,
     getScaleSeventh,
@@ -84,7 +85,6 @@ export function analyzeExistingChords(chords) {
         hasSecondary: false,
         hasPivot: false,
         functionsPresent: new Set(),
-        roots: [],
         romanNumerals: []
     };
 
@@ -110,10 +110,7 @@ export function analyzeExistingChords(chords) {
             analysis.hasSecondary = true;
         }
 
-        // Track roots and roman numerals
-        if (chord.notes && chord.notes.length > 0) {
-            analysis.roots.push(chord.notes[0] % 12);
-        }
+        // Track the roman numerals
         analysis.romanNumerals.push(chord.romanNumeral);
 
         // Determine function
@@ -378,7 +375,14 @@ export function scoreCandidate(candidate, analysis, existingRoots) {
 
 export function selectDynamicRow4Chords(existingChords, keyOffset, scaleDegrees, variantType, tonality = 'major', palettePriorities = null, paletteFilter = null, unusedPaletteChords = [], spelling = templateSpelling(keys[keyOffset], tonality), row4Hint = null) {
     const analysis = analyzeExistingChords(existingChords);
-    const existingRoots = existingChords.map(c => c.notes && c.notes[0] ? c.notes[0] % 12 : 0);
+    // Roots in the tonic's frame, the frame of candidate.root, read from each
+    // chord's degree. The voiced bass, which the styles move by key, once stood
+    // in for the root, and in absolute pitch classes: row 4 then depended on the
+    // key (docs/improvements/18-row4-key-invariance.md)
+    const existingRoots = existingChords.map(chord => {
+        if (!chord.degree) throw new Error(`Row 4: the chord ${chord.chordName} [${chord.romanNumeral}] has no degree`);
+        return degreeSemitones(chord.degree);
+    });
 
     // The template's row-4 hint: a preferred category earns a point, an avoided
     // one is left out until the fallback needs it (spec 10 §3.3)

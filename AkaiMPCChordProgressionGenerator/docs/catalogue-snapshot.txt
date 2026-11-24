@@ -240,7 +240,7 @@ Classic 13-16  D7 [V7/V]  A [VI]  Db [♭II]  Ab7 [It+6]
 Jazz     1-4   *Em [iii]  *Am [vi]  *Dm [ii]  *G [V]
 Jazz     5-8   Em7 [iii7]  Am7 [vi7]  Dm7 [ii7]  G7 [V7]
 Jazz     9-12  Em9 [iii9]  Am9 [vi9]  Dm9 [ii9]  Gmaj7 [VM7]
-Jazz    13-16  A [VI]  D7 [V7/V]  Ab7 [It+6]  Db7 [SubV7]
+Jazz    13-16  A [VI]  D7 [V7/V]  Db7 [SubV7]  Db [♭II]
 Smooth   1-4   64,67,71 | 64,69,72 | 65,69,74 | 67,71,74
 Classes        diatonic  diatonic  diatonic  diatonic
 
@@ -272,11 +272,11 @@ Classes        diatonic  diatonic  diatonic  diatonic
 Classic  1-4   *Am [vi]  *Dm [ii]  *G [V]  *C [I]
 Classic  5-8   Am7 [vi7]  Dm7 [ii7]  G7 [V7]  C7 [I7]
 Classic  9-12  Gmaj7 [VM7]  Cmaj7 [IM7]  Bb [♭VII]  Fm [iv]
-Classic 13-16  D7 [V7/V]  E7 [V7/vi]  Ab [♭VI]  Db [♭II]
+Classic 13-16  D7 [V7/V]  A [VI]  Db [♭II]  Ab7 [It+6]
 Jazz     1-4   *Am [vi]  *Dm [ii]  *G [V]  *C [I]
 Jazz     5-8   Am7 [vi7]  Dm7 [ii7]  G7 [V7]  C7 [I7]
 Jazz     9-12  Am9 [vi9]  Dm9 [ii9]  Gmaj7 [VM7]  G9 [V9]
-Jazz    13-16  D7 [V7/V]  Bb [♭VII]  Db7 [SubV7]  Db [♭II]
+Jazz    13-16  A [VI]  D7 [V7/V]  Db7 [SubV7]  Db [♭II]
 Smooth   1-4   57,60,64 | 57,62,65 | 59,62,67 | 60,64,67
 Classes        diatonic  diatonic  diatonic  diatonic
 
@@ -708,7 +708,7 @@ Classic 13-16  Cm [♭iii]  Fm [♭vi]  G#dim7 [vii°7]  C#m [iii]
 Jazz     1-4   *Am [i]  *Dm [iv]  *Em [v]  A7sus4(no5) [i7sus4(no5)]
 Jazz     5-8   D7sus4(no5) [iv7sus4(no5)]  E7sus4(no5) [v7sus4(no5)]  Am7 [i7]  Dm7 [iv7]
 Jazz     9-12  Em7 [v7]  Am9 [i9]  Dm9 [iv9]  Em9 [v9]
-Jazz    13-16  Cm [♭iii]  Fm [♭vi]  G#dim7 [vii°7]  C#m [iii]
+Jazz    13-16  Fm [♭vi]  C#m [iii]  G#dim7 [vii°7]  Cm [♭iii]
 Smooth   1-4   57,60,64 | 57,62,65 | 59,64,67 | 57,62,67
 Classes        diatonic  diatonic  diatonic
 
@@ -780,7 +780,7 @@ Classic 13-16  D7 [V7/V]  A [VI]  Db [♭II]  Ab7 [It+6]
 Jazz     1-4   *Am [vi]  *Dm [ii]  *Em [iii]  *F [IV]
 Jazz     5-8   Am7 [vi7]  Dm7 [ii7]  Em7 [iii7]  Fmaj7 [IVM7]
 Jazz     9-12  Fm7 [iv7]  F7 [IV7]  Am9 [vi9]  Dm9 [ii9]
-Jazz    13-16  D7 [V7/V]  Bb [♭VII]  Db7 [SubV7]  Ab7 [It+6]
+Jazz    13-16  Fm [iv]  A [VI]  D7 [V7/V]  Db7 [SubV7]
 Smooth   1-4   57,60,64 | 57,62,65 | 59,64,67 | 60,65,69
 Classes        diatonic  diatonic  diatonic  diatonic
 
@@ -848,7 +848,7 @@ Classes        diatonic
 Classic  1-4   *C7 [I7]  *F7 [IV7]  C9 [I9]  C13 [I13]
 Classic  5-8   F9 [IV9]  F13 [IV13]  C [I]  F [IV]
 Classic  9-12  Dm [ii]  Am [vi]  Bb [♭VII]  Fm [iv]
-Classic 13-16  D7 [V7/V]  A7 [V7/ii]  A [VI]  Db [♭II]
+Classic 13-16  D7 [V7/V]  A7 [V7/ii]  A [VI]  Ab7 [It+6]
 Jazz     1-4   *C7 [I7]  *F7 [IV7]  C9 [I9]  F9 [IV9]
 Jazz     5-8   C13 [I13]  F13 [IV13]  C [I]  F [IV]
 Jazz     9-12  Dm [ii]  Am [vi]  Bbmaj7 [♭VIIM7]  Fm7 [iv7]
@@ -1172,11 +1172,11 @@ Classes        diatonic  diatonic  diatonic  diatonic
 Classic  1-4   *C [I]  *Ab [♭VI]  *Eb [♭III]  *Bb [♭VII]
 Classic  5-8   Dm [ii]  Am [vi]  Cmaj7 [IM7]  Cadd9 [Iadd9]
 Classic  9-12  Abmaj7 [♭VIM7]  Abadd9 [♭VIadd9]  Ebmaj7 [♭IIIM7]  Ebadd9 [♭IIIadd9]
-Classic 13-16  Fm [iv]  A [VI]  Cm [i]  Db [♭II]
+Classic 13-16  Fm [iv]  A [VI]  Abm [♭vi]  Db [♭II]
 Jazz     1-4   *C [I]  *Ab [♭VI]  *Eb [♭III]  *Bb [♭VII]
 Jazz     5-8   Dm [ii]  Am [vi]  Cmaj7 [IM7]  Cadd9 [Iadd9]
 Jazz     9-12  Abmaj7 [♭VIM7]  Abadd9 [♭VIadd9]  Ebmaj7 [♭IIIM7]  Ebadd9 [♭IIIadd9]
-Jazz    13-16  Fm [iv]  A [VI]  Cm [i]  Db [♭II]
+Jazz    13-16  Fm [iv]  A [VI]  Abm [♭vi]  Db [♭II]
 Smooth   1-4   60,64,67 | 60,63,68 | 58,63,67 | 58,62,65
 Classes        diatonic  borrowed  borrowed  borrowed
 
@@ -1220,11 +1220,11 @@ Classes        diatonic  diatonic  diatonic  diatonic  diatonic
 Classic  1-4   *C [I]  *Bb [♭VII]  *Ab [♭VI]  *Bb [♭VII]
 Classic  5-8   Dm [ii]  Am [vi]  Cmaj7 [IM7]  Cadd9 [Iadd9]
 Classic  9-12  Bbmaj7 [♭VIIM7]  Bbadd9 [♭VIIadd9]  Abmaj7 [♭VIM7]  Abadd9 [♭VIadd9]
-Classic 13-16  A [VI]  E [III]  Fm [iv]  Cm [i]
+Classic 13-16  A [VI]  E [III]  Fm [iv]  Bbm [♭vii]
 Jazz     1-4   *C [I]  *Bb [♭VII]  *Ab [♭VI]  *Bb [♭VII]
 Jazz     5-8   Dm [ii]  Am [vi]  Cmaj7 [IM7]  Cadd9 [Iadd9]
 Jazz     9-12  Bbmaj7 [♭VIIM7]  Bbadd9 [♭VIIadd9]  Abmaj7 [♭VIM7]  Abadd9 [♭VIadd9]
-Jazz    13-16  A [VI]  E [III]  Fm [iv]  Cm [i]
+Jazz    13-16  A [VI]  E [III]  Fm [iv]  Bbm [♭vii]
 Smooth   1-4   60,64,67 | 58,62,65 | 56,60,63 | 58,62,65
 Classes        diatonic  borrowed  borrowed  borrowed
 
@@ -1244,11 +1244,11 @@ Classes        diatonic  diatonic  diatonic  diatonic
 Classic  1-4   *C [I]  *Eb [♭III]  *Ab [♭VI]  *Db [♭II]
 Classic  5-8   Dm [ii]  Am [vi]  Cmaj7 [IM7]  Cadd9 [Iadd9]
 Classic  9-12  Ebmaj7 [♭IIIM7]  Ebadd9 [♭IIIadd9]  Abmaj7 [♭VIM7]  Abadd9 [♭VIadd9]
-Classic 13-16  Fm [iv]  A [VI]  Cm [i]  Ebm [♭iii]
+Classic 13-16  Bb [♭VII]  Fm [iv]  A [VI]  Cm [i]
 Jazz     1-4   *C [I]  *Eb [♭III]  *Ab [♭VI]  *Db [♭II]
 Jazz     5-8   Dm [ii]  Am [vi]  Cmaj7 [IM7]  Cadd9 [Iadd9]
 Jazz     9-12  Ebmaj7 [♭IIIM7]  Ebadd9 [♭IIIadd9]  Abmaj7 [♭VIM7]  Abadd9 [♭VIadd9]
-Jazz    13-16  Fm [iv]  A [VI]  Cm [i]  Ebm [♭iii]
+Jazz    13-16  Bb [♭VII]  Fm [iv]  A [VI]  Cm [i]
 Smooth   1-4   60,64,67 | 58,63,67 | 60,63,68 | 61,65,68
 Classes        diatonic  borrowed  borrowed  borrowed
 
@@ -1256,11 +1256,11 @@ Classes        diatonic  borrowed  borrowed  borrowed
 Classic  1-4   *C [I]  *Ab [♭VI]  *C [I]  *E [III]
 Classic  5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  Abmaj7 [♭VIM7]  Abadd9 [♭VIadd9]
 Classic  9-12  Emaj7 [IIIM7]  Eadd9 [IIIadd9]  Bb [♭VII]  Eb [♭III]
-Classic 13-16  A [VI]  Fm [iv]  Cm [i]  Db [♭II]
+Classic 13-16  A [VI]  Fm [iv]  Abm [♭vi]  Db [♭II]
 Jazz     1-4   *C [I]  *Ab [♭VI]  *C [I]  *E [III]
 Jazz     5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  Abmaj7 [♭VIM7]  Abadd9 [♭VIadd9]
 Jazz     9-12  Emaj7 [IIIM7]  Eadd9 [IIIadd9]  Bbmaj7 [♭VIIM7]  Ebmaj7 [♭IIIM7]
-Jazz    13-16  Bb [♭VII]  A [VI]  Cm [i]  Db [♭II]
+Jazz    13-16  Bb [♭VII]  A [VI]  Abm [♭vi]  Db [♭II]
 Smooth   1-4   60,64,67 | 60,63,68 | 60,64,67 | 59,64,68
 Classes        diatonic  borrowed  diatonic  chromatic
 
@@ -1268,11 +1268,11 @@ Classes        diatonic  borrowed  diatonic  chromatic
 Classic  1-4   *C [I]  *Eb [♭III]  *C [I]  *A [VI]
 Classic  5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  Ebmaj7 [♭IIIM7]  Ebadd9 [♭IIIadd9]
 Classic  9-12  Amaj7 [VIM7]  Aadd9 [VIadd9]  Bb [♭VII]  Ab [♭VI]
-Classic 13-16  E [III]  Fm [iv]  Cm [i]  Db [♭II]
+Classic 13-16  E [III]  Fm [iv]  Ebm [♭iii]  Db [♭II]
 Jazz     1-4   *C [I]  *Eb [♭III]  *C [I]  *A [VI]
 Jazz     5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  Ebmaj7 [♭IIIM7]  Ebadd9 [♭IIIadd9]
 Jazz     9-12  Amaj7 [VIM7]  Aadd9 [VIadd9]  Bbmaj7 [♭VIIM7]  Abmaj7 [♭VIM7]
-Jazz    13-16  Ab [♭VI]  Bb [♭VII]  Cm [i]  Db [♭II]
+Jazz    13-16  Ab [♭VI]  Bb [♭VII]  Ebm [♭iii]  Db [♭II]
 Smooth   1-4   60,64,67 | 58,63,67 | 60,64,67 | 61,64,69
 Classes        diatonic  borrowed  diatonic  chromatic
 
@@ -1304,11 +1304,11 @@ Classes        diatonic  chromatic  borrowed  diatonic
 Classic  1-4   *C [I]  *D [II]  Cmaj7 [IM7]  Cadd9 [Iadd9]
 Classic  5-8   C6 [I6]  Dmaj7 [IIM7]  Dadd9 [IIadd9]  D6 [II6]
 Classic  9-12  Bb [♭VII]  Ab [♭VI]  Eb [♭III]  Dm7 [ii7]
-Classic 13-16  A [VI]  E [III]  Fm [iv]  Cm [i]
+Classic 13-16  A [VI]  E [III]  Fm [iv]  Dm [ii]
 Jazz     1-4   *C [I]  *D [II]  Cmaj7 [IM7]  Cadd9 [Iadd9]
 Jazz     5-8   C6 [I6]  Dmaj7 [IIM7]  Dadd9 [IIadd9]  D6 [II6]
 Jazz     9-12  Bbmaj7 [♭VIIM7]  Abmaj7 [♭VIM7]  Ebmaj7 [♭IIIM7]  Dm7 [ii7]
-Jazz    13-16  Ab [♭VI]  Bb [♭VII]  Cm [i]  Db [♭II]
+Jazz    13-16  Ab [♭VI]  Bb [♭VII]  Dm [ii]  Db [♭II]
 Smooth   1-4   60,64,67 | 62,66,69 | 60,64,67,71 | 60,64,67,74
 Classes        diatonic  chromatic
 
@@ -1316,11 +1316,11 @@ Classes        diatonic  chromatic
 Classic  1-4   *C [I]  *D [II]  *Em [iii]  *D [II]
 Classic  5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  C6 [I6]  Dmaj7 [IIM7]
 Classic  9-12  Dadd9 [IIadd9]  D6 [II6]  Bb [♭VII]  Ab [♭VI]
-Classic 13-16  A [VI]  E [III]  Fm [iv]  Cm [i]
+Classic 13-16  A [VI]  Eb [♭III]  Fm [iv]  Db [♭II]
 Jazz     1-4   *C [I]  *D [II]  *Em [iii]  *D [II]
 Jazz     5-8   Cmaj7 [IM7]  Cadd9 [Iadd9]  C6 [I6]  Dmaj7 [IIM7]
 Jazz     9-12  Dadd9 [IIadd9]  D6 [II6]  Bbmaj7 [♭VIIM7]  Abmaj7 [♭VIM7]
-Jazz    13-16  Ab [♭VI]  A [VI]  Bb [♭VII]  Cm [i]
+Jazz    13-16  A [VI]  Eb [♭III]  Bb [♭VII]  Db [♭II]
 Smooth   1-4   60,64,67 | 62,66,69 | 64,67,71 | 62,66,69
 Classes        diatonic  chromatic  diatonic  chromatic
 
@@ -1364,11 +1364,11 @@ Classes        diatonic  diatonic  borrowed  diatonic
 Classic  1-4   *C [I]  *Ab [♭VI]  *Bb [♭VII]  *C [I]
 Classic  5-8   Csus4 [Isus4]  Absus4 [♭VIsus4]  Bbsus4 [♭VIIsus4]  Cadd9 [Iadd9]
 Classic  9-12  Abadd9 [♭VIadd9]  Bbadd9 [♭VIIadd9]  Eb [♭III]  Dm7 [ii7]
-Classic 13-16  A [VI]  E [III]  Fm [iv]  Cm [i]
+Classic 13-16  A [VI]  E [III]  Fm [iv]  Abm [♭vi]
 Jazz     1-4   *C [I]  *Ab [♭VI]  *Bb [♭VII]  *C [I]
 Jazz     5-8   Csus4 [Isus4]  Absus4 [♭VIsus4]  Bbsus4 [♭VIIsus4]  Cadd9 [Iadd9]
 Jazz     9-12  Abadd9 [♭VIadd9]  Bbadd9 [♭VIIadd9]  Ebmaj7 [♭IIIM7]  Dm7 [ii7]
-Jazz    13-16  A [VI]  E [III]  Fm [iv]  Cm [i]
+Jazz    13-16  A [VI]  E [III]  Fm [iv]  Abm [♭vi]
 Smooth   1-4   60,64,67 | 60,63,68 | 62,65,70 | 64,67,72
 Classes        diatonic  borrowed  borrowed  diatonic
 
@@ -1628,7 +1628,7 @@ Classes        diatonic  diatonic  diatonic  diatonic  diatonic  diatonic  diato
 Classic  1-4   *F [♭VI]  *G [♭VII]  *Am [i]  Em [v]
 Classic  5-8   C [♭III]  Dm [iv]  F7 [♭VI7]  G7 [♭VII7]
 Classic  9-12  Bm7b5 [iiø7]  Am7 [i7]  Em7 [v7]  Fmaj7 [♭VIM7]
-Classic 13-16  D [IV]  B7 [V7/V]  G#dim7 [vii°7]  Bb [♭II]
+Classic 13-16  D [IV]  B7 [V7/V]  Bb [♭II]  G#dim7 [vii°7]
 Jazz     1-4   *F [♭VI]  *G [♭VII]  *Am [i]  Em [v]
 Jazz     5-8   Cmaj7 [♭IIIM7]  Dm7 [iv7]  F7 [♭VI7]  G7 [♭VII7]
 Jazz     9-12  F9 [♭VI9]  G9 [♭VII9]  Am9 [i9]  Bm7b5 [iiø7]
@@ -1724,7 +1724,7 @@ Classes        diatonic  diatonic  diatonic  diatonic
 Classic  1-4   *Am [i]  *Bb [♭II]  *G [♭VII]  *E [V]
 Classic  5-8   Em [v]  F [♭VI]  C [♭III]  Dm [iv]
 Classic  9-12  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]  A7sus4(no5) [i7sus4(no5)]
-Classic 13-16  D [IV]  B7 [V7/V]  E7 [V7]  F7 [It+6]
+Classic 13-16  E7 [V7]  D [IV]  B7 [V7/V]  F7 [It+6]
 Jazz     1-4   *Am [i]  *Bb [♭II]  *G [♭VII]  *E [V]
 Jazz     5-8   Em [v]  Fmaj7 [♭VIM7]  Cmaj7 [♭IIIM7]  Dm7 [iv7]
 Jazz     9-12  Am7 [i7]  Asus2 [isus2]  Asus4 [isus4]  A7sus4(no5) [i7sus4(no5)]
@@ -1748,7 +1748,7 @@ Classes        diatonic  diatonic  diatonic  diatonic
 Classic  1-4   *Am [i]  *C [♭III]  *G [♭VII]  *D [IV]
 Classic  5-8   Em [v]  F [♭VI]  Dm [iv]  Am7 [i7]
 Classic  9-12  Asus2 [isus2]  Asus4 [isus4]  A7sus4(no5) [i7sus4(no5)]  Csus2 [♭IIIsus2]
-Classic 13-16  G#dim7 [vii°7]  A [I]  Csus4 [♭IIIsus4]  Bb [♭II]
+Classic 13-16  G#dim7 [vii°7]  A [I]  Bb [♭II]  Csus4 [♭IIIsus4]
 Jazz     1-4   *Am [i]  *C [♭III]  *G [♭VII]  *D [IV]
 Jazz     5-8   Em [v]  Fmaj7 [♭VIM7]  Dm7 [iv7]  Am7 [i7]
 Jazz     9-12  Asus2 [isus2]  Asus4 [isus4]  A7sus4(no5) [i7sus4(no5)]  Csus2 [♭IIIsus2]
@@ -1784,11 +1784,11 @@ Classes        diatonic  diatonic  diatonic  diatonic
 Classic  1-4   *Am [i]  *C [♭III]  *G [♭VII]  *Dm [iv]
 Classic  5-8   Am7 [i7]  C7 [♭III7]  G7 [♭VII7]  Dm7 [iv7]
 Classic  9-12  Em [v]  Em7 [v7]  F [♭VI]  Cmaj7 [♭IIIM7]
-Classic 13-16  B7 [V7/V]  D [IV]  G#dim7 [vii°7]  F7 [It+6]
+Classic 13-16  B7 [V7/V]  D [IV]  G#dim7 [vii°7]  Bb [♭II]
 Jazz     1-4   *Am [i]  *C [♭III]  *G [♭VII]  *Dm [iv]
 Jazz     5-8   Am7 [i7]  C7 [♭III7]  G7 [♭VII7]  Dm7 [iv7]
 Jazz     9-12  Em [v]  Em7 [v7]  Fmaj7 [♭VIM7]  Am9 [i9]
-Jazz    13-16  B7 [V7/V]  D [IV]  G#dim7 [vii°7]  F7 [It+6]
+Jazz    13-16  B7 [V7/V]  D [IV]  G#dim7 [vii°7]  Bb7 [SubV7]
 Smooth   1-4   57,60,64 | 55,60,64 | 55,59,62 | 53,57,62
 Classes        diatonic  diatonic  diatonic  diatonic
 
@@ -1880,11 +1880,11 @@ Classes        diatonic  diatonic  diatonic  diatonic  diatonic  diatonic
 Classic  1-4   *Cmaj7 [IM7]  *Am7 [vi7]  *Fmaj7 [IVM7]  *G7 [V7]
 Classic  5-8   C [I]  Dm7 [ii7]  C7 [I7]  Am [vi]
 Classic  9-12  F [IV]  F7 [IV7]  G [V]  Dm [ii]
-Classic 13-16  A [VI]  Bb [♭VII]  D7 [V7/V]  Db [♭II]
+Classic 13-16  A [VI]  D7 [V7/V]  Db [♭II]  Ab7 [It+6]
 Jazz     1-4   *Cmaj7 [IM7]  *Am7 [vi7]  *Fmaj7 [IVM7]  *G7 [V7]
 Jazz     5-8   C [I]  Dm7 [ii7]  C7 [I7]  Am [vi]
 Jazz     9-12  F [IV]  F7 [IV7]  G [V]  Dm [ii]
-Jazz    13-16  A [VI]  Bb [♭VII]  D7 [V7/V]  Db7 [SubV7]
+Jazz    13-16  A [VI]  D7 [V7/V]  Db7 [SubV7]  Db [♭II]
 Smooth   1-4   60,64,67,71 | 60,64,67,69 | 60,64,65,69 | 59,62,65,67
 Classes        diatonic  diatonic  diatonic  diatonic
 
